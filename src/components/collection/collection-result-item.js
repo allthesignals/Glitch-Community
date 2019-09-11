@@ -34,7 +34,7 @@ const CollectionResultItem = ({ onClick, collection, active }) => {
   return (
     <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`}>
       <ResultInfo>
-        <VisuallyHidden>Add to collection</VisuallyHidden>
+        result <VisuallyHidden>Add to collection</VisuallyHidden>
         <ResultName>{collection.name}</ResultName>
         {collection.description.length > 0 && (
           <ResultDescription>
@@ -59,4 +59,3 @@ CollectionResultItem.defaultProps = {
 };
 
 export default CollectionResultItem;
-c

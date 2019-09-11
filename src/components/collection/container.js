@@ -15,8 +15,8 @@ import CollectionNameInput from 'Components/fields/collection-name-input';
 import AddCollectionProject from 'Components/collection/add-collection-project-pop';
 import EditCollectionColor from 'Components/collection/edit-collection-color-pop';
 import AuthDescription from 'Components/fields/auth-description';
-import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
-import { CollectionCollageAvatar } from 'Components/collections/collection-collage-avatar'
+import { CollectionAvatar as DefaultCollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
+import { CollectionAvatar } from 'Components/collection/collection-avatar'
 import { CollectionLink } from 'Components/link';
 import Arrow from 'Components/arrow';
 import { useCollectionCurator } from 'State/collection';
@@ -57,10 +57,14 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
   if (myStuffIsEnabled && collection.isMyStuff) {
     avatar = <BookmarkAvatar width="50%" />;
   } else if (collection.avatarUrl) {
-    // temporarily replace this for testing purposes
-    // avatar = <Image src={collection.avatarUrl} alt="" />;
-  } else {
+    {/* temporarily replace this for testing purposes
+    avatar = <Image src={collection.avatarUrl} alt="" />;
     avatar = <CollectionAvatar collection={collection} />;
+    */}
+    avatar = <Image src={collection.avatarUrl} alt="" />;
+    
+  } else {
+    avatar = <DefaultCollectionAvatar collection={collection} />;
   }
 
   return (

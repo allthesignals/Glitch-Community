@@ -4,7 +4,7 @@ import Image from 'Components/images/image';
 import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
 
 
-const collectionAvatar = ({ collection }) => {
+const CollectionAvatar = ({ collection }) => {
   render(
     <div>
       <Image className={styles.avatar} src={getProjectAvatarUrl(collection.projects[0])} defaultSrc={FALLBACK_AVATAR_URL} alt="" />
@@ -12,6 +12,8 @@ const collectionAvatar = ({ collection }) => {
   )
 }
 
-collectionAvatar.propTypes = {
+CollectionAvatar.propTypes = {
   collection: PropTypes.object.isRequired,
 }
+
+export default CollectionAvatar;
