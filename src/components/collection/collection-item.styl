@@ -116,7 +116,7 @@
     position: absolute
     width: inherit
     height: inherit
-    z-index: -1
+    z-index: 0
     border-radius: 5px
   &::after
     background: white
@@ -127,7 +127,7 @@
     position: absolute
     width: inherit
     height: inherit
-    z-index: -1
+    z-index: 0
     border-radius: 5px
     
 .bubbleContainer
@@ -138,6 +138,7 @@
   padding: 1rem 1rem  
   max-height: 140px
   overflow: hidden
+  z-index: 1
   &:hover
     .itemButtonWrap
       width: fit-content
@@ -194,6 +195,7 @@
   font-size: 14px
   font-weight: 600
   border-radius: 0 0 5px 5px
+  z-index: 1
   
 a:hover .smallProjectCount
   text-decoration: underline
