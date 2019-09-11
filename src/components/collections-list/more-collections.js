@@ -52,26 +52,24 @@ const MoreCollections = ({ currentCollection, collections }) => {
   const type = isUserCollection ? 'user' : 'team';
   return (
     <>
-      <div className={styles.moreByLinkWrap}>
-        <Heading tagName="h2">
-          {curator.status === 'ready' ? (
-            <>
-              {curator.value.user && (
-                <UserLink user={curator.value.user}>
-                  More by {getDisplayName(curator.value.user)} <Arrow />
-                </UserLink>
-              )}
-              {curator.value.team && (
-                <TeamLink team={curator.value.team}>
-                  More from {curator.value.team.name} <Arrow />
-                </TeamLink>
-              )}
-            </>
-          ) : (
-            <>More collections</>
-          )}
-        </Heading>
-      </div>
+      <Heading tagName="h2">
+        {curator.status === 'ready' ? (
+          <>
+            {curator.value.user && (
+              <UserLink user={curator.value.user}>
+                More by {getDisplayName(curator.value.user)} <Arrow />
+              </UserLink>
+            )}
+            {curator.value.team && (
+              <TeamLink team={curator.value.team}>
+                More from {curator.value.team.name} <Arrow />
+              </TeamLink>
+            )}
+          </>
+        ) : (
+          <>More collections</>
+        )}
+      </Heading>
       <CoverContainer type={type} item={currentCollection[type]}>
         <Row items={sampleCollectionsWithProjects} className={styles.row}>{(collection) => <SmallCollectionItem key={collection.id} collection={collection} />}</Row>
       </CoverContainer>
@@ -85,9 +83,11 @@ MoreCollections.propTypes = {
 };
 
 const MoreCollectionsContainer = ({ collection }) => (
-  <DataLoader get={(api) => loadMoreCollectionsFromAuthor({ api, collection })}>
-    {(collections) => (collections.length > 0 ? <MoreCollections currentCollection={collection} collections={collections} /> : null)}
-  </DataLoader>
+  <div className={styles.moreByLinkWrap}>
+    <DataLoader get={(api) => loadMoreCollectionsFromAuthor({ api, collection })}>
+      {(collections) => (collections.length > 0 ? <MoreCollections currentCollection={collection} collections={collections} /> : null)}
+    </DataLoader>
+  </div>
 );
 
 MoreCollectionsContainer.propTypes = {
