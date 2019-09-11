@@ -104,6 +104,19 @@
   flex: 1 1 100%
   &:hover
     text-decoration: none
+  &::before
+    background: white
+    border: 1px solid #C3C3C3
+    display: inline
+    content: ''
+    transform: translate(13px,13px)
+    position: absolute
+    width: inherit
+    height: inherit
+    z-index: -1
+    border-radius: 5px
+  &::after
+    
     
 .bubbleContainer
   flex: 1 0 auto
