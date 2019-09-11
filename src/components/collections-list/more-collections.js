@@ -72,7 +72,7 @@ const MoreCollections = ({ currentCollection, collections }) => {
           )}
         </Heading>
       </div>
-      <CoverContainer type={type} item={currentCollection[type]} className={styles.coverContainer}>
+      <CoverContainer type={type} item={currentCollection[type]}>
         <Row items={sampleCollectionsWithProjects} className={styles.row}>{(collection) => <SmallCollectionItem key={collection.id} collection={collection} />}</Row>
       </CoverContainer>
     </>
