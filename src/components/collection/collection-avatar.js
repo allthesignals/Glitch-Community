@@ -10,7 +10,7 @@ const CollectionAvatar = ({ collection }) => (
   <div className={styles.avatarContainer} style={{backgroundColor: collection.coverColor}}>
     { collection.projects.slice(0, 3).map((item, index) => (
       <div className={classNames(styles.projectAvatar, `item-${index}`)}>
-        <Image className={styles.avatar} src={getProjectAvatarUrl(item)} alt="" />
+        <Image src={getProjectAvatarUrl(item)} alt="" />
       </div>
     ))}
   </div>
