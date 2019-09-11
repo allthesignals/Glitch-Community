@@ -33,7 +33,7 @@ import styles from './popover.styl';
 const collectionTypeOptions = [
   {
     id: 'user',
-    label: 'Your collections',
+    label: 'Test',
   },
   {
     id: 'team',
