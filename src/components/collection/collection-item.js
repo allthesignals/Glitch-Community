@@ -167,9 +167,6 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
           className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
           style={collectionColorStyles(collection)}
         >
-          <div className={styles.avatarContainer}>
-            <CollectionAvatar collection={collection} />
-          </div>
           <div className={styles.nameDescriptionContainer}>
             <div className={styles.itemButtonWrap}>
               <Button as="span">{collection.name}</Button>

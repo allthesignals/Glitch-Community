@@ -6,7 +6,6 @@ import { Button, Icon } from '@fogcreek/shared-components';
 
 import Markdown from 'Components/text/markdown';
 import { ProfileItem } from 'Components/profile-list';
-import { CollectionAvatar } from 'Components/images/avatar';
 import { CollectionLink } from 'Components/link';
 import VisibilityContainer from 'Components/visibility-container';
 import Arrow from 'Components/arrow';
@@ -44,9 +43,6 @@ const CollectionItemSmall = ({ collection, showCurator }) => (
         style={collectionColorStyles(collection)}
       >
         <div className={styles.nameArea}>
-          <div className={styles.collectionAvatarContainer}>
-            <CollectionAvatar collection={collection} />
-          </div>
           <div className={styles.collectionNameWrap}>
             <div className={styles.itemButtonWrap}>
               <Button as="span" image={collection.private ? <Icon icon="private" /> : null} imagePosition="left">
