@@ -17,7 +17,6 @@ import EditCollectionColor from 'Components/collection/edit-collection-color-pop
 import AuthDescription from 'Components/fields/auth-description';
 import { CollectionAvatar as DefaultCollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
-import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
 import { CollectionLink } from 'Components/link';
 import Arrow from 'Components/arrow';
 import { useCollectionCurator } from 'State/collection';
@@ -59,7 +58,6 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
     avatar = <BookmarkAvatar width="50%" />;
   } else if (collection.avatarUrl) {
     avatar = <CollectionAvatar collection={collection} />;
-    // avatar = <Image className={styles.avatar} src={getProjectAvatarUrl(collection.projects[0])} defaultSrc={FALLBACK_AVATAR_URL} alt="" />    
   } else {
     avatar = <DefaultCollectionAvatar collection={collection} />;
   }
