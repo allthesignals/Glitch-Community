@@ -11,7 +11,13 @@ const textures = ['https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2
   'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Ftriangle.svg?v=1560090452969'];
 
 const CollectionAvatar = ({ collection }) => (
-  <div className={classNames(styles.avatarContainer, {[styles.empty]: collection.projects.length === 0})} style={{backgroundColor: collection.coverColor}}>
+  <div className={
+    classNames(styles.avatarContainer, 
+      collection.projects.length === 0 && styles.empty, 
+      collection.projects.length >= 3 && styles.threeItems, 
+      collection.projects.length === 1 && styles.oneItem
+    )} 
+    style={{ backgroundColor: collection.coverColor }}>
     <img src={textures[collection.id % textures.length]} className={styles.texture} alt=""/>
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
       <div className={styles.projectAvatar}>
