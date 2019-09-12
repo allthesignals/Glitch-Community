@@ -72,7 +72,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
           
           {isAuthorized && (
             <div className={styles.privacyToggle}>
-              <PrivateToggle isPrivate={!!collection.private} setPrivate={updatePrivate} />
+              <PrivateToggle isPrivate={!!collection.private} setPrivate={funcs.updatePrivacy} />
             </div>
           )}
           

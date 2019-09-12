@@ -325,6 +325,8 @@ export function useCollectionEditor(initialCollection) {
       });
       await orderProjectInCollection({ project, collection }, index);
     }, handleError),
+    
+    updatePrivacy: (bool) => updateFields({ private: bool }).catch(handleError),
 
     featureProject: withErrorHandler(async (project) => {
       if (collection.featuredProjectId) {
