@@ -4,22 +4,27 @@
     padding: 5px
     width: 150px
     height: 150px
+    overflow: hidden
     &.empty
         display: none
     .texture
-        
+        position: absolute
+        width: 100%
+        height: 100%
+        transform: rotate(60deg)
     .projectAvatar
         position: absolute
-        width: 75px
-        height: 75px
+        --size: 60px
+        width: var(--size)
+        height: var(--size)
         img
             border-radius: 5px
-        &:nth-child(1)
-            bottom: 5%
-            right: 5%
-        &:nth-child(2)
-            top: calc(50% - 37.5px)
-            left: calc(50% - 37.5px)
-        &:nth-child(3)
-            top: 5%
-            left: 5%
+        &:nth-of-type(1)
+            bottom: 10%
+            right: 10%
+        &:nth-of-type(2)
+            top: calc(50% - var(--size)/2)
+            left: calc(50% - var(--size)/2)
+        &:nth-of-type(3)
+            top: 10%
+            left: 10%
