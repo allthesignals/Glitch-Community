@@ -14,8 +14,8 @@ const CollectionAvatar = ({ collection }) => (
   <div className={
     classNames(styles.avatarContainer, 
       collection.projects.length === 0 && styles.empty, 
-      collection.projects.length >= 3 && styles.threeItems, 
-      collection.projects.length === 1 && styles.oneItem
+      collection.projects.length >= 3 && styles.stacked, 
+      (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
     style={{ backgroundColor: collection.coverColor }}>
     <img src={textures[collection.id % textures.length]} className={styles.texture} alt=""/>
