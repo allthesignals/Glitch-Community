@@ -7,7 +7,7 @@ import styles from './collection-avatar.styl';
 import classNames from 'classnames';
 
 const CollectionAvatar = ({ collection }) => (
-  <div className={classNames(styles.avatarContainer, collection.projects.length === 0 && 'empty')} style={{backgroundColor: collection.coverColor}}>
+  <div className={classNames(styles.avatarContainer, {[styles.empty]: collection.projects.length === 0})} style={{backgroundColor: collection.coverColor}}>
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
       <div className={styles.projectAvatar}>
         <Image src={getProjectAvatarUrl(item)} alt="" />
