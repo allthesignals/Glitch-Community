@@ -7,9 +7,9 @@ import styles from './collection-avatar.styl';
 import classNames from 'classnames';
 
 const CollectionAvatar = ({ collection }) => (
-  <div className={styles.avatarContainer} style={{backgroundColor: collection.coverColor}}>
-    { collection.projects.slice(0, 3).map((item, index) => (
-      <div className={classNames(styles.projectAvatar, `item-${index}`)}>
+  <div className={classNames(styles.avatarContainer, collection.projects.length === 0 && 'empty')} style={{backgroundColor: collection.coverColor}}>
+    { collection.projects.slice(0, 3).reverse().map((item, index) => (
+      <div className={styles.projectAvatar}>
         <Image src={getProjectAvatarUrl(item)} alt="" />
       </div>
     ))}

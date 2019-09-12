@@ -8,13 +8,14 @@
         position: absolute
         width: 75px
         height: 75px
-        border-radius: 5px
-    .item-1
-        top: 5%
-        right: 5%
-    .item-2
-        top: calc(50% - 37.5px)
-        left: calc(50% - 37.5px)
-    .item-3
-        bottom: 5%
-        left: 5%
+        img
+            border-radius: 5px
+        &:nth-child(1)
+            bottom: 5%
+            right: 5%
+        &:nth-child(2)
+            top: calc(50% - 37.5px)
+            left: calc(50% - 37.5px)
+        &:nth-child(3)
+            top: 5%
+            left: 5%
