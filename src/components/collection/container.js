@@ -8,6 +8,7 @@ import { Button, Icon } from '@fogcreek/shared-components';
 import { isDarkColor } from 'Utils/color';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
+
 import FeaturedProject from 'Components/project/featured-project';
 import { ProfileItem } from 'Components/profile-list';
 import ProjectsList from 'Components/containers/projects-list';
@@ -18,6 +19,7 @@ import AuthDescription from 'Components/fields/auth-description';
 import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import { CollectionLink } from 'Components/link';
 import Arrow from 'Components/arrow';
+import { PrivateBadge, PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import useSample from 'Hooks/use-sample';
@@ -67,7 +69,13 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         <div className={styles.imageContainer}>{avatar}</div>
         <div>
           <h1 className={styles.name}>{collectionName}</h1>
-
+          
+          {isAuthorized && (
+            <div className={styles.privacyToggle}>
+              <PrivateToggle isPrivate={!!collection.private} setPrivate={updatePrivate} />
+            </div>
+          )}
+          
           <div className={styles.owner}>
             <ProfileItem hasLink {...curator} glitchTeam={collection.glitchTeam} />
           </div>
