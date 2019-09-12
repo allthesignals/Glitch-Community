@@ -6,6 +6,7 @@ import { ProfileItem } from 'Components/profile-list';
 import { ResultItem, ResultInfo, ResultName, ResultDescription } from 'Components/containers/results-list';
 import VisibilityContainer from 'Components/visibility-container';
 import VisuallyHidden from 'Components/containers/visually-hidden';
+import { BookmarkAvatar } from 'Components/images/avatar';
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 
