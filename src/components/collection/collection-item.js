@@ -156,7 +156,9 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
   );
 };
 
-const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurator, showLoader }) => (
+const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurator, showLoader }) => {
+  console.log("imacollectionitem, collection", collection)
+  return (
   <AnimationContainer type="slideDown" onAnimationEnd={deleteCollection}>
     {(animateAndDeleteCollection) => (
       <div className={styles.collectionItem}>
@@ -191,7 +193,7 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
       </div>
     )}
   </AnimationContainer>
-);
+)};
 
 CollectionItem.propTypes = {
   collection: PropTypes.shape({
