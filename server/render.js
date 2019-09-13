@@ -15,10 +15,7 @@ const setup = () => {
     default:
       // transpile on render to ensure we always use the latest code
       require('@babel/register')({
-        only: [(location) => {
-          if (location.includes('/@fogcreek/shared-components/')) console.log(location);
-          return location.startsWith(src) || location.includes('/@fogcreek/shared-components/');
-        }],
+        only: [(location) => location.startsWith(src) || location.includes('/@fogcreek/shared-components/')],
         configFile: path.join(__dirname, '../.babelrc.node.js'),
       });
       return { directory: src, verb: 'transpile' };
