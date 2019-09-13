@@ -10,7 +10,7 @@ export const TYPES = ['action', 'info'];
 export const ALIGNMENTS = ['left', 'right', 'center', 'top'];
 
 function TooltipContainer({ type, tooltip, target, align, persistent, children, fallback, newStuff }) {
-  const [tooltipIsActive, setTooltipIsActive] = useState(false);
+  const [tooltipIsActive, setTooltipIsActive] = useState(true);
 
   useEffect(
     () => {
