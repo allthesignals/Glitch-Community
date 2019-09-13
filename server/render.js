@@ -55,7 +55,7 @@ const requireClient = () => {
 
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-const { ServerStyleSheet } = require('styled-components');
+const { ServerStyleSheet } = require('node_modules/@fogcreek/shared-components/node_modules/styled-components');
 setImmediate(() => {
   try {
     requireClient();
