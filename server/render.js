@@ -71,7 +71,7 @@ setImmediate(() => {
 const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
   const { Page, resetState } = requireClient();
   resetState();
-  const sheet = new ServerStyleSheet();
+  const stylesheet = new ServerStyleSheet();
   const helmetContext = {};
 
   // don't use <ReactSyntax /> so babel can stay scoped to the src directory
@@ -79,6 +79,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
     origin: url.origin,
     route: url.pathname + url.search + url.hash,
     helmetContext,
+    stylesheet
     AB_TESTS,
     API_CACHE,
     ZINE_POSTS,
@@ -88,7 +89,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
   });
 
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
-  const styleTags = sheet.getStyleTags();
+  const styleTags = stylesheet.getStyleTags();
   console.log('style tags: ', styleTags);
   sheet.seal();
   const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
