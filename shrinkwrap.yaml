@@ -9,7 +9,7 @@ dependencies:
   '@babel/register': 7.5.5
   '@babel/runtime': 7.6.0
   '@babel/runtime-corejs3': 7.6.0
-  '@fogcreek/shared-components': api.glitch.com/git/mint-turn//0c96166a1cec0bc2de9cff0775ff3b8dcc41b889
+  '@fogcreek/shared-components': api.glitch.com/git/shared-components-greg//44fce7f8d9ac62efd4ad0b413031b81b3dfc7056
   '@percy/cypress': 1.0.9
   '@sentry/browser': 4.6.6
   '@sentry/minimal': 5.6.1
@@ -2414,23 +2414,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
-  /camera-picking-ray/1.0.1:
-    dependencies:
-      camera-unproject: 1.0.1
-      gl-vec3: 1.1.3
-    dev: false
-    resolution:
-      integrity: sha1-SVZ6Ttwt5bwT5Lb9lZUgvxOjBJA=
-  /camera-project/1.0.2:
-    dependencies:
-      gl-vec4: 1.0.1
-    dev: false
-    resolution:
-      integrity: sha1-0daWxaoWTO6S4hu5IqulK2wKJd4=
-  /camera-unproject/1.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-hpJ6nW1TQKjJ422oQPfMttbaEs8=
   /caniuse-lite/1.0.30000989:
     dev: false
     resolution:
@@ -3550,10 +3533,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-817qfXBekzuvE7LwOz+D2SFAOz4=
-  /defined/1.0.0:
-    dev: false
-    resolution:
-      integrity: sha1-yY2bzvdWdBiOEQlpFRGZ45sfppM=
   /del/4.1.1:
     dependencies:
       '@types/glob': 7.1.1
@@ -4957,22 +4936,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-SsZUjg/P03KPzQBt7OxJPasGw6NRO5uOgiZ5RGXVud5iSIZ0eNZeNp5rTwCxtavrRUa/A77j8mePVc5lEvk0KQ==
-  /gl-mat4/1.2.0:
-    dev: false
-    resolution:
-      integrity: sha512-sT5C0pwB1/e9G9AvAoLsoaJtbMGjfd/jfxo8jMCKqYYEnjZuFvqV5rehqar0538EmssjdDeiEWnKyBSTw7quoA==
-  /gl-vec2/1.3.0:
-    dev: false
-    resolution:
-      integrity: sha512-YiqaAuNsheWmUV0Sa8k94kBB0D6RWjwZztyO+trEYS8KzJ6OQB/4686gdrf59wld4hHFIvaxynO3nRxpk1Ij/A==
-  /gl-vec3/1.1.3:
-    dev: false
-    resolution:
-      integrity: sha512-jduKUqT0SGH02l8Yl+mV1yVsDfYgQAJyXGxkJQGyxPLHRiW25DwVIRPt6uvhrEMHftJfqhqKthRcyZqNEl9Xdw==
-  /gl-vec4/1.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-l9loeCgbFLUyy84QF4Xf0cs0CWQ=
   /glob-base/0.3.0:
     dependencies:
       glob-parent: 2.0.0
@@ -7261,12 +7224,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
-  /object-assign/2.1.1:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-Q8NuXVaf+OSBbE76i+AtJpZ8GKo=
   /object-assign/3.0.0:
     dev: false
     engines:
@@ -7779,19 +7736,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
-  /perspective-camera/2.0.1:
-    dependencies:
-      camera-picking-ray: 1.0.1
-      camera-project: 1.0.2
-      camera-unproject: 1.0.1
-      defined: 1.0.0
-      gl-mat4: 1.2.0
-      gl-vec3: 1.1.3
-      object-assign: 2.1.1
-      ray-3d: 1.1.1
-    dev: false
-    resolution:
-      integrity: sha1-dZPkfroLcDi4HOaY2zRPElo7NiU=
   /picomatch/2.0.7:
     dev: false
     engines:
@@ -8316,38 +8260,6 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-9WmIKF6mkvA0SLmA2Knm9+qj89e+j1zqgyn8aXGd7+nAduPoqgI9lO57SAZNn/Byzo5P7JhXTyg9PzaJbH73bA==
-  /ray-3d/1.1.1:
-    dependencies:
-      gl-vec3: 1.1.3
-      ray-aabb-intersection: 1.0.1
-      ray-plane-intersection: 1.0.0
-      ray-sphere-intersection: 1.0.0
-      ray-triangle-intersection: 1.0.3
-    dev: false
-    resolution:
-      integrity: sha1-c4ARNbVnhmhQiBpcBmVYU/LhAnM=
-  /ray-aabb-intersection/1.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-LrUQIo19kiL9yBZ+Zzeq1zZm3Mc=
-  /ray-plane-intersection/1.0.0:
-    dependencies:
-      gl-vec3: 1.1.3
-    dev: false
-    resolution:
-      integrity: sha1-djvhzQTt2tGEevbV5wlBtzAqR7s=
-  /ray-sphere-intersection/1.0.0:
-    dependencies:
-      gl-vec3: 1.1.3
-    dev: false
-    resolution:
-      integrity: sha1-fyM9HU269SZXV8mCZTL1Ox5O6so=
-  /ray-triangle-intersection/1.0.3:
-    dependencies:
-      gl-vec3: 1.1.3
-    dev: false
-    resolution:
-      integrity: sha1-jqjy84NYC9q9NvXlE1nPceEHTTQ=
   /rc/1.2.8:
     dependencies:
       deep-extend: 0.6.0
@@ -10609,21 +10521,22 @@ packages:
     dev: false
     resolution:
       integrity: sha1-lSj0QtqxsihOWLQ3m7GU4i4MQAU=
-  api.glitch.com/git/mint-turn//0c96166a1cec0bc2de9cff0775ff3b8dcc41b889:
+  api.glitch.com/git/shared-components-greg//44fce7f8d9ac62efd4ad0b413031b81b3dfc7056:
     dependencies:
-      gl-mat4: 1.2.0
-      gl-vec2: 1.3.0
-      gl-vec3: 1.1.3
-      perspective-camera: 2.0.1
+      prop-types: 15.7.2
+      react-textarea-autosize: 7.1.0
     dev: false
     engines:
-      node: 10.x
-    name: mint-turn
+      node: 12.x
+    name: '@fogcreek/shared-components'
+    peerDependencies:
+      react: ^16.8.0
+      styled-components: ^4.3.0
     resolution:
-      commit: 0c96166a1cec0bc2de9cff0775ff3b8dcc41b889
-      repo: 'https://api.glitch.com/git/mint-turn/'
+      commit: 44fce7f8d9ac62efd4ad0b413031b81b3dfc7056
+      repo: 'https://api.glitch.com/git/shared-components-greg/'
       type: git
-    version: 0.0.1
+    version: 0.7.0
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
@@ -10638,7 +10551,7 @@ specifiers:
   '@babel/register': 7.5.5
   '@babel/runtime': ^7.5.4
   '@babel/runtime-corejs3': ^7.5.5
-  '@fogcreek/shared-components': 'git+https://api.glitch.com/git/mint-turn/#0c96166a1cec0bc2de9cff0775ff3b8dcc41b889'
+  '@fogcreek/shared-components': 'git+https://api.glitch.com/git/shared-components-greg/#44fce7f8d9ac62efd4ad0b413031b81b3dfc7056'
   '@percy/cypress': ^1.0.9
   '@sentry/browser': ^4.6.6
   '@sentry/minimal': ^5.6.1
