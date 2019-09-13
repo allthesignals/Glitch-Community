@@ -142,7 +142,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
         <div className={styles.nameDescriptionContainer}>
           <div className={styles.itemButtonWrap}>
             <Button as="span">
-              {collection.isPrivate && <PrivateBadge />}
+              {collection.private && <PrivateBadge />}
               {collection.name}
             </Button>
           </div>
@@ -179,7 +179,7 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
           <div className={styles.nameDescriptionContainer}>
             <div className={styles.itemButtonWrap}>
               <Button as="span">
-                {collection.isPrivate && <PrivateBadge />}
+                {collection.private && <PrivateBadge />}
                 {collection.name}
               </Button>
             </div>
