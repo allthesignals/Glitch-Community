@@ -64,7 +64,7 @@ const Switch = ({ value, onChange }) => (
   </SwitchBody>
 );
 
-//
+// preference item (goes to src/components ?)
 
 const PreferenceItemWrap = styled.label`
   display: flex;
@@ -104,6 +104,8 @@ const PreferenceItem = ({ icon, title, description, active, value, onChange }) =
   </PreferenceItemWrap>
 );
 
+//
+
 const PreferencesHeader = styled.header`
   border-bottom: 1px solid var(--colors-text);
 `;
@@ -111,7 +113,7 @@ const PreferencesHeader = styled.header`
 const PreferencesTitle = styled.h3`
   display: flex;
   font-weight: bold;
-  font-size: var(--fontSizes-normal);
+  font-size: var(--fontSizes-big);
   margin: 0 0 var(--spaces-2);
 `;
 const PreferencesDescription = styled.p`
