@@ -18,16 +18,8 @@ export const { reducer, actions } = createSlice({
   reducers: {
     requestedLoad: (state) => ({ ...state, status: 'loading' }),
     loadedFromAPI: (_, { payload }) => ({ ...payload, status: 'ready' }),
-    setPrivacyMaster: (state, { payload }) => {
-      state.privacyMaster = payload;
-      if (!payload) {
-        state.shareRemixActivity = false;
-        state.shareCollectionActivity = false;
-      }
-    },
-    setNotificationsMaster: (state, { payload }) => {
-      state.notificationsMaster = payload;
-    },
+    setPrivacyMaster: (state, { payload }) => ({ ...state, privacyMaster: payload }),
+    setNotificationsMaster: (state, { payload }) => ({ ...state, notificationsMaster: payload }),
     setOption: (state, { payload: { id, value } }) => ({ ...state, [id]: value }),
     muteProject: (state, { payload: project }) => {
       state.mutedProjects.unshift(project);
