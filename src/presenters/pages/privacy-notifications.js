@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { Icon, Popover, Button } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
-import { getProjectLink } from 'State/project';
-import { getUserLink } from 'State/user';
+import { ProjectAvatar, UserAvatar } from 'Components/images/avatar';
+import { getProjectLink } from 'Models/project';
+import { getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
 import { actions, usePrivacyNotificationsSettings } from 'State/privacy-notifications';
 
@@ -28,10 +29,10 @@ const SwitchBody = styled.label`
     content: '';
     position: absolute;
     top: 0;
-    border-radius: 100%;
+    border-radius: var(--space-2);
     background-color: var(--colors-background);
-    height: var(--space-2);
-    width: var(--space-2);
+    height: calc(var(--space-3) - 2);
+    width: calc(var(--space-3) - 2);
   }
   ${({ active }) =>
     active
