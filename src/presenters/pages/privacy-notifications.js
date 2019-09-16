@@ -230,12 +230,6 @@ const PopoverContainer = styled.div`
   }
 `;
 
-const PrivacySettings = styled.p`
-  border-radius: var(--rounded);
-  padding: var(--space-2);
-  color: 
-`
-
 const ScrollResultsList = styled(ResultsList)`
   border: 1px solid var(--colors-border);
   > ul {
@@ -401,6 +395,14 @@ const notificationOptions = [
   },
 ];
 
+
+const PrivateProjectNote = styled.p`
+  border-radius: var(--rounded);
+  padding: var(--space-2);
+  color: var(--colors-private-text);
+  background-color: var(--colors-private-background);
+`
+
 const PrivacyNotificationsTab = () => {
   const settings = usePrivacyNotificationsSettings();
   const dispatch = useDispatch();
@@ -440,6 +442,9 @@ const PrivacyNotificationsTab = () => {
           options={notificationOptions}
           onChange={(id, value) => dispatch(actions.setOption({ id, value }))}
         />
+        <PrivateProjectNote>
+          You can always make a project private if you want to rpevent
+        </PrivateProjectNote>
       </section>
       <section>
         <PreferencesHeader>
