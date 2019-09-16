@@ -138,14 +138,30 @@ const MutedProjects = ({ projects, onUnmute }) => (
         <PreferenceItemWrap active>
           <ProjectAvatar project={project} />
           <PreferenceItemContent>
-            <Button as="a" href={getProject}>{project.domain}</Button>
+            <Button as="a" href={getProjectLink(project)}>{project.domain}</Button>
           </PreferenceItemContent>
+          <Button variant="secondary" onClick={() => onUnmute(project)}>Unmute</Button>
         </PreferenceItemWrap>
       </li>
     ))}
   </PreferenceListBody>
 )
 
+const MutedUsers = ({ users, onUnmute }) => (
+  <PreferenceListBody>
+    {users.map((user) => (
+      <li key={user.id}>
+        <PreferenceItemWrap active>
+          <UserAvatar user={user} />
+          <PreferenceItemContent>
+            <Button as="a" href={getProjectLink(project)}>{}</Button>
+          </PreferenceItemContent>
+          <Button variant="secondary" onClick={() => onUnmute(project)}>Unmute</Button>
+        </PreferenceItemWrap>
+      </li>
+    ))}
+  </PreferenceListBody>
+)
 
 const PreferencesHeader = styled.header`
   border-bottom: 1px solid var(--colors-text);
