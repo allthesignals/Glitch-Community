@@ -256,11 +256,11 @@ const AddMutedProject = () => {
     return ids;
   }, [mutedProjects]);
 
-  const queryRegex = React.useMemo(() => {
-    let q = query.trim(). 
+  const normalizedQuery = React.useMemo(() => {
+    return query.trim().toLowerCase();
   },[debouncedQuery])
   
-  const projects = React.useMemo(() => currentUser.projects.filter((p) => !mutedProjectIDs.has(p.id)), [
+  const projects = React.useMemo(() => currentUser.projects.filter((p) => !mutedProjectIDs.has(p.id) ), [
     currentUser.projects,
     queryRegex,
     mutedProjectIDs,
