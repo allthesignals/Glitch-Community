@@ -244,7 +244,6 @@ const AddMutedProject = () => {
   const [query, setQuery] = React.useState('');
   const [selectedID, setSelectedID] = React.useState(null);
   const debouncedQuery = useDebouncedValue(query, 200);
-  const results = useAlgoliaSearch(debouncedQuery, { filterTypes: ['project'] });
 
   const muteProjectAndClosePopover = (project, onClose) => {
     dispatch(actions.muteProject(project));
@@ -257,9 +256,11 @@ const AddMutedProject = () => {
     return ids;
   }, [mutedProjects]);
 
-  const projects = React.useMemo(() => currntUse.project.filter((p) => ownProjectIDs.has(p.id) && !mutedProjectIDs.has(p.id)), [
-    results.project,
-    ownProjectIDs,
+  
+  
+  const projects = React.useMemo(() => currentUser.projects.filter((p) => !mutedProjectIDs.has(p.id)), [
+    currentUser.projects,
+    query,
     mutedProjectIDs,
   ]);
 
@@ -291,7 +292,7 @@ const AddMutedProject = () => {
               )}
             </ScrollResultsList>
           )}
-          {results.status === 'ready' && projects.length === 0 && (
+          {query.length > 0 && projects.length === 0 && (
             <Actions>
               <p>
                 Nothing found <Icon icon="sparkles" />
