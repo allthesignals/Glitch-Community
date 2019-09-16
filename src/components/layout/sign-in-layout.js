@@ -13,7 +13,7 @@ import styles from './sign-in-layout.styl';
 import { emoji } from '../global.styl';
 
 const keyImageUrl = 'https://cdn.glitch.com/8ae9b195-ef39-406b-aee0-764888d15665%2Foauth-key.svg?1544466885907';
-const magicImageUrl = 'https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2Fmagic-link.svg?v=1568309702533';
+const magicImageUrl = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fmagic-link.svg?v=1568658265397';
 
 const MagicHat = () => <Image width={92} src={magicImageUrl} alt="Get a magic code" />;
 
@@ -69,7 +69,7 @@ const SignInLayout = () => {
         <section className={styles.content}>
           {page === 'main' && (
             <div>
-              <div>
+              <div className={styles.main}>
                 <div className={styles.signInButtons}>
                   {companyNames.map((companyName) => (
                     <div key={companyName} className={styles.signInButton}>
@@ -77,11 +77,9 @@ const SignInLayout = () => {
                     </div>
                   ))}
                 </div>
-                <div className={styles.signInButtons}>
-                  <Button onClick={showGetCodePage}>
-                    Email Magic Link <Icon className={emoji} icon="loveLetter" />
-                  </Button>
-                </div>
+                <Button onClick={showGetCodePage}>
+                  Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                </Button>
               </div>
               <TermsAndConditions />
             </div>
