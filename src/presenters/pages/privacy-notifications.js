@@ -14,7 +14,10 @@ const PreferenceTitle = styled.h3`
   margin: 0 0 var(--space-1);
 `
 
-const PreferenceDescription = srtt
+const PreferenceDescription = styled.p`
+  font-size: var(--sizes-small);
+  margin: 0;
+`
 
 const PreferenceItem = ({ icon, title, description, value, onChange }) => (
   <PreferenceItemWrap>
@@ -23,9 +26,9 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
       <PreferenceTitle>{title}</PreferenceTitle>
       {description && <PreferenceDescription>{description}</PreferenceDescription>}
     </div>
-    <input type="checkbox" checked={value} onChange={(e) => onChange(e.target.checked)}
+    <input type="checkbox" checked={value} onChange={(e) => onChange(e.target.checked)} />
   </PreferenceItemWrap>
-)
+);
 
 
 
