@@ -20,6 +20,7 @@ const PreferenceItemWrap = styled.label`
   display: flex;
   align-items: flex-start;
   border-top: 1px solid var(--colors-border);
+  color: ${({ active }) => active ? `var(--colors-primary)` : 'var(--colors-disabled)' }
   &:first-child {
     border-top: none;
   }
@@ -37,13 +38,13 @@ const PreferenceDescription = styled.p`
 `;
 
 const PreferenceItem = ({ icon, title, description, active,  value, onChange }) => (
-  <PreferenceItemWrap>
+  <PreferenceItemWrap active={active}>
     <Icon icon={icon} />
     <div>
       <PreferenceTitle>{title}</PreferenceTitle>
       {description && <PreferenceDescription>{description}</PreferenceDescription>}
     </div>
-    <input type="checkbox"  checked={value} onChange={(e) => onChange(e.target.checked)} />
+    <input type="checkbox" disabled={!active} checked={value} onChange={(e) => onChange(e.target.checked)} />
   </PreferenceItemWrap>
 );
 
