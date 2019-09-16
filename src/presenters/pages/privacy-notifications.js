@@ -24,8 +24,8 @@ import { useAlgoliaSearch } from 'State/search';
 import useDebouncedValue from 'Hooks/use-debounced-value';
 
 // TODO: handshake icon
-
 // TODO: fix shared components docs: PopoverMenu -> Popover
+// TODO: scrolling results list should have border on scroll container, not results
 
 // switch component (goes to shared components?)
 
