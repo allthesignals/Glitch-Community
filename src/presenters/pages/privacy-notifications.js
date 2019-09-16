@@ -10,18 +10,19 @@ import { AnalyticsContext } from 'State/segment-analytics';
 
 const SwitchBody = styled.label`
   position: relative;
-  border-radius: 8px;
+  border-radius: var(--space-2);
   border: 2px solid var(--colors-primary);
   font-size: var(--sizes-small);
-  padding: var(--space-1) var(--s)
+  padding: var(--space-1) var(--space-2);
   ${({ active }) => active ? css`
     color: var(--colors-success-text);
     background-color: var(--colors-success-background);
-  
     &:after {
       content: "";
+      border-radius: 100%;
       background-color: var(--colors-background);
-      width: 
+      height: var(--space-3);
+      width: var(--space-3);
     }
   ` : css`
     color: var(--colors-inactive-text);
