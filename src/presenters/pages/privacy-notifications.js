@@ -70,7 +70,7 @@ const PreferenceItemWrap = styled.label`
   align-items: flex-start;
   border-top: 1px solid var(--colors-border);
   color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-disabled)')};
-  padding: 0 var(--space-2);
+  padding: var(--space-2) 0;
   &:first-child {
     border-top: none;
   }
@@ -215,7 +215,7 @@ const SettingsPageContainer = () => {
           <PrivacyNotificationsTab />
         </AnalyticsContext>
       ) : (
-        <div></div>
+        <div />
       )}
     </Layout>
   );
