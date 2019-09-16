@@ -8,6 +8,7 @@ import { getProjectLink } from 'Models/project';
 import { getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
 import { actions, usePrivacyNotificationsSettings } from 'State/privacy-notifications';
+import { useAlgoliaSearch } from 'State/search';
 
 // TODO: handshake icon
 
@@ -211,6 +212,8 @@ const AddMutedProject = () => {
 
 const AddMutedUser = ({ onClose }) => {
   const dispatch = useDispatch()
+  const [query, setQuery] = useState('')
+  const results =
   
   return (
     <>
