@@ -70,13 +70,17 @@ const PreferenceItemWrap = styled.label`
   }
 `;
 
-const PreferenceTitle = styled.h4`
+const PreferenceItemContent = styled.div`
+  flex: 1 0 auto;
+`
+
+const PreferenceItemTitle = styled.h4`
   font-size: var(--fontSizes-normal);
   font-weight: normal;
   margin: 0 0 var(--space-1);
 `;
 
-const PreferenceDescription = styled.p`
+const PreferenceItemDescription = styled.p`
   font-size: var(--fontSizes-tiny);
   margin: 0;
 `;
@@ -84,10 +88,10 @@ const PreferenceDescription = styled.p`
 const PreferenceItem = ({ icon, title, description, active, value, onChange }) => (
   <PreferenceItemWrap active={active}>
     <Icon icon={icon} />
-    <div>
-      <PreferenceTitle>{title}</PreferenceTitle>
-      {description && <PreferenceDescription>{description}</PreferenceDescription>}
-    </div>
+    <PreferenceItemContent>
+      <PreferenceItemTitle>{title}</PreferenceItemTitle>
+      {description && <PreferenceItemDescription>{description}</PreferenceItemDescription>}
+    </PreferenceItemContent>
     <input type="checkbox" disabled={!active} checked={value} onChange={(e) => onChange(e.target.checked)} />
   </PreferenceItemWrap>
 );
