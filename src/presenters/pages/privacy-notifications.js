@@ -94,7 +94,7 @@ const PreferenceList = ({ active, options, value, onChange }) => (
 const PreferenceItemWrap = styled.label`
   display: flex;
   align-items: flex-start;
-  color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-disabled)')};
+  color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-placeholder)')};
 `;
 
 const PreferenceItemContent = styled.div`
