@@ -280,7 +280,11 @@ const AddMutedUser = () => {
             )}
           </ScrollResultsList>}
           {results.noResults && (
-            
+            <Actions>
+    <InfoDescription>
+      Nothing found <Icon icon="sparkles" />
+    </InfoDescription>
+  </Actions>
           )}
         </PopoverContainer>
       )}
