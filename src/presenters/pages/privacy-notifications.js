@@ -10,7 +10,7 @@ const PreferenceItemWrap = styled.label`
   align-items: flex-start;
 `
 
-const PreferenceTitle = styled.h3`
+const PreferenceTitle = styled.h4`
   font-size: var(--sizes-normal);
   font-weight: normal;
   margin: 0 0 var(--space-1);
@@ -33,8 +33,16 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
 );
 
 const PrivacyNotificationsTab = () => {
-  const 
+  const privacySettings = usePrivacySettings()
   const dispatch = useDispatch() 
+  
+  return (
+    <section>
+      <h3>Privacy</h3>
+      <
+      
+    </section>
+  )
 }
 
 
