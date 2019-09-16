@@ -258,13 +258,12 @@ const AddMutedProject = () => {
 
   const queryRegex = React.useMemo(() => {
     return new RegExp(query.trim().toLowerCase(), 'i');
-  },[debouncedQuery])
-  
-  const projects = React.useMemo(() => currentUser.projects.filter((p) => !mutedProjectIDs.has(p.id) && queryRegex.test(p.domain) || norma), [
-    currentUser.projects,
-    queryRegex,
-    mutedProjectIDs,
-  ]);
+  }, [debouncedQuery]);
+
+  const projects = React.useMemo(
+    () => currentUser.projects.filter((p) => !mutedProjectIDs.has(p.id) && (queryRegex.test(p.domain) || queryRegex.test(p.description))),
+    [currentUser.projects, queryRegex, mutedProjectIDs],
+  );
 
   return (
     <Popover
