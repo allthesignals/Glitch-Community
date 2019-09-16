@@ -230,7 +230,7 @@ const PrivacyNotificationsTab = () => {
             {({ onClose }) => <MuteProject onClose={onClose} />}
           </PopoverMenu>
         </PreferencesHeader>
-        <
+        <MutedProjects projects={settings.mutedProjects} onUnmute={(project) => dispatch(actions.unmuteProject(project))} />
       </section>
     </section>
   );
