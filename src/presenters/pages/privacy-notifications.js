@@ -25,14 +25,15 @@ const SwitchBody = styled.label`
   font-size: var(--fontSizes-small);
   padding: 0 var(--space-1);
   height: var(--space-3);
+  width: var(--space-4);
   &:after {
     content: '';
     position: absolute;
     top: 0;
     border-radius: var(--space-2);
     background-color: var(--colors-background);
-    height: calc(var(--space-3) - 2px);
-    width: calc(var(--space-3) - 2px);
+    height: calc(var(--space-3) - 4px);
+    width: calc(var(--space-3) - 4px);
   }
   ${({ active }) =>
     active
