@@ -63,6 +63,9 @@ const PreferencesDescription = styled.p`
   font-size: var(--sizes-normal);
   margin: 0 0 var(--spaces-2);
 `;
+const PreferencesSubtitle = styled.p`
+  display: 
+`
 
 
 const privacyOptions = [
