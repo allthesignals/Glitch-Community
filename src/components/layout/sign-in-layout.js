@@ -8,6 +8,7 @@ import SignInButton, { companyNames } from 'Components/buttons/sign-in-button';
 import Image from 'Components/images/image';
 import UseMagicCode from 'Components/sign-in/use-magic-code';
 import GetMagicCode from 'Components/sign-in/get-magic-code';
+import Text from 'Components/text/text';
 
 import styles from './sign-in-layout.styl';
 import { emoji } from '../global.styl';
@@ -29,6 +30,7 @@ const SignInLayout = () => {
   const showMainPage = () => setPage('main');
   const showGetCodePage = () => setPage('getCode');
   const showUseCodePage = () => setPage('useCode');
+  const showCreateAccountPage = () => setPage('createAccount');
 
   return (
     <div className={styles.layout}>
@@ -40,6 +42,7 @@ const SignInLayout = () => {
       <div className={styles.overlay}>
         <section className={styles.title}>
           {page === 'main' && <h1>Sign In</h1>}
+          {page === 'createAccount' && <h1>Create an Account</h1>}
           {page === 'getCode' && (
             <TransparentButton onClick={showMainPage}>
               <div className={styles.magicCode}>
@@ -82,6 +85,10 @@ const SignInLayout = () => {
                 </Button>
               </div>
               <TermsAndConditions />
+              <Text className={styles.accountCreationHelpText}>Don't have an account?</Text>
+              <Button onClick={showCreateAccountPage}>
+                Create an account
+              </Button>
             </div>
           )}
           {page === 'getCode' && (
@@ -104,6 +111,28 @@ const SignInLayout = () => {
                 <TermsAndConditions />
                 <MagicHat />
               </div>
+            </div>
+          )}
+          {page === 'createAccount' && (
+            <div>
+              <div className={styles.main}>
+                <Text>Almost there! How do you want to sign up?</Text>
+                <div className={styles.signInButtons}>
+                  {companyNames.map((companyName) => (
+                    <div key={companyName} className={styles.signInButton}>
+                      <SignInButton short companyName={companyName} />
+                    </div>
+                  ))}
+                </div>
+                <Button onClick={showGetCodePage}>
+                  Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                </Button>
+              </div>
+              <TermsAndConditions />
+              <Text className={styles.accountCreationHelpText}>Already have an account?</Text>
+              <Button onClick={showMainPage}>
+                Sign In
+              </Button>
             </div>
           )}
         </section>
