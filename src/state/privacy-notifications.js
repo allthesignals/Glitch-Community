@@ -22,37 +22,35 @@ export const { reducer, actions } = createSlice({
     setNotificationsMaster: (state, { payload }) => ({ ...state, notificationsMaster: payload }),
     setOption: (state, { payload: { id, value } }) => ({ ...state, [id]: value }),
     muteProject: (state, { payload: project }) => {
-      state.mutedProjects.push(project)
+      state.mutedProjects.push(project);
     },
     muteUser: (state, { payload: user }) => {
-      state.mutedUsers.push(user)
+      state.mutedUsers.push(user);
     },
-    unmuteProject: (state, { payload: user }) => {
-      state.mutedUsers.push(user)
+    unmuteProject: (state, { payload: project }) => {
+      state.mutedProjects = state.mutedProjects.filter((p) => p.id !== project.id);
     },
     unmuteUser: (state, { payload: user }) => {
-      state.mutedUsers.push(user)
+      state.mutedUsers = state.mutedUsers.filter((u) => u.id !== user.id);
     },
   },
   // we should respond to current user's login/logout actions
   extraReducers: {
-    // actions 
-  }
+    // actions
+  },
 });
 
 // API handlers go here, once they're available
 export const handlers = {
-  [actions.requestedLoad]: async () => {
-    
-  },
+  [actions.requestedLoad]: async () => {},
 };
 
 export const usePrivacyNotificationsSettings = () => {
-  const state = useSelector(state => state.privacyAndNotificationSettings) 
-  const dispatch = useDispatch()
+  const state = useSelector((state) => state.privacyAndNotificationSettings);
+  const dispatch = useDispatch();
   // TODO: should this be done once on page mount instead of like this?
   if (state.status === 'init') {
-    dispatch(actions.requestedLoad())
+    dispatch(actions.requestedLoad());
   }
-  return state
-}
+  return state;
+};
