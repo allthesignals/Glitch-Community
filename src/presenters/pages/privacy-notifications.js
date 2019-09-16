@@ -66,7 +66,13 @@ const Switch = ({ value, onChange }) => (
 // preference item (goes to src/components ?)
 
 const PreferenceListBody = styled.ul`
-  
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  & > * + * {
+    border-top: 1px solid var(--colors-border);
+    padding: 0 var(--space-2);
+  }
 `
 
 
