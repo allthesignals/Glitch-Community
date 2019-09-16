@@ -2,6 +2,12 @@ u import { createSlice } from 'redux-starter-kitimport { useSelector } from 'rea
 
 export const { reducer, actions } = createSlice({
   slice: 'privacyAndNotificationSettings',
+  initialState: {
+    privacyMaster: true,
+  notificationsMaster: true,
+  mutedUsers: [],
+  mutedProjects: [],
+  },
   reducer: {
     setPrivacyMaster,
     setNotificationsMaster,
@@ -12,6 +18,9 @@ export const { reducer, actions } = createSlice({
     unmuteUser,
   },
 })
+
+// APIs go here, once they're available
+export const handlers = {}
 
 export const usePrivacyNotificationsSettings = () => ({
   privacyMaster: true,
