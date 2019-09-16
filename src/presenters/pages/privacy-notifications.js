@@ -197,7 +197,7 @@ const PrivacyNotificationsTab = () => {
             Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
           </PreferencesDescription>
         </PreferencesHeader>
-        <PreferenceList options={privacyOptions} value={settings} onChange={(id, value) => dispatch(actions.setOption(id, value))} />
+        <PreferenceList active={settings.privacyMaster} options={privacyOptions} onChange={(id, value) => dispatch(actions.setOption(id, value))} />
       </section>
       <section>
         <PreferencesHeader>
@@ -206,7 +206,7 @@ const PrivacyNotificationsTab = () => {
           </PreferencesTitle>
           <PreferencesDescription>Notifications on Glitch.com let you know about activity on your projects.</PreferencesDescription>
         </PreferencesHeader>
-        <PreferenceList options={privacyOptions} value={settings} onChange={(id, value) => dispatch(actions.setOption(id, value))} />
+        <PreferenceList active={settings.notificationsMaster} options={notificationOptions} onChange={(id, value) => dispatch(actions.setOption(id, value))} />
       </section>
     </section>
   );
