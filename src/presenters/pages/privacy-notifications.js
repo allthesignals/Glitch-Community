@@ -312,6 +312,7 @@ const AddMutedProject = () => {
 
 const AddMutedUser = () => {
   const dispatch = useDispatch();
+  const { currentUser } = useCurrentUser();
   const [query, setQuery] = React.useState('');
   const [selectedUserID, setSelectedUserID] = React.useState(null);
   const debouncedQuery = useDebouncedValue(query, 200);
@@ -433,16 +434,7 @@ const PrivacyNotificationsTab = () => {
         <PreferencesHeader>
           <PreferencesTitle>Muted Projects</PreferencesTitle>
           <PreferencesDescription>You will not receive notifications of activity on any muted projects.</PreferencesDescription>
-          <Popover
-            align="left"
-            renderLabel={(props) => (
-              <Button variant="secondary" {...props}>
-                Add Project
-              </Button>
-            )}
-          >
-            {({ onClose }) => <AddMutedProject onClose={onClose} />}
-          </Popover>
+          <AddMutedProject />
         </PreferencesHeader>
         <MutedProjects projects={settings.mutedProjects} onUnmute={(project) => dispatch(actions.unmuteProject(project))} />
       </section>
