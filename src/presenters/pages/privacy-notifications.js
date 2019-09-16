@@ -10,8 +10,9 @@ import { AnalyticsContext } from 'State/segment-analytics';
 
 const SwitchBody = styled.label`
   position: relative;
-  border-radius: var(--space-2);
+  border-radius: var(--space-1);
   border: 2px solid var(--colors-primary);
+  font-weight: bold;
   font-size: var(--fontSizes-small);
   padding: var(--space-1) var(--space-2);
   ${({ active }) =>
@@ -64,7 +65,8 @@ const PreferenceItemWrap = styled.label`
   display: flex;
   align-items: flex-start;
   border-top: 1px solid var(--colors-border);
-  color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-disabled)')}
+  color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-disabled)')};
+  padding: 0 var(--space-2);
   &:first-child {
     border-top: none;
   }
