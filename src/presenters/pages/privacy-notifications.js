@@ -20,7 +20,7 @@ const PreferenceItemWrap = styled.label`
   display: flex;
   align-items: flex-start;
   border-top: 1px solid var(--colors-border);
-  color: ${({ active }) => active ? `var(--colors-primary)` : 'var(--colors-disabled)' }
+  color: ${({ active }) => active ? 'var(--colors-primary)' : 'var(--colors-disabled)' }
   &:first-child {
     border-top: none;
   }
