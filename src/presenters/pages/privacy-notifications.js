@@ -226,6 +226,11 @@ const PopoverContainer = styled.div`
   }
 `;
 
+const ScrollResultsList = styled(ResultsList)`
+  border: 1px solid var(--colors-border);
+  
+`
+
 const AddMutedProject = () => {};
 
 const AddMutedUser = () => {
