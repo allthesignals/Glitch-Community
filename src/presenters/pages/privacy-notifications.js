@@ -44,14 +44,20 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
 );
 
 const privacyOptions = [
-  { id: 'notifyRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
+  { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
   {
-    id: 'notifyCollectionActivity',
+    id: 'shareCollectionActivity',
     title: 'Collection Activity',
     description: 'Notify project owners when you add one of their projects to your collection',
     icon: 'framedPicture',
   },
 ];
+
+const notificationOptions = [
+  { id: 'notifyRemixActivity', title: 'New remixes of your projects', icon: 'microphone' },
+  { id: 'notifyCollectionActivity', title: 'New collections containing your projects', icon: 'framedPicture' },
+  
+]
 
 const PrivacyNotificationsTab = () => {
   const privacySettings = usePrivacySettings();
