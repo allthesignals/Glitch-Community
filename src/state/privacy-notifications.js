@@ -16,8 +16,8 @@ export const { reducer, actions } = createSlice({
     mutedProjects: [],
   },
   reducers: {
-    settingsRequested
-    loadedSettingsFromAPI,
+    requestedLoad,
+    loadedFromAPI,
     setPrivacyMaster,
     setNotificationsMaster,
     setOption,
@@ -39,7 +39,9 @@ export const handlers = {
 
 export const usePrivacyNotificationsSettings = () => {
   const state = useSelector(state => state.privacyAndNotificationSettings) 
-  
+  if (state.status === 'init') {
+    dispatch(actions.requestedLoad())
+  }
   
 }
   privacyMaster: true,
