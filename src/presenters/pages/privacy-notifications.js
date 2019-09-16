@@ -111,13 +111,14 @@ const PreferencesHeader = styled.header`
 
 const PreferencesTitle = styled.h3`
   display: flex;
-  align
+  justify-content: space-between;
   font-weight: bold;
   font-size: var(--fontSizes-big);
   margin: 0 0 var(--spaces-2);
 `;
 const PreferencesSubtitle = styled.p`
   display: flex;
+  justify-content: space-between;
   font-weight: normal;
   font-size: var(--fontSizes-big);
   margin: 0 0 var(--spaces-2);
@@ -156,7 +157,7 @@ const PrivacyNotificationsTab = () => {
   return (
     <section>
       <h2>
-        Account Setting <Icon icon="key" />
+        Account Settings <Icon icon="key" />
       </h2>
       <section>
         <PreferencesHeader>
@@ -206,6 +207,10 @@ const PrivacyNotificationsTab = () => {
     </section>
   );
 };
+
+
+const SettI
+
 
 // TODO: does this page already exist?
 const SettingsPageContainer = () => {
