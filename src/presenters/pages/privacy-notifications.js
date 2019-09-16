@@ -348,16 +348,7 @@ const PrivacyNotificationsTab = () => {
         <PreferencesHeader>
           <PreferencesTitle>Muted Users</PreferencesTitle>
           <PreferencesDescription>You will not receive notifications from any of these users.</PreferencesDescription>
-          <Popover
-            align="left"
-            renderLabel={(props) => (
-              <Button variant="secondary" {...props}>
-                Add User
-              </Button>
-            )}
-          >
-            {({ onClose }) => <AddMutedUser onClose={onClose} />}
-          </Popover>
+          <AddMutedUser />
         </PreferencesHeader>
         <MutedUsers users={settings.mutedUsers} onUnmute={(user) => dispatch(actions.unmuteUser(user))} />
       </section>
