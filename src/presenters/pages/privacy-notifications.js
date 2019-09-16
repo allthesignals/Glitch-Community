@@ -44,7 +44,8 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
 );
 
 const privacyOptions = [
-  { id: }
+  { id: 'notifyRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
+  { id: ''}
 ]
 
 const PrivacyNotificationsTab = () => {
