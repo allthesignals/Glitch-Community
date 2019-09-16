@@ -16,7 +16,9 @@ export const { reducer, actions } = createSlice({
     mutedProjects: [],
   },
   reducers: {
-    requestedLoad,
+    requestedLoad: (state) => {
+      
+    }
     loadedFromAPI,
     setPrivacyMaster,
     setNotificationsMaster,
