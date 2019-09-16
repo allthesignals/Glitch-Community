@@ -1,13 +1,15 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { Icon, PopoverMenu, Button } from '@fogcreek/shared-components';
+import { Icon, Popover, Button } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { getProjectLink } from 'State/project';
 import { getUserLink } from 'State/user';
 import { useCurrentUser } from 'State/current-user';
 
 // TODO: handshake icon
+
+// TODO: fix shared components docs: PopoverMenu -> Popover
 
 // TODO: redux state
 const usePrivacyNotificationsSettings = () => ({
@@ -266,7 +268,7 @@ const PrivacyNotificationsTab = () => {
         <PreferencesHeader>
           <PreferencesTitle>Muted Projects</PreferencesTitle>
           <PreferencesDescription>You will not receive notifications of activity on any muted projects.</PreferencesDescription>
-          <PopoverMenu
+          <Popover
             align="right"
             renderLabel={(props) => (
               <Button variant="secondary" {...props}>
@@ -275,7 +277,7 @@ const PrivacyNotificationsTab = () => {
             )}
           >
             {({ onClose }) => <AddMutedProject onClose={onClose} />}
-          </PopoverMenu>
+          </Popover>
         </PreferencesHeader>
         <MutedProjects projects={settings.mutedProjects} onUnmute={(project) => dispatch(actions.unmuteProject(project))} />
       </section>
@@ -283,7 +285,7 @@ const PrivacyNotificationsTab = () => {
         <PreferencesHeader>
           <PreferencesTitle>Muted Users</PreferencesTitle>
           <PreferencesDescription>You will not receive notifications from any of these users.</PreferencesDescription>
-          <PopoverMenu
+          <Popover
             align="right"
             renderLabel={(props) => (
               <Button variant="secondary" {...props}>
@@ -292,7 +294,7 @@ const PrivacyNotificationsTab = () => {
             )}
           >
             {({ onClose }) => <AddMutedUser onClose={onClose} />}
-          </PopoverMenu>
+          </Popover>
         </PreferencesHeader>
         <MutedUsers users={settings.mutedUsers} onUnmute={(user) => dispatch(actions.unmuteUser(user))} />
       </section>
