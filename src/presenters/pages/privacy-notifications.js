@@ -66,6 +66,9 @@ const PreferencesDescription = styled.p`
 const PreferencesSubtitle = styled.p`
   font-size: var(-sizes-tiny);
 `;
+const PreferencesList = styled.ul`
+
+`
 
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
