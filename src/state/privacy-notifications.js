@@ -29,7 +29,8 @@ export const { reducer, actions } = createSlice({
       state.notificationsMaster = payload;
       if (!payload) {
         state.notifyRemixActivity = false;
-        state.shareCollectionActivity = false;
+        state.notifyCollectionActivity = false;
+        state.notifyProjectUserActivity = false;
       }
     },
     setOption: (state, { payload: { id, value } }) => ({ ...state, [id]: value }),
