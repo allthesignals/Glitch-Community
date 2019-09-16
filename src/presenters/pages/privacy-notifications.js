@@ -12,9 +12,12 @@ const SwitchBody = styled.label`
   border-radius: 8px;
   border: 2px solid var(--colors-primary);
   ${({ active }) => active ? css`
-      color: 
-    `
-  })[active]}
+    color: var(--colors-success-text);
+    background-color: var(--colors-success-background);
+  ` : css`
+    color: var(--colors-inactive-text);
+    backgr
+  `}
 `
 
 const HiddenCheckbox = styled.input.attrs(() => ({ type: "checkbox" }))`
