@@ -206,6 +206,10 @@ const TabTitle = styled.h2`
 
 // popovers
 
+const PopoverContainer = styled.div`
+  width: 400px
+`
+
 const AddMutedProject = () => {};
 
 const AddMutedUser = ({ onClose }) => {
@@ -222,7 +226,7 @@ const AddMutedUser = ({ onClose }) => {
   const users = results.user;
 
   return (
-    <>
+    <PopoverContainer>
       <Title onClose={onClose}>Mute User</Title>
       <SearchResults label="search for users" query={query} setQuery={setQuery} options={users}>
         {({ item: user, buttonProps }) => (
@@ -240,7 +244,7 @@ const AddMutedUser = ({ onClose }) => {
           </PreferenceItemWrap>
         )}
       </SearchResults>
-    </>
+    </PopoverContainer>
   );
 };
 
@@ -312,7 +316,7 @@ const PrivacyNotificationsTab = () => {
           <PreferencesTitle>Muted Projects</PreferencesTitle>
           <PreferencesDescription>You will not receive notifications of activity on any muted projects.</PreferencesDescription>
           <Popover
-            align="right"
+            align="left"
             renderLabel={(props) => (
               <Button variant="secondary" {...props}>
                 Add Project
