@@ -27,7 +27,7 @@ const SwitchBody = styled.label`
   height: var(--space-3);
   width: calc(var(--space-4) + var(--space-2));
   &:focus-within {
-    box-shadow 0 0 4px var(--colors-selected);  
+    box-shadow 0 0 4px blue;
   }
   &:after {
     content: '';
