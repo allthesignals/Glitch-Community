@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { Icon } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
+import { getProjectLink } from 'State/project';
+import { getUserLink } from 'State/user';
 import { useCurrentUser } from 'State/current-user';
 
 // TODO: handshake icon
@@ -138,14 +140,18 @@ const MutedProjects = ({ projects, onUnmute }) => (
         <PreferenceItemWrap active>
           <ProjectAvatar project={project} />
           <PreferenceItemContent>
-            <Button as="a" href={getProjectLink(project)}>{project.domain}</Button>
+            <Button as="a" href={getProjectLink(project)}>
+              {project.domain}
+            </Button>
           </PreferenceItemContent>
-          <Button variant="secondary" onClick={() => onUnmute(project)}>Unmute</Button>
+          <Button variant="secondary" onClick={() => onUnmute(project)}>
+            Unmute
+          </Button>
         </PreferenceItemWrap>
       </li>
     ))}
   </PreferenceListBody>
-)
+);
 
 const MutedUsers = ({ users, onUnmute }) => (
   <PreferenceListBody>
@@ -154,15 +160,19 @@ const MutedUsers = ({ users, onUnmute }) => (
         <PreferenceItemWrap active>
           <UserAvatar user={user} />
           <PreferenceItemContent>
-            <Button as="a" href={getUserLink(user)}>{user.name}</Button>
+            <Button as="a" href={getUserLink(user)}>
+              {user.name}
+            </Button>
             <PreferenceItemDescription>@{user.login}</PreferenceItemDescription>
           </PreferenceItemContent>
-          <Button variant="secondary" onClick={() => onUnmute(user)}>Unmute</Button>
+          <Button variant="secondary" onClick={() => onUnmute(user)}>
+            Unmute
+          </Button>
         </PreferenceItemWrap>
       </li>
     ))}
   </PreferenceListBody>
-)
+);
 
 const PreferencesHeader = styled.header`
   border-bottom: 1px solid var(--colors-text);
@@ -254,13 +264,16 @@ const PrivacyNotificationsTab = () => {
       </section>
       <section>
         <PreferencesHeader>
-          <PreferencesTitle>
-            Muted Projects
-          </PreferencesTitle>
-          <PreferencesDescription>
-            You will not receive notifications of activity on any muted projects.
-          </PreferencesDescription>
-          <PopoverMenu align="right" renderLabel={(props) => <Button variant="secondary" {...props}>Add Project</Button>}>
+          <PreferencesTitle>Muted Projects</PreferencesTitle>
+          <PreferencesDescription>You will not receive notifications of activity on any muted projects.</PreferencesDescription>
+          <PopoverMenu
+            align="right"
+            renderLabel={(props) => (
+              <Button variant="secondary" {...props}>
+                Add Project
+              </Button>
+            )}
+          >
             {({ onClose }) => <AddMutedProject onClose={onClose} />}
           </PopoverMenu>
         </PreferencesHeader>
@@ -268,13 +281,16 @@ const PrivacyNotificationsTab = () => {
       </section>
       <section>
         <PreferencesHeader>
-          <PreferencesTitle>
-            Muted Users
-          </PreferencesTitle>
-          <PreferencesDescription>
-            You will not receive notifications from any of these users.
-          </PreferencesDescription>
-          <PopoverMenu align="right" renderLabel={(props) => <Button variant="secondary" {...props}>Add User</Button>}>
+          <PreferencesTitle>Muted Users</PreferencesTitle>
+          <PreferencesDescription>You will not receive notifications from any of these users.</PreferencesDescription>
+          <PopoverMenu
+            align="right"
+            renderLabel={(props) => (
+              <Button variant="secondary" {...props}>
+                Add User
+              </Button>
+            )}
+          >
             {({ onClose }) => <AddMutedUser onClose={onClose} />}
           </PopoverMenu>
         </PreferencesHeader>
@@ -312,15 +328,7 @@ const SettingsPage = () => (
 const SettingsPageContainer = () => {
   const { currentUser } = useCurrentUser();
 
-  return (
-    <Layout>
-      {currentUser.login ? (
-        <SettingsPage />
-      ) : (
-        <div />
-      )}
-    </Layout>
-  );
+  return <Layout>{currentUser.login ? <SettingsPage /> : <div />}</Layout>;
 };
 
 export default SettingsPageContainer;
