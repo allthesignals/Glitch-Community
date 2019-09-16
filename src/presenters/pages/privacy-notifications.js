@@ -1,7 +1,19 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { Icon, Popover, Button, Title, Info, SearchResults, TextInput, ResultsList } from '@fogcreek/shared-components';
+import {
+  Icon,
+  Popover,
+  Button,
+  Title,
+  Info,
+  TextInput,
+  ResultsList,
+  ResultItem,
+  ResultInfo,
+  ResultName,
+  ResultDescription,
+} from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { ProjectAvatar, UserAvatar } from 'Components/images/avatar';
 import { getProjectLink } from 'Models/project';
@@ -208,14 +220,18 @@ const TabTitle = styled.h2`
 // popovers
 
 const PopoverContainer = styled.div`
-  width: 400px
-`
+  width: 400px;
+  section {
+    margin: 0;
+  }
+`;
 
 const AddMutedProject = () => {};
 
 const AddMutedUser = ({ onClose }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = React.useState('');
+  const [selectedUserID, setSelectedUserID] = React.useState(null);
   const debouncedQuery = useDebouncedValue(query, 200);
   const results = useAlgoliaSearch(query, { filterTypes: ['user'] });
 
@@ -231,28 +247,19 @@ const AddMutedUser = ({ onClose }) => {
     <PopoverContainer>
       <Title onClose={onClose}>Mute User</Title>
       <Info>
-        <TextInput label="search for users" value={debouncedQuery} onChange={setQuery} />
+        <TextInput type="search" variant="opaque" label="search for users" value={debouncedQuery} onChange={setQuery} />
       </Info>
-      <ResultsList scroll value={selectedUserID} onChange={setSe}>
-      
-      </ResultsList>  
-        <SearchResults label="search for users"  options={users}>
-          {({ item: user, buttonProps }) => (
-            <PreferenceItemWrap active>
-              <UserAvatar user={user} />
-              <PreferenceItemContent>
-                <Button as="a" href={getUserLink(user)}>
-                  {user.name}
-                </Button>
-                <PreferenceItemDescription>@{user.login}</PreferenceItemDescription>
-              </PreferenceItemContent>
-              <Button variant="secondary" onClick={() => muteUserAndClosePopover(user)} {...buttonProps}>
-                Mute
-              </Button>
-            </PreferenceItemWrap>
-          )}
-        </SearchResults>
-      </Info>
+      <ResultsList scroll value={selectedUserID} onChange={setSelectedUserID} options={users}>
+        {({ item: user, buttonProps }) => (
+          <ResultItem onClick={() => muteUserAndClosePopover(user)} {...buttonProps}>
+            <UserAvatar user={user} />
+            <ResultInfo>
+              <ResultName>{user.name}</ResultName>
+              <ResultDescription>@{user.login}</ResultDescription>
+            </ResultInfo>
+          </ResultItem>
+        )}
+      </ResultsList>
     </PopoverContainer>
   );
 };
