@@ -239,6 +239,7 @@ const ScrollResultsList = styled(ResultsList)`
 
 const AddMutedProject = () => {
   const dispatch = useDispatch();
+  const { currentUser } = useCurrentUser();
   const [query, setQuery] = React.useState('');
   const [selectedUserID, setSelectedUserID] = React.useState(null);
   const debouncedQuery = useDebouncedValue(query, 200);
@@ -250,7 +251,9 @@ const AddMutedProject = () => {
   };
 
   // TODO: filter out already muted projects
-  const users = results.user;
+  const projects = React.useMemo(() => {
+    const u
+  }, [results.projects, currentUserr])
 
   return (
     <Popover
