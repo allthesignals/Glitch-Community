@@ -205,8 +205,12 @@ const TabTitle = styled.h2`
 
 // popovers
 
-const MutedProjects = () => {
+const AddMutedProject = () => {
   
+}
+
+const AddMutedUser = ({ onClose }) => {
+  <Title></Title>
 }
 
 
