@@ -16,26 +16,29 @@ import { actions, usePrivacyNotificationsSettings } from 'State/privacy-notifica
 
 const SwitchBody = styled.label`
   position: relative;
+  display: flex;
+  align-items: center;
   border-radius: var(--space-2);
   border: 2px solid var(--colors-primary);
   font-weight: bold;
   font-size: var(--fontSizes-small);
-  padding: var(--space-1) var(--space-2);
+  padding: 0 var(--space-1);
+  height: var(--space-3);
   &:after {
     content: '';
     position: absolute;
     top: 0;
     border-radius: 100%;
     background-color: var(--colors-background);
-    height: var(--space-3);
-    width: var(--space-3);
+    height: var(--space-2);
+    width: var(--space-2);
   }
   ${({ active }) =>
     active
       ? css`
           color: var(--colors-success-text);
           background-color: var(--colors-success-background);
-          padding-right: var(--space-4);
+          padding-right: var(--space-3);
           &:after {
             right: 0;
           }
@@ -43,7 +46,7 @@ const SwitchBody = styled.label`
       : css`
           color: var(--colors-inactive-text);
           background-color: var(--colors-inactive-background);
-          padding-left: var(--space-4);
+          padding-left: var(--space-3);
           &:after {
             left: 0;
           }
