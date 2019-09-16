@@ -1,9 +1,10 @@
 import { createSlice } from 'redux-starter-kit';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 export const { reducer, actions } = createSlice({
   slice: 'privacyAndNotificationSettings',
   initialState: {
+    status: 'init', // init | loading | true
     privacyMaster: true,
     notificationsMaster: true,
     shareRemixActivity,
@@ -32,7 +33,7 @@ export const { reducer, actions } = createSlice({
 
 // APIs go here, once they're available
 export const handlers = {
-  // should dispatch 
+  
 };
 
 export const usePrivacyNotificationsSettings = () => ({
