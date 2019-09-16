@@ -144,7 +144,7 @@ const PreferenceItem = ({ icon, title, description, active, value, onChange }) =
       <PreferenceItemTitle>{title}</PreferenceItemTitle>
       {description && <PreferenceItemDescription>{description}</PreferenceItemDescription>}
     </PreferenceItemContent>
-    <input type="checkbox" disabled={!active} checked={value} onChange={(e) => onChange(e.target.checked)} />
+    <input type="checkbox" disabled={!active} checked={active && value} onChange={(e) => onChange(e.target.checked)} />
   </PreferenceItemWrap>
 );
 
