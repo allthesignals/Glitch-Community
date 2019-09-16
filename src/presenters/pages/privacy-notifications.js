@@ -217,12 +217,15 @@ const SettingsPageLinks = styled.div`
   margin-right: var(--space-2);
   border-right: 1px solid var(--colors-border);
 `;
+const SettingsPageContentWrap = styled.div``
 
 // TODO: does this page already exist?
 const SettingsPage = () => (
   <SettingsPageLayout>
     <SettingsPageLinks />
-    <PrivacyNotificationsTab />
+    <SettingsPageContentWrap>
+      <PrivacyNotificationsTab />
+    </SettingsPageContentWrap>
   </SettingsPageLayout>
 );
 
