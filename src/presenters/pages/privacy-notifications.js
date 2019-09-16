@@ -256,15 +256,15 @@ const AddMutedUser = () => {
         <PopoverContainer>
           <Title onClose={onClose}>Mute User</Title>
           <Info>
-            <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for users" value={query} onChange={setQuery} />
+            <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for users" value={query} onChange={(q) => setQuery(q)} />
           </Info>
-          <ResultsList scroll value={selectedUserID} onChange={setSelectedUserID} options={users}>
+          <ResultsList scroll value={selectedUserID} onChange={(id) => setSelectedUserID(id)} options={users}>
             {({ item: user, buttonProps }) => (
               <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
                 <UserAvatar user={user} />
                 <ResultInfo>
-                  <ResultName>{user.name || `@${}`}</ResultName>
-                  <ResultDescription>@{user.login}</ResultDescription>
+                  <ResultName>{user.name || `@${user.login}`}</ResultName>
+                  {user.name ? null : <ResultDescription>@{user.login}</ResultDescription>}
                 </ResultInfo>
               </ResultItem>
             )}
