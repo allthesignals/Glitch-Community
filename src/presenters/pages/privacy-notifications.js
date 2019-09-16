@@ -27,6 +27,13 @@ const SwitchBody = styled.label`
   ` : css`
     color: var(--colors-inactive-text);
     background-color: var(--colors-inactive-background);
+    &:before {
+      content: "";
+      border-radius: 100%;
+      background-color: var(--colors-background);
+      height: var(--space-3);
+      width: var(--space-3);
+    }
   `}
 `
 
