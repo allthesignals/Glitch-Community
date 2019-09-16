@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { Icon, Popover, Button, Title, Info, SearchResults } from '@fogcreek/shared-components';
+import { Icon, Popover, Button, Title, Info, SearchResults, TextInput, ResultsList } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { ProjectAvatar, UserAvatar } from 'Components/images/avatar';
 import { getProjectLink } from 'Models/project';
@@ -231,7 +231,10 @@ const AddMutedUser = ({ onClose }) => {
     <PopoverContainer>
       <Title onClose={onClose}>Mute User</Title>
       <Info>
-        <SearchResults label="search for users" value={debouncedQuery} onChange={setQuery} options={users}>
+        <TextInput label="search for users" value={debouncedQuery} onChange={setQuery} />
+      </Info>
+        
+        <SearchResults label="search for users"  options={users}>
           {({ item: user, buttonProps }) => (
             <PreferenceItemWrap active>
               <UserAvatar user={user} />
