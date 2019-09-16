@@ -9,6 +9,7 @@ import { AnalyticsContext } from 'State/segment-analytics';
 // TODO: handshake icon
 
 const SwitchBody = styled.label`
+  position: relative;
   border-radius: 8px;
   border: 2px solid var(--colors-primary);
   ${({ active }) => active ? css`
@@ -16,7 +17,7 @@ const SwitchBody = styled.label`
     background-color: var(--colors-success-background);
     &:after {
       content: "";
-      
+      background-color: white;
     }
   ` : css`
     color: var(--colors-inactive-text);
@@ -30,8 +31,9 @@ const HiddenCheckbox = styled.input.attrs(() => ({ type: "checkbox" }))`
 `
 
 const Switch = ({ value, onChange }) => (
-  <SwitchBody>
+  <SwitchBody active={value}>
     <HiddenCheckbox checked={value} onChange={(e) => onChange(e.target.checked)} />
+    {value ? "On" : "Off"}
   </SwitchBody>
 )
 
