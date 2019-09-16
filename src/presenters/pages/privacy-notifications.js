@@ -38,7 +38,15 @@ const PrivacyNotificationsTab = () => {
   
   return (
     <section>
-      <h3>Privacy</h3>
+      <header>
+        <h3>Privacy</h3>
+        <p>
+          Activity Sharing
+          {" "}
+          <Switch value={privacySettings.privacyMaster} onChange={(v) => dispatch(actions)} /> 
+        </p>
+      </header>
+      
       <
       
     </section>
