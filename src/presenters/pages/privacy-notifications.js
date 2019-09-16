@@ -251,19 +251,13 @@ const AddMutedProject = () => {
     onClose();
   };
 
-  const ownProjectIDs = React.useMemo(() => {
-    const ids = new Set();
-    currentUser.projects.forEach((p) => ids.add(p.id));
-    return ids;
-  }, [currentUser.projects]);
-
   const mutedProjectIDs = React.useMemo(() => {
     const ids = new Set();
     mutedProjects.forEach((p) => ids.add(p.id));
     return ids;
   }, [mutedProjects]);
 
-  const projects = React.useMemo(() => results.project.filter((p) => ownProjectIDs.has(p.id) && !mutedProjectIDs.has(p.id)), [
+  const projects = React.useMemo(() => currntUse.project.filter((p) => ownProjectIDs.has(p.id) && !mutedProjectIDs.has(p.id)), [
     results.project,
     ownProjectIDs,
     mutedProjectIDs,
@@ -274,13 +268,13 @@ const AddMutedProject = () => {
       align="left"
       renderLabel={(props) => (
         <Button variant="secondary" {...props}>
-          Add User
+          Add Project
         </Button>
       )}
     >
       {({ onClose, focusedOnMount }) => (
         <PopoverContainer>
-          <Title onClose={onClose}>Mute User</Title>
+          <Title onClose={onClose}>Mute Project</Title>
           <Info>
             <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for projects" value={query} onChange={(q) => setQuery(q)} />
           </Info>
