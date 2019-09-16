@@ -8,11 +8,15 @@ import { AnalyticsContext } from 'State/segment-analytics';
 
 // TODO: handshake icon
 
-const SwitchContent = ({ value }) => {
-  
-}
+const SwitchBody = styled.label`
+  ${({ active })}
+`
 
-const Switch = ({ value, onChange }) => {}
+const Switch = ({ value, onChange }) => (
+  <SwitchBody>
+    <HiddenCheckbox 
+  </SwitchBody>
+)
 
 
 
