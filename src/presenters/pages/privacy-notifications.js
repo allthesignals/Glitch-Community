@@ -121,7 +121,7 @@ const PrivacyNotificationsTab = () => {
 
 // TODO: does this page already exist?
 const SettingsPageContainer = () => {
-  const {currentUser} = useCurrentUser();
+  const { currentUser } = useCurrentUser();
 
   return (
     <Layout>
