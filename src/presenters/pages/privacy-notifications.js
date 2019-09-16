@@ -111,19 +111,21 @@ const PreferencesHeader = styled.header`
 
 const PreferencesTitle = styled.h3`
   display: flex;
+  align
   font-weight: bold;
   font-size: var(--fontSizes-big);
   margin: 0 0 var(--spaces-2);
 `;
 const PreferencesSubtitle = styled.p`
-  font-size: var(--fontSizes-small);
-`;
-const PreferencesSubtitle = styled.p`
   display: flex;
   font-weight: normal;
-  font-size: var(--fontSizes-small);
+  font-size: var(--fontSizes-big);
   margin: 0 0 var(--spaces-2);
 `;
+const PreferencesDescription = styled.p`
+  font-size: var(--fontSizes-small);
+`;
+
 
 
 const privacyOptions = [
