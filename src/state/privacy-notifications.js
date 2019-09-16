@@ -22,10 +22,10 @@ export const { reducer, actions } = createSlice({
     setNotificationsMaster: (state, { payload }) => ({ ...state, notificationsMaster: payload }),
     setOption: (state, { payload: { id, value } }) => ({ ...state, [id]: value }),
     muteProject: (state, { payload: project }) => {
-      state.mutedProjects.push(project);
+      state.mutedProjects.unshift(project);
     },
     muteUser: (state, { payload: user }) => {
-      state.mutedUsers.push(user);
+      state.mutedUsers.unshift(user);
     },
     unmuteProject: (state, { payload: project }) => {
       state.mutedProjects = state.mutedProjects.filter((p) => p.id !== project.id);
