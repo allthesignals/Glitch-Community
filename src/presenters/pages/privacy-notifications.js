@@ -59,28 +59,36 @@ const PrivacyNotificationsTab = () => {
 
   return (
     <section>
-      <PreferencesHeader>
-        <h3>Privacy</h3>
-        <PreferencesSubtitle>
-          Activity Sharing <Switch value={privacySettings.privacyMaster} onChange={(value) => dispatch(actions.setPrivacyMaster(value))} />
-        </PreferencesSubtitle>
-        <PreferencesDescription>
-          Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
-        </PreferencesDescription>
-      </PreferencesHeader>
-      <div>
-        {privacyOptions.map((opt) => (
-          <PreferenceItem
-            key={opt.id}
-            value={privacySettings[opt.id]}
-            onChange={(value) => dispatch(actions.setOption(opt.id, value))}
-            title={opt.title}
-            description={opt.description}
-          />
-        ))}
-      </div>
+      <section>
+        <PreferencesHeader>
+          <PreferencesTitle>Privacy</PreferencesTitle>
+          <PreferencesSubtitle>
+            Activity Sharing <Switch value={privacySettings.privacyMaster} onChange={(value) => dispatch(actions.setPrivacyMaster(value))} />
+          </PreferencesSubtitle>
+          <PreferencesDescription>
+            Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
+          </PreferencesDescription>
+        </PreferencesHeader>
+        <div>
+          {privacyOptions.map((opt) => (
+            <PreferenceItem
+              key={opt.id}
+              value={privacySettings[opt.id]}
+              onChange={(value) => dispatch(actions.setOption(opt.id, value))}
+              title={opt.title}
+              description={opt.description}
+            />
+          ))}
+        </div>
+      </section>
+      <section>
+        <PreferencesHeader>
+        
+        </PreferencesHeader>
+      </section>
     </section>
   );
+      
 };
 
 // TODO: does this page already exist?
