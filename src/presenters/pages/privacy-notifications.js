@@ -65,7 +65,7 @@ const Switch = ({ value, onChange }) => (
 
 // preference item (goes to src/components ?)
 
-const PreferencesListBody = styled.ul`
+const PreferenceListBody = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -74,6 +74,24 @@ const PreferencesListBody = styled.ul`
     padding: 0 var(--space-2);
   }
 `
+
+const PreferenceList = ({ options, value, onChange }) => (
+  <PreferenceListBody>
+          {options.map((opt) => (
+            <li key={opt.id}>
+              <PreferenceItem
+                key={opt.id}
+                value={value[opt.id]}
+                onChange={(value) => onChange(opt.id, value)}
+                title={opt.title}
+                description={opt.description}
+                icon={opt.icon}
+                active={settings.notificationsMaster}
+              />
+            ))}
+          </li>
+        </PreferenceListBody>
+)
 
 const PreferenceItemWrap = styled.label`
   display: flex;
