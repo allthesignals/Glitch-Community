@@ -56,7 +56,7 @@ const privacyOptions = [
 const notificationOptions = [
   { id: 'notifyRemixActivity', title: 'New remixes of your projects', icon: 'microphone' },
   { id: 'notifyCollectionActivity', title: 'New collections containing your projects', icon: 'framedPicture' },
-  
+  { id: 'notifyProjectUserActivity', title: 'New projects '}
 ]
 
 const PrivacyNotificationsTab = () => {
@@ -75,7 +75,7 @@ const PrivacyNotificationsTab = () => {
             Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
           </PreferencesDescription>
         </PreferencesHeader>
-        <div>
+        <PreferencesList>
           {privacyOptions.map((opt) => (
             <PreferenceItem
               key={opt.id}
