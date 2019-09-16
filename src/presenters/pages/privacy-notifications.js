@@ -212,6 +212,11 @@ const AddMutedUser = ({ onClose }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = React.useState('');
   const results = useAlgoliaSearch(query, { filterTypes: ['user'] });
+  
+  const muteUserAndClosePopover = (user) => {
+    dispatch(actions.muteUser(user))
+    onClose
+  }
 
   // TODO: filter out already muted users
   const users = results.user;
@@ -229,7 +234,7 @@ const AddMutedUser = ({ onClose }) => {
               </Button>
               <PreferenceItemDescription>@{user.login}</PreferenceItemDescription>
             </PreferenceItemContent>
-            <Button variant="secondary" onClick={() => dispatch(actions.muteUser(user))} {...buttonProps}>
+            <Button variant="secondary" onClick={() => muteUserAndClosePopover(user)} {...buttonProps}>
               Mute
             </Button>
           </PreferenceItemWrap>
