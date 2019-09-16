@@ -47,13 +47,21 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
   </PreferenceItemWrap>
 );
 
+const PrefereencesHeader = styled.header`
+  border-bottom: 1px solid var(--colors-text); 
+`
+
 const PreferencesTitle = styled.h3`
   display: flex;
   font-weight: bold;
   font-size: var(--sizes-normal);
+  margin: 0 0 var(--spaces-2);
 `
 const PreferencesDescription = styled.p`
-
+  display: flex;
+  font-weight: normal;
+  font-size: var(--sizes-normal);
+  margin: 0 0 var(--spaces-2);
 `
 
 
