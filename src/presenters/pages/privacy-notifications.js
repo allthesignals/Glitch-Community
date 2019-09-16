@@ -327,9 +327,9 @@ const AddMutedUser = () => {
     return ids;
   }, [mutedUsers]);
 
-  const users = React.useMemo(() => results.user.filter((u) => !mutedUsers.has(u.id) && mutedUsers.id !== currentUser.id), [
+  const users = React.useMemo(() => results.user.filter((u) => !mutedUserIDs.has(u.id) && u.id !== currentUser.id), [
     results.user,
-    mutedUsers,
+    mutedUserIDs,
     currentUser.id,
   ]);
 
