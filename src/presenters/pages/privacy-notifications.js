@@ -237,7 +237,59 @@ const ScrollResultsList = styled(ResultsList)`
   }
 `
 
-const AddMutedProject = () => {};
+const AddMutedProject = () => {
+  const dispatch = useDispatch();
+  const [query, setQuery] = React.useState('');
+  const [selectedUserID, setSelectedUserID] = React.useState(null);
+  const debouncedQuery = useDebouncedValue(query, 200);
+  const results = useAlgoliaSearch(debouncedQuery, { filterTypes: ['project'] });
+
+  const muteUserAndClosePopover = (user, onClose) => {
+    dispatch(actions.muteUser(user));
+    onClose();
+  };
+
+  // TODO: filter out already muted projects
+  const users = results.user;
+
+  return (
+    <Popover
+      align="left"
+      renderLabel={(props) => (
+        <Button variant="secondary" {...props}>
+          Add User
+        </Button>
+      )}
+    >
+      {({ onClose, focusedOnMount }) => (
+        <PopoverContainer>
+          <Title onClose={onClose}>Mute User</Title>
+          <Info>
+            <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for users" value={query} onChange={(q) => setQuery(q)} />
+          </Info>
+          {users.length > 0 && <ScrollResultsList scroll value={selectedUserID} onChange={(id) => setSelectedUserID(id)} options={users}>
+            {({ item: user, buttonProps }) => (
+              <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
+                <UserAvatar user={user} />
+                <ResultInfo>
+                  <ResultName>{user.name || `@${user.login}`}</ResultName>
+                  {user.name ? <ResultDescription>@{user.login}</ResultDescription> : null}
+                </ResultInfo>
+              </ResultItem>
+            )}
+          </ScrollResultsList>}
+          {results.status === 'ready' && users.length === 0 && (
+            <Actions>
+              <p>
+                Nothing found <Icon icon="sparkles" />
+              </p>
+            </Actions>
+          )}
+        </PopoverContainer>
+      )}
+    </Popover>
+  );
+};
 
 const AddMutedUser = () => {
   const dispatch = useDispatch();
