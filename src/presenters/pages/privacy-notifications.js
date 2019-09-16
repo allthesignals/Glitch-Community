@@ -100,6 +100,9 @@ const PrivacyNotificationsTab = () => {
           <PreferencesTitle>
             Notifications <Switch value={settings.notificationsMaster} onChange={(value) => dispatch(actions.setNotificationsMaster(value))} />
           </PreferencesTitle>
+          <PreferencesDescription>
+            Notifications on Glitch.com let you know about activity on your projects.
+          </PreferencesDescription>
         </PreferencesHeader>
         <PreferencesList active={settings.notificationsMaster}>
           {notificationOptions.map((opt) => (
