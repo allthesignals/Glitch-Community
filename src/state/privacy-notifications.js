@@ -18,7 +18,9 @@ export const { reducer, actions } = createSlice({
   reducers: {
     requestedLoad: (state) => ({ ...state, status: 'loading' }),
     loadedFromAPI: (_, { payload }) => ({ ...payload, status: 'ready' }),
-    setPrivacyMaster: (state, { payload }) => ({ ...state, privacyMaster: payload }),
+    setPrivacyMaster: (state, { payload: privacyMaster }) => {
+      
+    },
     setNotificationsMaster: (state, { payload }) => ({ ...state, notificationsMaster: payload }),
     setOption: (state, { payload: { id, value } }) => ({ ...state, [id]: value }),
     muteProject: (state, { payload: project }) => {
