@@ -16,7 +16,6 @@ const usePrivacyNotificationsSettings = () => ({
 
 const actions = {};
 
-
 // switch component (goes to shared components?)
 
 const SwitchBody = styled.label`
@@ -80,7 +79,7 @@ const PreferenceItemWrap = styled.label`
 const PreferenceItemContent = styled.div`
   flex: 1 0 auto;
   padding: 0 var(--space-1);
-`
+`;
 
 const PreferenceItemTitle = styled.h4`
   font-size: var(--fontSizes-normal);
@@ -119,11 +118,11 @@ const PreferencesTitle = styled.h3`
 const PreferencesDescription = styled.p`
   display: flex;
   font-weight: normal;
-  font-size: var(--fontSizes-normal);
+  font-size: var(--fontSizes-big);
   margin: 0 0 var(--spaces-2);
 `;
 const PreferencesSubtitle = styled.p`
-  font-size: var(--fontSizes-tiny);
+  font-size: var(--fontSizes-small);
 `;
 
 const privacyOptions = [
@@ -215,7 +214,9 @@ const SettingsPageContainer = () => {
         <AnalyticsContext properties={{ origin: 'settings' }}>
           <PrivacyNotificationsTab />
         </AnalyticsContext>
-      ) : <div></div>}
+      ) : (
+        <div></div>
+      )}
     </Layout>
   );
 };
