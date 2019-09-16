@@ -47,10 +47,15 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
   </PreferenceItemWrap>
 );
 
-const PreferencesHeader = styled.h3`
+const PreferencesTitle = styled.h3`
+  display: flex;
   font-weight: bold;
   font-size: var(--sizes-normal);
 `
+const PreferencesDescription = styled.p`
+
+`
+
 
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
@@ -79,6 +84,7 @@ const PrivacyNotificationsTab = () => {
 
   return (
     <section>
+      <h2>Account Setting <Icon icon="key" /></h2>
       <section>
         <PreferencesHeader>
           <PreferencesTitle>Privacy</PreferencesTitle>
