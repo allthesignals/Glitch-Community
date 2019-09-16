@@ -114,17 +114,18 @@ const PreferencesTitle = styled.h3`
   justify-content: space-between;
   font-weight: bold;
   font-size: var(--fontSizes-big);
-  margin: 0 0 var(--spaces-2);
+  margin: 0 0 var(--space-1);
 `;
 const PreferencesSubtitle = styled.p`
   display: flex;
   justify-content: space-between;
   font-weight: normal;
   font-size: var(--fontSizes-big);
-  margin: 0 0 var(--spaces-2);
+  margin: 0 0 var(--space-1);
 `;
 const PreferencesDescription = styled.p`
   font-size: var(--fontSizes-small);
+  margin
 `;
 
 const TabTitle = styled.h2`
