@@ -329,7 +329,7 @@ const PrivacyNotificationsTab = () => {
           <PreferencesTitle>Muted Users</PreferencesTitle>
           <PreferencesDescription>You will not receive notifications from any of these users.</PreferencesDescription>
           <Popover
-            align="right"
+            align="left"
             renderLabel={(props) => (
               <Button variant="secondary" {...props}>
                 Add User
