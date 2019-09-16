@@ -127,6 +127,10 @@ const PreferencesDescription = styled.p`
   font-size: var(--fontSizes-small);
 `;
 
+const TabTitle = styled.h2`
+  font-size: var(--fontSizes-bigger);
+`
+
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
   {
@@ -154,9 +158,9 @@ const PrivacyNotificationsTab = () => {
 
   return (
     <section>
-      <h2>
+      <TabTitle>
         Account Settings <Icon icon="key" />
-      </h2>
+      </TabTitle>
       <section>
         <PreferencesHeader>
           <PreferencesTitle>Privacy</PreferencesTitle>
