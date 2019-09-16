@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components';
 import { Icon } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { useCurrentUser } from 'State/current-user';
-import { AnalyticsContext } from 'State/segment-analytics';
 
 // TODO: handshake icon
 
@@ -12,7 +11,7 @@ import { AnalyticsContext } from 'State/segment-analytics';
 const usePrivacyNotificationsSettings = () => ({
   privacyMaster: true,
   notificationsMaster: true,
-  
+  mutedUsers: [],
 });
 
 const actions = {};
@@ -219,6 +218,19 @@ const PrivacyNotificationsTab = () => {
           onChange={(id, value) => dispatch(actions.setOption(id, value))}
         />
       </section>
+      <section>
+        <PreferencesHeader>
+          <PreferencesTitle>
+            Muted Projects
+          </PreferencesTitle>
+          <PreferencesDescription>
+            You will not receive notifications of activity on any muted projects.
+          </PreferencesDescription>
+          <PopoverMenu align="right" renderLabel={(props) => <Button variant="secondary" {...props}>Add Project</Button>}>
+            {({ onClose }) => }
+          </PopoverMenu>
+        </PreferencesHeader>
+      </section>
     </section>
   );
 };
@@ -254,9 +266,7 @@ const SettingsPageContainer = () => {
   return (
     <Layout>
       {currentUser.login ? (
-        <AnalyticsContext properties={{ origin: 'settings' }}>
-          <SettingsPage />
-        </AnalyticsContext>
+        <SettingsPage />
       ) : (
         <div />
       )}
