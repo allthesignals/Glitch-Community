@@ -12,6 +12,7 @@ const usePrivacyNotificationsSettings = () => ({
   privacyMaster: true,
   notificationsMaster: true,
   mutedUsers: [],
+  mutedProjects: [],
 });
 
 const actions = {};
@@ -128,7 +129,10 @@ const PreferenceItem = ({ icon, title, description, active, value, onChange }) =
   </PreferenceItemWrap>
 );
 
-//
+// muted projects / users
+
+const MutedProjects = styled
+
 
 const PreferencesHeader = styled.header`
   border-bottom: 1px solid var(--colors-text);
