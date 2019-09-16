@@ -261,7 +261,8 @@ const AddMutedProject = () => {
   }, [debouncedQuery]);
 
   const projects = React.useMemo(
-    () => currentUser.projects.filter((p) => !mutedProjectIDs.has(p.id) && (queryRegex.test(p.domain) || queryRegex.test(p.description))),
+    () =>
+      currentUser.projects.filter((p) => !mutedProjectIDs.has(p.id) && (queryRegex.test(p.domain) || queryRegex.test(p.description))).slice(0, 100),
     [currentUser.projects, queryRegex, mutedProjectIDs],
   );
 
