@@ -238,6 +238,7 @@ const ScrollResultsList = styled(ResultsList)`
 `
 
 const AddMutedProject = () => {
+  const { mutedProjects } = usePrivacyNotificationsSettings();
   const dispatch = useDispatch();
   const { currentUser } = useCurrentUser();
   const [query, setQuery] = React.useState('');
@@ -250,11 +251,10 @@ const AddMutedProject = () => {
     onClose();
   };
 
-  // TODO: filter out already muted projects
   const projects = React.useMemo(() => {
-    const ownIDs = new Set()
-    currentUser.projects.forEach(p => ownIDs.add(p.id))
-    return results.projects.filter(p => !ownIDs.has(p.id))
+    const includeIDs = new Set()
+    currentUser.projects.forEach(p => includeIDs.add(p.id))
+    return results.projects.filter(p => includeIDs.has(p.id))
   }, [results.projects, currentUser.projects])
 
   return (
