@@ -68,9 +68,17 @@ const PrivacyNotificationsTab = () => {
           Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
         </PreferencesDescription>
       </PreferencesHeader>
-      <div>{privacyOptions.map(opt) => (
-        <PreferenceItem key={opt.id} value={privacySettings[opt.id]} onChange={(value) => dispatch.ac} />
-      )}</div>
+      <div>
+        {privacyOptions.map((opt) => (
+          <PreferenceItem
+            key={opt.id}
+            value={privacySettings[opt.id]}
+            onChange={(value) => dispatch(actions.setOption(opt.id, value))}
+            title={opt.title}
+            description={opt.description}
+          />
+        ))}
+      </div>
     </section>
   );
 };
