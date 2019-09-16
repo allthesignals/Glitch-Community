@@ -2,8 +2,14 @@ u import { createSlice } from 'redux-starter-kitimport { useSelector } from 'rea
 
 export const { reducer, actions } = createSlice({
   slice: 'privacyAndNotificationSettings',
-  reducers: {
-    
+  reducer: {
+    setPrivacyMaster,
+    setNotificationsMaster,
+    setOption,
+    muteProject,
+    muteUser,
+    unmuteProject,
+    unmuteUser,
   },
 })
 
