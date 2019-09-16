@@ -64,9 +64,8 @@ const PreferencesDescription = styled.p`
   margin: 0 0 var(--spaces-2);
 `;
 const PreferencesSubtitle = styled.p`
-  display: 
-`
-
+  font-size: var(-sizes-tiny);
+`;
 
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
@@ -153,3 +152,5 @@ const SettingsPageContainer = () => {
     </Layout>
   );
 };
+
+export default SettingsPageContainer;
