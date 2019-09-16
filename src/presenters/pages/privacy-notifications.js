@@ -9,6 +9,7 @@ import { getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
 import { actions, usePrivacyNotificationsSettings } from 'State/privacy-notifications';
 import { useAlgoliaSearch } from 'State/search';
+import useDebouncedValue from 'Hooks/use-debounced-value';
 
 // TODO: handshake icon
 
@@ -215,6 +216,7 @@ const AddMutedProject = () => {};
 const AddMutedUser = ({ onClose }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = React.useState('');
+  const debouncedQuery = useDebouncedValue(query, 200);
   const results = useAlgoliaSearch(query, { filterTypes: ['user'] });
 
   const muteUserAndClosePopover = (user) => {
@@ -229,7 +231,7 @@ const AddMutedUser = ({ onClose }) => {
     <PopoverContainer>
       <Title onClose={onClose}>Mute User</Title>
       <Info>
-        <SearchResults label="search for users" value={query} onChange={setQuery} options={users}>
+        <SearchResults label="search for users" value={debouncedQuery} onChange={setQuery} options={users}>
           {({ item: user, buttonProps }) => (
             <PreferenceItemWrap active>
               <UserAvatar user={user} />
