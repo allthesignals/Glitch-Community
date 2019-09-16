@@ -135,7 +135,12 @@ const MutedProjects = ({ projects, onUnmute }) => (
   <PreferenceListBody>
     {projects.map((project) => (
       <li key={project.id}>
-        <
+        <PreferenceItemWrap active>
+          <ProjectAvatar project={project} />
+          <PreferenceItemContent>
+            <Button as="a" href={getProject}>{project.domain}</Button>
+          </PreferenceItemContent>
+        </PreferenceItemWrap>
       </li>
     ))}
   </PreferenceListBody>
