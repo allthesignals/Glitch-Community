@@ -228,7 +228,7 @@ const PopoverContainer = styled.div`
 
 const AddMutedProject = () => {};
 
-const AddMutedUser = ({ onClose }) => {
+const AddMutedUser = () => {
   const dispatch = useDispatch();
   const [query, setQuery] = React.useState('');
   const [selectedUserID, setSelectedUserID] = React.useState(null);
@@ -244,23 +244,34 @@ const AddMutedUser = ({ onClose }) => {
   const users = results.user;
 
   return (
-    <PopoverContainer>
-      <Title onClose={onClose}>Mute User</Title>
-      <Info>
-        <TextInput type="search" variant="opaque" label="search for users" value={query} onChange={setQuery} />
-      </Info>
-      <ResultsList scroll value={selectedUserID} onChange={setSelectedUserID} options={users}>
-        {({ item: user, buttonProps }) => (
-          <ResultItem onClick={() => muteUserAndClosePopover(user)} {...buttonProps}>
-            <UserAvatar user={user} />
-            <ResultInfo>
-              <ResultName>{user.name}</ResultName>
-              <ResultDescription>@{user.login}</ResultDescription>
-            </ResultInfo>
-          </ResultItem>
-        )}
-      </ResultsList>
-    </PopoverContainer>
+    <Popover
+      align="left"
+      renderLabel={(props) => (
+        <Button variant="secondary" {...props}>
+          Add User
+        </Button>
+      )}
+    >
+      {({ onClose, focusedONMount }) => (
+        <PopoverContainer>
+          <Title onClose={onClose}>Mute User</Title>
+          <Info>
+            <TextInput type="search" variant="opaque" label="search for users" value={query} onChange={setQuery} />
+          </Info>
+          <ResultsList scroll value={selectedUserID} onChange={setSelectedUserID} options={users}>
+            {({ item: user, buttonProps }) => (
+              <ResultItem onClick={() => muteUserAndClosePopover(user, on)} {...buttonProps}>
+                <UserAvatar user={user} />
+                <ResultInfo>
+                  <ResultName>{user.name}</ResultName>
+                  <ResultDescription>@{user.login}</ResultDescription>
+                </ResultInfo>
+              </ResultItem>
+            )}
+          </ResultsList>
+        </PopoverContainer>
+      )}
+    </Popover>
   );
 };
 
