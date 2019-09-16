@@ -58,6 +58,10 @@ const SwitchBody = styled.label`
 const HiddenCheckbox = styled.input.attrs(() => ({ type: 'checkbox' }))`
   position: absolute;
   opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 const Switch = ({ value, onChange }) => (
