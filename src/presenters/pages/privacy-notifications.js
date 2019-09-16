@@ -14,42 +14,43 @@ const SwitchBody = styled.label`
   border: 2px solid var(--colors-primary);
   font-size: var(--fontSizes-small);
   padding: var(--space-1) var(--space-2);
-  ${({ active }) => active ? css`
-    color: var(--colors-success-text);
-    background-color: var(--colors-success-background);
-    &:after {
-      content: "";
-      border-radius: 100%;
-      background-color: var(--colors-background);
-      height: var(--space-3);
-      width: var(--space-3);
-    }
-  ` : css`
-    color: var(--colors-inactive-text);
-    background-color: var(--colors-inactive-background);
-    &:before {
-      content: "";
-      border-radius: 100%;
-      background-color: var(--colors-background);
-      height: var(--space-3);
-      width: var(--space-3);
-    }
-  `}
-`
+  ${({ active }) =>
+    active
+      ? css`
+          color: var(--colors-success-text);
+          background-color: var(--colors-success-background);
+          &:after {
+            content: '';
+            border-radius: 100%;
+            background-color: var(--colors-background);
+            height: var(--space-3);
+            width: var(--space-3);
+          }
+        `
+      : css`
+          color: var(--colors-inactive-text);
+          background-color: var(--colors-inactive-background);
+          &:before {
+            content: '';
+            border-radius: 100%;
+            background-color: var(--colors-background);
+            height: var(--space-3);
+            width: var(--space-3);
+          }
+        `}
+`;
 
-const HiddenCheckbox = styled.input.attrs(() => ({ type: "checkbox" }))`
+const HiddenCheckbox = styled.input.attrs(() => ({ type: 'checkbox' }))`
   position: absolute;
   opacity: 0;
-`
+`;
 
 const Switch = ({ value, onChange }) => (
   <SwitchBody active={value}>
     <HiddenCheckbox checked={value} onChange={(e) => onChange(e.target.checked)} />
-    {value ? "On" : "Off"}
+    {value ? 'On' : 'Off'}
   </SwitchBody>
-)
-
-
+);
 
 // TODO: redux state
 const usePrivacyNotificationsSettings = () => ({
@@ -63,7 +64,7 @@ const PreferenceItemWrap = styled.label`
   display: flex;
   align-items: flex-start;
   border-top: 1px solid var(--colors-border);
-  color: ${({ active }) => active ? 'var(--colors-primary)' : 'var(--colors-disabled)' }
+  color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-disabled)')}
   &:first-child {
     border-top: none;
   }
@@ -80,7 +81,7 @@ const PreferenceDescription = styled.p`
   margin: 0;
 `;
 
-const PreferenceItem = ({ icon, title, description, active,  value, onChange }) => (
+const PreferenceItem = ({ icon, title, description, active, value, onChange }) => (
   <PreferenceItemWrap active={active}>
     <Icon icon={icon} />
     <div>
@@ -196,7 +197,11 @@ const SettingsPageContainer = () => {
 
   return (
     <Layout>
-      <AnalyticsContext properties={{ origin: 'settings' }}>{currentUser.login ? <PrivacyNotificationsTab /> : null}</AnalyticsContext>
+      {currentUser.login ? (
+        <AnalyticsContext properties={{ origin: 'settings' }}>
+          <PrivacyNotificationsTab />
+        </AnalyticsContext>
+      ) : <div></div>}
     </Layout>
   );
 };
