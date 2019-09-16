@@ -14,6 +14,10 @@ const SwitchBody = styled.label`
   ${({ active }) => active ? css`
     color: var(--colors-success-text);
     background-color: var(--colors-success-background);
+    &:after {
+      content: "";
+      
+    }
   ` : css`
     color: var(--colors-inactive-text);
     background-color: var(--colors-inactive-background);
