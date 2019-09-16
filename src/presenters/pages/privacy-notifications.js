@@ -251,11 +251,21 @@ const AddMutedProject = () => {
     onClose();
   };
 
+  const ownProjectIDs = React.useMemo(() => {
+    const ids = new Set()
+    currentUser.projects.forEach(p => ids.add(p.id))
+    return ids
+  }, [currentUser.projects])
+  
+  const mutedProjectIDs = React.useMemo(
+  
   const projects = React.useMemo(() => {
     const includeIDs = new Set()
+    const excludeIDs = new Set()
     currentUser.projects.forEach(p => includeIDs.add(p.id))
+    mutedProjects.
     return results.projects.filter(p => includeIDs.has(p.id))
-  }, [results.projects, currentUser.projects])
+  }, [results.projects, currentUser.projects, mutedProjects])
 
   return (
     <Popover
