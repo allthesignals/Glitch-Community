@@ -12,12 +12,16 @@ const SwitchBody = styled.label`
   position: relative;
   border-radius: 8px;
   border: 2px solid var(--colors-primary);
+  font-size: var(--sizes-small);
+  padding: var(--space-1) var(--s)
   ${({ active }) => active ? css`
     color: var(--colors-success-text);
     background-color: var(--colors-success-background);
+  
     &:after {
       content: "";
-      background-color: white;
+      background-color: var(--colors-background);
+      width: 
     }
   ` : css`
     color: var(--colors-inactive-text);
