@@ -28,6 +28,9 @@ const SwitchBody = styled.label`
           background-color: var(--colors-success-background);
           &:after {
             content: '';
+            position: absolute;
+            top: 0;
+            right: 0
             border-radius: 100%;
             background-color: var(--colors-background);
             height: var(--space-3);
