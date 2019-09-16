@@ -31,8 +31,8 @@ const SwitchBody = styled.label`
     top: 0;
     border-radius: var(--space-2);
     background-color: var(--colors-background);
-    height: calc(var(--space-3) - 2);
-    width: calc(var(--space-3) - 2);
+    height: calc(var(--space-3) - 2px);
+    width: calc(var(--space-3) - 2px);
   }
   ${({ active }) =>
     active
@@ -45,8 +45,8 @@ const SwitchBody = styled.label`
           }
         `
       : css`
-          color: var(--colors-inactive-text);
-          background-color: var(--colors-inactive-background);
+          color: var(--colors-tertiary-text);
+          background-color: var(--colors-tertiary-background);
           padding-left: var(--space-3);
           &:after {
             left: 0;
