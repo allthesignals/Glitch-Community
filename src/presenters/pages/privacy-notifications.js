@@ -213,7 +213,7 @@ const SettingsPageLayout = styled.div`
 
 const SettingsPageLinks = styled.div`
   width: 300px;
-  padding-right: var(--space-2)
+  padding-right: var(--space-2);
   margin-right: var(--space-2);
   border-right: 1px solid var(--colors-border);
 `;
