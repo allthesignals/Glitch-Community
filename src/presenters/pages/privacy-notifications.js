@@ -65,15 +65,16 @@ const Switch = ({ value, onChange }) => (
 
 // preference item (goes to src/components ?)
 
+const PreferenceListBody = styled.ul`
+  
+`
+
+
 const PreferenceItemWrap = styled.label`
   display: flex;
   align-items: flex-start;
   border-top: 1px solid var(--colors-border);
   color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-disabled)')};
-  padding-bottom: var(--space-1);
-  &:first-child {
-    border-top: none;
-  }
 `;
 
 const PreferenceItemContent = styled.div`
