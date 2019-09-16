@@ -14,7 +14,7 @@ export const { reducer, actions } = createSlice({
     mutedUsers: [],
     mutedProjects: [],
   },
-  reducer: {
+  reducers: {
     setPrivacyMaster,
     setNotificationsMaster,
     setOption,
@@ -23,6 +23,9 @@ export const { reducer, actions } = createSlice({
     unmuteProject,
     unmuteUser,
   },
+  extraReducers: {
+    
+  }
 });
 
 // APIs go here, once they're available
