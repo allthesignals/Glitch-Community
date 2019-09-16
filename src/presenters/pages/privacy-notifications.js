@@ -216,7 +216,18 @@ const AddMutedUser = ({ onClose }) => {
       <Title onClose={onClose}>Mute User</Title>
       <SearchResults label="search for users">
         {({ item, buttonProps }) => (
-        
+          <PreferenceItemWrap active>
+            <UserAvatar user={user} />
+            <PreferenceItemContent>
+              <Button as="a" href={getUserLink(user)}>
+                {user.name}
+              </Button>
+              <PreferenceItemDescription>@{user.login}</PreferenceItemDescription>
+            </PreferenceItemContent>
+            <Button variant="secondary" onClick={() => onUnmute(user)}>
+              Unmute
+            </Button>
+          </PreferenceItemWrap>
         )}
       </SearchResults>
     </>
