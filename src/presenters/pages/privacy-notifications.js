@@ -233,7 +233,7 @@ const AddMutedUser = () => {
   const [query, setQuery] = React.useState('');
   const [selectedUserID, setSelectedUserID] = React.useState(null);
   const debouncedQuery = useDebouncedValue(query, 200);
-  const results = useAlgoliaSearch(query, { filterTypes: ['user'] });
+  const results = useAlgoliaSearch(debouncedQuery, { filterTypes: ['user'] });
 
   const muteUserAndClosePopover = (user, onClose) => {
     dispatch(actions.muteUser(user));
@@ -263,7 +263,7 @@ const AddMutedUser = () => {
               <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
                 <UserAvatar user={user} />
                 <ResultInfo>
-                  <ResultName>{user.name}</ResultName>
+                  <ResultName>{user.name || `@${}`}</ResultName>
                   <ResultDescription>@{user.login}</ResultDescription>
                 </ResultInfo>
               </ResultItem>
