@@ -5,6 +5,8 @@ import { Icon } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 
+// TODO: handshake icon
+
 // TODO: redux state
 const usePrivacyNotificationsSettings = () => ({
   privacyMaster: true,
@@ -57,8 +59,13 @@ const privacyOptions = [
 const notificationOptions = [
   { id: 'notifyRemixActivity', title: 'New remixes of your projects', icon: 'microphone' },
   { id: 'notifyCollectionActivity', title: 'New collections containing your projects', icon: 'framedPicture' },
-  { id: 'notifyProjectUserActivity', title: 'Users joining your projects', icon: }
-]
+  {
+    id: 'notifyProjectUserActivity',
+    title: 'Users joining your projects',
+    icon: 'handshake',
+    description: 'Users can only join your project if they are invited or if they are a member of your team.',
+  },
+];
 
 const PrivacyNotificationsTab = () => {
   const settings = usePrivacyNotificationsSettings();
@@ -94,10 +101,20 @@ const PrivacyNotificationsTab = () => {
             Notifications <Switch value={settings.notificationsMaster} onChange={(value) => dispatch(actions.setNotificationsMaster(value))} />
           </PreferencesTitle>
         </PreferencesHeader>
+        <PreferencesList active={settings.notificationsMaster}>
+          {notificationOptions.map((opt) => (
+            <PreferenceItem
+              key={opt.id}
+              value={settings[opt.id]}
+              onChange={(value) => dispatch(actions.setOption(opt.id, value))}
+              title={opt.title}
+              description={opt.description}
+            />
+          ))}
+        </PreferencesList>
       </section>
     </section>
   );
-      
 };
 
 // TODO: does this page already exist?
