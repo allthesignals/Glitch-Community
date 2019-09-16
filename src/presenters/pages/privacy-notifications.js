@@ -66,8 +66,9 @@ const PreferencesDescription = styled.p`
 const PreferencesSubtitle = styled.p`
   font-size: var(-sizes-tiny);
 `;
-const PreferencesList = styled.ul`
-
+const PreferencesList = styled.div`
+  opacity: ${({ active }) => active ? 1 : 0.5};
+  inpuit
 `
 
 const privacyOptions = [
