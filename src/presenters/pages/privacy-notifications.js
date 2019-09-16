@@ -398,9 +398,11 @@ const notificationOptions = [
 
 const PrivateProjectNote = styled.p`
   border-radius: var(--rounded);
+  font-size: var(--fontSizes-smaller);
   padding: var(--space-2);
   color: var(--colors-private-text);
   background-color: var(--colors-private-background);
+  margin: var(--space-2) 0;
 `
 
 const PrivacyNotificationsTab = () => {
@@ -443,7 +445,7 @@ const PrivacyNotificationsTab = () => {
           onChange={(id, value) => dispatch(actions.setOption({ id, value }))}
         />
         <PrivateProjectNote>
-          You can always make a project private if you want to rpevent
+          You can always make a project private if you want to prevent others from remixing or adding it to their collections.
         </PrivateProjectNote>
       </section>
       <section>
