@@ -395,7 +395,6 @@ const notificationOptions = [
   },
 ];
 
-
 const PrivateProjectNote = styled.p`
   border-radius: var(--rounded);
   font-size: var(--fontSizes-smaller);
@@ -403,7 +402,7 @@ const PrivateProjectNote = styled.p`
   color: var(--colors-private-text);
   background-color: var(--colors-private-background);
   margin: var(--space-2) 0;
-`
+`;
 
 const PrivacyNotificationsTab = () => {
   const settings = usePrivacyNotificationsSettings();
