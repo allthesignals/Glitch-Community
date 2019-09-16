@@ -235,7 +235,7 @@ const AddMutedUser = () => {
   const debouncedQuery = useDebouncedValue(query, 200);
   const results = useAlgoliaSearch(query, { filterTypes: ['user'] });
 
-  const muteUserAndClosePopover = (user) => {
+  const muteUserAndClosePopover = (user, onClose) => {
     dispatch(actions.muteUser(user));
     onClose();
   };
@@ -252,15 +252,15 @@ const AddMutedUser = () => {
         </Button>
       )}
     >
-      {({ onClose, focusedONMount }) => (
+      {({ onClose, focusedOnMount }) => (
         <PopoverContainer>
           <Title onClose={onClose}>Mute User</Title>
           <Info>
-            <TextInput type="search" variant="opaque" label="search for users" value={query} onChange={setQuery} />
+            <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for users" value={query} onChange={setQuery} />
           </Info>
           <ResultsList scroll value={selectedUserID} onChange={setSelectedUserID} options={users}>
             {({ item: user, buttonProps }) => (
-              <ResultItem onClick={() => muteUserAndClosePopover(user, on)} {...buttonProps}>
+              <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
                 <UserAvatar user={user} />
                 <ResultInfo>
                   <ResultName>{user.name}</ResultName>
