@@ -47,6 +47,11 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
   </PreferenceItemWrap>
 );
 
+const PreferencesHeader = styled.h3`
+  font-weight: bold;
+  font-size: var(--sizes-normal);
+`
+
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
   {
