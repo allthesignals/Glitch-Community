@@ -73,25 +73,25 @@ const PreferenceListBody = styled.ul`
     border-top: 1px solid var(--colors-border);
     padding: 0 var(--space-2);
   }
-`
+`;
 
-const PreferenceList = ({ options, value, onChange }) => (
+const PreferenceList = ({ active, options, value, onChange }) => (
   <PreferenceListBody>
-          {options.map((opt) => (
-            <li key={opt.id}>
-              <PreferenceItem
-                key={opt.id}
-                value={value[opt.id]}
-                onChange={(value) => onChange(opt.id, value)}
-                title={opt.title}
-                description={opt.description}
-                icon={opt.icon}
-                active={settings.notificationsMaster}
-              />
-          </li>
-            ))}
-        </PreferenceListBody>
-)
+    {options.map((opt) => (
+      <li key={opt.id}>
+        <PreferenceItem
+          key={opt.id}
+          value={value[opt.id]}
+          onChange={(value) => onChange(opt.id, value)}
+          title={opt.title}
+          description={opt.description}
+          icon={opt.icon}
+          active={active}
+        />
+      </li>
+    ))}
+  </PreferenceListBody>
+);
 
 const PreferenceItemWrap = styled.label`
   display: flex;
@@ -109,7 +109,6 @@ const PreferenceItemTitle = styled.h4`
   font-size: var(--fontSizes-normal);
   font-weight: normal;
   margin: 0;
-  
 `;
 
 const PreferenceItemDescription = styled.p`
@@ -155,7 +154,7 @@ const PreferencesDescription = styled.p`
 
 const TabTitle = styled.h2`
   font-size: var(--fontSizes-bigger);
-`
+`;
 
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
@@ -197,7 +196,12 @@ const PrivacyNotificationsTab = () => {
             Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
           </PreferencesDescription>
         </PreferencesHeader>
-        <PreferenceList active={settings.privacyMaster} options={privacyOptions} onChange={(id, value) => dispatch(actions.setOption(id, value))} />
+        <PreferenceList
+          value={settings}
+          active={settings.privacyMaster}
+          options={privacyOptions}
+          onChange={(id, value) => dispatch(actions.setOption(id, value))}
+        />
       </section>
       <section>
         <PreferencesHeader>
@@ -206,7 +210,12 @@ const PrivacyNotificationsTab = () => {
           </PreferencesTitle>
           <PreferencesDescription>Notifications on Glitch.com let you know about activity on your projects.</PreferencesDescription>
         </PreferencesHeader>
-        <PreferenceList active={settings.notificationsMaster} options={notificationOptions} onChange={(id, value) => dispatch(actions.setOption(id, value))} />
+        <PreferenceList
+          value={settings}
+          active={settings.notificationsMaster}
+          options={notificationOptions}
+          onChange={(id, value) => dispatch(actions.setOption(id, value))}
+        />
       </section>
     </section>
   );
@@ -226,7 +235,7 @@ const SettingsPageLinks = styled.div`
 const SettingsPageContentWrap = styled.div`
   padding-left: var(--space-2);
   flex: 1 0 auto;
-`
+`;
 
 const SettingsPage = () => (
   <SettingsPageLayout>
