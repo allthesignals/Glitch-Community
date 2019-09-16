@@ -29,7 +29,7 @@ const PreferenceTitle = styled.h4`
 `;
 
 const PreferenceDescription = styled.p`
-  font-size: var(--sizes-small);
+  font-size: var(--sizes-tiny);
   margin: 0;
 `;
 
@@ -60,7 +60,9 @@ const PrivacyNotificationsTab = () => {
         </PreferencesDescription>
       </PreferencesHeader>
       <div>
-        <Pre
+        <PreferenceItem ttile="Remix Activity" icon="microphone" description="Notificy project owners when you remix their projects" 
+          
+          />
       </div>
     </section>
   );
