@@ -212,8 +212,11 @@ const AddMutedProject = () => {
 
 const AddMutedUser = ({ onClose }) => {
   const dispatch = useDispatch()
-  const [query, setQuery] = useState('')
-  const results = useAlgoliaSearch()
+  const [query, setQuery] = React.useState('')
+  const results = useAlgoliaSearch(query, { filterTypes: ['user'] })
+  
+  const users = useMemo(() => results)
+  
   
   return (
     <>
