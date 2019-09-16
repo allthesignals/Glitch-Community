@@ -263,8 +263,8 @@ const AddMutedProject = () => {
     return ids;
   }, [mutedProjects]);
 
-  const projects = React.useMemo(() => results.projects.filter((p) => ownProjectIDs.has(p.id) && !mutedProjectIDs.has(p.id)), [
-    results.projects,
+  const projects = React.useMemo(() => results.project.filter((p) => ownProjectIDs.has(p.id) && !mutedProjectIDs.has(p.id)), [
+    results.project,
     ownProjectIDs,
     mutedProjectIDs,
   ]);
@@ -311,6 +311,7 @@ const AddMutedProject = () => {
 };
 
 const AddMutedUser = () => {
+  const { mutedUsers } = usePrivacyNotificationsSettings();
   const dispatch = useDispatch();
   const { currentUser } = useCurrentUser();
   const [query, setQuery] = React.useState('');
@@ -323,8 +324,17 @@ const AddMutedUser = () => {
     onClose();
   };
 
-  // TODO: filter out already muted users
-  const users = results.user;
+  const mutedUserIDs = React.useMemo(() => {
+    const ids = new Set();
+    mutedUsers.forEach((p) => ids.add(p.id));
+    return ids;
+  }, [mutedUsers]);
+
+  const users = React.useMemo(() => results.user.filter((u) => !mutedUsers.has(u.id) && mutedUsers.id !== currentUser.id), [
+    results.user,
+    mutedUsers,
+    currentUser.id,
+  ]);
 
   return (
     <Popover
