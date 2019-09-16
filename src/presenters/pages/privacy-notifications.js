@@ -127,8 +127,6 @@ const PreferencesDescription = styled.p`
   font-size: var(--fontSizes-small);
 `;
 
-
-
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
   {
@@ -211,12 +209,14 @@ const PrivacyNotificationsTab = () => {
 // TODO: what should this look like on mobile?
 const SettingsPageLayout = styled.div`
   display: flex;
-`
+`;
 
 const SettingsPageLinks = styled.div`
-  
-`
-
+  width: 300px;
+  padding-right: var(--space-2)
+  margin-right: var(--space-2);
+  border-right: 1px solid var(--colors-border);
+`;
 
 // TODO: does this page already exist?
 const SettingsPage = () => (
@@ -224,8 +224,7 @@ const SettingsPage = () => (
     <SettingsPageLinks />
     <PrivacyNotificationsTab />
   </SettingsPageLayout>
-)
-
+);
 
 const SettingsPageContainer = () => {
   const { currentUser } = useCurrentUser();
