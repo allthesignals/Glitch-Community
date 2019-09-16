@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Icon } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { useCurrentUser } from 'State/current-user';
-import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
+import { AnalyticsContext } from 'State/segment-analytics';
 
 // TODO: handshake icon
 
