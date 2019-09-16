@@ -70,11 +70,10 @@ const PreferenceListBody = styled.ul`
   padding: 0;
   list-style-type: none;
   & > * {
-
+    padding: var(--space-2) 0;
   }
   & > * + * {
     border-top: 1px solid var(--colors-border);
-    padding: var(--space-2);
   }
 `;
 
