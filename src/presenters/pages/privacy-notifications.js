@@ -227,10 +227,24 @@ const PrivacyNotificationsTab = () => {
             You will not receive notifications of activity on any muted projects.
           </PreferencesDescription>
           <PopoverMenu align="right" renderLabel={(props) => <Button variant="secondary" {...props}>Add Project</Button>}>
-            {({ onClose }) => <MuteProject onClose={onClose} />}
+            {({ onClose }) => <AddMutedProject onClose={onClose} />}
           </PopoverMenu>
         </PreferencesHeader>
         <MutedProjects projects={settings.mutedProjects} onUnmute={(project) => dispatch(actions.unmuteProject(project))} />
+      </section>
+      <section>
+        <PreferencesHeader>
+          <PreferencesTitle>
+            Muted Users
+          </PreferencesTitle>
+          <PreferencesDescription>
+            You will not receive notifications from any of these users.
+          </PreferencesDescription>
+          <PopoverMenu align="right" renderLabel={(props) => <Button variant="secondary" {...props}>Add User</Button>}>
+            {({ onClose }) => <AddMutedUser onClose={onClose} />}
+          </PopoverMenu>
+        </PreferencesHeader>
+        <MutedUsers users={settings.mutedUsers} onUnmute={(user) => dispatch(actions.unmuteUser(user))} />
       </section>
     </section>
   );
