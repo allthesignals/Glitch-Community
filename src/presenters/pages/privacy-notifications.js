@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Layout from 'Components/layout';
+import { Icon } from '@fogcreek'
 import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 
 const PreferenceItemWrap = styled.label`
@@ -29,7 +30,6 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
     <input type="checkbox" checked={value} onChange={(e) => onChange(e.target.checked)} />
   </PreferenceItemWrap>
 );
-
 
 
 // TODO: does this page already exist?
