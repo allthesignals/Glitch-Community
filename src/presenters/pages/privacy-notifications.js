@@ -233,7 +233,7 @@ const AddMutedUser = ({ onClose }) => {
       <Info>
         <TextInput label="search for users" value={debouncedQuery} onChange={setQuery} />
       </Info>
-      <ResultsList value={debouncedQuery} onChange={s}>
+      <ResultsList scroll value={selectedUserID} onChange={setSe}>
       
       </ResultsList>  
         <SearchResults label="search for users"  options={users}>
