@@ -13,11 +13,13 @@ const usePrivacySettings = () => ({
 const actions = {}
 
 
-const PreferencesList = styled.div``
-
 const PreferenceItemWrap = styled.label`
   display: flex;
   align-items: flex-start;
+  border-top: 1px solid var(--colors-border);
+  &:first-child {
+    border-top: none;
+  }
 `;
 
 const PreferenceTitle = styled.h4`
@@ -57,6 +59,9 @@ const PrivacyNotificationsTab = () => {
           Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
         </PreferencesDescription>
       </PreferencesHeader>
+      <div>
+        <Pre
+      </div>
     </section>
   );
 };
