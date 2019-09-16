@@ -206,22 +206,20 @@ const TabTitle = styled.h2`
 
 // popovers
 
-const AddMutedProject = () => {
-  
-}
+const AddMutedProject = () => {};
 
 const AddMutedUser = ({ onClose }) => {
-  const dispatch = useDispatch()
-  const [query, setQuery] = React.useState('')
-  const results = useAlgoliaSearch(query, { filterTypes: ['user'] })
-  
-  const users = useMemo(() => results)
-  
-  
+  const dispatch = useDispatch();
+  const [query, setQuery] = React.useState('');
+  const results = useAlgoliaSearch(query, { filterTypes: ['user'] });
+
+  // TODO: filter out already muted users
+  const users = results.user;
+
   return (
     <>
       <Title onClose={onClose}>Mute User</Title>
-      <SearchResults label="search for users" query={query} setQuery={setQuery} options={results.user}>
+      <SearchResults label="search for users" query={query} setQuery={setQuery} options={users}>
         {({ item: user, buttonProps }) => (
           <PreferenceItemWrap active>
             <UserAvatar user={user} />
@@ -238,10 +236,8 @@ const AddMutedUser = ({ onClose }) => {
         )}
       </SearchResults>
     </>
-  )
-  
-}
-
+  );
+};
 
 // settings page
 
