@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 export const { reducer, actions } = createSlice({
   slice: 'privacyAndNotificationSettings',
   initialState: {
-    status: 'init', // init | loading | true
+    status: 'init', // init | loading | ready
     privacyMaster: true,
     notificationsMaster: true,
     shareRemixActivity: false,
@@ -16,12 +16,10 @@ export const { reducer, actions } = createSlice({
     mutedProjects: [],
   },
   reducers: {
-    requestedLoad: (state) => {
-      
-    }
-    loadedFromAPI,
-    setPrivacyMaster,
-    setNotificationsMaster,
+    requestedLoad: (state) => ({ ...state, status: 'loading' }),
+    loadedFromAPI: (_, { payload }) => ({ ...payload, status: 'ready' }),
+    setPrivacyMaster: (state, { payload }) => ({ ...state, privacyMaster: payload }),
+    setNotificationsMaster: (state, { payload }) => ({ ...state, privacyMaster: payload }),
     setOption,
     muteProject,
     muteUser,
