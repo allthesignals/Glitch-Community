@@ -6,20 +6,11 @@ import Layout from 'Components/layout';
 import { getProjectLink } from 'State/project';
 import { getUserLink } from 'State/user';
 import { useCurrentUser } from 'State/current-user';
+import { actions, usePrivacyNotificationsSettings } from 'State/privacy-notifications'
 
 // TODO: handshake icon
 
 // TODO: fix shared components docs: PopoverMenu -> Popover
-
-// TODO: redux state
-const usePrivacyNotificationsSettings = () => ({
-  privacyMaster: true,
-  notificationsMaster: true,
-  mutedUsers: [],
-  mutedProjects: [],
-});
-
-const actions = {};
 
 // switch component (goes to shared components?)
 
