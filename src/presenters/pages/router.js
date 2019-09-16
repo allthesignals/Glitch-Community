@@ -173,6 +173,8 @@ const Router = () => {
         <Route path="/secret" exact render={({ location }) => <SecretPage key={location.key} />} />
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
+        
+        <Route path="/settings" exact render={() => <SettingsPage />} />
 
         {EXTERNAL_ROUTES.map((route) => (
           <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />
