@@ -15,6 +15,7 @@ export const { reducer, actions } = createSlice({
     mutedProjects: [],
   },
   reducers: {
+    loadedSettingsFromAPI,
     setPrivacyMaster,
     setNotificationsMaster,
     setOption,
@@ -23,14 +24,15 @@ export const { reducer, actions } = createSlice({
     unmuteProject,
     unmuteUser,
   },
-  // 
+  // we should respond to current user's login/logout actions
   extraReducers: {
     // actions 
   }
 });
 
 // APIs go here, once they're available
-export const handlers = {};
+export const handlers = {}
+;
 
 export const usePrivacyNotificationsSettings = () => ({
   privacyMaster: true,
