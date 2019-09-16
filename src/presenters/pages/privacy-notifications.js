@@ -154,9 +154,10 @@ const MutedUsers = ({ users, onUnmute }) => (
         <PreferenceItemWrap active>
           <UserAvatar user={user} />
           <PreferenceItemContent>
-            <Button as="a" href={getProjectLink(project)}>{}</Button>
+            <Button as="a" href={getUserLink(user)}>{user.name}</Button>
+            <PreferenceItemDescription>@{user.login}</PreferenceItemDescription>
           </PreferenceItemContent>
-          <Button variant="secondary" onClick={() => onUnmute(project)}>Unmute</Button>
+          <Button variant="secondary" onClick={() => onUnmute(user)}>Unmute</Button>
         </PreferenceItemWrap>
       </li>
     ))}
