@@ -12,7 +12,7 @@ const SwitchBody = styled.label`
   position: relative;
   border-radius: var(--space-2);
   border: 2px solid var(--colors-primary);
-  font-size: var(--sizes-small);
+  font-size: var(--fontSizes-small);
   padding: var(--space-1) var(--space-2);
   ${({ active }) => active ? css`
     color: var(--colors-success-text);
@@ -70,13 +70,13 @@ const PreferenceItemWrap = styled.label`
 `;
 
 const PreferenceTitle = styled.h4`
-  font-size: var(--sizes-normal);
+  font-size: var(--fontSizes-normal);
   font-weight: normal;
   margin: 0 0 var(--space-1);
 `;
 
 const PreferenceDescription = styled.p`
-  font-size: var(--sizes-tiny);
+  font-size: var(--fontSizes-tiny);
   margin: 0;
 `;
 
@@ -98,17 +98,17 @@ const PreferencesHeader = styled.header`
 const PreferencesTitle = styled.h3`
   display: flex;
   font-weight: bold;
-  font-size: var(--sizes-normal);
+  font-size: var(--fontSizes-normal);
   margin: 0 0 var(--spaces-2);
 `;
 const PreferencesDescription = styled.p`
   display: flex;
   font-weight: normal;
-  font-size: var(--sizes-normal);
+  font-size: var(--fontSizes-normal);
   margin: 0 0 var(--spaces-2);
 `;
 const PreferencesSubtitle = styled.p`
-  font-size: var(-sizes-tiny);
+  font-size: var(--fontSizes-tiny);
 `;
 
 const privacyOptions = [
