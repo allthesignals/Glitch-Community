@@ -209,10 +209,20 @@ const PrivacyNotificationsTab = () => {
 };
 
 
-const SettI
+const SettingsPageLayout = styled.div`
+  display: flex;
+`
 
 
 // TODO: does this page already exist?
+const SettingsPage = () => (
+  <SettingsPageLayout>
+    <SettingsPageLinks />
+    <PrivacyNotificationsTab />
+  </SettingsPageLayout>
+)
+
+
 const SettingsPageContainer = () => {
   const { currentUser } = useCurrentUser();
 
@@ -220,7 +230,7 @@ const SettingsPageContainer = () => {
     <Layout>
       {currentUser.login ? (
         <AnalyticsContext properties={{ origin: 'settings' }}>
-          <PrivacyNotificationsTab />
+          <SettingsPage />
         </AnalyticsContext>
       ) : (
         <div />
