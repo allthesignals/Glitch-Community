@@ -65,9 +65,6 @@ const PreferenceListBody = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
-  & > * {
-    padding: var(--space-2) 0;
-  }
   & > * + * {
     border-top: 1px solid var(--colors-border);
   }
@@ -94,6 +91,7 @@ const PreferenceList = ({ active, options, value, onChange }) => (
 const PreferenceItemWrap = styled.label`
   display: flex;
   align-items: flex-start;
+  padding: var(--space-2) 0;
   color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-placeholder)')};
 `;
 
