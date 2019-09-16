@@ -83,7 +83,9 @@ const PrivacyNotificationsTab = () => {
       </section>
       <section>
         <PreferencesHeader>
-        
+          <PreferencesTitle>
+            Notifications <Switch value={privacySettings.notificationsMaster} onChange={(value) => dispatch(actions.setNotificationsMaster(value))} />
+          </PreferencesTitle>
         </PreferencesHeader>
       </section>
     </section>
