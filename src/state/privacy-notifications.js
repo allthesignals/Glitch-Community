@@ -59,11 +59,11 @@ export const handlers = {
 };
 
 export const usePrivacyNotificationsSettings = () => {
-  const state = useSelector((state) => state.privacyAndNotificationSettings);
+  const settings = useSelector((state) => state.privacyAndNotificationSettings);
   const dispatch = useDispatch();
   // TODO: should this be done once on page mount instead of like this?
-  if (state.status === 'init') {
+  if (settings.status === 'init') {
     dispatch(actions.requestedLoad());
   }
-  return state;
+  return settings;
 };

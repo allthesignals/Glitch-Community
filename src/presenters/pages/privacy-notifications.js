@@ -256,9 +256,7 @@ const AddMutedProject = () => {
     return ids;
   }, [mutedProjects]);
 
-  const queryRegex = React.useMemo(() => {
-    return new RegExp(query.trim().toLowerCase(), 'i');
-  }, [debouncedQuery]);
+  const queryRegex = React.useMemo(() => new RegExp(query.trim().toLowerCase(), 'i'), [debouncedQuery]);
 
   const projects = React.useMemo(
     () =>
