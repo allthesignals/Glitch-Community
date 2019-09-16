@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Icon } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
@@ -32,7 +32,10 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
   </PreferenceItemWrap>
 );
 
-const 
+const PrivacyNotificationsTab = () => {
+  const 
+  const dispatch = useDispatch() 
+}
 
 
 
