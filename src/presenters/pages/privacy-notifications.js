@@ -70,7 +70,7 @@ const PreferenceItemWrap = styled.label`
   align-items: flex-start;
   border-top: 1px solid var(--colors-border);
   color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-disabled)')};
-  padding: var(--space-1) 0;
+  padding-bottom: var(--space-1);
   &:first-child {
     border-top: none;
   }
@@ -84,12 +84,13 @@ const PreferenceItemContent = styled.div`
 const PreferenceItemTitle = styled.h4`
   font-size: var(--fontSizes-normal);
   font-weight: normal;
-  margin: 0 0 var(--space-1);
+  margin: 0;
+  
 `;
 
 const PreferenceItemDescription = styled.p`
   font-size: var(--fontSizes-tiny);
-  margin: 0;
+  margin: var(--space-1) 0 0;
 `;
 
 const PreferenceItem = ({ icon, title, description, active, value, onChange }) => (
