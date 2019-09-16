@@ -38,16 +38,17 @@ const PrivacyNotificationsTab = () => {
   
   return (
     <section>
-      <header>
+      <PreferencesHeader>
         <h3>Privacy</h3>
-        <p>
+        <PreferencesSubtitle>
           Activity Sharing
           {" "}
           <Switch value={privacySettings.privacyMaster} onChange={(value) => dispatch(actions.setPrivacyMaster(value))} /> 
-        </p>
-        <
-      </header>
-      
+        </PreferencesSubtitle>
+        <PreferencesDescription>
+          Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
+        </PreferencesDescription>
+      </ PreferencesHeader>
       <
       
     </section>
