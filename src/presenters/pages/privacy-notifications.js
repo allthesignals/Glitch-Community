@@ -70,7 +70,7 @@ const PreferenceItemWrap = styled.label`
   align-items: flex-start;
   border-top: 1px solid var(--colors-border);
   color: ${({ active }) => (active ? 'var(--colors-primary)' : 'var(--colors-disabled)')};
-  padding: var(--space-2) 0;
+  padding: var(--space-1) 0;
   &:first-child {
     border-top: none;
   }
@@ -125,7 +125,7 @@ const PreferencesSubtitle = styled.p`
 `;
 const PreferencesDescription = styled.p`
   font-size: var(--fontSizes-small);
-  margin
+  margin: 0 0 var(--space-1);
 `;
 
 const TabTitle = styled.h2`
