@@ -214,7 +214,7 @@ const AddMutedUser = ({ onClose }) => {
   return (
     <>
       <Title onClose={onClose}>Mute User</Title>
-      <SearchResults label="search for users">
+      <SearchResults label="search for users" {...searchParams}>
         {({ item: user, buttonProps }) => (
           <PreferenceItemWrap active>
             <UserAvatar user={user} />
@@ -224,7 +224,7 @@ const AddMutedUser = ({ onClose }) => {
               </Button>
               <PreferenceItemDescription>@{user.login}</PreferenceItemDescription>
             </PreferenceItemContent>
-            <Button variant="secondary" onClick={() => onMut(user)}>
+            <Button variant="secondary" onClick={() => dispatch(actions.muteUser(user))} {...buttonProps}>
               Mute
             </Button>
           </PreferenceItemWrap>
