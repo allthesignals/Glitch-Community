@@ -16,7 +16,7 @@ const SwitchBody = styled.label`
     background-color: var(--colors-success-background);
   ` : css`
     color: var(--colors-inactive-text);
-    backgr
+    background-color: var(--colors-inactive-background);
   `}
 `
 
