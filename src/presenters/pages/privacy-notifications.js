@@ -121,10 +121,16 @@ const PrivacyNotificationsTab = () => {
 };
 
 // TODO: does this page already exist?
-const SettingsPageContainer = () => (
-  <Layout>
-    <AnalyticsContext properties={{ origin: 'settings' }}>
-      <PrivacyNotificationsTab />
-    </AnalyticsContext>
-  </Layout>
+const SettingsPageContainer = () => {
+  const currentUser = useCurrentUser();
+  
+  return (
+    <Layout>
+      <AnalyticsContext properties={{ origin: 'settings' }}>
+        {currentUser.<PrivacyNotificationsTab />
+      </AnalyticsContext>
+    </Layout>
+  )
+}
+  
 );

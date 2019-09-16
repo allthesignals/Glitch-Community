@@ -24,6 +24,7 @@ import SearchPage from './search';
 import SecretPage from './secret';
 import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
+import SettingsPage from './privacy-notifications';
 
 const parse = (search, name) => {
   const params = new URLSearchParams(search);
