@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { Icon, Popover, Button } from '@fogcreek/shared-components';
+import { Icon, Popover, Button, Title, SearchResults } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { ProjectAvatar, UserAvatar } from 'Components/images/avatar';
 import { getProjectLink } from 'Models/project';
@@ -89,7 +89,7 @@ const PreferenceList = ({ active, options, value, onChange }) => (
         <PreferenceItem
           key={opt.id}
           value={value[opt.id]}
-          onChange={(value) => onChange(opt.id, value)}
+          onChange={(val) => onChange(opt.id, val)}
           title={opt.title}
           description={opt.description}
           icon={opt.icon}
@@ -212,11 +212,11 @@ const AddMutedUser = ({ onClose }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = React.useState('');
   const results = useAlgoliaSearch(query, { filterTypes: ['user'] });
-  
+
   const muteUserAndClosePopover = (user) => {
-    dispatch(actions.muteUser(user))
-    onClose
-  }
+    dispatch(actions.muteUser(user));
+    onClose();
+  };
 
   // TODO: filter out already muted users
   const users = results.user;
