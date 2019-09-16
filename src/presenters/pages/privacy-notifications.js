@@ -227,9 +227,10 @@ const PrivacyNotificationsTab = () => {
             You will not receive notifications of activity on any muted projects.
           </PreferencesDescription>
           <PopoverMenu align="right" renderLabel={(props) => <Button variant="secondary" {...props}>Add Project</Button>}>
-            {({ onClose }) => }
+            {({ onClose }) => <MuteProject onClose={onClose} />}
           </PopoverMenu>
         </PreferencesHeader>
+        <
       </section>
     </section>
   );
