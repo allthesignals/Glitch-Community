@@ -203,6 +203,15 @@ const TabTitle = styled.h2`
   font-size: var(--fontSizes-bigger);
 `;
 
+// popovers
+
+const MutedProjects = () => {
+  
+}
+
+
+// settings page
+
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
   {
