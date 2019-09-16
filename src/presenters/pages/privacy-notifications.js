@@ -72,6 +72,7 @@ const PreferenceItemWrap = styled.label`
 
 const PreferenceItemContent = styled.div`
   flex: 1 0 auto;
+  padding: 0 var(--space-1);
 `
 
 const PreferenceItemTitle = styled.h4`
