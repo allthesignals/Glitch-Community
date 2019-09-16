@@ -43,8 +43,9 @@ const PrivacyNotificationsTab = () => {
         <p>
           Activity Sharing
           {" "}
-          <Switch value={privacySettings.privacyMaster} onChange={(v) => dispatch(actions)} /> 
+          <Switch value={privacySettings.privacyMaster} onChange={(value) => dispatch(actions.setPrivacyMaster(value))} /> 
         </p>
+        <
       </header>
       
       <
