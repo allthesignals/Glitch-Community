@@ -65,7 +65,7 @@ const Switch = ({ value, onChange }) => (
 
 // preference item (goes to src/components ?)
 
-const PreferenceList = styled.ul`
+const PreferencesListBody = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -179,12 +179,12 @@ const PrivacyNotificationsTab = () => {
             Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
           </PreferencesDescription>
         </PreferencesHeader>
-        <PreferenceList>
+        <PreferenceList options={privacyOptions} onChange={(value) => dispatch(actions.setOption(opt.id, value))} />
           {privacyOptions.map((opt) => (
             <li key={opt.id}>
               <PreferenceItem
                 value={settings[opt.id]}
-                onChange={(value) => dispatch(actions.setOption(opt.id, value))}
+                onChange=
                 title={opt.title}
                 description={opt.description}
                 icon={opt.icon}
@@ -201,21 +201,7 @@ const PrivacyNotificationsTab = () => {
           </PreferencesTitle>
           <PreferencesDescription>Notifications on Glitch.com let you know about activity on your projects.</PreferencesDescription>
         </PreferencesHeader>
-        <PreferenceList>
-          {notificationOptions.map((opt) => (
-            <li key={opt.id}>
-              <PreferenceItem
-                key={opt.id}
-                value={settings[opt.id]}
-                onChange={(value) => dispatch(actions.setOption(opt.id, value))}
-                title={opt.title}
-                description={opt.description}
-                icon={opt.icon}
-                active={settings.notificationsMaster}
-              />
-            ))}
-          </li>
-        </PreferenceList>
+        
       </section>
     </section>
   );
