@@ -206,7 +206,8 @@ const PrivacyNotificationsTab = () => {
   );
 };
 
-// TODO: what should this look like on mobile?
+// TODO: does this page already exist?
+// what should this layout look like on mobile?
 const SettingsPageLayout = styled.div`
   display: flex;
 `;
@@ -214,12 +215,13 @@ const SettingsPageLayout = styled.div`
 const SettingsPageLinks = styled.div`
   width: 300px;
   padding-right: var(--space-2);
-  margin-right: var(--space-2);
   border-right: 1px solid var(--colors-border);
 `;
-const SettingsPageContentWrap = styled.div``
+const SettingsPageContentWrap = styled.div`
+  padding-left: var(--space-2);
+  flex: 1 0 auto;
+`
 
-// TODO: does this page already exist?
 const SettingsPage = () => (
   <SettingsPageLayout>
     <SettingsPageLinks />
