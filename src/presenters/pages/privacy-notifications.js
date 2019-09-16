@@ -235,14 +235,14 @@ const ScrollResultsList = styled(ResultsList)`
   > ul {
     border: none;
   }
-`
+`;
 
 const AddMutedProject = () => {
   const { mutedProjects } = usePrivacyNotificationsSettings();
   const dispatch = useDispatch();
   const { currentUser } = useCurrentUser();
   const [query, setQuery] = React.useState('');
-  const [selectedUserID, setSelectedUserID] = React.useState(null);
+  const [selectedID, setSelectedID] = React.useState(null);
   const debouncedQuery = useDebouncedValue(query, 200);
   const results = useAlgoliaSearch(debouncedQuery, { filterTypes: ['project'] });
 
@@ -252,21 +252,22 @@ const AddMutedProject = () => {
   };
 
   const ownProjectIDs = React.useMemo(() => {
-    const ids = new Set()
-    currentUser.projects.forEach(p => ids.add(p.id))
-    return ids
-  }, [currentUser.projects])
-  
+    const ids = new Set();
+    currentUser.projects.forEach((p) => ids.add(p.id));
+    return ids;
+  }, [currentUser.projects]);
+
   const mutedProjectIDs = React.useMemo(() => {
-    const ids = new Set()
-    mutedProjects.forEach(p => ids.add(p.id))
-    return ids
-  }, [mutedProjects])
-  
-  const projects = React.useMemo(() => 
-    
-    results.projects.filter(p => ownProjectIDs.has(p.id) && !)
-  }, [results.projects, ownProjectIDs, mutedProjectIDs])
+    const ids = new Set();
+    mutedProjects.forEach((p) => ids.add(p.id));
+    return ids;
+  }, [mutedProjects]);
+
+  const projects = React.useMemo(() => results.projects.filter((p) => ownProjectIDs.has(p.id) && !mutedProjectIDs.has(p.id)), [
+    results.projects,
+    ownProjectIDs,
+    mutedProjectIDs,
+  ]);
 
   return (
     <Popover
@@ -281,20 +282,22 @@ const AddMutedProject = () => {
         <PopoverContainer>
           <Title onClose={onClose}>Mute User</Title>
           <Info>
-            <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for users" value={query} onChange={(q) => setQuery(q)} />
+            <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for projects" value={query} onChange={(q) => setQuery(q)} />
           </Info>
-          {users.length > 0 && <ScrollResultsList scroll value={selectedUserID} onChange={(id) => setSelectedUserID(id)} options={users}>
-            {({ item: user, buttonProps }) => (
-              <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
-                <UserAvatar user={user} />
-                <ResultInfo>
-                  <ResultName>{user.name || `@${user.login}`}</ResultName>
-                  {user.name ? <ResultDescription>@{user.login}</ResultDescription> : null}
-                </ResultInfo>
-              </ResultItem>
-            )}
-          </ScrollResultsList>}
-          {results.status === 'ready' && users.length === 0 && (
+          {projects.length > 0 && (
+            <ScrollResultsList scroll value={selectedID} onChange={(id) => setSelectedID(id)} options={projects}>
+              {({ item: project, buttonProps }) => (
+                <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
+                  <UserAvatar user={user} />
+                  <ResultInfo>
+                    <ResultName>{user.name || `@${user.login}`}</ResultName>
+                    {user.name ? <ResultDescription>@{user.login}</ResultDescription> : null}
+                  </ResultInfo>
+                </ResultItem>
+              )}
+            </ScrollResultsList>
+          )}
+          {results.status === 'ready' && projects.length === 0 && (
             <Actions>
               <p>
                 Nothing found <Icon icon="sparkles" />
@@ -337,17 +340,19 @@ const AddMutedUser = () => {
           <Info>
             <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for users" value={query} onChange={(q) => setQuery(q)} />
           </Info>
-          {users.length > 0 && <ScrollResultsList scroll value={selectedUserID} onChange={(id) => setSelectedUserID(id)} options={users}>
-            {({ item: user, buttonProps }) => (
-              <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
-                <UserAvatar user={user} />
-                <ResultInfo>
-                  <ResultName>{user.name || `@${user.login}`}</ResultName>
-                  {user.name ? <ResultDescription>@{user.login}</ResultDescription> : null}
-                </ResultInfo>
-              </ResultItem>
-            )}
-          </ScrollResultsList>}
+          {users.length > 0 && (
+            <ScrollResultsList scroll value={selectedUserID} onChange={(id) => setSelectedUserID(id)} options={users}>
+              {({ item: user, buttonProps }) => (
+                <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
+                  <UserAvatar user={user} />
+                  <ResultInfo>
+                    <ResultName>{user.name || `@${user.login}`}</ResultName>
+                    {user.name ? <ResultDescription>@{user.login}</ResultDescription> : null}
+                  </ResultInfo>
+                </ResultItem>
+              )}
+            </ScrollResultsList>
+          )}
           {results.status === 'ready' && users.length === 0 && (
             <Actions>
               <p>
