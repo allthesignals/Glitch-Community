@@ -12,6 +12,7 @@ import { AnalyticsContext } from 'State/segment-analytics';
 const usePrivacyNotificationsSettings = () => ({
   privacyMaster: true,
   notificationsMaster: true,
+  
 });
 
 const actions = {};
