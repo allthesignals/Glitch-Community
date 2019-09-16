@@ -45,8 +45,13 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
 
 const privacyOptions = [
   { id: 'notifyRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
-  { id: ''}
-]
+  {
+    id: 'notifyCollectionActivity',
+    title: 'Collection Activity',
+    description: 'Notify project owners when you add one of their projects to your collection',
+    icon: 'framedPicture',
+  },
+];
 
 const PrivacyNotificationsTab = () => {
   const privacySettings = usePrivacySettings();
@@ -63,9 +68,7 @@ const PrivacyNotificationsTab = () => {
           Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
         </PreferencesDescription>
       </PreferencesHeader>
-      <div>
-        {}
-      </div>
+      <div>{privacyOptions.map}</div>
     </section>
   );
 };
