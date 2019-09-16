@@ -210,11 +210,14 @@ const AddMutedProject = () => {
 }
 
 const AddMutedUser = ({ onClose }) => {
+  const dispatch = useDispatch()
   return (
     <>
       <Title onClose={onClose}>Mute User</Title>
-      <SearchResults>
+      <SearchResults label="search for users">
+        {({ item, buttonProps }) => (
         
+        )}
       </SearchResults>
     </>
   )
