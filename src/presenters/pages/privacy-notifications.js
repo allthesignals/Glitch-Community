@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Icon } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { useCurrentUser } from 'State/current-user';
@@ -11,6 +11,10 @@ import { AnalyticsContext } from 'State/segment-analytics';
 const SwitchBody = styled.label`
   border-radius: 8px;
   border: 2px solid var(--colors-primary);
+  ${({ active }) => active ? css`
+      color: 
+    `
+  })[active]}
 `
 
 const HiddenCheckbox = styled.input.attrs(() => ({ type: "checkbox" }))`
