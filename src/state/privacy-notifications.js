@@ -7,11 +7,11 @@ export const { reducer, actions } = createSlice({
     status: 'init', // init | loading | true
     privacyMaster: true,
     notificationsMaster: true,
-    shareRemixActivity,
-    shareCollectionActivity,
-    notifyRemixActivity,
-    notifyCollectionActivity,
-    notifyProjectUserActivity,
+    shareRemixActivity: false,
+    shareCollectionActivity: false,
+    notifyRemixActivity: false,
+    notifyCollectionActivity: false,
+    notifyProjectUserActivity: false,
     mutedUsers: [],
     mutedProjects: [],
   },
@@ -32,20 +32,14 @@ export const { reducer, actions } = createSlice({
   }
 });
 
-// APIs go here, once they're available
-export const handlers = {
-  
-};
+// API c go here, once they're available
+export const handlers = {};
 
 export const usePrivacyNotificationsSettings = () => {
   const state = useSelector(state => state.privacyAndNotificationSettings) 
+  const dispatch = useDispatch()
   if (state.status === 'init') {
     dispatch(actions.requestedLoad())
   }
-  
+  return state
 }
-  privacyMaster: true,
-  notificationsMaster: true,
-  mutedUsers: [],
-  mutedProjects: [],
-});
