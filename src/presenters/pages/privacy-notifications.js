@@ -210,7 +210,15 @@ const AddMutedProject = () => {
 }
 
 const AddMutedUser = ({ onClose }) => {
-  <Title></Title>
+  return (
+    <>
+      <Title onClose={onClose}>Mute User</Title>
+      <SearchResults>
+        
+      </SearchResults>
+    </>
+  )
+  
 }
 
 
