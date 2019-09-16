@@ -252,8 +252,9 @@ const AddMutedProject = () => {
 
   // TODO: filter out already muted projects
   const projects = React.useMemo(() => {
-    const u
-  }, [results.projects, currentUserr])
+    const ownIDs = new Set()
+    currentUser.
+  }, [results.projects, currentUser.projects])
 
   return (
     <Popover
