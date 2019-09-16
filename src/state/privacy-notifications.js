@@ -32,12 +32,17 @@ export const { reducer, actions } = createSlice({
   }
 });
 
-// API c go here, once they're available
-export const handlers = {};
+// API handlers go here, once they're available
+export const handlers = {
+  [actions.requestedLoad]: async () => {
+    
+  },
+};
 
 export const usePrivacyNotificationsSettings = () => {
   const state = useSelector(state => state.privacyAndNotificationSettings) 
   const dispatch = useDispatch()
+  // TODO: should this be done once on page mount instead of like this?
   if (state.status === 'init') {
     dispatch(actions.requestedLoad())
   }
