@@ -6,8 +6,9 @@ import Layout from 'Components/layout';
 import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 
 // TODO: redux state
-const usePrivacySettings = () => ({
+const usePrivacyNotificationsSettings = () => ({
   privacyMaster: true,
+  notificationsMaster: true,
 });
 
 const actions = {};
@@ -56,11 +57,11 @@ const privacyOptions = [
 const notificationOptions = [
   { id: 'notifyRemixActivity', title: 'New remixes of your projects', icon: 'microphone' },
   { id: 'notifyCollectionActivity', title: 'New collections containing your projects', icon: 'framedPicture' },
-  { id: 'notifyProjectUserActivity', title: 'New projects '}
+  { id: 'notifyProjectUserActivity', title: 'Users joining your projects', icon: }
 ]
 
 const PrivacyNotificationsTab = () => {
-  const settings = usePrivacyNotificationSettings();
+  const settings = usePrivacyNotificationsSettings();
   const dispatch = useDispatch();
 
   return (
