@@ -159,6 +159,7 @@ const PrivacyNotificationsTab = () => {
               onChange={(value) => dispatch(actions.setOption(opt.id, value))}
               title={opt.title}
               description={opt.description}
+              icon={opt.icon}
               active={settings.privacyMaster}
             />
           ))}
@@ -179,7 +180,8 @@ const PrivacyNotificationsTab = () => {
               onChange={(value) => dispatch(actions.setOption(opt.id, value))}
               title={opt.title}
               description={opt.description}
-              active={settings.privacyMaster}
+              icon={opt.icon}
+              active={settings.notificationsMaster}
             />
           ))}
         </div>
