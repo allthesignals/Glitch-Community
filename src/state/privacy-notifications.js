@@ -21,10 +21,18 @@ export const { reducer, actions } = createSlice({
     setPrivacyMaster: (state, { payload }) => ({ ...state, privacyMaster: payload }),
     setNotificationsMaster: (state, { payload }) => ({ ...state, notificationsMaster: payload }),
     setOption: (state, { payload: { id, value } }) => ({ ...state, [id]: value }),
-    muteProject,
-    muteUser,
-    unmuteProject,
-    unmuteUser,
+    muteProject: (state, { payload: project }) => {
+      state.mutedProjects.push(project)
+    },
+    muteUser: (state, { payload: user }) => {
+      state.mutedUsers.push(user)
+    },
+    unmuteProject: (state, { payload: user }) => {
+      state.mutedUsers.push(user)
+    },
+    unmuteUser: (state, { payload: user }) => {
+      state.mutedUsers.push(user)
+    },
   },
   // we should respond to current user's login/logout actions
   extraReducers: {
