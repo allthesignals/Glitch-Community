@@ -253,7 +253,8 @@ const AddMutedProject = () => {
   // TODO: filter out already muted projects
   const projects = React.useMemo(() => {
     const ownIDs = new Set()
-    currentUser.
+    currentUser.projects.forEach(p => ownIDs.add(p.id))
+    return results.projects.filter(p => !ownIDs.has(p.id))
   }, [results.projects, currentUser.projects])
 
   return (
