@@ -12,9 +12,12 @@ const SwitchBody = styled.label`
   ${({ active })}
 `
 
+const HiddenCheckbox = styled.input.attrs(() => ({ type: "checkbox" }))`
+`
+
 const Switch = ({ value, onChange }) => (
   <SwitchBody>
-    <HiddenCheckbox 
+    <HiddenCheckbox checked={value} onChange={(e) => onChange(e.target.checked)} />
   </SwitchBody>
 )
 
