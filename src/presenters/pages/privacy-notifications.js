@@ -25,7 +25,7 @@ const SwitchBody = styled.label`
   font-size: var(--fontSizes-small);
   padding: 0 var(--space-1);
   height: var(--space-3);
-  width: var(--space-4);
+  width: calc(var(--space-4) + var(--space-2));
   &:after {
     content: '';
     position: absolute;
