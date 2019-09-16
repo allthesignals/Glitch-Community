@@ -8,9 +8,20 @@ import { AnalyticsContext } from 'State/segment-analytics';
 
 // TODO: handshake icon
 
+// TODO: redux state
+const usePrivacyNotificationsSettings = () => ({
+  privacyMaster: true,
+  notificationsMaster: true,
+});
+
+const actions = {};
+
+
+// switch component (goes to shared components?)
+
 const SwitchBody = styled.label`
   position: relative;
-  border-radius: var(--space-1);
+  border-radius: var(--space-2);
   border: 2px solid var(--colors-primary);
   font-weight: bold;
   font-size: var(--fontSizes-small);
@@ -53,13 +64,7 @@ const Switch = ({ value, onChange }) => (
   </SwitchBody>
 );
 
-// TODO: redux state
-const usePrivacyNotificationsSettings = () => ({
-  privacyMaster: true,
-  notificationsMaster: true,
-});
-
-const actions = {};
+//
 
 const PreferenceItemWrap = styled.label`
   display: flex;
