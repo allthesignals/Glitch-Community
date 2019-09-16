@@ -247,7 +247,7 @@ const AddMutedUser = ({ onClose }) => {
     <PopoverContainer>
       <Title onClose={onClose}>Mute User</Title>
       <Info>
-        <TextInput type="search" variant="opaque" label="search for users" value={debouncedQuery} onChange={setQuery} />
+        <TextInput type="search" variant="opaque" label="search for users" value={query} onChange={setQuery} />
       </Info>
       <ResultsList scroll value={selectedUserID} onChange={setSelectedUserID} options={users}>
         {({ item: user, buttonProps }) => (
