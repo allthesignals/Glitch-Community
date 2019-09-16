@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Icon } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
+import { useCurrentUser } from 'State/current-user';
 import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 
 // TODO: handshake icon
@@ -100,9 +101,7 @@ const PrivacyNotificationsTab = () => {
           <PreferencesTitle>
             Notifications <Switch value={settings.notificationsMaster} onChange={(value) => dispatch(actions.setNotificationsMaster(value))} />
           </PreferencesTitle>
-          <PreferencesDescription>
-            Notifications on Glitch.com let you know about activity on your projects.
-          </PreferencesDescription>
+          <PreferencesDescription>Notifications on Glitch.com let you know about activity on your projects.</PreferencesDescription>
         </PreferencesHeader>
         <PreferencesList active={settings.notificationsMaster}>
           {notificationOptions.map((opt) => (
@@ -122,15 +121,11 @@ const PrivacyNotificationsTab = () => {
 
 // TODO: does this page already exist?
 const SettingsPageContainer = () => {
-  const currentUser = useCurrentUser();
-  
+  const {currentUser} = useCurrentUser();
+
   return (
     <Layout>
-      <AnalyticsContext properties={{ origin: 'settings' }}>
-        {currentUser.<PrivacyNotificationsTab />
-      </AnalyticsContext>
+      <AnalyticsContext properties={{ origin: 'settings' }}>{currentUser.login ? <PrivacyNotificationsTab /> : null}</AnalyticsContext>
     </Layout>
-  )
-}
-  
-);
+  );
+};
