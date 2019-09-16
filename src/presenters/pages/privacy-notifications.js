@@ -397,7 +397,7 @@ const notificationOptions = [
 
 const PrivateProjectNote = styled.p`
   border-radius: var(--rounded);
-  font-size: var(--fontSizes-smaller);
+  font-size: var(--fontSizes-small);
   padding: var(--space-2);
   color: var(--colors-private-text);
   background-color: var(--colors-private-background);
