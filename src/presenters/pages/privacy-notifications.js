@@ -60,7 +60,7 @@ const notificationOptions = [
 ]
 
 const PrivacyNotificationsTab = () => {
-  const privacySettings = usePrivacySettings();
+  const settings = usePrivacyNotificationSettings();
   const dispatch = useDispatch();
 
   return (
@@ -69,28 +69,28 @@ const PrivacyNotificationsTab = () => {
         <PreferencesHeader>
           <PreferencesTitle>Privacy</PreferencesTitle>
           <PreferencesSubtitle>
-            Activity Sharing <Switch value={privacySettings.privacyMaster} onChange={(value) => dispatch(actions.setPrivacyMaster(value))} />
+            Activity Sharing <Switch value={settings.privacyMaster} onChange={(value) => dispatch(actions.setPrivacyMaster(value))} />
           </PreferencesSubtitle>
           <PreferencesDescription>
             Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
           </PreferencesDescription>
         </PreferencesHeader>
-        <PreferencesList>
+        <PreferencesList active={settings.privacyMaster}>
           {privacyOptions.map((opt) => (
             <PreferenceItem
               key={opt.id}
-              value={privacySettings[opt.id]}
+              value={settings[opt.id]}
               onChange={(value) => dispatch(actions.setOption(opt.id, value))}
               title={opt.title}
               description={opt.description}
             />
           ))}
-        </div>
+        </PreferencesList>
       </section>
       <section>
         <PreferencesHeader>
           <PreferencesTitle>
-            Notifications <Switch value={privacySettings.notificationsMaster} onChange={(value) => dispatch(actions.setNotificationsMaster(value))} />
+            Notifications <Switch value={settings.notificationsMaster} onChange={(value) => dispatch(actions.setNotificationsMaster(value))} />
           </PreferencesTitle>
         </PreferencesHeader>
       </section>
