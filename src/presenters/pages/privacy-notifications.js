@@ -8,10 +8,9 @@ import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 // TODO: redux state
 const usePrivacySettings = () => ({
   privacyMaster: true,
-})
+});
 
-const actions = {}
-
+const actions = {};
 
 const PreferenceItemWrap = styled.label`
   display: flex;
@@ -44,6 +43,10 @@ const PreferenceItem = ({ icon, title, description, value, onChange }) => (
   </PreferenceItemWrap>
 );
 
+const privacyOptions = [
+  { id: }
+]
+
 const PrivacyNotificationsTab = () => {
   const privacySettings = usePrivacySettings();
   const dispatch = useDispatch();
@@ -60,9 +63,7 @@ const PrivacyNotificationsTab = () => {
         </PreferencesDescription>
       </PreferencesHeader>
       <div>
-        <PreferenceItem ttile="Remix Activity" icon="microphone" description="Notificy project owners when you remix their projects" 
-          
-          />
+        {}
       </div>
     </section>
   );
