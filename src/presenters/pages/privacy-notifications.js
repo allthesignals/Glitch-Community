@@ -247,7 +247,7 @@ const PrivacyNotificationsTab = () => {
           value={settings}
           active={settings.privacyMaster}
           options={privacyOptions}
-          onChange={(id, value) => dispatch(actions.setOption(id, value))}
+          onChange={(id, value) => dispatch(actions.setOption({ id, value }))}
         />
       </section>
       <section>
@@ -261,7 +261,7 @@ const PrivacyNotificationsTab = () => {
           value={settings}
           active={settings.notificationsMaster}
           options={notificationOptions}
-          onChange={(id, value) => dispatch(actions.setOption(id, value))}
+          onChange={(id, value) => dispatch(actions.setOption({ id, value }))}
         />
       </section>
       <section>
