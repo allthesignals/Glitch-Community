@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { Icon, Popover, Button, Title, SearchResults } from '@fogcreek/shared-components';
+import { Icon, Popover, Button, Title, Info, SearchResults } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { ProjectAvatar, UserAvatar } from 'Components/images/avatar';
 import { getProjectLink } from 'Models/project';
@@ -228,22 +228,24 @@ const AddMutedUser = ({ onClose }) => {
   return (
     <PopoverContainer>
       <Title onClose={onClose}>Mute User</Title>
-      <SearchResults label="search for users" query={query} setQuery={setQuery} options={users}>
-        {({ item: user, buttonProps }) => (
-          <PreferenceItemWrap active>
-            <UserAvatar user={user} />
-            <PreferenceItemContent>
-              <Button as="a" href={getUserLink(user)}>
-                {user.name}
+      <Info>
+        <SearchResults label="search for users" query={query} setQuery={setQuery} options={users}>
+          {({ item: user, buttonProps }) => (
+            <PreferenceItemWrap active>
+              <UserAvatar user={user} />
+              <PreferenceItemContent>
+                <Button as="a" href={getUserLink(user)}>
+                  {user.name}
+                </Button>
+                <PreferenceItemDescription>@{user.login}</PreferenceItemDescription>
+              </PreferenceItemContent>
+              <Button variant="secondary" onClick={() => muteUserAndClosePopover(user)} {...buttonProps}>
+                Mute
               </Button>
-              <PreferenceItemDescription>@{user.login}</PreferenceItemDescription>
-            </PreferenceItemContent>
-            <Button variant="secondary" onClick={() => muteUserAndClosePopover(user)} {...buttonProps}>
-              Mute
-            </Button>
-          </PreferenceItemWrap>
-        )}
-      </SearchResults>
+            </PreferenceItemWrap>
+          )}
+        </SearchResults>
+      </Info>
     </PopoverContainer>
   );
 };
