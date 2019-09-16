@@ -8,6 +8,14 @@ import { AnalyticsContext } from 'State/segment-analytics';
 
 // TODO: handshake icon
 
+const SwitchContent = ({ value }) => {
+  
+}
+
+const Switch = ({ value, onChange }) => {}
+
+
+
 // TODO: redux state
 const usePrivacyNotificationsSettings = () => ({
   privacyMaster: true,
