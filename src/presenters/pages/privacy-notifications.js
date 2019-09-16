@@ -131,7 +131,15 @@ const PreferenceItem = ({ icon, title, description, active, value, onChange }) =
 
 // muted projects / users
 
-const MutedProjects = styled
+const MutedProjects = ({ projects, onUnmute }) => (
+  <PreferenceListBody>
+    {projects.map((project) => (
+      <li key={project.id}>
+        <
+      </li>
+    ))}
+  </PreferenceListBody>
+)
 
 
 const PreferencesHeader = styled.header`
