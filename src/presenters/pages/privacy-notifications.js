@@ -65,7 +65,7 @@ const Switch = ({ value, onChange }) => (
 
 // preference item (goes to src/components ?)
 
-const PreferenceListBody = styled.ul`
+const PreferenceList = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -74,7 +74,6 @@ const PreferenceListBody = styled.ul`
     padding: 0 var(--space-2);
   }
 `
-
 
 const PreferenceItemWrap = styled.label`
   display: flex;
@@ -180,19 +179,20 @@ const PrivacyNotificationsTab = () => {
             Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
           </PreferencesDescription>
         </PreferencesHeader>
-        <div>
+        <PreferenceList>
           {privacyOptions.map((opt) => (
-            <PreferenceItem
-              key={opt.id}
-              value={settings[opt.id]}
-              onChange={(value) => dispatch(actions.setOption(opt.id, value))}
-              title={opt.title}
-              description={opt.description}
-              icon={opt.icon}
-              active={settings.privacyMaster}
-            />
+            <li key={opt.id}>
+              <PreferenceItem
+                value={settings[opt.id]}
+                onChange={(value) => dispatch(actions.setOption(opt.id, value))}
+                title={opt.title}
+                description={opt.description}
+                icon={opt.icon}
+                active={settings.privacyMaster}
+              />
+            </li>
           ))}
-        </div>
+        </PreferenceList>
       </section>
       <section>
         <PreferencesHeader>
@@ -201,19 +201,21 @@ const PrivacyNotificationsTab = () => {
           </PreferencesTitle>
           <PreferencesDescription>Notifications on Glitch.com let you know about activity on your projects.</PreferencesDescription>
         </PreferencesHeader>
-        <div>
+        <PreferenceList>
           {notificationOptions.map((opt) => (
-            <PreferenceItem
-              key={opt.id}
-              value={settings[opt.id]}
-              onChange={(value) => dispatch(actions.setOption(opt.id, value))}
-              title={opt.title}
-              description={opt.description}
-              icon={opt.icon}
-              active={settings.notificationsMaster}
-            />
-          ))}
-        </div>
+            <li key={opt.id}>
+              <PreferenceItem
+                key={opt.id}
+                value={settings[opt.id]}
+                onChange={(value) => dispatch(actions.setOption(opt.id, value))}
+                title={opt.title}
+                description={opt.description}
+                icon={opt.icon}
+                active={settings.notificationsMaster}
+              />
+            ))}
+          </li>
+        </PreferenceList>
       </section>
     </section>
   );
