@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { Icon } from '@fogcreek/shared-components';
+import { Icon, PopoverMenu, Button } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { getProjectLink } from 'State/project';
 import { getUserLink } from 'State/user';
