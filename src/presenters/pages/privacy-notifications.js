@@ -36,14 +36,14 @@ const PreferenceDescription = styled.p`
   margin: 0;
 `;
 
-const PreferenceItem = ({ icon, title, description, value, onChange }) => (
+const PreferenceItem = ({ icon, title, description, active,  value, onChange }) => (
   <PreferenceItemWrap>
     <Icon icon={icon} />
     <div>
       <PreferenceTitle>{title}</PreferenceTitle>
       {description && <PreferenceDescription>{description}</PreferenceDescription>}
     </div>
-    <input type="checkbox" checked={value} onChange={(e) => onChange(e.target.checked)} />
+    <input type="checkbox"  checked={value} onChange={(e) => onChange(e.target.checked)} />
   </PreferenceItemWrap>
 );
 
@@ -66,10 +66,6 @@ const PreferencesDescription = styled.p`
 const PreferencesSubtitle = styled.p`
   font-size: var(-sizes-tiny);
 `;
-const PreferencesList = styled.div`
-  opacity: ${({ active }) => active ? 1 : 0.5};
-  inpuit
-`
 
 const privacyOptions = [
   { id: 'shareRemixActivity', title: 'Remix Activity', description: 'Notify project owners when you remix their projects', icon: 'microphone' },
@@ -111,7 +107,7 @@ const PrivacyNotificationsTab = () => {
             Activity Sharing helps other Glitch creators discover how you're interacting with their projects.
           </PreferencesDescription>
         </PreferencesHeader>
-        <PreferencesList active={settings.privacyMaster}>
+        <div>
           {privacyOptions.map((opt) => (
             <PreferenceItem
               key={opt.id}
@@ -119,9 +115,10 @@ const PrivacyNotificationsTab = () => {
               onChange={(value) => dispatch(actions.setOption(opt.id, value))}
               title={opt.title}
               description={opt.description}
+              active={settings.privacyMaster}
             />
           ))}
-        </PreferencesList>
+        </div>
       </section>
       <section>
         <PreferencesHeader>
@@ -130,7 +127,7 @@ const PrivacyNotificationsTab = () => {
           </PreferencesTitle>
           <PreferencesDescription>Notifications on Glitch.com let you know about activity on your projects.</PreferencesDescription>
         </PreferencesHeader>
-        <PreferencesList active={settings.notificationsMaster}>
+        <div>
           {notificationOptions.map((opt) => (
             <PreferenceItem
               key={opt.id}
@@ -138,9 +135,10 @@ const PrivacyNotificationsTab = () => {
               onChange={(value) => dispatch(actions.setOption(opt.id, value))}
               title={opt.title}
               description={opt.description}
+              active={settings.privacyMaster}
             />
           ))}
-        </PreferencesList>
+        </div>
       </section>
     </section>
   );
