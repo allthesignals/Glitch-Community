@@ -6,7 +6,7 @@ import Layout from 'Components/layout';
 import { getProjectLink } from 'State/project';
 import { getUserLink } from 'State/user';
 import { useCurrentUser } from 'State/current-user';
-import { actions, usePrivacyNotificationsSettings } from 'State/privacy-notifications'
+import { actions, usePrivacyNotificationsSettings } from 'State/privacy-notifications';
 
 // TODO: handshake icon
 
@@ -21,31 +21,31 @@ const SwitchBody = styled.label`
   font-weight: bold;
   font-size: var(--fontSizes-small);
   padding: var(--space-1) var(--space-2);
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    border-radius: 100%;
+    background-color: var(--colors-background);
+    height: var(--space-3);
+    width: var(--space-3);
+  }
   ${({ active }) =>
     active
       ? css`
           color: var(--colors-success-text);
           background-color: var(--colors-success-background);
+          padding-right: var(--space-4);
           &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0
-            border-radius: 100%;
-            background-color: var(--colors-background);
-            height: var(--space-3);
-            width: var(--space-3);
+            right: 0;
           }
         `
       : css`
           color: var(--colors-inactive-text);
           background-color: var(--colors-inactive-background);
-          &:before {
-            content: '';
-            border-radius: 100%;
-            background-color: var(--colors-background);
-            height: var(--space-3);
-            width: var(--space-3);
+          padding-left: var(--space-4);
+          &:after {
+            left: 0;
           }
         `}
 `;
