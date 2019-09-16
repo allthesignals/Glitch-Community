@@ -224,6 +224,9 @@ const PopoverContainer = styled.div`
   section {
     margin: 0;
   }
+  button {
+    font-weight: normal;
+  }
 `;
 
 const ScrollResultsList = styled(ResultsList)`
@@ -265,7 +268,7 @@ const AddMutedUser = () => {
           <Info>
             <TextInput ref={focusedOnMount} type="search" variant="opaque" label="search for users" value={query} onChange={(q) => setQuery(q)} />
           </Info>
-          <ScrollResultsList scroll value={selectedUserID} onChange={(id) => setSelectedUserID(id)} options={users}>
+          {users.length <ScrollResultsList scroll value={selectedUserID} onChange={(id) => setSelectedUserID(id)} options={users}>
             {({ item: user, buttonProps }) => (
               <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
                 <UserAvatar user={user} />
