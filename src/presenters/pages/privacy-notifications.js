@@ -246,8 +246,8 @@ const AddMutedProject = () => {
   const debouncedQuery = useDebouncedValue(query, 200);
   const results = useAlgoliaSearch(debouncedQuery, { filterTypes: ['project'] });
 
-  const muteUserAndClosePopover = (user, onClose) => {
-    dispatch(actions.muteUser(user));
+  const muteProjectAndClosePopover = (project, onClose) => {
+    dispatch(actions.muteProject(project));
     onClose();
   };
 
@@ -287,10 +287,10 @@ const AddMutedProject = () => {
           {projects.length > 0 && (
             <ScrollResultsList scroll value={selectedID} onChange={(id) => setSelectedID(id)} options={projects}>
               {({ item: project, buttonProps }) => (
-                <ResultItem onClick={() => muteUserAndClosePopover(user, onClose)} {...buttonProps}>
-                  <UserAvatar user={user} />
+                <ResultItem onClick={() => muteProjectAndClosePopover(project, onClose)} {...buttonProps}>
+                  <ProjectAvatar project={project} />
                   <ResultInfo>
-                    <ResultName>{user.name || `@${user.login}`}</ResultName>
+                    <ResultName>{project.name || `@${user.login}`}</ResultName>
                     {user.name ? <ResultDescription>@{user.login}</ResultDescription> : null}
                   </ResultInfo>
                 </ResultItem>
