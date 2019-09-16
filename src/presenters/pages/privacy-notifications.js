@@ -290,8 +290,8 @@ const AddMutedProject = () => {
                 <ResultItem onClick={() => muteProjectAndClosePopover(project, onClose)} {...buttonProps}>
                   <ProjectAvatar project={project} />
                   <ResultInfo>
-                    <ResultName>{project.name || `@${user.login}`}</ResultName>
-                    {user.name ? <ResultDescription>@{user.login}</ResultDescription> : null}
+                    <ResultName>{project.domain}</ResultName>
+                    <ResultDescription>{project.description}</ResultDescription>
                   </ResultInfo>
                 </ResultItem>
               )}
