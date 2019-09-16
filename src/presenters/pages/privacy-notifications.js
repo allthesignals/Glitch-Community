@@ -213,12 +213,12 @@ const AddMutedProject = () => {
 const AddMutedUser = ({ onClose }) => {
   const dispatch = useDispatch()
   const [query, setQuery] = useState('')
-  const results =
+  const results = useAlgoliaSearch()
   
   return (
     <>
       <Title onClose={onClose}>Mute User</Title>
-      <SearchResults label="search for users" {...searchParams}>
+      <SearchResults label="search for users" query={query} setQuery={setQuery} options={results.user}>
         {({ item: user, buttonProps }) => (
           <PreferenceItemWrap active>
             <UserAvatar user={user} />
