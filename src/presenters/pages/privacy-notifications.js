@@ -6,8 +6,14 @@ import Layout from 'Components/layout';
 import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 
 // TODO: redux state
-const 
+const usePrivacySettings = () => ({
+  privacyMaster: true,
+})
 
+const actions = {}
+
+
+const PreferencesList = styled.div``
 
 const PreferenceItemWrap = styled.label`
   display: flex;
