@@ -1,5 +1,6 @@
 import { createSlice } from 'redux-starter-kit';
 import { useSelector } from 'react-redux';
+import { actions as currentUserActions } from './current-user'
 
 export const { reducer, actions } = createSlice({
   slice: 'privacyAndNotificationSettings',
@@ -24,7 +25,8 @@ export const { reducer, actions } = createSlice({
     unmuteUser,
   },
   extraReducers: {
-    
+    [currentUserActions.loadedFromCache]: () => {},
+    [currentUserActions.loadedFresh]: () => {},
   }
 });
 
