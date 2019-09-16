@@ -208,9 +208,13 @@ const PrivacyNotificationsTab = () => {
   );
 };
 
-
+// TODO: what should this look like on mobile?
 const SettingsPageLayout = styled.div`
   display: flex;
+`
+
+const SettingsPageLinks = styled.div`
+  
 `
 
 
