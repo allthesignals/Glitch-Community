@@ -274,7 +274,7 @@ const FeaturedProjectNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{project.domain}</strong> has been featured on the <strong>Glitch homepage</strong>!
+      <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink> has been featured on the <BoldLink to="/">Glitch homepage</BoldLink>!
     </NotificationBase>
   );
 };
