@@ -45,9 +45,9 @@ function getSampleAnalytics() {
 }
 
 const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  // if (!featureToggles.isFeatureEnabled('analytics', id) || !projects.length) {
+  if (!featureToggles.isFeatureEnabled('analytics', id) || !projects.length) {
     return getSampleAnalytics();
-  // }
+  }
 
   const path = currentProjectDomain ? `analytics/${id}/project/${currentProjectDomain}?from=${fromDate}` : `analytics/${id}/team?from=${fromDate}`;
   try {
