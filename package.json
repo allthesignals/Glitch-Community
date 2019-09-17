@@ -44,7 +44,7 @@
     "@babel/register": "7.5.5",
     "@babel/runtime": "^7.5.4",
     "@babel/runtime-corejs3": "^7.5.5",
-    "@fogcreek/shared-components": "git+https://api.glitch.com/git/shared-components-greg/#44fce7f8d9ac62efd4ad0b413031b81b3dfc7056",
+    "@fogcreek/shared-components": "git+https://api.glitch.com/git/shared-components-greg/#01bd6e334b86dd560a0ba9b8593b81df1922f21c",
     "@percy/cypress": "^1.0.9",
     "@sentry/browser": "^4.6.6",
     "@sentry/minimal": "^5.6.1",
