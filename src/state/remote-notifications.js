@@ -1,5 +1,6 @@
 import { createSlice } from 'redux-starter-kit'
 import { useSelector } from 'react-redux'
+import { sumBy } from 'lodash'
 
 export const { reducer, actions } = createSlice({
   slice: 'remoteNotifications',
@@ -10,7 +11,7 @@ export const { reducer, actions } = createSlice({
   },
   reducer: {
     requestedNotifications: (state) => ({ ...state, status: 'loading' }),
-    loadedNotificationsFromAPI: (state, { payload }) => ({ status: 'ready', ...payload }),
+    loadedNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({ status: 'ready', notifications, nextPage }),
     loadedNewNotificationFromSocket: (state, { payload }) => {
       state.notifications.unshift(payload)
     },
