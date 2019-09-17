@@ -64,6 +64,7 @@ const NotificationWrap = styled.div`
   position: relative;
   display: block;
   border-radius: var(--rounded);
+  padding: var(--space-2);
 
   ${({ status }) =>
     status === 'unread' &&
@@ -87,6 +88,8 @@ const Row = styled.div`
 `;
 const Grow = styled.div`
   flex: 1 1 auto;
+  display: flex;
+  align-items: center;
 `;
 const Static = styled.div`
   flex: 0 0 auto;
