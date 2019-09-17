@@ -14,6 +14,7 @@ import { actions, useNotifications } from 'State/remote-notifications';
 import { getDisplayName as getUserDisplayName, getUserLink } from 'Models/user';
 import { getProjectLink } from 'Models/project';
 import { getCollectionLink } from 'Models/collection';
+import { getTeamLink } from 'Models/team';
 
 // TODO: 'party' and 'handshake' icons
 
@@ -203,7 +204,7 @@ const CollectionNotification = ({ notification }) => {
 
   const collectionPrefix = collectionTeam ? (
     <>
-      <BoldLink>{collectionTeam.name}</BoldLink> collection
+      <BoldLink to={getTeamLink(collectionTeam)}>{collectionTeam.name}</BoldLink> collection
     </>
   ) : (
     'collection'
@@ -225,7 +226,8 @@ const CollectionNotification = ({ notification }) => {
       }
     >
       <BoldLink to={getUserLink(collectionUser)}>{getUserDisplayName(collectionUser)}</BoldLink> added{' '}
-      <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink> to the {collectionPrefix} <BoldLink>{collection.name}</BoldLink>
+      <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink> to the {collectionPrefix}{' '}
+      <BoldLink to={getCollectionLink(collection)}>{collection.name}</BoldLink>
     </NotificationBase>
   );
 };
