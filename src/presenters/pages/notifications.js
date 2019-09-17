@@ -16,7 +16,10 @@ const parse = (search, name) => {
 const NotificationBase = ({ notification, icon, actions, avatars }) => {
   <NotificationWrap status={notification.status}>
     <AvatarBlock>{avatars}</AvatarBlock>
-    <
+    <ActionsBlock>
+      <TimeAgo value={notification.createdAt}/>
+      <Actions actions={actions} />
+    </ActionsBlock>
   </NotificationWrap>
 }
 
