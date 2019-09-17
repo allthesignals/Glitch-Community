@@ -177,7 +177,7 @@ const ProjectUserActivity = ({ notification }) => {
       { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
       { label: `Mute notifications from ${getUserDisplayName(user)}` },
     ],
-    [{ label: 'Mute all remix notifications' }],
+    [{ label: 'Mute all project member notifications' }],
     [{ label: 'Report abuse' }],
   ];
 
@@ -194,7 +194,7 @@ const ProjectUserActivity = ({ notification }) => {
         </>
       }
     >
-      <strong>{getUserDisplayName(user)}</strong> created a remix of <strong>{originalProject.domain}</strong>
+      <strong>{getUserDisplayName(user)}</strong> was added as a {memberType} to <strong>{projct.domain}</strong>
     </NotificationBase>
   );
 }
