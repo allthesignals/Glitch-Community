@@ -104,6 +104,7 @@ const AvatarRow = styled.span`
 const Grow = styled.div`
   flex: 1 1 auto;
 `;
+const NotificationMessage=
 const Static = styled.div`
   flex: 0 0 auto;
   display: flex;
@@ -124,14 +125,11 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
       <BackgroundLink href={href} aria-label={label} />
       <Row>
         <AvatarRow>{avatars}</AvatarRow>
-        <Static>
-          <TimeAgo value={notification.createdAt} />
-          {" "}
-          <ActionsPopover options={options} menuLabel="Notification options" />
-        </Static>
+        <TimeAgo value={notification.createdAt} />
+        <ActionsPopover options={options} menuLabel="Notification options" />
       </Row>
       <Row>
-        <Grow >{children}</Grow>
+        <Grow>{children}</Grow>
         <BigIcon icon={icon} />
       </Row>
     </NotificationWrap>
