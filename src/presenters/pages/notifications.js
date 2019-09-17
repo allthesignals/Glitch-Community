@@ -183,7 +183,7 @@ const RemixNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{getUserDisplayName(remixUser)}</strong> created a remix of <strong>{originalProject.domain}</strong>
+      <BoldLink>{getUserDisplayName(remixUser)}</BoldLink> created a remix of <BoldLink>{originalProject.domain}</BoldLink>
     </NotificationBase>
   );
 };
@@ -201,7 +201,7 @@ const CollectionNotification = ({ notification }) => {
 
   const collectionPrefix = collectionTeam ? (
     <>
-      <strong>{collectionTeam.name}</strong> collection
+      <BoldLink>{collectionTeam.name}</BoldLink> collection
     </>
   ) : (
     'collection'
@@ -222,8 +222,8 @@ const CollectionNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{getUserDisplayName(collectionUser)}</strong> added <strong>{project.domain}</strong> to the {collectionPrefix}{' '}
-      <strong>{collection.name}</strong>
+      <BoldLink>{getUserDisplayName(collectionUser)}</BoldLink> added <BoldLink>{project.domain}</BoldLink> to the {collectionPrefix}{' '}
+      <BoldLink>{collection.name}</BoldLink>
     </NotificationBase>
   );
 };
@@ -252,7 +252,7 @@ const ProjectUserNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{getUserDisplayName(user)}</strong> was added as a {memberType} to <strong>{project.domain}</strong>
+      <BoldLink>{getUserDisplayName(user)}</BoldLink> was added as a {memberType} to <BoldLink>{project.domain}</BoldLink>
     </NotificationBase>
   );
 };
