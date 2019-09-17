@@ -341,7 +341,7 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
   };
 
   return (
-    <>
+    <section>
       <header>
         <HeaderRow>
           <PageTitle>Notifications</PageTitle>
@@ -360,7 +360,7 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
       {status === 'loading' && <Loader />}
       {status === 'ready' && filteredNotifications.length === 0 && <p>No notifications</p>}
       {status === 'ready' && hasMoreNotifications && <Button onClick={requestNextPage}>Load More</Button>}
-    </>
+    </section>
   );
 });
 
