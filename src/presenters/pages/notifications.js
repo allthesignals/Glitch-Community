@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
+import { UnstyledButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
 import { useCurrentUser } from 'State/current-user';
@@ -17,7 +17,13 @@ const parse = (search, name) => {
 
 // notification items
 
-const ActionsPopover = ({ actions }) => ()
+const ActionsPopover = ({ actions }) => (
+  <PopoverMenu
+    align="right"
+    renderLabel={<Button}>
+  
+  </PopoverMenu>
+)
 
 
 const TimeAgoText = styled.span`
