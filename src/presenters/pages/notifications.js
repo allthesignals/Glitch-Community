@@ -28,26 +28,30 @@ const Row = styled.div`
   align-items: flex-start;
 `
 const Grow = styled.div`
-  flex: 1 0 auto;
+  flex: 1 1 auto;
 `
-const 
+const Static = styled.div`
+  flex: 0 0 auto;
+  display: flex;
+
+`
 
 
 const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
   return (
     <NotificationWrap status={notification.status}>
       <Row>
-        <div>{avatars}</AvatarBlock>
-        <ActionsBlock>
+        <Grow>{avatars}</Grow>
+        <Static>
           <TimeAgo value={notification.createdAt} />
           <Actions actions={actions} />
-        </ActionsBlock>
+        </Static>
       </Row>
       
-      <DescriptionBlock>{children}</DescriptionBlock>
-      <IconBlock>
+      <Grow>{children}</Grow>
+      <Static>
         <Icon icon="icon" />
-      </IconBlock>
+      </Static>
     </NotificationWrap>
   );
 };
