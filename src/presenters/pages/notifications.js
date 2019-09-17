@@ -23,16 +23,27 @@ const NotificationWrap = styled.div`
   `}
 `;
 
-const Row = 
+const Row = styled.div`
+  display: flex;
+  align-items: flex-start;
+`
+const Grow = styled.div`
+  flex: 1 0 auto;
+`
+const 
+
 
 const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
   return (
     <NotificationWrap status={notification.status}>
-      <AvatarBlock>{avatars}</AvatarBlock>
-      <ActionsBlock>
-        <TimeAgo value={notification.createdAt} />
-        <Actions actions={actions} />
-      </ActionsBlock>
+      <Row>
+        <div>{avatars}</AvatarBlock>
+        <ActionsBlock>
+          <TimeAgo value={notification.createdAt} />
+          <Actions actions={actions} />
+        </ActionsBlock>
+      </Row>
+      
       <DescriptionBlock>{children}</DescriptionBlock>
       <IconBlock>
         <Icon icon="icon" />
