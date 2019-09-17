@@ -23,7 +23,7 @@ const ProjectAvatarLink = ({ project }) => (
     type="info"
     tooltip={project.domain}
     target={
-      <Link to={getProjectLink(project)}>
+      <Link to={getProjectLink(project)} aria-label={project.domain}>
         <ProjectAvatar project={project} />
       </Link>
     }
@@ -270,7 +270,7 @@ const FeaturedProjectNotification = ({ notification }) => {
       options={options}
       avatars={
         <>
-          <ProjectAvatar project={project} />
+          <ProjectAvatarLink project={project} />
         </>
       }
     >
