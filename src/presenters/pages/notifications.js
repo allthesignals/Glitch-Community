@@ -136,7 +136,7 @@ const CollectionNotification = ({ notification }) => {
   const { collection, collectionUser, collectionTeam } = notification
   
   const dispatch = useDispatch();
-  const curatorName = collectionUser ? remixUser.name || `@${remixUser.login}`;
+  const curatorName = collectionUser ? (collectionUser.name || `@${collectionUser.login}`) : (collectionTeam.name || `@{collectionTeam.url}`);
   const options = [
     [
       { label: `Mute notifications for ${originalProject.domain}`, onClick: () => {} },
