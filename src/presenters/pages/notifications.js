@@ -13,8 +13,6 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-
-
 const filterOptions = [
   { id: 'all', label: 'All' },
   { id: 'remixes', label: 'Remixes' },
@@ -23,13 +21,15 @@ const filterOptions = [
 ]
 
 const NotificationsPage = withRouter(({ search }) => {
+  const notifications = useNotifications()
+  const dispatch = useDispatch()
+  
   // TODO: this can be done in router
   const activeFilter = parse(search, 'activeFilter') || "all"
   
   const setActiveFilter = (filter) => {
     history.push(`/notifications?activeFilter=${filter}`);
   };
-  
   
   return (
     <>
@@ -40,6 +40,7 @@ const NotificationsPage = withRouter(({ search }) => {
           <Button as="a" href="/settings#privacy-and-notifications">Edit notification settings</Button>
         </h2>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
+        
       </header>
     </>
   )
