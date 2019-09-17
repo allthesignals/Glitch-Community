@@ -13,7 +13,6 @@ import Row from 'Components/containers/row';
 import ProjectItemSmall from 'Components/project/project-item-small';
 import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
-import Arrow from 'Components/arrow';
 import { PrivateBadge } from 'Components/private-badge';
 
 import { isDarkColor } from 'Utils/color';
