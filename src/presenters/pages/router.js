@@ -120,7 +120,7 @@ const Router = () => {
           path="/login/reset-password"
           exact
           render={({ location }) => (
-            <ResetPasswordPagen
+            <ResetPasswordPage
               key={location.key}
               loginToken={parse(location.search, 'loginToken')}
               resetPasswordToken={parse(location.search, 'resetPasswordToken')}
