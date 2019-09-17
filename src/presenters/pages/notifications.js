@@ -58,7 +58,8 @@ const TimeAgoText = styled.span`
 `;
 const TimeAgo = ({ value }) => <TimeAgoText>{dayjs(value).fromNow()}</TimeAgoText>;
 
-const NotificationWrap = styled.div`
+const NotificationWrap = styled.a`
+  display: block;
   border-radius: var(--rounded);
 
   ${({ status }) =>
@@ -82,9 +83,9 @@ const Static = styled.div`
   align-items: center;
 `;
 
-const NotificationBase = ({ notification, icon, options, avatars, children }) => {
+const NotificationBase = ({ href, notification, icon, options, avatars, children }) => {
   return (
-    <NotificationWrap status={notification.status}>
+    <NotificationWrap status={notification.status} href={href}>
       <Row>
         <Grow>{avatars}</Grow>
         <Static>
@@ -117,6 +118,7 @@ const RemixNotification = ({ notification }) => {
 
   return (
     <NotificationBase
+      href={getProjectUrl(remix)}
       notification={notification}
       icon="microphone"
       options={options}
@@ -159,7 +161,7 @@ const CollectionNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{curatorName}</strong> added <strong>{originalProject.domain}</strong>
+      <strong>{curatorName}</strong> added <strong>{project.domain}</strong> to the collection <
     </NotificationBase>
   );
 }
