@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { UnstyledButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
+import { IconButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
 import { useCurrentUser } from 'State/current-user';
@@ -20,7 +20,7 @@ const parse = (search, name) => {
 const ActionsPopover = ({ actions }) => (
   <PopoverMenu
     align="right"
-    renderLabel={<Button}>
+    renderLabel={<IconButton icon="chevronDown" label="" />}>
   
   </PopoverMenu>
 )
