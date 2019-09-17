@@ -17,11 +17,25 @@ const parse = (search, name) => {
 
 // notification items
 
-const ActionsPopover = ({ actions, menuLabel }) => (
+const ActionsPopoverContent = styled.div`
+  ${Button} {
+    white-space: nowrap;
+  }
+`
+
+const ActionsPopover = ({ actions: actionGroups, menuLabel }) => (
   <Popover
     align="right"
     renderLabel={(buttonProps) => <IconButton icon="chevronDown" label={menuLabel} {...buttonProps}/>}>
-    {()}
+    {({ onClose, focusedOnMount }) => (
+      <ActionsPopoverContent>
+        {actionGroups.map((group, groupIndex) => (
+          <Actions key={groupIndex}>
+            {group.map((action, ))}
+          </Actions>
+        ))}
+      </ActionsPopoverContent>
+    )}
   </Popover>
 )
 
