@@ -14,8 +14,9 @@ const parse = (search, name) => {
 };
 
 
-
-
+const notificationForType = {
+  'remo'
+}
 
 const filterOptions = [
   { id: 'all', label: 'All' },
@@ -68,8 +69,8 @@ const NotificationsPage = withRouter(({ search }) => {
 
         <ul>
           {filteredNotifications.map((n) => (
-            <li ket={n.id}>
-              <Notification data={n} />
+            <li key={n.id}>
+              {React.createElement(notificationForType[n.type]({ data: n }))}
             </li>
           ))}
         </ul>
