@@ -28,7 +28,7 @@ const filterOptions = [
 
 const NotificationsPage = withRouter(({ search }) => {
   const { status, notifications, nextPage } = useNotifications()
-  const [limit, setLimit]
+  const [limit, setLimit] = useState()
   const dispatch = useDispatch()
   
   // TODO: this can be done in router
@@ -39,7 +39,12 @@ const NotificationsPage = withRouter(({ search }) => {
   };
  
   const filteredNotifications = React.useMemo(() => {
-    if (filter === 'all') 
+    let filtered
+    if (activeFilter === 'all') {
+      filtered = notifications
+    } else {
+      filtered = notifications.slice()
+    }
   }, [notifications, activeFilter])
   
   
