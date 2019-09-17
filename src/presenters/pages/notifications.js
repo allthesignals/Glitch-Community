@@ -119,17 +119,9 @@ const AvatarRow = styled.span`
     margin-left: var(--space-1);
   }
 `;
-const Grow = styled.div`
-  flex: 1 1 auto;
-`;
 const NotificationMessage = styled.p`
   margin: 0;
   flex: 1 1 auto;
-`;
-const Static = styled.div`
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
 `;
 
 const BigIcon = styled(Icon)`

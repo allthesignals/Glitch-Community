@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { mapKeys, memoize } from 'lodash';
-import { createSlice, createAction } from 'redux-starter-kit';
+import { createSlice } from 'redux-starter-kit';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getSingleItem, getAllPages, allByKeys } from 'Shared/api';
@@ -194,7 +192,7 @@ export const { reducer, actions } = createSlice({
 });
 
 // eslint-disable-next-line func-names
-const load = runLatest(function*(action, store) {
+const load = runLatest(function* (action, store) {
   let sharedUser = getFromStorage(sharedUserKey);
 
   // If we're signed out create a new anon user
