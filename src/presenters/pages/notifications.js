@@ -289,12 +289,15 @@ const NotificationsPage = withRouter(({ search }) => {
   return (
     <>
       <header>
-        <h2>
-          Notifications{' '}
+        <Row>
+          <Grow>
+          
+          </Grow>
+          <h2>Notifications</h2> {' '}
           <Button as="a" href="/settings#privacy-and-notifications">
             Edit notification settings
           </Button>
-        </h2>
+        </Row>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
 
         <ul>
