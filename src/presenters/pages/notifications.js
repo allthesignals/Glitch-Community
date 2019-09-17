@@ -21,14 +21,14 @@ const parse = (search, name) => {
 
 const filterOptions = [
   { id: 'all', label: 'All' },
-  { id: 'remixes', label: 'Remixes' },
-  { id: 'collections', label: 'Collections'},
-  { id: 'users', label: 'Users'}
+  { id: 'remixActivity', label: 'Remixes' },
+  { id: 'collectionActivity', label: 'Collections'},
+  { id: 'projectUserActivity', label: 'Users'}
 ]
 
 const NotificationsPage = withRouter(({ search }) => {
   const { status, notifications, nextPage } = useNotifications()
-  const [limit, setLimit] = useState()
+  const [limit, setLimit] = React.useState(20)
   const dispatch = useDispatch()
   
   // TODO: this can be done in router
@@ -43,8 +43,9 @@ const NotificationsPage = withRouter(({ search }) => {
     if (activeFilter === 'all') {
       filtered = notifications
     } else {
-      filtered = notifications.slice()
+      filtered = notifications.filter(n => n.type === activeFilter)
     }
+    return 
   }, [notifications, activeFilter])
   
   
