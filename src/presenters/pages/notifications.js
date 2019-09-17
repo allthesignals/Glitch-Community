@@ -47,7 +47,7 @@ const NotificationsPage = withRouter(({ search }) => {
         </h2>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
         {status === 'loading' && <Loader />}
-        {status}
+        {status === 'ready' && notifications.length === 0 && }
         
         <ul>
           {notifications.map(n => (
