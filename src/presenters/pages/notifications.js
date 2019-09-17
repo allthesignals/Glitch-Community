@@ -13,13 +13,20 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-const NotificationBase = ({ notification, icon, actions, avatars }) => {
+
+const NotificationWrap = styled.div`
+  
+`
+
+const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
   <NotificationWrap status={notification.status}>
     <AvatarBlock>{avatars}</AvatarBlock>
     <ActionsBlock>
       <TimeAgo value={notification.createdAt}/>
       <Actions actions={actions} />
     </ActionsBlock>
+    <DescriptionBlock>{children}</DescriptionBlock>
+    <IconBlock><Icon icon="icon" /></IconBlock>
   </NotificationWrap>
 }
 
