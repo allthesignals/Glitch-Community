@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { IconButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
@@ -13,12 +12,6 @@ import { getProjectLink } from 'Models/project';
 import { getCollectionLink } from 'Models/collection';
 
 // TODO: 'party' and 'handshake' icons
-
-// TODO: do in router instead of in component
-const parse = (search, name) => {
-  const params = new URLSearchParams(search);
-  return params.get(name);
-};
 
 // notification items
 
@@ -257,13 +250,11 @@ const filterOptions = [
 
 const PAGE_SIZE = 20;
 
-const NotificationsPage = withRouter(({ search }) => {
+const NotificationsPage = ({ activeFilter }) => {
   const { status, notifications, nextPage } = useNotifications();
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const dispatch = useDispatch();
 
-  // TODO: this can be done in router
-  const activeFilter = parse(search, 'activeFilter') || 'all';
 
   const setActiveFilter = (filter) => {
     history.push(`/notifications?activeFilter=${filter}`);
@@ -312,11 +303,11 @@ const NotificationsPage = withRouter(({ search }) => {
       </header>
     </>
   );
-});
+};
 
-const NotificationsPageContainer = () => {
+const NotificationsPageContainer = ({ activeFilter }) => {
   const { currentUser } = useCurrentUser();
-  return <Layout>{currentUser.login ? <NotificationsPage /> : <div />}</Layout>;
+  return <Layout>{currentUser.login ? <NotificationsPage activeFilter={activeFilter} /> : <div />}</Layout>;
 };
 
 export default NotificationsPageContainer;
