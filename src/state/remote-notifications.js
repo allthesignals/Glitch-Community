@@ -5,12 +5,11 @@ import { sumBy } from 'lodash';
 export const { reducer, actions } = createSlice({
   slice: 'remoteNotifications',
   initialState: {
-    status: 'init',
+    status: 'loading',
     notifications: [],
     nextPage: null,
   },
   reducer: {
-    requestedNotifications: (state) => ({ ...state, status: 'loading' }),
     requestedMoreNotifications: (state) => ({ ...state, status: 'loading' }),
     loadedNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({ status: 'ready', notifications, nextPage }),
     loadedMoreNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({

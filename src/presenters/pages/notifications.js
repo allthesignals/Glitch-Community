@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Button, SegmentedButton, Icon, Popover, Actions } from '@fogcreek/shared-components'
+import { Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components'
 import Layout from 'Components/layout'
 import { useCurrentUser } from 'State/current-user'
 import { actions, useNotifications } from 'State/remote-notifications'
@@ -46,6 +46,9 @@ const NotificationsPage = withRouter(({ search }) => {
           <Button as="a" href="/settings#privacy-and-notifications">Edit notification settings</Button>
         </h2>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
+        {status === 'loading' && <Loader />}
+        {status}
+        
         <ul>
           {notifications.map(n => (
             <li ket={n.id}>
