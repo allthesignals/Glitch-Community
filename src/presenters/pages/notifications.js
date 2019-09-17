@@ -256,6 +256,7 @@ const NotificationsPage = ({ activeFilter }) => {
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const dispatch = useDispatch();
 
+  // TODO: do I need to use RR to make this work?
   const setActiveFilter = (filter) => {
     history.push(`/notifications?activeFilter=${filter}`);
   };
