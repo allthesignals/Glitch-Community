@@ -31,7 +31,7 @@ function notifyParent(message = {}) {
   window.parent.postMessage(message, APP_URL);
 }
 
-const RedirectToDestination = () => {
+export const RedirectToDestination = () => {
   const [destination, setDestination] = useLocalStorage('destinationAfterAuth', null);
 
   React.useEffect(() => {
