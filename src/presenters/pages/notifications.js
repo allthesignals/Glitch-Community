@@ -169,7 +169,7 @@ const CollectionNotification = ({ notification }) => {
 
 const ProjectUserActivity = ({ notification }) => {
   const { project, user } = notification;
-  const userName = user.name || `@${user.login}`;
+  const userName = user.name || `@${user  .login}`;
   const options = [
     [
       { label: `Mute notifications for ${originalProject.domain}`, onClick: () => {} },
