@@ -109,11 +109,10 @@ const NotificationBase = ({ href, notification, icon, options, avatars, children
 const RemixNotification = ({ notification }) => {
   const { remixUser, originalProject, remixProject } = notification;
   const dispatch = useDispatch();
-  const remixUserName = remixUser.name || `@${remixUser.login}`;
   const options = [
     [
       { label: `Mute notifications for ${originalProject.domain}`, onClick: () => {} },
-      { label: `Mute notifications from ${remixUserName}` },
+      { label: `Mute notifications from ${getUserDisplayName(remixUser)}` },
     ],
     [{ label: 'Mute all remix notifications' }],
     [{ label: 'Report abuse' }],
@@ -132,7 +131,7 @@ const RemixNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{remixUserName}</strong> created a remix of <strong>{originalProject.domain}</strong>
+      <strong>{getUserDisplayName(remixUser)}</strong> created a remix of <strong>{originalProject.domain}</strong>
     </NotificationBase>
   );
 };
@@ -141,7 +140,7 @@ const CollectionNotification = ({ notification }) => {
   const { project, collection, collectionUser, collectionTeam } = notification
   
   const dispatch = useDispatch();
-  const curatorName = collectionUser ? (collectionUser.name || `@${collectionUser.login}`) : (collectionTeam.name || `@{collectionTeam.url}`);
+  const curatorName = collectionUser ? getUserDisplayName(collectionUser) : (collectionTeam.name || `@{collectionTeam.url}`);
   const options = [
     [
       { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
@@ -172,11 +171,10 @@ const CollectionNotification = ({ notification }) => {
 
 const ProjectUserActivity = ({ notification }) => {
   const { project, user } = notification;
-  const userName = user.name || `@${user  .login}`;
   const options = [
     [
-      { label: `Mute notifications for ${originalProject.domain}`, onClick: () => {} },
-      { label: `Mute notifications from ${remixUserName}` },
+      { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
+      { label: `Mute notifications from ${getUserDisplayName(user)}` },
     ],
     [{ label: 'Mute all remix notifications' }],
     [{ label: 'Report abuse' }],
@@ -184,7 +182,7 @@ const ProjectUserActivity = ({ notification }) => {
 
   return (
     <NotificationBase
-      href={getProjectUrl(remixProject)}
+      href={getProjectLink(project)}
       notification={notification}
       icon="microphone"
       options={options}
@@ -195,7 +193,7 @@ const ProjectUserActivity = ({ notification }) => {
         </>
       }
     >
-      <strong>{remixUserName}</strong> created a remix of <strong>{originalProject.domain}</strong>
+      <strong>{getUserDisplayName(user)}</strong> created a remix of <strong>{originalProject.domain}</strong>
     </NotificationBase>
   );
 }
