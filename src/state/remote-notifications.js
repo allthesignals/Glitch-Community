@@ -11,6 +11,7 @@ export const { reducer, actions } = createSlice({
   },
   reducer: {
     requestedNotifications: (state) => ({ ...state, status: 'loading' }),
+    requestedMoreNotifications: (state) => ({ ...state, status: 'loading' }),
     loadedNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({ status: 'ready', notifications, nextPage }),
     loadedMoreNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({
       status: 'ready',
