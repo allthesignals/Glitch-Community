@@ -25,6 +25,7 @@ import SecretPage from './secret';
 import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
 import AboutPage from './about';
+import AboutCompanyPage from './about/company';
 
 const parse = (search, name) => {
   const params = new URLSearchParams(search);
@@ -53,18 +54,15 @@ const PageChangeHandler = withRouter(({ location }) => {
   const { reload } = useCurrentUser();
   const isUpdate = useRef(false);
 
-  useEffect(
-    () => {
-      if (isUpdate.current) {
-        window.scrollTo(0, 0);
-        reload();
-      }
+  useEffect(() => {
+    if (isUpdate.current) {
+      window.scrollTo(0, 0);
+      reload();
+    }
 
-      isUpdate.current = true;
-      track();
-    },
-    [location.key],
-  );
+    isUpdate.current = true;
+    track();
+  }, [location.key]);
 
   const [scrolledToLinkedEl, setScrolledToLinkedEl] = useState(false);
   let linkedEl = null;
@@ -175,7 +173,8 @@ const Router = () => {
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
 
-        <Route path="/about2" render={({ location }) => <AboutPage key={location.key} />} />
+        <Route path="/about/company" render={({ location }) => <AboutCompanyPage key={location.key} />} />
+        <Route path="/about" render={({ location }) => <AboutPage key={location.key} />} />
 
         {EXTERNAL_ROUTES.map((route) => (
           <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />
