@@ -5,9 +5,14 @@ import { Button, SegmentedButton, Icon, Popover, Actions } from '@fogcreek/share
 import Layout from 'Components/layout'
 import { useCurrentUser } from 'State/current-user'
 
+const parse = (search, name) => {
+  const params = new URLSearchParams(search);
+  return params.get(name);
+};
 
-const NotificationsPage = withRouter(({ query }) => {
-  const activeFilter = 
+const NotificationsPage = withRouter(({ search }) => {
+  // TODO: this can be done in router
+  const activeFilter = parse(search, 'activeFilter')
   
   const setActiveFilter = (filter) => {
     history.push(`/notifications?activeFilter=${filter}`);
