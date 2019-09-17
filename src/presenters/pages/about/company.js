@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { Button, Mark, Icon } from '@fogcreek/shared-components';
 import AboutLayout from './about-layout';

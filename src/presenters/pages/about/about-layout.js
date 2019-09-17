@@ -26,6 +26,8 @@ const AboutLayout = ({ children, mainClassName }) => (
   <div className={styles.content}>
     <Helmet title="About Glitch">
       <body data-grey="true" />
+      <title>About Glitch</title>
+      <meta name="description" content="Simple, powerful, free tools to create and use millions of apps." />
     </Helmet>
     <Button as="a" href="#main" className={styles.visibleOnFocus}>
       Skip to Main Content

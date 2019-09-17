@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { CDN_URL } from 'Utils/constants';
+import { Helmet } from 'react-helmet-async';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
