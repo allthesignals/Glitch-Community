@@ -42,7 +42,7 @@ const NotificationsPage = withRouter(({ search }) => {
         <ul>
           {notifications.map(n => (
             <li ket={n.id}>
-              <Notification
+              <Notification {}
             </li>
           ))}
         </ul>
