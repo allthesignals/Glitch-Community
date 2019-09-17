@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { IconButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { UserAvatar, ProjectAvatar, TeamAvatar } from 'Components/images/avatar';
+import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import { actions, useNotifications } from 'State/remote-notifications';
 import { getDisplayName as getUserDisplayName } from 'Models/user';
@@ -320,7 +321,7 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
             <h2>Notifications</h2>
           </Grow>
           <Static>
-            <Button as="a" href="/settings#privacy-and-notifications">
+            <Button as={Link} to="/settings#privacy-and-notifications">
               Edit notification settings
             </Button>
           </Static>
