@@ -98,16 +98,16 @@ const AvatarRow = styled.span`
   display: flex;
   align-items: center;
   > * + * {
-    margin-left: var(--space-1);  
+    margin-left: var(--space-1);
   }
-`
+`;
 const Grow = styled.div`
   flex: 1 1 auto;
 `;
 const NotificationMessage = styled.p`
   margin: 0;
   flex: 1 1 auto;
-`
+`;
 const Static = styled.div`
   flex: 0 0 auto;
   display: flex;
@@ -116,7 +116,7 @@ const Static = styled.div`
 
 const BigIcon = styled(Icon)`
   font-size: var(--fontSizes-bigger);
-`
+`;
 
 const NotificationBase = ({ href, label, notification, icon, options, avatars, children }) => {
   React.useEffect(() => {
@@ -285,8 +285,8 @@ const NotificationList = styled.ul`
   }
   > * + * {
     border-top: 1px solid var(--colors-border);
-  }  
-`
+  }
+`;
 
 const NotificationsPage = withRouter(({ history, activeFilter }) => {
   const { status, notifications, nextPage } = useNotifications();
@@ -302,11 +302,11 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
     return filtered.filter((n) => n.status !== 'hidden' && n.type in notificationForType).slice(0, limit);
   }, [notifications, activeFilter]);
 
-  // increase number of visible notifications
-  // if next page not already loaded
 
   const hasMoreNotifications = !!nextPage || filteredNotifications.length > limit;
 
+  // increase number of visible notifications
+  // if next page not already loaded
   const requestNextPage = () => {
     setLimit((prevLimit) => prevLimit + PAGE_SIZE);
     if (notifications.length <= PAGE_SIZE) {
@@ -328,16 +328,16 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
           </Static>
         </Row>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
-
-        <NotificationList>
-          {filteredNotifications.map((n) => (
-            <li key={n.id}>{React.createElement(notificationForType[n.type], { notification: n })}</li>
-          ))}
-        </NotificationList>
-        {status === 'loading' && <Loader />}
-        {status === 'ready' && filteredNotifications.length === 0 && <p>No notifications</p>}
-        {status === 'ready' && hasMoreNotifications && <Button onClick={requestNextPage}>Load More</Button>}
       </header>
+
+      <NotificationList>
+        {filteredNotifications.map((n) => (
+          <li key={n.id}>{React.createElement(notificationForType[n.type], { notification: n })}</li>
+        ))}
+      </NotificationList>
+      {status === 'loading' && <Loader />}
+      {status === 'ready' && filteredNotifications.length === 0 && <p>No notifications</p>}
+      {status === 'ready' && hasMoreNotifications && <Button onClick={requestNextPage}>Load More</Button>}
     </>
   );
 });
