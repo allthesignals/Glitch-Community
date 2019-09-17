@@ -144,11 +144,13 @@ const CollectionNotification = ({ notification }) => {
   const options = [
     [
       { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
-      { label: `Mute notifications from ${curatorName}` },
+      { label: `Mute notifications from ${getUserDisplayName(collectionUser)}` },
     ],
     [{ label: 'Mute all collection notifications' }],
     [{ label: 'Report abuse' }],
   ];
+  
+  cons 
 
   return (
     <NotificationBase
@@ -164,7 +166,7 @@ const CollectionNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{curatorName}</strong> added <strong>{project.domain}</strong> to the collection <strong>{collection.name}</strong>
+      <strong>{getUserDisplayName(collectionUser)}</strong> added <strong>{project.domain}</strong> to the {collectionPrefix} <strong>{collection.name}</strong>
     </NotificationBase>
   );
 }
