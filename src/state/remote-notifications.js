@@ -215,7 +215,7 @@ const testNotifications = [
     status: 'read',
     type: 'featuredProjectActivity',
     project: testProject[0],
-  }
+  },
 ];
 
 export const handlers = {

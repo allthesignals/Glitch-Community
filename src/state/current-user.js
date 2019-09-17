@@ -194,7 +194,7 @@ export const { reducer, actions } = createSlice({
 });
 
 // eslint-disable-next-line func-names
-const load = runLatest(function* (action, store) {
+const load = runLatest(function*(action, store) {
   let sharedUser = getFromStorage(sharedUserKey);
 
   // If we're signed out create a new anon user
@@ -231,7 +231,7 @@ export const handlers = {
     };
 
     window.addEventListener('storage', onStorage, { passive: true });
-    
+
     const cachedUser = getFromStorage(cachedUserKey);
     if (cachedUser) {
       identifyUser(cachedUser);
@@ -289,8 +289,7 @@ export const useSuperUserHelpers = () => {
       window.scrollTo(0, 0);
       window.location.reload();
     },
-    canBecomeSuperUser:
-      cachedUser && cachedUser.projects && cachedUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
+    canBecomeSuperUser: cachedUser && cachedUser.projects && cachedUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
     superUserFeature,
   };
 };
