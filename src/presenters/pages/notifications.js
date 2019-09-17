@@ -14,6 +14,9 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
+// TODO: do as shared component
+
+
 const NotificationWrap = styled.div`
   border-radius: var(--rounded);
 
