@@ -202,8 +202,11 @@ const ProjectUserNotification = ({ notification }) => {
   );
 }
 
-const FeaturedProjectNotification = () => {
-  
+const FeaturedProjectNotification = ({ notification }) => {
+  const { project } = notification;
+  const options = [
+    { label: ''}
+  ]
 }
 
 const notificationForType = {
