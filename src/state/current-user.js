@@ -226,7 +226,7 @@ export const handlers = {
   [appMounted]: async (action, store) => {
     const onStorage = (event) => {
       if (!event.key || event.key === sharedUserKey || event.key === cachedUserKey) {
-        dispatch(actions.updatedInAnotherTab(getFromStorage(cachedUserKey)));
+        store.dispatch(actions.updatedInAnotherTab(getFromStorage(cachedUserKey)));
       }
     };
 
@@ -276,23 +276,6 @@ export const useCurrentUser = () => {
     clear: () => dispatch(actions.loggedOut()),
   };
 };
-
-export const CurrentUserProvider = ({ children }) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(pageMounted());
-
-    
-    return () => {
-      window.removeEventListener('storage', onStorage, { passive: true });
-    };
-  }, []);
-  return children;
-};
-CurrentUserProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 
 export const useSuperUserHelpers = () => {
   const { currentUser: cachedUser } = useCurrentUser();
