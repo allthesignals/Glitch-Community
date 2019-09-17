@@ -1,3 +1,11 @@
-import { createAction } from 'redux-starter-kit'
+import { useEffect } from 'react'
+import { createAction } from 'redux-starter-kit';
+import { useDispatch } from 'react-redux'
 
-const appMounted = createAction('app/appMounted')
+export const appMounted = createAction('appMounted');
+
+export const useAppMounted = () => {
+  useEffect(() => {
+    dispatch(appMounted())
+  }, [])
+}
