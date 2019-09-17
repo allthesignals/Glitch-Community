@@ -9,7 +9,8 @@ import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
 import { useCurrentUser } from 'State/current-user';
 import { actions, useNotifications } from 'State/remote-notifications';
 import { getDisplayName as getUserDisplayName } from 'Models/user'
-import { get } from 'Models/project'
+import { getProjectLink } from 'Models/project'
+import { getCollectionLink } from 'Models/collection'
 
 // TODO: do in router instead of in component
 const parse = (search, name) => {
@@ -120,7 +121,7 @@ const RemixNotification = ({ notification }) => {
 
   return (
     <NotificationBase
-      href={getProjectUrl(remixProject)}
+      href={getProjectLink(remixProject)}
       notification={notification}
       icon="microphone"
       options={options}
@@ -152,7 +153,7 @@ const CollectionNotification = ({ notification }) => {
 
   return (
     <NotificationBase
-      href={getCollectionUrl(collection)}
+      href={getCollectionLink(collection)}
       notification={notification}
       icon="microphone"
       options={options}
