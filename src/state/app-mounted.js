@@ -6,7 +6,6 @@ export const appMounted = createAction('appMounted');
 
 export const useAppMounted = () => {
   const dispatch = useDispatch();
-  const 
   useEffect(() => {
     dispatch(appMounted());
   }, []);
