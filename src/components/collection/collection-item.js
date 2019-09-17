@@ -13,11 +13,8 @@ import Row from 'Components/containers/row';
 import ProjectItemSmall from 'Components/project/project-item-small';
 import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
-<<<<<<< HEAD
 import Arrow from 'Components/arrow';
 import { PrivateBadge } from 'Components/private-badge';
-=======
->>>>>>> 05c98ffa548db72373f960f804ec2235e713c1af
 
 import { isDarkColor } from 'Utils/color';
 import { CDN_URL } from 'Utils/constants';

@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 import classnames from 'classnames';
-=======
 import { VisuallyHidden } from '@fogcreek/shared-components';
->>>>>>> 05c98ffa548db72373f960f804ec2235e713c1af
 
 import Markdown from 'Components/text/markdown';
 import { ProfileItem } from 'Components/profile-list';
