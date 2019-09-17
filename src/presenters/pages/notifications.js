@@ -8,9 +8,11 @@ import Layout from 'Components/layout';
 import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
 import { useCurrentUser } from 'State/current-user';
 import { actions, useNotifications } from 'State/remote-notifications';
-import { getDisplayName as getUserDisplayName } from 'Models/user'
-import { getProjectLink } from 'Models/project'
-import { getCollectionLink } from 'Models/collection'
+import { getDisplayName as getUserDisplayName } from 'Models/user';
+import { getProjectLink } from 'Models/project';
+import { getCollectionLink } from 'Models/collection';
+
+// TODO: 'party' and 'handshake' icons
 
 // TODO: do in router instead of in component
 const parse = (search, name) => {
@@ -62,7 +64,8 @@ const TimeAgoText = styled.span`
 `;
 const TimeAgo = ({ value }) => <TimeAgoText>{dayjs(value).fromNow()}</TimeAgoText>;
 
-const NotificationWrap = styled.a`
+const NotificationWrap = styled.div`
+  position: relative;
   display: block;
   border-radius: var(--rounded);
 
@@ -72,6 +75,14 @@ const NotificationWrap = styled.a`
       background-color: var(--colors-selected-background);
       color: var(--colors-selected-text);
     `}
+`;
+
+const BackgroundLink = styled.a`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 const Row = styled.div`
@@ -87,9 +98,11 @@ const Static = styled.div`
   align-items: center;
 `;
 
-const NotificationBase = ({ href, notification, icon, options, avatars, children }) => {
+const NotificationBase = ({ href, label, notification, icon, options, avatars, children }) => {
+  // TODO: mark as read when ... what? mouse over? on screen? focused?
   return (
-    <NotificationWrap status={notification.status} href={href}>
+    <NotificationWrap status={notification.status}>
+      <BackgroundLink href={href} aria-label={label} />
       <Row>
         <Grow>{avatars}</Grow>
         <Static>
@@ -100,7 +113,7 @@ const NotificationBase = ({ href, notification, icon, options, avatars, children
       <Row>
         <Grow>{children}</Grow>
         <Static>
-          <Icon icon="icon" />
+          <Icon icon={icon} />
         </Static>
       </Row>
     </NotificationWrap>
@@ -122,6 +135,7 @@ const RemixNotification = ({ notification }) => {
   return (
     <NotificationBase
       href={getProjectLink(remixProject)}
+      label
       notification={notification}
       icon="microphone"
       options={options}
@@ -138,8 +152,8 @@ const RemixNotification = ({ notification }) => {
 };
 
 const CollectionNotification = ({ notification }) => {
-  const { project, collection, collectionUser, collectionTeam } = notification
-  
+  const { project, collection, collectionUser, collectionTeam } = notification;
+
   const dispatch = useDispatch();
   const options = [
     [
@@ -149,8 +163,14 @@ const CollectionNotification = ({ notification }) => {
     [{ label: 'Mute all collection notifications' }],
     [{ label: 'Report abuse' }],
   ];
-  
-  const collectionPrefix = collectionTeam ? <><strong>{collectionTeam.name}</strong> collection</> : "collection"
+
+  const collectionPrefix = collectionTeam ? (
+    <>
+      <strong>{collectionTeam.name}</strong> collection
+    </>
+  ) : (
+    'collection'
+  );
 
   return (
     <NotificationBase
@@ -166,23 +186,21 @@ const CollectionNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{getUserDisplayName(collectionUser)}</strong> added <strong>{project.domain}</strong> to the {collectionPrefix} <strong>{collection.name}</strong>
+      <strong>{getUserDisplayName(collectionUser)}</strong> added <strong>{project.domain}</strong> to the {collectionPrefix}{' '}
+      <strong>{collection.name}</strong>
     </NotificationBase>
   );
-}
+};
 
 const ProjectUserNotification = ({ notification }) => {
   const { project, user, team } = notification;
   const options = [
-    [
-      { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
-      { label: `Mute notifications from ${getUserDisplayName(user)}` },
-    ],
+    [{ label: `Mute notifications for ${project.domain}`, onClick: () => {} }, { label: `Mute notifications from ${getUserDisplayName(user)}` }],
     [{ label: 'Mute all project member notifications' }],
     [{ label: 'Report abuse' }],
   ];
-  
-  const memberType = team ? 'team member' : 'member'
+
+  const memberType = team ? 'team member' : 'member';
 
   return (
     <NotificationBase
@@ -200,31 +218,28 @@ const ProjectUserNotification = ({ notification }) => {
       <strong>{getUserDisplayName(user)}</strong> was added as a {memberType} to <strong>{project.domain}</strong>
     </NotificationBase>
   );
-}
+};
 
 const FeaturedProjectNotification = ({ notification }) => {
   const { project } = notification;
-  const options = [
-    [{ label: 'Request to remove from featured projects' }]
-  ]
-  
+  const options = [[{ label: 'Request to remove from featured projects' }]];
+
   return (
     <NotificationBase
-      href={getProjectLink(project)}
+      href="/"
       notification={notification}
-      icon="handshake"
+      icon="party"
       options={options}
       avatars={
         <>
-          <UserAvatar user={user} />
           <ProjectAvatar project={project} />
         </>
       }
     >
-      <strong>{getUserDisplayName(user)}</strong> was added as a {memberType} to <strong>{project.domain}</strong>
+      <strong>{project.domain}</strong> has been featured on the <strong>Glitch homepagw</strong>!
     </NotificationBase>
-  )
-}
+  );
+};
 
 const notificationForType = {
   remixActivity: RemixNotification,
@@ -256,7 +271,7 @@ const NotificationsPage = withRouter(({ search }) => {
 
   const filteredNotifications = React.useMemo(() => {
     const filtered = activeFilter === 'all' ? notifications : notifications.filter((n) => n.type === activeFilter);
-    return filtered.filter((n) => n.status !== 'hidden' && (n.type in notificationForType)).slice(0, limit);
+    return filtered.filter((n) => n.status !== 'hidden' && n.type in notificationForType).slice(0, limit);
   }, [notifications, activeFilter]);
 
   // increase number of visible notifications
@@ -299,3 +314,5 @@ const NotificationsPageContainer = () => {
   const { currentUser } = useCurrentUser();
   return <Layout>{currentUser.login ? <NotificationsPage /> : <div />}</Layout>;
 };
+
+export default NotificationsPageContainer;
