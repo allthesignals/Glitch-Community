@@ -45,9 +45,11 @@ const NotificationsPage = withRouter(({ search }) => {
     return filtered.slice(0, limit)
   }, [notifications, activeFilter])
   
+  // increase number of visible notifications
+  // if next page not already loaded   
   const requestNextPage = () => {
     setLimit((limit) => limit + PAGE_SIZE)
-    if ()
+    if (notifications.length )
   }
   
   return (
