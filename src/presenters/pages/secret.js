@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Button } from '@fogcreek/shared-components';
+import { Button, VisuallyHidden } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
-import VisuallyHidden from 'Components/containers/visually-hidden';
 import { useDevToggles } from 'State/dev-toggles';
 import useTest, { useTestAssignments, tests } from 'State/ab-tests';
 
