@@ -64,7 +64,7 @@ const NotificationWrap = styled.div`
   position: relative;
   display: block;
   border-radius: var(--rounded);
-  padding: var(--space-2);
+  padding: var(--space-1);
 
   ${({ status }) =>
     status === 'unread' &&
@@ -94,11 +94,8 @@ const AvatarRow = styled.span`
     margin-left: var(--space-1);  
   }
 `
-
 const Grow = styled.div`
   flex: 1 1 auto;
-  display: flex;
-  align-items: center;
 `;
 const Static = styled.div`
   flex: 0 0 auto;
@@ -115,7 +112,7 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
     <NotificationWrap status={notification.status}>
       <BackgroundLink href={href} aria-label={label} />
       <Row>
-        <Grow>{avatars}</Grow>
+        <AvatarRow>{avatars}</AvatarRow>
         <Static>
           <TimeAgo value={notification.createdAt} />
           <ActionsPopover options={options} menuLabel="Notification options" />
@@ -244,7 +241,7 @@ const FeaturedProjectNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{project.domain}</strong> has been featured on the <strong>Glitch homepagw</strong>!
+      <strong>{project.domain}</strong> has been featured on the <strong>Glitch homepage</strong>!
     </NotificationBase>
   );
 };
