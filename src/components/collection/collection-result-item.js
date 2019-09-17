@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import Markdown from 'Components/text/markdown';
 import { ProfileItem } from 'Components/profile-list';
@@ -34,7 +35,7 @@ const CollectionResultItem = ({ onClick, collection, active }) => {
   collection.private = true;
   const collectionIsMyStuff = useDevToggle('My Stuff') && collection.isMyStuff;
   return (
-    <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`}>
+    <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`} className={classnames(collection.private && styles.private)}>
       <div className={styles.avatarWrap}>{collectionIsMyStuff ? <BookmarkAvatar /> : <CollectionAvatar collection={collection} />}</div>
       <ResultInfo>
         <VisuallyHidden>Add to collection</VisuallyHidden>
