@@ -16,8 +16,10 @@ const parse = (search, name) => {
 
 const RemixNotification = ({ notification }) => {
   const dispatch = useDispatch()
+  const remixUserName = notification.remixUser.name || `@${notification.remixUser.login}`
   const actions = {
-    `Mute notifications for ${notif}`
+    [`Mute notifications for ${notification.originalProject.domain}`]: () => {},
+    [`Mute notifications from ${remixUserName}`]
   }
   return (
     <NotificationBase notification={notification} icon="microphone" avatars={
@@ -26,7 +28,7 @@ const RemixNotification = ({ notification }) => {
           <ProjectAvatar project={notification.originalProject} />
         </>
       }>
-      <strong>{notification.remixUser.name}</strong> created a remix of <strong>{notification.originalProject.domain}</strong>
+      <strong>{remixUserName}</strong> created a remix of <strong>{notification.originalProject.domain}</strong>
     </NotificationBase>
   )
 }
