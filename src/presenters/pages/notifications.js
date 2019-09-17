@@ -307,8 +307,13 @@ const NotificationList = styled.ul`
   }
 `;
 
+const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const PageTitle = styled.h2`
-  font-size: var(--sizes-bigger);
+  font-size: var(--fontSizes-bigger);
   flex: 1 1 auto;
 `
 
@@ -338,12 +343,12 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
   return (
     <>
       <header>
-        <Row>
+        <HeaderRow>
           <PageTitle>Notifications</PageTitle>
-          <Button as={Link} size="small" to="/settings#privacy-and-notifications">
+          <Button as={Link} size="small" variant="secondary" to="/settings#privacy-and-notifications">
             Edit notification settings
           </Button>
-        </Row>
+        </HeaderRow>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
       </header>
 
