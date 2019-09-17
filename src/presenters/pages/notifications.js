@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import dayjs from 'dayjs';
 import { Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
 import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
@@ -15,10 +16,7 @@ const parse = (search, name) => {
 };
 
 // TODO
-const TimeAgo = ({ value }) => new Date(value).toLocaleString()
-
-const 
-
+const TimeAgo = ({ value }) => dayjs(value).fromNow()
 
 const NotificationWrap = styled.div`
   border-radius: var(--rounded);
