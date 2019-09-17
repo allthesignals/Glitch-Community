@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { IconButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
@@ -251,7 +252,7 @@ const filterOptions = [
 
 const PAGE_SIZE = 20;
 
-const NotificationsPage = ({ activeFilter = "all" }) => {
+const NotificationsPage = withRouter(({ activeFilter }) => {
   const { status, notifications, nextPage } = useNotifications();
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const dispatch = useDispatch();
