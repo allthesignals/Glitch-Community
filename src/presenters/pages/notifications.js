@@ -6,8 +6,12 @@ import Layout from 'Components/layout'
 import { useCurrentUser } from 'State/current-user'
 
 
-const NotificationsPage = withRouter(({ location }) => {
+const NotificationsPage = withRouter(({ query }) => {
+  const activeFilter
   
+  const setActiveFilter = (filter) => {
+    history.push(`/search?q=${encodeURIComponent(query)}&activeFilter=${filter}`);
+  };
   
   
   return (
