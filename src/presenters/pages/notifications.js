@@ -35,6 +35,7 @@ const ActionsPopover = ({ options: actionGroups, menuLabel }) => (
           <Actions key={groupIndex}>
             {group.map((action, actionIndex) => (
               <Button
+                key={actionIndex}
                 variant="secondary"
                 size="tiny"
                 ref={groupIndex === 0 && actionIndex === 0 ? focusedOnMount : null}
