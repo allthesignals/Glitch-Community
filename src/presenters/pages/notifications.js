@@ -13,22 +13,26 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-
 const NotificationWrap = styled.div`
+  display: grid;
   
-`
+`;
 
 const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
-  <NotificationWrap status={notification.status}>
-    <AvatarBlock>{avatars}</AvatarBlock>
-    <ActionsBlock>
-      <TimeAgo value={notification.createdAt}/>
-      <Actions actions={actions} />
-    </ActionsBlock>
-    <DescriptionBlock>{children}</DescriptionBlock>
-    <IconBlock><Icon icon="icon" /></IconBlock>
-  </NotificationWrap>
-}
+  return (
+    <NotificationWrap status={notification.status}>
+      <AvatarBlock>{avatars}</AvatarBlock>
+      <ActionsBlock>
+        <TimeAgo value={notification.createdAt} />
+        <Actions actions={actions} />
+      </ActionsBlock>
+      <DescriptionBlock>{children}</DescriptionBlock>
+      <IconBlock>
+        <Icon icon="icon" />
+      </IconBlock>
+    </NotificationWrap>
+  );
+};
 
 const RemixNotification = ({ notification }) => {
   const dispatch = useDispatch();
@@ -86,7 +90,7 @@ const NotificationsPage = withRouter(({ search }) => {
 
   const filteredNotifications = React.useMemo(() => {
     const filtered = activeFilter === 'all' ? notifications : notifications.filter((n) => n.type === activeFilter);
-    return filtered.filter(n => n.status !=== 'hidden').slice(0, limit);
+    return filtered.filter((n) => n.status !== 'hidden').slice(0, limit);
   }, [notifications, activeFilter]);
 
   // increase number of visible notifications
