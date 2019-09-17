@@ -252,7 +252,7 @@ const filterOptions = [
 
 const PAGE_SIZE = 20;
 
-const NotificationsPage = withRouter(({ activeFilter }) => {
+const NotificationsPage = withRouter(({ history, activeFilter }) => {
   const { status, notifications, nextPage } = useNotifications();
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const dispatch = useDispatch();
@@ -305,7 +305,7 @@ const NotificationsPage = withRouter(({ activeFilter }) => {
       </header>
     </>
   );
-};
+});
 
 const NotificationsPageContainer = ({ activeFilter }) => {
   const { currentUser } = useCurrentUser();
