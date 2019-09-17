@@ -175,7 +175,9 @@ const Router = () => {
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
         
-        <Route path="/notifications" exact render={({ location })}
+        <Route path="/notifications" exact render={({ location }) => {
+            return <NotificationsPage activeFilter={parse(location.search, 'activeFilter')} />
+        }}
 
         {EXTERNAL_ROUTES.map((route) => (
           <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />
