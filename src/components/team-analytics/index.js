@@ -45,7 +45,7 @@ function getSampleAnalytics() {
 }
 
 const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  if (!featureToggles.isFeatureEnabled('analytics', id) || !projects.length) {
+  if (!featureToggles.isFeatureEnabled('analytics', String(id)) || !projects.length) {
     return getSampleAnalytics();
   }
 
