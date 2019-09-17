@@ -199,8 +199,13 @@ const testNotifications = [
     type: 'collectionActivity',
     project: testProject[0],
     collection: testCollection[0],
-    collectionUsrr
+    collectionUser: testUser[0],
   },
+  {
+    id: 3,
+    createdAt: new Date('2019-08-01').toString(),
+    type: 
+  }
 ];
 
 export const handlers = {
