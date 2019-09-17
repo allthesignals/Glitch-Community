@@ -29,6 +29,6 @@ export const { reducer, actions } = createSlice({
 
 export const handlers = {};
 
-export const useNotifications = () => useSelector((state) => state.remoteNotifications.notifications);
+export const useNotifications = () => useSelector((state) => state.remoteNotifications);
 
 export const useUnreadNotificationsCount = () => useSelector((state) => sumBy(state.remoteNotifications.notifications, (n) => n.status === 'unread'));

@@ -27,7 +27,7 @@ const filterOptions = [
 ]
 
 const NotificationsPage = withRouter(({ search }) => {
-  const notifications = useNotifications()
+  const { status, notifications, nextPage } = useNotifications()
   const dispatch = useDispatch()
   
   // TODO: this can be done in router
@@ -53,7 +53,7 @@ const NotificationsPage = withRouter(({ search }) => {
             </li>
           ))}
         </ul>
-        <Button onClick={() => dispatch(actions.requestedMoreNotifications())}>Loa</Button>
+        {nextPage && <Button onClick={() => dispatch(actions.requestedMoreNotifications())}>Load More</Button>}
       </header>
     </>
   )
