@@ -251,7 +251,7 @@ const filterOptions = [
 
 const PAGE_SIZE = 20;
 
-const NotificationsPage = ({ activeFilter }) => {
+const NotificationsPage = ({ activeFilter = "all" }) => {
   const { status, notifications, nextPage } = useNotifications();
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const dispatch = useDispatch();
