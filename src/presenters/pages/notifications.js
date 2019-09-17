@@ -131,7 +131,7 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
         </Static>
       </Row>
       <Row>
-        <Grow>{children}</Grow>
+        <Grow >{children}</Grow>
         <BigIcon icon={icon} />
       </Row>
     </NotificationWrap>
