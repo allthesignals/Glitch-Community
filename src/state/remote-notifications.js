@@ -136,7 +136,7 @@ const testUser = [
 const testNotifications = [
   {
     id: 1,
-    createdAt: new Date('2019-09-07').toString(),
+    createdAt: new Date('2019-09-17').toString(),
     status: 'unread',
     type: 'remixActivity',
     originalProject: testProject[0],
@@ -145,7 +145,11 @@ const testNotifications = [
   },
   {
     id: 2,
-    createdAt: new Date('2019-09-01')
+    createdAt: new Date('2019-09-01').toString(),
+    status: 'read',
+    type: 'collectionActivity',
+    project: testProject[0],
+    collection: 
   }
 ];
 
