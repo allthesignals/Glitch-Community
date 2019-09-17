@@ -8,6 +8,7 @@ import Layout from 'Components/layout';
 import { ProjectAvatar } from 'Components/images/avatar';
 import Link from 'Components/link';
 import { ProfileItem } from 'Components/profile-list';
+import TooltipContainer from 'Components/tooltips/tooltip-container';
 import { useCurrentUser } from 'State/current-user';
 import { actions, useNotifications } from 'State/remote-notifications';
 import { getDisplayName as getUserDisplayName, getUserLink } from 'Models/user';
@@ -18,10 +19,16 @@ import { getCollectionLink } from 'Models/collection';
 
 // TODO: surely this already exists
 const ProjectAvatarLink = ({ project }) => (
-  <Link to={getProjectLink(project)} aria-label={project.domain}>
-    <ProjectAvatar project={project} />
-  </Link>
-)
+  <TooltipContainer
+    type="info"
+    tooltip={project.domain}
+    target={
+      <Link to={getProjectLink(project)}>
+        <ProjectAvatar project={project} />
+      </Link>
+    }
+  />
+);
 
 // notification items
 
@@ -128,7 +135,7 @@ const BigIcon = styled(Icon)`
 `;
 const BoldLink = styled(Link)`
   font-weight: bold;
-`
+`;
 
 const NotificationBase = ({ href, label, notification, icon, options, avatars, children }) => {
   React.useEffect(() => {
@@ -313,7 +320,6 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
     const filtered = activeFilter === 'all' ? notifications : notifications.filter((n) => n.type === activeFilter);
     return filtered.filter((n) => n.status !== 'hidden' && n.type in notificationForType).slice(0, limit);
   }, [notifications, activeFilter]);
-
 
   const hasMoreNotifications = !!nextPage || filteredNotifications.length > limit;
 
