@@ -70,7 +70,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         <div>
           <h1 className={styles.name}>{collectionName}</h1>
 
-          {isAuthorized && (
+          {isAuthorized && myStuffIsEnabled && (
             <div className={styles.privacyToggle}>
               <PrivateToggle isPrivate={!!collection.private} setPrivate={() => funcs.updatePrivacy(!collection.private)} />
             </div>
