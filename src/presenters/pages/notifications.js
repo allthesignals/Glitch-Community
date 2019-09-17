@@ -307,6 +307,11 @@ const NotificationList = styled.ul`
   }
 `;
 
+const PageTitle = styled.h2`
+  font-size: var(--sizes-bigger);
+  flex: 1 1 auto;
+`
+
 const NotificationsPage = withRouter(({ history, activeFilter }) => {
   const { status, notifications, nextPage } = useNotifications();
   const [limit, setLimit] = React.useState(PAGE_SIZE);
@@ -334,14 +339,10 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
     <>
       <header>
         <Row>
-          <Grow>
-            <h2>Notifications</h2>
-          </Grow>
-          <Static>
-            <Button as={Link} to="/settings#privacy-and-notifications">
-              Edit notification settings
-            </Button>
-          </Static>
+          <PageTitle>Notifications</PageTitle>
+          <Button as={Link} size="small" to="/settings#privacy-and-notifications">
+            Edit notification settings
+          </Button>
         </Row>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
       </header>
