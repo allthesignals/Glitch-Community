@@ -15,11 +15,16 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
+// notification items
+
+const ActionsPopover = ({ actions }) => ()
+
+
 const TimeAgoText = styled.span`
   color: var(--colors-placeholder);
   font-size: var(--fontSizes-small);
 `
-const TimeAgo = ({ value }) => <TimeAgoText>{</TimeAgoText>
+const TimeAgo = ({ value }) => <TimeAgoText>{dayjs(value).fromNow()}</TimeAgoText>
 
 const NotificationWrap = styled.div`
   border-radius: var(--rounded);
