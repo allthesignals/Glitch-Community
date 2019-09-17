@@ -140,7 +140,6 @@ const CollectionNotification = ({ notification }) => {
   const { project, collection, collectionUser, collectionTeam } = notification
   
   const dispatch = useDispatch();
-  const curatorName = collectionUser ? getUserDisplayName(collectionUser) : (collectionTeam.name || `@{collectionTeam.url}`);
   const options = [
     [
       { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
@@ -150,7 +149,7 @@ const CollectionNotification = ({ notification }) => {
     [{ label: 'Report abuse' }],
   ];
   
-  cons 
+  const collectionPrefix = collectionTeam ? <><strong>{collectionTeam.name}</strong> collection<> : "collection"
 
   return (
     <NotificationBase
