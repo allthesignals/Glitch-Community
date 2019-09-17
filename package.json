@@ -13,7 +13,6 @@
   },
   "license": "Apache License Version 2.0",
   "sideEffects": [
-    "./src/utils/progress-promise.js",
     "./src/polyfills.js"
   ],
   "scripts": {
