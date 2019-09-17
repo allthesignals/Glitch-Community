@@ -6,10 +6,13 @@ import { Button, SegmentedButton, Icon, Popover, Actions } from '@fogcreek/share
 import Layout from 'Components/layout'
 import { useCurrentUser } from 'State/current-user'
 
+// TODO: do in router instead of in component
 const parse = (search, name) => {
   const params = new URLSearchParams(search);
   return params.get(name);
 };
+
+
 
 const filterOptions = [
   { id: 'all', label: 'All' },
