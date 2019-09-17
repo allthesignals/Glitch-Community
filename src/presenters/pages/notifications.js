@@ -57,6 +57,7 @@ const ActionsPopover = ({ options: actionGroups, menuLabel }) => (
 const TimeAgoText = styled.span`
   color: var(--colors-placeholder);
   font-size: var(--fontSizes-small);
+  margin-right: var(--space-1);
 `;
 const TimeAgo = ({ value }) => <TimeAgoText>{dayjs(value).fromNow()}</TimeAgoText>;
 
