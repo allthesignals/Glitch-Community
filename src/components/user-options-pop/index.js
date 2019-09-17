@@ -191,7 +191,9 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
                   <span className={styles.userOptionsButtonAvatar}>
                     <UserAvatar user={user} hideTooltip withinButton style={avatarStyle} />
                   </span>
-                  <span className="down-arrow icon" />
+                  <span className={styles.userOptionsArrow}>
+                    <Icon icon="chevronDown" />
+                  </span>
                 </span>
               </UnstyledButton>
             );
