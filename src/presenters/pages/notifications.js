@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { Button, SegmentedButton, Icon, Popover, Actions } from '@fogcreek/shared-components'
 import Layout from 'Components/layout'
 import { useCurrentUser } from 'State/current-user'
+import { actions, useNotifications } from 'State/remote-notifications'
 
 // TODO: do in router instead of in component
 const parse = (search, name) => {
