@@ -48,11 +48,13 @@ const NotificationsPage = withRouter(({ search }) => {
   // increase number of visible notifications
   // if next page not already loaded
   
-  const hasMoreNotifications = !!nextPage || notifications.length > limit
+  const hasMoreNotifications = (status === 'ready' && !!nextPage) || notifications.length > limit
   
   const requestNextPage = () => {
     setLimit((limit) => limit + PAGE_SIZE)
-    if (notifications.length <= PAGE_SIZE)
+    if (notifications.length <= PAGE_SIZE) {
+      dispatch(actions.requestedMoreNotifications())
+    }
   }
   
   return (
@@ -76,7 +78,7 @@ const NotificationsPage = withRouter(({ search }) => {
             </li>
           ))}
         </ul>
-        {status === 'ready' && nextPage && <Button onClick={() => dispatch(actions.requestedMoreNotifications())}>Load More</Button>}
+        {hasMoreNotifications && <Button onClick={requestNextPage}>Load More</Button>}
       </header>
     </>
   )
