@@ -136,6 +136,10 @@ const BigIcon = styled(Icon)`
 `;
 const BoldLink = styled(Link)`
   font-weight: bold;
+  color: var(--colors-primary);
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const NotificationBase = ({ href, label, notification, icon, options, avatars, children }) => {
