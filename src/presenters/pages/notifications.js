@@ -205,8 +205,25 @@ const ProjectUserNotification = ({ notification }) => {
 const FeaturedProjectNotification = ({ notification }) => {
   const { project } = notification;
   const options = [
-    { label: ''}
+    [{ label: 'Request to remove from featured projects' }]
   ]
+  
+  return (
+    <NotificationBase
+      href={getProjectLink(project)}
+      notification={notification}
+      icon="handshake"
+      options={options}
+      avatars={
+        <>
+          <UserAvatar user={user} />
+          <ProjectAvatar project={project} />
+        </>
+      }
+    >
+      <strong>{getUserDisplayName(user)}</strong> was added as a {memberType} to <strong>{project.domain}</strong>
+    </NotificationBase>
+  )
 }
 
 const notificationForType = {
