@@ -10,7 +10,12 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-const filt
+const filterOptions = [
+  { id: 'all', label: 'All' },
+  { id: 'remixes', label: 'Remixes' },
+  { id: 'collections', label: 'Collections'},
+  { id: 'users', label: 'Users'}
+]
 
 const NotificationsPage = withRouter(({ search }) => {
   // TODO: this can be done in router
