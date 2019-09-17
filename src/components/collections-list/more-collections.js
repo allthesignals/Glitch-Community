@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Loader } from '@fogcreek/shared-components';
+import { Icon, Loader } from '@fogcreek/shared-components';
 
 import CoverContainer from 'Components/containers/cover-container';
 import DataLoader from 'Components/data-loader';
 import SmallCollectionItem from 'Components/collection/collection-item-small';
 import Heading from 'Components/text/heading';
 import Row from 'Components/containers/row';
-import Arrow from 'Components/arrow';
 import { UserLink, TeamLink } from 'Components/link';
 import { getDisplayName } from 'Models/user';
 import { getSingleItem } from 'Shared/api';
@@ -58,12 +57,12 @@ const MoreCollections = ({ currentCollection, collections }) => {
             <>
               {curator.value.user && (
                 <UserLink user={curator.value.user}>
-                  More by {getDisplayName(curator.value.user)} <Arrow />
+                  More by {getDisplayName(curator.value.user)} <Icon className={styles.arrow} icon="arrowRight" />
                 </UserLink>
               )}
               {curator.value.team && (
                 <TeamLink team={curator.value.team}>
-                  More from {curator.value.team.name} <Arrow />
+                  More from {curator.value.team.name} <Icon className={styles.arrow} icon="arrowRight" />
                 </TeamLink>
               )}
             </>

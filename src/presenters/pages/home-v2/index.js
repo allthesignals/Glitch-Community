@@ -15,9 +15,9 @@ import ReportButton from 'Components/report-abuse-pop';
 import Layout from 'Components/layout';
 import Link from 'Components/link';
 import PreviewContainer from 'Components/containers/preview-container';
-import Arrow from 'Components/arrow';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
+import OnboardingBanner from 'Components/onboarding-banner';
 import { useCurrentUser } from 'State/current-user';
 import { getProjectAvatarUrl } from 'Models/project';
 import { useAPI } from 'State/api';
@@ -135,7 +135,7 @@ const CuratedCollections = ({ content }) => (
           <p>{description}</p>
           <div className={styles.curatedCollectionButtonWrap}>
             <Button as="span">
-              View <Pluralize count={count} singular="Project" /> <Arrow />
+              View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
             </Button>
           </div>
         </CuratedCollectionContainer>
@@ -166,7 +166,7 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
           <h3 className={styles.h3}>{dek}</h3>
           <Markdown>{summary}</Markdown>
           <Button as="a" href={href}>
-            {cta} <Arrow />
+            {cta} <Icon icon="arrowRight" />
           </Button>
         </div>
       </div>
@@ -220,7 +220,7 @@ const CultureZine = ({ content }) => (
               </Row>
               <div className={styles.readMoreLink}>
                 <Button as="a" href="https://glitch.com/culture/">
-                  Read More on Culture <Arrow />
+                  Read More on Culture <Icon icon="arrowRight" />
                 </Button>
               </div>
             </>
@@ -250,7 +250,7 @@ const BuildingOnGlitch = ({ content }) => (
           <h3>{title}</h3>
           <p>{description}</p>
           <Button as="span">
-            {cta} <Arrow />
+            {cta} <Icon icon="arrowRight" />
           </Button>
         </Link>
       ))}
@@ -271,6 +271,7 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
     {!loggedIn && <Banner />}
     {!loggedIn && <FeatureCallouts content={data.featureCallouts} />}
     {hasProjects && <RecentProjects />}
+    {loggedIn && !hasProjects && <OnboardingBanner isHomepage />}
     {loggedIn && <Questions />}
     <UnifiedStories content={data.unifiedStories} />
     <TopPicks>

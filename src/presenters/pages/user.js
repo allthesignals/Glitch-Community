@@ -11,6 +11,7 @@ import UserNameInput from 'Components/fields/user-name-input';
 import UserLoginInput from 'Components/fields/user-login-input';
 import ProjectsList from 'Components/containers/projects-list';
 import { UserProfileContainer } from 'Components/containers/profile';
+import OnboardingBanner from 'Components/onboarding-banner';
 import CollectionsList from 'Components/collections-list';
 import DeletedProjects from 'Components/deleted-projects';
 import ReportButton from 'Components/report-abuse-pop';
@@ -126,6 +127,8 @@ const UserPage = ({ user: initialUser }) => {
             placeholder="Tell us about yourself"
           />
         </UserProfileContainer>
+
+        {isAuthorized && !recentProjects.length && <OnboardingBanner />}
       </section>
 
       {featuredProject && (

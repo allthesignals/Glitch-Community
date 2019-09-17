@@ -2,13 +2,13 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { pickBy } from 'lodash';
+import { VisuallyHidden } from '@fogcreek/shared-components';
 
 import useUniqueId from 'Hooks/use-unique-id';
 import InputErrorMessage from './input-error-message';
 import InputErrorIcon from './input-error-icon';
 
 import styles from './text-input.styl';
-import { visuallyHidden } from '../global.styl';
 
 const TYPES = ['email', 'password', 'search', 'text'];
 
@@ -46,7 +46,7 @@ const TextInput = forwardRef(({
   const eventProps = pickBy(props, (_, key) => key.startsWith('on'));
   return (
     <label className={outerClassName} htmlFor={uniqueId}>
-      <span className={visuallyHidden}>{labelText}</span>
+      <VisuallyHidden>{labelText}</VisuallyHidden>
       <span className={borderClassName}>
         {!!prefix && <InputPart>{prefix}</InputPart>}
         <input
