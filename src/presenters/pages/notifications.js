@@ -137,9 +137,6 @@ const BigIcon = styled(Icon)`
 const BoldLink = styled(Link)`
   font-weight: bold;
   color: var(--colors-primary);
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const NotificationBase = ({ href, label, notification, icon, options, avatars, children }) => {
@@ -163,11 +160,13 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
   );
 };
 
+const noop = () => {}
+
 const RemixNotification = ({ notification }) => {
   const { remixUser, originalProject, remixProject } = notification;
   const options = [
     [
-      { label: `Mute notifications for ${originalProject.domain}`, onClick: () => {} },
+      { label: `Mute notifications for ${originalProject.domain}`, onClick: noop },
       { label: `Mute notifications from ${getUserDisplayName(remixUser)}` },
     ],
     [{ label: 'Mute all remix notifications' }],
