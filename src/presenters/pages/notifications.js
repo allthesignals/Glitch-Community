@@ -105,7 +105,7 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
         <Grow>{avatars}</Grow>
         <Static>
           <TimeAgo value={notification.createdAt} />
-          <ActionsPopover options={options} />
+          <ActionsPopover options={options} label="Notification options" />
         </Static>
       </Row>
       <Row>
@@ -132,7 +132,7 @@ const RemixNotification = ({ notification }) => {
   return (
     <NotificationBase
       href={getProjectLink(remixProject)}
-      label="Notification options"
+      label="visit remix"
       notification={notification}
       icon="microphone"
       options={options}
