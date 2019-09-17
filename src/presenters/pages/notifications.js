@@ -16,16 +16,16 @@ const parse = (search, name) => {
 
 const RemixNotification = ({ notification }) => {
   const dispatch = useDispatch()
+  const actions = {}
   return (
-    <NotificationBase notification={notification}>
-      <AvatarSection>
-        <UserAvatar user={notification.remixUser} />
-        <ProjectAvatar project={notification.originalProject} />
-      </AvatarSection>
-      <ActionsSection>
-        
-      </ActionsSection>
-    </NotificationWrap>
+    <NotificationBase notification={notification} icon="microphone" avatars={
+        <>
+          <UserAvatar user={notification.remixUser} />
+          <ProjectAvatar project={notification.originalProject} />
+        </>
+      }>
+      
+    </NotificationBase>
   )
 }
 
