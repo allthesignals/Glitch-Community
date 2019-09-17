@@ -208,6 +208,13 @@ const testNotifications = [
     type: 'projectUserActivity',
     project: testProject[0],
     user: testUser[0],
+  },
+  {
+    id: 4,
+    createdAt: new Date('2018-08-01').toString(),
+    status: 'read',
+    type: 'featuredProjectActivity',
+    project: testProject[0],
   }
 ];
 
