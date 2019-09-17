@@ -18,7 +18,7 @@ import { getCollectionLink } from 'Models/collection';
 
 // TODO: surely this already exists
 const ProjectAvatarLink = ({ project }) => (
-  <Link to={getProjectLink(project)}>
+  <Link to={getProjectLink(project)} aria-label={project.domain}>
     <ProjectAvatar project={project} />
   </Link>
 )
