@@ -26,9 +26,11 @@ const filterOptions = [
   { id: 'projectUserActivity', label: 'Users'}
 ]
 
+const PAGE_SIZE = 20
+
 const NotificationsPage = withRouter(({ search }) => {
   const { status, notifications, nextPage } = useNotifications()
-  const [limit, setLimit] = React.useState(20)
+  const [limit, setLimit] = React.useState(PAGE_SIZE)
   const dispatch = useDispatch()
   
   // TODO: this can be done in router
@@ -43,6 +45,10 @@ const NotificationsPage = withRouter(({ search }) => {
     return filtered.slice(0, limit)
   }, [notifications, activeFilter])
   
+  const requestNextPage = () => {
+    setLimit((limit) => limit + PAGE_SIZE)
+    if ()
+  }
   
   return (
     <>
@@ -65,7 +71,7 @@ const NotificationsPage = withRouter(({ search }) => {
             </li>
           ))}
         </ul>
-        {nextPage && <Button onClick={() => dispatch(actions.requestedMoreNotifications())}>Load More</Button>}
+        {status === 'ready' && nextPage && <Button onClick={() => dispatch(actions.requestedMoreNotifications())}>Load More</Button>}
       </header>
     </>
   )
