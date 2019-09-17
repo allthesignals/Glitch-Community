@@ -86,7 +86,7 @@ const Row = styled.div`
   display: flex;
   align-items: flex-start;
   & + & {
-    margin-top: var(--space-1);
+    margin-top: var(--space-2);
   }
 `;
 const AvatarRow = styled.span`
@@ -264,6 +264,15 @@ const filterOptions = [
 ];
 
 const PAGE_SIZE = 20;
+
+const NotificationList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  > * + * {
+
+}  
+`
 
 const NotificationsPage = withRouter(({ history, activeFilter }) => {
   const { status, notifications, nextPage } = useNotifications();
