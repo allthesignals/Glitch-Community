@@ -58,7 +58,7 @@ const ActionsPopover = ({ options: actionGroups, menuLabel }) => (
 );
 
 const TimeAgoText = styled.span`
-  color: var(--colors-placeholder);
+  color: var(--colors-secondary);
   font-size: var(--fontSizes-small);
   margin-right: var(--space-1);
 `;
@@ -191,6 +191,7 @@ const CollectionNotification = ({ notification }) => {
   return (
     <NotificationBase
       href={getCollectionLink(collection)}
+      label="visit collection"
       notification={notification}
       icon="framedPicture"
       options={options}
@@ -221,6 +222,7 @@ const ProjectUserNotification = ({ notification }) => {
   return (
     <NotificationBase
       href={getProjectLink(project)}
+      label="visit project"
       notification={notification}
       icon="handshake"
       options={options}
@@ -243,6 +245,7 @@ const FeaturedProjectNotification = ({ notification }) => {
   return (
     <NotificationBase
       href="/"
+      label="visit home page"
       notification={notification}
       icon="party"
       options={options}
