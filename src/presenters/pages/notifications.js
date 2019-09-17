@@ -132,7 +132,7 @@ const RemixNotification = ({ notification }) => {
   return (
     <NotificationBase
       href={getProjectLink(remixProject)}
-      label=""
+      label="Notification options"
       notification={notification}
       icon="microphone"
       options={options}
