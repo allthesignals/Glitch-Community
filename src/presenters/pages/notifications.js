@@ -14,7 +14,7 @@ const parse = (search, name) => {
 };
 
 
-const RemixNotification = ({ notification: }) => {
+const RemixNotification = ({ notification }) => {
   const dispatch = useDispatch()
   return (
     <NotificationWrap status={notification.status}>
@@ -22,6 +22,9 @@ const RemixNotification = ({ notification: }) => {
         <UserAvatar user={notification.remixUser} />
         <ProjectAvatar project={notification.originalProject} />
       </AvatarSection>
+      <ActionsSection>
+        
+      </ActionsSection>
     </NotificationWrap>
   )
 }
