@@ -199,10 +199,14 @@ const ProjectUserNotification = ({ notification }) => {
   );
 }
 
+
+
+
 const notificationForType = {
   remixActivity: RemixNotification,
   collectionActivity: CollectionNotification,
   projectUserActivity: ProjectUserNotification,
+  featuredProjectActivity: FeaturedProjectNotification,
 };
 
 const filterOptions = [
@@ -228,7 +232,7 @@ const NotificationsPage = withRouter(({ search }) => {
 
   const filteredNotifications = React.useMemo(() => {
     const filtered = activeFilter === 'all' ? notifications : notifications.filter((n) => n.type === activeFilter);
-    return filtered.filter((n) => n.status !== 'hidden').slice(0, limit);
+    return filtered.filter((n) => n.status !== 'hidden' && (n.type in notificationForType)).slice(0, limit);
   }, [notifications, activeFilter]);
 
   // increase number of visible notifications
