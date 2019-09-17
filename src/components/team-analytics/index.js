@@ -45,19 +45,17 @@ function getSampleAnalytics() {
 }
 
 const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  if (!featureToggles.isFeatureEnabled('analytics', id) || !projects.length) {
+  // if (!featureToggles.isFeatureEnabled('analytics', id) || !projects.length) {
     return getSampleAnalytics();
-  if (featureToggles.isFeatureEnabled('analytics', id)) {
-    const path = currentProjectDomain ? `analytics/${id}/project/${currentProjectDomain}?from=${fromDate}` : `analytics/${id}/team?from=${fromDate}`;
-    try {
-      const { data } = await api.get(path);
-      return data;
-    } catch (e) {
-      captureException(e);
-      return null;
-    }
-  } else {
-    return getSampleAnalytics();
+  // }
+
+  const path = currentProjectDomain ? `analytics/${id}/project/${currentProjectDomain}?from=${fromDate}` : `analytics/${id}/team?from=${fromDate}`;
+  try {
+    const { data } = await api.get(path);
+    return data;
+  } catch (e) {
+    captureException(e);
+    return null;
   }
 });
 
