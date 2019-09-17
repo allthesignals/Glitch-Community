@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css} from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
@@ -17,7 +17,8 @@ const parse = (search, name) => {
 const NotificationWrap = styled.div`
   display: grid;
   border-radius: var(--rounded);
-  background-color: 
+
+  ${({ status }) => status === 'unread' ? css`` 'var(--colors-selected-background)' : inherit}
 `;
 
 const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
