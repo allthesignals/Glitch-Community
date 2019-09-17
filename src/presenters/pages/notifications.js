@@ -104,7 +104,10 @@ const AvatarRow = styled.span`
 const Grow = styled.div`
   flex: 1 1 auto;
 `;
-const NotificationMessage=
+const NotificationMessage = styled.p`
+  margin: 0;
+  flex: 1 1 auto;
+`
 const Static = styled.div`
   flex: 0 0 auto;
   display: flex;
@@ -129,7 +132,7 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
         <ActionsPopover options={options} menuLabel="Notification options" />
       </Row>
       <Row>
-        <Grow>{children}</Grow>
+        <NotificationMessage>{children}</NotificationMessage>
         <BigIcon icon={icon} />
       </Row>
     </NotificationWrap>
