@@ -31,7 +31,11 @@ const ActionsPopover = ({ actions: actionGroups, menuLabel }) => (
       <ActionsPopoverContent>
         {actionGroups.map((group, groupIndex) => (
           <Actions key={groupIndex}>
-            {group.map((action, ))}
+            {group.map((action, actionIndex) => (
+              <Button variant="secondary" size="tiny" ref={groupIndex ==} onClick={() => { onClose(); action.onClick(); }}>
+                {action.label}
+              </Button>
+            ))}
           </Actions>
         ))}
       </ActionsPopoverContent>
