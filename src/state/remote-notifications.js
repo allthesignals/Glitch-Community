@@ -5,11 +5,12 @@ import { sumBy } from 'lodash';
 export const { reducer, actions } = createSlice({
   slice: 'remoteNotifications',
   initialState: {
-    status: 'loading',
+    status: 'init',
     notifications: [],
     nextPage: null,
   },
   reducer: {
+    requestedNotifications: (state) => ({ ...state, status: 'loading' }),
     requestedMoreNotifications: (state) => ({ ...state, status: 'loading' }),
     loadedNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({ status: 'ready', notifications, nextPage }),
     loadedMoreNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({
@@ -28,6 +29,12 @@ export const { reducer, actions } = createSlice({
 
 export const handlers = {};
 
-export const useNotifications = () => useSelector((state) => state.remoteNotifications);
+export const useNotifications = () => {
+  const dispatch = useDispatch()
+  const state = useSelector((state) => state.remoteNotifications);
+  if (state.status === 'init') {
+    dispatch(actions.requestedNotifications())
+  }
+}
 
 export const useUnreadNotificationsCount = () => useSelector((state) => sumBy(state.remoteNotifications.notifications, (n) => n.status === 'unread'));
