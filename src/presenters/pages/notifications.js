@@ -14,8 +14,13 @@ const parse = (search, name) => {
 };
 
 
-const RemixNotification = () => {
+const RemixNotification = ({ notification }) => {
   const dispatch = useDispatch()
+  return (
+    <NotificationWrap status={notification.status}>
+      
+    </NotificationWrap>
+  )
 }
 
 
@@ -75,7 +80,7 @@ const NotificationsPage = withRouter(({ search }) => {
         <ul>
           {filteredNotifications.map((n) => (
             <li key={n.id}>
-              {React.createElement(notificationForType[n.type]({ data: n }))}
+              {React.createElement(notificationForType[n.type]({ notification: n }))}
             </li>
           ))}
         </ul>
