@@ -7,6 +7,7 @@ import { IconButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } f
 import Layout from 'Components/layout';
 import { UserAvatar, ProjectAvatar, TeamAvatar } from 'Components/images/avatar';
 import Link from 'Components/link';
+import { ProfileItem } from 'Components/profile-list';
 import { useCurrentUser } from 'State/current-user';
 import { actions, useNotifications } from 'State/remote-notifications';
 import { getDisplayName as getUserDisplayName, getUserLink } from 'Models/user';
@@ -163,11 +164,11 @@ const RemixNotification = ({ notification }) => {
       options={options}
       avatars={
         <>
-          <Link to={getUserLink(remixUser)}>
-            <UserAvatar user={remixUser} />
-          </Link>
-          
-          <ProjectAvatar project={originalProject} />
+          <ProfileItem user={remixUser} />
+          <Link to={getProjectLink(remixProject)}>
+            <ProjectAvatar project={originalProject} />
+          </Link>      
+
         </>
       }
     >
