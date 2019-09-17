@@ -19,14 +19,15 @@ const RemixNotification = ({ notification }) => {
   const remixUserName = notification.remixUser.name || `@${notification.remixUser.login}`
   const actions = [
     [
-      { label: `Mute notifications for ${notification.originalProject.domain}`}
+      { label: `Mute notifications for ${notification.originalProject.domain}`, onClick: () => {} },
+      { label: `Mute notifications from ${remixUserName}` },
+    ], [
+      { label: 'Mute all remix notifications' },
+    ], [
+      { label: 'Report abuse' }
     ]
-    
   ]
-    []: () => {},
-    [`Mute notifications from ${remixUserName}`]: () => {},
-    [``]
-  }
+  
   return (
     <NotificationBase notification={notification} icon="microphone" avatars={
         <>
