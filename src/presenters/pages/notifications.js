@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 import { IconButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
-import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
+import { UserAvatar, ProjectAvatar, TeamAvatar } from 'Components/images/avatar';
 import { useCurrentUser } from 'State/current-user';
 import { actions, useNotifications } from 'State/remote-notifications';
 import { getDisplayName as getUserDisplayName } from 'Models/user';
@@ -93,7 +93,10 @@ const Static = styled.div`
 `;
 
 const NotificationBase = ({ href, label, notification, icon, options, avatars, children }) => {
-  // TODO: mark as read when ... what? mouse over? on screen? focused?
+  React.useEffect(() => {
+    // TODO: mark as read when ... what? mount? mouse over? on screen? focused?
+  }, []);
+
   return (
     <NotificationWrap status={notification.status}>
       <BackgroundLink href={href} aria-label={label} />
@@ -116,7 +119,6 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
 
 const RemixNotification = ({ notification }) => {
   const { remixUser, originalProject, remixProject } = notification;
-  const dispatch = useDispatch();
   const options = [
     [
       { label: `Mute notifications for ${originalProject.domain}`, onClick: () => {} },
@@ -147,8 +149,6 @@ const RemixNotification = ({ notification }) => {
 
 const CollectionNotification = ({ notification }) => {
   const { project, collection, collectionUser, collectionTeam } = notification;
-
-  const dispatch = useDispatch();
   const options = [
     [
       { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
@@ -255,7 +255,6 @@ const NotificationsPage = ({ activeFilter }) => {
   const { status, notifications, nextPage } = useNotifications();
   const [limit, setLimit] = React.useState(PAGE_SIZE);
   const dispatch = useDispatch();
-
 
   const setActiveFilter = (filter) => {
     history.push(`/notifications?activeFilter=${filter}`);
