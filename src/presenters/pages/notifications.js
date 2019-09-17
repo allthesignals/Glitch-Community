@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
+import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
 import { useCurrentUser } from 'State/current-user';
 import { actions, useNotifications } from 'State/remote-notifications';
 
@@ -15,7 +16,8 @@ const parse = (search, name) => {
 
 const NotificationWrap = styled.div`
   display: grid;
-  
+  border-radius: var(--rounded);
+  background-color: 
 `;
 
 const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
