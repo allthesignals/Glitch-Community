@@ -106,6 +106,10 @@ const Static = styled.div`
   align-items: center;
 `;
 
+const BigIcon = styled(Icon)`
+  font-size: var(--fontSizes-bigger);
+`
+
 const NotificationBase = ({ href, label, notification, icon, options, avatars, children }) => {
   React.useEffect(() => {
     // TODO: mark as read when ... what? mount? mouse over? on screen? focused?
@@ -118,14 +122,13 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
         <AvatarRow>{avatars}</AvatarRow>
         <Static>
           <TimeAgo value={notification.createdAt} />
+          {" "}
           <ActionsPopover options={options} menuLabel="Notification options" />
         </Static>
       </Row>
       <Row>
         <Grow>{children}</Grow>
-        <Static>
-          <Icon icon={icon} />
-        </Static>
+        <BigIcon icon={icon} />
       </Row>
     </NotificationWrap>
   );
