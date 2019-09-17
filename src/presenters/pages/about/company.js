@@ -1,27 +1,32 @@
 import React from 'react';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
-import { CDN_URL } from 'Utils/constants';
-import Heading from 'Components/text/heading';
-import Text from 'Components/text/text';
-import Image from 'Components/images/image';
-import { Button, Mark } from '@fogcreek/shared-components';
+import { Button, Mark, Icon } from '@fogcreek/shared-components';
 import AboutLayout from './about-layout';
 import styles from './company.styl';
 
 const blueMark = '#aad6fb';
 const pinkMark = '#ffaabf';
-const yellowMark = '#fcf3b0';
 const purpleMark = '#daa9ff';
+const orangeMark = '#F6C6B5';
+const greenMark = '#d3f3e6';
 
 const BlockSection = ({ children }) => <section className={styles.blockSection}>{children}</section>;
 
+const Bio = ({ name, imageUrl, isBoardMember, children }) => (
+  <article className={styles.leaderContainer}>
+    <img className={styles.avatar} src={imageUrl} alt="" />
+    <h3 className={styles.leaderName}>{name}</h3>
+    <span className={styles.boardMember}>{isBoardMember && <Mark color={purpleMark}>Board Member</Mark>}</span>
+    {children}
+  </article>
+);
 const AboutCompanyPage = withRouter(() => (
   <AboutLayout mainClassName={styles.main}>
-    <h2 className={styles.intro}>
-      A <Mark color={pinkMark}>different</Mark> kind of company
-    </h2>
     <BlockSection>
+      <h2 className={styles.intro}>
+        A <Mark color={pinkMark}>different</Mark> kind of company
+      </h2>
       <article>
         <h3>One of the most influential small tech companies ever</h3>
         <p>We started out as Fog Creek Software, a pioneering independent tech company that has always put people first.</p>
@@ -80,36 +85,165 @@ const AboutCompanyPage = withRouter(() => (
         <p>This isn’t actually complicated.</p>
       </article>
     </BlockSection>
-    <h2 className={styles.intro}>
-      <Mark color={blueMark}>Leadership</Mark>
-    </h2>
+
     <BlockSection>
-      <article className={styles.leaderContainer}>
-        <img className={styles.avatar} src="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FanilDashWhiteBG.png?1537834047329" alt="" />
-        <h3 className={styles.leaderName}>Anil Dash, CEO</h3>
-        <span className={styles.boardMember}>
-          <Mark color={purpleMark}>Board Member</Mark>
-        </span>
+      <h2 className={styles.intro}>
+        <Mark color={blueMark}>Leadership</Mark>
+      </h2>
+      <Bio
+        imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FanilDashWhiteBG.png?1537834047329"
+        name="Anil Dash, CEO"
+        isBoardMember
+      >
         <p>Anil Dash is recognized as one of the most prominent voices advocating for a more humane, inclusive and ethical tech industry.</p>
         <p>
           A former advisor to the Obama White House’s Office of Digital Strategy, he advises major startups and non-profits including Medium,
           DonorsChoose and Project Include.
         </p>
-      </article>
-      <article className={styles.leaderContainer}>
-        <img
-          className={styles.avatar}
-          src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FJordanBioPhoto__1_-removebg-preview.png?v=1561974441318"
-          alt=""
-        />
-        <h3 className={styles.leaderName}>Jordan Harris, COO</h3>
+      </Bio>
+      <Bio
+        imageUrl="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FJordanBioPhoto__1_-removebg-preview.png?v=1561974441318"
+        name="Jordan Harris, COO"
+      >
         <p>
           An experienced operating executive and entrepreneur, Jordan Harris formed the New Media Group at Reed Elsevier. He went on to found
           Hurricane Interactive and Notara Inc., which pioneered Brand Marketing Automation.
         </p>
         <p>He advises non-profits including Eyebeam, a platform for artists to engage society's relationship with technology.</p>
-      </article>
+      </Bio>
     </BlockSection>
+    <section className={styles.backgroundSection}>
+      <h4 className={styles.leaderHeader}>Team leads</h4>
+      <div className={styles.leads}>
+        <span>
+          <img
+            className={styles.avatar}
+            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FMegBioPhoto-removebg-preview.png?v=1561974441838"
+            alt=""
+          />
+          <p>Meg Tobin</p>
+        </span>
+        <span>
+          <img
+            className={styles.avatar}
+            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FJennBio-removebg.png?v=1561974442460"
+            alt=""
+          />
+          <p>Jenn Schiffer</p>
+        </span>
+        <span>
+          <img className={styles.avatar} src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Ftim-nobg.png?v=1561974908737" alt="" />
+          <p>Tim Kington</p>
+        </span>
+        <span>
+          <img
+            className={styles.avatar}
+            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fmaurice-cherry-removebg-preview%20(1).png?v=1561988404303"
+            alt=""
+          />
+          <p>Maurice Cherry</p>
+        </span>
+        <span>
+          <img
+            className={styles.avatar}
+            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FVicBioPhoto-removebg-preview.png?v=1561974442420"
+            alt=""
+          />
+          <p>Victoria Kirst</p>
+        </span>
+      </div>
+    </section>
+    <BlockSection>
+      <h2 className={styles.intro}>
+        <Mark color={orangeMark}>Founders</Mark>
+      </h2>
+      <Bio
+        imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FjoelSpolsky.png?1537833029020"
+        name="Joel Spolsky, Co-Founder"
+        isBoardMember
+      >
+        <p>Joel Spolsky is Co-Founder of Glitch (formerly Fog Creek Software) and created FogBugz and Trello (now part of Atlassian).</p>
+        <p>Most recently, he was CEO and Co-Founder of Stack Overflow.</p>
+      </Bio>
+      <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FmichaelPryor.png?1537834853615" name="Michael Pryor, Co-Founder">
+        <p>Michael Pryor is Head of Product, Trello at Atlassian.</p>
+        <p>
+          As Co-Founder and President of Fog Creek Software, he was CEO of Trello until its acquisition and also serves on the board of Stack
+          Overflow.
+        </p>
+      </Bio>
+    </BlockSection>
+    <BlockSection>
+      <h2 className={styles.intro}>
+        <Mark color={greenMark}>Advisors</Mark>
+      </h2>
+      <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FkimberlyBryant.png?1534858064619" name="Kimberly Bryant">
+        <p>Kimberly Bryant is an entrepreneur and innovator who is founder and CEO of Black Girls Code.</p>
+        <p>
+          By leading the non-profit dedicated to increasing the number of women of color in the digital space, Bryant has introduced computer
+          programming to young girls from underrepresented communities around the world.
+        </p>
+      </Bio>
+      <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FfranklinLeonard.png?1534858064426" name="Franklin Leonard">
+        <p>
+          Franklin Leonard is a film executive and founder of The Black List, a yearly publication of Hollywood’s most popular unproduced screenplays.
+        </p>
+        <p>
+          Leonard helped diversify the Box Office by facilitating creative opportunities and partnerships that have identified writers from
+          underrepresented groups.
+        </p>
+      </Bio>
+      <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FjasonGoldman.png?1534858063148" name="Jason Goldman">
+        <p>Jason Goldman was the first-ever Chief Digital Officer of the White House.</p>
+        <p>
+          An experienced tech industry executive, Goldman has helped shape the digital age through pivotal roles at Blogger, Google, Twitter, Obvious,
+          Branch, and Medium.
+        </p>
+      </Bio>
+      <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FcamilleFournierNoBG.png?v=1562601144932" name="Camille Fournier">
+        <p>
+          Camille Fournier is Head of Platform Engineering at Two Sigma, with prior roles including CTO of Rent the Runway, Software Engineer at
+          Microsoft, and Technical Specialist at Goldman Sachs. An open source contributor and project committee member, Fournier is a well-respected
+          voice within the tech community and author of The Manager’s Path.
+        </p>
+      </Bio>
+      <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FalanCooper.png?1534858064575" name="Alan Cooper">
+        <p>Alan Cooper is a software design leader and author, who is widely known as the "Father of Visual Basic."</p>
+        <p>Cooper has helped humanize technology through his groundbreaking work in the field of user experience (UX) and interaction design.</p>
+      </Bio>
+    </BlockSection>
+    <section>
+      <h2 className={styles.intro}>
+        <Mark color={purpleMark}>Staff diversity report</Mark>
+      </h2>
+      <div style={{ height: '600px', width: '100%' }}>
+        <iframe
+          src="https://glitch.com/embed/#!/embed/diversity-report-spring-2019?path=README.md&previewSize=100&attributionHidden=true"
+          title="diversity-report-spring-2019 on Glitch"
+          allow="geolocation; microphone; camera; midi; vr; encrypted-media"
+          style={{ height: '100%', width: '100%', border: 0 }}
+        />
+      </div>
+    </section>
+    <section>
+      <h2 className={styles.intro}>
+        <Mark color={pinkMark}>Contact info</Mark>
+      </h2>
+      <p className={styles.address}>
+        Glitch Inc.
+        <br />
+        75 Broad Street
+        <br />
+        Suite 1904
+        <br />
+        New York City
+        <br />
+        NY 10004
+        <br />
+        USA
+      </p>
+      <Button className={styles.emailButton} as="a" href="mailto:support@glitch.com"><Icon icon="email" /> support@glitch.com</Button>
+    </section>
   </AboutLayout>
 ));
 

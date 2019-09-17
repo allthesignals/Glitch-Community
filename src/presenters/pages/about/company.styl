@@ -7,20 +7,23 @@
   font-size: 28px
 
 .blockSection 
-  h2
+  h3
     font-size: 16px
+    margin-top: 0
   article
     vertical-align: top
     display: inline-block
     width: calc(49.9% - 12px)
-    background-color: #fff
-    border-radius: 5px
     margin-right: 12px
     padding: 12px
-    padding-top: 12px;
-    margin-top: 1rem;
+    margin-top: .5rem;
     p
       max-width: 520px
+  
+.backgroundSection, .blockSection article
+  background-color: #fff
+  border-radius: 5px
+
     
 .leaderContainer p
   padding: 0
@@ -29,7 +32,7 @@
   margin-right: 0
 
 .leaderContainer h3
-  margin-bottom: 0
+  margin-bottom: 5px
 
 .avatar 
   display: block;
@@ -47,3 +50,35 @@
 .boardMember
   font-size: 70%
   font-weight: bold
+
+.leads
+  display: flex
+  justify-content: center
+  span
+    margin-left: 12px
+    margin-right: 12px
+    img
+      margin: auto auto;
+      max-width: 175px;  
+      border-radius: 5px;
+      max-height: 80px;
+
+.leads span p
+  text-align: center
+
+.leaderHeader 
+  text-align: center
+  width: 100%
+  padding-top: 12px
+  margin: 12px
+  font-size: 16px
+
+.address 
+  display: inline-block
+  width: calc(49.9% - 12px)
+  margin-top: 1em
+  margin-left: 50px
+
+.emailButton
+  vertical-align: top
+  margin-top: 1em
