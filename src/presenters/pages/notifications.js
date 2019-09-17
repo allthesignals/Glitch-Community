@@ -39,13 +39,8 @@ const NotificationsPage = withRouter(({ search }) => {
   };
  
   const filteredNotifications = React.useMemo(() => {
-    let filtered
-    if (activeFilter === 'all') {
-      filtered = notifications
-    } else {
-      filtered = notifications.filter(n => n.type === activeFilter)
-    }
-    return 
+    const filtered = (activeFilter === 'all') ? notifications : notifications.filter(n => n.type === activeFilter)
+    return filtered.slice(0, limit)
   }, [notifications, activeFilter])
   
   
