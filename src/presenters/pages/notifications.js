@@ -34,7 +34,7 @@ const ProjectAvatarLink = ({ project }) => (
 // notification items
 
 const ActionsPopoverContent = styled.div`
-  width: 300px; 
+  width: 250px; 
   > section {
     margin: 0;
   }
