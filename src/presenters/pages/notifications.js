@@ -26,7 +26,7 @@ const ActionsPopoverContent = styled.div`
   }
 `;
 
-const ActionsPopover = ({ actions: actionGroups, menuLabel }) => (
+const ActionsPopover = ({ options: actionGroups, menuLabel }) => (
   <Popover align="right" renderLabel={(buttonProps) => <IconButton icon="chevronDown" label={menuLabel} {...buttonProps} />}>
     {({ onClose, focusedOnMount }) => (
       <ActionsPopoverContent>
@@ -82,14 +82,14 @@ const Static = styled.div`
   align-items: center;
 `;
 
-const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
+const NotificationBase = ({ notification, icon, options, avatars, children }) => {
   return (
     <NotificationWrap status={notification.status}>
       <Row>
         <Grow>{avatars}</Grow>
         <Static>
           <TimeAgo value={notification.createdAt} />
-          <ActionsPopover actions={actions} />
+          <ActionsPopover options={options} />
         </Static>
       </Row>
       <Row>
@@ -105,7 +105,7 @@ const NotificationBase = ({ notification, icon, actions, avatars, children }) =>
 const RemixNotification = ({ notification }) => {
   const dispatch = useDispatch();
   const remixUserName = notification.remixUser.name || `@${notification.remixUser.login}`;
-  const actions = [
+  const options = [
     [
       { label: `Mute notifications for ${notification.originalProject.domain}`, onClick: () => {} },
       { label: `Mute notifications from ${remixUserName}` },
@@ -118,7 +118,7 @@ const RemixNotification = ({ notification }) => {
     <NotificationBase
       notification={notification}
       icon="microphone"
-      actions={actions}
+      options={options}
       avatars={
         <>
           <UserAvatar user={notification.remixUser} />
