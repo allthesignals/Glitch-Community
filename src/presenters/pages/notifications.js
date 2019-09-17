@@ -183,7 +183,9 @@ const RemixNotification = ({ notification }) => {
         </>
       }
     >
-      <BoldLink>{getUserDisplayName(remixUser)}</BoldLink> created a <BoldLink to={getProjectLink(remixProject)}>remix</BoldLink> of <BoldLink to={getProjectLink(originalProject)}>{originalProject.domain}</BoldLink>
+      <BoldLink to={getUserLink(remixUser)}>{getUserDisplayName(remixUser)}</BoldLink> created a{' '}
+      <BoldLink to={getProjectLink(remixProject)}>remix</BoldLink> of{' '}
+      <BoldLink to={getProjectLink(originalProject)}>{originalProject.domain}</BoldLink>
     </NotificationBase>
   );
 };
@@ -222,8 +224,8 @@ const CollectionNotification = ({ notification }) => {
         </>
       }
     >
-      <BoldLink to={getUserLink(collectionUser)}>{getUserDisplayName(collectionUser)}</BoldLink> added <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink> to the {collectionPrefix}{' '}
-      <BoldLink>{collection.name}</BoldLink>
+      <BoldLink to={getUserLink(collectionUser)}>{getUserDisplayName(collectionUser)}</BoldLink> added{' '}
+      <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink> to the {collectionPrefix} <BoldLink>{collection.name}</BoldLink>
     </NotificationBase>
   );
 };
@@ -252,7 +254,8 @@ const ProjectUserNotification = ({ notification }) => {
         </>
       }
     >
-      <BoldLink to={getUserLink(user)}>{getUserDisplayName(user)}</BoldLink> was added as a {memberType} to <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink>
+      <BoldLink to={getUserLink(user)}>{getUserDisplayName(user)}</BoldLink> was added as a {memberType} to{' '}
+      <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink>
     </NotificationBase>
   );
 };
@@ -310,12 +313,12 @@ const NotificationList = styled.ul`
 const HeaderRow = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const PageTitle = styled.h2`
   font-size: var(--fontSizes-bigger);
   flex: 1 1 auto;
-`
+`;
 
 const NotificationsPage = withRouter(({ history, activeFilter }) => {
   const { status, notifications, nextPage } = useNotifications();
