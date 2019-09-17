@@ -27,18 +27,16 @@ export const { reducer, actions } = createSlice({
     },
   },
   extraReducers: {
-    [appMounted]: (state) => ({ ...state, status: 'loading' })
-  }
+    [appMounted]: (state) => ({ ...state, status: 'loading' }),
+  },
 });
 
-
-const testNotifications = []
-
+const testNotifications = [];
 
 export const handlers = {
   [appMounted]: (action, store) => {
-    
-  }
+    store.dispatch(actions.loadedNotificationsFromAPI({ notifications: testNotifications, nextPage: null }));
+  },
 };
 
 export const useNotifications = () => useSelector((state) => state.remoteNotifications);
