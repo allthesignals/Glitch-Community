@@ -15,8 +15,11 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-// TODO
-const TimeAgo = ({ value }) => dayjs(value).fromNow()
+const TimeAgoText = styled.span`
+  color: var(--colors-placeholder);
+  font-size: var(--fontSizes-small);
+`
+const TimeAgo = ({ value }) => <TimeAgoText>{</TimeAgoText>
 
 const NotificationWrap = styled.div`
   border-radius: var(--rounded);
