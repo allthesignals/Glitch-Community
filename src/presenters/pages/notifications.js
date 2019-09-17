@@ -318,11 +318,11 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
         </Row>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
 
-        <ul>
+        <NotificationList>
           {filteredNotifications.map((n) => (
             <li key={n.id}>{React.createElement(notificationForType[n.type], { notification: n })}</li>
           ))}
-        </ul>
+        </NotificationList>
         {status === 'loading' && <Loader />}
         {status === 'ready' && filteredNotifications.length === 0 && <p>No notifications</p>}
         {status === 'ready' && hasMoreNotifications && <Button onClick={requestNextPage}>Load More</Button>}
