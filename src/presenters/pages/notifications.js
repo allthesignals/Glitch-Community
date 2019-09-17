@@ -170,7 +170,7 @@ const CollectionNotification = ({ notification }) => {
   );
 }
 
-const ProjectUserActivity = ({ notification }) => {
+const ProjectUserNotification = ({ notification }) => {
   const { project, user, team } = notification;
   const options = [
     [
@@ -180,6 +180,8 @@ const ProjectUserActivity = ({ notification }) => {
     [{ label: 'Mute all project member notifications' }],
     [{ label: 'Report abuse' }],
   ];
+  
+  const memberType = team ? 'team member' : 'member'
 
   return (
     <NotificationBase
@@ -194,7 +196,7 @@ const ProjectUserActivity = ({ notification }) => {
         </>
       }
     >
-      <strong>{getUserDisplayName(user)}</strong> was added as a {memberType} to <strong>{projct.domain}</strong>
+      <strong>{getUserDisplayName(user)}</strong> was added as a {memberType} to <strong>{project.domain}</strong>
     </NotificationBase>
   );
 }
@@ -202,6 +204,7 @@ const ProjectUserActivity = ({ notification }) => {
 const notificationForType = {
   remixActivity: RemixNotification,
   collectionActivity: CollectionNotification,
+  projectUserActivity: ProjectUserNotification,
 };
 
 const filterOptions = [
