@@ -102,13 +102,13 @@ const NotificationBase = ({ notification, icon, options, avatars, children }) =>
   );
 };
 
-// 
 const RemixNotification = ({ notification }) => {
+  const { remixUser, originalProject, remixProject } = notification;
   const dispatch = useDispatch();
-  const remixUserName = notification.remixUser.name || `@${notification.remixUser.login}`;
+  const remixUserName = remixUser.name || `@${remixUser.login}`;
   const options = [
     [
-      { label: `Mute notifications for ${notification.originalProject.domain}`, onClick: () => {} },
+      { label: `Mute notifications for ${originalProject.domain}`, onClick: () => {} },
       { label: `Mute notifications from ${remixUserName}` },
     ],
     [{ label: 'Mute all remix notifications' }],
@@ -122,17 +122,19 @@ const RemixNotification = ({ notification }) => {
       options={options}
       avatars={
         <>
-          <UserAvatar user={notification.remixUser} />
-          <ProjectAvatar project={notification.originalProject} />
+          <UserAvatar user={remixUser} />
+          <ProjectAvatar project={originalProject} />
         </>
       }
     >
-      <strong>{remixUserName}</strong> created a remix of <strong>{notification.originalProject.domain}</strong>
+      <strong>{remixUserName}</strong> created a remix of <strong>{originalProject.domain}</strong>
     </NotificationBase>
   );
 };
 
-const CollectionNotification = ({ notification }) => 
+const CollectionNotification = ({ notification }) => {
+  const { }
+}
 
 
 const notificationForType = {
