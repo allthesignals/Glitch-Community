@@ -18,7 +18,10 @@ const NotificationWrap = styled.div`
   display: grid;
   border-radius: var(--rounded);
 
-  ${({ status }) => status === 'unread' ? css`` 'var(--colors-selected-background)' : inherit}
+  ${({ status }) => status === 'unread' && css`
+    background-color: var(--colors-selected-background);
+    color: var(--colors-selected-text);
+  `}
 `;
 
 const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
