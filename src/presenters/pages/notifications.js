@@ -14,7 +14,9 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-// TODO: do as shared component
+// TODO: extract component
+const TimeAgo = ({ value }) => new Date(value).
+
 
 
 const NotificationWrap = styled.div`
