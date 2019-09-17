@@ -6,7 +6,9 @@ import Layout from 'Components/layout'
 import { useCurrentUser } from 'State/current-user'
 
 
-const NotificationsPage = () => {
+const NotificationsPage = withRouter(({ location }) => {
+  
+  
   
   return (
     <>
@@ -16,11 +18,11 @@ const NotificationsPage = () => {
           {" "}
           <Button as="a" href="/settings#privacy-and-notifications">Edit notification settings</Button>
         </h2>
-        <SegmentedButton
+        <SegmentedButton 
       </header>
     </>
   )
-}
+})
 
 const NotificationsPageContainer = () => {
   const { currentUser } = useCurrentUser()
