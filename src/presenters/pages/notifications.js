@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { IconButton, Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
 import Layout from 'Components/layout';
-import { UserAvatar, ProjectAvatar, TeamAvatar } from 'Components/images/avatar';
+import { ProjectAvatar } from 'Components/images/avatar';
 import Link from 'Components/link';
 import { ProfileItem } from 'Components/profile-list';
 import { useCurrentUser } from 'State/current-user';
@@ -211,7 +211,7 @@ const CollectionNotification = ({ notification }) => {
         <>
           <ProfileItem user={collectionUser} />
           {collectionTeam && <ProfileItem team={collectionTeam} />}
-          <ProjectAvatar project={project} />
+          <ProjectAvatarLink project={project} />
         </>
       }
     >
@@ -240,8 +240,8 @@ const ProjectUserNotification = ({ notification }) => {
       options={options}
       avatars={
         <>
-          <UserAvatar user={user} />
-          <ProjectAvatar project={project} />
+          <ProfileItem user={user} />
+          <ProjectAvatarLink project={project} />
         </>
       }
     >
