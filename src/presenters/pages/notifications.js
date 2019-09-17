@@ -14,9 +14,10 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-// TODO: extract component
-const TimeAgo = ({ value }) => new Date(value).
+// TODO
+const TimeAgo = ({ value }) => new Date(value).toLocaleString()
 
+const 
 
 
 const NotificationWrap = styled.div`
