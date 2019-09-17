@@ -133,6 +133,55 @@ const testUser = [
   },
 ];
 
+const testCollection = [
+  {
+    fullUrl: 'pirijan/fancy-knave',
+    id: 64,
+    name: 'fancy-knave',
+    url: 'fancy-knave',
+    coverColor: '#6c68dd',
+    description: 'A collection of projects that does fancy things',
+    avatarUrl: 'https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-sunset.svg?1489265199230',
+    avatarThumbnailUrl: null,
+    userId: 2,
+    teamId: -1,
+    featuredProjectId: null,
+    createdAt: '2018-10-16T19:01:52.399Z',
+    updatedAt: '2019-07-12T23:03:50.050Z',
+    isMyStuff: false,
+    team: null,
+    user: {
+      isSupport: false,
+      isInfrastructureUser: false,
+      id: 2,
+      login: 'pirijan',
+    },
+  },
+  {
+    fullUrl: 'scientiffic/microbit',
+    id: 1464,
+    name: 'Microbit',
+    url: 'microbit',
+    coverColor: '#7FFFBF',
+    description: 'Playing around with Microbit hardware',
+    avatarUrl: 'https://cdn.glitch.com/1afc1ac4-170b-48af-b596-78fe15838ad3%2Fcollection-avatar.svg?1539891965867',
+    avatarThumbnailUrl: null,
+    userId: 867163,
+    teamId: -1,
+    featuredProjectId: '6fa6cef2-3e6a-4764-9efc-10452b84af4d',
+    createdAt: '2018-10-23T17:40:32.428Z',
+    updatedAt: '2019-09-17T17:27:11.560Z',
+    isMyStuff: false,
+    team: null,
+    user: {
+      isSupport: false,
+      isInfrastructureUser: false,
+      id: 867163,
+      login: 'scientiffic',
+    },
+  },
+];
+
 const testNotifications = [
   {
     id: 1,
@@ -149,8 +198,9 @@ const testNotifications = [
     status: 'read',
     type: 'collectionActivity',
     project: testProject[0],
-    collection: 
-  }
+    collection: testCollection[0],
+    collectionUsrr
+  },
 ];
 
 export const handlers = {
