@@ -118,7 +118,7 @@ const RemixNotification = ({ notification }) => {
 
   return (
     <NotificationBase
-      href={getProjectUrl(remix)}
+      href={getProjectUrl(remixProject)}
       notification={notification}
       icon="microphone"
       options={options}
@@ -144,12 +144,13 @@ const CollectionNotification = ({ notification }) => {
       { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
       { label: `Mute notifications from ${curatorName}` },
     ],
-    [{ label: 'Mute all remix notifications' }],
+    [{ label: 'Mute all collection notifications' }],
     [{ label: 'Report abuse' }],
   ];
 
   return (
     <NotificationBase
+      href={getCollectionUrl(collection)}
       notification={notification}
       icon="microphone"
       options={options}
@@ -161,7 +162,7 @@ const CollectionNotification = ({ notification }) => {
         </>
       }
     >
-      <strong>{curatorName}</strong> added <strong>{project.domain}</strong> to the collection <
+      <strong>{curatorName}</strong> added <strong>{project.domain}</strong> to the collection <strong>{collection.name}</strong>
     </NotificationBase>
   );
 }
@@ -169,6 +170,7 @@ const CollectionNotification = ({ notification }) => {
 
 const notificationForType = {
   remixActivity: RemixNotification,
+  collectionActivity: CollectionNotification,
 };
 
 const filterOptions = [
