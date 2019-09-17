@@ -36,6 +36,11 @@ const NotificationsPage = withRouter(({ search }) => {
   const setActiveFilter = (filter) => {
     history.push(`/notifications?activeFilter=${filter}`);
   };
+ 
+  const filteredNotifications = React.useMemo(() => {
+    
+  })
+  
   
   return (
     <>
@@ -47,7 +52,9 @@ const NotificationsPage = withRouter(({ search }) => {
         </h2>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
         {status === 'loading' && <Loader />}
-        {status === 'ready' && notifications.length === 0 && }
+        {status === 'ready' && notifications.length === 0 && (
+          <p>No notifications</p>
+        )}
         
         <ul>
           {notifications.map(n => (
