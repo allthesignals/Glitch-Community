@@ -8,6 +8,8 @@ export const { reducer, actions } = createSlice({
     notifications: [],
   },
   reducer: {
-    requestedNotifications: () => 
+    requestedNotifications: (state) => ({ ...state, status: 'loading' }),
+    loadedNotifications: (state, { payload }) => ({ status: 'ready', notifications: payload }),
+    updatedNotificationStatus: (state, { payload: { } })
   }
 })
