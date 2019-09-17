@@ -222,7 +222,7 @@ const CollectionNotification = ({ notification }) => {
         </>
       }
     >
-      <BoldLink>{getUserDisplayName(collectionUser)}</BoldLink> added <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink> to the {collectionPrefix}{' '}
+      <BoldLink to={getUserLink(collectionUser)}>{getUserDisplayName(collectionUser)}</BoldLink> added <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink> to the {collectionPrefix}{' '}
       <BoldLink>{collection.name}</BoldLink>
     </NotificationBase>
   );
@@ -252,7 +252,7 @@ const ProjectUserNotification = ({ notification }) => {
         </>
       }
     >
-      <BoldLink>{getUserDisplayName(user)}</BoldLink> was added as a {memberType} to <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink>
+      <BoldLink to={getUserLink(user)}>{getUserDisplayName(user)}</BoldLink> was added as a {memberType} to <BoldLink to={getProjectLink(project)}>{project.domain}</BoldLink>
     </NotificationBase>
   );
 };
