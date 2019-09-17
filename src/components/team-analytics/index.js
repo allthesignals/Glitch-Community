@@ -46,7 +46,7 @@ function getSampleAnalytics() {
 
 const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
   if (!projects.length) return getSampleAnalytics();
-  if () {
+  if (featureToggles.isFeatureEnabled("analytics", id)) {
     const path = currentProjectDomain ? `analytics/${id}/project/${currentProjectDomain}?from=${fromDate}` : `analytics/${id}/team?from=${fromDate}`;
     try {
       const { data } = await api.get(path);
