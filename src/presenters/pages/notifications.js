@@ -305,8 +305,6 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
 
   const hasMoreNotifications = !!nextPage || filteredNotifications.length > limit;
 
-  // increase number of visible notifications
-  // if next page not already loaded
   const requestNextPage = () => {
     setLimit((prevLimit) => prevLimit + PAGE_SIZE);
     if (notifications.length <= PAGE_SIZE) {
