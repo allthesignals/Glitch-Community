@@ -6,11 +6,14 @@ export const { reducer, actions } = createSlice({
   initialState: {
     status: 'init',
     notifications: [],
-    
+    nextPage: null,
   },
   reducer: {
     requestedNotifications: (state) => ({ ...state, status: 'loading' }),
-    loadedNotifications: (state, { payload }) => ({ status: 'ready', notifications: payload }),
+    loadedNotificationsFromAPI: (state, { payload }) => ({ status: 'ready', ...payload }),
+    loadedNewNotification: (state, { payload }) => {
+      
+    },
     updatedNotificationStatus: (state, { payload: { id, status } }) => {
       state.notifications.find(n => n.id).status = status
     },
