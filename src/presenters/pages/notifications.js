@@ -29,7 +29,7 @@ const ActionsPopoverContent = styled.div`
   }
 `;
 
-// TODO: handle "report abuse" here
+// TODO: handle "report abuse" page
 const ActionsPopover = ({ options: actionGroups, menuLabel }) => (
   <Popover align="right" renderLabel={(buttonProps) => <IconButton icon="chevronDown" label={menuLabel} {...buttonProps} />}>
     {({ onClose, focusedOnMount }) => (
@@ -116,6 +116,7 @@ const RemixNotification = ({ notification }) => {
       { label: `Mute notifications from ${getUserDisplayName(remixUser)}` },
     ],
     [{ label: 'Mute all remix notifications' }],
+    [{ label: 'Report abuse' }],
   ];
 
   return (
@@ -146,6 +147,7 @@ const CollectionNotification = ({ notification }) => {
       { label: `Mute notifications from ${getUserDisplayName(collectionUser)}` },
     ],
     [{ label: 'Mute all collection notifications' }],
+    [{ label: 'Report abuse' }],
   ];
   
   const collectionPrefix = collectionTeam ? <><strong>{collectionTeam.name}</strong> collection</> : "collection"
@@ -199,7 +201,7 @@ const ProjectUserNotification = ({ notification }) => {
   );
 }
 
-
+const FeaturedProjectNotification
 
 
 const notificationForType = {
