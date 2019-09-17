@@ -14,8 +14,13 @@ const parse = (search, name) => {
 };
 
 
+const RemixNotification = () => {
+  const dispatch = useDispatch()
+}
+
+
 const notificationForType = {
-  'remo'
+  remixActivity: RemixNotification,
 }
 
 const filterOptions = [
