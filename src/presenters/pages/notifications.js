@@ -21,18 +21,27 @@ const ActionsPopoverContent = styled.div`
   ${Button} {
     white-space: nowrap;
   }
-`
+  ${Button} + ${Button} {
+    margin-top: var(--space-1);
+  }
+`;
 
 const ActionsPopover = ({ actions: actionGroups, menuLabel }) => (
-  <Popover
-    align="right"
-    renderLabel={(buttonProps) => <IconButton icon="chevronDown" label={menuLabel} {...buttonProps}/>}>
+  <Popover align="right" renderLabel={(buttonProps) => <IconButton icon="chevronDown" label={menuLabel} {...buttonProps} />}>
     {({ onClose, focusedOnMount }) => (
       <ActionsPopoverContent>
         {actionGroups.map((group, groupIndex) => (
           <Actions key={groupIndex}>
             {group.map((action, actionIndex) => (
-              <Button variant="secondary" size="tiny" ref={groupIndex ==} onClick={() => { onClose(); action.onClick(); }}>
+              <Button
+                variant="secondary"
+                size="tiny"
+                ref={groupIndex === 0 && actionIndex === 0 ? focusedOnMount : null}
+                onClick={() => {
+                  onClose();
+                  action.onClick();
+                }}
+              >
                 {action.label}
               </Button>
             ))}
@@ -41,14 +50,13 @@ const ActionsPopover = ({ actions: actionGroups, menuLabel }) => (
       </ActionsPopoverContent>
     )}
   </Popover>
-)
-
+);
 
 const TimeAgoText = styled.span`
   color: var(--colors-placeholder);
   font-size: var(--fontSizes-small);
-`
-const TimeAgo = ({ value }) => <TimeAgoText>{dayjs(value).fromNow()}</TimeAgoText>
+`;
+const TimeAgo = ({ value }) => <TimeAgoText>{dayjs(value).fromNow()}</TimeAgoText>;
 
 const NotificationWrap = styled.div`
   border-radius: var(--rounded);
