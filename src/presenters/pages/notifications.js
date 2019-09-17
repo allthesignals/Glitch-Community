@@ -7,10 +7,10 @@ import { useCurrentUser } from 'State/current-user'
 
 
 const NotificationsPage = withRouter(({ query }) => {
-  const activeFilter
+  const activeFilter = 
   
   const setActiveFilter = (filter) => {
-    history.push(`/search?q=${encodeURIComponent(query)}&activeFilter=${filter}`);
+    history.push(`/notifications?activeFilter=${filter}`);
   };
   
   
