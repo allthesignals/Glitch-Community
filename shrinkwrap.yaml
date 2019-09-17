@@ -9,7 +9,7 @@ dependencies:
   '@babel/register': 7.5.5
   '@babel/runtime': 7.6.0
   '@babel/runtime-corejs3': 7.6.0
-  '@fogcreek/shared-components': github.com/FogCreek/shared-components/44fce7f8d9ac62efd4ad0b413031b81b3dfc7056
+  '@fogcreek/shared-components': api.glitch.com/git/shared-components-greg//44fce7f8d9ac62efd4ad0b413031b81b3dfc7056
   '@percy/cypress': 1.0.9
   '@sentry/browser': 4.6.6
   '@sentry/minimal': 5.6.1
@@ -10521,7 +10521,7 @@ packages:
     dev: false
     resolution:
       integrity: sha1-lSj0QtqxsihOWLQ3m7GU4i4MQAU=
-  github.com/FogCreek/shared-components/44fce7f8d9ac62efd4ad0b413031b81b3dfc7056:
+  api.glitch.com/git/shared-components-greg//44fce7f8d9ac62efd4ad0b413031b81b3dfc7056:
     dependencies:
       prop-types: 15.7.2
       react-textarea-autosize: 7.1.0
@@ -10533,7 +10533,9 @@ packages:
       react: ^16.8.0
       styled-components: ^4.3.0
     resolution:
-      tarball: 'https://codeload.github.com/FogCreek/shared-components/tar.gz/44fce7f8d9ac62efd4ad0b413031b81b3dfc7056'
+      commit: 44fce7f8d9ac62efd4ad0b413031b81b3dfc7056
+      repo: 'https://api.glitch.com/git/shared-components-greg/'
+      type: git
     version: 0.7.0
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
@@ -10549,7 +10551,7 @@ specifiers:
   '@babel/register': 7.5.5
   '@babel/runtime': ^7.5.4
   '@babel/runtime-corejs3': ^7.5.5
-  '@fogcreek/shared-components': 'git+https://github.com/FogCreek/shared-components.git#peer-styled-components'
+  '@fogcreek/shared-components': 'git+https://api.glitch.com/git/shared-components-greg/#44fce7f8d9ac62efd4ad0b413031b81b3dfc7056'
   '@percy/cypress': ^1.0.9
   '@sentry/browser': ^4.6.6
   '@sentry/minimal': ^5.6.1
