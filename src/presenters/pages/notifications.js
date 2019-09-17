@@ -10,9 +10,11 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
+const filt
+
 const NotificationsPage = withRouter(({ search }) => {
   // TODO: this can be done in router
-  const activeFilter = parse(search, 'activeFilter')
+  const activeFilter = parse(search, 'activeFilter') || "all" // all | remixes | collections | users 
   
   const setActiveFilter = (filter) => {
     history.push(`/notifications?activeFilter=${filter}`);
@@ -27,7 +29,7 @@ const NotificationsPage = withRouter(({ search }) => {
           {" "}
           <Button as="a" href="/settings#privacy-and-notifications">Edit notification settings</Button>
         </h2>
-        <SegmentedButton 
+        <SegmentedButton />
       </header>
     </>
   )
