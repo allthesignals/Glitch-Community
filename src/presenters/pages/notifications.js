@@ -79,7 +79,7 @@ const NotificationWrap = styled.div`
     `}
 `;
 
-const BackgroundLink = styled.a`
+const BackgroundLink = styled(Link)`
   position: absolute;
   top: 0;
   left: 0;
@@ -118,6 +118,9 @@ const Static = styled.div`
 const BigIcon = styled(Icon)`
   font-size: var(--fontSizes-bigger);
 `;
+const BoldLink = styled(Link)`
+  font-weight: bold;
+`
 
 const NotificationBase = ({ href, label, notification, icon, options, avatars, children }) => {
   React.useEffect(() => {
@@ -126,7 +129,7 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
 
   return (
     <NotificationWrap status={notification.status}>
-      <BackgroundLink href={href} aria-label={label} />
+      <BackgroundLink to={href} aria-label={label} />
       <Row>
         <AvatarRow>{avatars}</AvatarRow>
         <TimeAgo value={notification.createdAt} />
@@ -160,6 +163,7 @@ const RemixNotification = ({ notification }) => {
       options={options}
       avatars={
         <>
+          <Link to
           <UserAvatar user={remixUser} />
           <ProjectAvatar project={originalProject} />
         </>
