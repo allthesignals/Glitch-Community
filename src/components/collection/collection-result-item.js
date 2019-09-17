@@ -31,6 +31,7 @@ const ProfileItemWrap = ({ collection }) => (
 );
 
 const CollectionResultItem = ({ onClick, collection, active }) => {
+  collection.private = true;
   const collectionIsMyStuff = useDevToggle('My Stuff') && collection.isMyStuff;
   return (
     <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`}>
