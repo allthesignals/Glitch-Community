@@ -2,6 +2,8 @@ import { createSlice } from 'redux-starter-kit';
 import { useSelector } from 'react-redux';
 import { sumBy } from 'lodash';
 
+import { appMounted } from './app-mounted';
+
 export const { reducer, actions } = createSlice({
   slice: 'remoteNotifications',
   initialState: {
@@ -25,6 +27,9 @@ export const { reducer, actions } = createSlice({
       state.notifications.find((n) => n.id === id).status = status;
     },
   },
+  extraReducers: {
+    
+  }
 });
 
 export const handlers = {};
