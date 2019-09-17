@@ -179,6 +179,7 @@ const ProjectUserNotification = ({ notification }) => {
       { label: `Mute notifications from ${getUserDisplayName(user)}` },
     ],
     [{ label: 'Mute all project member notifications' }],
+    [{ label: 'Report abuse' }],
   ];
   
   const memberType = team ? 'team member' : 'member'
@@ -201,8 +202,9 @@ const ProjectUserNotification = ({ notification }) => {
   );
 }
 
-const FeaturedProjectNotification
-
+const FeaturedProjectNotification = () => {
+  
+}
 
 const notificationForType = {
   remixActivity: RemixNotification,
