@@ -141,7 +141,8 @@
     "webpack-dev-middleware": "^3.7.0",
     "winston": "^3.2.1",
     "babel-plugin-styled-components": "^1.10.6",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.3.2",
+    "@optimizely/optimizely-sdk": "^3.2.2"
   },
   "engines": {
     "node": "10.x"
