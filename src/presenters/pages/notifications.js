@@ -269,9 +269,12 @@ const NotificationList = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
+  > li {
+    padding: var(--space-1) 0;
+  }
   > * + * {
-
-}  
+    border-top: 1px solid var(--colors-border);
+  }  
 `
 
 const NotificationsPage = withRouter(({ history, activeFilter }) => {
