@@ -156,7 +156,7 @@ const CollectionNotification = ({ notification }) => {
     <NotificationBase
       href={getCollectionLink(collection)}
       notification={notification}
-      icon="microphone"
+      icon="framedPicture"
       options={options}
       avatars={
         <>
@@ -188,7 +188,7 @@ const ProjectUserNotification = ({ notification }) => {
     <NotificationBase
       href={getProjectLink(project)}
       notification={notification}
-      icon="microphone"
+      icon="handshake"
       options={options}
       avatars={
         <>
