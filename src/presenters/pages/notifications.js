@@ -17,6 +17,9 @@ import { getCollectionLink } from 'Models/collection';
 // notification items
 
 const ActionsPopoverContent = styled.div`
+  > section {
+    margin: 0;
+  }
   ${Button} {
     white-space: nowrap;
   }
