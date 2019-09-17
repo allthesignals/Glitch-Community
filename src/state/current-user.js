@@ -10,6 +10,7 @@ import { configureScope, captureException, captureMessage, addBreadcrumb } from 
 import runLatest from 'Utils/run-latest';
 import { getStorage, readFromStorage, writeToStorage } from './local-storage';
 import { getAPIForToken } from './api'; // eslint-disable-line import/no-cycle
+import { appMounted } from './app-mounted';
 
 const getStorageMemo = memoize(getStorage);
 const getFromStorage = (key) => readFromStorage(getStorageMemo(), key);
@@ -222,7 +223,15 @@ const load = runLatest(function* (action, store) {
 });
 
 export const handlers = {
-  [pageMounted]: async (action, store) => {
+  [appMounted]: async (action, store) => {
+    const onStorage = (event) => {
+      if (!event.key || event.key === sharedUserKey || event.key === cachedUserKey) {
+        dispatch(actions.updatedInAnotherTab(getFromStorage(cachedUserKey)));
+      }
+    };
+
+    window.addEventListener('storage', onStorage, { passive: true });
+    
     const cachedUser = getFromStorage(cachedUserKey);
     if (cachedUser) {
       identifyUser(cachedUser);
@@ -273,13 +282,7 @@ export const CurrentUserProvider = ({ children }) => {
   useEffect(() => {
     dispatch(pageMounted());
 
-    const onStorage = (event) => {
-      if (!event.key || event.key === sharedUserKey || event.key === cachedUserKey) {
-        dispatch(actions.updatedInAnotherTab(getFromStorage(cachedUserKey)));
-      }
-    };
-
-    window.addEventListener('storage', onStorage, { passive: true });
+    
     return () => {
       window.removeEventListener('storage', onStorage, { passive: true });
     };
