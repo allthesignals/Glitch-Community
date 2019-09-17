@@ -22,7 +22,6 @@ const filterOptions = [
 
 const NotificationsPage = withRouter(({ search }) => {
   const notifications = useNotifications()
-  const dispatch = useDispatch()
   
   // TODO: this can be done in router
   const activeFilter = parse(search, 'activeFilter') || "all"
@@ -40,7 +39,13 @@ const NotificationsPage = withRouter(({ search }) => {
           <Button as="a" href="/settings#privacy-and-notifications">Edit notification settings</Button>
         </h2>
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
-        
+        <ul>
+          {notifications.map(n => (
+            <li ket={n.id}>
+              <Notification
+            </li>
+          ))}
+        </ul>
       </header>
     </>
   )
