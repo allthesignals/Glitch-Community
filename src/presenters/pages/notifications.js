@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css} from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button, SegmentedButton, Icon, Popover, Actions, Loader } from '@fogcreek/shared-components';
@@ -17,25 +17,26 @@ const parse = (search, name) => {
 const NotificationWrap = styled.div`
   border-radius: var(--rounded);
 
-  ${({ status }) => status === 'unread' && css`
-    background-color: var(--colors-selected-background);
-    color: var(--colors-selected-text);
-  `}
+  ${({ status }) =>
+    status === 'unread' &&
+    css`
+      background-color: var(--colors-selected-background);
+      color: var(--colors-selected-text);
+    `}
 `;
 
 const Row = styled.div`
   display: flex;
   align-items: flex-start;
-`
+`;
 const Grow = styled.div`
   flex: 1 1 auto;
-`
+`;
 const Static = styled.div`
   flex: 0 0 auto;
   display: flex;
-
-`
-
+  align-items: center;
+`;
 
 const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
   return (
@@ -47,11 +48,12 @@ const NotificationBase = ({ notification, icon, actions, avatars, children }) =>
           <Actions actions={actions} />
         </Static>
       </Row>
-      
-      <Grow>{children}</Grow>
-      <Static>
-        <Icon icon="icon" />
-      </Static>
+      <Row>
+        <Grow>{children}</Grow>
+        <Static>
+          <Icon icon="icon" />
+        </Static>
+      </Row>
     </NotificationWrap>
   );
 };
