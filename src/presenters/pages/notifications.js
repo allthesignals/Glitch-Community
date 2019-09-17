@@ -34,11 +34,11 @@ const ProjectAvatarLink = ({ project }) => (
 // notification items
 
 const ActionsPopoverContent = styled.div`
+  width: 300px; 
   > section {
     margin: 0;
   }
   ${Button} {
-    white-space: nowrap;
     display: block;
   }
   ${Button} + ${Button} {
