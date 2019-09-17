@@ -22,7 +22,7 @@ export const { reducer, actions } = createSlice({
       state.notifications.unshift(payload);
     },
     updatedNotificationStatus: (state, { payload: { id, status } }) => {
-      state.notifications.find((n) => n.id).status = status;
+      state.notifications.find((n) => n.id === id).status = status;
     },
   },
 });

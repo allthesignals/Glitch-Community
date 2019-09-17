@@ -25,6 +25,7 @@ const ActionsPopoverContent = styled.div`
 `;
 
 // TODO: handle "report abuse" page
+/* eslint-disable react/no-array-index-key */
 const ActionsPopover = ({ options: actionGroups, menuLabel }) => (
   <Popover align="right" renderLabel={(buttonProps) => <IconButton icon="chevronDown" label={menuLabel} {...buttonProps} />}>
     {({ onClose, focusedOnMount }) => (
