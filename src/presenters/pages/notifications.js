@@ -45,7 +45,7 @@ const NotificationBase = ({ notification, icon, actions, avatars, children }) =>
         <Grow>{avatars}</Grow>
         <Static>
           <TimeAgo value={notification.createdAt} />
-          <Actions actions={actions} />
+          <ActionsPopover actions={actions} />
         </Static>
       </Row>
       <Row>
