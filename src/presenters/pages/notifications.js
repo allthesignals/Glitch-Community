@@ -133,7 +133,34 @@ const RemixNotification = ({ notification }) => {
 };
 
 const CollectionNotification = ({ notification }) => {
-  const { }
+  const { collection, collectionUser, collectionTeam } = notification
+  
+  const dispatch = useDispatch();
+  const curatorName = collectionUser ? remixUser.name || `@${remixUser.login}`;
+  const options = [
+    [
+      { label: `Mute notifications for ${originalProject.domain}`, onClick: () => {} },
+      { label: `Mute notifications from ${remixUserName}` },
+    ],
+    [{ label: 'Mute all remix notifications' }],
+    [{ label: 'Report abuse' }],
+  ];
+
+  return (
+    <NotificationBase
+      notification={notification}
+      icon="microphone"
+      options={options}
+      avatars={
+        <>
+          <UserAvatar user={remixUser} />
+          <ProjectAvatar project={originalProject} />
+        </>
+      }
+    >
+      <strong>{remixUserName}</strong> created a remix of <strong>{originalProject.domain}</strong>
+    </NotificationBase>
+  );
 }
 
 
