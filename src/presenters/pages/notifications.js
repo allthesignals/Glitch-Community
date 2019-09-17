@@ -102,6 +102,7 @@ const NotificationBase = ({ notification, icon, options, avatars, children }) =>
   );
 };
 
+// 
 const RemixNotification = ({ notification }) => {
   const dispatch = useDispatch();
   const remixUserName = notification.remixUser.name || `@${notification.remixUser.login}`;
@@ -130,6 +131,9 @@ const RemixNotification = ({ notification }) => {
     </NotificationBase>
   );
 };
+
+const CollectionNotification = ({ notification }) => 
+
 
 const notificationForType = {
   remixActivity: RemixNotification,
