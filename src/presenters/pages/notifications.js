@@ -15,7 +15,6 @@ const parse = (search, name) => {
 };
 
 const NotificationWrap = styled.div`
-  display: grid;
   border-radius: var(--rounded);
 
   ${({ status }) => status === 'unread' && css`
@@ -23,6 +22,8 @@ const NotificationWrap = styled.div`
     color: var(--colors-selected-text);
   `}
 `;
+
+const Row = 
 
 const NotificationBase = ({ notification, icon, actions, avatars, children }) => {
   return (
