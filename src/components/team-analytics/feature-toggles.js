@@ -1,7 +1,7 @@
 import { setLogLevel, setLogger, logging, createInstance } from '@optimizely/optimizely-sdk';
 
 setLogLevel('info');
-setLogger(logging.createLogger())
+setLogger(logging.createLogger());
 
 const optimizelyClientInstance = createInstance({
   sdkKey: process.env.OPTIMIZELY_KEY || 'SUV4dn9FiCp1osqWQUZr82',
