@@ -14,7 +14,10 @@ const parse = (search, name) => {
 };
 
 const NotificationBase = ({ notification, icon, actions, avatars }) => {
-  <NotificationWrap status={}
+  <NotificationWrap status={notification.status}>
+    <AvatarBlock>{avatars}</AvatarBlock>
+    <
+  </NotificationWrap>
 }
 
 const RemixNotification = ({ notification }) => {
@@ -73,7 +76,7 @@ const NotificationsPage = withRouter(({ search }) => {
 
   const filteredNotifications = React.useMemo(() => {
     const filtered = activeFilter === 'all' ? notifications : notifications.filter((n) => n.type === activeFilter);
-    return filtered.filter(n =) .slice(0, limit);
+    return filtered.filter(n => n.status !=== 'hidden').slice(0, limit);
   }, [notifications, activeFilter]);
 
   // increase number of visible notifications
