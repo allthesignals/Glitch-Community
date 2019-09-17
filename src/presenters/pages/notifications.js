@@ -16,6 +16,11 @@ import { getCollectionLink } from 'Models/collection';
 
 // TODO: 'party' and 'handshake' icons
 
+// TODO: surely these already exist
+const ProjectAvatarLink = ({ project }) => (
+  <Pro
+)
+
 // notification items
 
 const ActionsPopoverContent = styled.div`
@@ -205,8 +210,8 @@ const CollectionNotification = ({ notification }) => {
       options={options}
       avatars={
         <>
-          {collectionUser && <UserAvatar user={collectionUser} />}
-          {collectionTeam && <TeamAvatar team={collectionTeam} />}
+          <ProfileItem user={collectionUser} />
+          {collectionTeam && <ProfileItem team={collectionTeam} />}
           <ProjectAvatar project={project} />
         </>
       }
