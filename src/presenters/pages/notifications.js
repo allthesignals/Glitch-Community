@@ -105,7 +105,7 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
         <Grow>{avatars}</Grow>
         <Static>
           <TimeAgo value={notification.createdAt} />
-          <ActionsPopover options={options} label="Notification options" />
+          <ActionsPopover options={options} menuLabel="Notification options" />
         </Static>
       </Row>
       <Row>

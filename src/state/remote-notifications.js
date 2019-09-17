@@ -143,6 +143,10 @@ const testNotifications = [
     remixUser: testUser[0],
     remixProject: testProject[1],
   },
+  {
+    id: 2,
+    createdAt: new Date('2019-09-01')
+  }
 ];
 
 export const handlers = {
