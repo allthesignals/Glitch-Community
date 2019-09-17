@@ -85,6 +85,9 @@ const BackgroundLink = styled.a`
 const Row = styled.div`
   display: flex;
   align-items: flex-start;
+  & + & {
+    margin-top: var(--space-1);
+  }
 `;
 const AvatarRow = styled.span`
   flex: 1 1 auto;
