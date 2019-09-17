@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import classnames from 'classnames';
+=======
+import { VisuallyHidden } from '@fogcreek/shared-components';
+>>>>>>> 05c98ffa548db72373f960f804ec2235e713c1af
 
 import Markdown from 'Components/text/markdown';
 import { ProfileItem } from 'Components/profile-list';
 import { ResultItem, ResultInfo, ResultName, ResultDescription } from 'Components/containers/results-list';
 import VisibilityContainer from 'Components/visibility-container';
-import VisuallyHidden from 'Components/containers/visually-hidden';
 import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';

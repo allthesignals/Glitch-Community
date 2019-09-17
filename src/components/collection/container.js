@@ -18,8 +18,11 @@ import EditCollectionColor from 'Components/collection/edit-collection-color-pop
 import AuthDescription from 'Components/fields/auth-description';
 import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import { CollectionLink } from 'Components/link';
+<<<<<<< HEAD
 import Arrow from 'Components/arrow';
 import { PrivateToggle } from 'Components/private-badge';
+=======
+>>>>>>> 05c98ffa548db72373f960f804ec2235e713c1af
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import useSample from 'Hooks/use-sample';
@@ -166,7 +169,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         )}
         {preview && (
           <CollectionLink collection={collection} className={styles.viewAll}>
-            View all <Pluralize count={collection.projects.length} singular="project" /> <Arrow />
+            View all <Pluralize count={collection.projects.length} singular="project" /> <Icon className={styles.arrow} icon="arrowRight" />
           </CollectionLink>
         )}
       </div>

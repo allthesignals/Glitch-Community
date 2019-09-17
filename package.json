@@ -17,19 +17,25 @@
     "./src/polyfills.js"
   ],
   "scripts": {
-    "prestart": "nodemon --watch server --watch shared --exec 'npm run lint:server' &",
-    "start": "forever --minUptime 5000 --spinSleepTime 1000 -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
+    "prestart": "npm run watch:lint:server & \n if if-env DEPLOY_ENV=production; then \n npm run watch:babel & npm run watch:webpack & \n fi",
+    "start": "forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
     "lint": "npm run lint:server && npm run lint:src",
+    "watch:webpack": "npm run build:webpack -- --watch --info-verbosity verbose",
+    "watch:babel": "npm run build:babel -- --watch",
+    "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
     "cy:run": "npx cypress run",
     "cy:open": "npx cypress open",
     "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
     "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
-    "test": "mocha",
-    "build": "webpack"
+    "build:webpack": "npx webpack",
+    "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
+    "build": "npm run build:webpack && npm run build:babel",
+    "test": "mocha"
   },
   "dependencies": {
+    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -39,7 +45,7 @@
     "@babel/register": "7.5.5",
     "@babel/runtime": "^7.5.4",
     "@babel/runtime-corejs3": "^7.5.5",
-    "@fogcreek/shared-components": "^0.6.0",
+    "@fogcreek/shared-components": "^0.7.0",
     "@percy/cypress": "^1.0.9",
     "@sentry/browser": "^4.6.6",
     "@sentry/minimal": "^5.6.1",
@@ -87,6 +93,7 @@
     "group-by-time": "^1.0.0",
     "helmet": "^3.18.0",
     "html-truncate": "^1.2.2",
+    "if-env": "^1.0.4",
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.15",
     "lodash-webpack-plugin": "^0.11.5",
@@ -132,7 +139,9 @@
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5",
     "webpack-dev-middleware": "^3.7.0",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "babel-plugin-styled-components": "^1.10.6",
+    "styled-components": "^4.3.2"
   },
   "engines": {
     "node": "10.x"
@@ -142,4 +151,3 @@
     "mocha": "^6.2.0"
   }
 }
-

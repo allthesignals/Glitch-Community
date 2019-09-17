@@ -1,7 +1,7 @@
 import React, { useState, useContext, useMemo, createContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Button, Icon, VisuallyHidden } from '@fogcreek/shared-components';
 
 import TransparentButton from 'Components/buttons/transparent-button';
 
@@ -10,7 +10,7 @@ import PopoverDialog from './dialog';
 import PopoverSearch from './search';
 import { PopoverSection, PopoverActions, PopoverInfo, PopoverTitle, InfoDescription, ActionDescription } from './base';
 import styles from './styles.styl';
-import globalStyles from '../global.styl';
+import { emoji as emojiStyle } from '../global.styl';
 
 /*
 A popover is a light, hollow roll made from an egg batter similar to
@@ -81,7 +81,7 @@ export const PopoverWithButton = ({ buttonProps, buttonText, children: renderChi
             <div className={styles.buttonWrap}>
               <Button {...buttonProps} ref={buttonRef} onClick={popoverProps.togglePopover}>
                 {buttonText}
-                {buttonProps.emoji && <Icon icon={buttonProps.emoji} className={globalStyles.emoji} />}
+                {buttonProps.emoji && <Icon icon={buttonProps.emoji} className={emojiStyle} />}
               </Button>
             </div>
             {popoverProps.visible && renderChildren(popoverProps)}
@@ -116,7 +116,7 @@ export const PopoverMenu = ({ label, children: renderChildren, onOpen }) => {
                 <span className={styles.arrowPadding}>
                   <span className={styles.downArrow} />
                 </span>
-                <span className={globalStyles.visuallyHidden}>{label}</span>
+                <VisuallyHidden>{label}</VisuallyHidden>
               </TransparentButton>
             </div>
             {popoverProps.visible && renderChildren(popoverProps)}
