@@ -24,4 +24,6 @@ export const handlers = {
   
 }
 
-export const useNotifications = () => 
+export const useNotifications = () => useSelector(state => state.remoteNotifications.notifications)
+
+export const useUnreadNotificationsCount = () => useSelector(state => sumBy(state.remoteNotifications.notifications)
