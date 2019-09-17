@@ -149,7 +149,7 @@ const CollectionNotification = ({ notification }) => {
     [{ label: 'Report abuse' }],
   ];
   
-  const collectionPrefix = collectionTeam ? <><strong>{collectionTeam.name}</strong> collection<> : "collection"
+  const collectionPrefix = collectionTeam ? <><strong>{collectionTeam.name}</strong> collection</> : "collection"
 
   return (
     <NotificationBase
@@ -171,7 +171,7 @@ const CollectionNotification = ({ notification }) => {
 }
 
 const ProjectUserActivity = ({ notification }) => {
-  const { project, user } = notification;
+  const { project, user, team } = notification;
   const options = [
     [
       { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
@@ -189,8 +189,8 @@ const ProjectUserActivity = ({ notification }) => {
       options={options}
       avatars={
         <>
-          <UserAvatar user={remixUser} />
-          <ProjectAvatar project={originalProject} />
+          <UserAvatar user={user} />
+          <ProjectAvatar project={project} />
         </>
       }
     >
