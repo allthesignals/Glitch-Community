@@ -156,8 +156,6 @@ const defaultUser = {
   collections: [],
 };
 
-const pageMounted = createAction('app/pageMounted');
-
 export const { reducer, actions } = createSlice({
   slice: 'currentUser',
   initialState: {
