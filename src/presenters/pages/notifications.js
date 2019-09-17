@@ -167,6 +167,7 @@ const CollectionNotification = ({ notification }) => {
   );
 }
 
+const 
 
 const notificationForType = {
   remixActivity: RemixNotification,
