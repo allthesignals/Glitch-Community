@@ -11,8 +11,7 @@ export const { reducer, actions } = createSlice({
     notifications: [],
     nextPage: null,
   },
-  reducer: {
-    requestedNotifications: (state) => ({ ...state, status: 'loading' }),
+  reducers: {
     requestedMoreNotifications: (state) => ({ ...state, status: 'loading' }),
     loadedNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({ status: 'ready', notifications, nextPage }),
     loadedMoreNotificationsFromAPI: (state, { payload: { notifications, nextPage } }) => ({
@@ -28,11 +27,19 @@ export const { reducer, actions } = createSlice({
     },
   },
   extraReducers: {
-    
+    [appMounted]: (state) => ({ ...state, status: 'loading' })
   }
 });
 
-export const handlers = {};
+
+const testNotifications = []
+
+
+export const handlers = {
+  [appMounted]: (action, store) => {
+    
+  }
+};
 
 export const useNotifications = () => useSelector((state) => state.remoteNotifications);
 
