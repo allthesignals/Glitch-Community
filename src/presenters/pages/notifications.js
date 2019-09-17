@@ -16,9 +16,11 @@ import { getCollectionLink } from 'Models/collection';
 
 // TODO: 'party' and 'handshake' icons
 
-// TODO: surely these already exist
+// TODO: surely this already exists
 const ProjectAvatarLink = ({ project }) => (
-  <Pro
+  <Link to={getProjectLink(project)}>
+    <ProjectAvatar project={project} />
+  </Link>
 )
 
 // notification items
@@ -170,10 +172,7 @@ const RemixNotification = ({ notification }) => {
       avatars={
         <>
           <ProfileItem user={remixUser} />
-          <Link to={getProjectLink(remixProject)}>
-            <ProjectAvatar project={originalProject} />
-          </Link>      
-
+          <ProjectAvatarLink project={originalProject} />
         </>
       }
     >
