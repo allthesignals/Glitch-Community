@@ -9,7 +9,7 @@ import { UserAvatar, ProjectAvatar, TeamAvatar } from 'Components/images/avatar'
 import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import { actions, useNotifications } from 'State/remote-notifications';
-import { getDisplayName as getUserDisplayName } from 'Models/user';
+import { getDisplayName as getUserDisplayName, getUserLink } from 'Models/user';
 import { getProjectLink } from 'Models/project';
 import { getCollectionLink } from 'Models/collection';
 
@@ -163,8 +163,10 @@ const RemixNotification = ({ notification }) => {
       options={options}
       avatars={
         <>
-          <Link to
-          <UserAvatar user={remixUser} />
+          <Link to={getUserLink(remixUser)}>
+            <UserAvatar user={remixUser} />
+          </Link>
+          
           <ProjectAvatar project={originalProject} />
         </>
       }
