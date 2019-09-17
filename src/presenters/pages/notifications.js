@@ -13,6 +13,10 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
+
+
+
+
 const filterOptions = [
   { id: 'all', label: 'All' },
   { id: 'remixActivity', label: 'Remixes' },
@@ -42,7 +46,7 @@ const NotificationsPage = withRouter(({ search }) => {
   // increase number of visible notifications
   // if next page not already loaded
 
-  const hasMoreNotifications = !!nextPage || notifications.length > limit;
+  const hasMoreNotifications = !!nextPage || filteredNotifications.length > limit;
 
   const requestNextPage = () => {
     setLimit((limit) => limit + PAGE_SIZE);
@@ -63,14 +67,14 @@ const NotificationsPage = withRouter(({ search }) => {
         <SegmentedButton variant="secondary" size="small" options={filterOptions} value={activeFilter} onChange={setActiveFilter} />
 
         <ul>
-          {notifications.map((n) => (
+          {filteredNotifications.map((n) => (
             <li ket={n.id}>
               <Notification data={n} />
             </li>
           ))}
         </ul>
         {status === 'loading' && <Loader />}
-        {status === 'ready' && notifications.length === 0 && <p>No notifications</p>}
+        {status === 'ready' && filteredNotifications.length === 0 && <p>No notifications</p>}
         {status === 'ready' && hasMoreNotifications && <Button onClick={requestNextPage}>Load More</Button>}
       </header>
     </>
