@@ -28,6 +28,7 @@ const filterOptions = [
 
 const NotificationsPage = withRouter(({ search }) => {
   const { status, notifications, nextPage } = useNotifications()
+  const [limit, setLimit]
   const dispatch = useDispatch()
   
   // TODO: this can be done in router
