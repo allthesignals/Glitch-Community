@@ -33,7 +33,7 @@ ResultsList.defaultProps = {
 
 export default ResultsList;
 
-export const ResultItem = ({ className, onClick, href, children, active, selected }) => {
+export const ResultItem = ({ className, onClick, href, children, active, selected, stuff }) => {
   const buttonRef = useRef();
   useEffect(() => {
     if (active) {
