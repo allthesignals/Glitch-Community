@@ -86,6 +86,15 @@ const Row = styled.div`
   display: flex;
   align-items: flex-start;
 `;
+const AvatarRow = styled.span`
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  > * + * {
+    margin-left: var(--space-1);  
+  }
+`
+
 const Grow = styled.div`
   flex: 1 1 auto;
   display: flex;
