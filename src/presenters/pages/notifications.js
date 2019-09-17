@@ -17,10 +17,10 @@ const parse = (search, name) => {
 
 // notification items
 
-const ActionsPopover = ({ actions }) => (
+const ActionsPopover = ({ actions, menuLabel }) => (
   <PopoverMenu
     align="right"
-    renderLabel={<IconButton icon="chevronDown" label="" />}>
+    renderLabel={(buttonProps) => <IconButton icon="chevronDown" label={menuLabel} style={}  {...buttonProps}/>}>
   
   </PopoverMenu>
 )
