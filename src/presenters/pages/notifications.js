@@ -13,37 +13,40 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
+const NotificationBase = ()
 
 const RemixNotification = ({ notification }) => {
-  const dispatch = useDispatch()
-  const remixUserName = notification.remixUser.name || `@${notification.remixUser.login}`
+  const dispatch = useDispatch();
+  const remixUserName = notification.remixUser.name || `@${notification.remixUser.login}`;
   const actions = [
     [
       { label: `Mute notifications for ${notification.originalProject.domain}`, onClick: () => {} },
       { label: `Mute notifications from ${remixUserName}` },
-    ], [
-      { label: 'Mute all remix notifications' },
-    ], [
-      { label: 'Report abuse' }
-    ]
-  ]
-  
+    ],
+    [{ label: 'Mute all remix notifications' }],
+    [{ label: 'Report abuse' }],
+  ];
+
   return (
-    <NotificationBase notification={notification} icon="microphone" avatars={
+    <NotificationBase
+      notification={notification}
+      icon="microphone"
+      actions={actions}
+      avatars={
         <>
           <UserAvatar user={notification.remixUser} />
           <ProjectAvatar project={notification.originalProject} />
         </>
-      }>
+      }
+    >
       <strong>{remixUserName}</strong> created a remix of <strong>{notification.originalProject.domain}</strong>
     </NotificationBase>
-  )
-}
-
+  );
+};
 
 const notificationForType = {
   remixActivity: RemixNotification,
-}
+};
 
 const filterOptions = [
   { id: 'all', label: 'All' },
@@ -96,9 +99,7 @@ const NotificationsPage = withRouter(({ search }) => {
 
         <ul>
           {filteredNotifications.map((n) => (
-            <li key={n.id}>
-              {React.createElement(notificationForType[n.type]({ notification: n }))}
-            </li>
+            <li key={n.id}>{React.createElement(notificationForType[n.type]({ notification: n }))}</li>
           ))}
         </ul>
         {status === 'loading' && <Loader />}
