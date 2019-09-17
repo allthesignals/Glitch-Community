@@ -167,7 +167,9 @@ const CollectionNotification = ({ notification }) => {
   );
 }
 
-const 
+const ProjectUserActivity = ({ notification }) => {
+  const { }
+}
 
 const notificationForType = {
   remixActivity: RemixNotification,
