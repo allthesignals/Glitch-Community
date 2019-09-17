@@ -39,6 +39,7 @@ const ActionsPopoverContent = styled.div`
   }
   ${Button} {
     white-space: nowrap;
+    display: block;
   }
   ${Button} + ${Button} {
     margin-top: var(--space-1);
@@ -170,10 +171,7 @@ const RemixNotification = ({ notification }) => {
       { label: `Mute notifications from ${getUserDisplayName(remixUser)}`, onClick: noop },
     ],
     [{ label: 'Mute all remix notifications', onClick: noop }],
-    [
-      { label: 'Hide notification', onClick: noop },
-      { label: 'Report abuse', onClick: noop }
-    ],
+    [{ label: 'Hide notification', onClick: noop }, { label: 'Report abuse', onClick: noop }],
   ];
 
   return (
@@ -273,7 +271,7 @@ const ProjectUserNotification = ({ notification }) => {
 
 const FeaturedProjectNotification = ({ notification }) => {
   const { project } = notification;
-  const options = [[{ label: 'Request to remove from featured projects', onClick: noop }]];
+  const options = [[{ label: 'Hide notification', onClick: noop }, { label: 'Request to remove from featured projects', onClick: noop }]];
 
   return (
     <NotificationBase
