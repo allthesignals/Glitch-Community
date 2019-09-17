@@ -18,7 +18,7 @@ const RemixNotification = ({ notification }) => {
   const dispatch = useDispatch()
   return (
     <NotificationWrap status={notification.status}>
-      
+      <AvatarSection></AvatarSection>
     </NotificationWrap>
   )
 }
