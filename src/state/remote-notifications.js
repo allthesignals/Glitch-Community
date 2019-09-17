@@ -31,7 +31,9 @@ export const { reducer, actions } = createSlice({
   },
 });
 
-const testNotifications = [];
+const testNotifications = [
+  { id: 1, createdAt: new Date('2019-09-07').toString(),   }
+];
 
 export const handlers = {
   [appMounted]: (action, store) => {
