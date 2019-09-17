@@ -295,7 +295,7 @@ const NotificationsPage = withRouter(({ history, activeFilter }) => {
 
         <ul>
           {filteredNotifications.map((n) => (
-            <li key={n.id}>{React.createElement(notificationForType[n.type]({ notification: n }))}</li>
+            <li key={n.id}>{React.createElement(notificationForType[n.type], { notification: n })}</li>
           ))}
         </ul>
         {status === 'loading' && <Loader />}
