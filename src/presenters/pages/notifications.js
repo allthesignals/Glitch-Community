@@ -153,12 +153,13 @@ const CollectionNotification = ({ notification }) => {
       options={options}
       avatars={
         <>
-          <UserAvatar user={remixUser} />
-          <ProjectAvatar project={originalProject} />
+          {collectionUser && <UserAvatar user={collectionUser} />}
+          {collectionTeam && <TeamAvatar team={collectionTeam} />}
+          <ProjectAvatar project={project} />
         </>
       }
     >
-      <strong>{remixUserName}</strong> created a remix of <strong>{originalProject.domain}</strong>
+      <strong>{curatorName}</strong> added <strong>{originalProject.domain}</strong>
     </NotificationBase>
   );
 }
