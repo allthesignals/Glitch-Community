@@ -160,17 +160,17 @@ const NotificationBase = ({ href, label, notification, icon, options, avatars, c
   );
 };
 
-const noop = () => {}
+const noop = () => {};
 
 const RemixNotification = ({ notification }) => {
   const { remixUser, originalProject, remixProject } = notification;
   const options = [
     [
       { label: `Mute notifications for ${originalProject.domain}`, onClick: noop },
-      { label: `Mute notifications from ${getUserDisplayName(remixUser)}` },
+      { label: `Mute notifications from ${getUserDisplayName(remixUser)}`, onClick: noop },
     ],
-    [{ label: 'Mute all remix notifications' }],
-    [{ label: 'Report abuse' }],
+    [{ label: 'Mute all remix notifications', onClick: noop }],
+    [{ label: 'Report abuse', onClick: noop }],
   ];
 
   return (
@@ -198,11 +198,11 @@ const CollectionNotification = ({ notification }) => {
   const { project, collection, collectionUser, collectionTeam } = notification;
   const options = [
     [
-      { label: `Mute notifications for ${project.domain}`, onClick: () => {} },
-      { label: `Mute notifications from ${getUserDisplayName(collectionUser)}` },
+      { label: `Mute notifications for ${project.domain}`, onClick: noop },
+      { label: `Mute notifications from ${getUserDisplayName(collectionUser)}`, onClick: noop },
     ],
-    [{ label: 'Mute all collection notifications' }],
-    [{ label: 'Report abuse' }],
+    [{ label: 'Mute all collection notifications', onClick: noop }],
+    [{ label: 'Report abuse', onClick: noop }],
   ];
 
   const collectionPrefix = collectionTeam ? (
@@ -238,9 +238,12 @@ const CollectionNotification = ({ notification }) => {
 const ProjectUserNotification = ({ notification }) => {
   const { project, user, team } = notification;
   const options = [
-    [{ label: `Mute notifications for ${project.domain}`, onClick: () => {} }, { label: `Mute notifications from ${getUserDisplayName(user)}` }],
-    [{ label: 'Mute all project member notifications' }],
-    [{ label: 'Report abuse' }],
+    [
+      { label: `Mute notifications for ${project.domain}`, onClick: noop },
+      { label: `Mute notifications from ${getUserDisplayName(user)}`, onClick: noop },
+    ],
+    [{ label: 'Mute all project member notifications', onClick: noop }],
+    [{ label: 'Report abuse', onClick: noop }],
   ];
 
   const memberType = team ? 'team member' : 'member';
@@ -267,7 +270,7 @@ const ProjectUserNotification = ({ notification }) => {
 
 const FeaturedProjectNotification = ({ notification }) => {
   const { project } = notification;
-  const options = [[{ label: 'Request to remove from featured projects' }]];
+  const options = [[{ label: 'Request to remove from featured projects', onClick: noop }]];
 
   return (
     <NotificationBase
