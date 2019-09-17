@@ -170,7 +170,10 @@ const RemixNotification = ({ notification }) => {
       { label: `Mute notifications from ${getUserDisplayName(remixUser)}`, onClick: noop },
     ],
     [{ label: 'Mute all remix notifications', onClick: noop }],
-    [{ label: 'Report abuse', onClick: noop }],
+    [
+      { label: 'Hide notification', onClick: noop },
+      { label: 'Report abuse', onClick: noop }
+    ],
   ];
 
   return (
@@ -202,7 +205,7 @@ const CollectionNotification = ({ notification }) => {
       { label: `Mute notifications from ${getUserDisplayName(collectionUser)}`, onClick: noop },
     ],
     [{ label: 'Mute all collection notifications', onClick: noop }],
-    [{ label: 'Report abuse', onClick: noop }],
+    [{ label: 'Hide notification', onClick: noop }, { label: 'Report abuse', onClick: noop }],
   ];
 
   const collectionPrefix = collectionTeam ? (
@@ -243,7 +246,7 @@ const ProjectUserNotification = ({ notification }) => {
       { label: `Mute notifications from ${getUserDisplayName(user)}`, onClick: noop },
     ],
     [{ label: 'Mute all project member notifications', onClick: noop }],
-    [{ label: 'Report abuse', onClick: noop }],
+    [{ label: 'Hide notification', onClick: noop }, { label: 'Report abuse', onClick: noop }],
   ];
 
   const memberType = team ? 'team member' : 'member';
