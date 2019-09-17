@@ -271,7 +271,7 @@ const NotificationsPage = ({ activeFilter }) => {
   const hasMoreNotifications = !!nextPage || filteredNotifications.length > limit;
 
   const requestNextPage = () => {
-    setLimit((limit) => limit + PAGE_SIZE);
+    setLimit((prevLimit) => prevLimit + PAGE_SIZE);
     if (notifications.length <= PAGE_SIZE) {
       dispatch(actions.requestedMoreNotifications());
     }
