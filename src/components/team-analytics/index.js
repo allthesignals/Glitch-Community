@@ -17,7 +17,7 @@ import Referrers from './team-analytics-referrers';
 import TeamAnalyticsProjectDetails from './team-analytics-project-details';
 
 import styles from './styles.styl';
-import featureToggles from './feature-toggles';
+import useRolloutToggle from 'State/rollout-toggles';
 
 
 const dateFromTime = (newTime) => {
