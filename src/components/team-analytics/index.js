@@ -100,7 +100,7 @@ function TeamAnalytics({ id, projects }) {
       <h2>
         Analytics
         {projects.length === 0 && <aside className={styles.inlineBanner}>Add projects to see their stats</aside>}
-        {projects.length === 0 && <aside className={styles.inlineBanner}></aside>}
+        {projects.length === 0 && <aside className={styles.inlineBanner}>Analytics are not available right now</aside>}
       </h2>
 
       {projects.length > 0 && (
