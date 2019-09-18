@@ -229,7 +229,7 @@ export const handlers = {
     };
 
     window.addEventListener('storage', onStorage, { passive: true });
-        
+
     const cachedUser = getFromStorage(cachedUserKey);
     if (cachedUser) {
       identifyUser(cachedUser);
