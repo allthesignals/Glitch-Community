@@ -86,7 +86,9 @@ function TeamAnalytics({ id, projects }) {
   const fromDate = useMemo(() => dateFromTime(currentTimeFrame), [currentTimeFrame]);
 
   const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
-  const placeholder = 
+  
+  const placeholder = useRolloutToggle('analytics', String(id)) || projects.length === 0;
+  
   const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
 
   const buckets = analytics ? analytics.buckets : [];
@@ -162,7 +164,7 @@ function TeamAnalytics({ id, projects }) {
         </section>
       </div>
 
-      {(!useRolloutToggle('analytics', String(id)) || projects.length === 0) && <div className={styles.placeholderMask} />}
+      {placeholder && <div className={styles.placeholderMask} />}
     </section>
   );
 }
