@@ -7,7 +7,7 @@ const optimizelyClientInstance = createInstance({
   sdkKey: process.env.OPTIMIZELY_KEY || 'SUV4dn9FiCp1osqWQUZr82',
   datafileOptions: {
     autoUpdate: true,
-    updateInterval: 1000,
+    updateInterval: 60 * 1000, // check once per minute
   },
 });
 
