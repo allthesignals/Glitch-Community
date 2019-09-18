@@ -11,13 +11,12 @@ const optimizelyClientInstance = createInstance({
   },
 });
 
-
 // Usage:
 //
-// import useDevToggle from 'State/dev-toggles`
+// import useRolloutToggle from 'State/rollout-toggles`
 //
 // const NewFeatureIfEnabled = () => {
-//   const showNewFeature = useDevToggle('New Feature');
+//   const showNewFeature = useRolloutToggle('New Feature');
 //   return showNewFeature ? <NewFeature /> : null;
 // };
 
