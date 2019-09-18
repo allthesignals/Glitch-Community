@@ -20,8 +20,6 @@ const optimizelyClientInstance = createInstance({
 //   return showNewFeature ? <NewFeature /> : null;
 // };
 
-const useRolloutToggle = (whichToggle, entityId) => {
-  return optimizelyClientInstance.isFeatureEnabled(whichToggle, entityId);  
-};
+const useRolloutToggle = (whichToggle, entityId) => optimizelyClientInstance.isFeatureEnabled(whichToggle, entityId);
 
 export default useRolloutToggle;
