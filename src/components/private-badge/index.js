@@ -11,12 +11,14 @@ const privateText = 'Only members can view code';
 const publicText = 'Visible to everyone';
 const TYPES = {
   project: {
-    privateText: 'Only members can view code';
-  const publicText = 'Visible to everyone';
+    privateText: 'Only members can view code',
+    publicText: 'Visible to everyone',
   },
-  collection: {
-    
-  }
+  userCollection: {
+    privateText: 'Only you can see this collection',
+    publicText: 'Visible to everyone'
+  },
+  
 }
 export const PrivateBadge = () => (
   <span className={classnames(styles.projectBadge, styles.private)}>
