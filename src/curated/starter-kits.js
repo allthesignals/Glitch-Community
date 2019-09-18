@@ -26,4 +26,13 @@ export default [
     description: 'A free, 5-part video course with interactive code examples that will teach you the fundamentals of WebVR using A-Frame.',
     coverColor: '#9de1ff',
   },
+  {
+    id: 4,
+    keywords: ['discord', 'bot'],
+    imageURL: 'https://glitch.com/culture/content/images/2019/07/Glitch_Website_BlogHeaders_DEVELOPERSTORY-v3.jpg',
+    name: 'Discord Bot Starter Kit',
+    url: 'https://glitch.com/~starter-discord/',
+    description: 'Want to make a Discord Bot on Glitch? Our starter will walk you through the steps with our interactive install guide.',
+    coverColor: '#F6AE78',
+  }
 ];

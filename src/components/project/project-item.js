@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { pickBy } from 'lodash';
-import { Button } from '@fogcreek/shared-components';
+import { AnimationContainer, slideDown, slideUp, Button, Icon } from '@fogcreek/shared-components';
 
 import Markdown from 'Components/text/markdown';
 import BookmarkButton from 'Components/buttons/bookmark-button';
 import Image from 'Components/images/image';
 import ProfileList from 'Components/profile-list';
 import { ProjectLink } from 'Components/link';
-import { PrivateIcon } from 'Components/private-badge';
-import AnimationContainer from 'Components/animation-container';
 import VisibilityContainer from 'Components/visibility-container';
 import Note from 'Components/collection/note';
 import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
@@ -18,6 +15,7 @@ import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
+import { useGlobals } from 'State/globals';
 import { useTrackedFunc } from 'State/segment-analytics';
 
 import ProjectOptionsPop from './project-options-pop';
@@ -43,9 +41,8 @@ const ProfileListLoader = ({ project }) => (
   </VisibilityContainer>
 );
 
-const bind = (fn, ...boundArgs) => (...calledArgs) => fn(...boundArgs, ...calledArgs);
-
 const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions }) => {
+  const { location } = useGlobals();
   const myStuffEnabled = useDevToggle('My Stuff');
   const { currentUser } = useCurrentUser();
   const isAnonymousUser = !currentUser.login;
@@ -62,11 +59,10 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
   const onMouseLeave = () => {
     setIsHoveringOnProjectItem(false);
   };
-  const onMyStuffPage = window.location.pathname.includes('my-stuff');
+  const onMyStuffPage = location.pathname.includes('my-stuff');
 
   const projectOptions = useProjectOptions(project, providedProjectOptions);
   const hasProjectOptions = Object.keys(projectOptions).length > 0;
-  const dispatch = (projectOptionName, ...args) => projectOptions[projectOptionName](...args);
 
   const bookmarkAction = useTrackedFunc(
     () => projectOptions.toggleBookmark(project, hasBookmarked, setHasBookmarked),
@@ -74,22 +70,27 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
     (inherited) => ({ ...inherited, projectName: project.domain, baseProjectId: project.baseId || project.baseProject, userId: currentUser.id }),
   );
 
+  const sequence = (doAnimation, projectOption) => {
+    if (!projectOption) return undefined;
+    return (...args) => {
+      doAnimation();
+      projectOption(...args);
+    };
+  };
+
   return (
-    <AnimationContainer type="slideDown" onAnimationEnd={dispatch}>
-      {(slideDown) => (
-        <AnimationContainer type="slideUp" onAnimationEnd={dispatch}>
-          {(slideUp) => {
-            const animatedProjectOptions = pickBy(
-              {
-                ...projectOptions,
-                addPin: bind(slideUp, 'addPin'),
-                removePin: bind(slideDown, 'removePin'),
-                deleteProject: bind(slideDown, 'deleteProject'),
-                removeProjectFromTeam: bind(slideDown, 'removeProjectFromTeam'),
-                featureProject: bind(slideUp, 'featureProject'),
-              },
-              (_, key) => projectOptions[key],
-            );
+    <AnimationContainer animation={slideDown} onAnimationEnd={() => {}}>
+      {(doSlideDown) => (
+        <AnimationContainer animation={slideUp} onAnimationEnd={() => {}}>
+          {(doSlideUp) => {
+            const animatedProjectOptions = {
+              ...projectOptions,
+              addPin: sequence(doSlideUp, projectOptions.addPin),
+              removePin: sequence(doSlideDown, projectOptions.removePin),
+              deleteProject: sequence(doSlideDown, projectOptions.deleteProject),
+              removeProjectFromTeam: sequence(doSlideDown, projectOptions.removeProjectFromTeam),
+              featureProject: sequence(doSlideUp, projectOptions.featureProject),
+            };
 
             return (
               <>
@@ -133,9 +134,9 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                           <Button
                             as="span"
                             disabled={!!project.suspendedReason}
-                            image={project.private ? <PrivateIcon inButton isPrivate /> : null}
                             imagePosition="left"
                           >
+                            {project.private && (<span className={styles.privateIcon}><Icon icon="private" alt="private" /></span>)}
                             <span className={styles.projectDomain}>{project.suspendedReason ? 'suspended project' : project.domain}</span>
                           </Button>
                         </div>

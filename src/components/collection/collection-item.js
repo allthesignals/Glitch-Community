@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import { AnimationContainer, slideDown, Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Markdown from 'Components/text/markdown';
 import Text from 'Components/text/text';
@@ -11,10 +11,8 @@ import { ProfileItem } from 'Components/profile-list';
 import { CollectionLink } from 'Components/link';
 import Row from 'Components/containers/row';
 import ProjectItemSmall from 'Components/project/project-item-small';
-import AnimationContainer from 'Components/animation-container';
 import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
-import Arrow from 'Components/arrow';
 
 import { isDarkColor } from 'Utils/color';
 import { CDN_URL } from 'Utils/constants';
@@ -83,7 +81,7 @@ const CollectionProjects = ({ collection, isAuthorized }) => {
         </Row>
       </div>
       <CollectionLink collection={collection} className={styles.footerLink} label={footerLabel}>
-        {footerLabel} <Arrow />
+        {footerLabel} <Icon className={styles.arrow} icon="arrowRight" />
       </CollectionLink>
     </>
   );
@@ -153,7 +151,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
 };
 
 const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurator, showLoader }) => (
-  <AnimationContainer type="slideDown" onAnimationEnd={deleteCollection}>
+  <AnimationContainer animation={slideDown} onAnimationEnd={deleteCollection}>
     {(animateAndDeleteCollection) => (
       <div className={styles.collectionItem}>
         {(showCurator || isAuthorized) && (

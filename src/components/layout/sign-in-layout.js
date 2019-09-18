@@ -43,7 +43,7 @@ const SignInLayout = () => {
             <TransparentButton onClick={showMainPage}>
               <div className={styles.magicCode}>
                 <span className={styles.backArrow}>
-                  <span className="left-arrow icon" />
+                  <Icon icon="chevronLeft" />
                 </span>
                 <h1>Magic Code</h1>
               </div>

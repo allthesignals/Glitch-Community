@@ -109,7 +109,7 @@ function TeamPage({ team: initialTeam }) {
   const currentUserIsOnTeam = userIsOnTeam({ team, user: currentUser });
   const currentUserIsTeamAdmin = userIsTeamAdmin({ team, user: currentUser });
 
-  const pinnedSet = new Set(team.teamPins.map(({ projectId }) => projectId));
+  const pinnedSet = new Set(team.pinnedProjects.map(({ id }) => id));
   // filter featuredProject out of both pinned & recent projects
   const [pinnedProjects, recentProjects] = partition(team.projects.filter(({ id }) => id !== team.featuredProjectId), ({ id }) => pinnedSet.has(id));
   const featuredProject = team.projects.find(({ id }) => id === team.featuredProjectId);
@@ -239,8 +239,8 @@ TeamPage.propTypes = {
     id: PropTypes.number.isRequired,
     isVerified: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
+    pinnedProjects: PropTypes.array.isRequired,
     projects: PropTypes.array.isRequired,
-    teamPins: PropTypes.array.isRequired,
     users: PropTypes.array.isRequired,
     whitelistedDomain: PropTypes.string,
     featuredProjectId: PropTypes.string,

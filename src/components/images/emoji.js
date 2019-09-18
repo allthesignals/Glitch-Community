@@ -35,6 +35,7 @@ const EMOJIS = {
   mailboxOpen: 'https://cdn.glitch.com/7e047504-e283-4115-bb1a-65dc0d431fa6%2Fopen-mailbox.png',
   horizontalTrafficLight: 'https://cdn.glitch.com/7e047504-e283-4115-bb1a-65dc0d431fa6%2Fhorizontal-traffic-light_1f6a5.png',
   index: 'https://cdn.glitch.com/7e047504-e283-4115-bb1a-65dc0d431fa6%2Findex.png',
+  backhandIndex: 'https://cdn.glitch.com/064b323a-e0b3-43bc-a6e8-79163b0b5d7a%2Fbackhand-index.png',
   loveLetter: 'https://cdn.glitch.com/7ce3d054-7a26-40e1-9268-4189fc526e5b%2Flove-letter.png',
   microphone: 'https://cdn.glitch.com/7e047504-e283-4115-bb1a-65dc0d431fa6%2Fmicrophone.png',
   mouse: 'https://cdn.glitch.com/972abf14-29f7-4556-b34d-996d5c699008%2Fmouse.png?v=1565900575478',
