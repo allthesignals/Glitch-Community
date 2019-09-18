@@ -140,7 +140,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
         <div className={styles.nameDescriptionContainer}>
           <div className={styles.itemButtonWrap}>
             <Button as="span">
-              {collection.private && <PrivateBadge />}
+              {collection.private && <PrivateBadge type="userCollection" />}
               {collection.name}
             </Button>
           </div>

@@ -29,8 +29,6 @@ export const PrivateBadge = ({ type }) => (
   </span>
 );
 PrivateBadge.propTypes = {
-  isPrivate: PropTypes.bool.isRequired, 
-  setPrivate: PropTypes.func.isRequired, 
   type: PropTypes.oneOf(Object.keys(TYPES)).isRequired
 };
 
