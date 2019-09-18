@@ -10,17 +10,18 @@ import { useCurrentUser } from 'State/current-user';
 import { captureException } from 'Utils/sentry';
 
 import styles from './styles.styl';
-const SplitEmail = ({ email }) => {
-  email = "sarah+testestejshdfksdjfhksdfjhguehrjdfschjkvr@glitch.com"
-  const sliceIndex = email.indexOf("@") -2 ;
 
+const EllipsizeEmail = ({ email }) => {
+  const sliceIndex = email.indexOf('@') - 2;
   return (
-    <span className={styles.emailAddress}>
-      <span className={styles.firstEmail}>{email.slice(0, sliceIndex)}</span>
-      <span>{email.slice(sliceIndex)}</span>
+    <span aria-label={email} className={styles.emailAddress}>
+      <span aria-hidden="true" className={styles.firstEmail}>
+        {email.slice(0, sliceIndex)}
+      </span>
+      <span aria-hidden="true">{email.slice(sliceIndex)}</span>
     </span>
-  )
-}
+  );
+};
 
 const UseMagicCode = ({ emailAddress }) => {
   const { login } = useCurrentUser();
@@ -50,9 +51,9 @@ const UseMagicCode = ({ emailAddress }) => {
   }
 
   return (
-    <div>
+    <>
       <Notification persistent type="success">
-        Sent magic link to <SplitEmail email={emailAddress} />
+        Sent magic link to <EllipsizeEmail email={emailAddress} />
       </Notification>
       <Text>Click the magic link in your email to sign in directly.</Text>
       <Text>...or enter your temporary login code below.</Text>
@@ -81,7 +82,7 @@ const UseMagicCode = ({ emailAddress }) => {
           <Text>Code not found or already used. Try signing in with email.</Text>
         </>
       )}
-    </div>
+    </>
   );
 };
 

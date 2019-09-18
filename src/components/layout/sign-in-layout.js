@@ -23,7 +23,7 @@ const TermsAndConditions = () => (
 );
 
 const SignInLayout = () => {
-  const [page, setPage] = useState('useCode');
+  const [page, setPage] = useState('main');
   const [email, setEmail] = useState();
   const showMainPage = () => setPage('main');
   const showGetCodePage = () => setPage('getCode');
