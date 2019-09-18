@@ -18,7 +18,10 @@ const TYPES = {
     privateText: 'Only you can see this collection',
     publicText: 'Visible to everyone'
   },
-  
+  teamCollection: {
+    privateText: 'Only team members can see this collection',
+    publicText: 'Visible to everyone'
+  }
 }
 export const PrivateBadge = () => (
   <span className={classnames(styles.projectBadge, styles.private)}>
@@ -39,3 +42,4 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
     />
   </span>
 );
+PrivateToggle
