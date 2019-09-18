@@ -23,4 +23,5 @@ const optimizelyClientInstance = createInstance({
 const useRolloutToggle = (whichToggle, entityId) => {
   return optimizelyClientInstance.isFeatureEnabled(whichToggle, entityId);  
 };
+
 export default useRolloutToggle;
