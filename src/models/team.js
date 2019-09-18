@@ -1,6 +1,9 @@
 import { lightColors } from 'Models/user';
 import { CDN_URL } from 'Utils/constants';
 
+export const MEMBER_ACCESS_LEVEL = 20;
+export const ADMIN_ACCESS_LEVEL = 30;
+
 export const DEFAULT_TEAM_AVATAR = 'https://cdn.glitch.com/55f8497b-3334-43ca-851e-6c9780082244%2Fdefault-team-avatar.svg?1503510366819';
 
 export const getTeamLink = ({ url }) => `/@${url}`;
