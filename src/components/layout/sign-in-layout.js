@@ -129,8 +129,10 @@ const SignInLayout = () => {
                   Email Magic Link <Icon className={emoji} icon="loveLetter" />
                 </Button>
               </div>
-              <TermsAndConditions />
-              <BrainFriends />
+              <div className={styles.footer}>
+                <TermsAndConditions />
+                <BrainFriends />
+              </div>
               <Text className={styles.accountCreationHelpText}>Already have an account?</Text>
               <Button onClick={showMainPage}>
                 Sign In
