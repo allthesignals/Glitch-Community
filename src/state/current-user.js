@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { mapKeys, memoize } from 'lodash';
-import { createSlice, createAction } from 'redux-starter-kit';
+import { createSlice } from 'redux-starter-kit';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getSingleItem, getAllPages, allByKeys } from 'Shared/api';
@@ -10,6 +8,7 @@ import { configureScope, captureException, captureMessage, addBreadcrumb } from 
 import runLatest from 'Utils/run-latest';
 import { getStorage, readFromStorage, writeToStorage } from './local-storage';
 import { getAPIForToken } from './api'; // eslint-disable-line import/no-cycle
+import { appMounted } from './app-mounted';
 
 const getStorageMemo = memoize(getStorage);
 const getFromStorage = (key) => readFromStorage(getStorageMemo(), key);
@@ -156,8 +155,6 @@ const defaultUser = {
   collections: [],
 };
 
-const pageMounted = createAction('app/pageMounted');
-
 export const { reducer, actions } = createSlice({
   slice: 'currentUser',
   initialState: {
@@ -224,7 +221,7 @@ const load = runLatest(function* (action, store) {
 });
 
 export const handlers = {
-  [pageMounted]: async (action, store) => {
+  [appMounted]: async (action, store) => {
     const cachedUser = getFromStorage(cachedUserKey);
     if (cachedUser) {
       identifyUser(cachedUser);
@@ -269,29 +266,6 @@ export const useCurrentUser = () => {
     clear: () => dispatch(actions.loggedOut()),
   };
 };
-
-export const CurrentUserProvider = ({ children }) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(pageMounted());
-
-    const onStorage = (event) => {
-      if (!event.key || event.key === sharedUserKey || event.key === cachedUserKey) {
-        dispatch(actions.updatedInAnotherTab(getFromStorage(cachedUserKey)));
-      }
-    };
-
-    window.addEventListener('storage', onStorage, { passive: true });
-    return () => {
-      window.removeEventListener('storage', onStorage, { passive: true });
-    };
-  }, []);
-  return children;
-};
-CurrentUserProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 
 export const useSuperUserHelpers = () => {
   const { currentUser: cachedUser } = useCurrentUser();

@@ -7,6 +7,7 @@ import rootTeams from 'Curated/teams';
 
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
+import { useAppMounted } from 'State/app-mounted';
 
 import { FacebookLoginPage, GitHubLoginPage, GoogleLoginPage, EmailTokenLoginPage } from './login';
 import ResetPasswordPage from './reset-password';
@@ -81,6 +82,7 @@ const PageChangeHandler = withRouter(({ location }) => {
 
 const Router = () => {
   const { EXTERNAL_ROUTES } = useGlobals();
+  useAppMounted();
   return (
     <>
       <PageChangeHandler />
