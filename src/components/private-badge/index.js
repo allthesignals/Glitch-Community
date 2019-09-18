@@ -38,7 +38,7 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
   <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
     <TooltipContainer
       type="action"
-      align="align"
+      align="left"
       tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
       target={
         <HiddenCheckbox value={isPrivate} onChange={setPrivate}>

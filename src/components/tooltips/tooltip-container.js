@@ -93,7 +93,7 @@ function TooltipContainer({ type, tooltip, target, align, persistent, children, 
   }
 
   return (
-    <div ref={positionRef} className={styles.tooltipContainer} onMouseEnter={() => setTooltipIsActive(true)} onMouseLeave={() => setTooltipIsActive(false)} style={offset}>
+    <div className={styles.tooltipContainer} onMouseEnter={() => setTooltipIsActive(true)} onMouseLeave={() => setTooltipIsActive(false)} >
       <div onFocus={() => setTooltipIsActive(true)} onBlur={() => setTooltipIsActive(false)}>
         {extendedTarget}
       </div>
