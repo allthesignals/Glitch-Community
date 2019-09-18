@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import ReactKonami from 'react-konami';
-import { Button, LocalStyle, lightTheme } from '@fogcreek/shared-components';
+import { Button } from '@fogcreek/shared-components';
 import Link from 'Components/link';
 import Logo from 'Components/header/logo';
 import Footer from 'Components/footer';

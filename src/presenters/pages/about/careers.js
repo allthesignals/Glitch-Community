@@ -8,9 +8,6 @@ import '../../../utils/lever/lever.styl';
 
 const blueMark = '#aad6fb';
 const pinkMark = '#ffaabf';
-const purpleMark = '#daa9ff';
-const orangeMark = '#F6C6B5';
-const greenMark = '#d3f3e6';
 
 const pageDescription = 'Glitch is where you’ll do your best work. Here’s why.';
 const pageTitle = 'About Glitch - Careers';
@@ -38,6 +35,12 @@ const AboutCareersPage = withRouter(() => (
       <Mark color={pinkMark}>Open positions</Mark>
     </h2>
     <LeverSection />
+    <section>
+      <h2>
+        <Mark color={blueMark}>Things you won’t find at most other companies</Mark>
+      </h2>
+      <p>Glitch is where you’ll do your best work. Here are just a few examples of why working at Glitch is different.</p>
+    </section>
   </AboutLayout>
 ));
 
