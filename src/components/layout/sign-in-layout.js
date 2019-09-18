@@ -117,7 +117,7 @@ const SignInLayout = () => {
           {page === 'createAccount' && (
             <div>
               <div className={styles.main}>
-                <Text className={styles.accountCre}>Almost there! How do you want to sign up?</Text>
+                <Text className={styles.accountCreationText}>Almost there! How do you want to sign up?</Text>
                 <div className={styles.signInButtons}>
                   {companyNames.map((companyName) => (
                     <div key={companyName} className={styles.signInButton}>
