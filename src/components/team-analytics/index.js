@@ -162,7 +162,7 @@ function TeamAnalytics({ id, projects }) {
         </section>
       </div>
 
-      {!projects.length && <div className={styles.placeholderMask} />}
+      {(!useRolloutToggle('analytics', String(id)) || projects.length === 0) && <div className={styles.placeholderMask} />}
     </section>
   );
 }
