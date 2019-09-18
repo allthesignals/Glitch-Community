@@ -65,7 +65,17 @@ function useAnalytics(props) {
   return useAnalyticsData(memoProps);
 }
 
-function BannerMessage()
+function BannerMessage() {
+  if (featureToggles.isFeatureEnabled('analytics', String(id))) {
+    return <aside className={styles.inlineBanner}>Analytics are not available right now</aside>;
+  } else if (projects.length === 0) {
+    return <aside className={styles.inlineBanner}>Add projects to see their stats</aside>;
+  } else {
+    reutnr
+  }
+  { && }
+        { && }
+}
 
 function TeamAnalytics({ id, projects }) {
   const [activeFilter, setActiveFilter] = useState('views');
@@ -101,8 +111,7 @@ function TeamAnalytics({ id, projects }) {
     <section className={styles.container}>
       <h2>
         Analytics
-        {projects.length === 0 && <aside className={styles.inlineBanner}>Add projects to see their stats</aside>}
-        {featureToggles.isFeatureEnabled('analytics', String(id)) && <aside className={styles.inlineBanner}>Analytics are not available right now</aside>}
+        {}
       </h2>
 
       {projects.length > 0 && (
