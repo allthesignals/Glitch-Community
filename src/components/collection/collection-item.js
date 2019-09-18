@@ -175,7 +175,7 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
           <div className={styles.nameDescriptionContainer}>
             <div className={styles.itemButtonWrap}>
               <Button as="span">
-                {collection.private && <PrivateBadge />}
+                {collection.private && <PrivateBadge type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'} />}
                 {collection.name}
               </Button>
             </div>
