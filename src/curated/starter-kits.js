@@ -34,5 +34,5 @@ export default [
     url: 'https://glitch.com/~starter-discord/',
     description: 'Want to make a Discord Bot on Glitch? Our starter will walk you through the steps with our interactive install guide.',
     coverColor: '#F6AE78',
-  }
+  },
 ];
