@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from '@fogcreek/shared-components';
 
@@ -42,4 +43,8 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
     />
   </span>
 );
-PrivateToggle
+PrivateToggle.propTypes = {
+  isPrivate: PropTypes.bool.isRequired, 
+  setPrivate: PropTypes.func.isRequired, 
+  type: PropTypes.
+}
