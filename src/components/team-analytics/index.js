@@ -65,16 +65,14 @@ function useAnalytics(props) {
   return useAnalyticsData(memoProps);
 }
 
-function BannerMessage() {
-  if (featureToggles.isFeatureEnabled('analytics', String(id))) {
+function BannerMessage(id, projects) {
+  if (useRolloutToggle('analytics', String(id))) {
     return <aside className={styles.inlineBanner}>Analytics are not available right now</aside>;
   } else if (projects.length === 0) {
     return <aside className={styles.inlineBanner}>Add projects to see their stats</aside>;
   } else {
-    reutnr
+    return null;
   }
-  { && }
-        { && }
 }
 
 function TeamAnalytics({ id, projects }) {
