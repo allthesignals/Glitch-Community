@@ -9,6 +9,7 @@ import Text from 'Components/text/text';
 import { createAPIHook } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
+import useRolloutToggle from 'State/rollout-toggles';
 import TeamAnalyticsTimePop from './team-analytics-time-pop';
 import TeamAnalyticsProjectPop from './team-analytics-project-pop';
 import SummaryItem from './team-analytics-summary';
@@ -17,7 +18,6 @@ import Referrers from './team-analytics-referrers';
 import TeamAnalyticsProjectDetails from './team-analytics-project-details';
 
 import styles from './styles.styl';
-import useRolloutToggle from 'State/rollout-toggles';
 
 
 const dateFromTime = (newTime) => {
@@ -45,7 +45,7 @@ function getSampleAnalytics() {
 }
 
 const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  if (!featureToggles.isFeatureEnabled('analytics', String(id)) || !projects.length) {
+  if (!useRolloutToggle('analytics', String(id)) || !projects.length) {
     return getSampleAnalytics();
   }
 
@@ -70,11 +70,13 @@ function BannerMessage({ id, projects }) {
     return (
       <aside className={styles.inlineBanner}>Analytics are not available right now</aside>
     );
-  } else if (projects.length === 0) {
+  }
+  if (projects.length === 0) {
     return (
       <aside className={styles.inlineBanner}>Add projects to see their stats</aside>
     );
-  } else {
+  }
+  else {
     return null;
   }
 }
