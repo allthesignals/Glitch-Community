@@ -66,7 +66,7 @@ function useAnalytics(props) {
 }
 
 function BannerMessage({ id, projects }) {
-  if (useRolloutToggle('analytics', String(id))) {
+  if (!useRolloutToggle('analytics', String(id))) {
     return (
       <aside className={styles.inlineBanner}>Analytics are not available right now</aside>
     );
@@ -87,7 +87,7 @@ function TeamAnalytics({ id, projects }) {
 
   const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
 
-  const placeholder = useRolloutToggle('analytics', String(id)) || projects.length === 0;
+  const placeholder = !useRolloutToggle('analytics', String(id)) || projects.length === 0;
 
   const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
 
