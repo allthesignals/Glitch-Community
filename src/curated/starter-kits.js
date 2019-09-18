@@ -6,7 +6,7 @@ export default [
     name: 'Build a Web App with React',
     url: 'https://glitch.com/culture/react-starter-kit/',
     description: 'A free, 5-part video course with interactive code examples that will help you learn React.',
-    coverColor: '#9de1ff'
+    coverColor: '#9de1ff',
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export default [
     name: 'How to Make a Website',
     url: 'https://glitch.com/culture/website-starter-kit/',
     description: 'A free, 4-part video course with interactive code examples to learn how to make a website using HTML, JS, CSS, and Node.js.',
-    coverColor: '#D0F1FF'
+    coverColor: '#D0F1FF',
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ export default [
     name: 'An Intro to WebVR',
     url: 'https://glitch.com/culture/an-intro-to-webvr/',
     description: 'A free, 5-part video course with interactive code examples that will teach you the fundamentals of WebVR using A-Frame.',
-    coverColor: '#9de1ff'
+    coverColor: '#9de1ff',
   },
   {
     id: 4,
@@ -33,6 +33,6 @@ export default [
     name: 'Discord Bot Starter Kit',
     url: 'https://glitch.com/~starter-discord/',
     description: 'Want to make a Discord Bot on Glitch? Our starter will walk you through the steps with our interactive install guide.',
-    coverColor: '#F6AE78'
-  }
+    coverColor: '#F6AE78',
+  },
 ];
