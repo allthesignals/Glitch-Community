@@ -10,32 +10,6 @@ const cx = classNames.bind(styles);
 export const TYPES = ['action', 'info'];
 export const ALIGNMENTS = ['left', 'right', 'center', 'top'];
 
-const usePositionAdjustment = ({ margin }) => {
-  const [offset, setOffset] = useState({ top: 0, left: 0 });
-  const ref = useRef();
-  useLayoutEffect(() => {
-    const setPosition = () => {
-      if (ref.current) {
-        const rect = ref.current.getBoundingClientRect();
-        if (rect) {
-          if (rect.left < margin) {
-            setOffset((prevOffset) => ({ ...prevOffset, left: margin - rect.left }));
-          } else if (rect.right > window.innerWidth - margin) {
-            setOffset((prevOffset) => ({ ...prevOffset, left: window.innerWidth - margin - rect.right }));
-          } else {
-            setOffset((prevOffset) => ({ ...prevOffset, left: 0 }));
-          }
-        }
-      }
-    };
-    const debounced = debounce(setPosition, 300);
-    window.addEventListener('resize', debounced);
-    setPosition();
-    return () => window.removeEventListener('resize', debounced);
-  }, [margin]);
-  return { ref, offset };
-};
-
 function TooltipContainer({ type, tooltip, target, align, persistent, children, fallback, newStuff }) {
   const [tooltipIsActive, setTooltipIsActive] = useState(true);
 
@@ -117,7 +91,7 @@ function TooltipContainer({ type, tooltip, target, align, persistent, children, 
       </div>
     );
   }
-  const { ref: positionRef, offset } = usePositionAdjustment({ margin: 12 });
+
   return (
     <div ref={positionRef} className={styles.tooltipContainer} onMouseEnter={() => setTooltipIsActive(true)} onMouseLeave={() => setTooltipIsActive(false)} style={offset}>
       <div onFocus={() => setTooltipIsActive(true)} onBlur={() => setTooltipIsActive(false)}>
