@@ -65,11 +65,15 @@ function useAnalytics(props) {
   return useAnalyticsData(memoProps);
 }
 
-function BannerMessage(id, projects) {
+function BannerMessage({ id, projects }) {
   if (useRolloutToggle('analytics', String(id))) {
-    return <aside className={styles.inlineBanner}>Analytics are not available right now</aside>;
+    return (
+      <aside className={styles.inlineBanner}>Analytics are not available right now</aside>
+    );
   } else if (projects.length === 0) {
-    return <aside className={styles.inlineBanner}>Add projects to see their stats</aside>;
+    return (
+      <aside className={styles.inlineBanner}>Add projects to see their stats</aside>
+    );
   } else {
     return null;
   }
@@ -109,7 +113,7 @@ function TeamAnalytics({ id, projects }) {
     <section className={styles.container}>
       <h2>
         Analytics
-        {}
+        {BannerMessage({id, projects})}
       </h2>
 
       {projects.length > 0 && (
