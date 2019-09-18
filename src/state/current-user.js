@@ -222,6 +222,14 @@ const load = runLatest(function* (action, store) {
 
 export const handlers = {
   [appMounted]: async (action, store) => {
+    const onStorage = (event) => {
+      if (!event.key || event.key === sharedUserKey || event.key === cachedUserKey) {
+        store.dispatch(actions.updatedInAnotherTab(getFromStorage(cachedUserKey)));
+      }
+    };
+
+    window.addEventListener('storage', onStorage, { passive: true });
+        
     const cachedUser = getFromStorage(cachedUserKey);
     if (cachedUser) {
       identifyUser(cachedUser);
