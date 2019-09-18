@@ -13,11 +13,11 @@ import Text from 'Components/text/text';
 import styles from './sign-in-layout.styl';
 import { emoji } from '../global.styl';
 
-// const keyImageUrl = 'https://cdn.glitch.com/8ae9b195-ef39-406b-aee0-764888d15665%2Foauth-key.svg?1544466885907';
 const magicImageUrl = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fmagic-link.svg?v=1568658265397';
+const brainFriendsUrl = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fbrainfriends.svg?v=1568814632916';
 
 const MagicHat = () => <Image width={92} src={magicImageUrl} alt="Get a magic code" />;
-
+const BrainFriends = ()
 const TermsAndConditions = () => (
   <div className={styles.termsAndConditions}>
     By signing into Glitch, you agree to our <Link to="/legal/#tos">Terms of Services</Link> and <Link to="/legal/#privacy">Privacy Statement</Link>
