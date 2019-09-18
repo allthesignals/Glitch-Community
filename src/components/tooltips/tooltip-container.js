@@ -12,7 +12,6 @@ export const ALIGNMENTS = ['left', 'right', 'center', 'top'];
 
 function TooltipContainer({ type, tooltip, target, align, persistent, children, fallback, newStuff }) {
   const [tooltipIsActive, setTooltipIsActive] = useState(true);
-
   useEffect(
     () => {
       const keyHandler = (event) => {
