@@ -113,7 +113,7 @@ export default {
   ],
   referrers: [
     {
-      domain: 'glortch.com',
+      domain: 'glitch.com',
       visits: 265013,
       requests: 265013,
     },
