@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
+import styles from './wrapping-link.styl';
 
 // react tells me that nested <a> tags are bad and I shouldn't do that
 // so we will replace the outer tags with a special on click <div> tag
@@ -17,7 +19,7 @@ const WrappingLink = withRouter(({ href, children, className, style, history }) 
     history.push(href);
   };
   return (
-    <div data-href onClick={handler} className={className} style={style} role="presentation">
+    <div data-href onClick={handler} className={classNames(styles.wrappingLink, className)} style={style} role="presentation">
       {children}
     </div>
   );

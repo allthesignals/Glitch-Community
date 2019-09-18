@@ -93,7 +93,7 @@ const UserPage = ({ user: initialUser }) => {
   const isSupport = maybeCurrentUser && maybeCurrentUser.isSupport;
   const isAuthorized = maybeCurrentUser && maybeCurrentUser.id === user.id;
 
-  const pinnedSet = new Set(user.pins.map(({ id }) => id));
+  const pinnedSet = new Set(user.pinnedProjects.map(({ id }) => id));
   // filter featuredProject out of both pinned & recent projects
   const sortedProjects = orderBy(user.projects, (project) => project.updatedAt, ['desc']);
   const [pinnedProjects, recentProjects] = partition(sortedProjects.filter(({ id }) => id !== featuredProjectId), ({ id }) => pinnedSet.has(id));
@@ -210,7 +210,7 @@ UserPage.propTypes = {
     color: PropTypes.string.isRequired,
     coverColor: PropTypes.string,
     description: PropTypes.string.isRequired,
-    pins: PropTypes.array.isRequired,
+    pinnedProjects: PropTypes.array.isRequired,
     projects: PropTypes.array.isRequired,
     teams: PropTypes.array.isRequired,
     collections: PropTypes.array.isRequired,
