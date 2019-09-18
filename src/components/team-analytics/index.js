@@ -113,7 +113,7 @@ function TeamAnalytics({ id, projects }) {
     <section className={styles.container}>
       <h2>
         Analytics
-        <BannerMessage({id, projects}) }
+        <BannerMessage id={id} projects={projects} />
       </h2>
 
       {projects.length > 0 && (
