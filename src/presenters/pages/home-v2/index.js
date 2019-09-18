@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import classnames from 'classnames';
 import Pluralize from 'react-pluralize';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Button, Mark } from '@fogcreek/shared-components';
+import { Button, Mark, Icon } from '@fogcreek/shared-components';
 
 import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';

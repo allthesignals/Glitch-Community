@@ -207,7 +207,7 @@ const AboutCompanyPage = withRouter(() => (
         </p>
       </Bio>
       <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FalanCooper.png?1534858064575" name="Alan Cooper">
-        <p>Alan Cooper is a software design leader and author, who is widely known as the "Father of Visual Basic."</p>
+        <p>Alan Cooper is a software design leader and author, who is widely known as the &quot;Father of Visual Basic.&quot;</p>
         <p>Cooper has helped humanize technology through his groundbreaking work in the field of user experience (UX) and interaction design.</p>
       </Bio>
     </BlockSection>

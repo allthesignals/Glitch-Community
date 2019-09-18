@@ -4,6 +4,7 @@ import { Button, Mark, Icon } from '@fogcreek/shared-components';
 import { Helmet } from 'react-helmet-async';
 import AboutLayout from './about-layout';
 import styles from './careers.styl';
+import '../../../utils/lever/lever.styl';
 
 const blueMark = '#aad6fb';
 const pinkMark = '#ffaabf';
@@ -13,6 +14,12 @@ const greenMark = '#d3f3e6';
 
 const pageDescription = 'Glitch is where you’ll do your best work. Here’s why.';
 const pageTitle = 'About Glitch - Careers';
+
+const LeverSection = () => {
+  import('../../../utils/lever/lever.js');
+  window.leverJobsOptions = { accountName: 'glitch', includeCss: true };
+  return <section id="lever-jobs-container" className={styles.backgroundSection} />;
+};
 
 const AboutCareersPage = withRouter(() => (
   <AboutLayout>
@@ -30,6 +37,7 @@ const AboutCareersPage = withRouter(() => (
     <h2>
       <Mark color={pinkMark}>Open positions</Mark>
     </h2>
+    <LeverSection />
   </AboutLayout>
 ));
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ReactKonami from 'react-konami';
+import { LocalStyle, lightTheme } from '@fogcreek/shared-components';
 
 import Header from 'Components/header';
 import Footer from 'Components/footer';
@@ -12,25 +13,27 @@ import ErrorBoundary from 'Components/error-boundary';
 import styles from './styles.styl';
 
 const Layout = withRouter(({ children, searchQuery, history }) => (
-  <div className={styles.content}>
-    <Helmet title="Glitch" />
-    <NewStuffContainer>
-      {(showNewStuffOverlay) => (
-        <AccountSettingsContainer>
-          {(showAccountSettingsOverlay) => (
-            <div className={styles.headerWrap}>
-              <Header searchQuery={searchQuery} showAccountSettingsOverlay={showAccountSettingsOverlay} showNewStuffOverlay={showNewStuffOverlay} />
-            </div>
-          )}
-        </AccountSettingsContainer>
-      )}
-    </NewStuffContainer>
-    <ErrorBoundary>{children}</ErrorBoundary>
-    <Footer />
-    <ErrorBoundary fallback={null}>
-      <ReactKonami easterEgg={() => history.push('/secret')} />
-    </ErrorBoundary>
-  </div>
+  <LocalStyle theme={lightTheme}>
+    <div className={styles.content}>
+      <Helmet title="Glitch" />
+      <NewStuffContainer>
+        {(showNewStuffOverlay) => (
+          <AccountSettingsContainer>
+            {(showAccountSettingsOverlay) => (
+              <div className={styles.headerWrap}>
+                <Header searchQuery={searchQuery} showAccountSettingsOverlay={showAccountSettingsOverlay} showNewStuffOverlay={showNewStuffOverlay} />
+              </div>
+            )}
+          </AccountSettingsContainer>
+        )}
+      </NewStuffContainer>
+      <ErrorBoundary>{children}</ErrorBoundary>
+      <Footer />
+      <ErrorBoundary fallback={null}>
+        <ReactKonami easterEgg={() => history.push('/secret')} />
+      </ErrorBoundary>
+    </div>
+  </LocalStyle>
 ));
 
 Layout.propTypes = {
