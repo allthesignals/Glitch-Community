@@ -37,7 +37,7 @@ const usePositionAdjustment = ({ margin }) => {
 };
 
 function TooltipContainer({ type, tooltip, target, align, persistent, children, fallback, newStuff }) {
-  const [tooltipIsActive, setTooltipIsActive] = useState(false);
+  const [tooltipIsActive, setTooltipIsActive] = useState(true);
 
   useEffect(
     () => {
@@ -119,7 +119,7 @@ function TooltipContainer({ type, tooltip, target, align, persistent, children, 
   }
   const { ref: positionRef, offset } = usePositionAdjustment({ margin: 12 });
   return (
-    <div ref={positionRef} className={styles.tooltipContainer} onMouseEnter={() => setTooltipIsActive(true)} onMouseLeave={() => setTooltipIsActive(false)} style=>
+    <div ref={positionRef} className={styles.tooltipContainer} onMouseEnter={() => setTooltipIsActive(true)} onMouseLeave={() => setTooltipIsActive(false)} style={offset}>
       <div onFocus={() => setTooltipIsActive(true)} onBlur={() => setTooltipIsActive(false)}>
         {extendedTarget}
       </div>
