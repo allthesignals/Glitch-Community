@@ -33,7 +33,6 @@ PrivateBadge.propTypes = {
 };
 
 
-
 export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
   <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
     <TooltipContainer
