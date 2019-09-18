@@ -44,9 +44,9 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
         <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
           {isPrivate ? <Icon icon="private" /> : <Icon icon="public" /> }
         </HiddenCheckbox>
-  </span>
       }
     />
+  </span>
 );
 PrivateToggle.propTypes = {
   isPrivate: PropTypes.bool.isRequired, 
