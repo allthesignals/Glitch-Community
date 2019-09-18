@@ -206,7 +206,7 @@ const ProjectPage = ({ project: initialProject }) => {
               </div>
               {project.private && (
                 <div className={styles.privacyToggle}>
-                  <PrivateBadge />
+                  <PrivateBadge type="project"/>
                 </div>
               )}
             </>
