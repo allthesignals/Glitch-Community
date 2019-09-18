@@ -45,7 +45,7 @@ function getSampleAnalytics() {
 }
 
 const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  if (!useRolloutToggle('analytics', String(id)) || !projects.length) {
+  if (!useRolloutToggle('analytics', String(id)) || projects.length === 0) {
     return getSampleAnalytics();
   }
 
