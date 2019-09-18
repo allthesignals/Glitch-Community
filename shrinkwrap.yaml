@@ -9,7 +9,7 @@ dependencies:
   '@babel/register': 7.5.5
   '@babel/runtime': 7.6.0
   '@babel/runtime-corejs3': 7.6.0
-  '@fogcreek/shared-components': api.glitch.com/git/shared-components-greg//01bd6e334b86dd560a0ba9b8593b81df1922f21c
+  '@fogcreek/shared-components': 0.8.0
   '@percy/cypress': 1.0.9
   '@sentry/browser': 4.6.6
   '@sentry/minimal': 5.6.1
@@ -991,6 +991,18 @@ packages:
     dev: false
     resolution:
       integrity: sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
+  /@fogcreek/shared-components/0.8.0:
+    dependencies:
+      prop-types: 15.7.2
+      react-textarea-autosize: 7.1.0
+    dev: false
+    engines:
+      node: 12.x
+    peerDependencies:
+      react: ^16.8.0
+      styled-components: ^4.3.0
+    resolution:
+      integrity: sha512-XhxhDAB8fElwMJVS5yWeMZ3OfFhjObh0HkomReeF9ghWYYsnQaLEliOGSGl1SyI5Krc+y1rYxTiqt/6zhoRP3w==
   /@hapi/address/2.1.1:
     dev: false
     resolution:
@@ -10521,22 +10533,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-lSj0QtqxsihOWLQ3m7GU4i4MQAU=
-  api.glitch.com/git/shared-components-greg//01bd6e334b86dd560a0ba9b8593b81df1922f21c:
-    dependencies:
-      prop-types: 15.7.2
-      react-textarea-autosize: 7.1.0
-    dev: false
-    engines:
-      node: 12.x
-    name: '@fogcreek/shared-components'
-    peerDependencies:
-      react: ^16.8.0
-      styled-components: ^4.3.0
-    resolution:
-      commit: 01bd6e334b86dd560a0ba9b8593b81df1922f21c
-      repo: 'https://api.glitch.com/git/shared-components-greg/'
-      type: git
-    version: 0.7.1
 registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
@@ -10551,7 +10547,7 @@ specifiers:
   '@babel/register': 7.5.5
   '@babel/runtime': ^7.5.4
   '@babel/runtime-corejs3': ^7.5.5
-  '@fogcreek/shared-components': 'git+https://api.glitch.com/git/shared-components-greg/#01bd6e334b86dd560a0ba9b8593b81df1922f21c'
+  '@fogcreek/shared-components': ^0.8.0
   '@percy/cypress': ^1.0.9
   '@sentry/browser': ^4.6.6
   '@sentry/minimal': ^5.6.1
