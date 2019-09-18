@@ -8,8 +8,6 @@ import HiddenCheckbox from 'Components/fields/hidden-checkbox';
 
 import styles from './styles.styl';
 
-const privateText = 'Only members can view code';
-const publicText = 'Visible to everyone';
 const TYPES = {
   project: {
     privateText: 'Only members can view code',
@@ -23,12 +21,18 @@ const TYPES = {
     privateText: 'Only team members can see this collection',
     publicText: 'Visible to everyone'
   }
-}
-export const PrivateBadge = () => (
+};
+
+export const PrivateBadge = ({ type }) => (
   <span className={classnames(styles.projectBadge, styles.private)}>
-    <TooltipContainer type="info" tooltip={privateText} target={<Icon icon="private" />} />
+    <TooltipContainer type="info" tooltip={TYPES[type].privateText} target={<Icon icon="private" />} />
   </span>
 );
+PrivateBadge.propTypes = {
+  isPrivate: PropTypes.bool.isRequired, 
+  setPrivate: PropTypes.func.isRequired, 
+  type: PropTypes.oneOf(Object.keys(TYPES)).isRequired
+};
 
 export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
   <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
