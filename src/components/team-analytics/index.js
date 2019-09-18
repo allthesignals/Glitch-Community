@@ -76,9 +76,7 @@ function BannerMessage({ id, projects }) {
       <aside className={styles.inlineBanner}>Add projects to see their stats</aside>
     );
   }
-  else {
-    return null;
-  }
+  return null;
 }
 
 function TeamAnalytics({ id, projects }) {
