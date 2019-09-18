@@ -16,6 +16,10 @@ const tests = {
     goodjob: { weight: 0.5, value: 'good job!' },
     toobad: { weight: 4, value: 'too bad' },
   },
+  'Onboarding': {
+    banner: { weight: 0.5, value: true },
+    nobanner: { weight: 0.5, value: false },
+  },
 };
 
 module.exports = { COOKIE_NAME, tests };

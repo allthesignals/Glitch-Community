@@ -15,6 +15,7 @@ import WistiaVideo from 'Components/wistia-video';
 import Layout from 'Components/layout';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
+import CategoriesGrid from 'Components/categories-grid';
 import { useAPI } from 'State/api';
 import { useTracker } from 'State/segment-analytics';
 import { getRemixUrl } from 'Models/project';
@@ -502,70 +503,10 @@ function Remix() {
 }
 
 function Categories() {
-  const categories = [
-    {
-      name: 'Games',
-      color: '#fae3d1',
-      url: '/games',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Ftetris.svg?v=1561575626455`,
-    },
-    {
-      name: 'Bots',
-      color: '#c7bff0',
-      url: '/handy-bots',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fbot.svg?v=1561575218667`,
-    },
-    {
-      name: 'Music',
-      color: '#a9c4f7',
-      url: '/music',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fmusic.svg?v=1561575625725`,
-    },
-    {
-      name: 'Art',
-      color: '#f2a7bb',
-      url: '/art',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fart.svg?v=1561575091996`,
-    },
-    {
-      name: 'Productivity',
-      color: '#7aa4d3',
-      url: '/tools-for-work',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fwork.svg?v=1561575627331`,
-    },
-    {
-      name: 'Hardware',
-      color: '#6cd8a9',
-      url: '/hardware',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fhardware.svg?v=1561575405808`,
-    },
-    {
-      name: 'Building Blocks',
-      color: '#65cad2',
-      url: '/building-blocks',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fbuilding-blocks.svg?v=1561575219123`,
-    },
-    {
-      name: 'Learn to Code',
-      color: '#f8d3c8',
-      url: '/learn-to-code',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Flearn.svg?v=1561575404279`,
-    },
-  ];
   return (
     <section className={classNames(styles.categories, styles.section)}>
       <Text>...or browse starter apps for inspiration</Text>
-
-      <ul className={styles.categoriesGrid}>
-        {categories.map((category) => (
-          <li key={category.url} className={styles.categoriesGridItem} style={{ '--bgColor': category.color }}>
-            <Link to={category.url}>
-              <Image src={category.icon} alt="" />
-              {category.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <CategoriesGrid className={styles.categoriesGrid} wrapItems />
     </section>
   );
 }

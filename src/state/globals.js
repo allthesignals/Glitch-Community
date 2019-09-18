@@ -16,7 +16,6 @@ export const GlobalsProvider = withRouter(({ children, history, location, origin
 GlobalsProvider.propTypes = {
   children: PropTypes.node.isRequired,
   origin: PropTypes.string.isRequired,
-  AB_TESTS: PropTypes.object.isRequired,
   EXTERNAL_ROUTES: PropTypes.array.isRequired,
   HOME_CONTENT: PropTypes.object.isRequired,
   SSR_SIGNED_IN: PropTypes.bool.isRequired,

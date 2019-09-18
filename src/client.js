@@ -11,6 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 import convertPlugin from 'Shared/dayjs-convert';
 import { configureScope } from 'Utils/sentry';
 import { EDITOR_URL } from 'Utils/constants';
+import { TestsProvider } from 'State/ab-tests';
 import { GlobalsProvider } from 'State/globals';
 import App from './app';
 
@@ -42,13 +43,14 @@ window.bootstrap = async (container) => {
     <BrowserRouter>
       <GlobalsProvider
         origin={window.location.origin}
-        AB_TESTS={window.AB_TESTS}
         EXTERNAL_ROUTES={window.EXTERNAL_ROUTES}
         HOME_CONTENT={window.HOME_CONTENT}
         SSR_SIGNED_IN={window.SSR_SIGNED_IN}
         ZINE_POSTS={window.ZINE_POSTS}
       >
-        <App apiCache={window.API_CACHE} />
+        <TestsProvider AB_TESTS={window.AB_TESTS}>
+          <App apiCache={window.API_CACHE} />
+        </TestsProvider>
       </GlobalsProvider>
     </BrowserRouter>
   );

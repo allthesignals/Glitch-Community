@@ -5,7 +5,6 @@ import Heading from 'Components/text/heading';
 import ProjectsList from 'Components/containers/projects-list';
 import CoverContainer from 'Components/containers/cover-container';
 import { UserLink, WrappingLink } from 'Components/link';
-import Arrow from 'Components/arrow';
 import SignInPop from 'Components/sign-in-pop';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
@@ -48,7 +47,7 @@ const RecentProjects = () => {
   return (
     <section data-cy="recent-projects">
       <Heading tagName="h2">
-        <UserLink user={currentUser}>Your Projects <Arrow /></UserLink>
+        <UserLink user={currentUser}>Your Projects <Icon className={styles.arrow} icon="arrowRight" /></UserLink>
       </Heading>
       {isAnonymousUser && <SignInNotice />}
       <CoverContainer type="user" item={currentUser}>
