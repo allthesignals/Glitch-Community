@@ -86,7 +86,7 @@ function TeamAnalytics({ id, projects }) {
   const fromDate = useMemo(() => dateFromTime(currentTimeFrame), [currentTimeFrame]);
 
   const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
-
+  const placeholder = 
   const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
 
   const buckets = analytics ? analytics.buckets : [];
