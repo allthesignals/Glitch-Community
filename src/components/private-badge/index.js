@@ -15,11 +15,11 @@ const TYPES = {
   },
   userCollection: {
     privateText: 'Only you can see this collection',
-    publicText: 'Visible to everyone'
+    publicText: 'Visible to everyone',
   },
   teamCollection: {
     privateText: 'Only team members can see this collection',
-    publicText: 'Visible to everyone'
+    publicText: 'Visible to everyone',
   }
 };
 
