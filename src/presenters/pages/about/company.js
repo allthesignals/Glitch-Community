@@ -4,19 +4,13 @@ import { Button, Mark, Icon } from '@fogcreek/shared-components';
 import AboutLayout from './about-layout';
 import styles from './company.styl';
 
-const blueMark = '#aad6fb';
-const pinkMark = '#ffaabf';
-const purpleMark = '#daa9ff';
-const orangeMark = '#F6C6B5';
-const greenMark = '#d3f3e6';
-
 const BlockSection = ({ children }) => <section className={styles.blockSection}>{children}</section>;
 
 const Bio = ({ name, imageUrl, isBoardMember, children }) => (
   <article className={styles.leaderContainer}>
     <img className={styles.avatar} src={imageUrl} alt="" />
     <h3 className={styles.leaderName}>{name}</h3>
-    <span className={styles.boardMember}>{isBoardMember && <Mark color={purpleMark}>Board Member</Mark>}</span>
+    <span className={styles.boardMember}>{isBoardMember && <Mark color="var(--mark-purple)">Board Member</Mark>}</span>
     {children}
   </article>
 );
@@ -24,7 +18,7 @@ const AboutCompanyPage = withRouter(() => (
   <AboutLayout mainClassName={styles.main}>
     <BlockSection>
       <h2 className={styles.intro}>
-        A <Mark color={pinkMark}>different</Mark> kind of company
+        A <Mark color="var(--mark-pink)">different</Mark> kind of company
       </h2>
       <article>
         <h3>One of the most influential small tech companies ever</h3>
@@ -87,7 +81,7 @@ const AboutCompanyPage = withRouter(() => (
 
     <BlockSection>
       <h2 className={styles.intro}>
-        <Mark color={blueMark}>Leadership</Mark>
+        <Mark color="var(--mark-blue)">Leadership</Mark>
       </h2>
       <Bio
         imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FanilDashWhiteBG.png?1537834047329"
@@ -154,7 +148,7 @@ const AboutCompanyPage = withRouter(() => (
     </section>
     <BlockSection>
       <h2 className={styles.intro}>
-        <Mark color={orangeMark}>Founders</Mark>
+        <Mark color="var(--mark-orange)">Founders</Mark>
       </h2>
       <Bio
         imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FjoelSpolsky.png?1537833029020"
@@ -174,7 +168,7 @@ const AboutCompanyPage = withRouter(() => (
     </BlockSection>
     <BlockSection>
       <h2 className={styles.intro}>
-        <Mark color={greenMark}>Advisors</Mark>
+        <Mark color="var(--mark-green)">Advisors</Mark>
       </h2>
       <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FkimberlyBryant.png?1534858064619" name="Kimberly Bryant">
         <p>Kimberly Bryant is an entrepreneur and innovator who is founder and CEO of Black Girls Code.</p>
@@ -213,7 +207,7 @@ const AboutCompanyPage = withRouter(() => (
     </BlockSection>
     <section>
       <h2 className={styles.intro}>
-        <Mark color={purpleMark}>Staff diversity report</Mark>
+        <Mark color="var(--mark-purple)">Staff diversity report</Mark>
       </h2>
       <div style={{ height: '600px', width: '100%' }}>
         <iframe
@@ -226,7 +220,7 @@ const AboutCompanyPage = withRouter(() => (
     </section>
     <section>
       <h2 className={styles.intro}>
-        <Mark color={pinkMark}>Contact info</Mark>
+        <Mark color="var(--mark-pink)">Contact info</Mark>
       </h2>
       <p className={styles.address}>
         Glitch Inc.
