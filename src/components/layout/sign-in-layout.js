@@ -17,7 +17,8 @@ const magicImageUrl = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce8
 const brainFriendsUrl = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fbrainfriends.svg?v=1568814632916';
 
 const MagicHat = () => <Image width={92} src={magicImageUrl} alt="Get a magic code" />;
-const BrainFriends = ()
+const BrainFriends = () => <Image width={92} src={brainFriendsUrl} alt="" />;
+
 const TermsAndConditions = () => (
   <div className={styles.termsAndConditions}>
     By signing into Glitch, you agree to our <Link to="/legal/#tos">Terms of Services</Link> and <Link to="/legal/#privacy">Privacy Statement</Link>
@@ -129,6 +130,7 @@ const SignInLayout = () => {
                 </Button>
               </div>
               <TermsAndConditions />
+              <BrainFriends />
               <Text className={styles.accountCreationHelpText}>Already have an account?</Text>
               <Button onClick={showMainPage}>
                 Sign In
