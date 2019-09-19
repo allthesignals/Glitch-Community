@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Waves = () => {
+export const Waves = () => (
 <svg viewBox="0 0 87 258" version="1.1" aria-label="">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
         <g transform="translate(-23.000000, -27.000000)" stroke="#FFF7BC" stroke-width="13">
@@ -12,9 +12,9 @@ export const Waves = () => {
         </g>
     </g>
 </svg>
-};
+);
 
-export const Squares = () => {
+export const Squares = () => (
 <svg viewBox="0 0 101 232"  aria-label="" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6" stroke-linecap="square" stroke-linejoin="round">
         <g transform="translate(-148.000000, -40.000000)" stroke="#AF0AFF" stroke-width="13">
@@ -30,9 +30,9 @@ export const Squares = () => {
         </g>
     </g>
 </svg>
-}
+);
 
-export const Triangles = () => {
+export const Triangles = () => (
 <svg viewBox="0 0 75 252"  aria-label="" version="1.1">    
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="round">
         <g transform="translate(-287.000000, -39.000000)" stroke="#83FFCD" stroke-width="11">
@@ -47,4 +47,4 @@ export const Triangles = () => {
         </g>
     </g>
 </svg>
-}
+);
