@@ -121,10 +121,10 @@ const CreateMyStuffOnClickComponent = withRouter(({ history, children, className
   };
 
   return (
-      <div onClick={createMyStuffCollection} className={className} type="submit" style={style}>
-      <button>
-        {children}
-      </button>
+      <div className={className} type="submit" style={style}>
+        <button onClick={createMyStuffCollection} >
+          {children}
+        </button>
       </div>
   );
 });
