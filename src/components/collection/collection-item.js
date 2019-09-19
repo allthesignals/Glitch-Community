@@ -139,7 +139,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
         style={collectionColorStyles(collection)}
       >
         <div className={styles.avatarContainer}>
-          <BookmarkAvatar />
+          <CollectionAvatar collection={collection} />
         </div>
         <div className={styles.nameDescriptionContainer}>
           <div className={styles.itemButtonWrap}>
