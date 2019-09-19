@@ -24,11 +24,15 @@ const TYPES = {
 };
 
 export const PrivateBadge = ({ type }) => (
-    <TooltipContainer type="info" tooltip={TYPES[type].privateText} target={
+  <TooltipContainer
+    type="info"
+    tooltip={TYPES[type].privateText}
+    target={
       <span className={classnames(styles.projectBadge, styles.private)}>
         <Icon icon="private" />
       </span>
-    }/>
+    }
+  />
 );
 PrivateBadge.propTypes = {
   type: PropTypes.oneOf(Object.keys(TYPES)).isRequired,
