@@ -14,8 +14,8 @@ const api = axios.create({
 
 // group similar requests made in a small period of time
 const batches = new Map();
-function getBatchedEntity(type, field, value) {
-  const key = `${type}:${field}`;
+function getBatchedEntity(api, entity, idType, id) {
+  const key = `${entity}:${idType}`;
 
   // create a new batch
   if (!batches.has(key)) {
@@ -23,20 +23,20 @@ function getBatchedEntity(type, field, value) {
     const promise = new Promise((resolve) => setTimeout(() => {
       const [values] = batches.get(key);
       batches.delete(key);
-      const query = values.map((value) => `${field}=${encodeURIComponent(value)}`).join('&');
-      resolve(api.get(`v1/${type}/by/${field}?${query}`));
+      const query = values.map((value) => `${idType}=${encodeURIComponent(value)}`).join('&');
+      resolve(api.get(`v1/${entity}/by/${idType}?${query}`));
     }, BATCH_TIME));
     batches.set(key, [[], promise]);
   }
 
   // add us to the batch
   const [values, promise] = batches.get(key);
-  batches.set(key, [[...values, value], promise]);
+  batches.set(key, [[...values, id], promise]);
 
   // pull what we want out of the batch
   // this does the same thing as getSingleItem
   return promise.then(({ data }) => {
-    if (data[value]) return data[value];
+    if (data[id]) return data[value];
     const realValue = Object.keys(data).find((key) => key.toLowerCase() === value.toLowerCase());
     if (realValue) return data[realValue];
     return null;
