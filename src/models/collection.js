@@ -61,6 +61,7 @@ export async function createCollection({ api, name, teamId, createNotification, 
   let description = '';
   let generatedName = false;
   let isMyStuff = false;
+  let isPrivate = false;
   if (!name) {
     // generate a new random name & description
     generatedName = true;
@@ -77,6 +78,7 @@ export async function createCollection({ api, name, teamId, createNotification, 
   if (name === 'My Stuff' && myStuffEnabled) {
     isMyStuff = true;
     description = 'My place to save cool finds';
+    isPrivate = true;
   }
   const url = kebabCase(name);
   const avatarUrl = defaultAvatar;
@@ -91,6 +93,7 @@ export async function createCollection({ api, name, teamId, createNotification, 
       coverColor,
       teamId,
       isMyStuff,
+      private: isPrivate,
     });
 
     return collection;
