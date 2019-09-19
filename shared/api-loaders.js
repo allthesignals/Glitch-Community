@@ -3,17 +3,17 @@ const { orderBy } = require('lodash');
 const { getSingleItem, getAllPages, allByKeys } = require('./api');
 
 async function getSingleEntity(api, entity, idType, id) {
-  
+  return getSingleItem(api, `v1/${entity}/by/${idType}?${idType}=${encodeURIComponent(id)}`, id);
 }
 
-async function getCollection(api, id, idType = 'id') {
-  const collection = await getSingleItem(api, `v1/collections/by/${idType}?${idType}=${encodeURIComponent(id)}`, id);
+async function getCollection(api, id, idType = 'id', getEntity = getSingleEntity) {
+  const collection = await getEntity(api, 'collections', idType, id);
   if (!collection) return collection;
   const projects = await getAllPages(api, `/v1/collections/by/id/projects?id=${collection.id}&orderKey=projectOrder&limit=100`);
   return { ...collection, projects };
 }
 
-async function getProject(api, id, idType = 'id') {
+async function getProject(api, id, idType = 'id', getEntity = getSingleEntity) {
   const project = await getSingleItem(api, `v1/projects/by/${idType}?${idType}=${encodeURIComponent(id)}`, id);
   if (!project) return project;
   const data = await allByKeys({
@@ -23,7 +23,7 @@ async function getProject(api, id, idType = 'id') {
   return { ...project, ...data };
 }
 
-async function getTeam(api, id, idType = 'id') {
+async function getTeam(api, id, idType = 'id', getEntity = getSingleEntity) {
   const team = await getSingleItem(api, `v1/teams/by/${idType}?${idType}=${encodeURIComponent(id)}`, id);
   if (!team) return team;
   const { users, projects, ...data } = await allByKeys({
@@ -39,7 +39,7 @@ async function getTeam(api, id, idType = 'id') {
   };
 }
 
-async function getUser(api, id, idType = 'id') {
+async function getUser(api, id, idType = 'id', getEntity = getSingleEntity) {
   const user = await getSingleItem(api, `v1/users/by/${idType}?${idType}=${encodeURIComponent(id)}`, id);
   if (!user) return user;
   const data = await allByKeys({
