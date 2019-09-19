@@ -1,13 +1,14 @@
 import React from 'react';
 import CompColors from 'complementary-colors';
 
-const getComplementaryColor = ({ color }) => {
-    var colo
+const getComplementaryColor = ({ inputColor }) => {
+    var color = new CompColors(inputColor);
+    return color.complementary();
 }
 
 export const Waves = ({ collectionColor }) => (
 <svg viewBox="0 0 87 258" version="1.1" aria-label="">
-    <g className={styles.stroke} stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
         <g transform="translate(-23.000000, -27.000000)" stroke={collectionColor} stroke-width="13">
             <g transform="translate(30.000000, 27.000000)">
                 <path d="M38.8272916,257.292177 L38.8272916,254.693978 C40.4435881,247.40588 41.2517363,240.110398 41.2517363,232.807532 C41.2517363,221.853234 31.2018277,201.797488 31.2018277,189.252818 C31.2018277,176.708147 41.2517363,163.946407 41.2517363,149.293053 C41.2517363,134.6397 31.2018277,117.591928 31.2018277,103.359425 C31.2018277,89.9987434 41.2517363,78.5214872 41.2517363,66.1617696 C41.2517363,53.802052 31.5331422,28.7962359 31.2018277,20.7121198 C30.9809514,15.322709 31.7819491,9.93065296 33.6048209,4.53595169 L33.6048209,0.557825971" id="Line-39"></path>
@@ -22,7 +23,7 @@ export const Waves = ({ collectionColor }) => (
 export const Squares = ({ collectionColor }) => (
 <svg viewBox="0 0 101 232"  aria-label="" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6" stroke-linecap="square" stroke-linejoin="round">
-        <g className={styles.stroke} transform="translate(-148.000000, -40.000000)" stroke={collectionColor} stroke-width="13">
+        <g transform="translate(-148.000000, -40.000000)" stroke={collectionColor} stroke-width="13">
             <g transform="translate(156.000000, 48.000000)">
                 <path d="M1.1167865,37.3877001 L41.4575933,1.39901351"></path>
                 <path d="M22.4038235,196.308286 L62.7446304,160.319599"></path>
@@ -40,7 +41,7 @@ export const Squares = ({ collectionColor }) => (
 export const Triangles = ({ collectionColor }) => (
 <svg viewBox="0 0 75 252"  aria-label="" version="1.1">    
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="round">
-        <g stroke={collectionColor} transform="translate(-287.000000, -39.000000)" stroke-width="11">
+        <g stroke={getComplementaryColor(collectionColor)} transform="translate(-287.000000, -39.000000)" stroke-width="11">
             <g transform="translate(324.500000, 164.500000) rotate(90.000000) translate(-324.500000, -164.500000) translate(204.000000, 133.000000)">
                 <polygon transform="translate(66.949155, 19.767006) scale(1, -1) translate(-66.949155, -19.767006) " points="66.9491552 0.124864556 93.4504572 39.4091474 40.4478533 39.4091474"></polygon>
                 <polygon transform="translate(140.676834, 19.767006) scale(1, -1) translate(-140.676834, -19.767006) " points="140.676834 0.124864556 167.178136 39.4091474 114.175532 39.4091474"></polygon>
