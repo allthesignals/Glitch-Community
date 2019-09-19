@@ -32,20 +32,20 @@ PrivateBadge.propTypes = {
   type: PropTypes.oneOf(Object.keys(TYPES)).isRequired
 };
 
-// figure out how to do left -10px 
+// should be left for collections and center for everything else
 export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
-    <TooltipContainer
-      type="action"
-      align={["left"]}
-      tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
-      target={
-        <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
-          <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
-            {isPrivate ? <Icon icon="private" /> : <Icon icon="public" /> }
-          </HiddenCheckbox>
-        </span>
-      }
-    />
+  <TooltipContainer
+    type="action"
+    align={["left"]}
+    tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
+    target={
+      <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
+        <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
+          {isPrivate ? <Icon icon="private" /> : <Icon icon="public" /> }
+        </HiddenCheckbox>
+      </span>
+    }
+  />
 );
 PrivateToggle.propTypes = {
   isPrivate: PropTypes.bool.isRequired, 
