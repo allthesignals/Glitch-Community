@@ -56,12 +56,12 @@ const MoreCollections = ({ currentCollection, collections }) => {
           <>
             {curator.value.user && (
               <UserLink user={curator.value.user}>
-                More by {getDisplayName(curator.value.user)} <Arrow />
+                More by {getDisplayName(curator.value.user)} <Icon className={styles.arrow} icon="arrowRight" />
               </UserLink>
             )}
             {curator.value.team && (
               <TeamLink team={curator.value.team}>
-                More from {curator.value.team.name} <Arrow />
+                More from {curator.value.team.name} <Icon className={styles.arrow} icon="arrowRight" />
               </TeamLink>
             )}
           </>
