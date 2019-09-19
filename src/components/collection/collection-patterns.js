@@ -12,7 +12,7 @@ const getComplementaryColor = ( inputColor ) => {
 export const Waves = ({ color }) => (
 <svg viewBox="0 0 87 258" version="1.1" aria-label="">
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinejoin="round">
-        <g transform="translate(-23.000000, -27.000000)" stroke={color} strokeWidth="13">
+        <g transform="translate(-23.000000, -27.000000)" stroke={getComplementaryColor(color)} strokeWidth="13">
             <g transform="translate(30.000000, 27.000000)">
                 <path d="M38.8272916,257.292177 L38.8272916,254.693978 C40.4435881,247.40588 41.2517363,240.110398 41.2517363,232.807532 C41.2517363,221.853234 31.2018277,201.797488 31.2018277,189.252818 C31.2018277,176.708147 41.2517363,163.946407 41.2517363,149.293053 C41.2517363,134.6397 31.2018277,117.591928 31.2018277,103.359425 C31.2018277,89.9987434 41.2517363,78.5214872 41.2517363,66.1617696 C41.2517363,53.802052 31.5331422,28.7962359 31.2018277,20.7121198 C30.9809514,15.322709 31.7819491,9.93065296 33.6048209,4.53595169 L33.6048209,0.557825971" id="Line-39"></path>
                 <path d="M71.0530981,257.292177 L71.0530981,254.693978 C72.6693945,247.40588 73.4775427,240.110398 73.4775427,232.807532 C73.4775427,221.853234 63.4276342,201.797488 63.4276342,189.252818 C63.4276342,176.708147 73.4775427,163.946407 73.4775427,149.293053 C73.4775427,134.6397 63.4276342,117.591928 63.4276342,103.359425 C63.4276342,89.9987434 73.4775427,78.5214872 73.4775427,66.1617696 C73.4775427,53.802052 63.7589486,28.7962359 63.4276342,20.7121198 C63.2067579,15.322709 64.0077556,9.93065296 65.8306273,4.53595169 L65.8306273,0.557825971" id="Line-39-Copy"></path>
@@ -26,7 +26,7 @@ export const Waves = ({ color }) => (
 export const Squares = ({ color }) => (
 <svg viewBox="0 0 101 232"  aria-label="" version="1.1">
     <g stroke="none" stroke-Wdth="1" fill="none" fillRule="evenodd" opacity="0.6" strokeLinecap="square" strokeLinejoin="round">
-        <g transform="translate(-148.000000, -40.000000)" stroke={color} strokeWidth="13">
+        <g transform="translate(-148.000000, -40.000000)" stroke={getComplementaryColor(color)} strokeWidth="13">
             <g transform="translate(156.000000, 48.000000)">
                 <path d="M1.1167865,37.3877001 L41.4575933,1.39901351"></path>
                 <path d="M22.4038235,196.308286 L62.7446304,160.319599"></path>
@@ -44,7 +44,7 @@ export const Squares = ({ color }) => (
 export const Triangles = ({ color }) => (
 <svg viewBox="0 0 75 252"  aria-label="" version="1.1">    
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square" strokeLinejoin="round">
-        <g transform="translate(-287.000000, -39.000000)" stroke={color} stroke-width="11">
+        <g transform="translate(-287.000000, -39.000000)" stroke={getComplementaryColor(color)} stroke-width="11">
             <g transform="translate(324.500000, 164.500000) rotate(90.000000) translate(-324.500000, -164.500000) translate(204.000000, 133.000000)">
                 <polygon transform="translate(66.949155, 19.767006) scale(1, -1) translate(-66.949155, -19.767006) " points="66.9491552 0.124864556 93.4504572 39.4091474 40.4478533 39.4091474"></polygon>
                 <polygon transform="translate(140.676834, 19.767006) scale(1, -1) translate(-140.676834, -19.767006) " points="140.676834 0.124864556 167.178136 39.4091474 114.175532 39.4091474"></polygon>
