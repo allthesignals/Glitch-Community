@@ -14,9 +14,9 @@ import Layout from 'Components/layout';
 import ReportButton from 'Components/report-abuse-pop';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
+import { useCachedCollection } from 'State/api-cache';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
-import { useCachedCollection } from 'State/api-cache';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -61,25 +61,28 @@ CollectionPageContents.propTypes = {
   }).isRequired,
 };
 
-const CollectionPage = ({ owner, name }) => (
-  <Layout>
-    <DataLoader get={(api, fullUrl) => getCollection(api, fullUrl, 'fullUrl')} args={`${owner}/${name}`}>
-      {(collection) =>
-        collection ? (
-          <AnalyticsContext
-            properties={{ origin: 'collection', collectionId: collection.id }}
-            context={{
-              groupId: collection.team ? collection.team.id.toString() : '0',
-            }}
-          >
-            <CollectionPageContents collection={collection} />
-          </AnalyticsContext>
-        ) : (
-          <NotFound name={name} />
-        )
-      }
-    </DataLoader>
-  </Layout>
-);
+const CollectionPage = ({ owner, name }) => {
+  const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
+  return (
+    <Layout>
+      <DataLoader get={(api, fullUrl) => getCollection(api, fullUrl, 'fullUrl')} args={`${owner}/${name}`}>
+        {(collection) =>
+          collection ? (
+            <AnalyticsContext
+              properties={{ origin: 'collection', collectionId: collection.id }}
+              context={{
+                groupId: collection.team ? collection.team.id.toString() : '0',
+              }}
+            >
+              <CollectionPageContents collection={collection} />
+            </AnalyticsContext>
+          ) : (
+            <NotFound name={name} />
+          )
+        }
+      </DataLoader>
+    </Layout>
+  );
+};
 
 export default CollectionPage;
