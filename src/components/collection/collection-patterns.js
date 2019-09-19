@@ -1,6 +1,5 @@
 import React from 'react';
-conr compColors 
-import CompColors from 'complementary-colors';
+conr CompColors = require('complementary-colors');
 
 const getComplementaryColor = ({ inputColor }) => {
     console.log(inputColor);
