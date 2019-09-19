@@ -14,7 +14,7 @@ async function getCollection(api, id, idType = 'id', getEntity = getSingleEntity
 }
 
 async function getProject(api, id, idType = 'id', getEntity = getSingleEntity) {
-  const project = await getSingleItem(api, `v1/projects/by/${idType}?${idType}=${encodeURIComponent(id)}`, id);
+  const project = await getEntity(api, 'projects', idType, id);
   if (!project) return project;
   const data = await allByKeys({
     teams: getAllPages(api, `v1/projects/by/id/teams?id=${project.id}&limit=100`),
@@ -24,7 +24,7 @@ async function getProject(api, id, idType = 'id', getEntity = getSingleEntity) {
 }
 
 async function getTeam(api, id, idType = 'id', getEntity = getSingleEntity) {
-  const team = await getSingleItem(api, `v1/teams/by/${idType}?${idType}=${encodeURIComponent(id)}`, id);
+  const team = await getEntity(api, 'teams', idType, id);
   if (!team) return team;
   const { users, projects, ...data } = await allByKeys({
     users: getAllPages(api, `v1/teams/by/id/users?id=${team.id}&orderKey=createdAt&orderDirection=ASC&limit=100`),
@@ -40,7 +40,7 @@ async function getTeam(api, id, idType = 'id', getEntity = getSingleEntity) {
 }
 
 async function getUser(api, id, idType = 'id', getEntity = getSingleEntity) {
-  const user = await getSingleItem(api, `v1/users/by/${idType}?${idType}=${encodeURIComponent(id)}`, id);
+  const user = await getEntity(api, 'users', idType, id);
   if (!user) return user;
   const data = await allByKeys({
     pinnedProjects: getAllPages(api, `v1/users/by/id/pinnedProjects?id=${user.id}&limit=100&orderKey=createdAt&orderDirection=DESC`),
