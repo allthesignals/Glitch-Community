@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './collection-avatar.styl';
 
 export const Waves = () => (
 <svg viewBox="0 0 87 258" version="1.1" aria-label="">
