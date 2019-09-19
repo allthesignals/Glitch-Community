@@ -44,13 +44,7 @@ function getBatchedEntity(api, entity, idType, id) {
 }
 
 async function getProjectFromApi(domain) {
-  const project = await getBatchedEntity('projects', 'domain', domain);
-  if (!project) return project;
-  const members = await allByKeys({
-    teams: getAllPages(api, `v1/projects/by/domain/teams?domain=${domain}`),
-    users: getAllPages(api, `v1/projects/by/domain/users?domain=${domain}`),
-  });
-  return { ...project, ...members };
+  return getProject(api, domain, 'domain', getBatchedEntity);
 }
 
 function getTeamFromApi(url) {
