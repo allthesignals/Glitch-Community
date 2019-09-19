@@ -17,6 +17,8 @@ const getPattern = ({ id }) => {
   }
 }
 
+const patterns = [Waves, Squares, Triangles];
+
 // const textures = ['https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fwavey.svg?v=1560090452140',
 //   'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiagonal.svg?v=1560090452540',
 //   'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Ftriangle.svg?v=1560090452969'];
@@ -29,7 +31,7 @@ const CollectionAvatar = ({ collection }) => (
       (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
     style={{ backgroundColor: collection.coverColor }}>
-    { React.createElement(getPattern(collection.id)) }
+    { React.createElement(patterns[collection.id % 3])) }
 
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
       <div className={styles.projectAvatar}>
