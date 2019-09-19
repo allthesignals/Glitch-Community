@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import useUniqueId from 'Hooks/use-unique-id';
 import styles from './tooltip.styl';
-import { debounce } from 'lodash';
 
 const cx = classNames.bind(styles);
 
@@ -92,7 +91,7 @@ function TooltipContainer({ type, tooltip, target, align, persistent, children, 
   }
 
   return (
-    <div className={styles.tooltipContainer} onMouseEnter={() => setTooltipIsActive(true)} onMouseLeave={() => setTooltipIsActive(false)} >
+    <div className={styles.tooltipContainer} onMouseEnter={() => setTooltipIsActive(true)} onMouseLeave={() => setTooltipIsActive(false)}>
       <div onFocus={() => setTooltipIsActive(true)} onBlur={() => setTooltipIsActive(false)}>
         {extendedTarget}
       </div>
