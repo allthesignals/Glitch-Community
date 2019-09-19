@@ -132,13 +132,14 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
 
   return (
     <div className={styles.collectionItem}>
+      {isAuthorized && <div className={styles.header} />}
       <CollectionLink
         collection={collection}
         className={classNames(styles.linkBody)}
         style={collectionColorStyles(collection)}
       >
         <div className={styles.avatarContainer}>
-          <CollectionAvatar collection={collection} />
+          <BookmarkAvatar />
         </div>
         <div className={styles.nameDescriptionContainer}>
           <div className={styles.itemButtonWrap}>
