@@ -1,5 +1,9 @@
 import React from 'react';
-import ComplimentaryColors from 'complementary-colors';
+import CompColors from 'complementary-colors';
+
+const getComplementaryColor = ({ color }) => {
+    var colo
+}
 
 export const Waves = ({ collectionColor }) => (
 <svg viewBox="0 0 87 258" version="1.1" aria-label="">
