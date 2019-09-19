@@ -34,7 +34,7 @@ const CollectionAvatar = ({ collection }) => (
       <Waves collectionColor={collection.coverColor}/>
 
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
-      <div className={styles.projectAvatar} key={item}>
+      <div className={styles.projectAvatar} key={item.id}>
         <Image src={getProjectAvatarUrl(item)} alt="" />
       </div>
     ))}

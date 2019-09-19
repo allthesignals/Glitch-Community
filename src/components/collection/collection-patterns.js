@@ -2,12 +2,9 @@ import React from 'react';
 const CompColors = require('complementary-colors');
 
 const getComplementaryColor = ( inputColor ) => {
-    console.log('get complementary color', inputColor);
     const color = new CompColors(inputColor);
-    console.log('color', color);
     const complement = color.complementary()[1];
     // returns format {r: 255, g: 255, b: 255}
-    console.log(complement);
     const colorString = `rgb(${complement.r}, ${complement.g}, ${complement.b})`
     return colorString;
 }
@@ -29,7 +26,7 @@ export const Waves = ({ collectionColor }) => (
 export const Squares = ({ collectionColor }) => (
 <svg viewBox="0 0 101 232"  aria-label="" version="1.1">
     <g stroke="none" stroke-Wdth="1" fill="none" fillRule="evenodd" opacity="0.6" strokeLinecap="square" strokeLinejoin="round">
-        <g transform="translate(-148.000000, -40.000000)" stroke={collectionColor} strokeWidth="13">
+        <g transform="translate(-148.000000, -40.000000)" stroke={getComplementaryColor(collectionColor)} strokeWidth="13">
             <g transform="translate(156.000000, 48.000000)">
                 <path d="M1.1167865,37.3877001 L41.4575933,1.39901351"></path>
                 <path d="M22.4038235,196.308286 L62.7446304,160.319599"></path>
@@ -47,7 +44,7 @@ export const Squares = ({ collectionColor }) => (
 export const Triangles = ({ collectionColor }) => (
 <svg viewBox="0 0 75 252"  aria-label="" version="1.1">    
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square" strokeLinejoin="round">
-        <g stroke={getComplementaryColor(collectionColor)} transform="translate(-287.000000, -39.000000)" stroke-width="11">
+        <g transform="translate(-287.000000, -39.000000)" stroke={getComplementaryColor(collectionColor)} stroke-width="11">
             <g transform="translate(324.500000, 164.500000) rotate(90.000000) translate(-324.500000, -164.500000) translate(204.000000, 133.000000)">
                 <polygon transform="translate(66.949155, 19.767006) scale(1, -1) translate(-66.949155, -19.767006) " points="66.9491552 0.124864556 93.4504572 39.4091474 40.4478533 39.4091474"></polygon>
                 <polygon transform="translate(140.676834, 19.767006) scale(1, -1) translate(-140.676834, -19.767006) " points="140.676834 0.124864556 167.178136 39.4091474 114.175532 39.4091474"></polygon>
