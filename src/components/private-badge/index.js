@@ -20,7 +20,7 @@ const TYPES = {
   teamCollection: {
     privateText: 'Only team members can see this collection',
     publicText: 'Visible to everyone',
-  }
+  },
 };
 
 export const PrivateBadge = ({ type }) => (
@@ -29,7 +29,7 @@ export const PrivateBadge = ({ type }) => (
   </span>
 );
 PrivateBadge.propTypes = {
-  type: PropTypes.oneOf(Object.keys(TYPES)).isRequired
+  type: PropTypes.oneOf(Object.keys(TYPES)).isRequired,
 };
 
 // should be left for collections and center for everything else
