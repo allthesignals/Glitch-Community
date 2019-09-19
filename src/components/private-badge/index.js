@@ -38,7 +38,8 @@ PrivateBadge.propTypes = {
   type: PropTypes.oneOf(Object.keys(TYPES)).isRequired,
 };
 
-// should be left for collections and center for everything else
+// Privacy Tooltips should generally be centered, 
+// except if they are shown on the collection page, in which case they sho
 export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => (
   <TooltipContainer
     type="action"
