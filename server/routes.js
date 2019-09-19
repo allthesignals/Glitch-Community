@@ -192,7 +192,8 @@ module.exports = function(external) {
         description += cheerio.load(md.render(team.description)).text();
       }
 
-      const args = { title: team.name, description, canonicalUrl };
+      const cache = { [`team-or-user:${name}`]: { team } };
+      const args = { title: team.name, description, canonicalUrl, cache };
 
       if (team.hasAvatarImage) {
         args.image = `${CDN_URL}/team-avatar/${team.id}/large`;
@@ -201,7 +202,7 @@ module.exports = function(external) {
         args.image = `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fteam-avatar.png?1558031923766`;
       }
 
-      await render(req, res, args);
+      await render(req, res, args, true);
       return;
     }
     const user = await getUser(name);
@@ -213,6 +214,7 @@ module.exports = function(external) {
         canonicalUrl,
         description,
         image: user.avatarThumbnailUrl || `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932`,
+        cache: { [`team-or-user:${`]}
       });
       return;
     }
