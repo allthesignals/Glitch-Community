@@ -31,7 +31,7 @@ const CollectionAvatar = ({ collection }) => (
       (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
     style={{ backgroundColor: collection.coverColor }}>
-    { React.createElement(patterns[collection.id % 3])) }
+    { React.createElement(patterns[collection.id % 3]) }
 
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
       <div className={styles.projectAvatar}>
