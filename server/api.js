@@ -21,9 +21,9 @@ function getBatchedEntity(api, entity, idType, id) {
   if (!batches.has(key)) {
     const BATCH_TIME = 50; // ms
     const promise = new Promise((resolve) => setTimeout(() => {
-      const [values] = batches.get(key);
+      const [ids] = batches.get(key);
       batches.delete(key);
-      const query = values.map((value) => `${idType}=${encodeURIComponent(value)}`).join('&');
+      const query = ids.map((id) => `${idType}=${encodeURIComponent(id)}`).join('&');
       resolve(api.get(`v1/${entity}/by/${idType}?${query}`));
     }, BATCH_TIME));
     batches.set(key, [[], promise]);
