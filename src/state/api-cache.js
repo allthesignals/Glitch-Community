@@ -1,10 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { mapValues } from 'lodash';
 import { getFromApi, getSingleItem, getAllPages } from 'Shared/api';
+import { getProject } from 'Shared/api-loaders';
 import { useAPI } from 'State/api';
 import { captureException } from 'Utils/sentry';
-
-import { getProjectByDomain } from 'State/project';
 
 const CacheContext = createContext();
 
@@ -82,4 +81,4 @@ const useGetCached = (key, get) => {
 export const useCached = (url) => useGetCached(url, (api) => getFromApi(api, url));
 export const useCachedItem = (url, key) => useGetCached(`item:${url}`, (api) => getSingleItem(api, url, key));
 export const useCachedPages = (url) => useGetCached(`pages:${url}`, (api) => getAllPages(api, url));
-export const useCachedProject = (domain) => useGetCached(`project:${domain}`, (api) => getProjectByDomain(api, domain));
+export const useCachedProject = (domain) => useGetCached(`project:${domain}`, (api) => getProject(api, domain, 'domain'));

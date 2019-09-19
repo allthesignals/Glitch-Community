@@ -13,7 +13,6 @@ import Row from 'Components/containers/row';
 import ProjectItemSmall from 'Components/project/project-item-small';
 import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
-import Arrow from 'Components/arrow';
 
 import { isDarkColor } from 'Utils/color';
 import { CDN_URL } from 'Utils/constants';
@@ -82,7 +81,7 @@ const CollectionProjects = ({ collection, isAuthorized }) => {
         </Row>
       </div>
       <CollectionLink collection={collection} className={styles.footerLink} label={footerLabel}>
-        {footerLabel} <Arrow />
+        {footerLabel} <Icon className={styles.arrow} icon="arrowRight" />
       </CollectionLink>
     </>
   );

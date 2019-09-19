@@ -33,7 +33,7 @@ const stripHtml = (html) => {
 /**
  * Markdown Component
  */
-const Markdown = ({ children, length, allowImages, renderAsPlaintext, linkifyHeadings }) => {
+const Markdown = React.memo(({ children, length, allowImages, renderAsPlaintext, linkifyHeadings }) => {
   let rendered = md({ allowImages, linkifyHeadings }).render(children || '');
   let className = styles.markdownContent;
 
@@ -57,7 +57,7 @@ const Markdown = ({ children, length, allowImages, renderAsPlaintext, linkifyHea
       dangerouslySetInnerHTML={{ __html: rendered }} // eslint-disable-line react/no-danger
     />
   );
-};
+});
 
 Markdown.propTypes = {
   /** element(s) to display in the button */

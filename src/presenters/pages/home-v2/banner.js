@@ -4,7 +4,6 @@ import { Button, Icon, Mark } from '@fogcreek/shared-components';
 
 import { Overlay, OverlaySection, OverlayBackground } from 'Components/overlays';
 import { PopoverContainer } from 'Components/popover';
-import Arrow from 'Components/arrow';
 import WistiaVideo from 'Components/wistia-video';
 import { useTracker } from 'State/segment-analytics';
 
@@ -127,7 +126,7 @@ const Banner = () => (
         <p>Simple, powerful, free tools to create and use millions of apps.</p>
         <div className={styles.bannerButtonWrap}>
           <Button as="a" variant="cta" href="/create">
-            Start Creating <Arrow />
+            Start Creating <Icon icon="arrowRight" />
           </Button>
           <div className={styles.watchVideoBtnWrap}>
             <OverlayVideo />

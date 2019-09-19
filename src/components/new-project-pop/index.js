@@ -10,7 +10,7 @@ import { getRemixUrl } from 'Models/project';
 import { useTracker } from 'State/segment-analytics';
 import { createAPIHook } from 'State/api';
 
-import styles from './new-project-pop.styl';
+import styles from './styles.styl';
 
 const importGitRepo = () => {
   /* eslint-disable no-alert */
@@ -36,8 +36,8 @@ const NewProjectResultItem = ({ project }) => (
   </div>
 );
 
-const NewProjectPop = ({ projects }) => (
-  <PopoverDialog align="right">
+const NewProjectPop = ({ projects, align }) => (
+  <PopoverDialog align={align}>
     <PopoverSection>
       {projects.length ? (
         <ResultsList items={projects}>
@@ -92,16 +92,26 @@ const useNewProjectAPI = createAPIHook(async (api) => {
   return projectIds.map((id) => data[id]);
 });
 
-function NewProjectPopButton() {
+function NewProjectPopButton({ buttonText, buttonType, align }) {
   const { value } = useNewProjectAPI();
   const projects = value || [];
   const onOpen = useTracker('open new-project pop');
 
   return (
-    <PopoverWithButton onOpen={onOpen} buttonProps={{ size: 'small' }} buttonText="New Project">
-      {() => <NewProjectPop projects={projects} />}
+    <PopoverWithButton onOpen={onOpen} buttonProps={{ size: 'small', variant: buttonType }} buttonText={buttonText}>
+      {() => <NewProjectPop projects={projects} align={align} />}
     </PopoverWithButton>
   );
 }
+
+NewProjectPopButton.propTypes = {
+  buttonText: PropTypes.string,
+  align: PropTypes.string,
+};
+
+NewProjectPopButton.defaultProps = {
+  buttonText: 'New Project',
+  align: 'right',
+};
 
 export default NewProjectPopButton;
