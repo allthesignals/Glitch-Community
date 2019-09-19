@@ -214,26 +214,26 @@ module.exports = function(external) {
         canonicalUrl,
         description,
         image: user.avatarThumbnailUrl || `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932`,
-        cache: { [`team-or-user:${`]}
-      });
+        cache: { [`team-or-user:${name}`]: { user } },
+      }, true);
       return;
     }
     await render(req, res, { title: `@${name}`, description: `We couldn't find @${name}`, canonicalUrl });
   });
 
-  app.get('/@:name/:collection', async (req, res) => {
-    const { name, collection } = req.params;
-    const canonicalUrl = `${APP_URL}/@${name}/${collection}`;
-    const collectionObj = await getCollection(name, collection);
-    const author = name;
+  app.get('/@:author/:url', async (req, res) => {
+    const { author, url } = req.params;
+    const canonicalUrl = `${APP_URL}/@${author}/${url}`;
+    const collection = await getCollection(author, url);
 
-    if (collectionObj) {
-      let { name, description } = collectionObj;
+    if (collection) {
+      let { name, description } = collection;
       description = description ? cheerio.load(md.render(description)).text() : '';
       description = description.trimEnd(); // trim trailing whitespace from description
       description += ` 🎏 A collection of apps by @${author}`;
       description = description.trimStart(); // if there was no description, trim space before the fish
 
+      const cache = 
       await render(req, res, { title: name, description, canonicalUrl });
       return;
     }
