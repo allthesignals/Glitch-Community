@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './collection-avatar.styl';
 
 export const Waves = () => (
 <svg viewBox="0 0 87 258" version="1.1" aria-label="">
@@ -36,8 +35,8 @@ export const Squares = () => (
 export const Triangles = () => (
 <svg viewBox="0 0 75 252"  aria-label="" version="1.1">    
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="round">
-        <g transform="translate(-287.000000, -39.000000)" stroke="#83FFCD" stroke-width="11">
-            <g id="triangle" transform="translate(324.500000, 164.500000) rotate(90.000000) translate(-324.500000, -164.500000) translate(204.000000, 133.000000)">
+        <g className={styles.stroke} transform="translate(-287.000000, -39.000000)" stroke="#83FFCD" stroke-width="11">
+            <g transform="translate(324.500000, 164.500000) rotate(90.000000) translate(-324.500000, -164.500000) translate(204.000000, 133.000000)">
                 <polygon transform="translate(66.949155, 19.767006) scale(1, -1) translate(-66.949155, -19.767006) " points="66.9491552 0.124864556 93.4504572 39.4091474 40.4478533 39.4091474"></polygon>
                 <polygon transform="translate(140.676834, 19.767006) scale(1, -1) translate(-140.676834, -19.767006) " points="140.676834 0.124864556 167.178136 39.4091474 114.175532 39.4091474"></polygon>
                 <polygon transform="translate(214.404512, 19.767006) scale(1, -1) translate(-214.404512, -19.767006) " points="214.404512 0.124864556 240.905814 39.4091474 187.90321 39.4091474"></polygon>
