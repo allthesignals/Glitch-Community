@@ -75,8 +75,11 @@ const CollectionPage = ({ owner, name }) => {
           <CollectionPageContents collection={collection} />
         </AnalyticsContext>
       ) : (
-        {status}
-        <NotFound name={name} />
+        <>
+          {status === 'ready' && <NotFound name={name} />}
+          {status === 'loading' && <Loader style={{ width: '25px' }} />}
+          {status === 'error' && <NotFound name={name} />}
+        </>
       )}
     </Layout>
   );
