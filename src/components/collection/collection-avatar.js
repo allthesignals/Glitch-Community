@@ -7,7 +7,7 @@ import { getProjectAvatarUrl } from 'Models/project';
 import styles from './collection-avatar.styl';
 import classNames from 'classnames';
 
-const getPattern = ({ id }) => {
+const getPattern = ({ id, colo }) => {
   const numPatterns = 3;
   if(id % numPatterns === 0){
     return Waves;
@@ -36,7 +36,7 @@ const CollectionAvatar = ({ collection }) => (
       (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
     style={{ backgroundColor: getComplementaryColor(collection.coverColor) }}>
-      <Waves collectionColor={collection.coverColor}/>
+      <Waves color={collection.coverColor}/>
 
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
       <div className={styles.projectAvatar} key={item.id}>
