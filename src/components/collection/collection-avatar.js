@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+const CompColors = require('complementary-colors');
 import Image from 'Components/images/image';
 import { Waves, Squares, Triangles } from 'Components/collection/collection-patterns';
 import { getProjectAvatarUrl } from 'Models/project';
 import styles from './collection-avatar.styl';
 import classNames from 'classnames';
+
 
 const getPattern = ({ id }) => {
   const numPatterns = 3;
@@ -15,6 +17,14 @@ const getPattern = ({ id }) => {
   }else{
     return Triangles;
   }
+}
+
+const getComplementaryColor = ( inputColor ) => {
+  const color = new CompColors(inputColor);
+  const complement = color.complementary()[1];
+  // returns format {r: 255, g: 255, b: 255}
+  const colorString = `rgb(${complement.r}, ${complement.g}, ${complement.b})`
+  return colorString;
 }
 
 // const patterns = [Waves, Squares, Triangles];
