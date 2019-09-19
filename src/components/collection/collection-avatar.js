@@ -35,7 +35,7 @@ const CollectionAvatar = ({ collection }) => (
       collection.projects.length >= 3 && styles.stacked, 
       (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
-    style={{ b: getComplementaryColor(collection.coverColor) }}>
+    style={{ borderColor: getComplementaryColor(collection.coverColor) }}>
       { getPattern(collection.id, collection.coverColor) }
 
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
