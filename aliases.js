@@ -8,7 +8,6 @@ const makeAliases = (root) => ({
   State: path.join(__dirname, root, './state'),
   Hooks: path.join(__dirname, root, './hooks'),
   Shared: path.join(__dirname, './shared'),
-  '@fogcreek/shared-components': path.resolve(__dirname, root, './components/shared-components.js'),
 });
 
 const clientPath = './src';
