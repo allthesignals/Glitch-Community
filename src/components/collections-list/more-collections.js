@@ -51,7 +51,6 @@ const MoreCollections = ({ currentCollection, collections }) => {
   const type = isUserCollection ? 'user' : 'team';
   return (
     <>
-<<<<<<< HEAD
       <Heading tagName="h2">
         {curator.status === 'ready' ? (
           <>
@@ -70,28 +69,6 @@ const MoreCollections = ({ currentCollection, collections }) => {
           <>More collections</>
         )}
       </Heading>
-=======
-      <div className={styles.moreByLinkWrap}>
-        <Heading tagName="h2">
-          {curator.status === 'ready' ? (
-            <>
-              {curator.value.user && (
-                <UserLink user={curator.value.user}>
-                  More by {getDisplayName(curator.value.user)} <Icon className={styles.arrow} icon="arrowRight" />
-                </UserLink>
-              )}
-              {curator.value.team && (
-                <TeamLink team={curator.value.team}>
-                  More from {curator.value.team.name} <Icon className={styles.arrow} icon="arrowRight" />
-                </TeamLink>
-              )}
-            </>
-          ) : (
-            <>More collections</>
-          )}
-        </Heading>
-      </div>
->>>>>>> b11970bc8ea4b4d0dacb41931abd077c8141c391
       <CoverContainer type={type} item={currentCollection[type]}>
         <Row items={sampleCollectionsWithProjects} className={styles.row}>{(collection) => <SmallCollectionItem key={collection.id} collection={collection} />}</Row>
       </CoverContainer>
