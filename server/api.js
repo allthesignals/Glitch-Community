@@ -47,12 +47,12 @@ async function getProjectFromApi(domain) {
   return getProject(api, domain, 'domain', getBatchedEntity);
 }
 
-function getTeamFromApi(url) {
-  return getBatchedEntity('teams', 'url', url);
+async function getTeamFromApi(url) {
+  return getTeam(api, url, 'url', getBatchedEntity);
 }
 
 function getUserFromApi(login) {
-  return getBatchedEntity('users', 'login', login);
+  return getUser(api, login, 'login');
 }
 
 function getCollectionFromApi(login, collection) {
