@@ -3,7 +3,7 @@ import styles from './collection-avatar.styl';
 
 export const Waves = () => (
 <svg viewBox="0 0 87 258" version="1.1" aria-label="">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+    <g className={styles.stroke} stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
         <g transform="translate(-23.000000, -27.000000)" stroke="#FFF7BC" stroke-width="13">
             <g transform="translate(30.000000, 27.000000)">
                 <path d="M38.8272916,257.292177 L38.8272916,254.693978 C40.4435881,247.40588 41.2517363,240.110398 41.2517363,232.807532 C41.2517363,221.853234 31.2018277,201.797488 31.2018277,189.252818 C31.2018277,176.708147 41.2517363,163.946407 41.2517363,149.293053 C41.2517363,134.6397 31.2018277,117.591928 31.2018277,103.359425 C31.2018277,89.9987434 41.2517363,78.5214872 41.2517363,66.1617696 C41.2517363,53.802052 31.5331422,28.7962359 31.2018277,20.7121198 C30.9809514,15.322709 31.7819491,9.93065296 33.6048209,4.53595169 L33.6048209,0.557825971" id="Line-39"></path>
@@ -18,7 +18,7 @@ export const Waves = () => (
 export const Squares = () => (
 <svg viewBox="0 0 101 232"  aria-label="" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6" stroke-linecap="square" stroke-linejoin="round">
-        <g transform="translate(-148.000000, -40.000000)" stroke="#AF0AFF" stroke-width="13">
+        <g className={styles.stroke} transform="translate(-148.000000, -40.000000)" stroke="#AF0AFF" stroke-width="13">
             <g transform="translate(156.000000, 48.000000)">
                 <path d="M1.1167865,37.3877001 L41.4575933,1.39901351"></path>
                 <path d="M22.4038235,196.308286 L62.7446304,160.319599"></path>
