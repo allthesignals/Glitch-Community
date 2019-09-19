@@ -1,4 +1,5 @@
 import React from 'react';
+conr compColors 
 import CompColors from 'complementary-colors';
 
 const getComplementaryColor = ({ inputColor }) => {
@@ -6,7 +7,7 @@ const getComplementaryColor = ({ inputColor }) => {
     const color = new CompColors(inputColor);
     const complement = color.complementary();
     console.log(complement);
-    return color.complementary();
+    return complement;
 }
 
 export const Waves = ({ collectionColor }) => (
