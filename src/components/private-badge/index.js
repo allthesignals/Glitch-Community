@@ -24,8 +24,8 @@ const TYPES = {
 };
 
 export const PrivateBadge = ({ type }) => (
-  <span className={classnames(styles.projectBadge, styles.private)}>
-    <TooltipContainer type="info" tooltip={TYPES[type].privateText} target={<Icon icon="private" />} />
+    <TooltipContainer type="info" tooltip={TYPES[type].privateText} target={  <span className={classnames(styles.projectBadge, styles.private)}>
+<Icon icon="private" />} />
   </span>
 );
 PrivateBadge.propTypes = {
