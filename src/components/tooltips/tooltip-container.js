@@ -11,7 +11,6 @@ export const TYPES = ['action', 'info'];
 export const ALIGNMENTS = ['left', 'right', 'center', 'top'];
 
 function TooltipContainer({ type, tooltip, target, align, persistent, children, fallback, newStuff }) {
-  align = ["left"]
   const [tooltipIsActive, setTooltipIsActive] = useState(true);
   useEffect(
     () => {
@@ -85,14 +84,12 @@ function TooltipContainer({ type, tooltip, target, align, persistent, children, 
   /* eslint-disable jsx-a11y/click-events-have-key-events */
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   if (!fallback) {
-    console.log("this is what's rendering?")
     tooltipNode = (
       <div role={role} id={id} className={tooltipClassName} onClick={cancelClick}>
         {type === 'info' || shouldShowTooltip ? tooltip : null}
       </div>
     );
   }
-  console.log("now this is what's rendering")
 
   return (
     <div className={styles.tooltipContainer} onMouseEnter={() => setTooltipIsActive(true)} onMouseLeave={() => setTooltipIsActive(false)} >
