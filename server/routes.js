@@ -233,8 +233,8 @@ module.exports = function(external) {
       description += ` 🎏 A collection of apps by @${author}`;
       description = description.trimStart(); // if there was no description, trim space before the fish
 
-      const cache = 
-      await render(req, res, { title: name, description, canonicalUrl });
+      const cache = { [`collection:${author}/${url}`]: collection };
+      await render(req, res, { title: name, description, canonicalUrl, cache }, true);
       return;
     }
     await render(req, res, { title: collection, description: `We couldn't find @${name}/${collection}`, canonicalUrl });
