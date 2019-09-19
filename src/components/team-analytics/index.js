@@ -45,7 +45,7 @@ function getSampleAnalytics() {
 }
 
 const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  if (!useRolloutToggle('analytics', String(id)) || projects.length === 0) {
+  if (!isFeatureEnabled('analytics', String(id)) || projects.length === 0) {
     return getSampleAnalytics();
   }
 
@@ -60,7 +60,7 @@ const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, cur
 });
 
 function useAnalytics(props) {
-  // make an object with a stable identity so it can be used as single argumnent to api hook
+  // make an object with a stable identity so it can be used as single argument to api hook
   const memoProps = useMemo(() => props, Object.values(props));
   return useAnalyticsData(memoProps);
 }
