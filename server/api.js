@@ -30,15 +30,15 @@ function getBatchedEntity(api, entity, idType, id) {
   }
 
   // add us to the batch
-  const [values, promise] = batches.get(key);
-  batches.set(key, [[...values, id], promise]);
+  const [ids, promise] = batches.get(key);
+  batches.set(key, [[...ids, id], promise]);
 
   // pull what we want out of the batch
   // this does the same thing as getSingleItem
   return promise.then(({ data }) => {
-    if (data[id]) return data[value];
-    const realValue = Object.keys(data).find((key) => key.toLowerCase() === value.toLowerCase());
-    if (realValue) return data[realValue];
+    if (data[id]) return data[id];
+    const realId = Object.keys(data).find((key) => key.toLowerCase() === id.toLowerCase());
+    if (realId) return data[realId];
     return null;
   });
 }
