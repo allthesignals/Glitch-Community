@@ -1,67 +1,77 @@
 const path = require('path');
 const { performance } = require('perf_hooks');
 const dayjs = require('dayjs');
+const { captureException } = require('@sentry/node');
 const createCache = require('./cache');
-const src = path.join(__dirname, '../src/');
+
+const setup = () => {
+  const src = path.join(__dirname, '../src');
+  const build = path.join(__dirname, '../build/node/');
+  switch (process.env.DEPLOY_ENV) {
+    case 'production':
+    case 'ci':
+      // use the build created either statically or by a watcher
+      return { directory: build, verb: 'load' };
+    default:
+      // transpile on render to ensure we always use the latest code
+      require('@babel/register')({
+        only: [(location) => location.startsWith(src)],
+        configFile: path.join(__dirname, '../.babelrc.node.js'),
+      });
+      return { directory: src, verb: 'transpile' };
+  }
+};
+const { directory, verb } = setup();
 
 const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', {});
 
-// apply transformations to the client code so it can run in node
-const stylus = require('stylus');
-require('@babel/register')({
-  only: [(location) => location.startsWith(src)],
-  presets: ['@babel/preset-react', ['@babel/preset-env', { targets: { node: true }, useBuiltIns: false }]],
-  plugins: [
-    [
-      'module-resolver',
-      {
-        alias: { '@sentry/browser': '@sentry/node' },
-      },
-    ],
-    [
-      'css-modules-transform',
-      {
-        preprocessCss: (data, filename) => stylus.render(data, { filename }),
-        extensions: ['.styl'],
-      },
-    ],
-  ],
-});
+let isTranspiled = false;
+let isFirstTranspile = true;
 
 // clear client code from the require cache whenever it gets changed
 // it'll get loaded off the disk again when the render calls require
-let isTranspileNeeded = false;
-const chokidar = require('chokidar');
-chokidar.watch(src).on('change', () => {
-  // remove everything that babel transpiled
-  Object.keys(require.cache).forEach((location) => {
-    if (location.startsWith(src)) delete require.cache[location];
-  });
-  // remove all rendered pages from the cache
-  clearCache();
-  // flag for performance profiling
-  isTranspileNeeded = false;
+require('chokidar').watch(directory).on('change', () => {
+  if (isTranspiled) {
+    // remove everything in the src directory
+    Object.keys(require.cache).forEach((location) => {
+      if (location.startsWith(directory)) delete require.cache[location];
+    });
+    // remove all rendered pages from the cache
+    clearCache();
+    // flag for performance profiling
+    isTranspiled = false;
+  }
 });
 
-let isFirstTranspile = true;
 const requireClient = () => {
-  if (!isTranspileNeeded) console.log(`${isFirstTranspile ? 'T' : 'Ret'}ranspiling for SSR...`);
   const startTime = performance.now();
-  const required = require('../src/server');
+  const required = require(path.join(directory, './server'));
   const endTime = performance.now();
-  if (!isTranspileNeeded) console.log(`SSR ${isFirstTranspile ? '' : 're'}transpile took ${Math.round(endTime - startTime) / 1000}s`);
+  if (!isTranspiled) console.log(`SSR ${isFirstTranspile ? '' : 're'}${verb} took ${Math.round(endTime - startTime)}ms`);
   isFirstTranspile = false;
-  isTranspileNeeded = true;
+  isTranspiled = true;
   return required;
 };
 
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-setImmediate(() => requireClient()); // transpile right away rather than waiting for a request
+const { ServerStyleSheet } = require('styled-components');
+setImmediate(() => {
+  try {
+    requireClient();
+  } catch (error) {
+    // try importing right away so we don't have to wait
+    // but if this fails not it might just be because the first time build isn't ready
+    console.warn('Failed to load client code for ssr. This either means the initial build is not finished or there is a bug in the code');
+    console.error(error.toString());
+    captureException(error);
+  }
+});
 
 const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
   const { Page, resetState } = requireClient();
   resetState();
+  const sheet = new ServerStyleSheet();
   const helmetContext = {};
 
   // don't use <ReactSyntax /> so babel can stay scoped to the src directory
@@ -77,9 +87,11 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
     EXTERNAL_ROUTES,
   });
 
-  const html = ReactDOMServer.renderToString(page);
+  const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
+  const styleTags = sheet.getStyleTags();
+  sheet.seal();
   const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
-  return { html, helmet: helmetContext.helmet, context };
+  return { html, helmet: helmetContext.helmet, context, styleTags };
 };
 
 module.exports = (url, context) => {

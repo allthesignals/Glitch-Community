@@ -18,7 +18,6 @@ import AuthDescription from 'Components/fields/auth-description';
 import { CollectionAvatar as DefaultCollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
 import { CollectionLink } from 'Components/link';
-import Arrow from 'Components/arrow';
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import useSample from 'Hooks/use-sample';
@@ -159,7 +158,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         )}
         {preview && (
           <CollectionLink collection={collection} className={styles.viewAll}>
-            View all <Pluralize count={collection.projects.length} singular="project" /> <Arrow />
+            View all <Pluralize count={collection.projects.length} singular="project" /> <Icon className={styles.arrow} icon="arrowRight" />
           </CollectionLink>
         )}
       </div>

@@ -27,7 +27,12 @@
   padding-bottom: 2rem
   margin-bottom: 2rem
   .resultsContainer
-    align-items: end
+    align-items: type
+    &.includesProject
+      .resultWrap
+        margin-top: 40px
+        &.project
+          margin-top: 0
     
 span[data-module="Badge"]
   margin-left: 5px

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { sample } from 'lodash';
+import { Icon } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Link from 'Components/link';
 import Grid from 'Components/containers/grid';
 import ErrorBoundary from 'Components/error-boundary';
-import Arrow from 'Components/arrow';
 
 import { pickRandomColors } from 'Utils/color';
 import { captureException } from 'Utils/sentry';
@@ -58,7 +58,7 @@ function Questions({ max }) {
   return (
     <section className={styles.container}>
       <Heading tagName="h2">
-        <Link to="/questions">Help Others, Get Thanks <Arrow /></Link>
+        <Link to="/questions">Help Others, Get Thanks <Icon className={styles.arrow} icon="arrowRight" /></Link>
       </Heading>
       <div>
         {questions.length ? (

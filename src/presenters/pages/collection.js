@@ -14,8 +14,9 @@ import Layout from 'Components/layout';
 import ReportButton from 'Components/report-abuse-pop';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
-import { useCollectionEditor, userOrTeamIsAuthor, getCollectionWithProjects } from 'State/collection';
+import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
+import { getCollection } from 'Shared/api-loaders';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -62,7 +63,7 @@ CollectionPageContents.propTypes = {
 
 const CollectionPage = ({ owner, name }) => (
   <Layout>
-    <DataLoader get={(api, args) => getCollectionWithProjects(api, args)} args={{ owner, name }}>
+    <DataLoader get={(api, fullUrl) => getCollection(api, fullUrl, 'fullUrl')} args={`${owner}/${name}`}>
       {(collection) =>
         collection ? (
           <AnalyticsContext

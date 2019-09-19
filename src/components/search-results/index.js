@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { mapValues, values } from 'lodash';
 import { Badge, Button, Loader, SegmentedButton } from '@fogcreek/shared-components';
 
 import { createAPIHook } from 'State/api';
+
 
 import Heading from 'Components/text/heading';
 import UserItem from 'Components/user/user-item';
@@ -93,6 +95,7 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
   const ready = searchResults.status === 'ready';
   const noResults = ready && searchResults.totalHits === 0;
   const showTopResults = ready && searchResults.starterKit.length + searchResults.topResults.length > 0 && activeFilter === 'all';
+  const topResultsIncludesProject = showTopResults && values(mapValues(searchResults.topResults, (result) => result.type)).includes('project');
 
   const filters = [
     { id: 'all', label: 'All' },
@@ -125,8 +128,12 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
           <Grid items={searchResults.starterKit} className={styles.starterKitResultsContainer}>
             {(result) => <StarterKitItem result={result} />}
           </Grid>
-          <Grid items={searchResults.topResults} className={styles.resultsContainer}>
-            {(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}
+          <Grid items={searchResults.topResults} className={classnames(styles.resultsContainer, topResultsIncludesProject && styles.includesProject)}>
+            {(result) => (
+              <div className={classnames(styles.resultWrap, result.type === 'project' && styles.project)}>
+                <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />
+              </div>
+            )}
           </Grid>
         </article>
       )}

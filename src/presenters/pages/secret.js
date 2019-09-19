@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Button } from '@fogcreek/shared-components';
+import { Button, VisuallyHidden } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
-import VisuallyHidden from 'Components/containers/visually-hidden';
 import { useDevToggles } from 'State/dev-toggles';
-import useTest, { resetTests } from 'State/ab-tests';
+import useTest, { useTestAssignments, tests } from 'State/ab-tests';
 
 import styles from './secret.styl';
 
@@ -28,13 +27,26 @@ function useZeldaMusicalCue() {
   }, []);
 }
 
-const ABTest = () => {
+const ABTests = () => {
   const text = useTest('Just-A-Test');
-  const onClick = () => {
-    resetTests();
-    window.location.reload();
-  };
-  return <>Your A/B test group: {text} <Button onClick={onClick} size="small">reassign me</Button></>;
+  const [assignments, reassign] = useTestAssignments();
+  return (
+    <section className={styles.abTestSection}>
+      Your A/B test groups ({text}):
+      <ul className={styles.abTests}>
+        {Object.keys(assignments).map((test) => (
+          <li key={test} className={styles.abTest}>
+            <label>
+              {test}:&nbsp;
+              <select value={assignments[test]} onChange={(event) => reassign(test, event.target.value)}>
+                {Object.keys(tests[test]).map((group) => <option value={group} key={group}>{group}</option>)}
+              </select>
+            </label>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 };
 
 const Secret = () => {
@@ -58,7 +70,7 @@ const Secret = () => {
     <main className={styles.secretPage}>
       <Helmet title="Glitch - It's a secret to everybody." />
       <VisuallyHidden as={Heading} tagName="h1">It's a secret to everybody</VisuallyHidden>
-      <ul>
+      <ul className={styles.toggles}>
         {toggleData.map(({ name, description }) => (
           <li key={name} className={isEnabled(name) ? styles.lit : ''}>
             <Button size="small" title={description} ariaPressed={isEnabled(name) ? 'true' : 'false'} onClick={() => toggleTheToggle(name)}>
@@ -67,7 +79,7 @@ const Secret = () => {
           </li>
         ))}
       </ul>
-      <p className={styles.abTestResult}><ABTest /></p>
+      <ABTests />
     </main>
   );
 };

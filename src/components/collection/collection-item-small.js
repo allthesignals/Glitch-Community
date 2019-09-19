@@ -8,7 +8,6 @@ import Markdown from 'Components/text/markdown';
 import { ProfileItem } from 'Components/profile-list';
 import { CollectionLink } from 'Components/link';
 import VisibilityContainer from 'Components/visibility-container';
-import Arrow from 'Components/arrow';
 import { isDarkColor } from 'Utils/color';
 import { useCollectionCurator } from 'State/collection';
 
@@ -56,7 +55,7 @@ const CollectionItemSmall = ({ collection, showCurator }) => (
         </div>
       </div>
       <div className={styles.smallProjectCount}>
-        <Pluralize count={collection.projects.length} singular="project" /> <Arrow />
+        <Pluralize count={collection.projects.length} singular="project" /> <Icon className={styles.arrow} icon="arrowRight" />
       </div>
     </CollectionLink>
   </div>
