@@ -51,12 +51,12 @@ async function getTeamFromApi(url) {
   return getTeam(api, url, 'url', getBatchedEntity);
 }
 
-function getUserFromApi(login) {
-  return getUser(api, login, 'login');
+async function getUserFromApi(login) {
+  return getUser(api, login, 'login', getBatchedEntity);
 }
 
-function getCollectionFromApi(login, collection) {
-  return getBatchedEntity('collections', 'fullUrl', `${login}/${collection}`);
+async function getCollectionFromApi(login, collection) {
+  return getCollection(api, `${login}/${collection}`, 'fullUrl', getBatchedEntity);
 }
 
 async function getCultureZinePosts() {
