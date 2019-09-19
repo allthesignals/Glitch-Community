@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Image from 'Components/images/image';
-import { Waves, Squares, Triangles } from 'Components/collection/collection-pattern';
+import { Waves, Squares, Triangles } from 'Components/collection/collection-patterns';
 import { getProjectAvatarUrl } from 'Models/project';
 import styles from './collection-avatar.styl';
 import classNames from 'classnames';
@@ -29,8 +29,8 @@ const CollectionAvatar = ({ collection }) => (
       (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
     style={{ backgroundColor: collection.coverColor }}>
-    { get}
-    <img src={textures[collection.id % textures.length]} className={styles.texture} alt=""/>
+    { getPattern(collection.id) }
+
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
       <div className={styles.projectAvatar}>
         <Image src={getProjectAvatarUrl(item)} alt="" />
