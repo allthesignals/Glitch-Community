@@ -9,7 +9,7 @@ import Text from 'Components/text/text';
 import { createAPIHook } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
-import useRolloutToggle from 'State/rollout-toggles';
+import isFeatureEnabled from 'State/rollout-toggles';
 import TeamAnalyticsTimePop from './team-analytics-time-pop';
 import TeamAnalyticsProjectPop from './team-analytics-project-pop';
 import SummaryItem from './team-analytics-summary';
@@ -66,7 +66,7 @@ function useAnalytics(props) {
 }
 
 function BannerMessage({ id, projects }) {
-  if (!useRolloutToggle('analytics', String(id))) {
+  if (!isFeatureEnabled('analytics', String(id))) {
     return (
       <aside className={styles.inlineBanner}>Analytics are not available right now</aside>
     );
@@ -87,7 +87,7 @@ function TeamAnalytics({ id, projects }) {
 
   const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
 
-  const placeholder = !useRolloutToggle('analytics', String(id)) || projects.length === 0;
+  const placeholder = !isFeatureEnabled('analytics', String(id)) || projects.length === 0;
 
   const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
 
