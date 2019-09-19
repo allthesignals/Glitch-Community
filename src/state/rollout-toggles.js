@@ -13,13 +13,13 @@ const optimizelyClientInstance = createInstance({
 
 // Usage:
 //
-// import useRolloutToggle from 'State/rollout-toggles`
+// import isFeatureEnabled from 'State/rollout-toggles`
 //
 // const NewFeatureIfEnabled = () => {
-//   const showNewFeature = useRolloutToggle('New Feature');
+//   const showNewFeature = isFeatureEnabled('New Feature');
 //   return showNewFeature ? <NewFeature /> : null;
 // };
 
-const useRolloutToggle = (whichToggle, entityId) => optimizelyClientInstance.isFeatureEnabled(whichToggle, entityId);
+const isFeatureEnabled = (whichToggle, entityId) => optimizelyClientInstance.isFeatureEnabled(whichToggle, entityId);
 
-export default useRolloutToggle;
+export default isFeatureEnabled;
