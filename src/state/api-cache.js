@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { mapValues } from 'lodash';
-import { getFromApi, getSingleItem, getAllPages } from 'Shared/api';
-import { getCollection, getProject } from 'Shared/api-loaders';
 import { useAPI } from 'State/api';
 import { captureException } from 'Utils/sentry';
+import { getCollection, getProject } from 'Shared/api-loaders';
 
 const CacheContext = createContext();
 

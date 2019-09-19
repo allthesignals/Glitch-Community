@@ -16,7 +16,7 @@ import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
-import { getCollection } from 'Shared/api-loaders';
+import { useCachedCollection } from 'State/api-cache';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
