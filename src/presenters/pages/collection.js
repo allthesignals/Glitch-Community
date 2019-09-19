@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { kebabCase } from 'lodash';
+import { Loader } from '@fogcreek/shared-components';
 
 import { getCollectionLink } from 'Models/collection';
 import { PopoverWithButton } from 'Components/popover';
 import NotFound from 'Components/errors/not-found';
-import DataLoader from 'Components/data-loader';
 import CollectionContainer from 'Components/collection/container';
 import MoreCollectionsContainer from 'Components/collections-list/more-collections';
 import DeleteCollection from 'Components/collection/delete-collection-pop';
@@ -65,22 +65,19 @@ const CollectionPage = ({ owner, name }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
   return (
     <Layout>
-      <DataLoader get={(api, fullUrl) => getCollection(api, fullUrl, 'fullUrl')} args={`${owner}/${name}`}>
-        {(collection) =>
-          collection ? (
-            <AnalyticsContext
-              properties={{ origin: 'collection', collectionId: collection.id }}
-              context={{
-                groupId: collection.team ? collection.team.id.toString() : '0',
-              }}
-            >
-              <CollectionPageContents collection={collection} />
-            </AnalyticsContext>
-          ) : (
-            <NotFound name={name} />
-          )
-        }
-      </DataLoader>
+      {collection ? (
+        <AnalyticsContext
+          properties={{ origin: 'collection', collectionId: collection.id }}
+          context={{
+            groupId: collection.team ? collection.team.id.toString() : '0',
+          }}
+        >
+          <CollectionPageContents collection={collection} />
+        </AnalyticsContext>
+      ) : (
+        {status}
+        <NotFound name={name} />
+      )}
     </Layout>
   );
 };
