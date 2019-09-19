@@ -5,8 +5,9 @@ const getComplementaryColor = ( inputColor ) => {
     console.log('get complementary color', inputColor);
     const color = new CompColors(inputColor);
     console.log('color', color);
-    const complement = color.complementary();
+    const complement = color.complementary()[1];
     console.log(complement);
+    const colorString = `rgb(${complement.r}, ${complement.g}, ${complement.b})`
     return complement;
 }
 
