@@ -6,9 +6,10 @@ const getComplementaryColor = ( inputColor ) => {
     const color = new CompColors(inputColor);
     console.log('color', color);
     const complement = color.complementary()[1];
+    // returns format {r: 255, g: 255, b: 255}
     console.log(complement);
     const colorString = `rgb(${complement.r}, ${complement.g}, ${complement.b})`
-    return complement;
+    return colorString;
 }
 
 export const Waves = ({ collectionColor }) => (
