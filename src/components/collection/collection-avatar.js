@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Image from 'Components/images/image';
-import { CollectionAvatar as DefaultCollectionAvatar } from 'Components/images/avatar';
-import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
+import { getProjectAvatarUrl } from 'Models/project';
+import { Waves, Squares, Triangles } from 'Components/'
 import styles from './collection-avatar.styl';
 import classNames from 'classnames';
 
