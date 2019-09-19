@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Button } from '@fogcreek/shared-components';
 
 import TransparentButton from 'Components/buttons/transparent-button';
 import styles from './results-list.styl';
