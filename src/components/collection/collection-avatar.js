@@ -7,7 +7,6 @@ import { getProjectAvatarUrl } from 'Models/project';
 import styles from './collection-avatar.styl';
 import classNames from 'classnames';
 
-
 const getPattern = ({ id }) => {
   const numPatterns = 3;
   if(id % numPatterns === 0){
@@ -29,10 +28,6 @@ const getComplementaryColor = ( inputColor ) => {
 
 // const patterns = [Waves, Squares, Triangles];
 
-// const textures = ['https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fwavey.svg?v=1560090452140',
-//   'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiagonal.svg?v=1560090452540',
-//   'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Ftriangle.svg?v=1560090452969'];
-
 const CollectionAvatar = ({ collection }) => (
   <div className={
     classNames(styles.avatarContainer, 
@@ -40,7 +35,7 @@ const CollectionAvatar = ({ collection }) => (
       collection.projects.length >= 3 && styles.stacked, 
       (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
-    style={{ backgroundColor: collection.coverColor }}>
+    style={{ backgroundColor: getComplementaryColor(collection.coverColor) }}>
       <Waves collectionColor={collection.coverColor}/>
 
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
