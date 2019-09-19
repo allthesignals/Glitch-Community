@@ -33,7 +33,7 @@ PrivateBadge.propTypes = {
 };
 
 // should be left for collections and center for everything else
-export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
+export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => (
   <TooltipContainer
     type="action"
     align={["left"]}
