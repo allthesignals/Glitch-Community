@@ -5,7 +5,7 @@ const dayjs = require('dayjs');
 
 const { API_URL } = require('./constants').current;
 const createCache = require('./cache');
-const { allByKeys, getAllPages } = require('Shared/api');
+const { getCollection, getProject, getTeam, getUser } = require('Shared/api-loaders');
 
 const api = axios.create({
   baseURL: API_URL,
