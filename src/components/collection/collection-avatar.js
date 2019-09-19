@@ -7,7 +7,14 @@ import styles from './collection-avatar.styl';
 import classNames from 'classnames';
 
 const getPattern = ({ id }) => {
-  if(id % )
+  const numPatterns = 3;
+  if(id % numPatterns === 0){
+    return <Waves/>;
+  }else if(id % numPatterns === 1){
+    return <Squares/>;
+  }else{
+    return <Triangles/>;
+  }
 }
 
 // const textures = ['https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fwavey.svg?v=1560090452140',
@@ -22,7 +29,7 @@ const CollectionAvatar = ({ collection }) => (
       (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
     style={{ backgroundColor: collection.coverColor }}>
-    
+    { get}
     <img src={textures[collection.id % textures.length]} className={styles.texture} alt=""/>
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
       <div className={styles.projectAvatar}>
