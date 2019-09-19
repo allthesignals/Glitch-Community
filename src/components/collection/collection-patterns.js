@@ -2,7 +2,7 @@ import React from 'react';
 const CompColors = require('complementary-colors');
 
 const getComplementaryColor = ({ inputColor }) => {
-    console.log('get complementary color', input);
+    console.log('get complementary color', inputColor);
     const color = new CompColors(inputColor);
     console.log('color', color);
     const complement = color.complementary();
