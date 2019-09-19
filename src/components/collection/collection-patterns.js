@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Waves = () => {
-<svg viewBox="0 0 87 258" version="1.1" aria-label="" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="0 0 87 258" version="1.1" aria-label="">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
         <g transform="translate(-23.000000, -27.000000)" stroke="#FFF7BC" stroke-width="13">
             <g transform="translate(30.000000, 27.000000)">
@@ -15,7 +15,7 @@ export const Waves = () => {
 };
 
 export const Squares = () => {
-<svg viewBox="0 0 101 232"  aria-label="" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="0 0 101 232"  aria-label="" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6" stroke-linecap="square" stroke-linejoin="round">
         <g transform="translate(-148.000000, -40.000000)" stroke="#AF0AFF" stroke-width="13">
             <g transform="translate(156.000000, 48.000000)">
@@ -33,7 +33,7 @@ export const Squares = () => {
 }
 
 export const Triangles = () => {
-<svg viewBox="0 0 75 252"  aria-label="" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">    
+<svg viewBox="0 0 75 252"  aria-label="" version="1.1">    
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="round">
         <g transform="translate(-287.000000, -39.000000)" stroke="#83FFCD" stroke-width="11">
             <g id="triangle" transform="translate(324.500000, 164.500000) rotate(90.000000) translate(-324.500000, -164.500000) translate(204.000000, 133.000000)">
