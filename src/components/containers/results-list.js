@@ -51,13 +51,8 @@ export const ResultItem = ({ className, onClick, href, children, active, selecte
       </TransparentButton>
       {href && (
         <div className={styles.linkButtonWrap}>
-<<<<<<< HEAD
           <Button as="a" size="small" href={href} target="blank" type="secondary">
             View <Arrow />
-=======
-          <Button as="a" size="small" href={href} target="blank">
-            View <Icon className={styles.arrow} icon="arrowRight" />
->>>>>>> b11970bc8ea4b4d0dacb41931abd077c8141c391
           </Button>
         </div>
       )}
