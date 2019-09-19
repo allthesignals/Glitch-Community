@@ -71,11 +71,12 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
 
           {isAuthorized && myStuffIsEnabled && (
             <div className={styles.privacyToggle}>
-              <PrivateToggle 
-                align={["left"]}
+              <PrivateToggle
+                align={['left']}
                 type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'}
                 isPrivate={!!collection.private}
-                setPrivate={() => funcs.updatePrivacy(!collection.private)} />
+                setPrivate={() => funcs.updatePrivacy(!collection.private)}
+              />
             </div>
           )}
 
@@ -117,8 +118,8 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
                     <Icon className={emoji} icon="mouse" /> Click and drag to reorder
                   </Text>
                   <Text>
-                    <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press space again to
-                    save.
+                    <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press
+                    space again to save.
                   </Text>
                 </div>
               )}

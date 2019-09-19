@@ -41,18 +41,18 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => (
     target={
       <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
         <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
-          {isPrivate ? <Icon icon="private" /> : <Icon icon="public" /> }
+          {isPrivate ? <Icon icon="private" /> : <Icon icon="public" />}
         </HiddenCheckbox>
       </span>
     }
   />
 );
 PrivateToggle.propTypes = {
-  isPrivate: PropTypes.bool.isRequired, 
-  setPrivate: PropTypes.func.isRequired, 
+  isPrivate: PropTypes.bool.isRequired,
+  setPrivate: PropTypes.func.isRequired,
   type: PropTypes.oneOf(Object.keys(TYPES)).isRequired,
   align: PropTypes.array,
 };
 PrivateToggle.defaultProps = {
-  align: ["center"]
-}
+  align: ['center'],
+};
