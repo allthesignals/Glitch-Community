@@ -4,7 +4,6 @@ const CompColors = require('complementary-colors');
 const getComplementaryColor = ({ inputColor }) => {
     const color = new CompColors(inputColor);
     const complement = color.complementary();
-    console.log(complement);
     return complement;
 }
 
