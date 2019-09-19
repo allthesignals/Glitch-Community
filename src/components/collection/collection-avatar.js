@@ -9,11 +9,11 @@ import classNames from 'classnames';
 const getPattern = ({ id }) => {
   const numPatterns = 3;
   if(id % numPatterns === 0){
-    return <Waves/>;
+    return Waves;
   }else if(id % numPatterns === 1){
-    return <Squares/>;
+    return Squares;
   }else{
-    return <Triangles/>;
+    return Triangles;
   }
 }
 
@@ -29,7 +29,7 @@ const CollectionAvatar = ({ collection }) => (
       (collection.projects.length > 0 && collection.projects.length < 3) && styles.centered
     )} 
     style={{ backgroundColor: collection.coverColor }}>
-    { getPattern(collection.id) }
+    { React.createElement(getPattern(collection.id)) }
 
     { collection.projects.slice(0, 3).reverse().map((item, index) => (
       <div className={styles.projectAvatar}>
