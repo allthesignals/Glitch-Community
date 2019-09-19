@@ -36,7 +36,7 @@ PrivateBadge.propTypes = {
 export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => (
   <TooltipContainer
     type="action"
-    align={["left"]}
+    align={align}
     tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
     target={
       <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
@@ -50,5 +50,9 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => (
 PrivateToggle.propTypes = {
   isPrivate: PropTypes.bool.isRequired, 
   setPrivate: PropTypes.func.isRequired, 
-  type: PropTypes.oneOf(Object.keys(TYPES)).isRequired
+  type: PropTypes.oneOf(Object.keys(TYPES)).isRequired,
+  align: PropTypes.array,
 };
+PrivateToggle.defaultProps = {
+  align: ["center"]
+}
