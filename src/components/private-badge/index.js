@@ -39,13 +39,13 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
       align={["left"]}
       tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
       target={
-  <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
-        <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
-          {isPrivate ? <Icon icon="private" /> : <Icon icon="public" /> }
-        </HiddenCheckbox>
+        <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
+          <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
+            {isPrivate ? <Icon icon="private" /> : <Icon icon="public" /> }
+          </HiddenCheckbox>
+        </span>
       }
     />
-  </span>
 );
 PrivateToggle.propTypes = {
   isPrivate: PropTypes.bool.isRequired, 
