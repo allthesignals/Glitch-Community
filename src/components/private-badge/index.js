@@ -34,12 +34,12 @@ PrivateBadge.propTypes = {
 
 // figure out how to do left -10px 
 export const PrivateToggle = ({ isPrivate, setPrivate, type }) => (
-  <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
     <TooltipContainer
       type="action"
       align={["left"]}
       tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
       target={
+  <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
         <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
           {isPrivate ? <Icon icon="private" /> : <Icon icon="public" /> }
         </HiddenCheckbox>
