@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Loader } from '@fogcreek/shared-components';
 
 import NotFound from 'Components/errors/not-found';
 import DataLoader from 'Components/data-loader';
 import Layout from 'Components/layout';
 import { ADMIN_ACCESS_LEVEL } from 'Models/team';
-import { useCachedTeamOrUser }
+import { useCachedTeamOrUser } from 'State/api-cache';
 import { getTeam, getUser } from 'Shared/api-loaders';
 
 import TeamPage from './team';
@@ -39,7 +40,8 @@ UserPageLoader.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
-const TeamOrUserPageLoader = ({ name, ...props }) => (
+const TeamOrUserPageLoader = ({ name, ...props }) => {
+  const { value: { team, user }, status } = useCachedTeamOrUser(name);
   <DataLoader get={(api) => getTeamWithAdminIds(api, name, 'url')}>
     {(team) =>
       team ? (
@@ -56,9 +58,9 @@ TeamOrUserPageLoader.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
-const withLayout = (Loader) => (props) => (
+const withLayout = (PageLoader) => (props) => (
   <Layout>
-    <Loader {...props} />
+    <PageLoader {...props} />
   </Layout>
 );
 
