@@ -24,7 +24,33 @@
     text-decoration: none
     color: primary
   
-  .collection
+  .collectionItemBody
+    &::before
+      background:white
+      border-width: 1px
+      border-style: solid
+      border-color: var(--border-color)
+      display: inline
+      content: ''
+      transform: translate(9px,9px)
+      position: absolute
+      width: inherit
+      height: inherit
+      z-index: 0
+      border-radius: 5px
+    &::after
+      background: white
+      display: inline
+      content: ''
+      transform: translate(3px,3px)
+      position: absolute
+      width: inherit
+      height: inherit
+      z-index: 0
+      border-radius: 5px
+      border-width: 1px
+      border-style: solid
+      border-color: var(--border-color)
         
 .linkBody
   flex: 0 1 110px
