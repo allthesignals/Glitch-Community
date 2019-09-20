@@ -193,7 +193,7 @@ export function useTeamEditor(initialTeam) {
     }, handleError),
     updateWhitelistedDomain: (whitelistedDomain) => updateFields({ whitelistedDomain }).catch(handleError),
     updateUserPermissions: withErrorHandler(async (user, accessLevel) => {
-      if (accessLevel === MEMBER_ACCESS_LEVEL && team.adminIds.length <= 1) {
+      if (accessLevel === MEMBER_ACCESS_LEVEL && userIsOnlyTeamAdmin({ user, team })) {
         createNotification('A team must have at least one admin', { type: 'error' });
         return false;
       }
