@@ -32,6 +32,9 @@
     display: flex
     flex-direction: column
 
+    > *
+      z-index: 1
+
     &::before
       background:white
       border-width: 1px
@@ -69,7 +72,6 @@
   text-decoration: none
   font-weight: normal
   cursor: pointer
-  z-index: 1
   &.showCurator:after
     top: 27px
     left: 8.5px
