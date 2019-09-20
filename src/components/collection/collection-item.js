@@ -132,19 +132,21 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
   return (
     <div className={styles.collectionItem}>
       {isAuthorized && <div className={styles.header} />}
-      <CollectionLinkComponent collection={collection} className={classNames(styles.linkBody)} style={collectionColorStyles(collection)}>
-        <div className={styles.bookmarkContainer}>
-          <BookmarkAvatar />
-        </div>
-        <div className={styles.nameDescriptionContainer}>
-          <div className={styles.itemButtonWrap}>
-            <Button as="span">{collection.name}</Button>
+      <div className={styles.collectionLinkBodyContainer}/>
+        <CollectionLinkComponent collection={collection} className={classNames(styles.linkBody)} style={collectionColorStyles(collection)}>
+          <div className={styles.bookmarkContainer}>
+            <BookmarkAvatar />
           </div>
-          <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
-            <Markdown length={100}>{collection.description || ' '}</Markdown>
+          <div className={styles.nameDescriptionContainer}>
+            <div className={styles.itemButtonWrap}>
+              <Button as="span">{collection.name}</Button>
+            </div>
+            <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
+              <Markdown length={100}>{collection.description || ' '}</Markdown>
+            </div>
           </div>
-        </div>
-      </CollectionLinkComponent>
+        </CollectionLinkComponent>
+        
       <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
     </div>
   );
