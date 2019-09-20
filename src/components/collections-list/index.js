@@ -121,7 +121,7 @@ function CollectionsList({
                         fetchDataOptimistically={getCollectionProjects}
                       >
                         {(paginatedCollections, isExpanded) => (
-                          <Grid items={paginatedCollections} style={{'--column-gap': '35px' }}>
+                          <Grid items={paginatedCollections} className={styles.collectionsGrid}>
                             {(collection) =>
                               myStuffEnabled && collection.isMyStuff ? (
                                 <MyStuffItem collection={collection} isAuthorized={isAuthorized} showLoader={isExpanded} />
