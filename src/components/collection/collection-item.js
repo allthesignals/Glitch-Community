@@ -161,22 +161,24 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
             {isAuthorized && <CollectionOptions collection={collection} deleteCollection={animateAndDeleteCollection} />}
           </div>
         )}
-        <CollectionLink
-          collection={collection}
-          className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
-          style={collectionColorStyles(collection)}
-        >
-          <div className={styles.nameDescriptionContainer}>
-            <div className={styles.itemButtonWrap}>
-              <Button as="span">{collection.name}</Button>
+        <div className={styles.collectionItemBody} style={{'--border-color': collection.coverColor}}>
+          <CollectionLink
+            collection={collection}
+            className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
+            style={collectionColorStyles(collection)}
+          >
+            <div className={styles.nameDescriptionContainer}>
+              <div className={styles.itemButtonWrap}>
+                <Button as="span">{collection.name}</Button>
+              </div>
+              <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
+                <Markdown length={100}>{collection.description || ' '}</Markdown>
+              </div>
             </div>
-            <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
-              <Markdown length={100}>{collection.description || ' '}</Markdown>
-            </div>
-          </div>
-        </CollectionLink>
+          </CollectionLink>
 
-        <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+          <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+        </div>
       </div>
     )}
   </AnimationContainer>
