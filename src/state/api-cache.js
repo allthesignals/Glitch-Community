@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { mapValues } from 'lodash';
 import { useAPI } from 'State/api';
 import { captureException } from 'Utils/sentry';
-import { getCollection, getProject } from 'Shared/api-loaders';
+import { getCollection, getProject, getTeam, getUser } from 'Shared/api-loaders';
 
 const CacheContext = createContext();
 
@@ -79,4 +79,4 @@ const useGetCached = (key, get) => {
 
 export const useCachedCollection = (fullUrl) => useGetCached(`collection:${fullUrl}`, (api) => getCollection(api, fullUrl, 'fullUrl'));
 export const useCachedProject = (domain) => useGetCached(`project:${domain}`, (api) => getProject(api, domain, 'domain'));
-export const useCachedTeamOrUser = (name) => useGetCached(`team-or-user:${name}`, async (api) => ({ team: getTeam(api, name, 'url'), user: getUser(api, name)}))
+export const useCachedTeamOrUser = (name) => useGetCached(`team-or-user:${name}`, async (api) => ({ team: await getTeam(api, name, 'url'), user: await getUser(api, name, 'login') }));
