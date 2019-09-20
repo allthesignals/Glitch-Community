@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import * as assets from 'Utils/assets';
 
@@ -35,6 +35,10 @@ export function useTeamEditor(initialTeam) {
     joinTeamProject,
   } = useAPIHandlers();
   const [team, setTeam] = useState(initialTeam);
+
+  useEffect(() => {
+    setTeam(initialTeam);
+  }, [initialTeam]);
 
   async function updateFields(changes) {
     const { data } = await updateItem({ team }, changes);

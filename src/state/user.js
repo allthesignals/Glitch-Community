@@ -37,7 +37,7 @@ export function useUserEditor(initialUser) {
 
   useEffect(() => {
     setUser(initialUser);
-  })
+  }, [initialUser]);
 
   const isCurrentUser = !!currentUser && user.id === currentUser.id;
   useEffect(() => {
