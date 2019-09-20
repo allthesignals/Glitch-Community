@@ -15,7 +15,7 @@ import styles from './collection-item.styl';
 
 const collectionColorStyles = (collection) => ({
   backgroundColor: collection.coverColor,
-  border: collection.coverColor,
+  borderColor: collection.coverColor,
 });
 
 const CollectionCurator = ({ collection }) => {
