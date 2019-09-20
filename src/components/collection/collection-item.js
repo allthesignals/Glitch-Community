@@ -31,7 +31,6 @@ import { emoji } from '../global.styl';
 
 const collectionColorStyles = (collection) => ({
   backgroundColor: collection.coverColor,
-  '--border-color': collection.coverColor,
 });
 
 const ProjectsLoading = () => (
@@ -132,7 +131,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
   return (
     <div className={styles.collectionItem}>
       {isAuthorized && <div className={styles.header} />}
-      <div className={styles.collectionItemBody} style={{'--border-color': coll}}>
+      <div className={styles.collectionItemBody} style={{'--border-color': collection.coverColor}}>
         <CollectionLinkComponent collection={collection} className={classNames(styles.linkBody)} style={collectionColorStyles(collection)}>
           <div className={styles.bookmarkContainer}>
             <BookmarkAvatar />
