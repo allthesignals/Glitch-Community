@@ -35,7 +35,7 @@ const CollectionItemSmall = ({ collection, showCurator }) => (
         <CollectionCuratorLoader collection={collection} />
       </div>
     )}
-    <CollectionLink collection={collection} className={styles.smallCollectionLink} style={{borderColor: collection.coverColor}}>
+    <CollectionLink collection={collection} className={styles.smallCollectionLink} style={{'--border-color': collection.coverColor}}>
       <div
         className={classnames(styles.bubbleContainer, styles.smallNameDescriptionArea, showCurator && styles.showCurator)}
         style={collectionColorStyles(collection)}
