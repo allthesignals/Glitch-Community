@@ -25,7 +25,7 @@ const ProfileItemWithData = ({ collection }) => {
 const ProfileItemWrap = ({ collection }) => (
   <div className={styles.profileItemWrap}>
     <VisibilityContainer>
-      {({ wasEverVisible }) => (wasEverVisible ? <ProfileItemWithData collection={collection} /> : <ProfilecItem size="small" />)}
+      {({ wasEverVisible }) => (wasEverVisible ? <ProfileItemWithData collection={collection} /> : <ProfileItem size="small" />)}
     </VisibilityContainer>
   </div>
 );
