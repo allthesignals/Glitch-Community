@@ -9,7 +9,7 @@ import useUploader from 'State/uploader';
 import useErrorHandlers from 'State/error-handlers';
 import { useProjectReload } from 'State/project';
 
-import { MEMBER_ACCESS_LEVEL, ADMIN_ACCESS_LEVEL } from 'Models/team';
+import { MEMBER_ACCESS_LEVEL } from 'Models/team';
 
 // eslint-disable-next-line import/prefer-default-export
 export function useTeamEditor(initialTeam) {
@@ -198,7 +198,9 @@ export function useTeamEditor(initialTeam) {
         return false;
       }
       await updateUserAccessLevel({ user, team }, accessLevel);
-      setTeam((prev) => ({
+      setTeam(({ teamPermissions, ...prev }) => {
+        
+      }({
         ...prev,
         teamPermissions: prev.teamPermissions.push(user.id),
       }));
