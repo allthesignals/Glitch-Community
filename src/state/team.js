@@ -79,13 +79,6 @@ export function useTeamEditor(initialTeam) {
     }));
   }
 
-  function removeUserAdmin(user) {
-    setTeam((prev) => ({
-      ...prev,
-      teamPermissions: prev.teamPermissions.map(({ userId, accessLevel }) => ({ userId, })),
-    }));
-  }
-
   const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
 
   const funcs = {
@@ -111,7 +104,6 @@ export function useTeamEditor(initialTeam) {
       await Promise.all(projects.map((project) => removeUserFromProject({ project, user })));
       // Now remove them from the team. Remove them last so if something goes wrong you can do this over again
       await removeUserFromTeam({ user, team });
-      removeUserAdmin(user);
       setTeam((prev) => ({
         ...prev,
         teamPermissions: prev.teamPermissions.filter((p) => p.userId !== user.id),
@@ -206,14 +198,10 @@ export function useTeamEditor(initialTeam) {
         return false;
       }
       await updateUserAccessLevel({ user, team }, accessLevel);
-      if (accessLevel === ADMIN_ACCESS_LEVEL) {
-        setTeam((prev) => ({
-          ...prev,
-          teamPermissions: prev.teamPermissions.push(user.id),
-        }));
-      } else {
-        removeUserAdmin(user);
-      }
+      setTeam((prev) => ({
+        ...prev,
+        teamPermissions: prev.teamPermissions.push(user.id),
+      }));
       return null;
     }, handleError),
     joinTeamProject: withErrorHandler(async (project) => {
