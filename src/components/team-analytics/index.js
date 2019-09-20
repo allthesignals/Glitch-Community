@@ -69,7 +69,12 @@ function BannerMessage({ id, projects }) {
   if (!isFeatureEnabled('analytics', String(id))) {
     return (
       <aside className={styles.inlineBanner}>
-        Analytics are currently unavailable. Have questions? Email us at <strong>support@glitch.com</strong></aside>
+        Analytics are currently unavailable.
+        Have questions? Email us at&nbsp;
+        <strong>
+          support@glitch.com
+        </strong>
+      </aside>
     );
   }
   if (projects.length === 0) {
