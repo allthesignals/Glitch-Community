@@ -103,14 +103,14 @@
   display: flex
   flex-direction: column
   flex: 1 1 100%
-  row-gap
+  --border-color: var(--border-color)
   &:hover
     text-decoration: none
   &::before
     background:white
     border-width: 1px
     border-style: solid
-    border-color: #C3C3C3
+    border-color: var(--border-color)
     display: inline
     content: ''
     transform: translate(9px,9px)
@@ -131,7 +131,7 @@
     border-radius: 5px
     border-width: 1px
     border-style: solid
-    border-color: #C3C3C3
+    border-color: var(--border-color)
     
 .bubbleContainer
   flex: 1 0 auto
