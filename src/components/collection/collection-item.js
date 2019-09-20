@@ -132,7 +132,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
   return (
     <div className={styles.collectionItem}>
       {isAuthorized && <div className={styles.header} />}
-      <div className={styles.collectionLinkBodyContainer}/>
+      <div className={styles.collectionLinkBodyContainer}>
         <CollectionLinkComponent collection={collection} className={classNames(styles.linkBody)} style={collectionColorStyles(collection)}>
           <div className={styles.bookmarkContainer}>
             <BookmarkAvatar />
@@ -146,8 +146,8 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
             </div>
           </div>
         </CollectionLinkComponent>
-        
-      <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+        <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+        </div>
     </div>
   );
 };
