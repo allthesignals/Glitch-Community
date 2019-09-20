@@ -31,7 +31,7 @@ import { emoji } from '../global.styl';
 
 const collectionColorStyles = (collection) => ({
   backgroundColor: collection.coverColor,
-  border: collection.coverColor,
+  '--border-color': collection.coverColor,
 });
 
 const ProjectsLoading = () => (
