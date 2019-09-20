@@ -201,7 +201,8 @@ export function useTeamEditor(initialTeam) {
       setTeam(({ teamPermissions, ...prev }) => {
         const index = teamPermissions.findIndex(({ userId }) => userId === user);
         if (index < 0) {
-          return { ...prev, teamPermissions: [...teamPermissions, ]}
+          const newTeamPermissions
+          return { ...prev, teamPermissions: [...teamPermissions, { userId: user.id, }]}
         }
       }({
         ...prev,
