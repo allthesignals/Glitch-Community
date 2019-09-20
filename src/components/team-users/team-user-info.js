@@ -171,7 +171,7 @@ const useProjects = createAPIHook(async (api, userID, team) => {
 });
 
 const adminStatusDisplay = (team, user) => {
-  if (userIsTeamAdmin(team, user)) {
+  if (userIsTeamAdmin({ team, user })) {
     return ' (admin)';
   }
   return '';
