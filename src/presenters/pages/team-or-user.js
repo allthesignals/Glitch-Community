@@ -12,13 +12,6 @@ import { getTeam, getUser } from 'Shared/api-loaders';
 import TeamPage from './team';
 import UserPage from './user';
 
-const getTeamWithAdminIds = async (...args) => {
-  const team = await getTeam(...args);
-  if (!team) return team;
-  const adminUsers = team.teamPermissions.filter((user) => user.accessLevel === ADMIN_ACCESS_LEVEL);
-  return { ...team, adminIds: adminUsers.map((user) => user.userId) };
-};
-
 const TeamPageLoader = ({ name, ...props }) => (
   <DataLoader get={(api) => getTeam(api, name, 'url')} renderError={() => <NotFound name={name} />}>
     {(team) => <TeamPage team={team} {...props} />}
