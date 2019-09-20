@@ -142,9 +142,14 @@
   flex-direction: column
   flex: 1 1 100%
   border-color: var(--border-color)
+  border-width: 1px
+  border-style: 
   &:hover
     text-decoration: none
   &::before
+    position: absolute
+    width: inherit
+    height: -webkit-fill-available
     background:white
     border-width: 1px
     border-style: solid
@@ -152,19 +157,16 @@
     display: inline
     content: ''
     transform: translate(9px,9px)
-    position: absolute
-    width: inherit
-    height: inherit
     z-index: 0
     border-radius: 5px
   &::after
+    position: absolute
+    width: inherit
+    height: -webkit-fill-available
     background: white
     display: inline
     content: ''
     transform: translate(3px,3px)
-    position: absolute
-    width: inherit
-    height: inherit
     z-index: 0
     border-radius: 5px
     border-width: 1px
