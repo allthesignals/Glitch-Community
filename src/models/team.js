@@ -41,7 +41,7 @@ export const getTeamProfileStyle = (team) => {
 };
 
 export function teamAdmins({ team }) {
-  return team.users.filter((user) => team.adminIds.includes(user.id));
+  return team.teamPermissions.filter(({ accessLevel }) => accessLevel === ADMIN_ACCESS_LEVEL);
 }
 
 export function userIsOnTeam({ user, team }) {
@@ -54,7 +54,7 @@ export function userCanJoinTeam({ user, team }) {
 }
 
 export function userIsTeamAdmin({ user, team }) {
-  return !!user && team.teamPermissions.some(({ userId, accessLeve}));
+  return !!user && team.teamPermissions.some(({ userId, accessLevel }) => userId === user.id && accessLevel === ADMIN_ACCESS_LEVEL);
 }
 
 export function userIsOnlyTeamAdmin({ user, team }) {
