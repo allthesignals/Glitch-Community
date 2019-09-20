@@ -45,7 +45,7 @@ async function getUser(api, id, idType = 'id', getEntity = getSingleEntity) {
   const data = await allByKeys({
     pinnedProjects: getAllPages(api, `v1/users/by/id/pinnedProjects?id=${user.id}&limit=100&orderKey=createdAt&orderDirection=DESC`),
     projects: getAllPages(api, `v1/users/by/id/projects?id=${user.id}&limit=100&orderKey=createdAt&orderDirection=DESC`),
-    teams: getAllPages(api, `v1/users/by/id/teams?id=${user.id}&limit=100&orderKey=createdAt&orderDirection=DESC`),
+    teams: getAllPages(api, `v1/users/by/id/teams?id=${user.id}&limit=100&orderKey=url&orderDirection=ASC`),
     collections: getAllPages(api, `v1/users/by/id/collections?id=${user.id}&limit=100&orderKey=createdAt&orderDirection=DESC`),
   });
   return { ...user, ...data };
