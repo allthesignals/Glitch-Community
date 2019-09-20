@@ -54,7 +54,7 @@ export function userCanJoinTeam({ user, team }) {
 }
 
 export function userIsTeamAdmin({ user, team }) {
-  return !!user && team.adminIds.includes(user.id);
+  return !!user && team.teamPermissions.some(({ userId, accessLeve}));
 }
 
 export function userIsOnlyTeamAdmin({ user, team }) {
