@@ -199,16 +199,14 @@ export function useTeamEditor(initialTeam) {
       }
       await updateUserAccessLevel({ user, team }, accessLevel);
       setTeam((prev) => {
-        const teamPermissions = [...teamPermissions];
+        const teamPermissions = [...prev.teamPermissions];
         const index = teamPermissions.findIndex(({ userId }) => userId === user);
         if (index >= 0) {
-          newTeamPermissions.splice(index, 1);
+          teamPermissions.splice(index, 1);
         }
-        return 
-      }({
-        ...prev,
-        teamPermissions: prev.teamPermissions.push(user.id),
-      }));
+        teamPermissions.push({ userId: user.id, accessLevel });
+        return { ...prev, teamPermissions };
+      });
       return null;
     }, handleError),
     joinTeamProject: withErrorHandler(async (project) => {

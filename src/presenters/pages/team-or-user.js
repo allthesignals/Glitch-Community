@@ -5,7 +5,6 @@ import { Loader } from '@fogcreek/shared-components';
 import NotFound from 'Components/errors/not-found';
 import DataLoader from 'Components/data-loader';
 import Layout from 'Components/layout';
-import { ADMIN_ACCESS_LEVEL } from 'Models/team';
 import { useCachedTeamOrUser } from 'State/api-cache';
 import { getTeam, getUser } from 'Shared/api-loaders';
 
