@@ -15,6 +15,7 @@ import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
+import { useGlobals } from 'State/globals';
 import { useTrackedFunc } from 'State/segment-analytics';
 
 import ProjectOptionsPop from './project-options-pop';
@@ -41,6 +42,7 @@ const ProfileListLoader = ({ project }) => (
 );
 
 const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions }) => {
+  const { location } = useGlobals();
   const myStuffEnabled = useDevToggle('My Stuff');
   const { currentUser } = useCurrentUser();
   const isAnonymousUser = !currentUser.login;
@@ -57,7 +59,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
   const onMouseLeave = () => {
     setIsHoveringOnProjectItem(false);
   };
-  const onMyStuffPage = window.location.pathname.includes('my-stuff');
+  const onMyStuffPage = location.pathname.includes('my-stuff');
 
   const projectOptions = useProjectOptions(project, providedProjectOptions);
   const hasProjectOptions = Object.keys(projectOptions).length > 0;
