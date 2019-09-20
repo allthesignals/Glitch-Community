@@ -80,13 +80,11 @@ export function useTeamEditor(initialTeam) {
   }
 
   function removeUserAdmin(user) {
-    const index = team.adminIds.indexOf(user.id);
-    if (index !== -1) {
-      setTeam((prev) => ({
-        ...prev,
-        counter: prev.adminIds.splice(index, 1),
-      }));
-    }
+    setTeam((prev) => {
+      const index = prev.teamPermissions.findIndex(({ user}))
+      ...prev,
+      counter: prev.adminIds.splice(index, 1),
+    });
   }
 
   const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
