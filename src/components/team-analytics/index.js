@@ -70,10 +70,7 @@ function BannerMessage({ id, projects }) {
     return (
       <aside className={styles.inlineBanner}>
         Analytics are currently unavailable.
-        Have questions? Email us at&nbsp;
-        <strong>
-          support@glitch.com
-        </strong>
+        Have questions? Email us at <strong>support@glitch.com</strong>
       </aside>
     );
   }
