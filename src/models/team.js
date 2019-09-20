@@ -59,5 +59,6 @@ export function userIsTeamAdmin({ user, team }) {
 }
 
 export function userIsOnlyTeamAdmin({ user, team }) {
-  return userIsTeamAdmin({ user, team }) && !team.teamPermissions.some(({ userId, accessLevel }) => userId !== user.id && accessLevel === ADMIN_ACCESS_LEVEL);
+  if (!userIsTeamAdmin({ user, team })) return false;
+  return !team.teamPermissions.some(({ userId, accessLevel }) => userId !== user.id && accessLevel === ADMIN_ACCESS_LEVEL);
 }
