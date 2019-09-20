@@ -14,12 +14,11 @@ const getPattern = (id, color) => {
   const numPatterns = 3;
   if (id % numPatterns === 0) {
     return <Waves color={color} />;
-  } else if (id % numPatterns === 1) {
+  }
+  if (id % numPatterns === 1) {
     return <Squares color={color} />;
-  } 
-  
+  }
   return <Triangles color={color} />;
-  
 };
 
 const getComplementaryColor = (inputColor) => {
