@@ -82,7 +82,7 @@ export function useTeamEditor(initialTeam) {
   function removeUserAdmin(user) {
     setTeam((prev) => ({
       ...prev,
-      counter: prev.adminIds.splice(index, 1),
+      teamPermissions: prev.teamPermissions.map(({ userId, accessLevel }) => ({ userId, })),
     }));
   }
 
@@ -209,7 +209,7 @@ export function useTeamEditor(initialTeam) {
       if (accessLevel === ADMIN_ACCESS_LEVEL) {
         setTeam((prev) => ({
           ...prev,
-          teamPermissions: prev.adminIds.push(user.id),
+          teamPermissions: prev.teamPermissions.push(user.id),
         }));
       } else {
         removeUserAdmin(user);
