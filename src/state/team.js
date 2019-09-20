@@ -209,7 +209,7 @@ export function useTeamEditor(initialTeam) {
       if (accessLevel === ADMIN_ACCESS_LEVEL) {
         setTeam((prev) => ({
           ...prev,
-          counter: prev.adminIds.push(user.id),
+          teamPermissions: prev.adminIds.push(user.id),
         }));
       } else {
         removeUserAdmin(user);
