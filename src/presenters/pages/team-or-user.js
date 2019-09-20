@@ -33,10 +33,10 @@ UserPageLoader.propTypes = {
 };
 
 const TeamOrUserPageLoader = ({ name, ...props }) => {
-  const { value: { team, user }, status } = useCachedTeamOrUser(name);
+  const { value: { team, user } = {}, status } = useCachedTeamOrUser(name);
   if (team) return <TeamPage team={team} {...props} />;
   if (user) return <UserPage user={user} {...props} />;
-  if (status === 'loading') return <Loader />;
+  if (status === 'loading') return <Loader style={{ width: '25px' }} />;
   return <NotFound name={`@${name}`} />;
 };
 TeamOrUserPageLoader.propTypes = {
