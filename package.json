@@ -140,14 +140,8 @@
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5",
     "webpack-dev-middleware": "^3.7.0",
-<<<<<<< HEAD
     "winston": "^3.2.1",
-    "babel-plugin-styled-components": "^1.10.6",
-    "styled-components": "^4.3.2",
     "@optimizely/optimizely-sdk": "^3.2.2"
-=======
-    "winston": "^3.2.1"
->>>>>>> 37c1ba5a2763ef19bc9415322d0d83504fd27eaa
   },
   "engines": {
     "node": "10.x"
