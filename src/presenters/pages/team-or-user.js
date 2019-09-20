@@ -20,7 +20,7 @@ const getTeamWithAdminIds = async (...args) => {
 };
 
 const TeamPageLoader = ({ name, ...props }) => (
-  <DataLoader get={(api) => getTeamWithAdminIds(api, name, 'url')} renderError={() => <NotFound name={name} />}>
+  <DataLoader get={(api) => getTeam(api, name, 'url')} renderError={() => <NotFound name={name} />}>
     {(team) => <TeamPage team={team} {...props} />}
   </DataLoader>
 );
