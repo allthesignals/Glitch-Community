@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const CompColors = require('complementary-colors');
+
 import Image from 'Components/images/image';
 import { Waves, Squares, Triangles } from 'Components/collection/collection-patterns';
 import { getProjectAvatarUrl } from 'Models/project';
 import styles from './collection-avatar.styl';
 import classNames from 'classnames';
+
+const CompColors = require('complementary-colors');
 
 const getPattern = (id, color) => {
   const numPatterns = 3;
