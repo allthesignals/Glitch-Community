@@ -142,7 +142,7 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
           <article key={id} className={styles.groupContainer}>
             <Heading tagName="h2">{label}</Heading>
             <Grid items={results}>
-              {(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}
+             {(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}
             </Grid>
             {canShowMoreResults && <ShowAllButton label={label} onClick={() => setActiveFilter(id)} />}
           </article>
