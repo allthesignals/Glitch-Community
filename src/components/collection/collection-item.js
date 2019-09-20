@@ -11,7 +11,7 @@ import { ProfileItem } from 'Components/profile-list';
 import { CollectionLink } from 'Components/link';
 import Row from 'Components/containers/row';
 import ProjectItemSmall from 'Components/project/project-item-small';
-import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
+import { BookmarkAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
 
 import { isDarkColor } from 'Utils/color';
@@ -131,7 +131,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
   return (
     <div className={styles.collectionItem}>
       {isAuthorized && <div className={styles.header} />}
-      <div className={styles.collectionItemBody} style={{'--border-color': collection.coverColor}}>
+      <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
         <CollectionLinkComponent collection={collection} className={classNames(styles.linkBody)} style={collectionColorStyles(collection)}>
           <div className={styles.bookmarkContainer}>
             <BookmarkAvatar />
@@ -146,7 +146,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
           </div>
         </CollectionLinkComponent>
         <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
-        </div>
+      </div>
     </div>
   );
 };
@@ -161,7 +161,7 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
             {isAuthorized && <CollectionOptions collection={collection} deleteCollection={animateAndDeleteCollection} />}
           </div>
         )}
-        <div className={styles.collectionItemBody} style={{'--border-color': collection.coverColor}}>
+        <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
           <CollectionLink
             collection={collection}
             className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
