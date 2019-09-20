@@ -42,18 +42,11 @@ UserPageLoader.propTypes = {
 
 const TeamOrUserPageLoader = ({ name, ...props }) => {
   const { value: { team, user }, status } = useCachedTeamOrUser(name);
-  <DataLoader get={(api) => getTeamWithAdminIds(api, name, 'url')}>
-    {(team) =>
-      team ? (
-        <TeamPage team={team} {...props} />
-      ) : (
-        <DataLoader get={(api) => getUser(api, name, 'login')} renderError={() => <NotFound name={`@${name}`} />}>
-          {(user) => <UserPage user={user} {...props} />}
-        </DataLoader>
-      )
-    }
-  </DataLoader>
-);
+  if (team) return <TeamPage team={team} {...props} />;
+  if (user) return <UserPage user={user} {...props} />;
+  if (status === 'loading') return <Loader />;
+  return <NotFound name={`@${name}`} />;
+};
 TeamOrUserPageLoader.propTypes = {
   name: PropTypes.string.isRequired,
 };
