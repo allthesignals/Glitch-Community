@@ -6,7 +6,6 @@ import { Badge, Button, Loader, SegmentedButton } from '@fogcreek/shared-compone
 
 import { createAPIHook } from 'State/api';
 
-
 import Heading from 'Components/text/heading';
 import UserItem from 'Components/user/user-item';
 import TeamItem from 'Components/team/team-item';
@@ -141,9 +140,7 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
         renderedGroups.map(({ id, label, results, canShowMoreResults }) => (
           <article key={id} className={styles.groupContainer}>
             <Heading tagName="h2">{label}</Heading>
-            <Grid items={results}>
-             {(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}
-            </Grid>
+            <Grid items={results}>{(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}</Grid>
             {canShowMoreResults && <ShowAllButton label={label} onClick={() => setActiveFilter(id)} />}
           </article>
         ))}

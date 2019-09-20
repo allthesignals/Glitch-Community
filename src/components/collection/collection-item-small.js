@@ -15,7 +15,7 @@ import styles from './collection-item.styl';
 
 const collectionColorStyles = (collection) => ({
   backgroundColor: collection.coverColor,
-  borderColor: collection
+  borderColor: collection,
 });
 
 const CollectionCurator = ({ collection }) => {
@@ -36,7 +36,7 @@ const CollectionItemSmall = ({ collection, showCurator }) => (
         <CollectionCuratorLoader collection={collection} />
       </div>
     )}
-    <CollectionLink collection={collection} className={styles.smallCollectionLink} style={{'--border-color': collection.coverColor}}>
+    <CollectionLink collection={collection} className={styles.smallCollectionLink} style={{ '--border-color': collection.coverColor }}>
       <div
         className={classnames(styles.bubbleContainer, styles.smallNameDescriptionArea, showCurator && styles.showCurator)}
         style={collectionColorStyles(collection)}

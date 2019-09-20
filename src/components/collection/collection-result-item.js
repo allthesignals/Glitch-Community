@@ -34,11 +34,11 @@ const CollectionResultItem = ({ onClick, collection, active }) => {
   const collectionIsMyStuff = useDevToggle('My Stuff') && collection.isMyStuff;
   return (
     <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`}>
-      { collectionIsMyStuff && 
+      {collectionIsMyStuff && (
         <div className={styles.avatarWrap}>
-           <BookmarkAvatar />
-          </div>
-      }
+          <BookmarkAvatar />
+        </div>
+      )}
       <ResultInfo>
         <VisuallyHidden>Add to collection</VisuallyHidden>
         <ResultName>{collection.name}</ResultName>
