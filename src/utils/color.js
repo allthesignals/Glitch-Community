@@ -26,6 +26,19 @@ export const hexToRgbA = (hex) => {
   return false;
 };
 
+export const rgbToHex = (rgb) => { 
+  var hex = Number(rgb).toString(16);
+  if (hex.length < 2) {
+       hex = "0" + hex;
+  }
+  return hex;
+};
+
+export const fullColorHex = (r, g, b) => {
+  
+}
+
+
 export const RgbToHex = (r, g, b) => {
   const 
 }
