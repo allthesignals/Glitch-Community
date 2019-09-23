@@ -26,23 +26,14 @@ export const hexToRgbA = (hex) => {
   return false;
 };
 
-export const rgbToHex = (rgb) => { 
-  var hex = Number(rgb).toString(16);
-  if (hex.length < 2) {
-       hex = "0" + hex;
-  }
-  return hex;
-};
-
-export const fullColorHex = (r, g, b) => {
-  const red = rgbToHex(r);
-  var green = rgbToHex(g);
-  var blue = rgbToHex(b);
-  return red+green+blue;
+// from https://stackoverflow.com/a/5624139/1720985
+const componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
 }
 
-export const RgbToHex = (r, g, b) => {
-  const 
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 export const isGoodColorContrast = (hex) => getContrastWithDarkText(hex) >= 4.5 || getContrastWithLightText(hex) >= 4.5;
