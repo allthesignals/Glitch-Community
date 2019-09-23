@@ -27,9 +27,11 @@ const getComplementaryColor = (inputColor) => {
   const color = new CompColors(inputColor);
   console.log('color', color);
 
+  // returns format {r: 255, g: 255, b: 255}
   const originalColor = color.complementary()[0];
   const complementaryColor = color.complementary()[1];
-  // returns format {r: 255, g: 255, b: 255}
+
+  console.log('originalColor: ', originalColor, ' complementaryColor', complementaryColor);
 
   // check the contrast ratio between the complementary colors.  If contrast is too low, compare to white and black and pick the higher contrast option
   const contrastRatio = getHexContrastRatio(originalColor, complementaryColor);
