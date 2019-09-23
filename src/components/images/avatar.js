@@ -6,7 +6,7 @@ import { Avatar } from '@fogcreek/shared-components';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
 import Image from 'Components/images/image';
 import CollectionAvatarBase from 'Components/collection/defaultAvatar';
-import 
+import { CollectionDefaultAvatar } from 'Components/collections/collection-avatar';
 
 import { hexToRgbA } from 'Utils/color';
 import { CDN_URL } from 'Utils/constants';
