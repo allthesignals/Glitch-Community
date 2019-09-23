@@ -27,12 +27,12 @@ export const hexToRgbA = (hex) => {
 };
 
 // from https://stackoverflow.com/a/5624139/1720985
-const componentToHex(c) {
+const componentToHex = (c) => {
   var hex = c.toString(16);
   return hex.length == 1 ? "0" + hex : hex;
 }
 
-function rgbToHex(r, g, b) {
+export const rgbToHex = (r, g, b) => {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
