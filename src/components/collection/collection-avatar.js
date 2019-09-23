@@ -35,7 +35,7 @@ const getComplementaryColor = (inputColor) => {
 
   const contrastRatio = getHexContrastRatio(originalColorHex, complementaryColorHex);
 
-  if (contrastRatio > 1.5) {
+  if (contrastRatio > 1.25) {
     const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
     return colorString;
   }
