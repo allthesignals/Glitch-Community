@@ -40,15 +40,13 @@ const getComplementaryColor = (inputColor) => {
 
   if(contrastRatio > 1){
     const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
+    console.log('return contrast');
     return colorString;
-  }else{
-    // low contrast - pick either white or black
-    const whiteColorContrast = getContrastWithLightText(complementaryColorHex);
-    const blackColorContrast = getContrastWithDarkText(complementaryColorHex);
-    return whiteContrastRatio > blackColorContrast 
   }
-  
-  
+  // otherwise low contrast - pick either white or black
+  const whiteColorContrast = getContrastWithLightText(complementaryColorHex);
+  const blackColorContrast = getContrastWithDarkText(complementaryColorHex);
+  return whiteContrastRatio > blackColorContrast ? '#fff' : '#222';
 };
 
 // const patterns = [Waves, Squares, Triangles];
