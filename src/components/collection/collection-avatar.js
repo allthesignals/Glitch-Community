@@ -23,7 +23,8 @@ const getPattern = (id, color) => {
 
 const getComplementaryColor = (inputColor) => {
   const color = new CompColors(inputColor);
-  // check the contrast ratio between the complementary colors
+  // check the contrast ratio between the complementary colors.  If contrast is too low, compare to white and black and pick the higher contrast option
+  console.log('color', color);
 
   const complement = color.complementary()[1];
   // returns format {r: 255, g: 255, b: 255}
