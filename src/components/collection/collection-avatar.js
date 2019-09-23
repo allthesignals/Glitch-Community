@@ -29,7 +29,6 @@ const getComplementaryColor = (inputColor) => {
   // CompColors format: {r: 255, g: 255, b: 255}
   const originalColor = color.primary()[0];
   const complementaryColor = color.complementary()[1];
-  console.log('originalColor: ', originalColor, ' complementaryColor', complementaryColor);
 
   const originalColorHex = rgbToHex(originalColor.r, originalColor.g, originalColor.b);
   const complementaryColorHex = rgbToHex(complementaryColor.r, complementaryColor.g, complementaryColor.b);
