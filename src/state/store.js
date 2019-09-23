@@ -5,12 +5,15 @@ import { isBrowser } from 'Utils/constants';
 import createHandlerMiddleware from './handler-middleware';
 import * as currentUser from './current-user';
 
+import * as remoteNotifications from './remote-notifications';
+
 const createStore = () =>
   configureStore({
     reducer: {
       currentUser: currentUser.reducer,
+      remoteNotifications: remoteNotifications.reducer,
     },
-    middleware: [...getDefaultMiddleware(), createHandlerMiddleware(currentUser.handlers)],
+    middleware: [...getDefaultMiddleware(), createHandlerMiddleware(currentUser.handlers, remoteNotifications.handlers)],
     devTools: isBrowser && window.ENVIRONMENT === 'dev',
   });
 
