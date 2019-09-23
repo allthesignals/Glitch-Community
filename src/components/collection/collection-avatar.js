@@ -28,19 +28,24 @@ const getComplementaryColor = (inputColor) => {
   console.log('color', color);
 
   // returns format {r: 255, g: 255, b: 255}
-  const originalColor = color.complementary()[0];
+  const originalColor = color.primary()[0];
   const complementaryColor = color.complementary()[1];
   console.log('originalColor: ', originalColor, ' complementaryColor', complementaryColor);
 
   const originalColorHex = rgbToHex(originalColor.r, originalColor.g, originalColor.b);
   const complementaryColorHex = rgbToHex(complementaryColor.r, complementaryColor.g, complementaryColor.b);
 
-  // check the contrast ratio between the complementary colors.  If contrast is too low, compare to white and black and pick the higher contrast option
   const contrastRatio = getHexContrastRatio(originalColorHex, complementaryColorHex);
   console.log(contrastRatio);
+
+  if(contrastRatio > 1){
+    const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
+    return colorString;
+  }else{
+    // low contrast - pick either white or black
+  }
   
-  const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
-  return colorString;
+  
 };
 
 // const patterns = [Waves, Squares, Triangles];
