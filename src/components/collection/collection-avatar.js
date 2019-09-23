@@ -46,12 +46,12 @@ const getComplementaryColor = (inputColor) => {
   return whiteColorContrast > blackColorContrast ? '#fff' : '#222';
 };
 
-export const CollectionDefaultAvatar = ({ collection }) => (
+export const CollectionDefaultAvatar = ({ color }) => (
   <svg viewBox="0 0 135 135" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(10.5 10.5)" fill="none" fill-rule="evenodd">  
-	  <rect id="back" stroke={collection.coverColor} stroke-width="2.5" fill="#FFFFFF" x="13.5" y="14" width="100" height="100" rx="5"/>
-	  <rect id="middle" stroke={collection.coverColor} stroke-width="2.5" fill="#FFFFFF" x="6" y="6.5" width="100" height="100" rx="5"/>
-	  <rect id="top" fill={collection.coverColor} width="100" height="100" rx="5"/>
+	  <rect id="back" stroke={color} stroke-width="2.5" fill="#FFFFFF" x="13.5" y="14" width="100" height="100" rx="5"/>
+	  <rect id="middle" stroke={color} stroke-width="2.5" fill="#FFFFFF" x="6" y="6.5" width="100" height="100" rx="5"/>
+	  <rect id="top" fill={color} width="100" height="100" rx="5"/>
   </g>
 </svg>
 );
