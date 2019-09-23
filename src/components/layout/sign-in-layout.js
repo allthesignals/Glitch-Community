@@ -54,6 +54,21 @@ const SignInLayout = () => {
               </div>
             </TransparentButton>
           )}
+          {page === 'useCode' && (
+            <TransparentButton
+              onClick={() => {
+                setEmail(null);
+                showGetCodePage();
+              }}
+            >
+              <div className={styles.magicCode}>
+                <span className={styles.backArrow}>
+                  <span className="left-arrow icon" />
+                </span>
+                <h1>Magic Code</h1>
+              </div>
+            </TransparentButton>
+          )}
         </section>
         <section className={styles.content}>
           {page === 'main' && (
