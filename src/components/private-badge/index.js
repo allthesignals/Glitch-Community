@@ -28,7 +28,7 @@ export const PrivateBadge = ({ type }) => (
     type="info"
     tooltip={TYPES[type].privateText}
     target={
-      <span className={classnames(styles.projectBadge, styles.private)}>
+      <span className={classnames(styles.privateIcon, styles.privateBadge, styles.private)}>
         <Icon icon="private" />
       </span>
     }
@@ -44,7 +44,7 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => (
     align={align}
     tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
     target={
-      <span className={classnames(styles.button, styles.projectBadge, isPrivate ? styles.private : styles.public)}>
+      <span className={classnames(styles.privateIcon, styles.privateButton, isPrivate ? styles.private : styles.public)}>
         <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
           {isPrivate ? <Icon icon="private" /> : <Icon icon="public" />}
         </HiddenCheckbox>
