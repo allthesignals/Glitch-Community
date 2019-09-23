@@ -118,7 +118,7 @@ module.exports = smp.wrap({
           {
             test: /\.js$/,
             loader: 'babel-loader',
-            include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED],
+            include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED, /[\\/]shared-components[\\/]/],
             options: {
               compact: mode === 'development' ? true : false,
               configFile: path.resolve(__dirname, './.babelrc.client.json'),
