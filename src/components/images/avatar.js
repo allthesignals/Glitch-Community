@@ -19,7 +19,8 @@ import styles from './avatar.styl';
 // UserAvatar
 export const AvatarBase = ({ name, src, color, srcFallback, variant, type, tiny, hideTooltip, withinButton }) => {
   const className = classNames(styles.avatar, styles[type], { [styles.tiny]: tiny });
-  const contents = <Avatar src={src} defaultSrc={srcFallback} alt={name} backgroundcolor={color} variant={variant} className={className} />;
+  const style = color && { backgroundColor: color };
+  const contents = <Avatar src={src} defaultSrc={srcFallback} alt={name} style={style} variant={variant} className={className} />;
 
   if (!hideTooltip) {
     return <TooltipContainer tooltip={name} target={contents} type="action" align={['left']} fallback={withinButton} />;

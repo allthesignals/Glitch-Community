@@ -94,14 +94,14 @@ export function useUserEditor(initialUser) {
       await addPinnedProject({ project, user });
       setUser((prev) => ({
         ...prev,
-        pins: [...prev.pins, { id: project.id }],
+        pinnedProjects: [...prev.pinnedProjects, project],
       }));
     }, handleError),
     removePin: withErrorHandler(async (project) => {
       await removePinnedProject({ project, user });
       setUser((prev) => ({
         ...prev,
-        pins: prev.pins.filter((p) => p.id !== project.id),
+        pinnedProjects: prev.pinnedProjects.filter((p) => p.id !== project.id),
       }));
     }, handleError),
     leaveProject: withErrorHandler(async (project) => {

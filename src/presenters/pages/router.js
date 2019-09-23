@@ -9,8 +9,9 @@ import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
 import { useAppMounted } from 'State/app-mounted';
 
-import { FacebookLoginPage, GitHubLoginPage, GoogleLoginPage, EmailTokenLoginPage } from './login';
-import ResetPasswordPage from './reset-password';
+import LoginPage from './login';
+import ResetPasswordPage from './login/reset-password';
+import { FacebookLoginPage, GitHubLoginPage, GoogleLoginPage, EmailTokenLoginPage } from './login/callbacks';
 import OauthSignIn from './signin';
 import JoinTeamPage from './join-team';
 import QuestionsPage from './questions';
@@ -90,6 +91,7 @@ const Router = () => {
         <Route path="/index/preview" exact render={({ location }) => <NewHomePagePreview key={location.key} />} />
         <Route path="/pupdates/preview" exact render={({ location }) => <PupdatesPreview key={location.key} />} />
 
+        <Route path="/login" exact render={({ location }) => <LoginPage key={location.key} />} />
         <Route
           path="/login/facebook"
           exact

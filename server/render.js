@@ -63,6 +63,7 @@ setImmediate(() => {
     // try importing right away so we don't have to wait
     // but if this fails not it might just be because the first time build isn't ready
     console.warn('Failed to load client code for ssr. This either means the initial build is not finished or there is a bug in the code');
+    console.error(error.toString());
     captureException(error);
   }
 });
