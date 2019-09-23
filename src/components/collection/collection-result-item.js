@@ -34,6 +34,7 @@ const CollectionResultItem = ({ onClick, collection, active }) => {
   const collectionIsMyStuff = useDevToggle('My Stuff') && collection.isMyStuff;
   return (
     <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`}>
+
       {collectionIsMyStuff && (
         <div className={styles.avatarWrap}>
           <BookmarkAvatar />
@@ -65,3 +66,4 @@ CollectionResultItem.defaultProps = {
 };
 
 export default CollectionResultItem;
+cc
