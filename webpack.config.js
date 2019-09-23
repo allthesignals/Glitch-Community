@@ -121,6 +121,7 @@ module.exports = smp.wrap({
             include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED],
             options: {
               compact: mode === 'development' ? true : false,
+              configFile: ,
             },
           },
           {
