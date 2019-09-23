@@ -140,7 +140,7 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
         renderedGroups.map(({ id, label, results, canShowMoreResults }) => (
           <article key={id} className={styles.groupContainer}>
             <Heading tagName="h2">{label}</Heading>
-            <Grid items={results}>{(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}</Grid>
+            <Grid items={results} gap="25px">{(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}</Grid>
             {canShowMoreResults && <ShowAllButton label={label} onClick={() => setActiveFilter(id)} />}
           </article>
         ))}
