@@ -121,7 +121,7 @@ module.exports = smp.wrap({
             include: mode === 'development' ? [SRC, SHARED] : undefined,
             options: {
               compact: mode === 'development' ? true : false,
-              // we can't rely on babel 
+              // we can't rely on babel's auto config loading for stuff in node_modules
               configFile: path.resolve(__dirname, './.babelrc.client.json'),
             },
           },
