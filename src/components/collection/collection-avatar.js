@@ -43,7 +43,9 @@ const getComplementaryColor = (inputColor) => {
     return colorString;
   }else{
     // low contrast - pick either white or black
-    const whiteColorC
+    const whiteColorContrast = getContrastWithLightText(complementaryColorHex);
+    const blackColorContrast = getContrastWithDarkText(complementaryColorHex);
+    if(whiteColorContrast)
   }
   
   
