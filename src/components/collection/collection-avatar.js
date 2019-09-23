@@ -23,6 +23,8 @@ const getPattern = (id, color) => {
 
 const getComplementaryColor = (inputColor) => {
   const color = new CompColors(inputColor);
+  // check the contrast ratio between the complementary colors
+
   const complement = color.complementary()[1];
   // returns format {r: 255, g: 255, b: 255}
   const colorString = `rgb(${complement.r}, ${complement.g}, ${complement.b})`;
