@@ -49,24 +49,6 @@ const SignInLayout = () => {
               <div className={styles.magicCode}>
                 <span className={styles.backArrow}>
                   <Icon icon="chevronLeft" />
-<<<<<<< HEAD
-=======
-                </span>
-                <h1>Magic Code</h1>
-              </div>
-            </TransparentButton>
-          )}
-          {page === 'useCode' && (
-            <TransparentButton
-              onClick={() => {
-                setEmail(null);
-                showGetCodePage();
-              }}
-            >
-              <div className={styles.magicCode}>
-                <span className={styles.backArrow}>
-                  <span className="left-arrow icon" />
->>>>>>> 37c1ba5a2763ef19bc9415322d0d83504fd27eaa
                 </span>
                 <h1>Magic Code</h1>
               </div>
