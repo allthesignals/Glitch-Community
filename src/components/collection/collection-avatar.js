@@ -38,7 +38,7 @@ const getComplementaryColor = (inputColor) => {
   const contrastRatio = getHexContrastRatio(originalColorHex, complementaryColorHex);
   console.log(contrastRatio);
 
-  if(contrastRatio > 1){
+  if(contrastRatio > 1.5){
     const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
     console.log('return contrast');
     return colorString;
@@ -46,6 +46,7 @@ const getComplementaryColor = (inputColor) => {
   // otherwise low contrast - pick either white or black
   const whiteColorContrast = getContrastWithLightText(complementaryColorHex);
   const blackColorContrast = getContrastWithDarkText(complementaryColorHex);
+  console.log('returning white or black');
   return whiteContrastRatio > blackColorContrast ? '#fff' : '#222';
 };
 
