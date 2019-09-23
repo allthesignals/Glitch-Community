@@ -14,9 +14,7 @@ const aliases = require('./aliases');
 const BUILD = path.resolve(__dirname, 'build/client');
 const SRC = path.resolve(__dirname, 'src');
 const SHARED = path.resolve(__dirname, 'shared');
-const STYLES = path.resolve(__dirname, 'styles');
 const NODE_MODULES = path.resolve(__dirname, 'node_modules');
-const STYLE_BUNDLE_NAME = 'styles';
 
 let mode = 'development';
 if (process.env.NODE_ENV === 'production') {
@@ -39,7 +37,6 @@ module.exports = smp.wrap({
   mode,
   entry: {
     client: `${SRC}/client.js`,
-    [STYLE_BUNDLE_NAME]: `${STYLES}/styles.styl`,
   },
   output: {
     filename: '[name].[chunkhash:8].js',
@@ -139,26 +136,6 @@ module.exports = smp.wrap({
                   modules: {
                     localIdentName: '[name]__[local]___[hash:base64:5]',
                   },
-                },
-              },
-              {
-                loader: 'stylus-loader',
-                options: {
-                  compress: mode === 'production', // Compress CSS as part of the stylus build
-                  use: [AutoprefixerStylus()],
-                },
-              },
-            ],
-          },
-          {
-            test: /\.styl$/,
-            include: STYLES,
-            use: [
-              MiniCssExtractPlugin.loader,
-              {
-                loader: 'css-loader',
-                options: {
-                  sourceMap: mode !== 'production', // no css source maps in production
                 },
               },
               {

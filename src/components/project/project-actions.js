@@ -17,10 +17,11 @@ ShowButton.propTypes = {
 };
 
 export const EditButton = ({ name, isMember, size }) => (
-  <Button as="a" href={getEditorUrl(name)} size={size}>
+  <Button as="a" href={getEditorUrl(name)} size={size} variant={isMember ? 'cta' : undefined}>
     {isMember ? 'Edit Project' : 'View Source'}
   </Button>
 );
+
 EditButton.propTypes = {
   name: PropTypes.string.isRequired,
   isMember: PropTypes.bool,
@@ -35,6 +36,7 @@ export const RemixButton = ({ name, isMember }) => (
     {isMember ? 'Remix This' : 'Remix your own'} <Icon className={emoji} icon="microphone" />
   </Button>
 );
+
 RemixButton.propTypes = {
   name: PropTypes.string.isRequired,
   isMember: PropTypes.bool,
