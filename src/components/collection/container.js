@@ -58,7 +58,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
   } else if (collection.projects.length > 0) {
     avatar = <CollectionAvatar collection={collection} />;
   } else {
-    avatar = "";
+    avatar = '';
   }
 
   return (
