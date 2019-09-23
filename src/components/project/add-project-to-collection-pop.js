@@ -129,6 +129,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
   const myStuffEnabled = useDevToggle('My Stuff');
 
   const addProjectTo = async (collection) => {
+    console.log("status", status)
     const shouldCreateMyStuffCollection = myStuffEnabled && collection.isMyStuff && collection.id === 'nullMyStuff';
     if (shouldCreateMyStuffCollection) {
       collection = await createCollection({ api, name: 'My Stuff', createNotification, myStuffEnabled: true });
