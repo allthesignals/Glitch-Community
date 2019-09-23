@@ -29,7 +29,7 @@ export const hexToRgbA = (hex) => {
 // from https://stackoverflow.com/a/5624139/1720985
 const componentToHex = (c) => {
   const hex = c.toString(16);
-  return hex.length === 1 ? '0' + hex : hex;
+  return hex.length === 1 ? `0${hex}` : hex;
 };
 
 export const rgbToHex = (r, g, b) => { return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b) };
