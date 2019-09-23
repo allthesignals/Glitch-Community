@@ -15,7 +15,7 @@ import CollectionNameInput from 'Components/fields/collection-name-input';
 import AddCollectionProject from 'Components/collection/add-collection-project-pop';
 import EditCollectionColor from 'Components/collection/edit-collection-color-pop';
 import AuthDescription from 'Components/fields/auth-description';
-import { CollectionAvatar as DefaultCollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
+import { BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
 import { CollectionLink } from 'Components/link';
 import { useCollectionCurator } from 'State/collection';
@@ -55,7 +55,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
   let avatar;
   if (myStuffIsEnabled && collection.isMyStuff) {
     avatar = <BookmarkAvatar width="50%" />;
-  } else if (collection.projects) {
+  } else if (collection.projects.length > 0) {
     avatar = <CollectionAvatar collection={collection} />;
   } else {
     avatar = "";
