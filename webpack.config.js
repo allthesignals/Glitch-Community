@@ -118,7 +118,7 @@ module.exports = smp.wrap({
           {
             test: /\.js$/,
             loader: 'babel-loader',
-            include: mode === 'development' ? [SRC, SHARED] : undefined,
+            include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED, /[\\/]],
             options: {
               compact: mode === 'development' ? true : false,
               // we can't rely on babel's auto config loading for stuff in node_modules
