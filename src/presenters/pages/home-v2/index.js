@@ -133,7 +133,7 @@ const CuratedCollections = ({ content }) => (
     <Row items={content.map((data) => ({ ...data, id: data.fullUrl }))} className={styles.curatedCollectionRow}>
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
-          <Button as="span">
+          <Button as="span" className={styles.co}>
             {title}
           </Button>
           <p>{description}</p>
