@@ -46,8 +46,17 @@ const getComplementaryColor = (inputColor) => {
   return whiteColorContrast > blackColorContrast ? '#fff' : '#222';
 };
 
-// const patterns = [Waves, Squares, Triangles];
+const CollectionSearchAvatar = ({ collection }) => (
+  <svg viewBox="0 0 135 135" xmlns="http://www.w3.org/2000/svg">
+  <g id="collection-stack" transform="translate(10.5 10.5)" fill="none" fill-rule="evenodd">  
+	  <rect id="back" stroke="#D8D8D8" stroke-width="2.5" fill="#FFFFFF" x="13.5" y="14" width="100" height="100" rx="5"/>
+	  <rect id="middle" stroke="#D8D8D8" stroke-width="2.5" fill="#FFFFFF" x="6" y="6.5" width="100" height="100" rx="5"/>
+	  <rect id="top" fill="#D8D8D8" width="100" height="100" rx="5"/>
+  </g>
+</svg>
+)
 
+// the avatar that appears on collection pages
 const CollectionAvatar = ({ collection }) => (
   <div
     className={classNames(
