@@ -36,10 +36,10 @@ const getComplementaryColor = (inputColor) => {
   const complementaryColorHex = rgbToHex(complementaryColor.r, complementaryColor.g, complementaryColor.b);
 
   // check the contrast ratio between the complementary colors.  If contrast is too low, compare to white and black and pick the higher contrast option
-  const contrastRatio = getHexContrastRatio(originalColor, complementaryColor);
+  const contrastRatio = getHexContrastRatio(originalColorHex, complementaryColorHex);
   console.log(contrastRatio);
   
-  const colorString = `rgb(${complement.r}, ${complement.g}, ${complement.b})`;
+  const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
   return colorString;
 };
 
