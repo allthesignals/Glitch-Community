@@ -32,7 +32,10 @@ const componentToHex = (c) => {
   return hex.length === 1 ? `0${hex}` : hex;
 };
 
-export const rgbToHex = (r, g, b) => ({ `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b) }}`);
+export const rgbToHex = (r, g, b) => {
+  const hex = `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
+  return hex;
+};
 
 export const isGoodColorContrast = (hex) => getContrastWithDarkText(hex) >= 4.5 || getContrastWithLightText(hex) >= 4.5;
 

@@ -35,8 +35,8 @@ const getComplementaryColor = (inputColor) => {
   const complementaryColorHex = rgbToHex(complementaryColor.r, complementaryColor.g, complementaryColor.b);
 
   const contrastRatio = getHexContrastRatio(originalColorHex, complementaryColorHex);
-  
-  if(contrastRatio > 1.5){
+
+  if (contrastRatio > 1.5) {
     const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
     return colorString;
   }
@@ -48,12 +48,12 @@ const getComplementaryColor = (inputColor) => {
 
 export const CollectionDefaultAvatar = ({ color }) => (
   <svg viewBox="0 0 135 135" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(10.5 10.5)" fill="none" fill-rule="evenodd">  
-	  <rect id="back" stroke={color} stroke-width="2.5" fill="#FFFFFF" x="13.5" y="14" width="100" height="100" rx="5"/>
-	  <rect id="middle" stroke={color} stroke-width="2.5" fill="#FFFFFF" x="6" y="6.5" width="100" height="100" rx="5"/>
-	  <rect id="top" fill={color} width="100" height="100" rx="5"/>
-  </g>
-</svg>
+    <g transform="translate(10.5 10.5)" fill="none" fillRule="evenodd">
+      <rect id="back" stroke={color} strokeWidth="2.5" fill="#FFFFFF" x="13.5" y="14" width="100" height="100" rx="5" />
+      <rect id="middle" stroke={color} strokeWidth="2.5" fill="#FFFFFF" x="6" y="6.5" width="100" height="100" rx="5" />
+      <rect id="top" fill={color} width="100" height="100" rx="5" />
+    </g>
+  </svg>
 );
 
 // the avatar that appears on collection pages
@@ -72,7 +72,7 @@ const CollectionAvatar = ({ collection }) => (
     {collection.projects
       .slice(0, 3)
       .reverse()
-      .map((item, index) => (
+      .map((item) => (
         <div className={styles.projectAvatar} key={item.id}>
           <Image src={getProjectAvatarUrl(item)} alt="" />
         </div>

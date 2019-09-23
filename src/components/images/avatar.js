@@ -7,7 +7,6 @@ import TooltipContainer from 'Components/tooltips/tooltip-container';
 import Image from 'Components/images/image';
 import { CollectionDefaultAvatar } from 'Components/collection/collection-avatar';
 
-import { hexToRgbA } from 'Utils/color';
 import { CDN_URL } from 'Utils/constants';
 
 import { DEFAULT_TEAM_AVATAR, getTeamAvatarUrl } from 'Models/team';
@@ -112,7 +111,7 @@ ProjectAvatar.defaultProps = {
   hasAlt: false,
 };
 
-export const CollectionAvatar = ({ collection }) => <CollectionDefaultAvatar color={collection.coverColor}/>;
+export const CollectionAvatar = ({ collection }) => <CollectionDefaultAvatar color={collection.coverColor} />;
 
 CollectionAvatar.propTypes = {
   collection: PropTypes.shape({
