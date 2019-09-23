@@ -33,18 +33,16 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
 
   return (
     <PopoverDialog wide focusOnDialog align="right">
-      <PopoverTitle>Leave {project.domain}</PopoverTitle>
-      <PopoverActions>
-        <Image height="50px" width="auto" src={illustration} alt="" />
-        <ActionDescription>
-          Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
-        </ActionDescription>
-      </PopoverActions>
-      <PopoverActions type="dangerZone">
+      <Title>Leave {project.domain}</Title>
+      <Actions>
+        <Image height="50px" width="auto" src={illustration} alt="" /><br />
+        Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
+      </Actions>
+      <Actions type="dangerZone">
         <Button variant="warning" onClick={() => { trackLeaveProject(project); togglePopover(); }}>
           Leave Project
         </Button>
-      </PopoverActions>
+      </Actions>
     </PopoverDialog>
   );
 };
