@@ -136,7 +136,6 @@ const CuratedCollections = ({ content }) => (
           <Button as="span">
             {title}
           </Button>
-          <h4 className={styles.h4}>{title}</h4>
           <p>{description}</p>
           <div className={styles.curatedCollectionButtonWrap}>
             <Link to={`/@${fullUrl}`} className={styles.collectionLink}>
