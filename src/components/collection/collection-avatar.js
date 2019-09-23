@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { getContrastWithLightText, getContrastWithDarkText } from ''
 
 import Image from 'Components/images/image';
 import { Waves, Squares, Triangles } from 'Components/collection/collection-patterns';
