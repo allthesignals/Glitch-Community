@@ -47,7 +47,7 @@ const getComplementaryColor = (inputColor) => {
   const whiteColorContrast = getContrastWithLightText(complementaryColorHex);
   const blackColorContrast = getContrastWithDarkText(complementaryColorHex);
   console.log('returning white or black');
-  return whiteContrastRatio > blackColorContrast ? '#fff' : '#222';
+  return whiteColorContrast > blackColorContrast ? '#fff' : '#222';
 };
 
 // const patterns = [Waves, Squares, Triangles];
