@@ -104,7 +104,7 @@ function useCollectionSearch(query, project, collectionType) {
   const myStuffEnabled = useDevToggle('My Stuff');
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList = myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === "ready";
+    const shouldPutMyStuffAtFrontOfList = myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }
@@ -129,7 +129,6 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
   const myStuffEnabled = useDevToggle('My Stuff');
 
   const addProjectTo = async (collection) => {
-    console.log("status", status)
     const shouldCreateMyStuffCollection = myStuffEnabled && collection.isMyStuff && collection.id === 'nullMyStuff';
     if (shouldCreateMyStuffCollection) {
       collection = await createCollection({ api, name: 'My Stuff', createNotification, myStuffEnabled: true });
