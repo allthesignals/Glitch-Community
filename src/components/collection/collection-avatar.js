@@ -40,7 +40,7 @@ const getComplementaryColor = (inputColor) => {
     const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
     return colorString;
   }
-  // 
+  // default to either white or black based on which has higher contrast
   const whiteColorContrast = getContrastWithLightText(complementaryColorHex);
   const blackColorContrast = getContrastWithDarkText(complementaryColorHex);
   return whiteColorContrast > blackColorContrast ? '#fff' : '#222';
