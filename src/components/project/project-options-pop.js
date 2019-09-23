@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import { Actions, Button, Popover, Title } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Popover, Title } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
 import { PopoverMenu, MultiPopover, PopoverDialog, PopoverActions, PopoverMenuButton, PopoverTitle, ActionDescription } from 'Components/popover';
@@ -38,11 +38,11 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
         <Image height="50px" width="auto" src={illustration} alt="" /><br />
         Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
       </Actions>
-      <Actions type="dangerZone">
+      <DangerZone>
         <Button variant="warning" onClick={() => { trackLeaveProject(project); togglePopover(); }}>
           Leave Project
         </Button>
-      </Actions>
+      </DangerZone>
     </PopoverDialog>
   );
 };
