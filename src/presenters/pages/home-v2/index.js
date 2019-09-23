@@ -139,7 +139,7 @@ const CuratedCollections = ({ content }) => (
           <h4 className={styles.h4}>{title}</h4>
           <p>{description}</p>
           <div className={styles.curatedCollectionButtonWrap}>
-            <Link to={`/@${fullUrl}`}>
+            <Link>
               View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
             </Link>
           </div>
@@ -182,6 +182,7 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
             {relatedContent.filter((related) => !!related.href).map((related) => (
               <li key={related.href}>
                 <Link to={related.href} className={styles.plainLink}>
+                  <h4>{related.title}</h4>
                   <p>{related.source}</p>
                 </Link>
               </li>
