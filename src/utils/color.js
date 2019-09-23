@@ -35,9 +35,11 @@ export const rgbToHex = (rgb) => {
 };
 
 export const fullColorHex = (r, g, b) => {
-  
+  const red = rgbToHex(r);
+  var green = rgbToHex(g);
+  var blue = rgbToHex(b);
+  return red+green+blue;
 }
-
 
 export const RgbToHex = (r, g, b) => {
   const 

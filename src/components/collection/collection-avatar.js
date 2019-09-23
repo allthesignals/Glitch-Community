@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { getContrastWithLightText, getContrastWithDarkText } from 'Utils/color';
+import { rgbToHex, fullColorHex, getContrastWithLightText, getContrastWithDarkText } from 'Utils/color';
 import { hex as getHexContrastRatio } from 'wcag-contrast';
 
 import Image from 'Components/images/image';
