@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import { Button } from '@fogcreek/shared-components';
+import { Actions, Button, Popover, Title } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
 import { PopoverMenu, MultiPopover, PopoverDialog, PopoverActions, PopoverMenuButton, PopoverTitle, ActionDescription } from 'Components/popover';
