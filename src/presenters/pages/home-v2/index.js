@@ -14,7 +14,7 @@ import Questions from 'Components/questions';
 import RecentProjects from 'Components/recent-projects';
 import ReportButton from 'Components/report-abuse-pop';
 import Layout from 'Components/layout';
-import { Link, CollectionLink } from 'Components/link';
+import Link from 'Components/link';
 import PreviewContainer from 'Components/containers/preview-container';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
@@ -139,9 +139,9 @@ const CuratedCollections = ({ content }) => (
           <h4 className={styles.h4}>{title}</h4>
           <p>{description}</p>
           <div className={styles.curatedCollectionButtonWrap}>
-            <CollectionLink>
+            <Link to={`/@${fullUrl`}>
               View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
-            </CollectionLink>
+            </Link>
           </div>
         </CuratedCollectionContainer>
       )}
