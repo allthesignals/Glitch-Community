@@ -55,10 +55,10 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
   let avatar;
   if (myStuffIsEnabled && collection.isMyStuff) {
     avatar = <BookmarkAvatar width="50%" />;
-  } else if (collection.avatarUrl) {
+  } else if (collection.projects) {
     avatar = <CollectionAvatar collection={collection} />;
   } else {
-    avatar = <DefaultCollectionAvatar collection={collection} />;
+    avatar = "";
   }
 
   return (
