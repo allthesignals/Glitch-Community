@@ -28,7 +28,7 @@ const getComplementaryColor = (inputColor) => {
   console.log('color', color);
 
   // returns format {r: 255, g: 255, b: 255}
-  const originalColor = color.complementary()[0];
+  const originalColor = color.primary();
   const complementaryColor = color.complementary()[1];
   console.log('originalColor: ', originalColor, ' complementaryColor', complementaryColor);
 
