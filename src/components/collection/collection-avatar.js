@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { rgbToHex, fullColorHex, getContrastWithLightText, getContrastWithDarkText } from 'Utils/color';
+import { rgbToHex, getContrastWithLightText, getContrastWithDarkText } from 'Utils/color';
 import { hex as getHexContrastRatio } from 'wcag-contrast';
 
 import Image from 'Components/images/image';
@@ -30,8 +30,10 @@ const getComplementaryColor = (inputColor) => {
   // returns format {r: 255, g: 255, b: 255}
   const originalColor = color.complementary()[0];
   const complementaryColor = color.complementary()[1];
-
   console.log('originalColor: ', originalColor, ' complementaryColor', complementaryColor);
+
+  const originalColorHex = rgbToHex(originalColor.r, originalColor.g, originalColor.b);
+  const complementaryColorHex = rgbToHex(complementaryColor.r, complementaryColor.g, complementaryColor.b);
 
   // check the contrast ratio between the complementary colors.  If contrast is too low, compare to white and black and pick the higher contrast option
   const contrastRatio = getHexContrastRatio(originalColor, complementaryColor);
