@@ -1,23 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Mark, Icon } from '@fogcreek/shared-components';
+import { BlockSection, Bio } from 'Components/about';
 import AboutLayout from './about-layout';
 import styles from './company.styl';
+import aboutStyles from './about.styl';
 
-const BlockSection = ({ children }) => <section className={styles.blockSection}>{children}</section>;
-
-const Bio = ({ name, imageUrl, isBoardMember, children }) => (
-  <article className={styles.leaderContainer}>
-    <img className={styles.avatar} src={imageUrl} alt="" />
-    <h3 className={styles.leaderName}>{name}</h3>
-    <span className={styles.boardMember}>{isBoardMember && <Mark color="var(--mark-purple)">Board Member</Mark>}</span>
-    {children}
-  </article>
-);
 const AboutCompanyPage = withRouter(() => (
-  <AboutLayout mainClassName={styles.main}>
+  <AboutLayout mainClassName={aboutStyles.main}>
     <BlockSection>
-      <h2 className={styles.intro}>
+      <h2 className={aboutStyles.h2}>
         A <Mark color="var(--mark-pink)">different</Mark> kind of company
       </h2>
       <article>
@@ -80,7 +72,7 @@ const AboutCompanyPage = withRouter(() => (
     </BlockSection>
 
     <BlockSection>
-      <h2 className={styles.intro}>
+      <h2 className={aboutStyles.h2}>
         <Mark color="var(--mark-blue)">Leadership</Mark>
       </h2>
       <Bio
@@ -105,7 +97,7 @@ const AboutCompanyPage = withRouter(() => (
         <p>He advises non-profits including Eyebeam, a platform for artists to engage society's relationship with technology.</p>
       </Bio>
     </BlockSection>
-    <section className={styles.backgroundSection}>
+    <section className={aboutStyles.backgroundSection}>
       <h4 className={styles.leaderHeader}>Team leads</h4>
       <div className={styles.leads}>
         <span>
@@ -147,7 +139,7 @@ const AboutCompanyPage = withRouter(() => (
       </div>
     </section>
     <BlockSection>
-      <h2 className={styles.intro}>
+      <h2 className={aboutStyles.h2}>
         <Mark color="var(--mark-orange)">Founders</Mark>
       </h2>
       <Bio
@@ -167,7 +159,7 @@ const AboutCompanyPage = withRouter(() => (
       </Bio>
     </BlockSection>
     <BlockSection>
-      <h2 className={styles.intro}>
+      <h2 className={aboutStyles.h2}>
         <Mark color="var(--mark-green)">Advisors</Mark>
       </h2>
       <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FkimberlyBryant.png?1534858064619" name="Kimberly Bryant">
@@ -206,7 +198,7 @@ const AboutCompanyPage = withRouter(() => (
       </Bio>
     </BlockSection>
     <section>
-      <h2 className={styles.intro}>
+      <h2 className={aboutStyles.h2}>
         <Mark color="var(--mark-purple)">Staff diversity report</Mark>
       </h2>
       <div style={{ height: '600px', width: '100%' }}>
@@ -219,7 +211,7 @@ const AboutCompanyPage = withRouter(() => (
       </div>
     </section>
     <section>
-      <h2 className={styles.intro}>
+      <h2 className={aboutStyles.h2}>
         <Mark color="var(--mark-pink)">Contact info</Mark>
       </h2>
       <p className={styles.address}>
