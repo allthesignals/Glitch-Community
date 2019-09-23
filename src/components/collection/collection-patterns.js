@@ -25,7 +25,7 @@ export const Waves = ({ color }) => (
 
 export const Squares = ({ color }) => (
   <svg viewBox="0 0 101 232" aria-label="" version="1.1">
-    <g stroke="none" stroke-Wdth="1" fill="none" fillRule="evenodd" opacity="0.6" strokeLinecap="square" strokeLinejoin="round">
+    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" opacity="0.6" strokeLinecap="square" strokeLinejoin="round">
       <g transform="translate(-148.000000, -40.000000)" stroke={color} strokeWidth="13">
         <g transform="translate(156.000000, 48.000000)">
           <path d="M1.1167865,37.3877001 L41.4575933,1.39901351" />
