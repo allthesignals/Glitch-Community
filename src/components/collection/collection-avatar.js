@@ -25,9 +25,8 @@ const getPattern = (id, color) => {
 
 const getComplementaryColor = (inputColor) => {
   const color = new CompColors(inputColor);
-  console.log('color', color);
 
-  // returns format {r: 255, g: 255, b: 255}
+  // CompColors format: {r: 255, g: 255, b: 255}
   const originalColor = color.primary()[0];
   const complementaryColor = color.complementary()[1];
   console.log('originalColor: ', originalColor, ' complementaryColor', complementaryColor);
@@ -36,17 +35,14 @@ const getComplementaryColor = (inputColor) => {
   const complementaryColorHex = rgbToHex(complementaryColor.r, complementaryColor.g, complementaryColor.b);
 
   const contrastRatio = getHexContrastRatio(originalColorHex, complementaryColorHex);
-  console.log(contrastRatio);
-
+  
   if(contrastRatio > 1.5){
     const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
-    console.log('return contrast');
     return colorString;
   }
-  // otherwise low contrast - pick either white or black
+  // 
   const whiteColorContrast = getContrastWithLightText(complementaryColorHex);
   const blackColorContrast = getContrastWithDarkText(complementaryColorHex);
-  console.log('returning white or black');
   return whiteColorContrast > blackColorContrast ? '#fff' : '#222';
 };
 
