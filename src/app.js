@@ -5,7 +5,6 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import Store from 'State/store';
 import { AnalyticsContext } from 'State/segment-analytics';
-import { CurrentUserProvider } from 'State/current-user';
 import { APIContextProvider } from 'State/api';
 import { APICacheProvider } from 'State/api-cache';
 import { LocalStorageProvider } from 'State/local-storage';
@@ -25,23 +24,21 @@ const App = ({ apiCache, helmetContext }) => (
         <NotificationsProvider>
           <LocalStorageProvider>
             <AnalyticsContext context={{ groupId: '0' }}>
-              <CurrentUserProvider>
-                <APIContextProvider>
-                  <APICacheProvider initial={apiCache}>
-                    <ProjectContextProvider>
-                      <CollectionContextProvider>
-                        <HelmetProvider helmetContext={helmetContext}>
-                          <LocalStyle theme={lightTheme}>
-                            <SuperUserBanner />
-                            <OfflineNotice />
-                            <Router />
-                          </LocalStyle>
-                        </HelmetProvider>
-                      </CollectionContextProvider>
-                    </ProjectContextProvider>
-                  </APICacheProvider>
-                </APIContextProvider>
-              </CurrentUserProvider>
+              <APIContextProvider>
+                <APICacheProvider initial={apiCache}>
+                  <ProjectContextProvider>
+                    <CollectionContextProvider>
+                      <HelmetProvider helmetContext={helmetContext}>
+                        <LocalStyle theme={lightTheme}>
+                          <SuperUserBanner />
+                          <OfflineNotice />
+                          <Router />
+                        </LocalStyle>
+                      </HelmetProvider>
+                    </CollectionContextProvider>
+                  </ProjectContextProvider>
+                </APICacheProvider>
+              </APIContextProvider>
             </AnalyticsContext>
           </LocalStorageProvider>
         </NotificationsProvider>
