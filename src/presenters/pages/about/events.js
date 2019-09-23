@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { CDN_URL } from 'Utils/constants';
-import Heading from 'Components/text/heading';
-import Text from 'Components/text/text';
-import Image from 'Components/images/image';
 import { Button, Mark } from '@fogcreek/shared-components';
 import AboutLayout from './about-layout';
 import aboutStyles from './about.styl';
