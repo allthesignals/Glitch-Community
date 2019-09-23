@@ -31,7 +31,7 @@ const getComplementaryColor = (inputColor) => {
   // returns format {r: 255, g: 255, b: 255}
 
   // check the contrast ratio between the complementary colors.  If contrast is too low, compare to white and black and pick the higher contrast option
-  
+  const contrastRatio = getHexContrastRatio(color.complementary()[0], color.complementary()[1]);
 
   
   const colorString = `rgb(${complement.r}, ${complement.g}, ${complement.b})`;
