@@ -16,8 +16,6 @@ import { getProjectLink } from 'Models/project';
 import { getCollectionLink } from 'Models/collection';
 import { getTeamLink } from 'Models/team';
 
-// TODO: 'party' and 'handshake' icons
-
 // TODO: surely this already exists
 const ProjectAvatarLink = ({ project }) => (
   <TooltipContainer
