@@ -26,6 +26,10 @@ export const hexToRgbA = (hex) => {
   return false;
 };
 
+export const RgbToHex = (r, g, b) => {
+  const 
+}
+
 export const isGoodColorContrast = (hex) => getContrastWithDarkText(hex) >= 4.5 || getContrastWithLightText(hex) >= 4.5;
 
 export function pickRandomColors(count) {
