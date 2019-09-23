@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, Mark, Icon } from '@fogcreek/shared-components';
+import { Mark } from '@fogcreek/shared-components';
 import { Helmet } from 'react-helmet-async';
 import { BlockSection } from 'Components/about';
 import AboutLayout from './about-layout';
