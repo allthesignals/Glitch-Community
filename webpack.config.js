@@ -14,7 +14,6 @@ const aliases = require('./aliases');
 const BUILD = path.resolve(__dirname, 'build/client');
 const SRC = path.resolve(__dirname, 'src');
 const SHARED = path.resolve(__dirname, 'shared');
-const NODE_MODULES = path.resolve(__dirname, 'node_modules');
 
 let mode = 'development';
 if (process.env.NODE_ENV === 'production') {
@@ -119,8 +118,8 @@ module.exports = smp.wrap({
           {
             test: /\.js$/,
             loader: 'babel-loader',
-            include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED, NODE_MODULES],
-            query: {
+            include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED],
+            options: {
               compact: mode === 'development' ? true : false,
             },
           },
