@@ -16,12 +16,10 @@ const initWebpack = require('./webpack');
 const constants = require('./constants');
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
-const { defaultProjectDescriptionPattern } = require('../shared/regex');
 const { getData, saveDataToFile } = require('./home');
 
 const DEFAULT_USER_DESCRIPTION = (login, name) => `See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
 const DEFAULT_TEAM_DESCRIPTION = (login, name) => `See what Team ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
-const DEFAULT_PROJECT_DESCRIPTION = (domain) => `Check out ~${domain} on Glitch, the ${constants.tagline}`;
 
 module.exports = function(external) {
   const app = express.Router();
@@ -148,35 +146,9 @@ module.exports = function(external) {
 
   app.get('/~:domain', async (req, res) => {
     const { domain } = req.params;
-    const canonicalUrl = `${APP_URL}/~${domain}`;
     const project = await getProject(punycode.toASCII(domain));
-    
-    if (!project) {
-      await render(req, res, { title: domain, canonicalUrl, description: `We couldn't find ~${domain}` }, false);
-      return;
-    }
-  
-    // don't show the real avatar if the project has been suspended
-    const avatar = project.suspendedReason ? imageDefault : `${CDN_URL}/project-avatar/${project.id}.png`
-
-    const helloTemplateDescriptions = new Set([
-      'Your very own basic web page, ready for you to customize.',
-      'A simple Node app built on Express, instantly up and running.',
-      'A simple Node app with a SQLite database to hold app data.',
-    ]);
-
-    const usesDefaultDescription = helloTemplateDescriptions.has(project.description) || project.description.match(defaultProjectDescriptionPattern);
-
-    let description;
-    if (usesDefaultDescription || !project.description || project.suspendedReason) {
-      description = DEFAULT_PROJECT_DESCRIPTION(domain);
-    } else {
-      const textDescription = cheerio.load(md.render(project.description)).text();
-      description = `${textDescription} 🎏 Glitch is the ${constants.tagline}`;
-    }
-
-    const cache = { [`project:${domain}`]: project };
-    await render(req, res, { title: domain, canonicalUrl, description, image: avatar, cache }, true);
+    const cache = project && { [`project:${domain}`]: project };
+    await render(req, res, { cache }, true);
   });
 
   app.get('/@:name', async (req, res) => {
