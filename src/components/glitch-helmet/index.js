@@ -14,13 +14,13 @@ const GlitchHelmet = ({ title, description, image, socialTitle, canonicalUrl }) 
       {!!url && <meta property="og:url" content={url} />}
       <meta property="og:title" content={socialTitle || title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
+      {!!image && <meta property="og:image" content={image} />}
       {/* twitter card tags (stacks with og: tags) */}
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@glitch" />
       <meta name="twitter:title" content={socialTitle || title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      {!!image && <meta name="twitter:image" content={image} />}
       {!!url && <meta name="twitter:url" content={url} />}
     </Helmet>
   );
@@ -35,7 +35,7 @@ GlitchHelmet.propTypes = {
 };
 
 GlitchHelmet.defaultProps = {
-  image: 'https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fsocial-card%402x.png',
+  image: null,
   socialTitle: null,
   canonicalUrl: null,
 };
