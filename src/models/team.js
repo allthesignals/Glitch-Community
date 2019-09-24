@@ -40,12 +40,6 @@ export const getTeamProfileStyle = (team) => {
   };
 };
 
-export const getTeamDescriptionForSEO = ({ name, url, description, updatedAt, createdAt }) => {
-  const base = `See what Team ${name} (@${url}) is up to on Glitch, the ${constants.tagline} `;
-  const showDescription = description && updatedAt !== createdAt;
-  return `${base} ${showDescription ? description : ''}`;
-};
-
 export function teamAdmins({ team }) {
   const admins = team.teamPermissions.filter(({ accessLevel }) => accessLevel === ADMIN_ACCESS_LEVEL);
   return admins.map(({ userId }) => team.users.find((user) => user.id === userId));

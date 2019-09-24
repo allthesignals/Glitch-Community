@@ -119,6 +119,9 @@ function TeamPage({ team: initialTeam }) {
 
   const projectOptions = { ...funcs, team };
 
+  const base = `See what Team ${name} (@${url}) is up to on Glitch, the ${constants.tagline} `;
+  const seoDescription = `${base} ${(description && updatedAt !== createdAt) ? description : ''}`;
+
   return (
     <main className={styles.container} id="main">
       <section>
