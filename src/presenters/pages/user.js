@@ -100,11 +100,13 @@ const UserPage = ({ user: initialUser }) => {
   const [pinnedProjects, recentProjects] = partition(sortedProjects.filter(({ id }) => id !== featuredProjectId), ({ id }) => pinnedSet.has(id));
   const featuredProject = user.projects.find(({ id }) => id === featuredProjectId);
 
+  conse seoDe
+
   return (
     <main id="main" className={styles.container}>
       <GlitchHelmet
         title={user.name || (user.login && `@${user.login}`) || `User ${user.id}`}
-        description={`See what ${user.name} (@${user.login}) is up to on Glitch, the ${tagline} `}
+        description={`See what ${user.name} (@${user.login}) is up to on Glitch, the ${tagline} ${stripHtml(renderMarkdown(user.description))}`}
         image={user.avatarUrl || 'https://cdn.glitch.com/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932'}
         canonicalUrl={getUserLink(user)}
       />
