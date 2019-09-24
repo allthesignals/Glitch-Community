@@ -17,6 +17,7 @@ import { useNotifications } from 'State/notifications';
 import { getAllPages } from 'Shared/api';
 
 import styles from './create-collection-pop.styl';
+import { widePopover } from ../global.etyl
 
 function Dropdown({ selection, options, onUpdate }) {
   const [reactSelect, setReactSelect] = useState(null);
@@ -117,7 +118,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
   }
 
   return (
-    <PopoverDialog wide align={align}>
+    <>
       {title}
 
       <PopoverActions>
@@ -148,7 +149,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
           )}
         </form>
       </PopoverActions>
-    </PopoverDialog>
+    </>
   );
 }
 
@@ -195,9 +196,9 @@ const CreateCollectionPop = withRouter(({ team, history }) => {
   };
 
   return (
-    <Popover align={align} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Create Collection</Button>}>
-      {() => <CreateCollectionPopBase align="left" options={options} onSubmit={onSubmit} />}
-    </PopoverWithButton>
+    <Popover className={widePopover} align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Create Collection</Button>}>
+      {() => <CreateCollectionPopBase options={options} onSubmit={onSubmit} />}
+    </Popover>
   );
 });
 
