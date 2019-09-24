@@ -33,7 +33,8 @@ export function getProjectDescriptionForSEO({ description }) {
     'A simple Node app with a SQLite database to hold app data.',
   ]);
   const defaultProjectDescriptionPattern = /A|The [a-z]{2,} project that does [a-z]{2,} things/g;
-  const usesDefaultDescription = helloTemplateDescriptions.has(description) || project.description.match(defaultProjectDescriptionPattern);
+  const usesDefaultDescription = helloTemplateDescriptions.has(description) || description.match(defaultProjectDescriptionPattern);
+  if (!description || usesDefaultDescription)
 }
 
 export function sortProjectsByLastAccess(projects) {
