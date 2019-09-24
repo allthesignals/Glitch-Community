@@ -21,6 +21,7 @@ import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useUserEditor } from 'State/user';
 import useFocusFirst from 'Hooks/use-focus-first';
+import { tagline } from 'Utils/constants';
 
 import styles from './user.styl';
 import { emoji } from '../../components/global.styl';
@@ -103,7 +104,7 @@ const UserPage = ({ user: initialUser }) => {
     <main id="main" className={styles.container}>
       <GlitchHelmet
         title={user.name || (user.login && `@${user.login}`) || `User ${user.id}`}
-        description={`See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `}
+        description={`See what ${user.name} (@${user.login}) is up to on Glitch, the ${tagline} `}
         image={user.avatarUrl || 'https://cdn.glitch.com/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932'}
         canonicalUrl={getUserLink(user)}
       />
