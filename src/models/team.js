@@ -1,5 +1,5 @@
 import { lightColors } from 'Models/user';
-import { CDN_URL, tagline } from 'Utils/constants';
+import { CDN_URL } from 'Utils/constants';
 
 export const MEMBER_ACCESS_LEVEL = 20;
 export const ADMIN_ACCESS_LEVEL = 30;

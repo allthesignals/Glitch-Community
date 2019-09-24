@@ -27,6 +27,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
 import { useTeamEditor } from 'State/team';
 import useFocusFirst from 'Hooks/use-focus-first';
+import { tagline } from 'Utils/constants';
 
 import styles from './team.styl';
 import { emoji } from '../../components/global.styl';
@@ -119,8 +120,8 @@ function TeamPage({ team: initialTeam }) {
 
   const projectOptions = { ...funcs, team };
 
-  const base = `See what Team ${name} (@${url}) is up to on Glitch, the ${constants.tagline} `;
-  const seoDescription = `${base} ${(description && updatedAt !== createdAt) ? description : ''}`;
+  const seoBase = `See what Team ${team.name} (@${team.url}) is up to on Glitch, the ${tagline} `;
+  const seoDescription = `${seoBase} ${(team.description && team.updatedAt !== team.createdAt) ? team.description : ''}`;
 
   return (
     <main className={styles.container} id="main">
