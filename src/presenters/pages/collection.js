@@ -40,6 +40,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
       <GlitchHelmet
         title={collection.name}
         description={`${stripHtml(renderMarkdown(collection.description))} 🎏 A collection of apps by @${currentUser.name}`}
+        canonicalUrl={getCollectionLink(collection)}
       />
       <main id="main">
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
