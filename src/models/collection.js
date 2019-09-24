@@ -3,7 +3,7 @@ import { kebabCase } from 'lodash';
 import { pickRandomColor } from 'Utils/color';
 
 import { getTeamLink } from './team';
-import { getUserLink, getDisplayName  } from './user';
+import { getUserLink, getDisplayName as getUserDisplayName } from './user';
 
 import { getCollectionPair } from './words';
 
@@ -44,8 +44,9 @@ export function getCollectionOwnerName(collection) {
     return collection.team.name || `@${collection.team.url}`;
   }
   if (collection.user) {
-    return collection.user.name || `@${collection.user.login}` || 'Anonymous User';
+    return getUserDisplayName(collection.user);
   }
+  throw new Error(`Collection ${collection.id} has no team or user field!`);
 }
 
 export function getCollectionOwnerLink(collection) {

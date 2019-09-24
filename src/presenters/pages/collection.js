@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { kebabCase } from 'lodash';
 import { Loader } from '@fogcreek/shared-components';
 
-import { getCollectionLink } from 'Models/collection';
+import { getCollectionLink, getCollectionOwnerName } from 'Models/collection';
 import { PopoverWithButton } from 'Components/popover';
 import NotFound from 'Components/errors/not-found';
 import CollectionContainer from 'Components/collection/container';
@@ -39,7 +39,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
     <>
       <GlitchHelmet
         title={collection.name}
-        description={`${stripHtml(renderMarkdown(collection.description))} 🎏 A collection of apps by @${currentUser.name}`}
+        description={`${stripHtml(renderMarkdown(collection.description))} 🎏 A collection of apps by ${g}`}
         canonicalUrl={getCollectionLink(collection)}
       />
       <main id="main">
