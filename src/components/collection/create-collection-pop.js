@@ -8,7 +8,7 @@ import { Actions, Button, Loader, Popover, Title } from '@fogcreek/shared-compon
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TextInput from 'Components/inputs/text-input';
 import { AddProjectToCollectionMsg } from 'Components/notification';
-import { PopoverDialog, MultiPopoverTitle, PopoverActions, PopoverWithButton } from 'Components/popover';
+import { MultiPopoverTitle } from 'Components/popover';
 import { createCollection } from 'Models/collection';
 import { useTracker } from 'State/segment-analytics';
 import { useAPI, createAPIHook } from 'State/api';
@@ -77,7 +77,7 @@ const useCollections = createAPIHook((api, teamId, currentUser) => {
   return getAllPages(api, `/v1/users/by/id/collections?id=${currentUser.id}&limit=100`);
 });
 
-function CreateCollectionPopBase({ align, title, onSubmit, options }) {
+function CreateCollectionPopBase({ title, onSubmit, options }) {
   const api = useAPI();
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
@@ -119,9 +119,8 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
 
   return (
     <>
-      {title}
-
-      <PopoverActions>
+      {title && <Title onBack={onBack}>{`Add ${name} to a new collection`}</Title>}
+      <Actions>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputWrap}>
             <TextInput
@@ -148,7 +147,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
             </Button>
           )}
         </form>
-      </PopoverActions>
+      </Actions>
     </>
   );
 }
@@ -174,9 +173,8 @@ export function CreateCollectionWithProject({ project, addProjectToCollection })
       createNotification('Unable to add project to collection.', { type: 'error' });
     }
   };
-  const title = <MultiPopoverTitle>{`Add ${project.domain} to a new collection`}</MultiPopoverTitle>;
 
-  return <CreateCollectionPopBase align="right" title={title} options={options} onSubmit={onSubmit} />;
+  return <CreateCollectionPopBase align="right" name={project.domain} options={options} onSubmit={onSubmit} />;
 }
 
 CreateCollectionWithProject.propTypes = {
