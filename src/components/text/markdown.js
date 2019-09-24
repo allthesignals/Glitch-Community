@@ -35,25 +35,19 @@ const stripHtml = (html) => {
  */
 const Markdown = React.memo(({ children, length, allowImages, renderAsPlaintext, linkifyHeadings }) => {
   let rendered = md({ allowImages, linkifyHeadings }).render(children || '');
-  let className = styles.markdownContent;
 
   if (length > 0) {
     rendered = truncate(rendered, length, { ellipsis: '…' });
   }
 
   if (renderAsPlaintext) {
-    rendered = stripHtml(rendered);
-    className = '';
-
-    // in many cases we use the renderAsPlaintext prop to put markdown in a paragraph
-    // <div> can't be a descendant of a <p>, so use span
-    return rendered;
+    return stripHtml(rendered);
   }
 
   // use <div> here, because <p> and other markup can't be a descendant of a <span>
   return (
     <div
-      className={className}
+      className={styles.markdownContent}
       dangerouslySetInnerHTML={{ __html: rendered }} // eslint-disable-line react/no-danger
     />
   );

@@ -11,6 +11,7 @@ import MoreCollectionsContainer from 'Components/collections-list/more-collectio
 import DeleteCollection from 'Components/collection/delete-collection-pop';
 import GlitchHelmet from 'Components/helmet';
 import Layout from 'Components/layout';
+import Markdown from 'Components/markdown';
 import ReportButton from 'Components/report-abuse-pop';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
