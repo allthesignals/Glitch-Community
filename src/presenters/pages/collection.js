@@ -9,7 +9,7 @@ import NotFound from 'Components/errors/not-found';
 import CollectionContainer from 'Components/collection/container';
 import MoreCollectionsContainer from 'Components/collections-list/more-collections';
 import DeleteCollection from 'Components/collection/delete-collection-pop';
-import GlitchHelmet from 'Components/helmet';
+import GlitchHelmet from 'Components/glitch-helmet';
 import Layout from 'Components/layout';
 import ReportButton from 'Components/report-abuse-pop';
 import { AnalyticsContext } from 'State/segment-analytics';

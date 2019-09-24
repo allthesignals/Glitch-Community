@@ -6,7 +6,7 @@ import ReactKonami from 'react-konami';
 
 import Header from 'Components/header';
 import Footer from 'Components/footer';
-
+import GlitchHelmet from 'Components/glitch-helmet';
 import AccountSettingsContainer from 'Components/account-settings-overlay';
 import NewStuffContainer from 'Components/new-stuff';
 import ErrorBoundary from 'Components/error-boundary';
@@ -14,6 +14,7 @@ import styles from './styles.styl';
 
 const Layout = withRouter(({ children, searchQuery, history }) => (
   <div className={styles.content}>
+    <GlitchHelmet title="Glitch" description="" />
     <Helmet>
       <title>Glitch</title>
       <meta name="description" content="Simple, powerful, free tools to create and use millions of apps." />
