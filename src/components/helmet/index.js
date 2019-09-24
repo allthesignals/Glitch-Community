@@ -25,6 +25,11 @@ const GlitchHelmet = ({ title, description, socialTitle }) => (
 GlitchHelmet.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  socialTitle: PropTypes.string,
+};
+
+GlitchHelmet.defaultProps = {
+  socialTitle: null,
 };
 
 export default GlitchHelmet;
