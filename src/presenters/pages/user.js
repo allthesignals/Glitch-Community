@@ -100,13 +100,13 @@ const UserPage = ({ user: initialUser }) => {
   const [pinnedProjects, recentProjects] = partition(sortedProjects.filter(({ id }) => id !== featuredProjectId), ({ id }) => pinnedSet.has(id));
   const featuredProject = user.projects.find(({ id }) => id === featuredProjectId);
 
-  const renderedDescrip
+  const renderedDescription = React.useMemo(() => stripHtml(renderMarkdown(user.description)), [user.description]);
 
   return (
     <main id="main" className={styles.container}>
       <GlitchHelmet
         title={user.name || (user.login && `@${user.login}`) || `User ${user.id}`}
-        description={`See what ${user.name} (@${user.login}) is up to on Glitch, the ${tagline} ${stripHtml(renderMarkdown(user.description))}`}
+        description={`See what ${user.name} (@${user.login}) is up to on Glitch, the ${tagline} ${renderedDescription}`}
         image={user.avatarUrl || 'https://cdn.glitch.com/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932'}
         canonicalUrl={getUserLink(user)}
       />
