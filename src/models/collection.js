@@ -39,6 +39,10 @@ export function getCollectionsWithMyStuff({ collections }) {
   return updatedCollections;
 }
 
+export function getCollectionOwnerName(collection) {
+
+}
+
 export function getCollectionOwnerLink(collection) {
   if (collection.team) {
     return getTeamLink(collection.team);
