@@ -282,7 +282,7 @@ const ProjectPageContainer = ({ name: domain }) => {
           <ProjectPage project={project} />
         ) : (
           <>
-            <GlitchHelmet title=
+            <GlitchHelmet title={domain} description={`We couldn't find ~${domain}`} />
             {status === 'ready' && <NotFound name={domain} />}
             {status === 'loading' && <Loader style={{ width: '25px' }} />}
             {status === 'error' && <NotFound name={domain} />}
