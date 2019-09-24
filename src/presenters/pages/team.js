@@ -131,7 +131,7 @@ function TeamPage({ team: initialTeam }) {
         <GlitchHelmet
           title={team.name}
           description={seoDescription}
-          image={getTeamAvatarUrl(team)}
+          image={team.hasAvatarImage ? getTeamAvatarUrl(team) : null}
           canonicalUrl={getTeamLink(team)}
         />
         <Beta />
