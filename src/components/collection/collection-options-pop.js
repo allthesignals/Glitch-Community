@@ -7,11 +7,11 @@ import DeleteCollection from 'Components/collection/delete-collection-pop';
 
 export default function CollectionOptions({ collection, deleteCollection }) {
   return (
-    <PopoverMenu label={`Collection options for ${collection.name}`}>
+    <Popover align="right" renderLabel={({ onClick, ref }) => <Button onClick={onClick} relabel={`Collection options for ${collection.name}`}>
       {() => (
         <DeleteCollection collection={collection} deleteCollection={deleteCollection} />
       )}
-    </PopoverMenu>
+    </Popover>
   );
 }
 
