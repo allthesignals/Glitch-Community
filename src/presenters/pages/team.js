@@ -124,6 +124,8 @@ function TeamPage({ team: initialTeam }) {
       <section>
         <GlitchHelmet
           title={team.name}
+          description={}
+          canonicalUrl={getTeamLink(team)}
         />
         <Beta />
         <TeamProfileContainer
