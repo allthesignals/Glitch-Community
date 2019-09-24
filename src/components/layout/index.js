@@ -13,7 +13,10 @@ import styles from './styles.styl';
 
 const Layout = withRouter(({ children, searchQuery, history }) => (
   <div className={styles.content}>
-    <Helmet title="Glitch" />
+    <Helmet>
+      <title>Glitch</title>
+      <meta name="description" content="Simple, powerful, free tools to create and use millions of apps." />
+    </Helmet>
     <NewStuffContainer>
       {(showNewStuffOverlay) => (
         <AccountSettingsContainer>

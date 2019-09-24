@@ -14,9 +14,4 @@ GlitchHelmet.propTypes = {
   description: PropTypes.string.isRequired,
 };
 
-GlitchHelmet.defaultProps = {
-  title: 'Glitch',
-  description: 'Simple, powerful, free tools to create and use millions of apps.',
-};
-
 export default GlitchHelmet;
