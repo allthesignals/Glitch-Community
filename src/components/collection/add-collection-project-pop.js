@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { partition, uniqBy } from 'lodash';
-import { Icon, Popover } from '@fogcreek/shared-components';
+import { Button, Icon, Info, Popover, UnstyledButton } from '@fogcreek/shared-components';
 
 import { getAllPages } from 'Shared/api';
 import { PopoverWithButton, PopoverDialog, PopoverSearch, PopoverInfo, InfoDescription } from 'Components/popover';
