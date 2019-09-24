@@ -28,6 +28,7 @@ import { useNotifications } from 'State/notifications';
 import { useTeamEditor } from 'State/team';
 import useFocusFirst from 'Hooks/use-focus-first';
 import { tagline } from 'Utils/constants';
+import { renderMarkdown, stripHtml } from 'Utils/markdown';
 
 import styles from './team.styl';
 import { emoji } from '../../components/global.styl';
