@@ -164,10 +164,10 @@ const buildCollectionFilters = ({ teamIDs = [], userIDs = [] }) => {
 function createAlgoliaProvider(api) {
   const searchClient = createSearchClient(api);
   const searchIndices = {
-    team: searchClient.initIndex('dev_%{::hostname}_search_teams'),
-    user: searchClient.initIndex('dev_%{::hostname}_search_users'),
-    // project: searchClient.initIndex('search_projects'),
-    collection: searchClient.initIndex('dev_%{::hostname}_search_collections'),
+    team: searchClient.initIndex('search_teams'),
+    user: searchClient.initIndex('search_users'),
+    project: searchClient.initIndex('search_projects'),
+    collection: searchClient.initIndex('search_collections'),
   };
 
   return {
@@ -181,15 +181,14 @@ function createAlgoliaProvider(api) {
           facetFilters: [isMyStuff ? '' : 'isMyStuff:false'],
         })
         .then(formatAlgoliaResult('collection')),
-    project: () => Promise.resolve({ hits: []}
-    // project: (query, { notSafeForKids }) =>
-    //   searchIndices.project
-    //     .search({
-    //       query,
-    //       hitsPerPage: 100,
-    //       facetFilters: [notSafeForKids ? '' : 'notSafeForKids:false'],
-    //     })
-    //     .then(formatAlgoliaResult('project')),
+    project: (query, { notSafeForKids }) =>
+      searchIndices.project
+        .search({
+          query,
+          hitsPerPage: 100,
+          facetFilters: [notSafeForKids ? '' : 'notSafeForKids:false'],
+        })
+        .then(formatAlgoliaResult('project')),
     starterKit: (query) => Promise.resolve(findStarterKits(query)),
   };
 }
