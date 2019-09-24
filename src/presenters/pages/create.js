@@ -31,7 +31,7 @@ import { emoji as emojiStyle } from '../../components/global.styl';
 const RatioWrap = styled.div`
   width: 100%;
   height: 0;
-  padding-bottom: ${({ aspectRatio = 16 / 9 }) => aspectRatio * 100}%;
+  padding-bottom: ${({ aspectRatio = 9/16 }) => aspectRatio * 100}%;
   position: relative;
 `;
 const RatioInner = styled.div`
@@ -103,9 +103,7 @@ function WhatIsGlitch() {
         </div>
       </div>
       <div className={styles.whatIsGlitchVideoContainer}>
-        <RatioContainer>
-          <WistiaVideo onClick={trackPlayVideo} className={styles.whatIsGlitchVideo} videoId="2vcr60pnx9" />
-        </RatioContainer>
+        <WistiaVideo onClick={trackPlayVideo} className={styles.whatIsGlitchVideo} videoId="2vcr60pnx9" />
       </div>
     </section>
   );
