@@ -27,7 +27,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useToggleBookmark } from 'State/collection';
 import { useProjectEditor, useProjectMembers } from 'State/project';
 import { getUserLink } from 'Models/user';
-import { userIsProjectMember, userIsProjectAdmin, getProjectLink, getProjectAvatarUrl, getProjectDescriptionForSEO, SUSPENDED_PROJECT_AVATAR } from 'Models/project';
+import { userIsProjectMember, userIsProjectAdmin, getProjectLink, getProjectAvatarUrl, getProjectDescriptionForSEO, SUSPENDED_AVATAR_URL } from 'Models/project';
 import { addBreadcrumb } from 'Utils/sentry';
 import { getAllPages } from 'Shared/api';
 import useFocusFirst from 'Hooks/use-focus-first';
@@ -166,7 +166,7 @@ const ProjectPage = ({ project: initialProject }) => {
       <GlitchHelmet
         title={project.domain}
         description={getProjectDescriptionForSEO(project)}
-        image={project.suspendedReason ? SUSPENDED_PROJECT_AVATAR : getProjectAvatarUrl(project)}
+        image={project.suspendedReason ? SUSPENDED_AVATAR_URL : getProjectAvatarUrl(project)}
         canonicalUrl={getProjectLink(project)}
       />
       <section id="info">

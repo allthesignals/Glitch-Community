@@ -44,7 +44,7 @@ const TeamOrUserPageLoader = ({ name, ...props }) => {
       {status === 'ready' && <NotFound name={`@${name}`} />}
       {status === 'error' && <NotFound name={`@${name}`} />}
     </>
-  )
+  );
 };
 TeamOrUserPageLoader.propTypes = {
   name: PropTypes.string.isRequired,
