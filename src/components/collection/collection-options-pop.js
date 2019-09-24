@@ -7,7 +7,7 @@ import DeleteCollection from 'Components/collection/delete-collection-pop';
 
 export default function CollectionOptions({ collection, deleteCollection }) {
   return (
-    <Popover align="right" renderLabel={({ onClick, ref }) => <Button onClick={onClick} relabel={`Collection options for ${collection.name}`}>
+    <Popover align="right" renderLabel={({ onClick, ref }) => <UnstyledButton onClick={onClick} ref={ref} label={`Collection options for ${collection.name}`}><Icon icon="chevronDown" /></UnstyledButton>}>
       {() => (
         <DeleteCollection collection={collection} deleteCollection={deleteCollection} />
       )}
