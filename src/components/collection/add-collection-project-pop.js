@@ -85,7 +85,7 @@ function AddCollectionProjectPop({ collection, togglePopover, addProjectToCollec
   );
 
   return (
-    <PopoverDialog wide align="left">
+    <>
       <PopoverSearch
         value={query}
         onChange={setQuery}
@@ -99,13 +99,13 @@ function AddCollectionProjectPop({ collection, togglePopover, addProjectToCollec
         }
       />
       {status === 'ready' && excludingExactMatch && (
-        <PopoverInfo>
+        <Info>
           <InfoDescription>
             {parsedQuery} is already in this collection <Icon className={emoji} icon="sparkles" />
           </InfoDescription>
-        </PopoverInfo>
+        </Info>
       )}
-    </PopoverDialog>
+    </>
   );
 }
 
@@ -116,11 +116,11 @@ AddCollectionProjectPop.propTypes = {
 };
 
 const AddCollectionProject = ({ collection, addProjectToCollection }) => (
-  <PopoverWithButton buttonText="Add Project" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project</Button>} >
+  <Popover align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project</Button>} >
     {({ togglePopover }) => (
       <AddCollectionProjectPop collection={collection} addProjectToCollection={addProjectToCollection} togglePopover={togglePopover} />
     )}
-  </PopoverWithButton>
+  </Popover>
 );
 
 AddCollectionProject.propTypes = {
