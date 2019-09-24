@@ -104,6 +104,7 @@ const UserPage = ({ user: initialUser }) => {
       <GlitchHelmet
         title={user.name || (user.login && `@${user.login}`) || `User ${user.id}`}
         image={user.avatarUrl || 'https://cdn.glitch.com/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932'}
+        canonicalUrl={getUserLink(user)}
       />
       <section>
         <UserProfileContainer
