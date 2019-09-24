@@ -8,7 +8,7 @@ import styles from './company.styl';
 import aboutStyles from './about.styl';
 
 const AboutCompanyPage = withRouter(() => (
-  <AboutLayout mainClassName={aboutStyles.main}>
+  <AboutLayout mainClassName={aboutStyles.main} currentPage="company">
     <BlockSection>
       <Heading tagName="h1">
         A <Mark color="var(--mark-pink)">different</Mark> kind of company

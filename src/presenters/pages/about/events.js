@@ -20,7 +20,7 @@ const AboutEventsPage = withRouter(() => {
   const [currentlyShowingBio, setBio] = useState('anil');
 
   return (
-    <AboutLayout>
+    <AboutLayout currentPage="events">
       <Heading tagName="h1">Events</Heading>
       <Heading tagName="h1">
         <Mark color="var(--mark-blue)">Want us to speak at your event?</Mark>

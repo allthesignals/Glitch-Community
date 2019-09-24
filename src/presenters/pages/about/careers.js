@@ -19,7 +19,7 @@ const AboutCareersPage = withRouter(() => {
   }, []);
 
   return (
-    <AboutLayout mainClassName={styles.main}>
+    <AboutLayout mainClassName={styles.main} currentPage="careers">
       <Helmet>
         <meta name="description" content={pageDescription} />
         <title>{pageTitle}</title>

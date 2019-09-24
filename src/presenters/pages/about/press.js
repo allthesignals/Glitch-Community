@@ -36,7 +36,7 @@ const AboutPressPage = withRouter(() => {
   }
 
   return (
-    <AboutLayout>
+    <AboutLayout currentPage="press">
       <Heading tagName="h1">Press</Heading>
       <BlockSection className={styles.section}>
         <article>
