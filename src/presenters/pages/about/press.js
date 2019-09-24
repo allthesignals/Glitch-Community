@@ -36,11 +36,13 @@ const AboutPressPage = withRouter(() => {
   }
 
   return (
-    <AboutLayout>
+    <AboutLayout currentPage="press">
       <Heading tagName="h1">Press</Heading>
       <BlockSection className={styles.section}>
         <article>
-          <Heading tagName="h2">Writing about glitch? </Heading>
+          <Heading tagName="h2" className={aboutStyles.h2}>
+            Writing about glitch?{' '}
+          </Heading>
           <p>Below are resources that might come in handy. If you have any questions or need any other materials, let us know! </p>
           <center>
             <Button as="a" href="mailto:press@glitch.com" className={styles.pressButton}>
@@ -49,7 +51,9 @@ const AboutPressPage = withRouter(() => {
             </Button>
           </center>
           <br />
-          <Heading tagName="h2"> Social media</Heading>
+          <Heading tagName="h2" className={aboutStyles.h2}>
+            Social media
+          </Heading>
           <p>You can follow us on social media to see the latest cool apps created by the Glitch community:</p>
           <center>
             <Button as="a" href="https://twitter.com/glitch" target="_blank" className={styles.pressButton}>
@@ -71,7 +75,9 @@ const AboutPressPage = withRouter(() => {
           </p>
         </article>
         <article>
-          <Heading tagName="h2">Embed an app in your article</Heading>
+          <Heading tagName="h2" className={aboutStyles.h2}>
+            Embed an app in your article
+          </Heading>
           <p>
             Here's <a href="https://glitch.com/help/embed/">how to embed a Glitch app </a>in your own blog post or website.
           </p>
@@ -84,7 +90,7 @@ const AboutPressPage = withRouter(() => {
         </article>
       </BlockSection>
       <section className={aboutStyles.section}>
-        <Heading tagName="h2">
+        <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-orange)">Logos and screenshots</Mark>
         </Heading>
         <p className={aboutStyles.descriptionText}>
@@ -145,7 +151,7 @@ const AboutPressPage = withRouter(() => {
         </p>
       </section>
       <BlockSection className={styles.pressSection}>
-        <Heading tagName="h2">
+        <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-green)">Glitch in the press</Mark>
         </Heading>
         <article>

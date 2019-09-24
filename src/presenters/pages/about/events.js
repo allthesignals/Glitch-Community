@@ -20,9 +20,9 @@ const AboutEventsPage = withRouter(() => {
   const [currentlyShowingBio, setBio] = useState('anil');
 
   return (
-    <AboutLayout>
+    <AboutLayout currentPage="events">
       <Heading tagName="h1">Events</Heading>
-      <Heading tagName="h1">
+      <Heading tagName="h2" className={aboutStyles.h2}>
         <Mark color="var(--mark-blue)">Want us to speak at your event?</Mark>
       </Heading>
       <Button
@@ -39,7 +39,7 @@ const AboutEventsPage = withRouter(() => {
         Tell Us All About It →
       </Button>
       <section className={aboutStyles.bioSection}>
-        <Heading tagName="h1">
+        <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-purple)">Speaker bios</Mark>
         </Heading>
         <p>Find out a little more about our speakers.</p>

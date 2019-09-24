@@ -165,7 +165,7 @@ function ThirdSection() {
 }
 
 const AboutPage = withRouter(() => (
-  <AboutLayout>
+  <AboutLayout currentPage="about">
     <Banner />
     <FirstSection />
     <SecondSection />

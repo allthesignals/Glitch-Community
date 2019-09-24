@@ -10,19 +10,19 @@ import ErrorBoundary from 'Components/error-boundary';
 import MadeOnGlitch from 'Components/footer/made-on-glitch';
 import styles from './about.styl';
 
-function HeaderLinks() {
+function HeaderLinks({ currentPage }) {
   return (
     <nav className={styles.headerActions}>
-      <a href="/about">About</a>
-      <a href="/about/company">Company</a>
-      <a href="/about/careers">Careers</a>
-      <a href="/about/press">Press</a>
-      <a href="/about/events">Events</a>
+      <a href="/about" className={currentPage === 'about' ? styles.currentPage : undefined}>About</a>
+      <a href="/about/company" className={currentPage === 'company' ? styles.currentPage : undefined}>Company</a>
+      <a href="/about/careers" className={currentPage === 'careers' ? styles.currentPage : undefined}>Careers</a>
+      <a href="/about/press" className={currentPage === 'press' ? styles.currentPage : undefined}>Press</a>
+      <a href="/about/events" className={currentPage === 'events' ? styles.currentPage : undefined}>Events</a>
     </nav>
   );
 }
 
-const AboutLayout = ({ children, mainClassName }) => (
+const AboutLayout = ({ children, mainClassName, currentPage }) => (
   <div style={{ maxWidth: '100vw', overflow: 'hidden', background: '#f5f5f5' }}>
     <div className={styles.content}>
       <Helmet title="About Glitch">
@@ -37,7 +37,7 @@ const AboutLayout = ({ children, mainClassName }) => (
         <Link to="/" className={styles.logoWrap}>
           <Logo />
         </Link>
-        <HeaderLinks />
+        <HeaderLinks currentPage={currentPage} />
       </header>
       <main id="main" className={classNames(styles.main, mainClassName)}>
         {children}
