@@ -14,11 +14,7 @@ import styles from './styles.styl';
 
 const Layout = withRouter(({ children, searchQuery, history }) => (
   <div className={styles.content}>
-    <GlitchHelmet title="Glitch" description="" />
-    <Helmet>
-      <title>Glitch</title>
-      <meta name="description" content="Simple, powerful, free tools to create and use millions of apps." />
-    </Helmet>
+    <GlitchHelmet title="Glitch" description="Simple, powerful, free tools to create and use millions of apps." />
     <NewStuffContainer>
       {(showNewStuffOverlay) => (
         <AccountSettingsContainer>

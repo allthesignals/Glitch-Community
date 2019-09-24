@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 
-const GlitchHelmet = ({ title, description, socialTitle }) => (
+const GlitchHelmet = ({ title, description, image, socialTitle }) => (
   <Helmet>
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -11,13 +11,13 @@ const GlitchHelmet = ({ title, description, socialTitle }) => (
     <meta property="og:url" content="<%= canonicalUrl %>" />
     <meta property="og:title" content={socialTitle || title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="<%= image %>" />
+    <meta property="og:image" content={image} />
     {/* twitter card tags (stacks with og: tags) */}
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@glitch" />
     <meta name="twitter:title" content={socialTitle || title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="<%= image %>" />
+    <meta name="twitter:image" content={image} />
     <meta name="twitter:url" content="<%= canonicalUrl %>" />
   </Helmet>
 );
@@ -25,10 +25,12 @@ const GlitchHelmet = ({ title, description, socialTitle }) => (
 GlitchHelmet.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  image: PropTypes.string,
   socialTitle: PropTypes.string,
 };
 
 GlitchHelmet.defaultProps = {
+  image: '',
   socialTitle: null,
 };
 
