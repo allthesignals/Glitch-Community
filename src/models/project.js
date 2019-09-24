@@ -1,4 +1,5 @@
 import { CDN_URL, EDITOR_URL, PROJECTS_DOMAIN, tagline } from 'Utils/constants';
+import { renderMarkdown, stripHtml } from 'Utils/markdown';
 
 export const FALLBACK_AVATAR_URL = 'https://cdn.glitch.com/c53fd895-ee00-4295-b111-7e024967a033%2Ffallback-project-avatar.svg?1528812220123';
 
@@ -37,6 +38,8 @@ export function getProjectDescriptionForSEO({ description, domain, suspendedReas
   if (!description || usesDefaultDescription || suspendedReason) {
     return `Check out ~${domain} on Glitch, the ${tagline}`;
   }
+  const textDescription = stripHtml(renderMarkdown(description));
+  return `${textDescription} 🎏 Glitch is the ${tagline}`
 }
 
 export function sortProjectsByLastAccess(projects) {
