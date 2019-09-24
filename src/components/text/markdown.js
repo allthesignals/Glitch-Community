@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import truncate from 'html-truncate';
-import styles from './markdown.styl';
 
 import { renderMarkdown, stripHtml } from 'Utils/markdown';
+import styles from './markdown.styl';
 
 /**
  * Markdown Component

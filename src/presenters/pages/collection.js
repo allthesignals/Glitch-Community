@@ -18,6 +18,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useCachedCollection } from 'State/api-cache';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
+import { renderMarkdown, stripHtml } from 'Utils/markdown';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -39,7 +40,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
     <>
       <GlitchHelmet
         title={collection.name}
-        description={<><Markdown renderAsPlaintext>{collection.description}</Markdown> 🎏 A collection of apps by @{currentUser.name}</>}
+        description={`${stripHtml(renderMarkdown(collection.description))} 🎏 A collection of apps by @${currentUser.name}`}
       />
       <main id="main">
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
