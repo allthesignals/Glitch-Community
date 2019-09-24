@@ -14,7 +14,7 @@ import { useAlgoliaSearch } from 'State/search';
 import { useNotifications } from 'State/notifications';
 import useDebouncedValue from 'Hooks/use-debounced-value';
 
-import { emoji } from '../global.styl';
+import { emoji, widePopover } from '../global.styl';
 
 function parseQuery(query) {
   query = query.trim();
@@ -114,7 +114,7 @@ AddCollectionProjectPop.propTypes = {
 };
 
 const AddCollectionProject = ({ collection, addProjectToCollection }) => (
-  <Popover align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project</Button>}>
+  <Popover className={widePopover} align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project</Button>}>
     {({ togglePopover }) => (
       <AddCollectionProjectPop collection={collection} addProjectToCollection={addProjectToCollection} togglePopover={togglePopover} />
     )}
