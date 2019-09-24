@@ -103,6 +103,7 @@ const UserPage = ({ user: initialUser }) => {
     <main id="main" className={styles.container}>
       <GlitchHelmet
         title={user.name || (user.login && `@${user.login}`) || `User ${user.id}`}
+        image={user.avatarUrl || 'https'/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932'}
       />
       <section>
         <UserProfileContainer
