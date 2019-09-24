@@ -14,6 +14,6 @@ GlitchHelmet.propTypes = {
 
 GlitchHelmet.defaultProps = {
   title: 'Glitch',
-}
+};
 
 export default GlitchHelmet;

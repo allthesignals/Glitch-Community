@@ -36,7 +36,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
   };
   return (
     <>
-      <HlitchHelmet title={collection.name} />
+      <GlitchHelmet title={collection.name} />
       <main id="main">
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
