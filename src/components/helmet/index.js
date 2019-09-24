@@ -10,8 +10,8 @@ const GlitchHelmet = ({ title, description }) => (
 );
 
 GlitchHelmet.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
 GlitchHelmet.defaultProps = {
