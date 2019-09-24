@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, orderBy } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Button, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TextInput from 'Components/inputs/text-input';
@@ -195,7 +195,7 @@ const CreateCollectionPop = withRouter(({ team, history }) => {
   };
 
   return (
-    <PopoverWithButton buttonText="Create Collection">
+    <PopoverWithButton buttonText="Create Collection" renderLabel={()}>
       {() => <CreateCollectionPopBase align="left" options={options} onSubmit={onSubmit} />}
     </PopoverWithButton>
   );
