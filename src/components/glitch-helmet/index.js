@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 
-const GlitchHelmet = ({ title, description, image, socialTitle }) => (
+const GlitchHelmet = ({ title, description, image, socialTitle, canonicalUrl }) => (
   <Helmet>
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -27,11 +27,13 @@ GlitchHelmet.propTypes = {
   description: PropTypes.string.isRequired,
   image: PropTypes.string,
   socialTitle: PropTypes.string,
+  canonicalUrl: PropTypes.string,
 };
 
 GlitchHelmet.defaultProps = {
   image: 'https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fsocial-card%402x.png',
   socialTitle: null,
+  canonicalUrl: null,
 };
 
 export default GlitchHelmet;
