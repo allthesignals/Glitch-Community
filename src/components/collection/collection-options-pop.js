@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Popover, UnstyledButton } from '@fogcreek/shared-components';
+
 import { PopoverMenu } from 'Components/popover';
 import DeleteCollection from 'Components/collection/delete-collection-pop';
 
