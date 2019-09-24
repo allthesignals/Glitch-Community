@@ -92,7 +92,6 @@ const UserPage = ({ user: initialUser }) => {
   const { currentUser: maybeCurrentUser } = useCurrentUser();
   const isSupport = maybeCurrentUser && maybeCurrentUser.isSupport;
   const isAuthorized = maybeCurrentUser && maybeCurrentUser.id === user.id;
-  console.log(maybeCurrentUser);
 
   const pinnedSet = new Set(user.pinnedProjects.map(({ id }) => id));
   // filter featuredProject out of both pinned & recent projects
