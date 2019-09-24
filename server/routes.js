@@ -178,6 +178,20 @@ module.exports = function(external) {
     await render(req, res, { title: domain, canonicalUrl, description, image: avatar, cache }, true);
   });
 
+  app.get('/~:domain/edit', async (req, res) => {
+    const { domain } = req.params;
+    const editorUrl = `${APP_URL}/edit/#!/${domain}`;
+
+    res.redirect(editorUrl);
+  });
+  
+  app.get('/~:domain/console', async (req, res) => {
+    const { domain } = req.params;
+    const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
+
+    res.redirect(consoleUrl);
+  });
+  
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
     const canonicalUrl = `${APP_URL}/@${name}`;
