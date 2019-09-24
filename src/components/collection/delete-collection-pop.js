@@ -32,7 +32,7 @@ const DeleteCollectionPop = withRouter(({ location, history, collection, animate
   }
 
   return (
-    <Popover>
+    <>
       <PopoverTitle>Delete {collection.name}</PopoverTitle>
       <PopoverActions>
         <Image height="98px" width="auto" src={illustration} alt="" />
@@ -45,7 +45,7 @@ const DeleteCollectionPop = withRouter(({ location, history, collection, animate
           {collectionIsDeleting && <Loader style={{ width: '25px' }} />}
         </PopoverMenuButton>
       </PopoverActions>
-    </Popover>
+    </>
   );
 });
 
