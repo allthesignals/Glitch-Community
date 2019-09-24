@@ -79,7 +79,7 @@ const CollectionPage = ({ owner, name }) => {
         </AnalyticsContext>
       ) : (
         <>
-          <GlitchHelmet title={name} />
+          <GlitchHelmet title={name} description={`We couldn't find @${owner}/${name}`} />
           {status === 'ready' && <NotFound name={name} />}
           {status === 'loading' && <Loader style={{ width: '25px' }} />}
           {status === 'error' && <NotFound name={name} />}
