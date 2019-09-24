@@ -101,6 +101,7 @@ const UserPage = ({ user: initialUser }) => {
 
   return (
     <main id="main" className={styles.container}>
+      <GlitchHelmet title={user.name || (user.login ? `@${user.login}` : `User ${user.id}`)} />
       <section>
         <UserProfileContainer
           item={user}
@@ -219,7 +220,6 @@ UserPage.propTypes = {
 
 const UserPageContainer = ({ user }) => (
   <AnalyticsContext properties={{ origin: 'user' }}>
-    <Helmet title={user.name || (user.login ? `@${user.login}` : `User ${user.id}`)} />
     <UserPage user={user} />
   </AnalyticsContext>
 );
