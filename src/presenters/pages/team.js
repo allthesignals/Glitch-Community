@@ -252,7 +252,6 @@ TeamPage.propTypes = {
 
 const TeamPageContainer = ({ team }) => (
   <AnalyticsContext properties={{ origin: 'team' }} context={{ groupId: team.id.toString() }}>
-    <Helmet title={team.name} />
     <TeamPage team={team} />
   </AnalyticsContext>
 );
