@@ -1,5 +1,5 @@
 import { lightColors } from 'Models/user';
-import { CDN_URL } from 'Utils/constants';
+import { CDN_URL, tagline } from 'Utils/constants';
 
 export const MEMBER_ACCESS_LEVEL = 20;
 export const ADMIN_ACCESS_LEVEL = 30;
@@ -38,6 +38,10 @@ export const getTeamProfileStyle = (team) => {
     backgroundColor: lightColors[team.id % 4],
     backgroundImage: `url('${image}')`,
   };
+};
+
+export const getTeamDescriptionForSEO = ({ description, updatedAt, createdAt }) => {
+
 };
 
 export function teamAdmins({ team }) {
