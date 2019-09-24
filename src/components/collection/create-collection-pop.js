@@ -173,9 +173,8 @@ export function CreateCollectionWithProject({ project, addProjectToCollection })
       createNotification('Unable to add project to collection.', { type: 'error' });
     }
   };
-  const title = <Title onBack={onBack}>{`Add ${project.domain} to a new collection`}</Title>;
 
-  return <CreateCollectionPopBase align="right" title={title} options={options} onSubmit={onSubmit} />;
+  return <CreateCollectionPopBase align="right" title options={options} onSubmit={onSubmit} />;
 }
 
 CreateCollectionWithProject.propTypes = {
