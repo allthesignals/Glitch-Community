@@ -3,7 +3,7 @@ import { kebabCase } from 'lodash';
 import { pickRandomColor } from 'Utils/color';
 
 import { getTeamLink } from './team';
-import { getUserLink } from './user';
+import { getUserLink, getDisplayName  } from './user';
 
 import { getCollectionPair } from './words';
 
@@ -41,7 +41,10 @@ export function getCollectionsWithMyStuff({ collections }) {
 
 export function getCollectionOwnerName(collection) {
   if (collection.team) {
-    return collection.team.name || `@`
+    return collection.team.name || `@${collection.team.url}`;
+  }
+  if (collection.user) {
+    return collection.user.name || `@${collection.user.login}` || 'Anonymous User';
   }
 }
 
