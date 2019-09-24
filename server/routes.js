@@ -185,6 +185,13 @@ module.exports = function(external) {
     res.redirect(editorUrl);
   });
   
+  app.get('/~:domain/console', async (req, res) => {
+    const { domain } = req.params;
+    const consoleUrl = `${APP_URL}/console.html?${domain}`;
+
+    res.redirect(consoleUrl);
+  });
+  
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
     const canonicalUrl = `${APP_URL}/@${name}`;
