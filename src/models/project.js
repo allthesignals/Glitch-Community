@@ -33,8 +33,8 @@ export function getProjectDescriptionForSEO({ description, domain, suspendedReas
     'A simple Node app built on Express, instantly up and running.',
     'A simple Node app with a SQLite database to hold app data.',
   ]);
-  const defaultProjectDescriptionPattern = /A|The [a-z]{2,} project that does [a-z]{2,} things/g;
-  const usesDefaultDescription = helloTemplateDescriptions.has(description) || description.match(defaultProjectDescriptionPattern);
+  const defaultProjectDescriptionPattern = /(A|The) [a-z]{2,} project that does [a-z]{2,} things/g;
+  const usesDefaultDescription = helloTemplateDescriptions.has(description) || defaultProjectDescriptionPattern.test(description);
   if (!description || usesDefaultDescription || suspendedReason) {
     return `Check out ~${domain} on Glitch, the ${tagline}`;
   }
