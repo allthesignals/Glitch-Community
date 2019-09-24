@@ -21,7 +21,7 @@ import TeamAnalytics from 'Components/team-analytics';
 import AuthDescription from 'Components/fields/auth-description';
 import ErrorBoundary from 'Components/error-boundary';
 import Link from 'Components/link';
-import { getTeamLink, userIsOnTeam, userIsTeamAdmin } from 'Models/team';
+import { getTeamLink, getTeamAvatarUrl, userIsOnTeam, userIsTeamAdmin } from 'Models/team';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
@@ -125,6 +125,7 @@ function TeamPage({ team: initialTeam }) {
         <GlitchHelmet
           title={team.name}
           description={}
+          image={getTeamAvatarUrl(team)}
           canonicalUrl={getTeamLink(team)}
         />
         <Beta />
