@@ -12,7 +12,7 @@ import styles from './about.styl';
 const Unmarked = ({ children }) => <span className={styles.unmarked}>{children}</span>;
 
 function Banner() {
-  const illustration = `${CDN_URL}/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fabout.svg?v=1562163931412`;
+  const illustration = `${CDN_URL}/fe23e93b-e541-4151-ba94-e5119d610be9%2Fabout.svg?v=1569338761329`;
   const shape = `${CDN_URL}/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fabout-glitch-shape.svg?v=1560521674329`;
   return (
     <section className={classNames(styles.section, styles.banner)}>
