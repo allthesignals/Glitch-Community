@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Mark } from '@fogcreek/shared-components';
+import Heading from 'Components/text/heading';
 import AboutLayout from './about-layout';
 import aboutStyles from './about.styl';
 
@@ -20,10 +21,10 @@ const AboutEventsPage = withRouter(() => {
 
   return (
     <AboutLayout>
-      <h1 className={aboutStyles.h1}>Events</h1>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h1">Events</Heading>
+      <Heading tagName="h1">
         <Mark color="var(--mark-blue)">Want us to speak at your event?</Mark>
-      </h2>
+      </Heading>
       <Button
         as="a"
         href="https://glitch170098.typeform.com/to/NswdPG"
@@ -38,9 +39,9 @@ const AboutEventsPage = withRouter(() => {
         Tell Us All About It →
       </Button>
       <section className={aboutStyles.bioSection}>
-        <h2 className={aboutStyles.h2}>
+        <Heading tagName="h1">
           <Mark color="var(--mark-purple)">Speaker bios</Mark>
-        </h2>
+        </Heading>
         <p>Find out a little more about our speakers.</p>
         <div className={aboutStyles.bioButtons}>
           <Button onClick={() => setBio('anil')}>Anil Dash</Button>

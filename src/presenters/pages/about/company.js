@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Mark, Icon } from '@fogcreek/shared-components';
 import { BlockSection, Bio } from 'Components/about';
+import Heading from 'Components/text/heading';
 import AboutLayout from './about-layout';
 import styles from './company.styl';
 import aboutStyles from './about.styl';
@@ -9,11 +10,11 @@ import aboutStyles from './about.styl';
 const AboutCompanyPage = withRouter(() => (
   <AboutLayout mainClassName={aboutStyles.main}>
     <BlockSection>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h1">
         A <Mark color="var(--mark-pink)">different</Mark> kind of company
-      </h2>
+      </Heading>
       <article>
-        <h3>One of the most influential small tech companies ever</h3>
+        <Heading tagName="h3">One of the most influential small tech companies ever</Heading>
         <p>We started out as Fog Creek Software, a pioneering independent tech company that has always put people first.</p>
         <p>
           Our team invented Trello, co-created Stack Overflow, and launched many other groundbreaking apps that collectively have made us one of the
@@ -21,7 +22,7 @@ const AboutCompanyPage = withRouter(() => (
         </p>
       </article>
       <article>
-        <h3>Built for sustainability</h3>
+        <Heading tagName="h3">Built for sustainability</Heading>
         <p>
           We care about making Glitch a meaningful platform for the long term. Our company is 20 years old—that’s ancient in internet terms. We’re
           independent, privately held, and transparent and open in our business model and processes.
@@ -29,7 +30,7 @@ const AboutCompanyPage = withRouter(() => (
         <p>This matters because we want you to be as invested in our long-term, sustainable success as we are.</p>
       </article>
       <article>
-        <h3>Made in NYC, and around the world</h3>
+        <Heading tagName="h3">Made in NYC, and around the world</Heading>
         <p>We’re proud to be headquartered in New York City, but about half of our employees are remote.</p>
         <p>
           We have a strong remote work culture where all of our meetings are online and apps and tools like Slack and Google Hangouts are the normal
@@ -37,12 +38,12 @@ const AboutCompanyPage = withRouter(() => (
         </p>
       </article>
       <article>
-        <h3>A considered work environment</h3>
+        <Heading tagName="h3">A considered work environment</Heading>
         <p>We pioneered remote-working and private offices for creative workers over a decade ago.</p>
         <p>Our work environment has been carefully and thoughtfully designed to give each person both private and collaborative workspaces. </p>
       </article>
       <article>
-        <h3>Our inclusion efforts aren’t just platitudes</h3>
+        <Heading tagName="h3">Our inclusion efforts aren’t just platitudes</Heading>
         <p>
           Like most tech companies that have been around for two decades, we used to be a really homogenous place. Unlike most tech companies, we
           admit that we screwed up and we’re not making any excuses for it. Instead, we’re making real changes to build a more inclusive culture.
@@ -54,7 +55,7 @@ const AboutCompanyPage = withRouter(() => (
         </p>
       </article>
       <article>
-        <h3>We are on the inside what we hope to inspire on the outside</h3>
+        <Heading tagName="h3">We are on the inside what we hope to inspire on the outside</Heading>
         <p>It’s impossible to trust a company if you know they don’t practice what they preach.</p>
         <p>
           That’s why we’re committed to zero gaps between our stated and lived values. And that’s also why our values are publicly stated for anyone
@@ -66,15 +67,15 @@ const AboutCompanyPage = withRouter(() => (
         </p>
       </article>
       <article>
-        <h3>We’ve built a social platform on the internet that will never tolerate hate speech</h3>
+        <Heading tagName="h3">We’ve built a social platform on the internet that will never tolerate hate speech</Heading>
         <p>This isn’t actually complicated.</p>
       </article>
     </BlockSection>
 
     <BlockSection>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h2">
         <Mark color="var(--mark-blue)">Leadership</Mark>
-      </h2>
+      </Heading>
       <Bio
         imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FanilDashWhiteBG.png?1537834047329"
         name="Anil Dash, CEO"
@@ -98,7 +99,7 @@ const AboutCompanyPage = withRouter(() => (
       </Bio>
     </BlockSection>
     <section className={aboutStyles.backgroundSection}>
-      <h4 className={styles.leaderHeader}>Team leads</h4>
+      <Heading tagName="h4" className={styles.leaderHeader}>Team leads</Heading>
       <div className={styles.leads}>
         <span>
           <img
@@ -139,9 +140,9 @@ const AboutCompanyPage = withRouter(() => (
       </div>
     </section>
     <BlockSection>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h2">
         <Mark color="var(--mark-orange)">Founders</Mark>
-      </h2>
+      </Heading>
       <Bio
         imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FjoelSpolsky.png?1537833029020"
         name="Joel Spolsky, Co-Founder"
@@ -159,9 +160,9 @@ const AboutCompanyPage = withRouter(() => (
       </Bio>
     </BlockSection>
     <BlockSection>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h2">
         <Mark color="var(--mark-green)">Advisors</Mark>
-      </h2>
+      </Heading>
       <Bio imageUrl="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2FkimberlyBryant.png?1534858064619" name="Kimberly Bryant">
         <p>Kimberly Bryant is an entrepreneur and innovator who is founder and CEO of Black Girls Code.</p>
         <p>
@@ -198,9 +199,9 @@ const AboutCompanyPage = withRouter(() => (
       </Bio>
     </BlockSection>
     <section>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h2">
         <Mark color="var(--mark-purple)">Staff diversity report</Mark>
-      </h2>
+      </Heading>
       <div style={{ height: '600px', width: '100%' }}>
         <iframe
           src="https://glitch.com/embed/#!/embed/diversity-report-spring-2019?path=README.md&previewSize=100&attributionHidden=true"
@@ -211,9 +212,9 @@ const AboutCompanyPage = withRouter(() => (
       </div>
     </section>
     <section>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h2">
         <Mark color="var(--mark-pink)">Contact info</Mark>
-      </h2>
+      </Heading>
       <p className={styles.address}>
         Glitch Inc.
         <br />
@@ -227,7 +228,9 @@ const AboutCompanyPage = withRouter(() => (
         <br />
         USA
       </p>
-      <Button className={styles.emailButton} as="a" href="mailto:support@glitch.com"><Icon icon="email" /> support@glitch.com</Button>
+      <Button className={styles.emailButton} as="a" href="mailto:support@glitch.com">
+        <Icon icon="email" /> support@glitch.com
+      </Button>
     </section>
   </AboutLayout>
 ));

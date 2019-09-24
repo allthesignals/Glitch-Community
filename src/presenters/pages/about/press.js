@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Icon, Button, Mark, ButtonGroup, ButtonSegment, SegmentedButton } from '@fogcreek/shared-components';
 import { BlockSection } from 'Components/about';
+import Heading from 'Components/text/heading';
 
 import AboutLayout from './about-layout';
 import aboutStyles from './about.styl';
@@ -36,10 +37,10 @@ const AboutPressPage = withRouter(() => {
 
   return (
     <AboutLayout>
-      <h1 className={aboutStyles.h1}>Press</h1>
+      <Heading tagName="h1">Press</Heading>
       <BlockSection className={styles.section}>
         <article>
-          <h3> Writing about glitch? </h3>
+          <Heading tagName="h2">Writing about glitch? </Heading>
           <p>Below are resources that might come in handy. If you have any questions or need any other materials, let us know! </p>
           <center>
             <Button as="a" href="mailto:press@glitch.com" className={styles.pressButton}>
@@ -48,7 +49,7 @@ const AboutPressPage = withRouter(() => {
             </Button>
           </center>
           <br />
-          <h3>Social media</h3>
+          <Heading tagName="h2"> Social media</Heading>
           <p>You can follow us on social media to see the latest cool apps created by the Glitch community:</p>
           <center>
             <Button as="a" href="https://twitter.com/glitch" target="_blank" className={styles.pressButton}>
@@ -70,7 +71,7 @@ const AboutPressPage = withRouter(() => {
           </p>
         </article>
         <article>
-          <h3>Embed an app in your article</h3>
+          <Heading tagName="h2">Embed an app in your article</Heading>
           <p>
             Here's <a href="https://glitch.com/help/embed/">how to embed a Glitch app </a>in your own blog post or website.
           </p>
@@ -83,9 +84,9 @@ const AboutPressPage = withRouter(() => {
         </article>
       </BlockSection>
       <section className={aboutStyles.section}>
-        <h2 className={aboutStyles.h2}>
+        <Heading tagName="h2">
           <Mark color="var(--mark-orange)">Logos and screenshots</Mark>
-        </h2>
+        </Heading>
         <p className={aboutStyles.descriptionText}>
           <a href="https://en.wikipedia.org/wiki/Koinobori" target="_new">
             Koinobori <Icon alt="" icon="carpStreamer" />
@@ -144,19 +145,17 @@ const AboutPressPage = withRouter(() => {
         </p>
       </section>
       <BlockSection className={styles.pressSection}>
-        <h2 className={aboutStyles.h2}>
+        <Heading tagName="h2">
           <Mark color="var(--mark-green)">Glitch in the press</Mark>
-        </h2>
+        </Heading>
         <article>
-          <h3>
-            <a
-              href="https://www.fastcompany.com/90135655/glitch-the-sleeper-coding-platform-used-by-facebook-and-slack"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Glitch: The Sleeper Coding Community Used By Facebook And Slack
-            </a>
-          </h3>
+          <a
+            href="https://www.fastcompany.com/90135655/glitch-the-sleeper-coding-platform-used-by-facebook-and-slack"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Glitch: The Sleeper Coding Community Used By Facebook And Slack
+          </a>
           <p>
             <a
               href="https://www.fastcompany.com/90135655/glitch-the-sleeper-coding-platform-used-by-facebook-and-slack"
@@ -171,15 +170,13 @@ const AboutPressPage = withRouter(() => {
           </p>
         </article>
         <article>
-          <h3>
-            <a
-              href="https://thenextweb.com/dd/2018/03/30/glitch-rewind-wants-make-version-control-easy-everyone/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              “A platform where users can experiment without dealing with the other headaches of coding”
-            </a>
-          </h3>
+          <a
+            href="https://thenextweb.com/dd/2018/03/30/glitch-rewind-wants-make-version-control-easy-everyone/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            “A platform where users can experiment without dealing with the other headaches of coding”
+          </a>
           <p>
             <a
               href="https://thenextweb.com/dd/2018/03/30/glitch-rewind-wants-make-version-control-easy-everyone/"
@@ -194,11 +191,9 @@ const AboutPressPage = withRouter(() => {
           </p>
         </article>
         <article>
-          <h3>
-            <a href="https://www.wired.com/story/clive-thompson-tinker-with-code/" target="_blank" rel="noopener noreferrer">
-              It’s Time to Make Code More Tinker-friendly
-            </a>
-          </h3>
+          <a href="https://www.wired.com/story/clive-thompson-tinker-with-code/" target="_blank" rel="noopener noreferrer">
+            It’s Time to Make Code More Tinker-friendly
+          </a>
           <p>
             <a href="https://www.wired.com/story/clive-thompson-tinker-with-code/" target="_blank" rel="noopener noreferrer">
               <img src="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2F2000px-Wired_logo.svg.png?1539170984249" alt="Wired" />
@@ -206,11 +201,9 @@ const AboutPressPage = withRouter(() => {
           </p>
         </article>
         <article>
-          <h3>
-            <a href="https://www.engadget.com/2018/04/01/glitch-app-creation-community-launch/" target="_blank" rel="noopener noreferrer">
-              Glitch launches its ‘YouTube for app creators’
-            </a>
-          </h3>
+          <a href="https://www.engadget.com/2018/04/01/glitch-app-creation-community-launch/" target="_blank" rel="noopener noreferrer">
+            Glitch launches its ‘YouTube for app creators’
+          </a>
           <p>
             <a href="https://www.engadget.com/2018/04/01/glitch-app-creation-community-launch/" target="_blank" rel="noopener noreferrer">
               <img src="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2Feng-logo-928x201.png?1539170983711" alt="Engadget" />
@@ -218,15 +211,13 @@ const AboutPressPage = withRouter(() => {
           </p>
         </article>
         <article>
-          <h3>
-            <a
-              href="https://www.theverge.com/2017/3/14/14921528/glitch-new-coding-site-anil-dash-collaboration-remix-apps"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              “A collaborative community of coders, who can help each other out with projects and build off each other’s work.”
-            </a>
-          </h3>
+          <a
+            href="https://www.theverge.com/2017/3/14/14921528/glitch-new-coding-site-anil-dash-collaboration-remix-apps"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            “A collaborative community of coders, who can help each other out with projects and build off each other’s work.”
+          </a>
           <p>
             <a
               href="https://www.theverge.com/2017/3/14/14921528/glitch-new-coding-site-anil-dash-collaboration-remix-apps"
@@ -241,11 +232,9 @@ const AboutPressPage = withRouter(() => {
           </p>
         </article>
         <article>
-          <h3>
-            <a href="https://boingboing.net/2018/04/17/glitch-makes-programming-on-th.html" target="_blank" rel="noopener noreferrer">
-              “I tinkered with it... and within minutes had overcome hurdles that I thought I’d never have the time or energy to figure out.”
-            </a>
-          </h3>
+          <a href="https://boingboing.net/2018/04/17/glitch-makes-programming-on-th.html" target="_blank" rel="noopener noreferrer">
+            “I tinkered with it... and within minutes had overcome hurdles that I thought I’d never have the time or energy to figure out.”
+          </a>
           <p>
             <a href="https://boingboing.net/2018/04/17/glitch-makes-programming-on-th.html" target="_blank" rel="noopener noreferrer">
               <img src="https://cdn.glitch.com/69fa85dc-c1b2-4954-bec7-3df9be36c3db%2Fboing-boing-logo.png?1539171048555" alt="BoingBoing" />

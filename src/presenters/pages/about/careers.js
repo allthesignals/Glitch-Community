@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Mark } from '@fogcreek/shared-components';
 import { Helmet } from 'react-helmet-async';
+import Heading from 'Components/text/heading';
 import { BlockSection } from 'Components/about';
 import AboutLayout from './about-layout';
 import styles from './careers.styl';
@@ -29,18 +30,18 @@ const AboutCareersPage = withRouter(() => (
       <meta name="twitter:description" content={pageDescription} />
       <meta property="og:description" content={pageDescription} />
     </Helmet>
-    <h1 className={aboutStyles.h1}>Careers</h1>
-    <h2 className={aboutStyles.h2}>
+    <Heading tagName="h1">Careers</Heading>
+    <Heading tagName="h2">
       <Mark color="var(--mark-pink)">Open positions</Mark>
-    </h2>
+    </Heading>
     <LeverSection />
     <BlockSection>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h2">
         <Mark color="var(--mark-blue)">Things you won’t find at most other companies</Mark>
-      </h2>
+      </Heading>
       <p>Glitch is where you’ll do your best work. Here are just a few examples of why working at Glitch is different.</p>
       <article>
-        <h3>No endless meetings</h3>
+        <Heading tagName="h3">No endless meetings</Heading>
         <p>
           We don’t have very many meetings, but when we do, they’re well-organized with a specific agenda. Every meeting is remote-first, with each
           person in the meeting joining on video chat—even if they’re based in our NYC HQ. That way, nobody is stuck feeling disconnected or
@@ -52,7 +53,7 @@ const AboutCareersPage = withRouter(() => (
         </p>
       </article>
       <article>
-        <h3>We respect working hours</h3>
+        <Heading tagName="h3">We respect working hours</Heading>
         <p>
           Our office is usually empty by 6pm or earlier each day, and remote workers leave their home offices on the same schedule, too. At Glitch,
           your coworkers won’t even @mention you in Slack when it’s outside of working hours, and if something is shared during non-work times,
@@ -64,7 +65,7 @@ const AboutCareersPage = withRouter(() => (
         </p>
       </article>
       <article>
-        <h3>Almost no email</h3>
+        <Heading tagName="h3">Almost no email</Heading>
         <p>
           Most people at Glitch get fewer than a dozen email messages in a week from their coworkers. We use email for especially urgent company-wide
           alerts, and to work with people at other companies.
@@ -75,7 +76,7 @@ const AboutCareersPage = withRouter(() => (
         </p>
       </article>
       <article>
-        <h3>Internal salary transparency</h3>
+        <Heading tagName="h3">Internal salary transparency</Heading>
         <p>
           We want you to <i>know </i>you’re being paid fairly. We share salary ranges by role internally so that you never have to worry about other
           folks being paid differently for doing the same work as you.
@@ -83,7 +84,7 @@ const AboutCareersPage = withRouter(() => (
         <p>We respect everyone’s contributions toward our goals regardless of their role. So executive pay is capped at 5X the lowest salary.</p>
       </article>
       <article>
-        <h3>Comprehensive healthcare</h3>
+        <Heading tagName="h3">Comprehensive healthcare</Heading>
         <p>
           From day one, we’ve offered complete health insurance for every employee. We set you up with great health insurance with a really high
           deductible—and then we pay the entire deductible for you.
@@ -91,7 +92,7 @@ const AboutCareersPage = withRouter(() => (
         <p>And of course, we offer unlimited sick days and have generous policies if you need to take care of a sick family member, too.</p>
       </article>
       <article>
-        <h3>Gratitude is a company value</h3>
+        <Heading tagName="h3">Gratitude is a company value</Heading>
         <p>
           A favorite part of the week is when the whole company takes time out to listen as team members publicly thank each other. Whether it’s a
           brief nod to someone who helped answer a befuddling technical challenge or a broad acknowledgment of a team that worked tirelessly on a
@@ -100,7 +101,7 @@ const AboutCareersPage = withRouter(() => (
         <p>This should be corny, but it isn't. The habit of recognizing each other’s efforts leads to a culture of gratitude.</p>
       </article>
       <article>
-        <h3>We put the important stuff in writing</h3>
+        <Heading tagName="h3">We put the important stuff in writing</Heading>
         <p>
           When new issues impacting employees emerge, we don’t just say “trust me, it’ll be okay.” Taking care of employees and protecting workers
           means putting down our commitments to them and their families in writing.
@@ -114,7 +115,7 @@ const AboutCareersPage = withRouter(() => (
         </p>
       </article>
       <article>
-        <h3>Our hiring process isn’t a hazing ritual</h3>
+        <Heading tagName="h3">Our hiring process isn’t a hazing ritual</Heading>
         <p>
           People are regularly asked to jump through bizarre hoops in job interviews, like undertaking whiteboard coding challenges. We think they’re
           exclusionary and pointless.
@@ -139,9 +140,9 @@ const AboutCareersPage = withRouter(() => (
       </article>
     </section>
     <BlockSection>
-      <h2 className={aboutStyles.h2}>
+      <Heading tagName="h2">
         <Mark color="var(--mark-green)">Meaningful benefits. Healthy culture.</Mark>
-      </h2>
+      </Heading>
       <p>We’re doubling-down on providing the best place to work in the entire tech industry with benefits that promote work-life balance.</p>
       <article>
         <p>Comprehensive health care for you and your family with 100% of premiums paid for by Glitch.</p>
@@ -197,7 +198,7 @@ const AboutCareersPage = withRouter(() => (
       </article>
     </section>
     <BlockSection>
-      <h2 className={aboutStyles.h2}><Mark color="var(--mark-orange)">Glitch handbook</Mark></h2>
+      <Heading tagName="h2"><Mark color="var(--mark-orange)">Glitch handbook</Mark></Heading>
       <p>
         If you want a more in-depth look at how our company runs day-to-day, we encourage to take a look at our{' '}
         <a href="https://handbook.glitch.me/">employee handbook</a>.
