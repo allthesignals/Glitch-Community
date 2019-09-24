@@ -28,6 +28,7 @@ import AboutPage from './about';
 import AboutCompanyPage from './about/company';
 import AboutCareersPage from './about/careers';
 import AboutEventsPage from './about/events';
+import AboutPressPage from './about/press';
 
 const parse = (search, name) => {
   const params = new URLSearchParams(search);
@@ -178,6 +179,7 @@ const Router = () => {
         <Route path="/about/company" render={({ location }) => <AboutCompanyPage key={location.key} />} />
         <Route path="/about/careers" render={({ location }) => <AboutCareersPage key={location.key} />} />
         <Route path="/about/events" render={({ location }) => <AboutEventsPage key={location.key} />} />
+        <Route path="/about/press" render={({ location }) => <AboutPressPage key={location.key} />} />
         <Route path="/about" render={({ location }) => <AboutPage key={location.key} />} />
 
         {EXTERNAL_ROUTES.map((route) => (

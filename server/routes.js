@@ -299,8 +299,8 @@ module.exports = function(external) {
     const canonicalUrl = `${APP_URL}/create`;
     await render(req, res, { title, socialTitle, description, image, canonicalUrl, wistiaVideoId: '2vcr60pnx9' }, true);
   });
-
-  app.get(['/about', '/about/company', '/about/events'], async (req, res) => {
+  
+  app.get(['/about', '/about/company', '/about/events', '/about/press', '/about/careers'], async (req, res) => {
     const title = 'About Glitch';
     const socialTitle = 'About Glitch';
     const description = 'Glitch is a collaborative programming environment that lives in your browser and deploys code as you type.';
