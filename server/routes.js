@@ -224,21 +224,9 @@ module.exports = function(external) {
 
   app.get('/@:author/:url', async (req, res) => {
     const { author, url } = req.params;
-    const canonicalUrl = `${APP_URL}/@${author}/${url}`;
     const collection = await getCollection(author, url);
-
-    if (collection) {
-      let { name, description } = collection;
-      description = description ? cheerio.load(md.render(description)).text() : '';
-      description = description.trimEnd(); // trim trailing whitespace from description
-      description += ` 🎏 A collection of apps by @${author}`;
-      description = description.trimStart(); // if there was no description, trim space before the fish
-
-      const cache = { [`collection:${author}/${url}`]: collection };
-      await render(req, res, { title: name, description, canonicalUrl, cache }, true);
-      return;
-    }
-    await render(req, res, { title: url, description: `We couldn't find @${author}/${url}`, canonicalUrl });
+    const cache = collection && { [`collection:${author}/${url}`]: collection };
+    await render(req, res, { cache }, true);
   });
 
   app.get('/auth/:domain', async (req, res) => {
