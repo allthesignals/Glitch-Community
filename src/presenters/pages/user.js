@@ -100,7 +100,7 @@ const UserPage = ({ user: initialUser }) => {
   const [pinnedProjects, recentProjects] = partition(sortedProjects.filter(({ id }) => id !== featuredProjectId), ({ id }) => pinnedSet.has(id));
   const featuredProject = user.projects.find(({ id }) => id === featuredProjectId);
 
-  conse seoDe
+  const renderedDescrip
 
   return (
     <main id="main" className={styles.container}>
