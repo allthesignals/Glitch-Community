@@ -40,8 +40,9 @@ export const getTeamProfileStyle = (team) => {
   };
 };
 
-export const getTeamDescriptionForSEO = ({ description, updatedAt, createdAt }) => {
-  ret`See what Team ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `
+export const getTeamDescriptionForSEO = ({ name, url, description, updatedAt, createdAt }) => {
+  const 
+  return `See what Team ${name} (@${url}) is up to on Glitch, the ${constants.tagline} `;
 };
 
 export function teamAdmins({ team }) {

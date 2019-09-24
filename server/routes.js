@@ -19,7 +19,6 @@ const getAssignments = require('./ab-tests');
 const { getData, saveDataToFile } = require('./home');
 
 const DEFAULT_USER_DESCRIPTION = (login, name) => `See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
-const DEFAULT_TEAM_DESCRIPTION = (login, name) => `See what Team ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
 
 module.exports = function(external) {
   const app = express.Router();
