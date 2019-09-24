@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet-async';
 import { orderBy, partition } from 'lodash';
 import { Icon } from '@fogcreek/shared-components';
 
+import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import FeaturedProject from 'Components/project/featured-project';
 import Thanks from 'Components/thanks';
@@ -101,7 +101,9 @@ const UserPage = ({ user: initialUser }) => {
 
   return (
     <main id="main" className={styles.container}>
-      <GlitchHelmet title={user.name || (user.login ? `@${user.login}` : `User ${user.id}`)} />
+      <GlitchHelmet
+        title={user.name || (user.login ? `@${user.login}` : `User ${user.id}`)}
+      />
       <section>
         <UserProfileContainer
           item={user}
