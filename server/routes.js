@@ -237,7 +237,7 @@ module.exports = function(external) {
       await render(req, res, { title: name, description, canonicalUrl, cache }, true);
       return;
     }
-    await render(req, res, { title: collection, description: `We couldn't find @${author}/${url}`, canonicalUrl });
+    await render(req, res, { title: url, description: `We couldn't find @${author}/${url}`, canonicalUrl });
   });
 
   app.get('/auth/:domain', async (req, res) => {
