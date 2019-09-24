@@ -39,8 +39,10 @@ const TeamOrUserPageLoader = ({ name, ...props }) => {
   if (user) return <UserPage user={user} {...props} />;
   return (
     <>
-      <GlitchHelmet title={`@${name}`} 
-      {(status === 'loading') ? <Loader style={{ width: '25px' }} /> : <NotFound name={`@${name}`} />}
+      <GlitchHelmet title={`@${name}`} description={`We couldn't find @${name}`} />
+      {status === 'loading' && <Loader style={{ width: '25px' }} />}
+      {status === 'ready' && <NotFound name={`@${name}`} />}
+      {status === 'error' && <NotFound name={`@${name}`} />}
     </>
   )
 };
