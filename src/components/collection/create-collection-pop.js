@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, orderBy } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Button, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TextInput from 'Components/inputs/text-input';
@@ -17,6 +17,7 @@ import { useNotifications } from 'State/notifications';
 import { getAllPages } from 'Shared/api';
 
 import styles from './create-collection-pop.styl';
+import { widePopover } from '../global.styl';
 
 function Dropdown({ selection, options, onUpdate }) {
   const [reactSelect, setReactSelect] = useState(null);
@@ -117,7 +118,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
   }
 
   return (
-    <PopoverDialog wide align={align}>
+    <>
       {title}
 
       <PopoverActions>
@@ -148,7 +149,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
           )}
         </form>
       </PopoverActions>
-    </PopoverDialog>
+    </>
   );
 }
 
@@ -195,9 +196,9 @@ const CreateCollectionPop = withRouter(({ team, history }) => {
   };
 
   return (
-    <PopoverWithButton buttonText="Create Collection">
-      {() => <CreateCollectionPopBase align="left" options={options} onSubmit={onSubmit} />}
-    </PopoverWithButton>
+    <Popover className={widePopover} align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Create Collection</Button>}>
+      {() => <CreateCollectionPopBase options={options} onSubmit={onSubmit} />}
+    </Popover>
   );
 });
 

@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { partition, uniqBy } from 'lodash';
-import { Icon, Popover } from '@fogcreek/shared-components';
+import { Button, Icon, Info, Popover } from '@fogcreek/shared-components';
 
 import { getAllPages } from 'Shared/api';
-import { PopoverWithButton, PopoverDialog, PopoverSearch, PopoverInfo, InfoDescription } from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 import ProjectResultItem from 'Components/project/project-result-item';
 import { AddProjectToCollectionMsg } from 'Components/notification';
 import { useTrackedFunc } from 'State/segment-analytics';
@@ -14,7 +14,7 @@ import { useAlgoliaSearch } from 'State/search';
 import { useNotifications } from 'State/notifications';
 import useDebouncedValue from 'Hooks/use-debounced-value';
 
-import { emoji } from '../global.styl';
+import { emoji, widePopover } from '../global.styl';
 
 function parseQuery(query) {
   query = query.trim();
@@ -85,7 +85,7 @@ function AddCollectionProjectPop({ collection, togglePopover, addProjectToCollec
   );
 
   return (
-    <PopoverDialog wide align="left">
+    <>
       <PopoverSearch
         value={query}
         onChange={setQuery}
@@ -99,13 +99,11 @@ function AddCollectionProjectPop({ collection, togglePopover, addProjectToCollec
         }
       />
       {status === 'ready' && excludingExactMatch && (
-        <PopoverInfo>
-          <InfoDescription>
-            {parsedQuery} is already in this collection <Icon className={emoji} icon="sparkles" />
-          </InfoDescription>
-        </PopoverInfo>
+        <Info>
+          {parsedQuery} is already in this collection <Icon className={emoji} icon="sparkles" />
+        </Info>
       )}
-    </PopoverDialog>
+    </>
   );
 }
 
@@ -116,11 +114,11 @@ AddCollectionProjectPop.propTypes = {
 };
 
 const AddCollectionProject = ({ collection, addProjectToCollection }) => (
-  <PopoverWithButton buttonText="Add Project">
-    {({ togglePopover }) => (
-      <AddCollectionProjectPop collection={collection} addProjectToCollection={addProjectToCollection} togglePopover={togglePopover} />
+  <Popover className={widePopover} align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project</Button>}>
+    {({ onClose }) => (
+      <AddCollectionProjectPop collection={collection} addProjectToCollection={addProjectToCollection} togglePopover={onClose} />
     )}
-  </PopoverWithButton>
+  </Popover>
 );
 
 AddCollectionProject.propTypes = {

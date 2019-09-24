@@ -5,7 +5,7 @@ import { Loader } from '@fogcreek/shared-components';
 
 import { getCollectionOwnerLink, getCollectionLink } from 'Models/collection';
 import Image from 'Components/images/image';
-import { PopoverDialog, PopoverActions, PopoverTitle, ActionDescription, PopoverMenuButton } from 'Components/popover';
+import { PopoverActions, PopoverTitle, ActionDescription, PopoverMenuButton } from 'Components/popover';
 import { useCollectionEditor } from 'State/collection';
 import { useNotifications } from 'State/notifications';
 
@@ -32,7 +32,7 @@ const DeleteCollectionPop = withRouter(({ location, history, collection, animate
   }
 
   return (
-    <PopoverDialog focusOnDialog align="left">
+    <>
       <PopoverTitle>Delete {collection.name}</PopoverTitle>
       <PopoverActions>
         <Image height="98px" width="auto" src={illustration} alt="" />
@@ -45,7 +45,7 @@ const DeleteCollectionPop = withRouter(({ location, history, collection, animate
           {collectionIsDeleting && <Loader style={{ width: '25px' }} />}
         </PopoverMenuButton>
       </PopoverActions>
-    </PopoverDialog>
+    </>
   );
 });
 
