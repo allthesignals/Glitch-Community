@@ -21,62 +21,60 @@ const AboutEventsPage = withRouter(() => {
   return (
     <AboutLayout>
       <h1 className={aboutStyles.h1}>Events</h1>
-      <center>
+      <h2 className={aboutStyles.h2}>
+        <Mark color="var(--mark-blue)">Want us to speak at your event?</Mark>
+      </h2>
+      <Button
+        as="a"
+        href="https://glitch170098.typeform.com/to/NswdPG"
+        data-mode="popup"
+        data-hide-headers="true"
+        data-hide-footer="true"
+        data-submit-close-delay="5"
+        target="_blank"
+        className="typeform-share"
+        style={{ marginTop: '1em' }}
+      >
+        Tell Us All About It →
+      </Button>
+      <section className={aboutStyles.bioSection}>
         <h2 className={aboutStyles.h2}>
-          <Mark color="var(--mark-blue)">Want us to speak at your event?</Mark>
+          <Mark color="var(--mark-purple)">Speaker bios</Mark>
         </h2>
-        <Button
-          as="a"
-          href="https://glitch170098.typeform.com/to/NswdPG"
-          data-mode="popup"
-          data-hide-headers="true"
-          data-hide-footer="true"
-          data-submit-close-delay="5"
-          target="_blank"
-          className="typeform-share"
-          style={{ marginTop: '1em' }}
-        >
-          Tell Us All About It →
-        </Button>
-        <section className={aboutStyles.bioSection}>
-          <h2 className={aboutStyles.h2}>
-            <Mark color="var(--mark-purple)">Speaker bios</Mark>
-          </h2>
-          <p>Find out a little more about our speakers.</p>
-          <div className={aboutStyles.bioButtons}>
-            <Button onClick={() => setBio('anil')}>Anil Dash</Button>
-            <Button onClick={() => setBio('jenn')}>Jenn Schiffer</Button>
-            <Button onClick={() => setBio('maurice')}>Maurice Cherry</Button>
+        <p>Find out a little more about our speakers.</p>
+        <div className={aboutStyles.bioButtons}>
+          <Button onClick={() => setBio('anil')}>Anil Dash</Button>
+          <Button onClick={() => setBio('jenn')}>Jenn Schiffer</Button>
+          <Button onClick={() => setBio('maurice')}>Maurice Cherry</Button>
+        </div>
+        {currentlyShowingBio === 'anil' && (
+          <div className={aboutStyles.bioEmbed}>
+            <iframe
+              src="https://glitch.com/embed/#!/embed/anil-bio?path=watch.json&previewSize=100&attributionHidden=true"
+              title="anil-bio on Glitch"
+              allow="geolocation; microphone; camera; midi; vr; encrypted-media"
+            />
           </div>
-          {currentlyShowingBio === 'anil' && (
-            <div className={aboutStyles.bioEmbed}>
-              <iframe
-                src="https://glitch.com/embed/#!/embed/anil-bio?path=watch.json&previewSize=100&attributionHidden=true"
-                title="anil-bio on Glitch"
-                allow="geolocation; microphone; camera; midi; vr; encrypted-media"
-              />
-            </div>
-          )}
-          {currentlyShowingBio === 'jenn' && (
-            <div className={aboutStyles.bioEmbed}>
-              <iframe
-                src="https://glitch.com/embed/#!/embed/jenn-bio?path=watch.json&previewSize=100&attributionHidden=true"
-                title="jenn-bio on Glitch"
-                allow="geolocation; microphone; camera; midi; vr; encrypted-media"
-              />
-            </div>
-          )}
-          {currentlyShowingBio === 'maurice' && (
-            <div className={aboutStyles.bioEmbed}>
-              <iframe
-                src="https://glitch.com/embed/#!/embed/maurice-bio?path=watch.json&previewSize=100&attributionHidden=true"
-                title="jenn-bio on Glitch"
-                allow="geolocation; microphone; camera; midi; vr; encrypted-media"
-              />
-            </div>
-          )}
-        </section>
-      </center>
+        )}
+        {currentlyShowingBio === 'jenn' && (
+          <div className={aboutStyles.bioEmbed}>
+            <iframe
+              src="https://glitch.com/embed/#!/embed/jenn-bio?path=watch.json&previewSize=100&attributionHidden=true"
+              title="jenn-bio on Glitch"
+              allow="geolocation; microphone; camera; midi; vr; encrypted-media"
+            />
+          </div>
+        )}
+        {currentlyShowingBio === 'maurice' && (
+          <div className={aboutStyles.bioEmbed}>
+            <iframe
+              src="https://glitch.com/embed/#!/embed/maurice-bio?path=watch.json&previewSize=100&attributionHidden=true"
+              title="jenn-bio on Glitch"
+              allow="geolocation; microphone; camera; midi; vr; encrypted-media"
+            />
+          </div>
+        )}
+      </section>
     </AboutLayout>
   );
 });

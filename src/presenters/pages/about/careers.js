@@ -197,7 +197,7 @@ const AboutCareersPage = withRouter(() => (
       </article>
     </section>
     <BlockSection>
-      <h2 className={aboutStyles.h2}>Glitch handbook</h2>
+      <h2 className={aboutStyles.h2}><Mark color="var(--mark-orange)">Glitch handbook</Mark></h2>
       <p>
         If you want a more in-depth look at how our company runs day-to-day, we encourage to take a look at our{' '}
         <a href="https://handbook.glitch.me/">employee handbook</a>.
