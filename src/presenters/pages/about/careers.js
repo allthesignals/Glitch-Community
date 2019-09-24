@@ -31,12 +31,12 @@ const AboutCareersPage = withRouter(() => {
         <meta property="og:description" content={pageDescription} />
       </Helmet>
       <Heading tagName="h1">Careers</Heading>
-      <Heading tagName="h2">
+      <Heading tagName="h2" className={aboutStyles.h2}>
         <Mark color="var(--mark-pink)">Open positions</Mark>
       </Heading>
       <section id="lever-jobs-container" className={aboutStyles.backgroundSection} />
       <BlockSection>
-        <Heading tagName="h2">
+        <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-blue)">Things you won’t find at most other companies</Mark>
         </Heading>
         <p>Glitch is where you’ll do your best work. Here are just a few examples of why working at Glitch is different.</p>
@@ -141,7 +141,7 @@ const AboutCareersPage = withRouter(() => {
         </article>
       </section>
       <BlockSection>
-        <Heading tagName="h2">
+        <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-green)">Meaningful benefits. Healthy culture.</Mark>
         </Heading>
         <p>We’re doubling-down on providing the best place to work in the entire tech industry with benefits that promote work-life balance.</p>
@@ -199,7 +199,7 @@ const AboutCareersPage = withRouter(() => {
         </article>
       </section>
       <BlockSection>
-        <Heading tagName="h2">
+        <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-orange)">Glitch handbook</Mark>
         </Heading>
         <p>
