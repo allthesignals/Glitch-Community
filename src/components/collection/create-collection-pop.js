@@ -17,7 +17,7 @@ import { useNotifications } from 'State/notifications';
 import { getAllPages } from 'Shared/api';
 
 import styles from './create-collection-pop.styl';
-import { widePopover } from ../global.etyl
+import { widePopover } from '../global.styl';
 
 function Dropdown({ selection, options, onUpdate }) {
   const [reactSelect, setReactSelect] = useState(null);
