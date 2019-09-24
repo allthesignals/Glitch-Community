@@ -31,7 +31,7 @@ import { emoji as emojiStyle } from '../../components/global.styl';
 const RatioWrap = styled.div`
   width: 100%;
   height: 0;
-  padding-bottom: ${({ aspectRatio = 9/16 }) => aspectRatio * 100}%;
+  padding-bottom: ${({ aspectRatio = 9 / 16 }) => aspectRatio * 100}%;
   position: relative;
 `;
 const RatioInner = styled.div`
@@ -40,9 +40,12 @@ const RatioInner = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-`
-const RatioContainer = ({ children }) => <RatioWrap><RatioInner>{children}</RatioInner></RatioWrap>
-
+`;
+const RatioContainer = ({ children }) => (
+  <RatioWrap>
+    <RatioInner>{children}</RatioInner>
+  </RatioWrap>
+);
 
 function RemixButton({ app, type, size, emoji, children }) {
   const trackRemix = useTracker('Click Remix', {
@@ -292,14 +295,14 @@ function ScreencapSection({ title, description, video, smallVideos, blob, image,
   const Videos = () => (
     <div className={styles.screencapContainer}>
       {smallVideos.map((v) => (
-          <Video
-            key={v}
-            sources={[{ src: v, minWidth: 0, maxWidth: 669 }]}
-            className={classNames(styles.screencap, styles.smallScreencap, styles[`small${smallVideos.length}`])}
-            track="muted"
-            autoPlay
-            loop
-          />
+        <Video
+          key={v}
+          sources={[{ src: v, minWidth: 0, maxWidth: 669 }]}
+          className={classNames(styles.screencap, styles.smallScreencap, styles[`small${smallVideos.length}`])}
+          track="muted"
+          autoPlay
+          loop
+        />
       ))}
 
       <div className={classNames(styles.screencap, styles.bigScreencap)}>
@@ -421,19 +424,19 @@ function VSCode() {
       </Text>
 
       <div className={styles.screencapContainer}>
-          <Video
-            className={classNames(styles.screencap, styles.smallScreencap)}
-            sources={[
-              {
-                src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode-small.mp4?v=1562184049096`,
-                minWidth: 0,
-                maxWidth: 669,
-              },
-            ]}
-            track="muted"
-            autoPlay
-            loop
-          />
+        <Video
+          className={classNames(styles.screencap, styles.smallScreencap)}
+          sources={[
+            {
+              src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode-small.mp4?v=1562184049096`,
+              minWidth: 0,
+              maxWidth: 669,
+            },
+          ]}
+          track="muted"
+          autoPlay
+          loop
+        />
         <div className={classNames(styles.screencap, styles.bigScreencap)}>
           <RatioContainer>
             <Video
