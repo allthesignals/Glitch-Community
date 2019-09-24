@@ -100,9 +100,7 @@ function AddCollectionProjectPop({ collection, togglePopover, addProjectToCollec
       />
       {status === 'ready' && excludingExactMatch && (
         <Info>
-          <InfoDescription>
-            {parsedQuery} is already in this collection <Icon className={emoji} icon="sparkles" />
-          </InfoDescription>
+          {parsedQuery} is already in this collection <Icon className={emoji} icon="sparkles" />
         </Info>
       )}
     </>
@@ -116,7 +114,7 @@ AddCollectionProjectPop.propTypes = {
 };
 
 const AddCollectionProject = ({ collection, addProjectToCollection }) => (
-  <Popover align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project</Button>} >
+  <Popover align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project</Button>}>
     {({ togglePopover }) => (
       <AddCollectionProjectPop collection={collection} addProjectToCollection={addProjectToCollection} togglePopover={togglePopover} />
     )}
