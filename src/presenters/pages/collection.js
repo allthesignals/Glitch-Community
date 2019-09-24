@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet-async';
 import { kebabCase } from 'lodash';
 import { Loader } from '@fogcreek/shared-components';
 
@@ -10,6 +9,7 @@ import NotFound from 'Components/errors/not-found';
 import CollectionContainer from 'Components/collection/container';
 import MoreCollectionsContainer from 'Components/collections-list/more-collections';
 import DeleteCollection from 'Components/collection/delete-collection-pop';
+import GlitchHelmet from 'Components/helmet';
 import Layout from 'Components/layout';
 import ReportButton from 'Components/report-abuse-pop';
 import { AnalyticsContext } from 'State/segment-analytics';
@@ -36,7 +36,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
   };
   return (
     <>
-      <Helmet title={collection.name} />
+      <HlitchHelmet title={collection.name} />
       <main id="main">
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
@@ -76,6 +76,7 @@ const CollectionPage = ({ owner, name }) => {
         </AnalyticsContext>
       ) : (
         <>
+          <GlitchHelmet title={name} />
           {status === 'ready' && <NotFound name={name} />}
           {status === 'loading' && <Loader style={{ width: '25px' }} />}
           {status === 'error' && <NotFound name={name} />}
