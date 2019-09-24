@@ -26,7 +26,9 @@ export function getRemixUrl(domain, editorUrl = EDITOR_URL) {
   return `${editorUrl}#!/remix/${domain}`;
 }
 
-
+export function getProjectDescriptionForSEO(project) {
+  
+}
 
 export function sortProjectsByLastAccess(projects) {
   return projects.sort((a, b) => {
