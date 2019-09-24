@@ -95,7 +95,6 @@ module.exports = function(external) {
           SSR_SIGNED_IN: signedIn,
           ZINE_POSTS: zine || [],
         });
-        console.log()
         ssr = {
           rendered: html,
           helmet,

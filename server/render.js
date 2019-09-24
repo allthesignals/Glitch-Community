@@ -91,6 +91,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
   const styleTags = sheet.getStyleTags();
   sheet.seal();
   const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
+  console.log(helmetContext);
   return { html, helmet: helmetContext.helmet, context, styleTags };
 };
 
