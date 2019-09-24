@@ -40,7 +40,9 @@ export function getCollectionsWithMyStuff({ collections }) {
 }
 
 export function getCollectionOwnerName(collection) {
-
+  if (collection.team) {
+    return collection.team.name || `@`
+  }
 }
 
 export function getCollectionOwnerLink(collection) {
