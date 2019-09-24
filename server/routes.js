@@ -172,7 +172,7 @@ module.exports = function(external) {
       }, true);
       return;
     }
-    await render(req, res, { title: `@${name}`, description: `We couldn't find @${name}`, canonicalUrl });
+    await render(req, res, {}, true);
   });
 
   app.get('/@:author/:url', async (req, res) => {
