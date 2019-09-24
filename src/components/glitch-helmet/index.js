@@ -1,27 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
+import { useGlobals } from 'Staqte/globals';
 
-
-const GlitchHelmet = ({ title, description, image, socialTitle, canonicalUrl }) => (
-  <Helmet>
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    {/* facebook open graph tags */}
-    <meta property="og:type" content="website" />
-    {!!canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
-    <meta property="og:title" content={socialTitle || title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
-    {/* twitter card tags (stacks with og: tags) */}
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@glitch" />
-    <meta name="twitter:title" content={socialTitle || title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image} />
-    {!!canonicalUrl && <meta name="twitter:url" content={canonicalUrl} />}
-  </Helmet>
-);
+const GlitchHelmet = ({ title, description, image, socialTitle, canonicalUrl }) => {
+  const { location } = useGlobals();
+  return (
+    <Helmet>
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      {/* facebook open graph tags */}
+      <meta property="og:type" content="website" />
+      {!!canonicalUrl && <meta property="og:url" content={new URL(canonicalUrl, location)} />}
+      <meta property="og:title" content={socialTitle || title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={image} />
+      {/* twitter card tags (stacks with og: tags) */}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="@glitch" />
+      <meta name="twitter:title" content={socialTitle || title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={image} />
+      {!!canonicalUrl && <meta name="twitter:url" content={new URL(canonicalUrl, location)} />}
+    </Helmet>
+  );
+};
 
 GlitchHelmet.propTypes = {
   title: PropTypes.string.isRequired,
