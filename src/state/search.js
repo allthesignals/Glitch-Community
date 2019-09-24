@@ -181,7 +181,7 @@ function createAlgoliaProvider(api) {
           facetFilters: [isMyStuff ? '' : 'isMyStuff:false'],
         })
         .then(formatAlgoliaResult('collection')),
-    project: () => Promise.resolve({ hits: []}),
+    project: () => Promise.resolve({ hits: []}
     // project: (query, { notSafeForKids }) =>
     //   searchIndices.project
     //     .search({
