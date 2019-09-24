@@ -87,7 +87,7 @@ module.exports = function(external) {
     if (shouldRender) {
       try {
         const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-        const { html, context, styleTags } = await renderPage(url, {
+        const { html, context, helmet, styleTags } = await renderPage(url, {
           AB_TESTS: assignments,
           API_CACHE: cache,
           EXTERNAL_ROUTES: external,
@@ -97,6 +97,7 @@ module.exports = function(external) {
         });
         ssr = {
           rendered: html,
+          helmet,
           styleTags,
           ...context,
         };

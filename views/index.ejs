@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <% if (helmet) { %>
     <%- helmet.title.toString() %>
+    <%- helmet.meta.toString() %>
+    <%- helmet.link.toString() %>
     <% } else { %>
     <title>Glitch</title>
     <% } %>
