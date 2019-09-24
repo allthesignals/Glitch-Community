@@ -39,7 +39,7 @@ export function getProjectDescriptionForSEO({ description, domain, suspendedReas
     return `Check out ~${domain} on Glitch, the ${tagline}`;
   }
   const textDescription = stripHtml(renderMarkdown(description));
-  return `${textDescription} 🎏 Glitch is the ${tagline}`
+  return `${textDescription} 🎏 Glitch is the ${tagline}`;
 }
 
 export function sortProjectsByLastAccess(projects) {
