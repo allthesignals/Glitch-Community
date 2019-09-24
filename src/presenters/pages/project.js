@@ -166,7 +166,7 @@ const ProjectPage = ({ project: initialProject }) => {
       <GlitchHelmet
         title={project.domain}
         description={getProjectDescriptionForSEO(project)}
-        image={getProjectAvatarUrl(project)}
+        image={!project.suspendedReason ? getProjectAvatarUrl(project) : null}
         canonicalUrl={getProjectLink(project)}
       />
       <section id="info">
