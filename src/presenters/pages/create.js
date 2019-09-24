@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classNames from 'classnames/bind';
+import styled from 'styled-components';
 import { Button, Icon, Loader, Mark } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
@@ -26,6 +27,22 @@ import useSample from 'Hooks/use-sample';
 
 import styles from './create.styl';
 import { emoji as emojiStyle } from '../../components/global.styl';
+
+const RatioWrap = styled.div`
+  width: 100%;
+  height: 0;
+  padding-bottom: ${({ aspectRatio = 16 / 9 }) => aspectRatio * 100}%;
+  position: relative;
+`;
+const RatioInner = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`
+const RatioContainer = ({ children }) => <RatioWrap><RatioInner>{children}</RatioInner></RatioWrap>
+
 
 function RemixButton({ app, type, size, emoji, children }) {
   const trackRemix = useTracker('Click Remix', {
@@ -86,7 +103,9 @@ function WhatIsGlitch() {
         </div>
       </div>
       <div className={styles.whatIsGlitchVideoContainer}>
-        <WistiaVideo onClick={trackPlayVideo} className={styles.whatIsGlitchVideo} videoId="2vcr60pnx9" />
+        <RatioContainer>
+          <WistiaVideo onClick={trackPlayVideo} className={styles.whatIsGlitchVideo} videoId="2vcr60pnx9" />
+        </RatioContainer>
       </div>
     </section>
   );
@@ -165,7 +184,9 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button as="a" href={getTeamLink(team)}>{team.name}</Button>
+          <Button as="a" href={getTeamLink(team)}>
+            {team.name}
+          </Button>
         </div>
         <Text size="14px">
           <Markdown renderAsPlaintext>{team.description}</Markdown>
@@ -273,18 +294,21 @@ function ScreencapSection({ title, description, video, smallVideos, blob, image,
   const Videos = () => (
     <div className={styles.screencapContainer}>
       {smallVideos.map((v) => (
-        <Video
-          sources={[{ src: v, minWidth: 0, maxWidth: 669 }]}
-          key={v}
-          className={classNames(styles.screencap, styles.smallScreencap, styles[`small${smallVideos.length}`])}
-          track="muted"
-          autoPlay
-          loop
-        />
+        <RatioContainer key={v}>
+          <Video
+            sources={[{ src: v, minWidth: 0, maxWidth: 669 }]}
+            className={classNames(styles.screencap, styles.smallScreencap, styles[`small${smallVideos.length}`])}
+            track="muted"
+            autoPlay
+            loop
+          />
+        </RatioContainer>
       ))}
 
       <div className={classNames(styles.screencap, styles.bigScreencap)}>
-        <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
+        <RatioContainer>
+          <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
+        </RatioContainer>
       </div>
 
       <div className={classNames(styles.screencapBlob, styles.blobContainer)}>
@@ -393,36 +417,37 @@ function VSCode() {
       </Text>
 
       <Text className={styles.sectionDescription}>
-        <Button
-          as="a"
-          href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch"
-        >
+        <Button as="a" href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch">
           <Image src={vscodeIcon} alt="" width="17" height="17" />
           &nbsp;Download from Visual Studio Marketplace <span aria-hidden="true">&rarr;</span>
         </Button>
       </Text>
 
       <div className={styles.screencapContainer}>
-        <Video
-          className={classNames(styles.screencap, styles.smallScreencap)}
-          sources={[
-            {
-              src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode-small.mp4?v=1562184049096`,
-              minWidth: 0,
-              maxWidth: 669,
-            },
-          ]}
-          track="muted"
-          autoPlay
-          loop
-        />
-        <div className={classNames(styles.screencap, styles.bigScreencap)}>
+        <RatioContainer>
           <Video
-            sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
+            className={classNames(styles.screencap, styles.smallScreencap)}
+            sources={[
+              {
+                src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode-small.mp4?v=1562184049096`,
+                minWidth: 0,
+                maxWidth: 669,
+              },
+            ]}
             track="muted"
             autoPlay
             loop
           />
+        </RatioContainer>
+        <div className={classNames(styles.screencap, styles.bigScreencap)}>
+          <RatioContainer>
+            <Video
+              sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
+              track="muted"
+              autoPlay
+              loop
+            />
+          </RatioContainer>
         </div>
       </div>
     </section>
