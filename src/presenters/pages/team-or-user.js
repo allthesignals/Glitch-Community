@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Loader } from '@fogcreek/shared-components';
 
+import GlitchHelmet from 'Components/glitch-helmet';
 import NotFound from 'Components/errors/not-found';
 import DataLoader from 'Components/data-loader';
 import Layout from 'Components/layout';
@@ -38,9 +39,10 @@ const TeamOrUserPageLoader = ({ name, ...props }) => {
   if (user) return <UserPage user={user} {...props} />;
   return (
     <>
+      <GlitchHelmet title={`@${name}`} 
+      {(status === 'loading') ? <Loader style={{ width: '25px' }} /> : <NotFound name={`@${name}`} />}
     </>
   )
-  {(status === 'loading') ? <Loader style={{ width: '25px' }} /> : <NotFound name={`@${name}`} />;
 };
 TeamOrUserPageLoader.propTypes = {
   name: PropTypes.string.isRequired,
