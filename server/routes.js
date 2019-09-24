@@ -187,7 +187,7 @@ module.exports = function(external) {
   
   app.get('/~:domain/console', async (req, res) => {
     const { domain } = req.params;
-    const consoleUrl = `${APP_URL}/console.html?${domain}`;
+    const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
 
     res.redirect(consoleUrl);
   });

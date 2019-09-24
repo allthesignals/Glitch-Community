@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import punycode from 'punycode';
 
 import categories from 'Curated/categories';
@@ -136,9 +136,6 @@ const Router = () => {
         <Route path="/questions" exact render={({ location }) => <QuestionsPage key={location.key} />} />
 
         <Route path="/~:name" exact render={({ location, match }) => <ProjectPage key={location.key} name={punycode.toASCII(match.params.name)} />} />
-
-        <Route path="/~:name/edit" exact render={({ match }) => <Redirect to={`/edit/#!/${match.params.name}`} />} />
-        <Route path="/~:name/console" exact render={({ match }) => <Redirect to={`/edit/console.html?${match.params.name}`} />} />
 
         <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />
 
