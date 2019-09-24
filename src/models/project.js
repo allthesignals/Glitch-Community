@@ -26,7 +26,7 @@ export function getRemixUrl(domain, editorUrl = EDITOR_URL) {
   return `${editorUrl}#!/remix/${domain}`;
 }
 
-export function getProjectDescriptionForSEO({ description }) {
+export function getProjectDescriptionForSEO({ description, suspendedReason }) {
   const helloTemplateDescriptions = new Set([
     'Your very own basic web page, ready for you to customize.',
     'A simple Node app built on Express, instantly up and running.',
@@ -34,7 +34,9 @@ export function getProjectDescriptionForSEO({ description }) {
   ]);
   const defaultProjectDescriptionPattern = /A|The [a-z]{2,} project that does [a-z]{2,} things/g;
   const usesDefaultDescription = helloTemplateDescriptions.has(description) || description.match(defaultProjectDescriptionPattern);
-  if (!description || usesDefaultDescription)
+  if (!description || usesDefaultDescription || susprendedReason) {
+    return `Check out ~${domain} on Glitch, the ${constants.tagline}`;
+  }
 }
 
 export function sortProjectsByLastAccess(projects) {
