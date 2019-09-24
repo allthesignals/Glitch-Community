@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
-import { useGlobals } from 'Staqte/globals';
+import { APP_URL } from 'Utils/constants';
 
 const GlitchHelmet = ({ title, description, image, socialTitle, canonicalUrl }) => {
-  const { location } = useGlobals();
+  const url = new URL(canonicalUrl, APP_URL);
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
       {/* facebook open graph tags */}
       <meta property="og:type" content="website" />
-      {!!canonicalUrl && <meta property="og:url" content={new URL(canonicalUrl, location)} />}
+      {!!canonicalUrl && <meta property="og:url" content={url} />}
       <meta property="og:title" content={socialTitle || title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
@@ -21,7 +21,7 @@ const GlitchHelmet = ({ title, description, image, socialTitle, canonicalUrl }) 
       <meta name="twitter:title" content={socialTitle || title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
-      {!!canonicalUrl && <meta name="twitter:url" content={new URL(canonicalUrl, location)} />}
+      {!!canonicalUrl && <meta name="twitter:url" content={url} />}
     </Helmet>
   );
 };
