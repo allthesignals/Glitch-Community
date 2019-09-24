@@ -119,7 +119,7 @@ function CreateCollectionPopBase({ title, onSubmit, options }) {
 
   return (
     <>
-      {title}
+      {title && <Title onBack={onBack}>{`Add ${project.domain} to a new collection`}</Title>}
       <Actions>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputWrap}>
