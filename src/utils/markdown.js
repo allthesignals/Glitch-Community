@@ -20,7 +20,7 @@ export const renderMarkdown = (content, { allowImages, linkifyHeadings }) => {
   }
   return mdIt.use(markdownEmoji).use(markdownSanitizer).render(content);
 };
-  
+
 export const stripHtml = (html) => {
   const regex = /<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi;
   return html ? html.replace(regex, '').trim() : '';
