@@ -156,16 +156,7 @@ module.exports = function(external) {
     const team = await getTeam(name);
     if (team) {
       const cache = { [`team-or-user:${name}`]: { team } };
-      const args = { title: team.name, description, canonicalUrl, cache };
-
-      if (team.hasAvatarImage) {
-        args.image = `${CDN_URL}/team-avatar/${team.id}/large`;
-      } else {
-        // default team avatar (need to use PNG version, social cards don't support SVG)
-        args.image = `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fteam-avatar.png?1558031923766`;
-      }
-
-      await render(req, res, args, true);
+      await render(req, res, { cache }, true);
       return;
     }
     const user = await getUser(name);
