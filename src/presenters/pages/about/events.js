@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, Mark } from '@fogcreek/shared-components';
+import { Button, Mark, SegmentedButton } from '@fogcreek/shared-components';
 import Heading from 'Components/text/heading';
 import AboutLayout from './about-layout';
 import aboutStyles from './about.styl';
@@ -43,11 +43,11 @@ const AboutEventsPage = withRouter(() => {
           <Mark color="var(--mark-purple)">Speaker bios</Mark>
         </Heading>
         <p>Find out a little more about our speakers.</p>
-        <div className={aboutStyles.bioButtons}>
-          <Button onClick={() => setBio('anil')}>Anil Dash</Button>
-          <Button onClick={() => setBio('jenn')}>Jenn Schiffer</Button>
-          <Button onClick={() => setBio('maurice')}>Maurice Cherry</Button>
-        </div>
+        <SegmentedButton
+          value={currentlyShowingBio}
+          onChange={setBio}
+          options={[{ id: 'anil', label: 'Anil Dash' }, { id: 'jenn', label: 'Jenn Schiffer' }, { id: 'maurice', label: 'Maurice Cherry' }]}
+        />
         {currentlyShowingBio === 'anil' && (
           <div className={aboutStyles.bioEmbed}>
             <iframe
