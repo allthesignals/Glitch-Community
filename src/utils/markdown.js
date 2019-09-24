@@ -3,7 +3,7 @@ import markdownEmoji from 'markdown-it-emoji';
 import markdownHeadings from 'markdown-it-github-headings';
 import markdownSanitizer from 'markdown-it-sanitizer';
 
-export const renderMarkdown = (content, { allowImages, linkifyHeadings }) => {
+export const renderMarkdown = (content, { allowImages, linkifyHeadings } = {}) => {
   const mdIt = markdownIt({
     html: true,
     breaks: true,
