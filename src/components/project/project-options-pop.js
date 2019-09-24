@@ -4,7 +4,7 @@ import { mapValues } from 'lodash';
 import { Actions, Button, DangerZone, Popover, Title } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
-import { PopoverMenu, MultiPopover, PopoverDialog, PopoverActions, PopoverMenuButton, PopoverTitle, ActionDescription } from 'Components/popover';
+import { PopoverMenu, MultiPopover, PopoverDialog, PopoverMenuButton } from 'Components/popover';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
@@ -21,9 +21,9 @@ const PopoverMenuItems = ({ children }) =>
   children.map(
     (group, i) =>
       group.some((item) => item.onClick) && (
-        <PopoverActions key={i} type={group.some((item) => item.dangerZone) ? 'dangerZone' : undefined}>
+        <Actions key={i} type={group.some((item) => item.dangerZone) ? 'dangerZone' : undefined}>
           {group.map((item, j) => item.onClick && <PopoverMenuButton key={j} onClick={item.onClick} label={item.label} emoji={item.emoji} />)}
-        </PopoverActions>
+        </Actions>
       ),
   );
 
