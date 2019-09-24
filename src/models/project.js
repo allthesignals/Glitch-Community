@@ -1,4 +1,4 @@
-import { CDN_URL, EDITOR_URL, PROJECTS_DOMAIN } from 'Utils/constants';
+import { CDN_URL, EDITOR_URL, PROJECTS_DOMAIN, tagline } from 'Utils/constants';
 
 export const FALLBACK_AVATAR_URL = 'https://cdn.glitch.com/c53fd895-ee00-4295-b111-7e024967a033%2Ffallback-project-avatar.svg?1528812220123';
 
@@ -26,7 +26,7 @@ export function getRemixUrl(domain, editorUrl = EDITOR_URL) {
   return `${editorUrl}#!/remix/${domain}`;
 }
 
-export function getProjectDescriptionForSEO({ description, suspendedReason }) {
+export function getProjectDescriptionForSEO({ description, domain, suspendedReason }) {
   const helloTemplateDescriptions = new Set([
     'Your very own basic web page, ready for you to customize.',
     'A simple Node app built on Express, instantly up and running.',
@@ -34,8 +34,8 @@ export function getProjectDescriptionForSEO({ description, suspendedReason }) {
   ]);
   const defaultProjectDescriptionPattern = /A|The [a-z]{2,} project that does [a-z]{2,} things/g;
   const usesDefaultDescription = helloTemplateDescriptions.has(description) || description.match(defaultProjectDescriptionPattern);
-  if (!description || usesDefaultDescription || susprendedReason) {
-    return `Check out ~${domain} on Glitch, the ${constants.tagline}`;
+  if (!description || usesDefaultDescription || suspendedReason) {
+    return `Check out ~${domain} on Glitch, the ${tagline}`;
   }
 }
 

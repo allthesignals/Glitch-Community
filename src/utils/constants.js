@@ -1,4 +1,4 @@
-const { envs } = require('Shared/constants');
+const { envs, tagline } = require('Shared/constants');
 
 // The current environment is based on the RUNNING_ON environment variable,
 // unless we're running under a staging/dev hostname, in which case we use the
@@ -37,6 +37,7 @@ const {
 export {
   currentEnv,
   isBrowser,
+  tagline,
   APP_URL,
   API_URL,
   EDITOR_URL,
