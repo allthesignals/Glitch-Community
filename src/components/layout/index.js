@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import ReactKonami from 'react-konami';
 
 import Header from 'Components/header';
