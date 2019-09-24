@@ -120,8 +120,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
   return (
     <>
       {title}
-
-      <PopoverActions>
+      <Actions>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputWrap}>
             <TextInput
@@ -148,7 +147,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
             </Button>
           )}
         </form>
-      </PopoverActions>
+      </Actions>
     </>
   );
 }
