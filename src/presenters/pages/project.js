@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet-async';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Markdown from 'Components/text/markdown';
 import NotFound from 'Components/errors/not-found';
+import GlitchHelmet from 'Components/glitch-helmet';
 import CollectionItem from 'Components/collection/collection-item';
 import ProjectEmbed from 'Components/project/project-embed';
 import ProfileList from 'Components/profile-list';
@@ -163,7 +163,7 @@ const ProjectPage = ({ project: initialProject }) => {
 
   return (
     <main id="main">
-      <Helmet title={project.domain} />
+      <GlitchHelmet title={project.domain} description={} />
       <section id="info">
         <ProjectProfileContainer
           currentUser={currentUser}
