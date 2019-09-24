@@ -300,6 +300,13 @@ module.exports = function(external) {
     await render(req, res, { title, socialTitle, description, image, canonicalUrl, wistiaVideoId: '2vcr60pnx9' }, true);
   });
 
+  app.get(['/about', '/about/company', '/about/events'], async (req, res) => {
+    const title = 'About Glitch';
+    const socialTitle = 'About Glitch';
+    const description = 'Glitch is a collaborative programming environment that lives in your browser and deploys code as you type.';
+    await render(req, res, { title, socialTitle, description }, true);
+  });
+
   app.get('/secret', async (req, res) => {
     const description = "It's a secret to everybody";
     const title = `Glitch - ${description}`;
