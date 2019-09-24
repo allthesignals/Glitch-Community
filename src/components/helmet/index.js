@@ -4,11 +4,16 @@ import { Helmet } from 'react-helmet-async';
 
 const GlitchHelmet = ({ title }) => (
   <Helmet>
-</Helmet>
+    <title>{title}</title>
+  </Helmet>
 );
 
 GlitchHelmet.propTypes = {
-  title: 'Glitch',
+  title: PropTypes.string,
 };
+
+GlitchHelmet.defaultProps = {
+  title: 'Glitch',
+}
 
 export default GlitchHelmet;
