@@ -39,7 +39,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
     <>
       <GlitchHelmet
         title={collection.name}
-        description={`${stripHtml(renderMarkdown(collection.description))} 🎏 A collection of apps by ${g}`}
+        description={`${stripHtml(renderMarkdown(collection.description))} 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
         canonicalUrl={getCollectionLink(collection)}
       />
       <main id="main">
