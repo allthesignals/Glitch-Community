@@ -65,12 +65,14 @@ Markdown.propTypes = {
   /** length to truncate rendered Markdown to */
   length: PropTypes.number,
   allowImages: PropTypes.bool,
+  renderAsPlaintext: PropTypes.bool,
   linkifyHeadings: PropTypes.bool,
 };
 
 Markdown.defaultProps = {
   length: -1,
   allowImages: true,
+  renderAsPlaintext: false,
   linkifyHeadings: false,
 };
 
