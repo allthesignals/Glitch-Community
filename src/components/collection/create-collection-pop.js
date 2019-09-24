@@ -119,7 +119,7 @@ function CreateCollectionPopBase({ title, onSubmit, options }) {
 
   return (
     <>
-      {title && <Title onBack={onBack}>{`Add ${project.domain} to a new collection`}</Title>}
+      {title && <Title onBack={onBack}>{`Add ${name} to a new collection`}</Title>}
       <Actions>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputWrap}>
@@ -174,7 +174,7 @@ export function CreateCollectionWithProject({ project, addProjectToCollection })
     }
   };
 
-  return <CreateCollectionPopBase align="right" title options={options} onSubmit={onSubmit} />;
+  return <CreateCollectionPopBase align="right" name={project.domain} options={options} onSubmit={onSubmit} />;
 }
 
 CreateCollectionWithProject.propTypes = {
