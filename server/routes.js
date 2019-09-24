@@ -83,7 +83,7 @@ module.exports = function(external) {
     const signedIn = !!req.cookies.hasLogin;
     const [zine, homeContent] = await Promise.all([getZine(), getData('home')]);
 
-    let ssr = { rendered: null, styleTags: '' };
+    let ssr = { rendered: null, helmet: null, styleTags: '' };
     if (shouldRender) {
       try {
         const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
