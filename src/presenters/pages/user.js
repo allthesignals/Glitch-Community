@@ -102,7 +102,7 @@ const UserPage = ({ user: initialUser }) => {
   return (
     <main id="main" className={styles.container}>
       <GlitchHelmet
-        title={user.name || (user.login ? `@${user.login}` : `User ${user.id}`)}
+        title={user.name || (user.login && `@${user.login}`) || `User ${user.id}`}
       />
       <section>
         <UserProfileContainer
