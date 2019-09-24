@@ -136,7 +136,7 @@ const Router = () => {
         <Route path="/questions" exact render={({ location }) => <QuestionsPage key={location.key} />} />
 
         <Route path="/~:name" exact render={({ location, match }) => <ProjectPage key={location.key} name={punycode.toASCII(match.params.name)} />} />
-        
+
         <Route path="/~:name/edit" exact render={({ match }) => <Redirect to={`/edit/#!/${match.params.name}`} />} />
 
         <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />

@@ -181,7 +181,7 @@ module.exports = function(external) {
   app.get('/~:domain/edit', async (req, res) => {
     const { domain } = req.params;
     const editorUrl = `${APP_URL}/edit/#!/${domain}`;
-    
+
     res.redirect(editorUrl);
   });
   
