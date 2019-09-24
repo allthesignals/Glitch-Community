@@ -47,7 +47,7 @@ const Markdown = React.memo(({ children, length, allowImages, renderAsPlaintext,
 
     // in many cases we use the renderAsPlaintext prop to put markdown in a paragraph
     // <div> can't be a descendant of a <p>, so use span
-    return <span className={className}>{rendered}</span>;
+    return rendered;
   }
 
   // use <div> here, because <p> and other markup can't be a descendant of a <span>
