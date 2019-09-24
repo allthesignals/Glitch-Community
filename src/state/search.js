@@ -167,7 +167,6 @@ function createAlgoliaProvider(api) {
     team: searchClient.initIndex('dev_%{::hostname}_search_teams'),
     user: searchClient.initIndex('dev_%{::hostname}_search_users'),
     // project: searchClient.initIndex('search_projects'),
-    project: 
     collection: searchClient.initIndex('dev_%{::hostname}_search_collections'),
   };
 
@@ -182,14 +181,15 @@ function createAlgoliaProvider(api) {
           facetFilters: [isMyStuff ? '' : 'isMyStuff:false'],
         })
         .then(formatAlgoliaResult('collection')),
-    project: (query, { notSafeForKids }) =>
-      searchIndices.project
-        .search({
-          query,
-          hitsPerPage: 100,
-          facetFilters: [notSafeForKids ? '' : 'notSafeForKids:false'],
-        })
-        .then(formatAlgoliaResult('project')),
+    project: () => {return { hits: []}}
+    // project: (query, { notSafeForKids }) =>
+    //   searchIndices.project
+    //     .search({
+    //       query,
+    //       hitsPerPage: 100,
+    //       facetFilters: [notSafeForKids ? '' : 'notSafeForKids:false'],
+    //     })
+    //     .then(formatAlgoliaResult('project')),
     starterKit: (query) => Promise.resolve(findStarterKits(query)),
   };
 }
