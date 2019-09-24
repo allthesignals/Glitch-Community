@@ -142,8 +142,8 @@ Are you sure you want to sign out?`)
           </Button>
         </div>
         <div className={styles.buttonWrap}>
-          <Button as="a" variant="secondary" size="small" href="https://support.glitch.com">
-            Support <Icon className={emoji} icon="ambulance" />
+          <Button as="a" variant="secondary" size="small" href="https://glitch.com/help/">
+            Help Center&nbsp;<Icon icon="ambulance" />
           </Button>
         </div>
         {userPasswordEnabled && (
