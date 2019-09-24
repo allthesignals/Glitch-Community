@@ -155,15 +155,6 @@ module.exports = function(external) {
     const canonicalUrl = `${APP_URL}/@${name}`;
     const team = await getTeam(name);
     if (team) {
-      // detect if team uses default description "an adjectivy team that does adjectivy things"
-      // if so, don't include it
-      const hasMaybeUpdatedDescription = team.createdAt !== team.updatedAt;
-      let description = DEFAULT_TEAM_DESCRIPTION(team.url, team.name);
-
-      if (team.description && hasMaybeUpdatedDescription) {
-        description += cheerio.load(md.render(team.description)).text();
-      }
-
       const cache = { [`team-or-user:${name}`]: { team } };
       const args = { title: team.name, description, canonicalUrl, cache };
 
