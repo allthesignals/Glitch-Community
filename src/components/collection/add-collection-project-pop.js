@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { partition, uniqBy } from 'lodash';
-import { Button, Icon, Info, Popover, UnstyledButton } from '@fogcreek/shared-components';
+import { Button, Icon, Info, Popover } from '@fogcreek/shared-components';
 
 import { getAllPages } from 'Shared/api';
-import { PopoverWithButton, PopoverDialog, PopoverSearch, PopoverInfo, InfoDescription } from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 import ProjectResultItem from 'Components/project/project-result-item';
 import { AddProjectToCollectionMsg } from 'Components/notification';
 import { useTrackedFunc } from 'State/segment-analytics';
