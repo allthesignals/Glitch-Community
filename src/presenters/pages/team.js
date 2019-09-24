@@ -122,6 +122,9 @@ function TeamPage({ team: initialTeam }) {
   return (
     <main className={styles.container} id="main">
       <section>
+        <GlitchHelmet
+          title={team.name}
+        />
         <Beta />
         <TeamProfileContainer
           item={team}
