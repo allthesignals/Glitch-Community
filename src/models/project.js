@@ -26,6 +26,8 @@ export function getRemixUrl(domain, editorUrl = EDITOR_URL) {
   return `${editorUrl}#!/remix/${domain}`;
 }
 
+
+
 export function sortProjectsByLastAccess(projects) {
   return projects.sort((a, b) => {
     if (a.permission.userLastAccess && b.permission.userLastAccess) {

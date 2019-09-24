@@ -163,7 +163,7 @@ const ProjectPage = ({ project: initialProject }) => {
 
   return (
     <main id="main">
-      <GlitchHelmet title={project.domain} description={} />
+      <GlitchHelmet title={project.domain} description={} image={getProjectAvatarUrl(project)} />
       <section id="info">
         <ProjectProfileContainer
           currentUser={currentUser}
