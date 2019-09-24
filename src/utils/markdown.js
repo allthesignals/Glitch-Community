@@ -3,7 +3,7 @@ import markdownEmoji from 'markdown-it-emoji';
 import markdownHeadings from 'markdown-it-github-headings';
 import markdownSanitizer from 'markdown-it-sanitizer';
 
-const md = ({ allowImages, linkifyHeadings }) => {
+export const markdown = (content, { allowImages, linkifyHeadings }) => {
     const mdIt = markdownIt({
       html: true,
       breaks: true,
@@ -18,10 +18,10 @@ const md = ({ allowImages, linkifyHeadings }) => {
       const headingOpts = { enableHeadingLinkIcons: false, prefixHeadingIds: false };
       return mdIt.use(markdownHeadings, headingOpts).use(markdownEmoji).use(markdownSanitizer);
     }
-    return mdIt.use(markdownEmoji).use(markdownSanitizer);
-  };
+    return mdIt.use(markdownEmoji).use(markdownSanitizer).render(content);
+};
   
-const stripHtml = (html) => {
-const regex = /<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi;
-return html ? html.replace(regex, '').trim() : '';
+export const stripHtml = (html) => {
+  const regex = /<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi;
+  return html ? html.replace(regex, '').trim() : '';
 };
