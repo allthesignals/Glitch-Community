@@ -195,7 +195,7 @@ const CreateCollectionPop = withRouter(({ team, history }) => {
   };
 
   return (
-    <PopoverWithButton buttonText="Create Collection" renderLabel={()}>
+    <Popover align={align} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Create Collection</Button>}>
       {() => <CreateCollectionPopBase align="left" options={options} onSubmit={onSubmit} />}
     </PopoverWithButton>
   );
