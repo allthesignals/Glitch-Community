@@ -290,17 +290,18 @@ function YourAppIsLive() {
 
 function ScreencapSection({ title, description, video, smallVideos, blob, image, imageName, markColor }) {
   const Videos = () => (
+    <RatioContainer key={v}>
     <div className={styles.screencapContainer}>
       {smallVideos.map((v) => (
-        <RatioContainer key={v}>
+        
           <Video
+            
             sources={[{ src: v, minWidth: 0, maxWidth: 669 }]}
             className={classNames(styles.screencap, styles.smallScreencap, styles[`small${smallVideos.length}`])}
             track="muted"
             autoPlay
             loop
           />
-        </RatioContainer>
       ))}
 
       <div className={classNames(styles.screencap, styles.bigScreencap)}>
