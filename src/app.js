@@ -28,7 +28,7 @@ const App = ({ apiCache, helmetContext }) => (
                 <APICacheProvider initial={apiCache}>
                   <ProjectContextProvider>
                     <CollectionContextProvider>
-                      <HelmetProvider helmetContext={helmetContext}>
+                      <HelmetProvider context={helmetContext}>
                         <LocalStyle theme={lightTheme}>
                           <SuperUserBanner />
                           <OfflineNotice />
