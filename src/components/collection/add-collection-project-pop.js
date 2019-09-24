@@ -116,7 +116,7 @@ AddCollectionProjectPop.propTypes = {
 };
 
 const AddCollectionProject = ({ collection, addProjectToCollection }) => (
-  <PopoverWithButton buttonText="Add Project">
+  <PopoverWithButton buttonText="Add Project" <Button>Add Project</Button> >
     {({ togglePopover }) => (
       <AddCollectionProjectPop collection={collection} addProjectToCollection={addProjectToCollection} togglePopover={togglePopover} />
     )}
