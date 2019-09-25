@@ -1,4 +1,4 @@
-import React from 'react';
+gimport React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { rgbToHex, getContrastWithLightText, getContrastWithDarkText } from 'Utils/color';
@@ -60,11 +60,6 @@ export const CollectionDefaultAvatar = ({ color, projectCount }) => (
     </g>
   </svg>
 );
-
-CollectionDefaultAvatar.propTypes = {
-  color: PropTypes.object.isRequired,
-  projectCount: PropTypes.object.isRequired,
-};
 
 // the avatar that appears on collection pages
 const CollectionAvatar = ({ collection }) => (
