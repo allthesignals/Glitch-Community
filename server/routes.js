@@ -83,6 +83,7 @@ module.exports = function(external) {
     const assignments = getAssignments(req, res);
     const signedIn = !!req.cookies.hasLogin;
     const [zine, homeContent, prismicPupdates] = await Promise.all([getZine(), getData('home'), getPupdatesFromPrismic()]);
+    console.log(prismicPupdates);
 
     let ssr = { rendered: null, styleTags: '' };
     if (shouldRender) {
