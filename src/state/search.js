@@ -167,6 +167,9 @@ function createAlgoliaProvider(api) {
     team: searchClient.initIndex('dev_%{::hostname}_search_teams'),
     user: searchClient.initIndex('dev_%{::hostname}_search_users'),
     // project: searchClient.initIndex('dev_%{::hostname}_search_projects'),
+    project: { 
+      search: () => Promise.resolve({ hits: })
+    }
     collection: searchClient.initIndex('dev_%{::hostname}_search_collections'),
   };
 
