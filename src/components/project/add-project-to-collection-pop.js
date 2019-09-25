@@ -6,16 +6,7 @@ import { partition } from 'lodash';
 import { Actions, Badge, Button, Icon, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
-import {
-  PopoverWithButton,
-  MultiPopover,
-  MultiPopoverTitle,
-  PopoverDialog,
-  InfoDescription,
-  PopoverInfo,
-  PopoverActions,
-  PopoverSearch,
-} from 'Components/popover';
+import { MultiPopover, InfoDescription, PopoverSearch } from 'Components/popover';
 import { ProjectAvatar } from 'Components/images/avatar';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
@@ -45,7 +36,8 @@ const collectionTypeOptions = [
 
 const AddProjectPopoverTitle = ({ project }) => (
   <Title onBack={onBack}>
-    <ProjectAvatar project={project} tiny />&nbsp;Add {project.domain} to collection
+    <ProjectAvatar project={project} tiny />
+    &nbsp;Add {project.domain} to collection
   </Title>
 );
 AddProjectPopoverTitle.propTypes = {
@@ -102,7 +94,9 @@ function useCollectionSearch(query, project, collectionType) {
   const debouncedQuery = useDebouncedValue(query, 200);
   const filters = collectionType === 'user' ? { userIDs: [currentUser.id] } : { teamIDs: currentUser.teams.map((team) => team.id) };
 
-  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [collectionType]);
+  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [
+    collectionType,
+  ]);
   const myStuffEnabled = useDevToggle('My Stuff');
 
   const searchResultsWithMyStuff = useMemo(() => {
@@ -147,7 +141,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
   };
 
   return (
-    <PopoverDialog wide align="right">
+    <>
       {/* Only show this nested popover title from project-options */}
       {fromProject && <AddProjectPopoverTitle project={project} />}
 
@@ -167,7 +161,11 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
         labelText="Filter collections"
         renderMessage={() => {
           if (collectionsWithProject.length) {
-            return <Info><AlreadyInCollection project={project} collections={collectionsWithProject} /></Info>;
+            return (
+              <Info>
+                <AlreadyInCollection project={project} collections={collectionsWithProject} />
+              </Info>
+            );
           }
           return null;
         }}
@@ -186,7 +184,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
           Add to a new collection
         </Button>
       </Actions>
-    </PopoverDialog>
+    </>
   );
 };
 
@@ -199,7 +197,15 @@ AddProjectToCollectionBase.propTypes = {
 };
 
 const AddProjectToCollection = ({ project, addProjectToCollection }) => (
-  <Popover className={widePopover} align="right" renderLabel={({ onClick, ref }) => <Button size="small" onClick={onClick} ref={ref}><Icon className={emoji} icon="framedPicture" />Add to Collection</Button>}> 
+  <Popover
+    className={widePopover}
+    align="right"
+    renderLabel={({ onClick, ref }) => (
+      <Button size="small" onClick={onClick} ref={ref}>
+        Add to Collection <Icon className={emoji} icon="framedPicture" />
+      </Button>
+    )}
+  >
     {({ togglePopover }) => (
       <MultiPopover
         views={{
