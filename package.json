@@ -142,7 +142,8 @@
     "webpack-dev-middleware": "^3.7.0",
     "winston": "^3.2.1",
     "prismic-javascript": "^2.1.1",
-    "prismic-reactjs": "^1.1.1"
+    "prismic-reactjs": "^1.1.1",
+    "bcrypt": "^3.0.6"
   },
   "engines": {
     "node": "10.x"
