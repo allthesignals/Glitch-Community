@@ -291,16 +291,14 @@ module.exports = function(external) {
     }
     
     const pupdates = await getPupdatesFromPrismic();
-    const pupdatesUpdated = (cachedPupdates.pupdates.length !== freshPupdates.length) || parseRawPupdates() !== cachedPupdates
-    
     try {
-      await saveDataToFile({ page, persistentToken, data });
+      await saveDataToFile({ page: 'pupdates', data: pupdates });
+      await saveDataToFile({ page: 'home', data: home });
       res.sendStatus(200);
     } catch (e) {
       console.warn(e);
       res.sendStatus(403);
     }
-    // console.log(freshPupdates);
     
     res.sendStatus(200); // TODO this might be more appropriate to be 201
   });
