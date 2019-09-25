@@ -328,7 +328,10 @@ const HomeWithProductionData = () => {
   return (
     <Layout>
       <GlitchHelmet
-        title=
+        title="Glitch"
+        socialTitle="Glitch: The friendly community where everyone builds the web"
+        description="Simple, powerful, free tools to create and use millions of apps."
+        image="https://"
       />
       <Home
         data={{ ...HOME_CONTENT, cultureZine: ZINE_POSTS.slice(0, 4) }}
