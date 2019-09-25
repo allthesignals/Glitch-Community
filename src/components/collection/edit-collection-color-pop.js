@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { throttle } from 'lodash';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Popover } from '@fogcreek/shared-components';
 
 import { isGoodColorContrast, pickRandomColor } from 'Utils/color';
 import TextInput from 'Components/inputs/text-input';
 import ColorInput from 'Components/inputs/color';
-import { PopoverWithButton, PopoverDialog, PopoverInfo, PopoverActions } from 'Components/popover';
 
 import styles from './edit-collection-color-pop.styl';
 import { emoji } from '../global.styl';
@@ -75,8 +74,8 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
   };
 
   return (
-    <PopoverDialog align="left" className={styles.container}>
-      <PopoverInfo>
+    <>
+      <Info>
         <div className={styles.colorFormWrap}>
           <ColorInput value={color} onChange={onChangeColorPicker} />
           <div className={styles.hexWrap}>
@@ -92,22 +91,32 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
             />
           </div>
         </div>
-      </PopoverInfo>
+      </Info>
 
-      <PopoverActions type="secondary">
+      <Actions type="secondary">
         <Button size="small" variant="secondary" onClick={setRandomColor}>
           Random
           <Icon className={emoji} icon="bouquet" />
         </Button>
-      </PopoverActions>
-    </PopoverDialog>
+      </Actions>
+    </>
   );
 }
 
 const EditCollectionColor = ({ update, initialColor }) => (
-  <PopoverWithButton containerClass="edit-collection-color-btn" buttonClass="add-project" buttonText="Color">
-    {({ togglePopover }) => <EditCollectionColorPop updateColor={update} initialColor={initialColor} togglePopover={togglePopover} />}
-  </PopoverWithButton>
+  <Popover
+    align="left"
+    className={styles.container}
+    renderLabel={({ onClick, ref }) => (
+      <Button onClick={onClick} ref={ref}>
+        Color
+      </Button>
+    )}
+  >
+    {({ onClose }) => (
+      <EditCollectionColorPop updateColor={update} initialColor={initialColor} togglePopover={onClose} />
+    )}
+  </Popover>
 );
 
 EditCollectionColor.propTypes = {

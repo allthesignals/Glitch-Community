@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { kebabCase, debounce } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 
 import TextInput from 'Components/inputs/text-input';
@@ -120,15 +120,15 @@ const CreateTeamPop = withRouter(({ history }) => {
 
   return (
     <PopoverDialog align="right" className={styles.createTeamPop}>
-      <MultiPopoverTitle>
+      <Title onBack={onBack}>
         Create Team <Icon className={emoji} icon="herb" inTitle />
-      </MultiPopoverTitle>
+      </Title>
 
-      <PopoverInfo>
-        <InfoDescription>Showcase your projects in one place, manage collaborators, and view analytics</InfoDescription>
-      </PopoverInfo>
+      <Info>
+        Showcase your projects in one place, manage collaborators, and view analytics
+      </Info>
 
-      <PopoverActions>
+      <Actions>
         <form onSubmit={handleSubmit}>
           <TextInput autoFocus labelText={placeholder} value={state.teamName} onChange={handleChange} placeholder={placeholder} error={state.error} />
           <div className={styles.teamUrlPreview}>/@{kebabCase(state.teamName || placeholder)}</div>
@@ -142,10 +142,10 @@ const CreateTeamPop = withRouter(({ history }) => {
             </Button>
           )}
         </form>
-      </PopoverActions>
-      <PopoverInfo>
-        <InfoDescription>You can change this later</InfoDescription>
-      </PopoverInfo>
+      </Actions>
+      <Info>
+        You can change this later
+      </Info>
     </PopoverDialog>
   );
 });
