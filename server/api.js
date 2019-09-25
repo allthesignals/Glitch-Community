@@ -76,9 +76,8 @@ async function getCultureZinePosts() {
 
 async function getPupdatesFromPrismic() {
   console.log('Fetching pupdates');
-  const url = `https://glitch.cdn.prismic.io/api/v2/documents/search?ref=XYuY-xAAAB8Ad0VR&q=[[at(document.type%2C+%22pupdate%22)]]&format=json`
-  const params = 'ref=XYuY-xAAAB8Ad0VRq=%5B%5Bat(document.type%2C+%22pupdate%22)%5D%5Dformat=json
-  const url = `https://culture-zine.glitch.me/culture/ghost/api/v0.1/posts/?${client}&${params}`;
+  const params = 'search?ref=XYuY-xAAAB8Ad0VR&q=[[at(document.type%2C+"pupdate")]]';
+  const url = `https://glitch.cdn.prismic.io/api/v2/documents/search$
   const response = await axios.get(url, { timeout: 10000 });
   return response.data.posts;
 }
