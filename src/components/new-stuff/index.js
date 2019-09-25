@@ -60,6 +60,7 @@ export const NewStuffOverlay = ({ setShowNewStuff, showNewStuff, newStuff, close
       const response = await Client.query(Prismic.Predicates.at('document.type', 'pupdate'));
 
       if (response) {
+        console.log(response);
         setDocData(response.results[0]);
         console.log('doc', doc);
       }
