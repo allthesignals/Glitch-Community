@@ -169,18 +169,17 @@ const ProjectPage = ({ project: initialProject }) => {
     ]);
     const defaultProjectDescriptionPattern = /(A|The) [a-z]{2,} project that does [a-z]{2,} things/g;
     const usesDefaultDescription = helloTemplateDescriptions.has(project.description) || defaultProjectDescriptionPattern.test(project.description);
-    if (!description || usesDefaultDescription || suspendedReason) {
-      return `Check out ~${domain} on Glitch, the ${tagline}`;
+    if (!project.description || usesDefaultDescription || project.suspendedReason) {
+      return `Check out ~${project.domain} on Glitch, the ${tagline}`;
     }
-    const textDescription = stripHtml(renderMarkdown(description));
-    return `${textDescription} 🎏 Glitch is the ${tagline}`;
-  })
+    return `${renderText(project.description)} 🎏 Glitch is the ${tagline}`;
+  }, [project.domain, project.description, project.suspendedReason, ])
 
   return (
     <main id="main">
       <GlitchHelmet
         title={project.domain}
-        description={getProjectDescriptionForSEO(project)}
+        description={seoDescription}
         image={project.suspendedReason ? SUSPENDED_AVATAR_URL : getProjectAvatarUrl(project)}
         canonicalUrl={getProjectLink(project)}
       />
