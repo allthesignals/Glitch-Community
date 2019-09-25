@@ -43,7 +43,7 @@ module.exports = function(external) {
 
   const readFilePromise = util.promisify(fs.readFile);
 
-  async function render(req, res, { wistiaVideoId, cache = {} }) {
+  async function render(req, res, { wistiaVideoId, cache = {} } = {}) {
     let built = true;
 
     let scripts = [];
