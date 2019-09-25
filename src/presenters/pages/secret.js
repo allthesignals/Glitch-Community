@@ -66,12 +66,12 @@ const Secret = () => {
     setEnabledToggles(newToggles);
   };
 
-  const tagline = It's a secret to everybody.
+  const tagline = "It's a secret to everybody.";
 
   return (
     <main className={styles.secretPage}>
-      <GlitchHelmet title="Glitch - " />
-      <VisuallyHidden as={Heading} tagName="h1">It's a secret to everybody</VisuallyHidden>
+      <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
+      <VisuallyHidden as={Heading} tagName="h1">{tagline}</VisuallyHidden>
       <ul className={styles.toggles}>
         {toggleData.map(({ name, description }) => (
           <li key={name} className={isEnabled(name) ? styles.lit : ''}>
