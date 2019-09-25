@@ -219,12 +219,7 @@ module.exports = function(external) {
   });
 
   app.get('/create', async (req, res) => {
-    const title = 'Glitch - Create';
-    const socialTitle = 'Get Started Creating on Glitch';
-    const description = 'Glitch is a collaborative programming environment that lives in your browser and deploys code as you type.';
-    const image = `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0/create-illustration.png?v=1562612212463`;
-    const canonicalUrl = `${APP_URL}/create`;
-    await render(req, res, { title, socialTitle, description, image, canonicalUrl, wistiaVideoId: '2vcr60pnx9' }, true);
+    await render(req, res, { wistiaVideoId: '2vcr60pnx9' }, true);
   });
 
   app.get('/secret', async (req, res) => {
@@ -235,11 +230,7 @@ module.exports = function(external) {
   
 
   app.get('*', async (req, res) => {
-    const title = 'Glitch';
-    const socialTitle = 'Glitch: The friendly community where everyone builds the web';
-    const description = 'Simple, powerful, free tools to create and use millions of apps.';
-    const image = `${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781`;
-    await render(req, res, { title, description, image, socialTitle });
+    await render(req, res, {}, true);
   });
 
   return app;
