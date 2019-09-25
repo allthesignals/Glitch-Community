@@ -43,7 +43,7 @@ module.exports = function(external) {
 
   const readFilePromise = util.promisify(fs.readFile);
 
-  async function render(req, res, { wistiaVideoId, cache = {} } = {}) {
+  async function render(req, res, cache = {}, wistiaVideoId = null) {
     let built = true;
 
     let scripts = [];
@@ -131,7 +131,7 @@ module.exports = function(external) {
     const { domain } = req.params;
     const project = await getProject(punycode.toASCII(domain));
     const cache = project && { [`project:${domain}`]: project };
-    await render(req, res, { cache });
+    await render(req, res, cache);
   });
 
   app.get('/@:name', async (req, res) => {
@@ -139,13 +139,13 @@ module.exports = function(external) {
     const team = await getTeam(name);
     if (team) {
       const cache = { [`team-or-user:${name}`]: { team } };
-      await render(req, res, { cache });
+      await render(req, res, cache);
       return;
     }
     const user = await getUser(name);
     if (user) {
       const cache = { [`team-or-user:${name}`]: { user } };
-      await render(req, res, { cache });
+      await render(req, res, cache);
       return;
     }
     await render(req, res);
@@ -155,7 +155,7 @@ module.exports = function(external) {
     const { author, url } = req.params;
     const collection = await getCollection(author, url);
     const cache = collection && { [`collection:${author}/${url}`]: collection };
-    await render(req, res, { cache });
+    await render(req, res, cache);
   });
 
   app.get('/auth/:domain', async (req, res) => {
@@ -205,11 +205,11 @@ module.exports = function(external) {
   });
 
   app.get(['/', '/index.html'], async (req, res) => {
-    await render(req, res, { wistiaVideoId: 'z2ksbcs34d' });
+    await render(req, res, {}, 'z2ksbcs34d');
   });
 
   app.get('/create', async (req, res) => {
-    await render(req, res, { wistiaVideoId: '2vcr60pnx9' });
+    await render(req, res, {}, '2vcr60pnx9');
   });
   
   app.get('*', async (req, res) => {
