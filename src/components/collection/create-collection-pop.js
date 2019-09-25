@@ -76,7 +76,7 @@ const useCollections = createAPIHook((api, teamId, currentUser) => {
   return getAllPages(api, `/v1/users/by/id/collections?id=${currentUser.id}&limit=100`);
 });
 
-function CreateCollectionPopBase({ title, onSubmit, options }) {
+function CreateCollectionPopBase({ name, onBack, onSubmit, options }) {
   const api = useAPI();
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
@@ -118,7 +118,7 @@ function CreateCollectionPopBase({ title, onSubmit, options }) {
 
   return (
     <>
-      {title && <Title onBack={onBack}>{`Add ${name} to a new collection`}</Title>}
+      {name && <Title onBack={onBack}>{`Add ${name} to a new collection`}</Title>}
       <Actions>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputWrap}>
