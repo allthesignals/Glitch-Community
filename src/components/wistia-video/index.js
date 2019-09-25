@@ -33,7 +33,7 @@ const WistiaVideo = React.forwardRef(({ videoId }, ref) => {
     <div className="wistia_responsive_padding">
       <div className="wistia_responsive_wrapper">
         <Helmet>
-          <script src="//fast.wistia.com/embed/medias/${videoId}.jsonp" async></script>
+          <script src="//fast.wistia.com/assets/external/E-v1.js" async />
         </Helmet>
         <div ref={ref} className={`wistia_embed wistia_async_${videoId}`} videofoam="true" />
       </div>
