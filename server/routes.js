@@ -291,8 +291,18 @@ module.exports = function(external) {
     }
     
     const cachedPupdates = await getData('pupdates');
-    // const freshPupdates = await getPupdatesFromPrismic();
+    const freshPupdates = await getPupdatesFromPrismic();
+    
+    if (cachedP)
     console.log(cachedPupdates);
+    
+    try {
+      await saveDataToFile({ page, persistentToken, data });
+      res.sendStatus(200);
+    } catch (e) {
+      console.warn(e);
+      res.sendStatus(403);
+    }
     // console.log(freshPupdates);
     
     res.sendStatus(200); // TODO this might be more appropriate to be 201
