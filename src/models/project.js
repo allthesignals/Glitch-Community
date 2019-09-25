@@ -27,21 +27,6 @@ export function getRemixUrl(domain, editorUrl = EDITOR_URL) {
   return `${editorUrl}#!/remix/${domain}`;
 }
 
-export function getProjectDescriptionForSEO({ description, domain, suspendedReason }) {
-  const helloTemplateDescriptions = new Set([
-    'Your very own basic web page, ready for you to customize.',
-    'A simple Node app built on Express, instantly up and running.',
-    'A simple Node app with a SQLite database to hold app data.',
-  ]);
-  const defaultProjectDescriptionPattern = /(A|The) [a-z]{2,} project that does [a-z]{2,} things/g;
-  const usesDefaultDescription = helloTemplateDescriptions.has(description) || defaultProjectDescriptionPattern.test(description);
-  if (!description || usesDefaultDescription || suspendedReason) {
-    return `Check out ~${domain} on Glitch, the ${tagline}`;
-  }
-  const textDescription = stripHtml(renderMarkdown(description));
-  return `${textDescription} 🎏 Glitch is the ${tagline}`;
-}
-
 export function sortProjectsByLastAccess(projects) {
   return projects.sort((a, b) => {
     if (a.permission.userLastAccess && b.permission.userLastAccess) {

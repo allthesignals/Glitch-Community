@@ -161,6 +161,21 @@ const ProjectPage = ({ project: initialProject }) => {
     return addProjectToCollection({ project: projectToAdd, collection });
   };
 
+  const seoDescription = React.useMemo(() => {
+    const helloTemplateDescriptions = new Set([
+      'Your very own basic web page, ready for you to customize.',
+      'A simple Node app built on Express, instantly up and running.',
+      'A simple Node app with a SQLite database to hold app data.',
+    ]);
+    const defaultProjectDescriptionPattern = /(A|The) [a-z]{2,} project that does [a-z]{2,} things/g;
+    const usesDefaultDescription = helloTemplateDescriptions.has(project.description) || defaultProjectDescriptionPattern.test(project.description);
+    if (!description || usesDefaultDescription || suspendedReason) {
+      return `Check out ~${domain} on Glitch, the ${tagline}`;
+    }
+    const textDescription = stripHtml(renderMarkdown(description));
+    return `${textDescription} 🎏 Glitch is the ${tagline}`;
+  })
+
   return (
     <main id="main">
       <GlitchHelmet
