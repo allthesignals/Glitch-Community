@@ -18,8 +18,6 @@ const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getData, saveDataToFile } = require('./home');
 
-const DEFAULT_USER_DESCRIPTION = (login, name) => `See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
-
 module.exports = function(external) {
   const app = express.Router();
 
@@ -160,15 +158,8 @@ module.exports = function(external) {
     }
     const user = await getUser(name);
     if (user) {
-      const description = DEFAULT_USER_DESCRIPTION(user.login, user.name) + cheerio.load(md.render(user.description)).text();
-
-      await render(req, res, {
-        title: user.name || `@${user.login}`,
-        canonicalUrl,
-        description,
-        image: user.avatarThumbnailUrl || `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932`,
-        cache: { [`team-or-user:${name}`]: { user } },
-      }, true);
+      const cache = { [`team-or-user:${name}`]: { user } };
+      await render(req, res, { cache }, true);
       return;
     }
     await render(req, res, {}, true);
