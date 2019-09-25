@@ -283,11 +283,9 @@ module.exports = function(external) {
   app.post('/api/prismic-webhook', (req, res) => {
     const { secret, type } = req.body;
     // if (!validSecret(secret)) {
-      res.sendStatus(401);
-    }
-    console.log(req.body);
-    console.log(req);
-    console.log('🎣');
+    //  res.sendStatus(401);
+    // }
+    console.log('type', type);
     res.sendStatus(200); // TODO this might be more appropriate to be 201
   });
 
