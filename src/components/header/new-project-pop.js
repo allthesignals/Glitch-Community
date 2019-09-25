@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Actions, Button, Loader, Popover } from '@fogcreek/shared-components';
+import { Actions, Button, Info, Loader, Popover } from '@fogcreek/shared-components';
 
-import { PopoverWithButton, PopoverDialog, PopoverSection, PopoverActions } from 'Components/popover';
 import ResultsList from 'Components/containers/results-list';
 import { TrackedExternalLink } from 'Components/link';
 import { ProjectAvatar } from 'Components/images/avatar';
@@ -37,8 +36,8 @@ const NewProjectResultItem = ({ project }) => (
 );
 
 const NewProjectPop = ({ projects }) => (
-  <PopoverDialog align="right">
-    <PopoverSection>
+  <>
+    <Info>
       {projects.length ? (
         <ResultsList items={projects}>
           {(project) => (
@@ -58,13 +57,13 @@ const NewProjectPop = ({ projects }) => (
       ) : (
         <Loader style={{ width: '25px' }} />
       )}
-    </PopoverSection>
-    <PopoverActions type="secondary">
+    </Info>
+    <Actions>
       <Button size="small" variant="secondary" onClick={importGitRepo} matchBackground>
         Clone from Git Repo
       </Button>
-    </PopoverActions>
-  </PopoverDialog>
+    </Actions>
+  </>
 );
 NewProjectPop.propTypes = {
   projects: PropTypes.arrayOf(
@@ -98,9 +97,9 @@ function NewProjectPopButton() {
   const onOpen = useTracker('open new-project pop');
 
   return (
-    <PopoverWithButton align="right" renderLabel={({onOpen={onOpen} buttonProps={{ size: 'small' }} buttonText="New Project">
+    <Popover align="right" renderLabel={({ onClick, ref }) => <Button onClick={() => { onOpen(); onClick(); }} ref={ref} size="small">New Project</Button>}>
       {() => <NewProjectPop projects={projects} />}
-    </PopoverWithButton>
+    </Popover>
   );
 }
 
