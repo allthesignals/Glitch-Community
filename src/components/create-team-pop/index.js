@@ -124,11 +124,11 @@ const CreateTeamPop = withRouter(({ history }) => {
         Create Team <Icon className={emoji} icon="herb" inTitle />
       </Title>
 
-      <PopoverInfo>
-        <InfoDescription>Showcase your projects in one place, manage collaborators, and view analytics</InfoDescription>
-      </PopoverInfo>
+      <Info>
+        Showcase your projects in one place, manage collaborators, and view analytics
+      </Info>
 
-      <PopoverActions>
+      <Actions>
         <form onSubmit={handleSubmit}>
           <TextInput autoFocus labelText={placeholder} value={state.teamName} onChange={handleChange} placeholder={placeholder} error={state.error} />
           <div className={styles.teamUrlPreview}>/@{kebabCase(state.teamName || placeholder)}</div>
@@ -142,10 +142,10 @@ const CreateTeamPop = withRouter(({ history }) => {
             </Button>
           )}
         </form>
-      </PopoverActions>
-      <PopoverInfo>
-        <InfoDescription>You can change this later</InfoDescription>
-      </PopoverInfo>
+      </Actions>
+      <Info>
+        You can change this later
+      </Info>
     </PopoverDialog>
   );
 });

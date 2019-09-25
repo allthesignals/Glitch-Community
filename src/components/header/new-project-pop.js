@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, Loader, Popover } from '@fogcreek/shared-components';
 
 import { PopoverWithButton, PopoverDialog, PopoverSection, PopoverActions } from 'Components/popover';
 import ResultsList from 'Components/containers/results-list';
@@ -98,7 +98,7 @@ function NewProjectPopButton() {
   const onOpen = useTracker('open new-project pop');
 
   return (
-    <PopoverWithButton onOpen={onOpen} buttonProps={{ size: 'small' }} buttonText="New Project">
+    <PopoverWithButton align="right" renderLabel={({onOpen={onOpen} buttonProps={{ size: 'small' }} buttonText="New Project">
       {() => <NewProjectPop projects={projects} />}
     </PopoverWithButton>
   );
