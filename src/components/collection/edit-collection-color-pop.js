@@ -74,7 +74,7 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
   };
 
   return (
-    <div className={styles.container}>
+    <>
       <Info>
         <div className={styles.colorFormWrap}>
           <ColorInput value={color} onChange={onChangeColorPicker} />
@@ -99,7 +99,7 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
           <Icon className={emoji} icon="bouquet" />
         </Button>
       </Actions>
-    </div>
+    </>
   );
 }
 
