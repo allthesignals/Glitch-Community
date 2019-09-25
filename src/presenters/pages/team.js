@@ -230,10 +230,10 @@ function TeamPage({ team: initialTeam }) {
 
 TeamPage.propTypes = {
   team: PropTypes.shape({
-    adminIds: PropTypes.array.isRequired,
     backgroundColor: PropTypes.string.isRequired,
     coverColor: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    featuredProjectId: PropTypes.string,
     hasAvatarImage: PropTypes.bool.isRequired,
     hasCoverImage: PropTypes.bool.isRequired,
     id: PropTypes.number.isRequired,
@@ -241,9 +241,12 @@ TeamPage.propTypes = {
     name: PropTypes.string.isRequired,
     pinnedProjects: PropTypes.array.isRequired,
     projects: PropTypes.array.isRequired,
+    teamPermissions: PropTypes.arrayOf(PropTypes.shape({
+      userId: PropTypes.number.isRequired,
+      accessLevel: PropTypes.number.isRequired,
+    })).isRequired,
     users: PropTypes.array.isRequired,
     whitelistedDomain: PropTypes.string,
-    featuredProjectId: PropTypes.string,
   }).isRequired,
 };
 

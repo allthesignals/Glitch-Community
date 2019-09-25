@@ -206,7 +206,8 @@ module.exports = function(external) {
         description += cheerio.load(md.render(team.description)).text();
       }
 
-      const args = { title: team.name, description, canonicalUrl };
+      const cache = { [`team-or-user:${name}`]: { team } };
+      const args = { title: team.name, description, canonicalUrl, cache };
 
       if (team.hasAvatarImage) {
         args.image = `${CDN_URL}/team-avatar/${team.id}/large`;
@@ -215,7 +216,7 @@ module.exports = function(external) {
         args.image = `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fteam-avatar.png?1558031923766`;
       }
 
-      await render(req, res, args);
+      await render(req, res, args, true);
       return;
     }
     const user = await getUser(name);
@@ -227,29 +228,30 @@ module.exports = function(external) {
         canonicalUrl,
         description,
         image: user.avatarThumbnailUrl || `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932`,
-      });
+        cache: { [`team-or-user:${name}`]: { user } },
+      }, true);
       return;
     }
     await render(req, res, { title: `@${name}`, description: `We couldn't find @${name}`, canonicalUrl });
   });
 
-  app.get('/@:name/:collection', async (req, res) => {
-    const { name, collection } = req.params;
-    const canonicalUrl = `${APP_URL}/@${name}/${collection}`;
-    const collectionObj = await getCollection(name, collection);
-    const author = name;
+  app.get('/@:author/:url', async (req, res) => {
+    const { author, url } = req.params;
+    const canonicalUrl = `${APP_URL}/@${author}/${url}`;
+    const collection = await getCollection(author, url);
 
-    if (collectionObj) {
-      let { name, description } = collectionObj;
+    if (collection) {
+      let { name, description } = collection;
       description = description ? cheerio.load(md.render(description)).text() : '';
       description = description.trimEnd(); // trim trailing whitespace from description
       description += ` 🎏 A collection of apps by @${author}`;
       description = description.trimStart(); // if there was no description, trim space before the fish
 
-      await render(req, res, { title: name, description, canonicalUrl });
+      const cache = { [`collection:${author}/${url}`]: collection };
+      await render(req, res, { title: name, description, canonicalUrl, cache }, true);
       return;
     }
-    await render(req, res, { title: collection, description: `We couldn't find @${name}/${collection}`, canonicalUrl });
+    await render(req, res, { title: collection, description: `We couldn't find @${author}/${url}`, canonicalUrl });
   });
 
   app.get('/auth/:domain', async (req, res) => {
