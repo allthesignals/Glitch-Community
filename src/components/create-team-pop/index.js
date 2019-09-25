@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { kebabCase, debounce } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 
 import TextInput from 'Components/inputs/text-input';
@@ -120,9 +120,9 @@ const CreateTeamPop = withRouter(({ history }) => {
 
   return (
     <PopoverDialog align="right" className={styles.createTeamPop}>
-      <MultiPopoverTitle>
+      <Title onBack={onBack}>
         Create Team <Icon className={emoji} icon="herb" inTitle />
-      </MultiPopoverTitle>
+      </Title>
 
       <PopoverInfo>
         <InfoDescription>Showcase your projects in one place, manage collaborators, and view analytics</InfoDescription>
