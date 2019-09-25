@@ -152,7 +152,6 @@ module.exports = function(external) {
 
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
-    const canonicalUrl = `${APP_URL}/@${name}`;
     const team = await getTeam(name);
     if (team) {
       const cache = { [`team-or-user:${name}`]: { team } };
