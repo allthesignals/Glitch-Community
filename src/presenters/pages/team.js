@@ -28,7 +28,7 @@ import { useNotifications } from 'State/notifications';
 import { useTeamEditor } from 'State/team';
 import useFocusFirst from 'Hooks/use-focus-first';
 import { tagline } from 'Utils/constants';
-import { renderMarkdown, stripHtml } from 'Utils/markdown';
+import { renderText } from 'Utils/markdown';
 
 import styles from './team.styl';
 import { emoji } from '../../components/global.styl';
@@ -121,9 +121,11 @@ function TeamPage({ team: initialTeam }) {
 
   const projectOptions = { ...funcs, team };
 
-  const seoBase = `See what Team ${team.name} (@${team.url}) is up to on Glitch, the ${tagline} `;
-  const seoShowDescription = team.description && team.updatedAt !== team.createdAt;
-  const seoDescription = `${seoBase} ${seoShowDescription ? renderMarkdown(team.description) : ''}`;
+  const seoDescription = React.useMemo(() => {
+    const base = `See what Team ${team.name} (@${team.url}) is up to on Glitch, the ${tagline} `;
+    const showDescription = team.description && team.updatedAt !== team.createdAt;
+    return `${base} ${showDescription ? renderText(team.description) : ''}`;
+  }, [team.name, team.url, team.description, team.updatedAt, team.createdAt, tagline]);
 
   return (
     <main className={styles.container} id="main">
