@@ -19,9 +19,10 @@ import { emoji } from '../global.styl';
 
 const pupdatesArray = pupdates.pupdates;
 const latestId = Math.max(...pupdatesArray.map(({ id }) => id));
-	
-const apiEndpoint = 'https://glitch.cdn.prismic.io/api/v2';
-const accessToken = process.env.PRISMIC_TOKEN;
+
+import Prismic from 'prismic-javascript';
+const apiEndpoint = 'https://glitch.cdn.prismic.io/api/v2';	
+const Client = Prismic.client(apiEndpoint, { accessToken: process.env.PRISMIC_TOKEN });
 
 function usePreventTabOut() {
   const first = useRef();
