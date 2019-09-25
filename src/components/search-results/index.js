@@ -6,7 +6,6 @@ import { Badge, Button, Loader, SegmentedButton } from '@fogcreek/shared-compone
 
 import { createAPIHook } from 'State/api';
 
-
 import Heading from 'Components/text/heading';
 import UserItem from 'Components/user/user-item';
 import TeamItem from 'Components/team/team-item';
@@ -38,12 +37,15 @@ const groups = [
   { id: 'collection', label: 'Collections' },
 ];
 
-const useProjectsWithUserData = createAPIHook(async (api, projects) => {
-  if (!projects.length) return {};
-  const idString = projects.map((p) => `id=${p.id}`).join('&');
-  const { data } = await api.get(`/v1/projects/by/id?${idString}&limit=100`);
-  return data;
-}, { captureException: true });
+const useProjectsWithUserData = createAPIHook(
+  async (api, projects) => {
+    if (!projects.length) return {};
+    const idString = projects.map((p) => `id=${p.id}`).join('&');
+    const { data } = await api.get(`/v1/projects/by/id?${idString}&limit=100`);
+    return data;
+  },
+  { captureException: true },
+);
 
 const resultComponents = {
   team: ({ result }) => <TeamItem team={result} />,
@@ -116,9 +118,7 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
 
   return (
     <main className={styles.page} id="main">
-      {ready && searchResults.totalHits > 0 && (
-        <FilterContainer filters={filters} setFilter={setActiveFilter} activeFilter={activeFilter} />
-      )}
+      {ready && searchResults.totalHits > 0 && <FilterContainer filters={filters} setFilter={setActiveFilter} activeFilter={activeFilter} />}
       {activeFilter === 'all' && <h1>All results for {query}</h1>}
       {!ready && <Loader style={{ width: '25px' }} />}
       {showTopResults && (
@@ -140,9 +140,7 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
         renderedGroups.map(({ id, label, results, canShowMoreResults }) => (
           <article key={id} className={styles.groupContainer}>
             <Heading tagName="h2">{label}</Heading>
-            <Grid items={results} className={styles.resultsContainer}>
-              {(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}
-            </Grid>
+            <Grid items={results} gap="25px">{(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}</Grid>
             {canShowMoreResults && <ShowAllButton label={label} onClick={() => setActiveFilter(id)} />}
           </article>
         ))}

@@ -52,7 +52,7 @@ const IncludedInCollections = ({ projectId }) => (
       filteredCollections(collections).length > 0 && (
         <>
           <Heading tagName="h2">Included in Collections</Heading>
-          <Row items={filteredCollections(collections)}>{(collection) => <CollectionItem collection={collection} showCurator />}</Row>
+          <Row items={filteredCollections(collections)} gap="20px">{(collection) => <CollectionItem collection={collection} showCurator />}</Row>
         </>
       )
     }

@@ -134,6 +134,20 @@ module.exports = function(external) {
     await render(req, res, cache);
   });
 
+  app.get('/~:domain/edit', async (req, res) => {
+    const { domain } = req.params;
+    const editorUrl = `${APP_URL}/edit/#!/${domain}`;
+
+    res.redirect(editorUrl);
+  });
+  
+  app.get('/~:domain/console', async (req, res) => {
+    const { domain } = req.params;
+    const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
+
+    res.redirect(consoleUrl);
+  });
+  
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
     const team = await getTeam(name);
