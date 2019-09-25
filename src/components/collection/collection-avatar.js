@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { rgbToHex, getContrastWithLightText, getContrastWithDarkText } from 'Utils/color';
-import { hex as getHexContrastRatio } from 'wcag-contrast';
+import { rgb as getRgbContrastRatio } from 'wcag-contrast';
 
 import Image from 'Components/images/image';
 import { Waves, Squares, Triangles } from 'Components/collection/collection-patterns';
@@ -30,10 +30,11 @@ const getComplementaryColor = (inputColor) => {
   const originalColor = color.primary()[0];
   const complementaryColor = color.complementary()[1];
 
-  const originalColorHex = rgbToHex(originalColor.r, originalColor.g, originalColor.b);
+  const contrastRatio = getRgbContrastRatio(
+    [originalColor.r, originalColor.g, originalColor.b],
+    [complementaryColor.r, complementaryColor.g, complementaryColor.b],
+  );
   const complementaryColorHex = rgbToHex(complementaryColor.r, complementaryColor.g, complementaryColor.b);
-
-  const contrastRatio = getHexContrastRatio(originalColorHex, complementaryColorHex);
 
   if (contrastRatio > 1.25) {
     const colorString = `rgb(${complementaryColor.r}, ${complementaryColor.g}, ${complementaryColor.b})`;
@@ -45,12 +46,17 @@ const getComplementaryColor = (inputColor) => {
   return whiteColorContrast > blackColorContrast ? '#fff' : '#222';
 };
 
-export const CollectionDefaultAvatar = ({ color }) => (
+export const CollectionDefaultAvatar = ({ color, projectCount }) => (
   <svg viewBox="0 0 135 135" xmlns="http://www.w3.org/2000/svg" role="img">
     <g transform="translate(10.5 10.5)" fill="none" fillRule="evenodd">
-      <rect id="back" stroke="#C3C3C3" strokeWidth="2.5" fill="#FFFFFF" x="13.5" y="14" width="100" height="100" rx="5" />
-      <rect id="middle" stroke="#C3C3C3" strokeWidth="2.5" fill="#FFFFFF" x="6" y="6.5" width="100" height="100" rx="5" />
-      <rect id="top" fill={color} width="100" height="100" rx="5" />
+      <rect stroke="#D8D8D8" strokeWidth="2.5" fill="#FFFFFF" x="21.25" y="21.25" width="91.5" height="91.5" rx="5" />
+      <rect stroke="#D8D8D8" strokeWidth="2.5" fill="#FFFFFF" x="11.25" y="11.25" width="91.5" height="91.5" rx="5" />
+      <rect fill={color} x="0" y="0" width="94" height="94" rx="5" />
+      <g className="projects" transform="translate(17.000000, 18.000000)" stroke="#FFFFFF" strokeWidth="2.5">
+        <rect className="project-first" x="17" y="14" width="28" height="28" rx="5" style={{ display: projectCount === 0 && 'none' }} />
+        <rect className="project-multiple" x="0" y="0" width="28" height="28" rx="5" style={{ display: projectCount < 3 && 'none' }} />
+        <rect className="project-multiple" x="32" y="29.5" width="28" height="28" rx="5" style={{ display: projectCount < 3 && 'none' }} />
+      </g>
     </g>
   </svg>
 );

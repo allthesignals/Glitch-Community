@@ -52,13 +52,11 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
 
   const enableSorting = isAuthorized && projects.length > 1;
 
-  let avatar;
+  let avatar = null;
   if (myStuffIsEnabled && collection.isMyStuff) {
     avatar = <BookmarkAvatar width="50%" />;
   } else if (collection.projects.length > 0) {
     avatar = <CollectionAvatar collection={collection} />;
-  } else {
-    avatar = '';
   }
 
   return (

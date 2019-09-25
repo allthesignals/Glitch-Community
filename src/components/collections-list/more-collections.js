@@ -42,7 +42,7 @@ function useCollectionsWithProjects(collections) {
 
 const MoreCollections = ({ currentCollection, collections }) => {
   const curator = useCollectionCurator(currentCollection);
-  const allCollectionsWithProjects = useCollectionsWithProjects(collections);
+  const allCollectionsWithProjects = useCollectionsWithProjects(collections.filter((collection) => collection.id !== currentCollection.id));
   const sampleCollectionsWithProjects = useSample(allCollectionsWithProjects || [], 3);
   if (!allCollectionsWithProjects) return <Loader style={{ width: '25px' }} />;
   if (!allCollectionsWithProjects.length) return null;

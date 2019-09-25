@@ -111,7 +111,9 @@ ProjectAvatar.defaultProps = {
   hasAlt: false,
 };
 
-export const CollectionAvatar = ({ collection }) => <CollectionDefaultAvatar color={collection.coverColor} />;
+export const CollectionAvatar = ({ collection }) => (
+  <CollectionDefaultAvatar color={collection.coverColor} projectCount={collection.projects.length} />
+);
 
 CollectionAvatar.propTypes = {
   collection: PropTypes.shape({
