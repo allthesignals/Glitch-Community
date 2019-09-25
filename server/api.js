@@ -77,7 +77,7 @@ async function getCultureZinePosts() {
 async function getPupdatesFromPrismic() {
   console.log('Fetching pupdates');
   const client = 'client_id=ghost-frontend&client_secret=c9a97f14ced8';
-  
+  const url = `https://glitch.prismic.io/api/v2/documents/search?ref=XYuY-xAAAB8Ad0VR&q=%5B%5Bat(document.type%2C+%22pupdate%22)%5D%5D&format=json
   const params = 'filter=featured:true&limit=4&fields=id,title,url,feature_image,primary_tag&include=tags';
   const url = `https://culture-zine.glitch.me/culture/ghost/api/v0.1/posts/?${client}&${params}`;
   const response = await axios.get(url, { timeout: 10000 });
