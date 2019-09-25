@@ -36,13 +36,13 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
     },
   };
 
-  const seoDescription = React.useMemo(() => renderText(collection.description)})
+  const seoDescription = React.useMemo(() => renderText(collection.description), [collection.description]);
 
   return (
     <>
       <GlitchHelmet
         title={collection.name}
-        description={`${ 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
+        description={`${seoDescription} 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
         canonicalUrl={getCollectionLink(collection)}
       />
       <main id="main">
