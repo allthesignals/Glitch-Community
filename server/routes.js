@@ -292,7 +292,7 @@ module.exports = function(external) {
     
     const cachedPupdates = await getData('pupdates');
     const freshPupdates = await getPupdatesFromPrismic();
-    const pupdatesUpdated = (cachedPupdates.pupdates.length !== freshPupdates.length) || 
+    const pupdatesUpdated = (cachedPupdates.pupdates.length !== freshPupdates.length) || parseRawPupdates() !== cachedPupdates
     
     try {
       await saveDataToFile({ page, persistentToken, data });
