@@ -17,7 +17,7 @@ const Layout = withRouter(({ children, searchQuery, history }) => (
       title="Glitch"
       socialTitle="Glitch: The friendly community where everyone builds the web"
       description="Simple, powerful, free tools to create and use millions of apps."
-      image="https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fsocial-card%402x.png"
+      image="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781"
     />
     <NewStuffContainer>
       {(showNewStuffOverlay) => (
