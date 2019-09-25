@@ -42,9 +42,8 @@ module.exports = function(external) {
   app.use(express.static('build/client', { index: false, maxAge: ms }));
 
   const readFilePromise = util.promisify(fs.readFile);
-  const imageDefault = 'https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fsocial-card%402x.png';
 
-  async function render(req, res, { description, image = imageDefault, canonicalUrl = APP_URL, wistiaVideoId, cache = {} }, shouldRender = false) {
+  async function render(req, res, { wistiaVideoId, cache = {} }, shouldRender = false) {
     let built = true;
 
     let scripts = [];
@@ -99,11 +98,8 @@ module.exports = function(external) {
     }
 
     res.render('index.ejs', {
-      description,
-      image,
       scripts,
       styles,
-      canonicalUrl,
       BUILD_COMPLETE: built,
       BUILD_TIMESTAMP: buildTime.toISOString(),
       API_CACHE: cache,
