@@ -285,11 +285,7 @@ module.exports = function(external) {
     // if (!validSecret(secret)) {
     //  res.sendStatus(401);
     // }
-    console.log('type', type);
-    console.log(req.body.releases);
-    console.log('addition', req.body.releases.addition[0])
-    console.log('update', req.body.releases.update[0])
-    console.log('deletion', req.body.releases.deletion[0])
+    console.log(req.body);
     res.sendStatus(200); // TODO this might be more appropriate to be 201
   });
 
