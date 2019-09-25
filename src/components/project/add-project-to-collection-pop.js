@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { partition } from 'lodash';
-import { Actions, Badge, Button, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
+import { Actions, Badge, Button, Icon, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
 import {
@@ -28,7 +28,9 @@ import useDevToggle from 'State/dev-toggles';
 import { useAPI } from 'State/api';
 import { getCollectionsWithMyStuff, createCollection } from 'Models/collection';
 import useDebouncedValue from '../../hooks/use-debounced-value';
+
 import styles from './popover.styl';
+import { emoji, widePopover } from '../global.styl';
 
 const collectionTypeOptions = [
   {
@@ -179,7 +181,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
         )}
       />
 
-      <PActions>
+      <Actions>
         <Button size="small" variant="secondary" onClick={createCollectionPopover}>
           Add to a new collection
         </Button>
@@ -197,7 +199,7 @@ AddProjectToCollectionBase.propTypes = {
 };
 
 const AddProjectToCollection = ({ project, addProjectToCollection }) => (
-  <PopoverWithButton buttonProps={{ size: 'small', emoji: 'framedPicture' }} buttonText="Add to Collection">
+  <Popover className={widePopover} align="right" renderLabel={({ onClick, ref }) => <Button size="small" onClick={onClick} ref={ref}><Icon className={emoji} icon="framedPicture" />Add to Collection</Button>}> 
     {({ togglePopover }) => (
       <MultiPopover
         views={{
@@ -223,7 +225,7 @@ const AddProjectToCollection = ({ project, addProjectToCollection }) => (
         )}
       </MultiPopover>
     )}
-  </PopoverWithButton>
+  </Popover>
 );
 
 AddProjectToCollection.propTypes = {
