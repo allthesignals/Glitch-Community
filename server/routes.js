@@ -284,6 +284,7 @@ module.exports = function(external) {
   app.post('/api/prismic-webhook', async (req, res) => {
     const { secret } = req.body;
     const isValidSecret = await bcrypt.compare(secret, 'butt'); //process.env.PRISMIC_WEBHOOK_HASHED_SECRET);
+    
     if (!isValidSecret) {
       res.sendStatus(401);
       return;
