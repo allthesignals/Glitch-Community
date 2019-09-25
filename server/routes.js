@@ -6,6 +6,7 @@ const fs = require('fs');
 const util = require('util');
 const dayjs = require('dayjs');
 const punycode = require('punycode');
+const bcrypt = require('bcrypt');
 
 const MarkdownIt = require('markdown-it');
 const md = new MarkdownIt();
@@ -280,9 +281,10 @@ module.exports = function(external) {
     }
   });
   
-  app.post('/api/prismic-webhook', (req, res) => {
+  app.post('/api/prismic-webhook', async (req, res) => {
     const { secret, type } = req.body;
-    if (!)
+    const isValidSecret = await bcry
+    if (!bcrypt.compare(myPlaintextPassword, hash, function(err, res) {)
     // if (!validSecret(secret)) {
     //  res.sendStatus(401);
     // }
