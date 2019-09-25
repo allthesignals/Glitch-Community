@@ -61,7 +61,7 @@ export const NewStuffOverlay = ({ setShowNewStuff, showNewStuff, newStuff, close
 
       if (response) {
         setDocData(response.results[0]);
-        console.log(doc);
+        console.log('doc', doc);
       }
     };
 
