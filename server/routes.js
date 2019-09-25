@@ -287,9 +287,9 @@ module.exports = function(external) {
     // }
     console.log('type', type);
     console.log(req.body.releases);
-    console.log('addition', req.body.addition[0])
-    console.log('update', req.body.update[0])
-    console.log('deletion', req.body.deletion[0])
+    console.log('addition', req.body.releases.addition[0])
+    console.log('update', req.body.releases.update[0])
+    console.log('deletion', req.body.releases.deletion[0])
     res.sendStatus(200); // TODO this might be more appropriate to be 201
   });
 
