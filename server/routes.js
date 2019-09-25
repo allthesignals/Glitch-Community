@@ -282,6 +282,7 @@ module.exports = function(external) {
   
   app.post('/api/prismic-webhook', (req, res) => {
     console.log(req.body);
+    console.log(req);
     console.log('🎣');
     res.sendStatus(200); // TODO this might be more appropriate to be 201
   });
