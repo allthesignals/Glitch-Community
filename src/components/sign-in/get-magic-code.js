@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Icon, Loader, TextInput } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
@@ -10,7 +11,7 @@ import { captureException } from 'Utils/sentry';
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
 
-const GetMagicCode = () => {
+const GetMagicCode = ({ onCodeSent }) => {
   const api = useAPI();
   const [email, setEmail, validationError] = useEmail();
   const [isFocused, setIsFocused] = useState(true);
@@ -22,8 +23,9 @@ const GetMagicCode = () => {
 
     setStatus({ status: 'loading' });
     try {
-      await api.post('/email/sendLoginEmail', { emailAddress: email });
-      setStatus({ status: 'done' });
+      const data = { emailAddress: email };
+      await api.post('/email/sendLoginEmail', data);
+      onCodeSent(data);
     } catch (error) {
       if (error && error.response) {
         if (error.response.status === 429) {
@@ -66,14 +68,6 @@ const GetMagicCode = () => {
         </form>
       )}
       {status === 'loading' && <Loader />}
-      {status === 'done' && (
-        <>
-          <Notification persistent type="success">
-            Almost Done
-          </Notification>
-          <div>Finish signing in from the email sent to {email}.</div>
-        </>
-      )}
       {status === 'error' && (
         <>
           <Notification persistent type="error">
@@ -84,6 +78,10 @@ const GetMagicCode = () => {
       )}
     </div>
   );
+};
+
+GetMagicCode.propTypes = {
+  onCodeSent: PropTypes.func.isRequired,
 };
 
 export default GetMagicCode;

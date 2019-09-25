@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Loader, TextInput } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
@@ -9,7 +10,19 @@ import { captureException } from 'Utils/sentry';
 
 import styles from './styles.styl';
 
-const UseMagicCode = () => {
+const EllipsizeEmail = ({ email }) => {
+  const sliceIndex = email.indexOf('@') - 2;
+  return (
+    <span aria-label={email} className={styles.emailAddress}>
+      <span aria-hidden="true" className={styles.firstEmail}>
+        {email.slice(0, sliceIndex)}
+      </span>
+      <span aria-hidden="true">{email.slice(sliceIndex)}</span>
+    </span>
+  );
+};
+
+const UseMagicCode = ({ emailAddress }) => {
   const { login } = useCurrentUser();
   const api = useAPI();
   const [code, setCode] = useState('');
@@ -37,8 +50,12 @@ const UseMagicCode = () => {
   }
 
   return (
-    <div>
-      <Text>Now paste the code here to sign in.</Text>
+    <>
+      <Notification persistent type="success">
+        Sent magic link to <EllipsizeEmail email={emailAddress} />
+      </Notification>
+      <Text>Click the magic link in your email to sign in directly.</Text>
+      <Text>...or enter your temporary login code below.</Text>
       {status === 'loading' ? (
         <Loader />
       ) : (
@@ -71,8 +88,12 @@ const UseMagicCode = () => {
           <Text>Code not found or already used. Try signing in with email.</Text>
         </>
       )}
-    </div>
+    </>
   );
+};
+
+UseMagicCode.propTypes = {
+  emailAddress: PropTypes.string.isRequired,
 };
 
 export default UseMagicCode;

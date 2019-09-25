@@ -66,19 +66,14 @@ module.exports = function(external) {
 
     try {
       const stats = JSON.parse(await readFilePromise('build/client/stats.json'));
-      stats.entrypoints.styles.assets.forEach((file) => {
-        if (file.match(/\.css(\?|$)/)) {
-          styles.push(`${stats.publicPath}${file}`);
-        }
-      });
-      stats.entrypoints.client.assets.forEach((file) => {
+      for (const file of stats.entrypoints.client.assets) {
         if (file.match(/\.js(\?|$)/)) {
           scripts.push(`${stats.publicPath}${file}`);
         }
         if (file.match(/\.css(\?|$)/)) {
           styles.push(`${stats.publicPath}${file}`);
         }
-      });
+      }
     } catch (error) {
       console.error("Failed to load webpack stats file. Unless you see a webpack error here, the initial build probably just isn't ready yet.");
       built = false;
@@ -183,6 +178,20 @@ module.exports = function(external) {
     await render(req, res, { title: domain, canonicalUrl, description, image: avatar, cache }, true);
   });
 
+  app.get('/~:domain/edit', async (req, res) => {
+    const { domain } = req.params;
+    const editorUrl = `${APP_URL}/edit/#!/${domain}`;
+
+    res.redirect(editorUrl);
+  });
+  
+  app.get('/~:domain/console', async (req, res) => {
+    const { domain } = req.params;
+    const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
+
+    res.redirect(consoleUrl);
+  });
+  
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
     const canonicalUrl = `${APP_URL}/@${name}`;

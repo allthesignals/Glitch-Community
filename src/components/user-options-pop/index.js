@@ -142,8 +142,8 @@ Are you sure you want to sign out?`)
           </Button>
         </div>
         <div className={styles.buttonWrap}>
-          <Button as="a" variant="secondary" size="small" href="https://support.glitch.com">
-            Support <Icon className={emoji} icon="ambulance" />
+          <Button as="a" variant="secondary" size="small" href="https://glitch.com/help/">
+            Help Center <Icon className={emoji} icon="ambulance" />
           </Button>
         </div>
         {userPasswordEnabled && (
@@ -191,7 +191,9 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
                   <span className={styles.userOptionsButtonAvatar}>
                     <UserAvatar user={user} hideTooltip withinButton style={avatarStyle} />
                   </span>
-                  <span className="down-arrow icon" />
+                  <span className={styles.userOptionsArrow}>
+                    <Icon icon="chevronDown" />
+                  </span>
                 </span>
               </UnstyledButton>
             );
