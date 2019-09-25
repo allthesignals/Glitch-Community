@@ -7,10 +7,6 @@ const util = require('util');
 const dayjs = require('dayjs');
 const punycode = require('punycode');
 
-const MarkdownIt = require('markdown-it');
-const md = new MarkdownIt();
-const cheerio = require('cheerio');
-
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
