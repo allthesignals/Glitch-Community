@@ -25,3 +25,7 @@ export const stripHtml = (html) => {
   const regex = /<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi;
   return html ? html.replace(regex, '').trim() : '';
 };
+
+export const renderText = (content) => {
+  return stripHtml(renderMarkdown(content));
+};
