@@ -105,7 +105,7 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
 }
 
 const EditCollectionColor = ({ update, initialColor }) => (
-  <PopoverWithButton containerClass="edit-collection-color-btn" buttonClass="add-project" buttonText="Color">
+  <PopoverWithButton align="left" containerClass="edit-collection-color-btn" buttonClass="add-project" buttonText="Color">
     {({ togglePopover }) => <EditCollectionColorPop updateColor={update} initialColor={initialColor} togglePopover={togglePopover} />}
   </PopoverWithButton>
 );
