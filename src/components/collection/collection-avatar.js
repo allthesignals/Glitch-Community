@@ -47,7 +47,7 @@ const getComplementaryColor = (inputColor) => {
 };
 
 export const CollectionDefaultAvatar = ({ color, projectCount }) => (
-  <svg viewBox="0 0 135 135" xmlns="http://www.w3.org/2000/svg" role="img" alt={altDescriptor}>
+  <svg viewBox="0 0 135 135" xmlns="http://www.w3.org/2000/svg" role="img">
     <g transform="translate(10.5 10.5)" fill="none" fillRule="evenodd">
       <rect stroke="#D8D8D8" strokeWidth="2.5" fill="#FFFFFF" x="21.25" y="21.25" width="91.5" height="91.5" rx="5" />
       <rect stroke="#D8D8D8" strokeWidth="2.5" fill="#FFFFFF" x="11.25" y="11.25" width="91.5" height="91.5" rx="5" />
@@ -64,7 +64,7 @@ export const CollectionDefaultAvatar = ({ color, projectCount }) => (
 CollectionDefaultAvatar.propTypes = {
   color: PropTypes.object.isRequired,
   projectCount: PropTypes.object.isRequired,
-}
+};
 
 // the avatar that appears on collection pages
 const CollectionAvatar = ({ collection }) => (
