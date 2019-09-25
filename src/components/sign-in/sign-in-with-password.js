@@ -5,7 +5,9 @@ import useEmail from 'Hooks/use-email';
 import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 
+import Text from 'Components/text/text';
 import TextInput from 'Components/inputs/text-input';
+import Notification from 'Components/notification';
 
 import { emoji } from '../global.styl';
 import styles from './styles.styl';
@@ -31,6 +33,7 @@ const SignInWithPassword = ({ showForgotPasswordPage }) => {
 
     try {
       const { data } = await api.post('user/login', { emailAddress: email, password: state.password });
+      console.log('data', data);
       if (data.tfaToken) {
         // TODO 2 factor here!
       } else {
@@ -48,6 +51,16 @@ const SignInWithPassword = ({ showForgotPasswordPage }) => {
 
   return (
     <form className={styles.passwordForm} onSubmit={onSubmit} data-cy="sign-in-code-form">
+      {!state.working && state.errorMessage && (
+        <>
+          <Notification type="error" persistent>
+            Error
+          </Notification>
+          <div className={styles.notificationHelpText}>
+            <Text>{state.errorMessage}</Text>
+          </div>
+        </>
+      )}
       <div>
         <TextInput
           type="email"
@@ -71,6 +84,7 @@ const SignInWithPassword = ({ showForgotPasswordPage }) => {
         />
         <span className={styles.passwordCheckboxContainer}>
           <input
+            className={styles.checkbox}
             id="show-password"
             type="checkbox"
             name="show-password"

@@ -56,7 +56,7 @@ const SignInLayout = () => {
                 <span className={styles.backArrow}>
                   <Icon icon="chevronLeft" />
                 </span>
-                <h1>Magic Code</h1>
+                <h1 className={styles.center}>Magic Code</h1>
               </div>
             </TransparentButton>
           )}
@@ -71,7 +71,7 @@ const SignInLayout = () => {
                 <span className={styles.backArrow}>
                   <span className="left-arrow icon" />
                 </span>
-                <h1>Magic Code</h1>
+                <h1 className={styles.center}>Magic Code</h1>
               </div>
             </TransparentButton>
           )}
@@ -81,7 +81,7 @@ const SignInLayout = () => {
                 <span className={styles.backArrow}>
                   <Icon icon="chevronLeft" />
                 </span>
-                <h1>Sign in With Password</h1>
+                <h1 className={styles.center}>Sign in With Password</h1>
               </div>
             </TransparentButton>
           )}
@@ -91,7 +91,7 @@ const SignInLayout = () => {
                 <span className={styles.backArrow}>
                   <Icon icon="chevronLeft" />
                 </span>
-                <h1>Forgot Password</h1>
+                <h1 className={styles.center}>Forgot Password</h1>
               </div>
             </TransparentButton>
           )}
