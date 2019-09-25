@@ -44,7 +44,7 @@ module.exports = function(external) {
   const readFilePromise = util.promisify(fs.readFile);
   const imageDefault = 'https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fsocial-card%402x.png';
 
-  async function render(req, res, { title, description, image = imageDefault, socialTitle, canonicalUrl = APP_URL, wistiaVideoId, cache = {} }, shouldRender = false) {
+  async function render(req, res, { description, image = imageDefault, canonicalUrl = APP_URL, wistiaVideoId, cache = {} }, shouldRender = false) {
     let built = true;
 
     let scripts = [];
@@ -99,8 +99,6 @@ module.exports = function(external) {
     }
 
     res.render('index.ejs', {
-      title,
-      socialTitle,
       description,
       image,
       scripts,
@@ -221,14 +219,7 @@ module.exports = function(external) {
   app.get('/create', async (req, res) => {
     await render(req, res, { wistiaVideoId: '2vcr60pnx9' }, true);
   });
-
-  app.get('/secret', async (req, res) => {
-    const description = "It's a secret to everybody";
-    const title = `Glitch - ${description}`;
-    await render(req, res, { title, description }, true);
-  });
   
-
   app.get('*', async (req, res) => {
     await render(req, res, {}, true);
   });
