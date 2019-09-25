@@ -50,21 +50,6 @@ function usePreventTabOut() {
 export const NewStuffOverlay = ({ setShowNewStuff, showNewStuff, newStuff, closePopover }) => {
   const { first, last } = usePreventTabOut();
 
-  const [doc, setDocData] = React.useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await Client.query(Prismic.Predicates.at('document.type', 'pupdate'));
-
-      if (response) {
-        console.log(response);
-        setDocData(response.results[0]);
-        console.log('doc', doc);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <Overlay className={styles.newStuffOverlay} ariaModal ariaLabelledBy="newStuff">
       <OverlaySection type="info">

@@ -287,6 +287,7 @@ module.exports = function(external) {
     // }
     console.log('type', type);
     console.log(req.body);
+    console.log(req.body.releases);
     res.sendStatus(200); // TODO this might be more appropriate to be 201
   });
 
