@@ -291,6 +291,9 @@ module.exports = function(external) {
       return;
     }
     
+    const cachedPupdates = await getData('pupdates');
+    console.log(cachedPupdates);
+    
     
 
     console.log(req.body);
