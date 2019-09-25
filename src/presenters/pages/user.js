@@ -22,6 +22,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useUserEditor } from 'State/user';
 import useFocusFirst from 'Hooks/use-focus-first';
 import { tagline } from 'Utils/constants';
+import { renderMarkdown, stripHtml } from 'Utils/markdown';
 
 import styles from './user.styl';
 import { emoji } from '../../components/global.styl';
