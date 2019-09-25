@@ -49,6 +49,7 @@ const ForgotPasswordHandler = ({ align }) => {
   const isWorking = status === 'working';
   const isDone = status === 'done';
   const isEnabled = email.length > 0 && !isWorking;
+
   return (
     <PopoverDialog align={align}>
       <MultiPopoverTitle>Forgot Password</MultiPopoverTitle>
