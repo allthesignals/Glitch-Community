@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Actions, Button, DangerZone, Icon, Loader, Popover, Title } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Loader, Title } from '@fogcreek/shared-components';
 
 import { getCollectionOwnerLink, getCollectionLink } from 'Models/collection';
 import Image from 'Components/images/image';
-import { PopoverActions, PopoverTitle, ActionDescription, PopoverMenuButton } from 'Components/popover';
 import { useCollectionEditor } from 'State/collection';
 import { useNotifications } from 'State/notifications';
 
@@ -41,7 +40,7 @@ const DeleteCollectionPop = withRouter(({ location, history, collection, animate
         Deleting {collection.name} will remove this collection. No projects will be deleted.
       </Actions>
       <DangerZone>
-        <Button size="small" variant={dangerZone} onClick={deleteThisCollection}>
+        <Button size="small" variant="dangerZone" onClick={deleteThisCollection}>
           Delete {collection.name} <Icon className={emoji} icon="bomb" />
           {collectionIsDeleting && <Loader style={{ width: '25px' }} />}
         </Button>
