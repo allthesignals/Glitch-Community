@@ -17,7 +17,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useCachedCollection } from 'State/api-cache';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
-import { renderMarkdown, stripHtml } from 'Utils/markdown';
+import { renderText } from 'Utils/markdown';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -35,11 +35,14 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
       return result;
     },
   };
+
+  const seoDescription = React.useMemo(() => renderText(collection.description)})
+
   return (
     <>
       <GlitchHelmet
         title={collection.name}
-        description={`${stripHtml(renderMarkdown(collection.description))} 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
+        description={`${ 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
         canonicalUrl={getCollectionLink(collection)}
       />
       <main id="main">
