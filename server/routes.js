@@ -215,10 +215,7 @@ module.exports = function(external) {
   });
 
   app.get(['/', '/index.html'], async (req, res) => {
-    const socialTitle = 'Glitch: The friendly community where everyone builds the web';
-    const description = 'Simple, powerful, free tools to create and use millions of apps.';
-    const image = `${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781`;
-    await render(req, res, { title: 'Glitch', socialTitle, description, image, wistiaVideoId: 'z2ksbcs34d' }, true);
+    await render(req, res, { wistiaVideoId: 'z2ksbcs34d' }, true);
   });
 
   app.get('/create', async (req, res) => {

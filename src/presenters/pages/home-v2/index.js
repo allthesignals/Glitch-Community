@@ -331,7 +331,8 @@ const HomeWithProductionData = () => {
         title="Glitch"
         socialTitle="Glitch: The friendly community where everyone builds the web"
         description="Simple, powerful, free tools to create and use millions of apps."
-        image="https://"
+        image="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781"
+        canonicalUrl="/"
       />
       <Home
         data={{ ...HOME_CONTENT, cultureZine: ZINE_POSTS.slice(0, 4) }}
