@@ -27,13 +27,15 @@ import { useCurrentUser } from 'State/current-user';
 import { useToggleBookmark } from 'State/collection';
 import { useProjectEditor, useProjectMembers } from 'State/project';
 import { getUserLink } from 'Models/user';
-import { userIsProjectMember, userIsProjectAdmin, getProjectLink, getProjectAvatarUrl, getProjectDescriptionForSEO, SUSPENDED_AVATAR_URL } from 'Models/project';
-import { addBreadcrumb } from 'Utils/sentry';
+import { userIsProjectMember, userIsProjectAdmin, getProjectLink, getProjectAvatarUrl, SUSPENDED_AVATAR_URL } from 'Models/project';
 import { getAllPages } from 'Shared/api';
 import useFocusFirst from 'Hooks/use-focus-first';
 import useDevToggle from 'State/dev-toggles';
 import { useAPIHandlers } from 'State/api';
 import { useCachedProject } from 'State/api-cache';
+import { tagline } from 'Utils/'
+import { renderText } from 'Utils/markdown';
+import { addBreadcrumb } from 'Utils/sentry';
 
 import styles from './project.styl';
 import { emoji } from '../../components/global.styl';
@@ -173,7 +175,7 @@ const ProjectPage = ({ project: initialProject }) => {
       return `Check out ~${project.domain} on Glitch, the ${tagline}`;
     }
     return `${renderText(project.description)} 🎏 Glitch is the ${tagline}`;
-  }, [project.domain, project.description, project.suspendedReason, ])
+  }, [project.domain, project.description, project.suspendedReason, tagline]);
 
   return (
     <main id="main">
