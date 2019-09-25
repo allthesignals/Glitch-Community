@@ -280,7 +280,9 @@ module.exports = function(external) {
     }
   });
   
-  app.post('/api/pupdate')
+  app.post('/prismic-webhook', async (req, res) => {
+    
+  });
 
   app.get('/api/pupdate', async (req, res) => {
     const data = await getData('pupdates');
