@@ -33,7 +33,7 @@ import useFocusFirst from 'Hooks/use-focus-first';
 import useDevToggle from 'State/dev-toggles';
 import { useAPIHandlers } from 'State/api';
 import { useCachedProject } from 'State/api-cache';
-import { tagline } from 'Utils/'
+import { tagline } from 'Utils/constants';
 import { renderText } from 'Utils/markdown';
 import { addBreadcrumb } from 'Utils/sentry';
 
