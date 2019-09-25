@@ -515,6 +515,9 @@ function Categories() {
 const CreatePage = () => (
   <div style={{ maxWidth: '100vw', overflow: 'hidden', background: '#f5f5f5' }}>
     <Layout>
+      <GlitchHelmet
+        title=""
+      />
       <main id="main" className={styles.main}>
         <Banner />
         <WhatIsGlitch />
