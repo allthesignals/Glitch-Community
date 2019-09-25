@@ -22,7 +22,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useUserEditor } from 'State/user';
 import useFocusFirst from 'Hooks/use-focus-first';
 import { tagline } from 'Utils/constants';
-import { renderMarkdown, stripHtml } from 'Utils/markdown';
+import { renderText } from 'Utils/markdown';
 
 import styles from './user.styl';
 import { emoji } from '../../components/global.styl';
@@ -101,7 +101,7 @@ const UserPage = ({ user: initialUser }) => {
   const [pinnedProjects, recentProjects] = partition(sortedProjects.filter(({ id }) => id !== featuredProjectId), ({ id }) => pinnedSet.has(id));
   const featuredProject = user.projects.find(({ id }) => id === featuredProjectId);
 
-  const renderedDescription = React.useMemo(() => stripHtml(renderMarkdown(user.description)), [user.description]);
+  const renderedDescription = React.useMemo(() => renderText(user.description), [user.description]);
 
   return (
     <main id="main" className={styles.container}>

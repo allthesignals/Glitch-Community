@@ -26,6 +26,4 @@ export const stripHtml = (html) => {
   return html ? html.replace(regex, '').trim() : '';
 };
 
-export const renderText = (content) => {
-  return stripHtml(renderMarkdown(content));
-};
+export const renderText = (content) => stripHtml(renderMarkdown(content));

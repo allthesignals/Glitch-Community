@@ -123,7 +123,7 @@ function TeamPage({ team: initialTeam }) {
 
   const seoBase = `See what Team ${team.name} (@${team.url}) is up to on Glitch, the ${tagline} `;
   const seoShowDescription = team.description && team.updatedAt !== team.createdAt;
-  const seoDescription = `${seoBase} ${seoShowDescription ? stripHtml(renderMarkdown(team.description)) : ''}`;
+  const seoDescription = `${seoBase} ${seoShowDescription ? renderMarkdown(team.description) : ''}`;
 
   return (
     <main className={styles.container} id="main">
