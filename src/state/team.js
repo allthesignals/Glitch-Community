@@ -9,8 +9,7 @@ import useUploader from 'State/uploader';
 import useErrorHandlers from 'State/error-handlers';
 import { useProjectReload } from 'State/project';
 
-const MEMBER_ACCESS_LEVEL = 20;
-const ADMIN_ACCESS_LEVEL = 30;
+import { MEMBER_ACCESS_LEVEL, ADMIN_ACCESS_LEVEL } from 'Models/team';
 
 // eslint-disable-next-line import/prefer-default-export
 export function useTeamEditor(initialTeam) {
@@ -189,14 +188,14 @@ export function useTeamEditor(initialTeam) {
       await addPinnedProject({ project, team });
       setTeam((prev) => ({
         ...prev,
-        teamPins: [...prev.teamPins, { projectId: project.id }],
+        pinnedProjects: [...prev.pinnedProjects, project],
       }));
     }, handleError),
     removePin: withErrorHandler(async (project) => {
       await removePinnedProject({ project, team });
       setTeam((prev) => ({
         ...prev,
-        teamPins: prev.teamPins.filter((p) => p.projectId !== project.id),
+        pinnedProjects: prev.pinnedProjects.filter((p) => p.id !== project.id),
       }));
     }, handleError),
     updateWhitelistedDomain: (whitelistedDomain) => updateFields({ whitelistedDomain }).catch(handleError),
