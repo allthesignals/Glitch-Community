@@ -9,6 +9,8 @@ import { PopoverActions, PopoverTitle, ActionDescription, PopoverMenuButton } fr
 import { useCollectionEditor } from 'State/collection';
 import { useNotifications } from 'State/notifications';
 
+import { emoji } from '../global.styl';
+
 const DeleteCollectionPop = withRouter(({ location, history, collection, animateAndDeleteCollection }) => {
   const [coll, baseFuncs] = useCollectionEditor(collection);
   const { createNotification } = useNotifications();
@@ -39,10 +41,10 @@ const DeleteCollectionPop = withRouter(({ location, history, collection, animate
         Deleting {collection.name} will remove this collection. No projects will be deleted.
       </Actions>
       <DangerZone>
-        <Button size="small" variant={dangerZone} onClick={deleteThisCollection}>Delete {collection.name} <Icon className={emojiicon="bomb" /></Button>
-        <PopoverMenuButton size="small" label={`Delete ${collection.name}`} type="dangerZone" emoji="bomb" onClick={deleteThisCollection}>
+        <Button size="small" variant={dangerZone} onClick={deleteThisCollection}>
+          Delete {collection.name} <Icon className={emoji} icon="bomb" />
           {collectionIsDeleting && <Loader style={{ width: '25px' }} />}
-        </PopoverMenuButton>
+        </Button>
       </DangerZone>
     </>
   );
