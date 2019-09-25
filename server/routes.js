@@ -291,9 +291,7 @@ module.exports = function(external) {
     }
     
     const cachedPupdates = await getData('pupdates');
-    console.log(cachedPupdates);
-    
-    
+    console.log(cachedPupdates);    
 
     console.log(req.body);
     res.sendStatus(200); // TODO this might be more appropriate to be 201
