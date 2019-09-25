@@ -43,7 +43,7 @@ module.exports = function(external) {
 
   const readFilePromise = util.promisify(fs.readFile);
 
-  async function render(req, res, { wistiaVideoId, cache = {} }, shouldRender = false) {
+  async function render(req, res, { wistiaVideoId, cache = {} }) {
     let built = true;
 
     let scripts = [];
@@ -74,27 +74,25 @@ module.exports = function(external) {
     const [zine, homeContent] = await Promise.all([getZine(), getData('home')]);
 
     let ssr = { rendered: null, helmet: null, styleTags: '' };
-    if (shouldRender) {
-      try {
-        const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-        const { html, context, helmet, styleTags } = await renderPage(url, {
-          AB_TESTS: assignments,
-          API_CACHE: cache,
-          EXTERNAL_ROUTES: external,
-          HOME_CONTENT: homeContent,
-          SSR_SIGNED_IN: signedIn,
-          ZINE_POSTS: zine || [],
-        });
-        ssr = {
-          rendered: html,
-          helmet,
-          styleTags,
-          ...context,
-        };
-      } catch (error) {
-        console.error(`Failed to server render ${req.url}: ${error.toString()}`);
-        captureException(error);
-      }
+    try {
+      const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
+      const { html, context, helmet, styleTags } = await renderPage(url, {
+        AB_TESTS: assignments,
+        API_CACHE: cache,
+        EXTERNAL_ROUTES: external,
+        HOME_CONTENT: homeContent,
+        SSR_SIGNED_IN: signedIn,
+        ZINE_POSTS: zine || [],
+      });
+      ssr = {
+        rendered: html,
+        helmet,
+        styleTags,
+        ...context,
+      };
+    } catch (error) {
+      console.error(`Failed to server render ${req.url}: ${error.toString()}`);
+      captureException(error);
     }
 
     res.render('index.ejs', {
@@ -115,8 +113,6 @@ module.exports = function(external) {
     });
   }
 
-  const { CDN_URL, APP_URL } = constants.current;
-
   app.use(
     helmet.contentSecurityPolicy({
       directives: {
@@ -135,7 +131,7 @@ module.exports = function(external) {
     const { domain } = req.params;
     const project = await getProject(punycode.toASCII(domain));
     const cache = project && { [`project:${domain}`]: project };
-    await render(req, res, { cache }, true);
+    await render(req, res, { cache });
   });
 
   app.get('/@:name', async (req, res) => {
@@ -143,23 +139,23 @@ module.exports = function(external) {
     const team = await getTeam(name);
     if (team) {
       const cache = { [`team-or-user:${name}`]: { team } };
-      await render(req, res, { cache }, true);
+      await render(req, res, { cache });
       return;
     }
     const user = await getUser(name);
     if (user) {
       const cache = { [`team-or-user:${name}`]: { user } };
-      await render(req, res, { cache }, true);
+      await render(req, res, { cache });
       return;
     }
-    await render(req, res, {}, true);
+    await render(req, res);
   });
 
   app.get('/@:author/:url', async (req, res) => {
     const { author, url } = req.params;
     const collection = await getCollection(author, url);
     const cache = collection && { [`collection:${author}/${url}`]: collection };
-    await render(req, res, { cache }, true);
+    await render(req, res, { cache });
   });
 
   app.get('/auth/:domain', async (req, res) => {
@@ -209,15 +205,15 @@ module.exports = function(external) {
   });
 
   app.get(['/', '/index.html'], async (req, res) => {
-    await render(req, res, { wistiaVideoId: 'z2ksbcs34d' }, true);
+    await render(req, res, { wistiaVideoId: 'z2ksbcs34d' });
   });
 
   app.get('/create', async (req, res) => {
-    await render(req, res, { wistiaVideoId: '2vcr60pnx9' }, true);
+    await render(req, res, { wistiaVideoId: '2vcr60pnx9' });
   });
   
   app.get('*', async (req, res) => {
-    await render(req, res, {}, true);
+    await render(req, res);
   });
 
   return app;
