@@ -196,27 +196,21 @@ body[data-grey]
   border-radius: 5px;
 
 .imageGrid
-  margin-top: 14px;
-  padding: 15px 0px;
-  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  padding: 12px;
+  grid-gap: 12px;
+
+.imageGrid img
+  max-width: 100%
 
 .imageRow
   margin-top: 1rem;
-.imageGrid img
-  width: 45%;
-  max-width: 210px;
-  margin: 12px;
-  margin-top: 0px;
-  margin-left: 0px;
-  border-radius: 5px;
-
-.imageRow img:first-child
-  margin-left: 12px;
-
+  display: flex;
 .imageRow img
-  max-width: 30.6%;
+  max-width: calc(33% - 24px)
   margin: 12px;
-  margin-bottom: 8px;
   border-radius: 5px;
 
 .thirdSectionButton 
