@@ -10,6 +10,7 @@ const punycode = require('punycode');
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
+const { APP_URL } = constants.currentEnv;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getData, saveDataToFile } = require('./home');
