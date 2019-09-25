@@ -37,7 +37,7 @@ const NewProjectResultItem = ({ project }) => (
 
 const NewProjectPop = ({ projects }) => (
   <>
-    <Info>
+    <Actions>
       {projects.length ? (
         <ResultsList items={projects}>
           {(project) => (
@@ -57,12 +57,12 @@ const NewProjectPop = ({ projects }) => (
       ) : (
         <Loader style={{ width: '25px' }} />
       )}
-    </Info>
-    <Actions>
+    </Actions>
+    <Info>
       <Button size="small" variant="secondary" onClick={importGitRepo} matchBackground>
         Clone from Git Repo
       </Button>
-    </Actions>
+    </Info>
   </>
 );
 NewProjectPop.propTypes = {

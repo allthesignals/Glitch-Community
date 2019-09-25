@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { partition } from 'lodash';
-import { Badge, Button, SegmentedButton } from '@fogcreek/shared-components';
+import { Actions, Badge, Button, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
 import {
@@ -42,9 +42,9 @@ const collectionTypeOptions = [
 ];
 
 const AddProjectPopoverTitle = ({ project }) => (
-  <MultiPopoverTitle>
+  <Title onBack={onBack}>
     <ProjectAvatar project={project} tiny />&nbsp;Add {project.domain} to collection
-  </MultiPopoverTitle>
+  </Title>
 );
 AddProjectPopoverTitle.propTypes = {
   project: PropTypes.object.isRequired,
@@ -150,9 +150,9 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
       {fromProject && <AddProjectPopoverTitle project={project} />}
 
       {currentUser.teams.length > 0 && (
-        <PopoverActions>
+        <Actions>
           <SegmentedButton value={collectionType} options={collectionTypeOptions} onChange={setCollectionType} />
-        </PopoverActions>
+        </Actions>
       )}
 
       <PopoverSearch
@@ -165,7 +165,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
         labelText="Filter collections"
         renderMessage={() => {
           if (collectionsWithProject.length) {
-            return <PopoverInfo><AlreadyInCollection project={project} collections={collectionsWithProject} /></PopoverInfo>;
+            return <Info><AlreadyInCollection project={project} collections={collectionsWithProject} /></Info>;
           }
           return null;
         }}
@@ -173,17 +173,17 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
           <AddProjectToCollectionResultItem active={active} onClick={() => addProjectTo(collection)} collection={collection} />
         )}
         renderNoResults={() => (
-          <PopoverInfo>
+          <Info>
             <NoResults project={project} collectionsWithProject={collectionsWithProject} query={query} />
-          </PopoverInfo>
+          </Info>
         )}
       />
 
-      <PopoverActions>
+      <PActions>
         <Button size="small" variant="secondary" onClick={createCollectionPopover}>
           Add to a new collection
         </Button>
-      </PopoverActions>
+      </Actions>
     </PopoverDialog>
   );
 };
