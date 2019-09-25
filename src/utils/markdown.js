@@ -19,6 +19,7 @@ export const renderMarkdown = (content, { allowImages, linkifyHeadings } = {}) =
     mdIt.use(markdownHeadings, headingOpts);
   }
   mdIt.use(markdownEmoji).use(markdownSanitizer);
+
   return mdIt.render(content);
 };
 
