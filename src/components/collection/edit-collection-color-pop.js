@@ -6,7 +6,6 @@ import { Actions, Button, Icon, Info, Popover } from '@fogcreek/shared-component
 import { isGoodColorContrast, pickRandomColor } from 'Utils/color';
 import TextInput from 'Components/inputs/text-input';
 import ColorInput from 'Components/inputs/color';
-import { PopoverWithButton, PopoverDialog, PopoverInfo, PopoverActions } from 'Components/popover';
 
 import styles from './edit-collection-color-pop.styl';
 import { emoji } from '../global.styl';
@@ -75,8 +74,8 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
   };
 
   return (
-    <PopoverDialog align="left" className={styles.container}>
-      <PopoverInfo>
+    <div className={styles.container}>
+      <Info>
         <div className={styles.colorFormWrap}>
           <ColorInput value={color} onChange={onChangeColorPicker} />
           <div className={styles.hexWrap}>
@@ -92,15 +91,15 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
             />
           </div>
         </div>
-      </PopoverInfo>
+      </Info>
 
-      <PopoverActions type="secondary">
+      <Actions type="secondary">
         <Button size="small" variant="secondary" onClick={setRandomColor}>
           Random
           <Icon className={emoji} icon="bouquet" />
         </Button>
-      </PopoverActions>
-    </PopoverDialog>
+      </Actions>
+    </div>
   );
 }
 
