@@ -21,7 +21,7 @@ const pupdatesArray = pupdates.pupdates;
 const latestId = Math.max(...pupdatesArray.map(({ id }) => id));
 
 import Prismic from 'prismic-javascript';
-const apiEndpoint = 'https://glitch.cdn.prismic.io/api/v2';	
+const apiEndpoint = 'https://glitch.cdn.prismic.io/api/v2';
 const Client = Prismic.client(apiEndpoint, { accessToken: process.env.PRISMIC_TOKEN });
 
 function usePreventTabOut() {
@@ -53,6 +53,20 @@ function usePreventTabOut() {
 
 export const NewStuffOverlay = ({ setShowNewStuff, showNewStuff, newStuff, closePopover }) => {
   const { first, last } = usePreventTabOut();
+
+  const [doc, setDocData] = React.useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await Client.query(Prismic.Predicates.at('document.type', 'pupdate'));
+
+      if (response) {
+        setDocData(response.results[0]);
+        console.log(doc);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Overlay className={styles.newStuffOverlay} ariaModal ariaLabelledBy="newStuff">
