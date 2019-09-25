@@ -16,9 +16,10 @@ export const renderMarkdown = (content, { allowImages, linkifyHeadings } = {}) =
   }
   if (linkifyHeadings) {
     const headingOpts = { enableHeadingLinkIcons: false, prefixHeadingIds: false };
-    return mdIt.use(markdownHeadings, headingOpts).use(markdownEmoji).use(markdownSanitizer).render(content);
+    mdIt.use(markdownHeadings, headingOpts);
   }
-  return mdIt.use(markdownEmoji).use(markdownSanitizer).render(content);
+  mdIt.use(markdownEmoji).use(markdownSanitizer);
+  return mdIt.render(content);
 };
 
 export const stripHtml = (html) => {
