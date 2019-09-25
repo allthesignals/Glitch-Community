@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 const WistiaVideo = React.forwardRef(({ videoId }, ref) => {
   useEffect(() => {
@@ -32,9 +31,6 @@ const WistiaVideo = React.forwardRef(({ videoId }, ref) => {
   return (
     <div className="wistia_responsive_padding">
       <div className="wistia_responsive_wrapper">
-        <Helmet>
-          <script src="//fast.wistia.com/assets/external/E-v1.js" async />
-        </Helmet>
         <div ref={ref} className={`wistia_embed wistia_async_${videoId}`} videofoam="true" />
       </div>
     </div>
