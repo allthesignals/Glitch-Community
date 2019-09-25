@@ -299,8 +299,6 @@ module.exports = function(external) {
       console.warn(e);
       res.sendStatus(403);
     }
-    
-    res.sendStatus(200); // TODO this might be more appropriate to be 201
   });
 
   app.get('/api/pupdate', async (req, res) => {
