@@ -279,6 +279,8 @@ module.exports = function(external) {
       res.sendStatus(403);
     }
   });
+  
+  app.post('/api/pupdate')
 
   app.get('/api/pupdate', async (req, res) => {
     const data = await getData('pupdates');

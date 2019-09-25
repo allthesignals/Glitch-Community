@@ -74,13 +74,6 @@ async function getCultureZinePosts() {
   return response.data.posts;
 }
 
-async function getPupdates() {
-  console.log('Fetching pupdates');
-  import Prismic from 'prismic-javascript';
-  const apiEndpoint = 'https://glitch.cdn.prismic.io/api/v2';
-const Client = Prismic.client(apiEndpoint, { accessToken: process.env.PRISMIC_TOKEN });
-}
-
 const [getFromCache] = createCache(dayjs.convert(1, 'hour', 'ms'), 'load');
 const [getFromZineCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'load');
 
@@ -90,5 +83,4 @@ module.exports = {
   getUser: (login) => getFromCache(`user ${login}`, getUserFromApi, login),
   getCollection: (login, collection) => getFromCache(`collection ${login}/${collection}`, getCollectionFromApi, login, collection),
   getZine: () => getFromZineCache('culture zine', getCultureZinePosts),
-  getPupdates: () => getFromPupdatesCache('pupdates', getPupdates),
 };
