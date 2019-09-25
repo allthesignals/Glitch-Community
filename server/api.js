@@ -79,7 +79,8 @@ async function getPupdatesFromPrismic() {
   const params = 'search?ref=XYuY-xAAAB8Ad0VR&q=[[at(document.type%2C+"pupdate")]]';
   const url = `https://glitch.cdn.prismic.io/api/v2/documents/search${params}`;
   const response = await axios.get(url, { timeout: 10000 });
-  return response.data.posts;
+  console.log(response.data.results);
+  return response.data.results;
 }
 
 const [getFromCache] = createCache(dayjs.convert(1, 'hour', 'ms'), 'load');
@@ -91,4 +92,5 @@ module.exports = {
   getUser: (login) => getFromCache(`user ${login}`, getUserFromApi, login),
   getCollection: (login, collection) => getFromCache(`collection ${login}/${collection}`, getCollectionFromApi, login, collection),
   getZine: () => getFromZineCache('culture zine', getCultureZinePosts),
+  getPupdatesFromPrismic,
 };
