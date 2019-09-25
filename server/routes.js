@@ -12,7 +12,7 @@ const MarkdownIt = require('markdown-it');
 const md = new MarkdownIt();
 const cheerio = require('cheerio');
 
-const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
+const { getProject, getTeam, getUser, getCollection, getZine, getPupdatesFromPrismic } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
 const renderPage = require('./render');
@@ -82,7 +82,7 @@ module.exports = function(external) {
 
     const assignments = getAssignments(req, res);
     const signedIn = !!req.cookies.hasLogin;
-    const [zine, homeContent] = await Promise.all([getZine(), getData('home')]);
+    const [zine, homeContent, prismicPupdates] = await Promise.all([getZine(), getData('home'), getPupdatesFromPrismic()]);
 
     let ssr = { rendered: null, styleTags: '' };
     if (shouldRender) {
