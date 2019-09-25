@@ -105,7 +105,7 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
 
 const EditCollectionColor = ({ update, initialColor }) => (
   <Popover align="left" containerClass="edit-collection-color-btn" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Color</Button>}>
-    {({ togglePopover }) => <EditCollectionColorPop className={styles.container} updateColor={update} initialColor={initialColor} togglePopover={togglePopover} />}
+    {({ onClose }) => <EditCollectionColorPop className={styles.container} updateColor={update} initialColor={initialColor} togglePopover={onClose} />}
   </Popover>
 );
 
