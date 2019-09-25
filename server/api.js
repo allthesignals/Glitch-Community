@@ -77,7 +77,7 @@ async function getCultureZinePosts() {
 async function getPupdates() {
   console.log('Fetching pupdates');
   import Prismic from 'prismic-javascript';
-const apiEndpoint = 'https://glitch.cdn.prismic.io/api/v2';
+  const apiEndpoint = 'https://glitch.cdn.prismic.io/api/v2';
 const Client = Prismic.client(apiEndpoint, { accessToken: process.env.PRISMIC_TOKEN });
 }
 
