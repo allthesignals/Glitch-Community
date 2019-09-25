@@ -8,7 +8,6 @@ import { Actions, Button, Loader, Popover, Title } from '@fogcreek/shared-compon
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TextInput from 'Components/inputs/text-input';
 import { AddProjectToCollectionMsg } from 'Components/notification';
-import { MultiPopoverTitle } from 'Components/popover';
 import { createCollection } from 'Models/collection';
 import { useTracker } from 'State/segment-analytics';
 import { useAPI, createAPIHook } from 'State/api';
