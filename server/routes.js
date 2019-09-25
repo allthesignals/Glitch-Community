@@ -280,9 +280,10 @@ module.exports = function(external) {
     }
   });
   
-  app.post('/prismic-webhook', async (req, res) => {
+  app.post('/prismic-webhook', (req, res) => {
     console.log(req.body);
     console.log('🎣');
+    res.sendStatus(200); // TODO this might be more appropriate to be 201
   });
 
   app.get('/api/pupdate', async (req, res) => {
