@@ -21,6 +21,7 @@ const pupdatesArray = pupdates.pupdates;
 const latestId = Math.max(...pupdatesArray.map(({ id }) => id));
 	
 const apiEndpoint = 'https://glitch.cdn.prismic.io/api/v2'
+const accessToken = process.env.PRISMIC_ACCESS_TOKEN
 
 function usePreventTabOut() {
   const first = useRef();
