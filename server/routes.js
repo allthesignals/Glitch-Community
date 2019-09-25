@@ -290,8 +290,7 @@ module.exports = function(external) {
       return;
     }
     
-    const cachedPupdates = await getData('pupdates');
-    const freshPupdates = await getPupdatesFromPrismic();
+    const pupdates = await getPupdatesFromPrismic();
     const pupdatesUpdated = (cachedPupdates.pupdates.length !== freshPupdates.length) || parseRawPupdates() !== cachedPupdates
     
     try {
