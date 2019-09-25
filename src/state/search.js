@@ -164,7 +164,7 @@ const buildCollectionFilters = ({ teamIDs = [], userIDs = [] }) => {
 function createAlgoliaProvider(api) {
   const searchClient = createSearchClient(api);
   const searchIndices = {
-    team: searchClient.initIndex('search_teams'),
+    team: searchClient.initIndex('dev_%{::hostname}_teams'),
     user: searchClient.initIndex('search_users'),
     project: searchClient.initIndex('search_projects'),
     collection: searchClient.initIndex('search_collections'),
