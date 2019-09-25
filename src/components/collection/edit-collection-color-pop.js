@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { throttle } from 'lodash';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Popover } from '@fogcreek/shared-components';
 
 import { isGoodColorContrast, pickRandomColor } from 'Utils/color';
 import TextInput from 'Components/inputs/text-input';
