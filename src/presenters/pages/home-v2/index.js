@@ -4,6 +4,7 @@ import Pluralize from 'react-pluralize';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Button, Icon, Mark } from '@fogcreek/shared-components';
 
+import GlitchHelmet from 'Components/glitch-helmet';
 import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';
 import Embed from 'Components/project/embed';
@@ -326,6 +327,9 @@ const HomeWithProductionData = () => {
   const { HOME_CONTENT, ZINE_POSTS, SSR_SIGNED_IN } = useGlobals();
   return (
     <Layout>
+      <GlitchHelmet
+        title=
+      />
       <Home
         data={{ ...HOME_CONTENT, cultureZine: ZINE_POSTS.slice(0, 4) }}
         loggedIn={!!currentUser.login || (!currentUser.id && SSR_SIGNED_IN)}
