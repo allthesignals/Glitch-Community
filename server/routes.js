@@ -314,6 +314,8 @@ module.exports = function(external) {
   
   function transformRawHomepageData(data) {
     const unifiedStories = { hed, dek, featuredImage, featuredImageDescription, cta, href, relatedContent: [], summary };
+    const featuredCallouts = [];
+    const featuredCallout = { id, label, description, cta, href, backgroundSrc, color, }
     return { unifiedStories, }
   }
 
