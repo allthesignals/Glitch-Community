@@ -73,7 +73,7 @@ const AboutCompanyPage = withRouter(() => (
     </BlockSection>
 
     <BlockSection>
-      <Heading tagName="h2">
+      <Heading tagName="h2" className={aboutStyles.h2}>
         <Mark color="var(--mark-blue)">Leadership</Mark>
       </Heading>
       <Bio
