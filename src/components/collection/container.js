@@ -141,7 +141,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         )}
         {collectionHasProjects && (
           <ProjectsList
-            layout={preview ? 'row' : 'gridCompact'}
+            layout={preview ? 'row' : 'grid'}
             projects={projects}
             collection={collection}
             enableSorting={enableSorting}

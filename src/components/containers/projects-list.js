@@ -17,7 +17,6 @@ import { emoji } from '../global.styl';
 const containers = {
   row: (props) => <Row className={styles.projectsRow} {...props} />,
   grid: (props) => <Grid className={styles.projectsGrid} {...props} />,
-  gridCompact: (props) => <Grid className={styles.projectsGridCompact} {...props} />,
 };
 
 const ProjectsUL = ({ collection, projects, sortable, onReorder, noteOptions, layout, projectOptions }) => {
@@ -100,7 +99,7 @@ function ProjectsList({
 
 ProjectsList.propTypes = {
   projects: PropTypes.array.isRequired,
-  layout: PropTypes.oneOf(['row', 'grid', 'gridCompact']).isRequired,
+  layout: PropTypes.oneOf(['row', 'grid']).isRequired,
   title: PropTypes.string,
   titleEmoji: PropTypes.string,
   placeholder: PropTypes.node,
