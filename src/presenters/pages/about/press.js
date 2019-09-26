@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Icon, Button, Mark, ButtonGroup, ButtonSegment, SegmentedButton } from '@fogcreek/shared-components';
 import { BlockSection } from 'Components/about';
 import Heading from 'Components/text/heading';
+import { CDN_URL } from 'Utils/constants';
 
 import AboutLayout from './about-layout';
 import aboutStyles from './about.styl';
@@ -81,10 +82,12 @@ const AboutPressPage = withRouter(() => {
           <p>
             Here's <a href="https://glitch.com/help/embed/">how to embed a Glitch app </a>in your own blog post or website.
           </p>
-          <video autoPlay muted loop playsInline>
-            <source type="video/webm" src={`${CDN_URL}/627ec7d8-4273-46c8-9543-7d3cd9fb7005%2Fembed-project.mp4?v=1569518649063`} />
-            <source type="video/mp4" src={`${CDN_URL}/627ec7d8-4273-46c8-9543-7d3cd9fb7005%2Fembed-project.mp4?v=1569518649063`} />
-          </video>
+          <div className={styles.centerImageWrapper}>
+            <video autoPlay muted loop playsInline>
+              <source type="video/webm" src={`${CDN_URL}/627ec7d8-4273-46c8-9543-7d3cd9fb7005%2Fembed.webm?v=15695195`} />
+              <source type="video/mp4" src={`${CDN_URL}/627ec7d8-4273-46c8-9543-7d3cd9fb7005%2Fembed.mp4?v=1569519430155`} />
+            </video>
+          </div>
         </article>
       </BlockSection>
       <section className={aboutStyles.section}>
