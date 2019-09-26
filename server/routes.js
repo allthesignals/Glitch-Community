@@ -285,32 +285,6 @@ module.exports = function(external) {
       res.sendStatus(403);
     }
   });
-
-  app.post('/api/prismic-webhook', async (req, res) => {
-    const { secret } = req.body;
-    const isValidSecret = await bcrypt.compare(secret, process.env.PRISMIC_WEBHOOK_HASHED_SECRET);
-
-    if (!isValidSecret) {
-      res.sendStatus(401);
-      return;
-    }
-
-    // const pupdates = await getRawData('pupdates');
-    const homepage = await getRawData('home_page');
-    console.log(homepage[0].data); //data.unified_stories_hed);
-
-    // transform pupdates -> expected format
-    // transform homepage -> expected format
-
-    //     try {
-    //       await saveDataToFile({ page: 'pupdates', data: pupdates });
-    //       await saveDataToFile({ page: 'home', data: home });
-    //       res.sendStatus(200);
-    //     } catch (e) {
-    //       console.warn(e);
-    //       res.sendStatus(403);
-    //     }
-  });
   
   function transformRawHomepageData(data) {
     const unifiedStories = { hed, dek, featuredImage, featuredImageDescription, cta, href, relatedContent: [], summary };
