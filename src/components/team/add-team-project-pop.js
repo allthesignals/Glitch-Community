@@ -1,9 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { Button, Icon, Info, Popover } from '@fogcreek/shared-components';
 
 import { PopoverWithButton, PopoverDialog, PopoverSearch, PopoverInfo, InfoDescription } from 'Components/popover';
 import ProjectResultItem from 'Components/project/project-result-item';
 import { useCurrentUser } from 'State/current-user';
+
+import { emoji, widePopover } from '../global.styl';
 
 const filterProjects = (query, projects, teamProjects) => {
   query = query.toLowerCase().trim();

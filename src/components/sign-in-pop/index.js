@@ -9,7 +9,7 @@ import TextInput from 'Components/inputs/text-input';
 import Link from 'Components/link';
 import Notification from 'Components/notification';
 import TwoFactorForm from 'Components/sign-in/two-factor-form';
-import { PopoverWithButton, MultiPopover, MultiPopoverTitle, PopoverDialog, PopoverActions, PopoverInfo } from 'Components/popover';
+import { MultiPopover } from 'Components/popover';
 import useEmail from 'Hooks/use-email';
 import useLocalStorage from 'State/local-storage';
 import { useAPI } from 'State/api';
@@ -28,7 +28,7 @@ const SignInCodeSection = ({ onClick }) => (
   </Actions>
 );
 
-const ForgotPasswordHandler = ({ align }) => {
+const ForgotPasswordHandler = () => {
   const api = useAPI();
   const [email, setEmail, validationError] = useEmail();
   const [{ status, errorMessage }, setState] = useState({ status: 'active', errorMessage: null });
@@ -50,7 +50,7 @@ const ForgotPasswordHandler = ({ align }) => {
   const isDone = status === 'done';
   const isEnabled = email.length > 0 && !isWorking;
   return (
-    <PopoverDialog align={align}>
+    <>
       <Title>Forgot Password</Title>
       <Actions>
         {!isDone && (
@@ -89,11 +89,11 @@ const ForgotPasswordHandler = ({ align }) => {
           </>
         )}
       </Actions>
-    </PopoverDialog>
+    </>
   );
 };
 
-const EmailHandler = ({ align, showView }) => {
+const EmailHandler = ({ showView }) => {
   const api = useAPI();
   const [email, setEmail, validationError] = useEmail();
   const [isFocused, setIsFocused] = useState(true);
@@ -125,7 +125,7 @@ const EmailHandler = ({ align, showView }) => {
   }
 
   return (
-    <PopoverDialog align={align}>
+    <>
       <Title>
         Email Sign In&nbsp;<Icon className={emoji} icon="email" />
       </Title>
@@ -170,7 +170,7 @@ const EmailHandler = ({ align, showView }) => {
         )}
       </Actions>
       {status === 'done' && <SignInCodeSection onClick={showView.signInCode} />}
-    </PopoverDialog>
+    </>
   );
 };
 
@@ -201,7 +201,7 @@ const SignInWithCode = ({ showTwoFactor }) => {
   }
 
   return (
-    <PopoverDialog>
+    <>
       <Title>Use a sign in code</Title>
       <Actions>
         {status === 'ready' && (
@@ -238,19 +238,19 @@ const SignInWithCode = ({ showTwoFactor }) => {
           </>
         )}
       </Actions>
-    </PopoverDialog>
+    </>
   );
 };
 
 const TwoFactorSignIn = ({ token }) => (
-  <PopoverDialog>
+  <>
     <Title>
       Two factor auth <Icon className={emoji} icon="key" />
     </Title>
     <Actions>
       <TwoFactorForm initialToken={token} />
     </Actions>
-  </PopoverDialog>
+  </>
 );
 
 const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
@@ -361,7 +361,7 @@ export const SignInPopBase = withRouter(({ location }) => {
       }}
     >
       {(showView) => (
-        <PopoverDialog focusOnDialog>
+        <>
           <Info>
             <Icon className={emoji} icon="carpStreamer" /> New to Glitch? Create an account by signing in.
           </Info>
@@ -383,14 +383,14 @@ export const SignInPopBase = withRouter(({ location }) => {
             </Button>
           </Actions>
           <SignInCodeSection onClick={setDestinationAnd(showView.signInCode)} />
-        </PopoverDialog>
+        </>
       )}
     </MultiPopover>
   );
 });
 
 const SignInPopContainer = ({ align }) => (
-  <Popover align={align} renderLabel={({ onClick, ref }) => <Button size="small">Sign in</Button>}>
+  <Popover align={align} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small">Sign in</Button>}>
     {() => <SignInPopBase />}
   </Popover>
 );
