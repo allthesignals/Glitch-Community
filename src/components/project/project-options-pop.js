@@ -24,10 +24,10 @@ const PopoverMenuItems = ({ children }) =>
       (group.some((item) => item.dangerZone) ? (
         <DangerZone key={i}>
           {group.map(
-            (item, j) =>
+            (item) =>
               item.onClick && (
                 <>
-                  <Button variant="warning" key={j} onClick={item.onClick}>
+                  <Button variant="warning" key={i} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
@@ -38,10 +38,10 @@ const PopoverMenuItems = ({ children }) =>
       ) : (
         <Actions key={i}>
           {group.map(
-            (item, j) =>
+            (item) =>
               item.onClick && (
                 <>
-                  <Button key={j} onClick={item.onClick}>
+                  <Button key={i} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
