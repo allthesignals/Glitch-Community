@@ -25,7 +25,7 @@ function HeaderLinks({ currentPage }) {
 const AboutLayout = ({ children, mainClassName, currentPage }) => (
   <div style={{ maxWidth: '100vw', overflow: 'hidden', background: '#f5f5f5' }}>
     <div className={styles.content}>
-      <Helmet title="About Glitch">
+      <Helmet title={`About Glitch`}>
         <body data-grey="true" />
         <title>About Glitch</title>
         <meta name="description" content="Simple, powerful, free tools to create and use millions of apps." />
