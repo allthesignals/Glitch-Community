@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import { Button } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Popover, Title } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
 import { PopoverMenu, MultiPopover, PopoverDialog, PopoverActions, PopoverMenuButton, PopoverTitle, ActionDescription } from 'Components/popover';
@@ -11,6 +11,8 @@ import { useCurrentUser } from 'State/current-user';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
+import { emoji, widePopover } from '../global.styl';
+
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
 const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
 
@@ -19,9 +21,13 @@ const PopoverMenuItems = ({ children }) =>
   children.map(
     (group, i) =>
       group.some((item) => item.onClick) && (
-        <PopoverActions key={i} type={group.some((item) => item.dangerZone) ? 'dangerZone' : undefined}>
-          {group.map((item, j) => item.onClick && <PopoverMenuButton key={j} onClick={item.onClick} label={item.label} emoji={item.emoji} />)}
-        </PopoverActions>
+        group.some((item) => item.dangerZone) ? 
+        <DangerZone key={i}>
+          {group.map((item, j) => item.onClick && <Button key={j} onClick={item.onClick}>{item.label} <Icon className={emoji} icon={item.emoji} /></Button>)}
+        </DangerZone> : 
+        <Actions key={i}>
+          {group.map((item, j) => item.onClick && <Button key={j} onClick={item.onClick}>{item.label} <Icon className={emoji} icon={item.emoji} /></Button>)}
+        </Actions>
       ),
   );
 
@@ -31,18 +37,16 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
 
   return (
     <PopoverDialog wide focusOnDialog align="right">
-      <PopoverTitle>Leave {project.domain}</PopoverTitle>
-      <PopoverActions>
-        <Image height="50px" width="auto" src={illustration} alt="" />
-        <ActionDescription>
-          Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
-        </ActionDescription>
-      </PopoverActions>
-      <PopoverActions type="dangerZone">
+      <Title>Leave {project.domain}</Title>
+      <Actions>
+        <Image height="50px" width="auto" src={illustration} alt="" /><br />
+        Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
+      </Actions>
+      <DangerZone>
         <Button variant="warning" onClick={() => { trackLeaveProject(project); togglePopover(); }}>
           Leave Project
         </Button>
-      </PopoverActions>
+      </DangerZone>
     </PopoverDialog>
   );
 };
