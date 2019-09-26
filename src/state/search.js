@@ -164,13 +164,10 @@ const buildCollectionFilters = ({ teamIDs = [], userIDs = [] }) => {
 function createAlgoliaProvider(api) {
   const searchClient = createSearchClient(api);
   const searchIndices = {
-    team: searchClient.initIndex('dev_%{::hostname}_search_teams'),
-    user: searchClient.initIndex('dev_%{::hostname}_search_users'),
-    // project: searchClient.initIndex('dev_%{::hostname}_search_projects'),
-    project: { 
-      search: () => Promise.resolve({ hits: [] })
-    },
-    collection: searchClient.initIndex('dev_%{::hostname}_search_collections'),
+    team: searchClient.initIndex('search_teams'),
+    user: searchClient.initIndex('search_users'),
+    project: searchClient.initIndex('search_projects'),
+    collection: searchClient.initIndex('search_collections'),
   };
 
   return {
@@ -181,7 +178,7 @@ function createAlgoliaProvider(api) {
           query,
           hitsPerPage: 100,
           filters: buildCollectionFilters({ teamIDs, userIDs }),
-          // facetFilters: [isMyStuff ? '' : 'isMyStuff:false'],
+          facetFilters: [isMyStuff ? '' : 'isMyStuff:false'],
         })
         .then(formatAlgoliaResult('collection')),
     project: (query, { notSafeForKids }) =>
