@@ -295,9 +295,9 @@ module.exports = function(external) {
       return;
     }
 
-    // const pupdates = await getRawDa;ta('pupdates');
+    // const pupdates = await getRawData('pupdates');
     const homepage = await getRawData('home_page');
-    console.log(homepage[0].data.unified_stories_hed); //data.unified_stories_hed);
+    console.log(homepage[0].data); //data.unified_stories_hed);
 
     // transform pupdates -> expected format
     // transform homepage -> expected format
@@ -311,6 +311,11 @@ module.exports = function(external) {
     //       res.sendStatus(403);
     //     }
   });
+  
+  function transformRawHomepageData(data) {
+    const unifiedStories = { hed, dek, featuredImage, featuredImageDescription, cta, href, relatedContent: [], summary };
+    return { unifiedStories, }
+  }
 
   app.get('/api/pupdate', async (req, res) => {
     const data = await getData('pupdates');
