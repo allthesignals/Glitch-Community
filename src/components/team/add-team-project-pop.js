@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Info, Popover } from '@fogcreek/shared-components';
 
-import { PopoverWithButton, PopoverDialog, PopoverSearch, PopoverInfo, InfoDescription } from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 import ProjectResultItem from 'Components/project/project-result-item';
 import { useCurrentUser } from 'State/current-user';
 
@@ -39,7 +39,7 @@ function AddTeamProjectPop({ teamProjects, addProject }) {
   const filteredProjects = useMemo(() => filterProjects(query, myProjects, teamProjects), [query, myProjects, teamProjects]);
 
   return (
-    <PopoverDialog wide align="left">
+    <>
       <PopoverSearch
         value={query}
         onChange={setQuery}
@@ -55,29 +55,26 @@ function AddTeamProjectPop({ teamProjects, addProject }) {
         }
       />
       {filteredProjects.length === 0 && query.length === 0 && (
-        <PopoverInfo>
-          <InfoDescription>Create or Join projects to add them to the team</InfoDescription>
-        </PopoverInfo>
+        <Info>
+          Create or Join projects to add them to the team
+        </Info>
       )}
-    </PopoverDialog>
+    </>
   );
 }
 
 const AddTeamProject = ({ addProject, teamProjects }) => (
-  <PopoverWithButton
-    buttonText="Add Project"
-    buttonProps={{ emoji: 'bentoBox' }}
-  >
-    {({ togglePopover }) => (
+  <Popover className={widePopover} align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project <Icon className={emoji} icon="bentoBox" /></Button>}>
+    {({ onClose }) => (
       <AddTeamProjectPop
         addProject={(project) => {
-          togglePopover();
+          onClose();
           addProject(project);
         }}
         teamProjects={teamProjects}
       />
     )}
-  </PopoverWithButton>
+  </Popover>
 );
 AddTeamProject.propTypes = {
   addProject: PropTypes.func.isRequired,
