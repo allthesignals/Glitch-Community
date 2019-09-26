@@ -168,25 +168,7 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
             {isAuthorized && <CollectionOptions collection={collection} deleteCollection={animateAndDeleteCollection} />}
           </div>
         )}
-<<<<<<< HEAD
-        <CollectionLink
-          collection={collection}
-          className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
-          style={collectionColorStyles(collection)}
-        >
-          <div className={styles.avatarContainer}>
-            <CollectionAvatar collection={collection} />
-          </div>
-          <div className={styles.nameDescriptionContainer}>
-            <div className={styles.itemButtonWrap}>
-              <Button as="span">
-                {collection.private && <PrivateBadge type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'} />}
-                {collection.name}
-              </Button>
-            </div>
-            <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
-              <Markdown length={100}>{collection.description || ' '}</Markdown>
-=======
+
         <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
           <CollectionLink
             collection={collection}
@@ -195,15 +177,16 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
           >
             <div className={styles.nameDescriptionContainer}>
               <div className={styles.itemButtonWrap}>
-                <Button as="span">{collection.name}</Button>
+                <Button as="span">
+                  {collection.private && <PrivateBadge type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'} />}
+                  {collection.name}
+                </Button>
               </div>
               <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
                 <Markdown length={100}>{collection.description || ' '}</Markdown>
               </div>
->>>>>>> 452ac77c841ad3b092a1ba16b926af4b333db803
             </div>
           </CollectionLink>
-
           <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
         </div>
       </div>
