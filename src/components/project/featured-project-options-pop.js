@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions, Button, Icon, Popover, UnstyledButton } from '@fogcreek/shared-components';
 
-import { PopoverMenu, PopoverDialog, PopoverActions, PopoverMenuButton } from 'Components/popover';
+import { emoji } from '../global.styl';
 
 export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote }) {
-  function toggleAndUnfeature(togglePopover) {
-    togglePopover();
+  function toggleAndUnfeature(onClose) {
+    onClose();
     unfeatureProject();
   }
 
-  function toggleAndCreateNote(togglePopover) {
-    togglePopover();
+  function toggleAndCreateNote(onClose) {
+    onClose();
     createNote();
   }
 
@@ -19,16 +19,16 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
     <Popover
       align="right"
       renderLabel={({ onClick, ref }) => (
-        <UnstyledButton onClick={onClick} ref={ref} label={'Featured Project Options'}>
+        <UnstyledButton onClick={onClick} ref={ref} label="Featured Project Options">
           <Icon icon="chevronDown" />
         </UnstyledButton>
       )}
     >
-      {({ togglePopover }) => (
+      {({ onClose }) => (
         <>
           <Actions>
-            {!hasNote && createNote && <Button onClick={() => toggleAndCreateNote(togglePopover)} label="Add note" emoji="spiralNotePad">Add note <Icon icon="spiralNotepad" className={emoji} /></Button>}
-            <PopoverMenuButton onClick={() => toggleAndUnfeature(togglePopover)} label="Un-feature" emoji="arrowDown" />
+            {!hasNote && createNote && <Button onClick={() => toggleAndCreateNote(onClose)}>Add note <Icon icon="spiralNotepad" className={emoji} /></Button>}
+            <Button onClick={() => toggleAndUnfeature(onClose)}>Un-feature <Icon icon="arrowDown" className={emoji} /></Button>
           </Actions>
         </>
       )}
