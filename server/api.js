@@ -83,5 +83,4 @@ module.exports = {
   getUser: (login) => getFromCache(`user ${login}`, getUserFromApi, login),
   getCollection: (login, collection) => getFromCache(`collection ${login}/${collection}`, getCollectionFromApi, login, collection),
   getZine: () => getFromZineCache('culture zine', getCultureZinePosts),
-  getPupdatesFromPrismic,
 };

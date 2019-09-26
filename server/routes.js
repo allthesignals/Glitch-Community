@@ -295,8 +295,9 @@ module.exports = function(external) {
       return;
     }
 
-    const pupdates = await getRawData('pupdates');
+    // const pupdates = await getRawDa;ta('pupdates');
     const homepage = await getRawData('home_page');
+    console.log(homepage);
 
     // transform pupdates -> expected format
     // transform homepage -> expected format
