@@ -12,13 +12,13 @@ const MarkdownIt = require('markdown-it');
 const md = new MarkdownIt();
 const cheerio = require('cheerio');
 
-const { getProject, getTeam, getUser, getCollection, getZine, getPupdatesFromPrismic } = require('./api');
+const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { defaultProjectDescriptionPattern } = require('../shared/regex');
-const { getData, saveDataToFile } = require('./home');
+const { getData, getRawData, saveDataToFile } = require('./home');
 
 const DEFAULT_USER_DESCRIPTION = (login, name) => `See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
 const DEFAULT_TEAM_DESCRIPTION = (login, name) => `See what Team ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
@@ -54,7 +54,12 @@ module.exports = function(external) {
   const readFilePromise = util.promisify(fs.readFile);
   const imageDefault = 'https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fsocial-card%402x.png';
 
-  async function render(req, res, { title, description, image = imageDefault, socialTitle, canonicalUrl = APP_URL, wistiaVideoId, cache = {} }, shouldRender = false) {
+  async function render(
+    req,
+    res,
+    { title, description, image = imageDefault, socialTitle, canonicalUrl = APP_URL, wistiaVideoId, cache = {} },
+    shouldRender = false,
+  ) {
     let built = true;
 
     let scripts = [];
@@ -150,14 +155,14 @@ module.exports = function(external) {
     const { domain } = req.params;
     const canonicalUrl = `${APP_URL}/~${domain}`;
     const project = await getProject(punycode.toASCII(domain));
-    
+
     if (!project) {
       await render(req, res, { title: domain, canonicalUrl, description: `We couldn't find ~${domain}` }, false);
       return;
     }
-  
+
     // don't show the real avatar if the project has been suspended
-    const avatar = project.suspendedReason ? imageDefault : `${CDN_URL}/project-avatar/${project.id}.png`
+    const avatar = project.suspendedReason ? imageDefault : `${CDN_URL}/project-avatar/${project.id}.png`;
 
     const helloTemplateDescriptions = new Set([
       'Your very own basic web page, ready for you to customize.',
@@ -185,14 +190,14 @@ module.exports = function(external) {
 
     res.redirect(editorUrl);
   });
-  
+
   app.get('/~:domain/console', async (req, res) => {
     const { domain } = req.params;
     const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
 
     res.redirect(consoleUrl);
   });
-  
+
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
     const canonicalUrl = `${APP_URL}/@${name}`;
@@ -280,25 +285,30 @@ module.exports = function(external) {
       res.sendStatus(403);
     }
   });
-  
+
   app.post('/api/prismic-webhook', async (req, res) => {
     const { secret } = req.body;
     const isValidSecret = await bcrypt.compare(secret, process.env.PRISMIC_WEBHOOK_HASHED_SECRET);
-    
+
     if (!isValidSecret) {
       res.sendStatus(401);
       return;
     }
-    
-    const pupdates = await getPupdatesFromPrismic();
-    try {
-      await saveDataToFile({ page: 'pupdates', data: pupdates });
-      await saveDataToFile({ page: 'home', data: home });
-      res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
-      res.sendStatus(403);
-    }
+
+    const pupdates = await getRawData('pupdates');
+    const homepage = await getRawData('home_page');
+
+    // transform pupdates -> expected format
+    // transform homepage -> expected format
+
+    //     try {
+    //       await saveDataToFile({ page: 'pupdates', data: pupdates });
+    //       await saveDataToFile({ page: 'home', data: home });
+    //       res.sendStatus(200);
+    //     } catch (e) {
+    //       console.warn(e);
+    //       res.sendStatus(403);
+    //     }
   });
 
   app.get('/api/pupdate', async (req, res) => {
@@ -340,7 +350,6 @@ module.exports = function(external) {
     const title = `Glitch - ${description}`;
     await render(req, res, { title, description }, true);
   });
-  
 
   app.get('*', async (req, res) => {
     const title = 'Glitch';

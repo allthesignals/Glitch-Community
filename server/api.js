@@ -74,14 +74,6 @@ async function getCultureZinePosts() {
   return response.data.posts;
 }
 
-async function getPupdatesFromPrismic() {
-  console.log('Fetching pupdates');
-  const params = '?ref=XYuY-xAAAB8Ad0VR&q=[[at(document.type, "pupdate")]]&orderings=[document.first_publication_date desc]';
-  const url = `https://glitch.cdn.prismic.io/api/v2/documents/search${params}`;
-  const response = await axios.get(url, { timeout: 10000 });
-  return response.data.results;
-}
-
 const [getFromCache] = createCache(dayjs.convert(1, 'hour', 'ms'), 'load');
 const [getFromZineCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'load');
 

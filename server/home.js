@@ -26,6 +26,13 @@ async function getData(page) {
   return pageCache[page];
 }
 
+async function getRawData(page) {
+  const params = '?ref=XYuY-xAAAB8Ad0VR&q=[[at(document.type, "${page}")]]&orderings=[document.first_publication_date desc]';
+  const url = `https://glitch.cdn.prismic.io/api/v2/documents/search${params}`;
+  const response = await axios.get(url, { timeout: 10000 });
+  return response.data.results;
+}
+
 async function saveDataToFile({ page, data, persistentToken }) {
   const teams = await getAllPages(api, `/v1/users/by/persistentToken/teams?persistentToken=${persistentToken}&limit=100`);
   if (!teams.some((team) => team.id === GLITCH_TEAM_ID)) throw new Error('Forbidden'); 
