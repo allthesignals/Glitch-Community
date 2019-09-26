@@ -1,9 +1,4 @@
-
-\d]\/
-
-    cw
-CQSXZ23import React from 'react';
-QXÅ
+import React from 'react';
 import PropTypes from 'prop-types';
 import { PopoverMenu, PopoverDialog, PopoverActions, PopoverMenuButton } from 'Components/popover';
 
