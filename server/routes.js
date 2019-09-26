@@ -297,7 +297,7 @@ module.exports = function(external) {
 
     // const pupdates = await getRawDa;ta('pupdates');
     const homepage = await getRawData('home_page');
-    console.log(homepage);
+    console.log(homepage[0].data.unified_stories_hed); //data.unified_stories_hed);
 
     // transform pupdates -> expected format
     // transform homepage -> expected format
