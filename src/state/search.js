@@ -181,7 +181,7 @@ function createAlgoliaProvider(api) {
           query,
           hitsPerPage: 100,
           filters: buildCollectionFilters({ teamIDs, userIDs }),
-          facetFilters: [isMyStuff ? '' : 'isMyStuff:false'],
+          // facetFilters: [isMyStuff ? '' : 'isMyStuff:false'],
         })
         .then(formatAlgoliaResult('collection')),
     project: (query, { notSafeForKids }) =>
