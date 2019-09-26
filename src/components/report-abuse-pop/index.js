@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import { parseOneAddress } from 'email-addresses';
 import { debounce, trimStart } from 'lodash';
 import axios from 'axios';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 import TextArea from 'Components/inputs/text-area';
 import TextInput from 'Components/inputs/text-input';
 import Notification from 'Components/notification';
-import { PopoverWithButton, PopoverDialog, PopoverInfo, PopoverActions, PopoverTitle, InfoDescription } from 'Components/popover';
 import { useCurrentUser } from 'State/current-user';
 import { captureException } from 'Utils/sentry';
 import { getAbuseReportTitle, getAbuseReportBody } from 'Utils/abuse-reporting';
 
 import styles from './styles.styl';
-import { emoji } from '../global.styl';
+import { emoji, widePopover } from '../global.styl';
 
 function getDefaultReason(reportedType) {
   if (reportedType === 'user') {
@@ -47,29 +46,25 @@ function useDebouncedState(initialState, timeout) {
 
 const Success = () => (
   <>
-    <PopoverTitle>Report Abuse</PopoverTitle>
-    <PopoverActions>
+    <Title>Report Abuse</Title>
+    <Actions>
       <Notification persistent type="success">Report Sent</Notification>
-      <InfoDescription>
-        Thanks for helping to keep Glitch a safe, friendly community <Icon className={emoji} icon="park" />
-      </InfoDescription>
-    </PopoverActions>
+      Thanks for helping to keep Glitch a safe, friendly community <Icon className={emoji} icon="park" />
+    </Actions>
   </>
 );
 
 const Failure = ({ value }) => (
   <>
-    <PopoverTitle>
+    <Title>
       Failed to Send <Icon className={emoji} icon="sick" />
-    </PopoverTitle>
-    <PopoverInfo>
-      <InfoDescription>
-        But you can still send us your message by emailing the details below to <strong>support@glitch.com</strong>
-      </InfoDescription>
-    </PopoverInfo>
-    <PopoverActions>
+    </Title>
+    <Info>
+      But you can still send us your message by emailing the details below to <strong>support@glitch.com</strong>
+    </Info>
+    <Actions>
       <textarea className={styles.manualReport} value={value} readOnly />
-    </PopoverActions>
+    </Actions>
   </>
 );
 
@@ -122,8 +117,8 @@ function ReportAbusePop({ reportedType, reportedModel }) {
 
   return (
     <form onSubmit={submitReport}>
-      <PopoverTitle>Report Abuse</PopoverTitle>
-      <PopoverActions>
+      <Title>Report Abuse</Title>
+      <Actions>
         <TextArea
           className={styles.textArea}
           value={reason}
@@ -132,17 +127,15 @@ function ReportAbusePop({ reportedType, reportedModel }) {
           autoFocus // eslint-disable-line jsx-a11y/no-autofocus
           error={reasonError}
         />
-      </PopoverActions>
+      </Actions>
       {currentUser.login ? (
-        <PopoverInfo type="secondary">
+        <Info>
           <div className={styles.right}>
-            <InfoDescription>
-              from <strong>{currentUser.login}</strong>
-            </InfoDescription>
+            from <strong>{currentUser.login}</strong>
           </div>
-        </PopoverInfo>
+        </Info>
       ) : (
-        <PopoverInfo>
+        <Info>
           <TextInput
             value={email}
             onChange={emailOnChange}
@@ -152,9 +145,9 @@ function ReportAbusePop({ reportedType, reportedModel }) {
             type="email"
             labelText="email address"
           />
-        </PopoverInfo>
+        </Info>
       )}
-      <PopoverActions>
+      <Actions>
         {status === 'loading' ? (
           <Loader style={{ width: '25px' }} />
         ) : (
@@ -162,19 +155,17 @@ function ReportAbusePop({ reportedType, reportedModel }) {
             Submit Report
           </Button>
         )}
-      </PopoverActions>
+      </Actions>
     </form>
   );
 }
 
 const ReportAbusePopButton = ({ reportedType, reportedModel }) => (
-  <PopoverWithButton buttonProps={{ size: 'small', variant: 'secondary' }} buttonText="Report Abuse">
+  <Popover align="topLeft" className={widePopover} renderLabel={({ onClick, ref }) => <Button variant="secondary" size="small" onClick={onClick} ref={ref}>Report Abuse</Button>}>
     {() => (
-      <PopoverDialog align="topLeft" wide>
-        <ReportAbusePop reportedType={reportedType} reportedModel={reportedModel} />
-      </PopoverDialog>
+      <ReportAbusePop reportedType={reportedType} reportedModel={reportedModel} />
     )}
-  </PopoverWithButton>
+  </Popover>
 );
 
 ReportAbusePopButton.propTypes = {
