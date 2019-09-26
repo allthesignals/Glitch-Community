@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Actions, Button, Popover } from '@fogcreek/shared-components';
+
 import { PopoverMenu, PopoverDialog, PopoverActions, PopoverMenuButton } from 'Components/popover';
 
 export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote }) {
