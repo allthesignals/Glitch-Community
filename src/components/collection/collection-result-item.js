@@ -7,9 +7,7 @@ import Markdown from 'Components/text/markdown';
 import { ProfileItem } from 'Components/profile-list';
 import { ResultItem, ResultInfo, ResultName, ResultDescription } from 'Components/containers/results-list';
 import VisibilityContainer from 'Components/visibility-container';
-import { BookmarkAvatar } from 'Components/images/avatar';
 import { useCollectionCurator } from 'State/collection';
-import useDevToggle from 'State/dev-toggles';
 
 import styles from './collection-result-item.styl';
 
@@ -31,25 +29,21 @@ const ProfileItemWrap = ({ collection }) => (
   </div>
 );
 
-const CollectionResultItem = ({ onClick, collection, active }) => {
-  const collectionIsMyStuff = useDevToggle('My Stuff') && collection.isMyStuff;
-  return (
-    <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`} className={classnames(collection.private && styles.private)}>
-      <div className={styles.avatarWrap}>{collectionIsMyStuff ? <BookmarkAvatar /> : <CollectionAvatar collection={collection} />}</div>
-      <ResultInfo>
-        <VisuallyHidden>Add to collection</VisuallyHidden>
-        <ResultName>{collection.name}</ResultName>
-        {collection.description.length > 0 && (
-          <ResultDescription>
-            <VisuallyHidden>with description</VisuallyHidden>
-            <Markdown renderAsPlaintext>{collection.description}</Markdown>
-          </ResultDescription>
-        )}
-        {collection.teamId && collection.teamId !== -1 && <ProfileItemWrap collection={collection} />}
-      </ResultInfo>
-    </ResultItem>
-  );
-};
+const CollectionResultItem = ({ onClick, collection, active }) => (
+  <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`} className={classnames(collection.private && styles.private)}>
+    <ResultInfo>
+      <VisuallyHidden>Add to collection</VisuallyHidden>
+      <ResultName>{collection.name}</ResultName>
+      {collection.description.length > 0 && (
+        <ResultDescription>
+          <VisuallyHidden>with description</VisuallyHidden>
+          <Markdown renderAsPlaintext>{collection.description}</Markdown>
+        </ResultDescription>
+      )}
+      {collection.teamId && collection.teamId !== -1 && <ProfileItemWrap collection={collection} />}
+    </ResultInfo>
+  </ResultItem>
+);
 
 CollectionResultItem.propTypes = {
   onClick: PropTypes.func.isRequired,
