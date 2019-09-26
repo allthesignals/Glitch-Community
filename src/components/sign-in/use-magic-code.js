@@ -23,7 +23,7 @@ const EllipsizeEmail = ({ email }) => {
   );
 };
 
-const UseMagicCode = ({ emailAddress }) => {
+const UseMagicCode = ({ emailAddress, showTwoFactorPage }) => {
   const { login } = useCurrentUser();
   const api = useAPI();
   const [code, setCode] = useState('');
@@ -36,8 +36,9 @@ const UseMagicCode = ({ emailAddress }) => {
     try {
       const { data } = await api.post(`/auth/email/${code}`);
       if (data.tfaToken) {
-        // TODO: Support 2FA here
-        setStatus('error');
+        showTwoFactorPage();
+        // TODO Error? Maybe not?
+        // setStatus('error');
       } else {
         login(data);
         setStatus('done');
