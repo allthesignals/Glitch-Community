@@ -34,7 +34,7 @@ const ProfileItemWrap = ({ collection }) => (
 
 const CollectionResultItem = ({ onClick, collection, active }) => {
   const collectionIsMyStuff = useDevToggle('My Stuff') && collection.isMyStuff;
-  
+
   return (
     <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`} className={classnames(collection.private && styles.private)}>
       {collectionIsMyStuff && (
@@ -54,7 +54,7 @@ const CollectionResultItem = ({ onClick, collection, active }) => {
         {collection.teamId && collection.teamId !== -1 && <ProfileItemWrap collection={collection} />}
       </ResultInfo>
     </ResultItem>
-  )
+  );
 };
 
 CollectionResultItem.propTypes = {
