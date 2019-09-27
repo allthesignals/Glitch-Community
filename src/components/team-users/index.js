@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { uniq } from 'lodash';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Popover, UnstyledButton } from '@fogcreek/shared-components';
 
 import TooltipContainer from 'Components/tooltips/tooltip-container';
 import WhitelistedDomainIcon from 'Components/whitelisted-domain';
