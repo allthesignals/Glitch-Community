@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { kebabCase } from 'lodash';
+import { Loader } from '@fogcreek/shared-components';
 
 import { getCollectionLink } from 'Models/collection';
 import { PopoverWithButton } from 'Components/popover';
 import NotFound from 'Components/errors/not-found';
-import DataLoader from 'Components/data-loader';
 import CollectionContainer from 'Components/collection/container';
 import MoreCollectionsContainer from 'Components/collections-list/more-collections';
 import DeleteCollection from 'Components/collection/delete-collection-pop';
@@ -14,9 +14,9 @@ import Layout from 'Components/layout';
 import ReportButton from 'Components/report-abuse-pop';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
+import { useCachedCollection } from 'State/api-cache';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
-import { getCollection } from 'Shared/api-loaders';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -61,25 +61,28 @@ CollectionPageContents.propTypes = {
   }).isRequired,
 };
 
-const CollectionPage = ({ owner, name }) => (
-  <Layout>
-    <DataLoader get={(api, fullUrl) => getCollection(api, fullUrl, 'fullUrl')} args={`${owner}/${name}`}>
-      {(collection) =>
-        collection ? (
-          <AnalyticsContext
-            properties={{ origin: 'collection', collectionId: collection.id }}
-            context={{
-              groupId: collection.team ? collection.team.id.toString() : '0',
-            }}
-          >
-            <CollectionPageContents collection={collection} />
-          </AnalyticsContext>
-        ) : (
-          <NotFound name={name} />
-        )
-      }
-    </DataLoader>
-  </Layout>
-);
+const CollectionPage = ({ owner, name }) => {
+  const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
+  return (
+    <Layout>
+      {collection ? (
+        <AnalyticsContext
+          properties={{ origin: 'collection', collectionId: collection.id }}
+          context={{
+            groupId: collection.team ? collection.team.id.toString() : '0',
+          }}
+        >
+          <CollectionPageContents collection={collection} />
+        </AnalyticsContext>
+      ) : (
+        <>
+          {status === 'ready' && <NotFound name={name} />}
+          {status === 'loading' && <Loader style={{ width: '25px' }} />}
+          {status === 'error' && <NotFound name={name} />}
+        </>
+      )}
+    </Layout>
+  );
+};
 
 export default CollectionPage;
