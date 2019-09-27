@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Actions, Button, DangerZone, Icon, Info, Loader, Popover } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 import { getDisplayName } from 'Models/user';
 import { userIsTeamAdmin, userIsOnlyTeamAdmin } from 'Models/team';
@@ -73,16 +73,16 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
 
   return (
     <PopoverDialog align="left" focusOnPopover>
-      <MultiPopoverTitle>Remove {getDisplayName(user)}</MultiPopoverTitle>
+      <Title>Remove {getDisplayName(user)}</Title>
 
       {!userTeamProjects && (
-        <PopoverActions>
+        <Actions>
           <Loader />
-        </PopoverActions>
+        </Actions>
       )}
       {userTeamProjects && userTeamProjects.length > 0 && (
-        <PopoverActions>
-          <ActionDescription>Also remove them from these projects</ActionDescription>
+        <Actions>
+          Also remove them from these projects
           <ProjectsList options={userTeamProjects} value={selectedProjectIDs} onChange={setSelectedProjects} />
           {userTeamProjects.length > 1 && allProjectsSelected && (
             <Button size="small" onClick={unselectAllProjects}>
@@ -94,17 +94,17 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
               Select All
             </Button>
           )}
-        </PopoverActions>
+        </Actions>
       )}
 
-      <PopoverActions type="dangerZone">
+      <DangerZone>
         <Button variant="warning" onClick={() => onRemoveUser(projectsToRemove)}>
           Remove{' '}
           <span className={styles.tinyAvatar}>
             <UserAvatar user={user} withinButton />
           </span>
         </Button>
-      </PopoverActions>
+      </DangerZone>
     </PopoverDialog>
   );
 }
@@ -123,7 +123,7 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
 
   return (
     <PopoverDialog align="left">
-      <PopoverInfo>
+      <Info>
         <div className={styles.userProfile}>
           <UserLink user={user}>
             <UserAvatar user={user} hideTooltip />
@@ -134,15 +134,15 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
             {selectedUserIsTeamAdmin && <AdminBadge />}
           </div>
         </div>
-      </PopoverInfo>
+      </Info>
       {user.thanksCount > 0 && (
-        <PopoverInfo>
+        <Info>
           <Thanks count={user.thanksCount} />
-        </PopoverInfo>
+        </Info>
       )}
       {currentUserIsTeamAdmin && !selectedUserIsOnlyAdmin && (
-        <PopoverActions>
-          <ActionDescription>Admins can update team info, billing, and remove users</ActionDescription>
+        <Actions>
+          Admins can update team info, billing, and remove users
           {selectedUserIsTeamAdmin ? (
             <Button size="small" variant="secondary" onClick={onRemoveAdmin}>
               Remove Admin Status <Icon className={emoji} icon="fastDown" />
@@ -152,14 +152,14 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
               Make an Admin <Icon className={emoji} icon="fastUp" />
             </Button>
           )}
-        </PopoverActions>
+        </Actions>
       )}
       {canCurrentUserRemoveUser && (
-        <PopoverActions type="dangerZone">
+        <DangerZone>
           <Button variant="warning" onClick={onRemoveUser}>
             {isCurrentUser ? 'Leave Team' : 'Remove from Team'} <Icon className={emoji} icon="wave" />
           </Button>
-        </PopoverActions>
+        </DangerZone>
       )}
     </PopoverDialog>
   );
