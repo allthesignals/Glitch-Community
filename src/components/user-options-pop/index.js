@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
-import { Button, CheckboxButton, Icon, UnstyledButton } from '@fogcreek/shared-components';
+import { Actions, Button, CheckboxButton, Icon, Info, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
 
 import { getTeamLink } from 'Models/team';
 import { getUserAvatarThumbnailUrl } from 'Models/user';
@@ -40,7 +40,7 @@ const TeamList = ({ teams, showCreateTeam }) => {
   const orderedTeams = orderBy(teams, (team) => team.name.toLowerCase());
 
   return (
-    <PopoverActions>
+    <Actions>
       {orderedTeams.map((team) => (
         <div className={styles.buttonWrap} key={team.id}>
           <Button
@@ -54,7 +54,7 @@ const TeamList = ({ teams, showCreateTeam }) => {
         </div>
       ))}
       <CreateTeamButton showCreateTeam={showCreateTeam} />
-    </PopoverActions>
+    </Actions>
   );
 };
 
@@ -110,7 +110,7 @@ Are you sure you want to sign out?`)
 
   return (
     <PopoverDialog className={styles.userOptionsPop} align="right">
-      <PopoverTitle>
+      <Title>
         <UserLink user={user}>
           <div className={styles.userAvatarContainer} style={{ backgroundColor: user.color }}>
             <Image src={getUserAvatarThumbnailUrl(user)} alt="Your avatar" />
@@ -124,11 +124,11 @@ Are you sure you want to sign out?`)
             )}
           </div>
         </UserLink>
-      </PopoverTitle>
+      </Title>
 
       <TeamList teams={user.teams} showCreateTeam={showCreateTeam} userIsAnon={!user.login} />
 
-      <PopoverInfo>
+      <Info>
         {(canBecomeSuperUser || !!superUserFeature) && (
           <div className={styles.buttonWrap}>
             <CheckboxButton className={styles.buttonWrap} size="small" value={!!superUserFeature} onChange={toggleSuperUser} variant="secondary">
@@ -156,7 +156,7 @@ Are you sure you want to sign out?`)
         <Button variant="secondary" size="small" onClick={clickSignout}>
           Sign Out <Icon className={emoji} icon="balloon" />
         </Button>
-      </PopoverInfo>
+      </Info>
     </PopoverDialog>
   );
 };
