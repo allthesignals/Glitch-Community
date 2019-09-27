@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@fogcreek/shared-components';
+import { Button, Icon } from '@fogcreek/shared-components';
 
-import popoverStyles from 'Components/popover/styles.styl';
 import styles from './styles.styl';
 
 const timeFrames = ['Last 4 Weeks', 'Last 2 Weeks', 'Last 24 Hours'];
@@ -15,7 +14,7 @@ const TeamAnalyticsTimePopButton = ({ updateTimeFrame, currentTimeFrame }) => (
           <option key={t} value={t}>{t}</option>
         ))}
       </select>
-      <span className={`${popoverStyles.downArrow} ${styles.downArrow}`} />
+      <Icon icon="chevronDown" aria-label="options" />
     </Button>
   </div>
 );
