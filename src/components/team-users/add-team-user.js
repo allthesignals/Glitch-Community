@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { parseOneAddress } from 'email-addresses';
 import randomColor from 'randomcolor';
+import { Button, Info, Popover } from '@fogcreek/shared-components';
 
 import { UserAvatar } from 'Components/images/avatar';
 import WhitelistedDomainIcon from 'Components/whitelisted-domain';
 import Thanks from 'Components/thanks';
-import { PopoverWithButton, PopoverDialog, PopoverSearch, PopoverInfo, InfoDescription } from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 import { ResultItem, ResultInfo, ResultName, ResultDescription } from 'Components/containers/results-list';
 import { getDisplayName } from 'Models/user';
 import { captureException } from 'Utils/sentry';
@@ -123,7 +124,7 @@ function AddTeamUserPop({ members, inviteEmail, inviteUser, setWhitelistedDomain
   }, [debouncedValue, retrievedUsers, members, whitelistedDomain, checkedDomains]);
 
   return (
-    <PopoverDialog align="left">
+    <>
       <PopoverSearch
         value={value}
         onChange={onChange}
@@ -135,11 +136,11 @@ function AddTeamUserPop({ members, inviteEmail, inviteUser, setWhitelistedDomain
         renderItem={({ item: { onClick, result, component: Component }, active }) => <Component active={active} result={result} onClick={onClick} />}
       />
       {!value && !!setWhitelistedDomain && !whitelistedDomain && (
-        <PopoverInfo>
-          <InfoDescription>You can also whitelist with @example.com</InfoDescription>
-        </PopoverInfo>
+        <Info>
+          You can also whitelist with @example.com
+        </Info>
       )}
-    </PopoverDialog>
+    </>
   );
 }
 
@@ -159,17 +160,17 @@ AddTeamUserPop.defaultProps = {
 const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setWhitelistedDomain }) => {
   const track = useTracker('Add to Team clicked');
   return (
-    <PopoverWithButton buttonProps={{ size: 'small', variant: 'secondary' }} buttonText="Add" onOpen={track}>
-      {({ toggleAndCall }) => (
+    <Popover align="left" renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref} onOpen={track}>Add</Button>}>
+      {({ onClose }) => (
         <AddTeamUserPop
           members={members}
           whitelistedDomain={whitelistedDomain}
-          setWhitelistedDomain={toggleAndCall(setWhitelistedDomain)}
-          inviteUser={toggleAndCall(inviteUser)}
-          inviteEmail={toggleAndCall(inviteEmail)}
+          setWhitelistedDomain={onClose(setWhitelistedDomain)}
+          inviteUser={onClose(inviteUser)}
+          inviteEmail={onClose(inviteEmail)}
         />
       )}
-    </PopoverWithButton>
+    </Popover>
   );
 };
 AddTeamUser.propTypes = {
