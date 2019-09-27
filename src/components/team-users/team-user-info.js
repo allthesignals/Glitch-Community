@@ -8,7 +8,7 @@ import TooltipContainer from 'Components/tooltips/tooltip-container';
 import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
 import { UserLink } from 'Components/link';
 import Thanks from 'Components/thanks';
-import { PopoverContainer, PopoverDialog, PopoverActions, PopoverInfo, MultiPopover, MultiPopoverTitle, ActionDescription } from 'Components/popover';
+import { MultiPopover } from 'Components/popover';
 import TransparentButton from 'Components/buttons/transparent-button';
 
 import { useTrackedFunc, useTracker } from 'State/segment-analytics';
@@ -72,7 +72,7 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
   const projectsToRemove = userTeamProjects.filter((p) => selectedProjectIDs.includes(p.id));
 
   return (
-    <PopoverDialog align="left" focusOnPopover>
+    <>
       <Title>Remove {getDisplayName(user)}</Title>
 
       {!userTeamProjects && (
@@ -105,7 +105,7 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
           </span>
         </Button>
       </DangerZone>
-    </PopoverDialog>
+    </>
   );
 }
 
@@ -122,7 +122,7 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
   const canCurrentUserRemoveUser = currentUserHasRemovePriveleges && !teamHasOnlyOneMember && !selectedUserIsOnlyAdmin;
 
   return (
-    <PopoverDialog align="left">
+    <>
       <Info>
         <div className={styles.userProfile}>
           <UserLink user={user}>
@@ -161,7 +161,7 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
           </Button>
         </DangerZone>
       )}
-    </PopoverDialog>
+    </>
   );
 };
 
@@ -204,7 +204,48 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
   const onMakeAdmin = useTrackedFunc(() => updateUserPermissions(user, ADMIN_ACCESS_LEVEL), 'Make an Admin clicked');
 
   return (
-    <PopoverContainer>
+    <Popover
+      align="left"
+      renderLabel={({ onClick, ref }) => (
+        <TransparentButton onClick={onClick} ref={ref}>
+          <UserAvatar user={user} suffix={adminStatusDisplay(team.adminIds, user)} withinButton />
+        </TransparentButton>
+      )}
+    >
+      {({ onClose }) => (
+        <MultiPopover
+          views={{
+            remove: () => (
+              <TeamUserRemovePop
+                user={user}
+                userTeamProjects={userTeamProjects}
+                onRemoveUser={() => {
+                  onClose();
+                  removeUser();
+                }}
+              />
+            ),
+          }}
+        >
+          {(showViews) => (
+            <TeamUserInfo
+              user={user}
+              team={team}
+              onRemoveAdmin={() => {
+                onClose();
+                onRemoveAdmin();
+              }}
+              onMakeAdmin={() => {
+                onClose();
+                onMakeAdmin();
+              }}
+              onRemoveUser={() => onOrShowRemoveUser(showViews.remove, onClose)}
+            />
+          )}
+        </MultiPopover>
+      )}
+    </Popover>
+    /* <PopoverContainer>
       {({ visible, togglePopover, toggleAndCall }) => (
         <div style={{ position: 'relative' }}>
           <TransparentButton onClick={togglePopover}>
@@ -230,7 +271,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           )}
         </div>
       )}
-    </PopoverContainer>
+    </PopoverContainer> */
   );
 };
 
