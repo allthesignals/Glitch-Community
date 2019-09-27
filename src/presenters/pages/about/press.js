@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Icon, Button, Mark, ButtonGroup, ButtonSegment, SegmentedButton } from '@fogcreek/shared-components';
 import { BlockSection } from 'Components/about';
 import Heading from 'Components/text/heading';
+import { CDN_URL } from 'Utils/constants';
 
 import AboutLayout from './about-layout';
 import aboutStyles from './about.styl';
@@ -82,10 +83,10 @@ const AboutPressPage = withRouter(() => {
             Here's <a href="https://glitch.com/help/embed/">how to embed a Glitch app </a>in your own blog post or website.
           </p>
           <div className={styles.centerImageWrapper}>
-            <img
-              src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FembedAProject.png?v=1560251131924"
-              alt="Click the Share button in the editor for a project, then in the menu that opens, click 'Share embed'"
-            />
+            <video autoPlay muted loop playsInline>
+              <source type="video/webm" src={`${CDN_URL}/627ec7d8-4273-46c8-9543-7d3cd9fb7005%2Fembed.webm?v=15695195`} />
+              <source type="video/mp4" src={`${CDN_URL}/627ec7d8-4273-46c8-9543-7d3cd9fb7005%2Fembed.mp4?v=1569519430155`} />
+            </video>
           </div>
         </article>
       </BlockSection>

@@ -73,8 +73,8 @@ function FirstSection() {
         </div>
         <div className={styles.half}>
           <video autoPlay muted loop playsInline>
-            <source type="video/webm" src={`${CDN_URL}/d5cdac21-5e23-4601-8243-d5645f80aa71%2Fprivate.webm?1538419456676`} />
-            <source type="video/mp4" src={`${CDN_URL}/d5cdac21-5e23-4601-8243-d5645f80aa71%2Fprivate.mp4?1538419456584`} />
+            <source type="video/webm" src={`${CDN_URL}/627ec7d8-4273-46c8-9543-7d3cd9fb7005%2Fteams.webm?v=1569518523388`} />
+            <source type="video/mp4" src={`${CDN_URL}/627ec7d8-4273-46c8-9543-7d3cd9fb7005%2Fteams.mp4?v=1569518423941`} />
           </video>
           <Heading tagName="h3" className={styles.videoHeading}>
             <Mark color="var(--mark-blue)">For people and teams of all skill levels</Mark>
