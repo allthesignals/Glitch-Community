@@ -58,55 +58,42 @@ const ProjectSearch = ({ projects, updateProjectDomain, currentProjectDomain }) 
 
 const Dropdown = () => <Icon icon="chevronDown" aria-label="options" />;
 
-const toggleAndCall = (func) => {
-  if (!func) return null;
-  return (...args) => {
-    togglePopover();
-    return func(...args);
+const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProjectDomain }) => {
+  const toggleAndCall = (func) => {
+    if (!func) return null;
+    return (...args) => (func(...args));
   };
+  return (
+    <Popover
+      align="left"
+      className={widePopover}
+      renderLabel={({ onClick, ref }) => (
+        <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
+          {currentProjectDomain ? (
+            <>
+              Project: {currentProjectDomain} <Dropdown />
+            </>
+          ) : (
+            <>
+              All Projects <Dropdown />
+            </>
+          )}
+        </Button>
+      )}
+    >
+      {({ onClose }) => (
+        <ProjectSearch
+          projects={projects}
+          updateProjectDomain={() => {
+            onClose();
+            toggleAndCall(updateProjectDomain);
+          }}
+          currentProjectDomain={currentProjectDomain}
+        />
+      )}
+    </Popover>
+  );
 };
-
-const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProjectDomain }) => (
-  <Popover
-    align="left"
-    className={widePopover}
-    renderLabel={({ onClick, ref }) => (
-      <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
-        {currentProjectDomain ? (
-          <>
-            Project: {currentProjectDomain} <Dropdown />
-          </>
-        ) : (
-          <>
-            All Projects <Dropdown />
-          </>
-        )}
-      </Button>
-    )}
-  >
-    {({ toggleAndCall }) => (
-      <ProjectSearch projects={projects} updateProjectDomain={toggleAndCall(updateProjectDomain)} currentProjectDomain={currentProjectDomain} />
-    )}
-  </Popover>
-  /* <PopoverWithButton
-    buttonProps={{ size: 'small', variant: 'secondary' }}
-    buttonText={
-      currentProjectDomain ? (
-        <>
-          Project: {currentProjectDomain} <Dropdown />
-        </>
-      ) : (
-        <>
-          All Projects <Dropdown />
-        </>
-      )
-    }
-  >
-    {({ toggleAndCall }) => (
-      <ProjectSearch projects={projects} updateProjectDomain={toggleAndCall(updateProjectDomain)} currentProjectDomain={currentProjectDomain} />
-    )}
-  </PopoverWithButton> */
-);
 
 TeamAnalyticsProjectPop.propTypes = {
   projects: PropTypes.arrayOf(
