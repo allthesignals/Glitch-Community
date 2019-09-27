@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Icon } from '@fogcreek/shared-components';
 
+import { OverlayTitle, OverlaySection } from 'Components/overlays'
 import Link from 'Components/link';
 import Logo from 'Components/header/logo';
 import TransparentButton from 'Components/buttons/transparent-button';
@@ -120,18 +121,16 @@ const SignInLayout = () => {
         {({ page, setPage, goBack }) => {
           return (
             <div className={styles.overlay}>
+              {/* {page === 'signIn' && (
+
+              )} */}
               {page === '2fa' && (
                 <>
-                  <section className={styles.title}>
-                    <TransparentButton onClick={goBack}>
-                      <div className={styles.magicCode}>
-                        <span className={styles.backArrow}>
-                          <Icon icon="chevronLeft" />
-                        </span>
-                        <Heading tagName="h1">Two Factor Authentication</Heading>
-                      </div>
-                    </TransparentButton>
-                  </section>
+                  <OverlaySection type="info" >
+                    <OverlayTitle goBack={goBack}>
+                      Two Factor Authentication
+                    </OverlayTitle>
+                  </OverlaySection>
                   <section className={styles.content}>
                     <div>
                       <TwoFactorForm initialToken="olivia" />
