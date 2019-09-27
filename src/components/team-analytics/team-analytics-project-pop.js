@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { Button, Icon, Popover } from '@fogcreek/shared-components';
+
 import ProjectResultItem from 'Components/project/project-result-item';
 import { ResultItem, ResultInfo, ResultName } from 'Components/containers/results-list';
 import { PopoverWithButton, PopoverDialog, PopoverSearch } from 'Components/popover';
@@ -54,7 +56,7 @@ const ProjectSearch = ({ projects, updateProjectDomain, currentProjectDomain }) 
   );
 };
 
-const Dropdown = () => <span className="down-arrow" aria-label="options" />;
+const Dropdown = () => <Icon icon="chevronDown" aria-label="options" />;
 
 const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProjectDomain }) => (
   <PopoverWithButton
