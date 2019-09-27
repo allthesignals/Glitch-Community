@@ -9,7 +9,7 @@ import Image from 'Components/images/image';
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
 import { UserLink } from 'Components/link';
-import { MultiPopover, PopoverContainer, PopoverDialog } from 'Components/popover';
+import { MultiPopover } from 'Components/popover';
 import CreateTeamPop from 'Components/create-team-pop';
 import { useGlobals } from 'State/globals';
 import { useCurrentUser, useSuperUserHelpers } from 'State/current-user';
@@ -43,12 +43,7 @@ const TeamList = ({ teams, showCreateTeam }) => {
     <Actions>
       {orderedTeams.map((team) => (
         <div className={styles.buttonWrap} key={team.id}>
-          <Button
-            as="a"
-            href={getTeamLink(team)}
-            size="small"
-            variant="secondary"
-          >
+          <Button as="a" href={getTeamLink(team)} size="small" variant="secondary">
             {team.name} <TeamAvatar team={team} size="small" className={emoji} tiny hideTooltip />
           </Button>
         </div>
@@ -109,7 +104,7 @@ Are you sure you want to sign out?`)
   const userPasswordEnabled = useDevToggle('User Passwords');
 
   return (
-    <PopoverDialog className={styles.userOptionsPop} align="right">
+    <div className={styles.userOptionsPop}>
       <Title>
         <UserLink user={user}>
           <div className={styles.userAvatarContainer} style={{ backgroundColor: user.color }}>
@@ -117,11 +112,7 @@ Are you sure you want to sign out?`)
           </div>
           <div className={styles.userInfo}>
             {user.name || 'Anonymous'}
-            {user.login && (
-              <div className={styles.userLogin}>
-                @{user.login}
-              </div>
-            )}
+            {user.login && <div className={styles.userLogin}>@{user.login}</div>}
           </div>
         </UserLink>
       </Title>
@@ -157,7 +148,7 @@ Are you sure you want to sign out?`)
           Sign Out <Icon className={emoji} icon="balloon" />
         </Button>
       </Info>
-    </PopoverDialog>
+    </div>
   );
 };
 
@@ -179,11 +170,13 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
   const { currentUser: user } = useCurrentUser();
   const avatarStyle = { backgroundColor: user.color };
   const buttonRef = useRef();
-  
+
   return (
     <CheckForCreateTeamHash>
       {(createTeamOpen) => (
-        <Popover align="right" renderLabel={({ onClick, ref }) => {
+        <Popover
+          align="right"
+          renderLabel={({ onClick, ref }) => {
             const userOptionsButton = (
               <UnstyledButton type="dropDown" onClick={onClick} decorative={!user.id} ref={buttonRef}>
                 <span className={styles.userOptionsWrap}>
@@ -194,26 +187,25 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
                 </span>
               </UnstyledButton>
             );
-            
-            return (<TooltipContainer target={userOptionsButton} tooltip="User options" type="action" align={['right']}></TooltipContainer>);
+
+            return <TooltipContainer target={userOptionsButton} tooltip="User options" type="action" align={['right']}></TooltipContainer>;
           }}
-          >
-            
+        >
           {({ onClose }) => (
             <MultiPopover
-                    views={{
-                      createTeam: () => <CreateTeamPop />,
-                    }}
-                  >
-                    {({ createTeam }) => (
-                      <UserOptionsPop
-                        showAccountSettingsOverlay={showAccountSettingsOverlay}
-                        showNewStuffOverlay={showNewStuffOverlay}
-                        togglePopover={onClose}
-                        showCreateTeam={createTeam}
-                      />
-                    )}
-                  </MultiPopover>
+              views={{
+                createTeam: () => <CreateTeamPop />,
+              }}
+            >
+              {({ createTeam }) => (
+                <UserOptionsPop
+                  showAccountSettingsOverlay={showAccountSettingsOverlay}
+                  showNewStuffOverlay={showNewStuffOverlay}
+                  togglePopover={onClose}
+                  showCreateTeam={createTeam}
+                />
+              )}
+            </MultiPopover>
           )}
         </Popover>
         /* <PopoverContainer startOpen={createTeamOpen} triggerButtonRef={buttonRef}>
