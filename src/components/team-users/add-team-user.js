@@ -160,17 +160,29 @@ AddTeamUserPop.defaultProps = {
 const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setWhitelistedDomain }) => {
   const track = useTracker('Add to Team clicked');
   return (
-    <Popover align="left" renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref} onOpen={track}>Add</Button>}>
-      {({ onClose }) => (
+    <Popover align="left" onOpen={track} renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref}>Add</Button>}>
+      {({ toggleAndCall }) => (
         <AddTeamUserPop
           members={members}
           whitelistedDomain={whitelistedDomain}
-          setWhitelistedDomain={onClose(setWhitelistedDomain)}
-          inviteUser={onClose(inviteUser)}
-          inviteEmail={onClose(inviteEmail)}
+          setWhitelistedDomain={toggleAndCall(setWhitelistedDomain)}
+          inviteUser={toggleAndCall(inviteUser)}
+          inviteEmail={toggleAndCall(inviteEmail)}
         />
       )}
     </Popover>
+    /* <PopoverWithButton buttonProps={{ size: 'small', variant: 'secondary' }} buttonText="Add" onOpen={track}>
+      {({ toggleAndCall }) => (
+        <AddTeamUserPop
+          members={members}
+          whitelistedDomain={whitelistedDomain}
+          setWhitelistedDomain={toggleAndCall(setWhitelistedDomain)}
+          inviteUser={toggleAndCall(inviteUser)}
+          inviteEmail={toggleAndCall(inviteEmail)}
+        />
+      )}
+    </PopoverWithButton>
+    */
   );
 };
 AddTeamUser.propTypes = {
