@@ -10,7 +10,6 @@ import { getDisplayName } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
 import { useAPI, useAPIHandlers } from 'State/api';
 import { useNotifications } from 'State/notifications';
-import { PopoverContainer, PopoverDialog, PopoverInfo, PopoverActions, InfoDescription } from 'Components/popover';
 import AddTeamUserPop from 'Components/team-users/add-team-user';
 import TransparentButton from 'Components/buttons/transparent-button';
 import { UserAvatar } from 'Components/images/avatar';
