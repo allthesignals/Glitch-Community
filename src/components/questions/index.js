@@ -20,15 +20,25 @@ const kaomojis = ['八(＾□＾*)', '(ノ^_^)ノ', 'ヽ(*ﾟｰﾟ*)ﾉ', '♪(
 async function load(api, max) {
   const kaomoji = sample(kaomojis);
   try {
-    const { data } = await api.get(`projects/questions?cache=${Date.now()}`);
-    const questions = data
-      .map((q) => JSON.parse(q.details))
-      .filter((q) => !!q)
-      .slice(0, max)
-      .map((question) => {
-        const [colorInner, colorOuter] = pickRandomColors(2);
-        return { colorInner, colorOuter, id: question.questionId, ...question };
-      });
+    // const { data } = await api.get(`projects/questions?cache=${Date.now()}`);
+    // const questions = data
+    //   .map((q) => JSON.parse(q.details))
+    //   .filter((q) => !!q)
+    //   .slice(0, max)
+    //   .map((question) => {
+    //     const [colorInner, colorOuter] = pickRandomColors(2);
+    //     return { colorInner, colorOuter, id: question.questionId, ...question };
+    //   });
+    const questions = [{
+      colorInner: 'blue',
+      colorOuter: 'blue', 
+      domain: 'test', 
+      question: 'testquestion', 
+      tags: ['tags'], 
+      userAvatar: 'https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/user-avatar/630df099-a8b5-48d8-a84c-e66cf93cfd2e-large.jpg',
+      userColor: 'blue',
+      userLogin: 'scientiffic',
+    }]
     return { kaomoji, questions };
   } catch (error) {
     console.error(error);
