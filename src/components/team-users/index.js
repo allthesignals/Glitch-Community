@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { uniq } from 'lodash';
-import { Actions, Button, Icon, Info, Popover, UnstyledButton } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Info, Popover } from '@fogcreek/shared-components';
 
 import TooltipContainer from 'Components/tooltips/tooltip-container';
 import WhitelistedDomainIcon from 'Components/whitelisted-domain';
@@ -47,8 +47,8 @@ function InvitedUser({ user, team, onRevokeInvite }) {
           </TransparentButton>
 
           {visible && (
-            <PopoverDialog align="left">
-              <PopoverInfo>
+            <>
+              <Info>
                 <div className={styles.avatar}>
                   <UserLink user={user}>
                     <UserAvatar user={user} hideTooltip />
@@ -64,20 +64,20 @@ function InvitedUser({ user, team, onRevokeInvite }) {
                     </p>
                   )}
                 </div>
-              </PopoverInfo>
+              </Info>
 
-              <PopoverActions>
+              <Actions>
                 <Button onClick={resendInvite} variant="secondary" size="small">
                   Resend invite <Icon className={emoji} icon="herb" />
                 </Button>
-              </PopoverActions>
+              </Actions>
 
-              <PopoverActions type="dangerZone">
+              <DangerZone>
                 <Button onClick={onRevokeInvite} variant="warning" size="small">
                   Remove <Icon className={emoji} icon="wave" />
                 </Button>
-              </PopoverActions>
-            </PopoverDialog>
+              </DangerZone>
+            </>
           )}
         </div>
       )}
@@ -109,18 +109,18 @@ const WhitelistedDomain = ({ domain, setDomain }) => (
           />
         </TransparentButton>
         {visible && (
-          <PopoverDialog focusOnDialog align="left">
-            <PopoverInfo>
-              <InfoDescription>Anyone with an @{domain} email can join</InfoDescription>
-            </PopoverInfo>
+          <>
+            <Info>
+              Anyone with an @{domain} email can join
+            </Info>
             {!!setDomain && (
-              <PopoverActions type="dangerZone">
+              <DangerZone>
                 <Button variant="warning" size="small" onClick={() => setDomain(null)}>
                   Remove {domain} <Icon className={emoji} icon="bomb" />
                 </Button>
-              </PopoverActions>
+              </DangerZone>
             )}
-          </PopoverDialog>
+          </>
         )}
       </div>
     )}
