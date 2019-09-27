@@ -6,7 +6,6 @@ const fs = require('fs');
 const util = require('util');
 const dayjs = require('dayjs');
 const punycode = require('punycode');
-const bcrypt = require('bcrypt');
 
 const MarkdownIt = require('markdown-it');
 const md = new MarkdownIt();
@@ -276,14 +275,16 @@ module.exports = function(external) {
   app.post('/api/home', async (req, res) => {
     const persistentToken = req.headers.authorization;
     const data = req.body;
-    const page = 'home';
-    try {
-      await saveDataToFile({ page, persistentToken, data });
-      res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
-      res.sendStatus(403);
-    }
+    console.log(persistentToken);
+    console.log(data);
+    // const page = 'home';
+    // try {
+    //   await saveDataToFile({ page, persistentToken, data });
+    //   res.sendStatus(200);
+    // } catch (e) {
+    //   console.warn(e);
+    //   res.sendStatus(403);
+    // }
   });
   
   function transformRawHomepageData(data) {
