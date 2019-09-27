@@ -10,6 +10,7 @@ import TwoFactorForm from 'Components/sign-in/two-factor-form';
 import UseMagicCode from 'Components/sign-in/use-magic-code';
 import GetMagicCode from 'Components/sign-in/get-magic-code';
 import Text from 'Components/text/text';
+import Heading from 'Components/text/heading';
 
 import MultiPageOverlay from './multi-page';
 import styles from './sign-in-layout.styl';
@@ -105,18 +106,6 @@ const pages = {
       </div>
     ),
   },
-  '2fa': {
-    title: 'Two Factor Authentication',
-    content: () => (
-      <div>
-        <TwoFactorForm />
-        <div className={styles.footer}>
-          <TermsAndConditions />
-          <Thumbprint />
-        </div>
-      </div>
-    ),
-  },
 };
 
 const SignInLayout = () => {
@@ -127,7 +116,37 @@ const SignInLayout = () => {
           <Logo />
         </Link>
       </div>
-      <MultiPageOverlay defaultPage="signIn" pages={pages} />
+      <MultiPageOverlay defaultPage="2fa">
+        {({ page, setPage, goBack }) => {
+          return (
+            <div className={styles.overlay}>
+              {page === '2fa' && (
+                <>
+                  <section className={styles.title}>
+                    <TransparentButton onClick={goBack}>
+                      <div className={styles.magicCode}>
+                        <span className={styles.backArrow}>
+                          <Icon icon="chevronLeft" />
+                        </span>
+                        <Heading tagName="h1">Two Factor Authentication</Heading>
+                      </div>
+                    </TransparentButton>
+                  </section>
+                  <section className={styles.content}>
+                    <div>
+                      <TwoFactorForm initialToken="olivia" />
+                      <div className={styles.footer}>
+                        <TermsAndConditions />
+                        <Thumbprint />
+                      </div>
+                    </div>
+                  </section>
+                </>
+              )}
+            </div>
+          );
+        }}
+      </MultiPageOverlay>
     </div>
   );
 };
