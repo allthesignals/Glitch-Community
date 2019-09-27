@@ -17,7 +17,7 @@ const constants = require('./constants');
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { defaultProjectDescriptionPattern } = require('../shared/regex');
-const { getData, getRawData, saveDataToFile } = require('./home');
+const { getData, saveDataToFile } = require('./home');
 
 const DEFAULT_USER_DESCRIPTION = (login, name) => `See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
 const DEFAULT_TEAM_DESCRIPTION = (login, name) => `See what Team ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
@@ -29,7 +29,7 @@ module.exports = function(external) {
   // don't enforce HTTPS if building the site locally, not on glitch.com
   if (!process.env.RUNNING_LOCALLY) {
     app.use(enforce.HTTPS({ trustProtoHeader: true }));
-  }
+  } 
 
   // CORS - Allow pages from any domain to make requests to our API
   app.use(function(request, response, next) {
@@ -275,24 +275,15 @@ module.exports = function(external) {
   app.post('/api/home', async (req, res) => {
     const persistentToken = req.headers.authorization;
     const data = req.body;
-    console.log(persistentToken);
-    console.log(data);
-    // const page = 'home';
-    // try {
-    //   await saveDataToFile({ page, persistentToken, data });
-    //   res.sendStatus(200);
-    // } catch (e) {
-    //   console.warn(e);
-    //   res.sendStatus(403);
-    // }
+    const page = 'home';
+    try {
+      await saveDataToFile({ page, persistentToken, data });
+      res.sendStatus(200);
+    } catch (e) {
+      console.warn(e);
+      res.sendStatus(403);
+    }
   });
-  
-  function transformRawHomepageData(data) {
-    const unifiedStories = { hed, dek, featuredImage, featuredImageDescription, cta, href, relatedContent: [], summary };
-    const featuredCallouts = [];
-    const featuredCallout = { id, label, description, cta, href, backgroundSrc, color, }
-    return { unifiedStories, }
-  }
 
   app.get('/api/pupdate', async (req, res) => {
     const data = await getData('pupdates');

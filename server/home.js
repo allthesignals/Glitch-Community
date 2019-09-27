@@ -26,19 +26,12 @@ async function getData(page) {
   return pageCache[page];
 }
 
-async function getRawData(page) {
-  const params = `?ref=XYzQKRAAAB8AfLi9&q=[[at(document.type, "${page}")]]&orderings=[document.first_publication_date desc]`;
-  const url = `https://glitch.cdn.prismic.io/api/v2/documents/search${params}`;
-  console.log(url);
-  const response = await axios.get(url, { timeout: 10000 });
-  return response.data.results;
-}
-
 async function saveDataToFile({ page, data, persistentToken }) {
   const teams = await getAllPages(api, `/v1/users/by/persistentToken/teams?persistentToken=${persistentToken}&limit=100`);
   if (!teams.some((team) => team.id === GLITCH_TEAM_ID)) throw new Error('Forbidden'); 
   pageCache[page] = data;
-  await writeFile(path.join(__dirname, `../src/curated/${page}.json`), JSON.stringify(data), { encoding: 'utf8' });
+  console.log(path.join(__dirname, `../src/curated/${page}.json`));
+  // await writeFile(path.join(__dirname, `../src/curated/${page}.json`), JSON.stringify(data), { encoding: 'utf8' });
 }
 
 module.exports = { getData, getRawData, saveDataToFile };
