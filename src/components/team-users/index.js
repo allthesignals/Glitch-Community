@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { uniq } from 'lodash';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Info, Popover } from '@fogcreek/shared-components';
 
 import TooltipContainer from 'Components/tooltips/tooltip-container';
 import WhitelistedDomainIcon from 'Components/whitelisted-domain';
@@ -10,7 +10,6 @@ import { getDisplayName } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
 import { useAPI, useAPIHandlers } from 'State/api';
 import { useNotifications } from 'State/notifications';
-import { PopoverContainer, PopoverDialog, PopoverInfo, PopoverActions, InfoDescription } from 'Components/popover';
 import AddTeamUserPop from 'Components/team-users/add-team-user';
 import TransparentButton from 'Components/buttons/transparent-button';
 import { UserAvatar } from 'Components/images/avatar';
@@ -39,49 +38,48 @@ function InvitedUser({ user, team, onRevokeInvite }) {
   };
 
   return (
-    <PopoverContainer>
-      {({ visible, togglePopover }) => (
-        <div style={{ position: 'relative' }}>
-          <TransparentButton onClick={togglePopover}>
-            <UserAvatar user={user} />
-          </TransparentButton>
-
-          {visible && (
-            <PopoverDialog align="left">
-              <PopoverInfo>
-                <div className={styles.avatar}>
-                  <UserLink user={user}>
-                    <UserAvatar user={user} hideTooltip />
-                  </UserLink>
-                </div>
-                <div className={styles.nameLoginWrap}>
-                  <h3 className={styles.name} title={user.name}>
-                    {user.name || 'Anonymous'}
-                  </h3>
-                  {user.login && (
-                    <p className={styles.userLogin} title={user.login}>
-                      @{user.login}
-                    </p>
-                  )}
-                </div>
-              </PopoverInfo>
-
-              <PopoverActions>
-                <Button onClick={resendInvite} variant="secondary" size="small">
-                  Resend invite <Icon className={emoji} icon="herb" />
-                </Button>
-              </PopoverActions>
-
-              <PopoverActions type="dangerZone">
-                <Button onClick={onRevokeInvite} variant="warning" size="small">
-                  Remove <Icon className={emoji} icon="wave" />
-                </Button>
-              </PopoverActions>
-            </PopoverDialog>
-          )}
-        </div>
+    <Popover
+      align="left"
+      renderLabel={({ onClick, ref }) => (
+        <TransparentButton onClick={onClick} ref={ref}>
+          <UserAvatar user={user} />
+        </TransparentButton>
       )}
-    </PopoverContainer>
+    >
+      {() => (
+        <>
+          <Info>
+            <div className={styles.avatar}>
+              <UserLink user={user}>
+                <UserAvatar user={user} hideTooltip />
+              </UserLink>
+            </div>
+            <div className={styles.nameLoginWrap}>
+              <h3 className={styles.name} title={user.name}>
+                {user.name || 'Anonymous'}
+              </h3>
+              {user.login && (
+                <p className={styles.userLogin} title={user.login}>
+                  @{user.login}
+                </p>
+              )}
+            </div>
+          </Info>
+
+          <Actions>
+            <Button onClick={resendInvite} variant="secondary" size="small">
+              Resend invite <Icon className={emoji} icon="herb" />
+            </Button>
+          </Actions>
+
+          <DangerZone>
+            <Button onClick={onRevokeInvite} variant="warning" size="small">
+              Remove <Icon className={emoji} icon="wave" />
+            </Button>
+          </DangerZone>
+        </>
+      )}
+    </Popover>
   );
 }
 
@@ -94,37 +92,35 @@ InvitedUser.propTypes = {
 // Whitelisted domain icon
 
 const WhitelistedDomain = ({ domain, setDomain }) => (
-  <PopoverContainer>
-    {({ visible, togglePopover }) => (
-      <div style={{ position: 'relative' }}>
-        <TransparentButton onClick={togglePopover}>
-          <TooltipContainer
-            type="action"
-            tooltip={visible ? null : `Anyone with an @${domain} email can join`}
-            target={
-              <div className={styles.whitelistedDomainIconWrap}>
-                <WhitelistedDomainIcon domain={domain} />
-              </div>
-            }
-          />
-        </TransparentButton>
-        {visible && (
-          <PopoverDialog focusOnDialog align="left">
-            <PopoverInfo>
-              <InfoDescription>Anyone with an @{domain} email can join</InfoDescription>
-            </PopoverInfo>
-            {!!setDomain && (
-              <PopoverActions type="dangerZone">
-                <Button variant="warning" size="small" onClick={() => setDomain(null)}>
-                  Remove {domain} <Icon className={emoji} icon="bomb" />
-                </Button>
-              </PopoverActions>
-            )}
-          </PopoverDialog>
-        )}
-      </div>
+  <Popover
+    align="left"
+    renderLabel={({ visible, onClick, ref }) => (
+      <TransparentButton onClick={onClick} ref={ref}>
+        <TooltipContainer
+          type="action"
+          tooltip={visible ? null : `Anyone with an @${domain} email can join`}
+          target={
+            <div className={styles.whitelistedDomainIconWrap}>
+              <WhitelistedDomainIcon domain={domain} />
+            </div>
+          }
+        />
+      </TransparentButton>
     )}
-  </PopoverContainer>
+  >
+    {() => (
+      <>
+        <Info>Anyone with an @{domain} email can join</Info>
+        {!!setDomain && (
+          <DangerZone>
+            <Button variant="warning" size="small" onClick={() => setDomain(null)}>
+              Remove {domain} <Icon className={emoji} icon="bomb" />
+            </Button>
+          </DangerZone>
+        )}
+      </>
+    )}
+  </Popover>
 );
 
 WhitelistedDomain.propTypes = {
@@ -169,7 +165,10 @@ const useInvitees = (team, currentUserIsOnTeam) => {
     loadUsers(tokens);
   }, [tokens]);
 
-  const invitees = tokens.map(({ userId }) => users[userId]).filter((user) => !!user).reverse();
+  const invitees = tokens
+    .map(({ userId }) => users[userId])
+    .filter((user) => !!user)
+    .reverse();
 
   const addInvitee = (user) => {
     setUsers((oldUsers) => ({ ...oldUsers, [user.id]: user }));

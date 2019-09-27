@@ -7,7 +7,7 @@ import styles from './styles.styl';
 const timeFrames = ['Last 4 Weeks', 'Last 2 Weeks', 'Last 24 Hours'];
 
 const TeamAnalyticsTimePopButton = ({ updateTimeFrame, currentTimeFrame }) => (
-  <Button className={styles.timeFramePopWrap} size="small" variant="secondary">
+  <Button onClick={() => {}} className={styles.timeFramePopWrap} size="small" variant="secondary">
     <select className={styles.timeFrameSelect} value={currentTimeFrame} onChange={(e) => updateTimeFrame(e.target.value)}>
       {timeFrames.map((t) => (
         <option key={t} value={t}>

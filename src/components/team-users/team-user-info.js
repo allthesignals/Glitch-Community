@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 import { getDisplayName } from 'Models/user';
 import { userIsTeamAdmin, userIsOnlyTeamAdmin } from 'Models/team';
@@ -8,7 +8,7 @@ import TooltipContainer from 'Components/tooltips/tooltip-container';
 import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
 import { UserLink } from 'Components/link';
 import Thanks from 'Components/thanks';
-import { PopoverContainer, PopoverDialog, PopoverActions, PopoverInfo, MultiPopover, MultiPopoverTitle, ActionDescription } from 'Components/popover';
+import { MultiPopover } from 'Components/popover';
 import TransparentButton from 'Components/buttons/transparent-button';
 
 import { useTrackedFunc, useTracker } from 'State/segment-analytics';
@@ -72,17 +72,17 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
   const projectsToRemove = userTeamProjects.filter((p) => selectedProjectIDs.includes(p.id));
 
   return (
-    <PopoverDialog align="left" focusOnPopover>
-      <MultiPopoverTitle>Remove {getDisplayName(user)}</MultiPopoverTitle>
+    <>
+      <Title>Remove {getDisplayName(user)}</Title>
 
       {!userTeamProjects && (
-        <PopoverActions>
+        <Actions>
           <Loader />
-        </PopoverActions>
+        </Actions>
       )}
       {userTeamProjects && userTeamProjects.length > 0 && (
-        <PopoverActions>
-          <ActionDescription>Also remove them from these projects</ActionDescription>
+        <Actions>
+          Also remove them from these projects
           <ProjectsList options={userTeamProjects} value={selectedProjectIDs} onChange={setSelectedProjects} />
           {userTeamProjects.length > 1 && allProjectsSelected && (
             <Button size="small" onClick={unselectAllProjects}>
@@ -94,18 +94,18 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
               Select All
             </Button>
           )}
-        </PopoverActions>
+        </Actions>
       )}
 
-      <PopoverActions type="dangerZone">
+      <DangerZone>
         <Button variant="warning" onClick={() => onRemoveUser(projectsToRemove)}>
           Remove{' '}
           <span className={styles.tinyAvatar}>
             <UserAvatar user={user} withinButton />
           </span>
         </Button>
-      </PopoverActions>
-    </PopoverDialog>
+      </DangerZone>
+    </>
   );
 }
 
@@ -122,8 +122,8 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
   const canCurrentUserRemoveUser = currentUserHasRemovePriveleges && !teamHasOnlyOneMember && !selectedUserIsOnlyAdmin;
 
   return (
-    <PopoverDialog align="left">
-      <PopoverInfo>
+    <>
+      <Info>
         <div className={styles.userProfile}>
           <UserLink user={user}>
             <UserAvatar user={user} hideTooltip />
@@ -134,15 +134,15 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
             {selectedUserIsTeamAdmin && <AdminBadge />}
           </div>
         </div>
-      </PopoverInfo>
+      </Info>
       {user.thanksCount > 0 && (
-        <PopoverInfo>
+        <Info>
           <Thanks count={user.thanksCount} />
-        </PopoverInfo>
+        </Info>
       )}
       {currentUserIsTeamAdmin && !selectedUserIsOnlyAdmin && (
-        <PopoverActions>
-          <ActionDescription>Admins can update team info, billing, and remove users</ActionDescription>
+        <Actions>
+          Admins can update team info, billing, and remove users
           {selectedUserIsTeamAdmin ? (
             <Button size="small" variant="secondary" onClick={onRemoveAdmin}>
               Remove Admin Status <Icon className={emoji} icon="fastDown" />
@@ -152,16 +152,16 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
               Make an Admin <Icon className={emoji} icon="fastUp" />
             </Button>
           )}
-        </PopoverActions>
+        </Actions>
       )}
       {canCurrentUserRemoveUser && (
-        <PopoverActions type="dangerZone">
+        <DangerZone>
           <Button variant="warning" onClick={onRemoveUser}>
             {isCurrentUser ? 'Leave Team' : 'Remove from Team'} <Icon className={emoji} icon="wave" />
           </Button>
-        </PopoverActions>
+        </DangerZone>
       )}
-    </PopoverDialog>
+    </>
   );
 };
 
@@ -204,7 +204,48 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
   const onMakeAdmin = useTrackedFunc(() => updateUserPermissions(user, ADMIN_ACCESS_LEVEL), 'Make an Admin clicked');
 
   return (
-    <PopoverContainer>
+    <Popover
+      align="left"
+      renderLabel={({ onClick, ref }) => (
+        <TransparentButton onClick={onClick} ref={ref}>
+          <UserAvatar user={user} suffix={adminStatusDisplay(team.adminIds, user)} withinButton />
+        </TransparentButton>
+      )}
+    >
+      {({ onClose }) => (
+        <MultiPopover
+          views={{
+            remove: () => (
+              <TeamUserRemovePop
+                user={user}
+                userTeamProjects={userTeamProjects}
+                onRemoveUser={() => {
+                  onClose();
+                  removeUser();
+                }}
+              />
+            ),
+          }}
+        >
+          {(showViews) => (
+            <TeamUserInfo
+              user={user}
+              team={team}
+              onRemoveAdmin={() => {
+                onClose();
+                onRemoveAdmin();
+              }}
+              onMakeAdmin={() => {
+                onClose();
+                onMakeAdmin();
+              }}
+              onRemoveUser={() => onOrShowRemoveUser(showViews.remove, onClose)}
+            />
+          )}
+        </MultiPopover>
+      )}
+    </Popover>
+    /* <PopoverContainer>
       {({ visible, togglePopover, toggleAndCall }) => (
         <div style={{ position: 'relative' }}>
           <TransparentButton onClick={togglePopover}>
@@ -230,7 +271,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           )}
         </div>
       )}
-    </PopoverContainer>
+    </PopoverContainer> */
   );
 };
 
