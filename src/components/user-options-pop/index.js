@@ -179,11 +179,43 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
   const { currentUser: user } = useCurrentUser();
   const avatarStyle = { backgroundColor: user.color };
   const buttonRef = useRef();
-
+  
   return (
     <CheckForCreateTeamHash>
       {(createTeamOpen) => (
-        <Popover align="right" renderLabel={({ onClick, ref }) => }
+        <Popover align="right" renderLabel={({ onClick, ref }) => {
+            const userOptionsButton = (
+              <UnstyledButton type="dropDown" onClick={onClick} decorative={!user.id} ref={buttonRef}>
+                <span className={styles.userOptionsWrap}>
+                  <span className={styles.userOptionsButtonAvatar}>
+                    <UserAvatar user={user} hideTooltip withinButton style={avatarStyle} />
+                  </span>
+                  <span className="down-arrow icon" />
+                </span>
+              </UnstyledButton>
+            );
+            
+            return (<TooltipContainer target={userOptionsButton} tooltip="User options" type="action" align={['right']}></TooltipContainer>);
+          }}
+          >
+            
+          {({ onClose }) => (
+            <MultiPopover
+                    views={{
+                      createTeam: () => <CreateTeamPop />,
+                    }}
+                  >
+                    {({ createTeam }) => (
+                      <UserOptionsPop
+                        showAccountSettingsOverlay={showAccountSettingsOverlay}
+                        showNewStuffOverlay={showNewStuffOverlay}
+                        togglePopover={onClose}
+                        showCreateTeam={createTeam}
+                      />
+                    )}
+                  </MultiPopover>
+          )}
+        </Popover>
         /* <PopoverContainer startOpen={createTeamOpen} triggerButtonRef={buttonRef}>
           {({ togglePopover, visible }) => {
             const userOptionsButton = (
