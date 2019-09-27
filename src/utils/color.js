@@ -26,6 +26,17 @@ export const hexToRgbA = (hex) => {
   return false;
 };
 
+// from https://stackoverflow.com/a/5624139/1720985
+const componentToHex = (c) => {
+  const hex = c.toString(16);
+  return hex.length === 1 ? `0${hex}` : hex;
+};
+
+export const rgbToHex = (r, g, b) => {
+  const hex = `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
+  return hex;
+};
+
 export const isGoodColorContrast = (hex) => getContrastWithDarkText(hex) >= 4.5 || getContrastWithLightText(hex) >= 4.5;
 
 export function pickRandomColors(count) {

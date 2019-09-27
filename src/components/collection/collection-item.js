@@ -11,7 +11,7 @@ import { ProfileItem } from 'Components/profile-list';
 import { CollectionLink } from 'Components/link';
 import Row from 'Components/containers/row';
 import ProjectItemSmall from 'Components/project/project-item-small';
-import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
+import { BookmarkAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
 
 import { isDarkColor } from 'Utils/color';
@@ -132,20 +132,22 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
   return (
     <div className={styles.collectionItem}>
       {isAuthorized && <div className={styles.header} />}
-      <CollectionLinkComponent collection={collection} className={classNames(styles.linkBody)} style={collectionColorStyles(collection)}>
-        <div className={styles.bookmarkContainer}>
-          <BookmarkAvatar />
-        </div>
-        <div className={styles.nameDescriptionContainer}>
-          <div className={styles.itemButtonWrap}>
-            <Button as="span">{collection.name}</Button>
+      <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
+        <CollectionLinkComponent collection={collection} className={classNames(styles.linkBody)} style={collectionColorStyles(collection)}>
+          <div className={styles.bookmarkContainer}>
+            <BookmarkAvatar />
           </div>
-          <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
-            <Markdown length={100}>{collection.description || ' '}</Markdown>
+          <div className={styles.nameDescriptionContainer}>
+            <div className={styles.itemButtonWrap}>
+              <Button as="span">{collection.name}</Button>
+            </div>
+            <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
+              <Markdown length={100}>{collection.description || ' '}</Markdown>
+            </div>
           </div>
-        </div>
-      </CollectionLinkComponent>
-      <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+        </CollectionLinkComponent>
+        <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+      </div>
     </div>
   );
 };
@@ -160,25 +162,24 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
             {isAuthorized && <CollectionOptions collection={collection} deleteCollection={animateAndDeleteCollection} />}
           </div>
         )}
-        <CollectionLink
-          collection={collection}
-          className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
-          style={collectionColorStyles(collection)}
-        >
-          <div className={styles.avatarContainer}>
-            <CollectionAvatar collection={collection} />
-          </div>
-          <div className={styles.nameDescriptionContainer}>
-            <div className={styles.itemButtonWrap}>
-              <Button as="span">{collection.name}</Button>
+        <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
+          <CollectionLink
+            collection={collection}
+            className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
+            style={collectionColorStyles(collection)}
+          >
+            <div className={styles.nameDescriptionContainer}>
+              <div className={styles.itemButtonWrap}>
+                <Button as="span">{collection.name}</Button>
+              </div>
+              <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
+                <Markdown length={100}>{collection.description || ' '}</Markdown>
+              </div>
             </div>
-            <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
-              <Markdown length={100}>{collection.description || ' '}</Markdown>
-            </div>
-          </div>
-        </CollectionLink>
+          </CollectionLink>
 
-        <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+          <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+        </div>
       </div>
     )}
   </AnimationContainer>
