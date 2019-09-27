@@ -58,42 +58,36 @@ const ProjectSearch = ({ projects, updateProjectDomain, currentProjectDomain }) 
 
 const Dropdown = () => <Icon icon="chevronDown" aria-label="options" />;
 
-const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProjectDomain }) => {
-  const toggleAndCall = (func) => {
-    if (!func) return null;
-    return (...args) => (func(...args));
-  };
-  return (
-    <Popover
-      align="left"
-      className={widePopover}
-      renderLabel={({ onClick, ref }) => (
-        <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
-          {currentProjectDomain ? (
-            <>
-              Project: {currentProjectDomain} <Dropdown />
-            </>
-          ) : (
-            <>
-              All Projects <Dropdown />
-            </>
-          )}
-        </Button>
-      )}
-    >
-      {({ onClose }) => (
-        <ProjectSearch
-          projects={projects}
-          updateProjectDomain={() => {
-            onClose();
-            toggleAndCall(updateProjectDomain);
-          }}
-          currentProjectDomain={currentProjectDomain}
-        />
-      )}
-    </Popover>
-  );
-};
+const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProjectDomain }) => (
+  <Popover
+    align="left"
+    className={widePopover}
+    renderLabel={({ onClick, ref }) => (
+      <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
+        {currentProjectDomain ? (
+          <>
+            Project: {currentProjectDomain} <Dropdown />
+          </>
+        ) : (
+          <>
+            All Projects <Dropdown />
+          </>
+        )}
+      </Button>
+    )}
+  >
+    {({ onClose }) => (
+      <ProjectSearch
+        projects={projects}
+        updateProjectDomain={() => {
+          onClose();
+          updateProjectDomain();
+        }}
+        currentProjectDomain={currentProjectDomain}
+      />
+    )}
+  </Popover>
+);
 
 TeamAnalyticsProjectPop.propTypes = {
   projects: PropTypes.arrayOf(
