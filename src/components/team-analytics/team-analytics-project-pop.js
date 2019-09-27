@@ -58,6 +58,14 @@ const ProjectSearch = ({ projects, updateProjectDomain, currentProjectDomain }) 
 
 const Dropdown = () => <Icon icon="chevronDown" aria-label="options" />;
 
+const toggleAndCall = (func) => {
+  if (!func) return null;
+  return (...args) => {
+    togglePopover();
+    return func(...args);
+  };
+};
+
 const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProjectDomain }) => (
   <Popover
     align="left"

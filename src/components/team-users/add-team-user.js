@@ -135,11 +135,7 @@ function AddTeamUserPop({ members, inviteEmail, inviteUser, setWhitelistedDomain
         placeholder="Search for a user"
         renderItem={({ item: { onClick, result, component: Component }, active }) => <Component active={active} result={result} onClick={onClick} />}
       />
-      {!value && !!setWhitelistedDomain && !whitelistedDomain && (
-        <Info>
-          You can also whitelist with @example.com
-        </Info>
-      )}
+      {!value && !!setWhitelistedDomain && !whitelistedDomain && <Info>You can also whitelist with @example.com</Info>}
     </>
   );
 }
@@ -160,7 +156,22 @@ AddTeamUserPop.defaultProps = {
 const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setWhitelistedDomain }) => {
   const track = useTracker('Add to Team clicked');
   return (
-    <Popover align="left" onOpen={track} renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref}>Add</Button>}>
+    <Popover
+      align="left"
+      renderLabel={({ onClick, ref }) => (
+        <Button
+          size="small"
+          variant="secondary"
+          onClick={() => {
+            track();
+            onClick();
+          }}
+          ref={ref}
+        >
+          Add
+        </Button>
+      )}
+    >
       {({ toggleAndCall }) => (
         <AddTeamUserPop
           members={members}
