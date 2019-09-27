@@ -9,7 +9,7 @@ import Image from 'Components/images/image';
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
 import { UserLink } from 'Components/link';
-import { MultiPopover, PopoverContainer, PopoverActions, PopoverInfo, PopoverDialog, PopoverTitle, InfoDescription } from 'Components/popover';
+import { MultiPopover, PopoverContainer, PopoverDialog } from 'Components/popover';
 import CreateTeamPop from 'Components/create-team-pop';
 import { useGlobals } from 'State/globals';
 import { useCurrentUser, useSuperUserHelpers } from 'State/current-user';
@@ -116,10 +116,10 @@ Are you sure you want to sign out?`)
             <Image src={getUserAvatarThumbnailUrl(user)} alt="Your avatar" />
           </div>
           <div className={styles.userInfo}>
-            <InfoDescription>{user.name || 'Anonymous'}</InfoDescription>
+            {user.name || 'Anonymous'}
             {user.login && (
               <div className={styles.userLogin}>
-                <InfoDescription>@{user.login}</InfoDescription>
+                @{user.login}
               </div>
             )}
           </div>
@@ -183,7 +183,8 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
   return (
     <CheckForCreateTeamHash>
       {(createTeamOpen) => (
-        <PopoverContainer startOpen={createTeamOpen} triggerButtonRef={buttonRef}>
+        <Popover align="right" renderLabel={({ onClick, ref }) => }
+        /* <PopoverContainer startOpen={createTeamOpen} triggerButtonRef={buttonRef}>
           {({ togglePopover, visible }) => {
             const userOptionsButton = (
               <UnstyledButton type="dropDown" onClick={togglePopover} decorative={!user.id} ref={buttonRef}>
@@ -217,7 +218,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
               </TooltipContainer>
             );
           }}
-        </PopoverContainer>
+        </PopoverContainer> */
       )}
     </CheckForCreateTeamHash>
   );
