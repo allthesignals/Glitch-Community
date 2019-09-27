@@ -46,7 +46,7 @@ function InvitedUser({ user, team, onRevokeInvite }) {
         </TransparentButton>
       )}
     >
-      {({ onClose }) => (
+      {() => (
         <>
           <Info>
             <div className={styles.avatar}>
@@ -108,7 +108,7 @@ const WhitelistedDomain = ({ domain, setDomain }) => (
       </TransparentButton>
     )}
   >
-    {({ onClose }) => (
+    {() => (
       <>
         <Info>Anyone with an @{domain} email can join</Info>
         {!!setDomain && (
