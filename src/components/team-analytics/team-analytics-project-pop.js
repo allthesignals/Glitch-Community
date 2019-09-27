@@ -76,8 +76,8 @@ const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProject
       </Button>
     )}
   >
-    {({ toggleAndCall }) => (
-      <ProjectSearch projects={projects} updateProjectDomain={toggleAndCall(updateProjectDomain)} currentProjectDomain={currentProjectDomain} />
+    {({ onClose }) => (
+      <ProjectSearch projects={projects} updateProjectDomain={onClose} currentProjectDomain={currentProjectDomain} />
     )}
   </Popover>
   /* <PopoverWithButton
