@@ -4,7 +4,7 @@ import { Button, Icon, Popover } from '@fogcreek/shared-components';
 
 import ProjectResultItem from 'Components/project/project-result-item';
 import { ResultItem, ResultInfo, ResultName } from 'Components/containers/results-list';
-import { PopoverWithButton, PopoverDialog, PopoverSearch } from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 
 import styles from './styles.styl';
 import { widePopover } from '../global.styl';
@@ -30,7 +30,7 @@ const ProjectSearch = ({ projects, updateProjectDomain, currentProjectDomain }) 
   }, [projects, filter]);
 
   return (
-    <PopoverDialog align="left" wide>
+    <>
       <PopoverSearch
         value={filter}
         onChange={setFilter}
@@ -52,7 +52,7 @@ const ProjectSearch = ({ projects, updateProjectDomain, currentProjectDomain }) 
           )
         }
       />
-    </PopoverDialog>
+    </>
   );
 };
 
@@ -64,20 +64,20 @@ const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProject
     className={widePopover}
     renderLabel={({ onClick, ref }) => (
       <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
-        currentProjectDomain ? (
-        <>
-          Project: {currentProjectDomain} <Dropdown />
-        </>
+        {currentProjectDomain ? (
+          <>
+            Project: {currentProjectDomain} <Dropdown />
+          </>
         ) : (
-        <>
-          All Projects <Dropdown />
-        </>
-        )
+          <>
+            All Projects <Dropdown />
+          </>
+        )}
       </Button>
     )}
   >
-    {({ onClose }) => (
-      <ProjectSearch projects={projects} updateProjectDomain={onClose(updateProjectDomain)} currentProjectDomain={currentProjectDomain} />
+    {({ toggleAndCall }) => (
+      <ProjectSearch projects={projects} updateProjectDomain={toggleAndCall(updateProjectDomain)} currentProjectDomain={currentProjectDomain} />
     )}
   </Popover>
   /* <PopoverWithButton
