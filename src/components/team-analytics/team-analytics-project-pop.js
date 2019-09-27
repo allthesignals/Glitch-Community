@@ -1,11 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { Button, Icon, Popover } from '@fogcreek/shared-components';
+
 import ProjectResultItem from 'Components/project/project-result-item';
 import { ResultItem, ResultInfo, ResultName } from 'Components/containers/results-list';
-import { PopoverWithButton, PopoverDialog, PopoverSearch } from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 
 import styles from './styles.styl';
-
+import { widePopover } from '../global.styl';
 
 const AllProjectsItem = ({ active, selected, onClick }) => (
   <ResultItem onClick={onClick} active={active} selected={selected} className={styles.allProjects}>
@@ -28,7 +30,7 @@ const ProjectSearch = ({ projects, updateProjectDomain, currentProjectDomain }) 
   }, [projects, filter]);
 
   return (
-    <PopoverDialog align="left" wide>
+    <>
       <PopoverSearch
         value={filter}
         onChange={setFilter}
@@ -50,14 +52,35 @@ const ProjectSearch = ({ projects, updateProjectDomain, currentProjectDomain }) 
           )
         }
       />
-    </PopoverDialog>
+    </>
   );
 };
 
-const Dropdown = () => <span className="down-arrow" aria-label="options" />;
+const Dropdown = () => <Icon icon="chevronDown" aria-label="options" />;
 
 const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProjectDomain }) => (
-  <PopoverWithButton
+  <Popover
+    align="left"
+    className={widePopover}
+    renderLabel={({ onClick, ref }) => (
+      <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
+        {currentProjectDomain ? (
+          <>
+            Project: {currentProjectDomain} <Dropdown />
+          </>
+        ) : (
+          <>
+            All Projects <Dropdown />
+          </>
+        )}
+      </Button>
+    )}
+  >
+    {({ toggleAndCall }) => (
+      <ProjectSearch projects={projects} updateProjectDomain={toggleAndCall(updateProjectDomain)} currentProjectDomain={currentProjectDomain} />
+    )}
+  </Popover>
+  /* <PopoverWithButton
     buttonProps={{ size: 'small', variant: 'secondary' }}
     buttonText={
       currentProjectDomain ? (
@@ -74,7 +97,7 @@ const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProject
     {({ toggleAndCall }) => (
       <ProjectSearch projects={projects} updateProjectDomain={toggleAndCall(updateProjectDomain)} currentProjectDomain={currentProjectDomain} />
     )}
-  </PopoverWithButton>
+  </PopoverWithButton> */
 );
 
 TeamAnalyticsProjectPop.propTypes = {
