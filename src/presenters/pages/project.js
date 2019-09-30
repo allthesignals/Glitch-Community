@@ -16,7 +16,6 @@ import DataLoader from 'Components/data-loader';
 import Row from 'Components/containers/row';
 import RelatedProjects from 'Components/related-projects';
 import Expander from 'Components/containers/expander';
-import { PopoverWithButton, PopoverDialog, PopoverActions, ActionDescription } from 'Components/popover';
 import { ShowButton, EditButton } from 'Components/project/project-actions';
 import AuthDescription from 'Components/fields/auth-description';
 import Layout from 'Components/layout';
@@ -96,12 +95,11 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
 
   return (
     <section>
-      <PopoverWithButton buttonProps={{ size: 'small', variant: 'warning', emoji: 'bomb' }} buttonText="Delete Project">
-      <Popover align="left" className={widePopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Delete Project <Icon classNAme={emoji}</Button>}
-        {({ togglePopover }) => (
-          <PopoverDialog align="left" wide>
+      <Popover align="left" className={widePopover} renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref}>Delete Project <Icon className={emoji} icon="bomb" /></Button>}>
+        {({ onClose }) => (
+          <>
             <Actions>
-              <ActionDescription>You can always undelete a project from your profile page.</ActionDescription>
+              You can always undelete a project from your profile page.
             </Actions>
             <DangerZone>
               {loading ? (
@@ -113,7 +111,7 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
                   onClick={() => {
                     setLoading(true);
                     deleteProject().then(() => {
-                      togglePopover();
+                      onClose();
                       setDone(true);
                     });
                   }}
@@ -122,9 +120,9 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
                 </Button>
               )}
             </DangerZone>
-          </PopoverDialog>
+          </>
         )}
-      </PopoverWithButton>
+      </Popover>
     </section>
   );
 }
