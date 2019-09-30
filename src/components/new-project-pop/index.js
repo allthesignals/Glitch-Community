@@ -9,8 +9,9 @@ import { getRemixUrl } from 'Models/project';
 import { useTracker } from 'State/segment-analytics';
 import { createAPIHook } from 'State/api';
 
-import styles from './new-project-pop.styl';
+import styles from './styles.styl';
 import { mediumPopover } from '../global.styl';
+
 
 const importGitRepo = () => {
   /* eslint-disable no-alert */
@@ -92,7 +93,7 @@ const useNewProjectAPI = createAPIHook(async (api) => {
   return projectIds.map((id) => data[id]);
 });
 
-function NewProjectPopButton() {
+function NewProjectPopButton({ buttonText, buttonType, align }) {
   const { value } = useNewProjectAPI();
   const projects = value || [];
   const onOpen = useTracker('open new-project pop');
@@ -103,5 +104,15 @@ function NewProjectPopButton() {
     </Popover>
   );
 }
+
+NewProjectPopButton.propTypes = {
+  buttonText: PropTypes.string,
+  align: PropTypes.string,
+};
+
+NewProjectPopButton.defaultProps = {
+  buttonText: 'New Project',
+  align: 'right',
+};
 
 export default NewProjectPopButton;

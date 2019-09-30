@@ -16,9 +16,9 @@ import ReportButton from 'Components/report-abuse-pop';
 import Layout from 'Components/layout';
 import Link from 'Components/link';
 import PreviewContainer from 'Components/containers/preview-container';
-import Arrow from 'Components/arrow';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
+import OnboardingBanner from 'Components/onboarding-banner';
 import { useCurrentUser } from 'State/current-user';
 import { getEditorUrl, getProjectAvatarUrl } from 'Models/project';
 import { useAPI } from 'State/api';
@@ -133,13 +133,15 @@ const CuratedCollections = ({ content }) => (
     <Row items={content.map((data) => ({ ...data, id: data.fullUrl }))} className={styles.curatedCollectionRow}>
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
-          <h4 className={styles.h4}>{title}</h4>
-          <p>{description}</p>
           <div className={styles.curatedCollectionButtonWrap}>
             <Button as="span">
-              View <Pluralize count={count} singular="Project" /> <Arrow />
+              {title}
             </Button>
           </div>
+          <p>{description}</p>
+          <Link to={`/@${fullUrl}`} className={styles.collectionLink}>
+            View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
+          </Link>
         </CuratedCollectionContainer>
       )}
     </Row>
@@ -168,7 +170,7 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
           <h3 className={styles.h3}>{dek}</h3>
           <Markdown>{summary}</Markdown>
           <Button as="a" href={href}>
-            {cta} <Arrow />
+            {cta} <Icon icon="arrowRight" />
           </Button>
         </div>
       </div>
@@ -222,7 +224,7 @@ const CultureZine = ({ content }) => (
               </Row>
               <div className={styles.readMoreLink}>
                 <Button as="a" href="https://glitch.com/culture/">
-                  Read More on Culture <Arrow />
+                  Read More on Culture <Icon icon="arrowRight" />
                 </Button>
               </div>
             </>
@@ -252,7 +254,7 @@ const BuildingOnGlitch = ({ content }) => (
           <h3>{title}</h3>
           <p>{description}</p>
           <Button as="span">
-            {cta} <Arrow />
+            {cta} <Icon icon="arrowRight" />
           </Button>
         </Link>
       ))}
@@ -277,6 +279,7 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
     {!loggedIn && <Banner />}
     {!loggedIn && <FeatureCallouts content={data.featureCallouts} />}
     {hasProjects && <RecentProjects />}
+    {loggedIn && !hasProjects && <OnboardingBanner isHomepage />}
     {loggedIn && <Questions />}
     <UnifiedStories content={data.unifiedStories} />
     <TopPicks>

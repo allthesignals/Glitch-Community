@@ -170,8 +170,8 @@ const useProjects = createAPIHook(async (api, userID, team) => {
   return userProjects.filter((userProj) => team.projects.some((teamProj) => teamProj.id === userProj.id));
 });
 
-const adminStatusDisplay = (adminIds, user) => {
-  if (adminIds.includes(user.id)) {
+const adminStatusDisplay = (team, user) => {
+  if (userIsTeamAdmin({ team, user })) {
     return ' (admin)';
   }
   return '';
@@ -249,7 +249,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
       {({ visible, togglePopover, toggleAndCall }) => (
         <div style={{ position: 'relative' }}>
           <TransparentButton onClick={togglePopover}>
-            <UserAvatar user={user} suffix={adminStatusDisplay(team.adminIds, user)} withinButton />
+            <UserAvatar user={user} suffix={adminStatusDisplay(team, user)} withinButton />
           </TransparentButton>
 
           {visible && (

@@ -1,4 +1,4 @@
-@import './constants.styl'
+@import '../../../components/constants.styl'
 
 .h2
   font-size: t5
@@ -14,7 +14,8 @@
   font-weight: 600
 
 .homeSection + .homeSection
-  margin-top: 5em 
+  margin-top: 3em
+  margin-bottom: 3em
     
 .subtitle
   margin-left: u3
@@ -265,6 +266,18 @@
   overflow: hidden
   display: flex
   height: 100%
+  &:hover, &:focus
+    .curatedCollectionButtonWrap
+        box-shadow: 2px 2px 0 #222
+        border-radius: 5px
+        width: fit-content
+        height: fit-content
+  .collectionLink
+    font-size: 14px
+    font-weight: 600
+    color: primary
+    &:hover
+      text-decoration: underline
   
 .curatedCollectionButtonWrap
   white-space: nowrap
@@ -327,7 +340,7 @@
   padding: u2 0 u3
   &:before
     position: absolute
-    z-index: -1
+    z-index: 0
     content: ''
     top: 0
     width: 100vw

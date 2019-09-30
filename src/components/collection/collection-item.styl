@@ -19,15 +19,51 @@
   border-radius: 5px
   min-width: 100%
   transition: 0.1s all
-  :global .down-arrow
-    margin-left: 0
 
   a
     text-decoration: none
     color: primary
+  
+  .collectionItemBody
+    width: 100%
+    height: inherit
+    border-color: var(--border-color)
+    position: relative
+    display: flex
+    flex-direction: column
+
+    > *
+      z-index: 1
+
+    &::before
+      background:white
+      border-width: 1px
+      border-style: solid
+      border-color: secondary
+      display: inline
+      content: ''
+      transform: translate(9px,11px)
+      position: absolute
+      width: inherit
+      height: inherit
+      z-index: 0
+      border-radius: 5px
+    &::after
+      background: white
+      display: inline
+      content: ''
+      transform: translate(3px,5px)
+      position: absolute
+      width: inherit
+      height: inherit
+      z-index: 0
+      border-radius: 5px
+      border-width: 1px
+      border-style: solid
+      border-color: secondary
         
 .linkBody
-  flex: 0 1 130px
+  flex: 0 1 110px
   display: flex
   padding: 12px
   border-top-right-radius: 5px
@@ -37,7 +73,7 @@
   font-weight: normal
   cursor: pointer
   &.showCurator:after
-    top: 27px
+    top: -14px
     left: 8.5px
     border: solid transparent
     content: " "
@@ -53,15 +89,17 @@
     svg
       width: 100%
       height: auto
-  .nameDescriptionContainer
-    overflow: hidden
+    img
+      width: 100%
+      height: auto
   &:hover
-    .nameDescriptionContainer
-      .itemButtonWrap
-        width: fit-content
-        height: fit-content
-        box-shadow: 2px 2px 0 primary
-        border-radius: 5px
+    .itemButtonWrap
+      width: fit-content
+      height: fit-content
+      box-shadow: 2px 2px 0 primary
+      border-radius: 5px
+
+      
 .projectsContainer
   flex: 1 0 auto
   padding: 10px
@@ -97,13 +135,43 @@
     margin-bottom: 10px
     
 .smallCollectionLink
+  width: 100%
+  height: 100%
+  position: relative
   color: inherit
   text-decoration: none
   display: flex
   flex-direction: column
   flex: 1 1 100%
+  border-color: var(--border-color) // set in collection-item-small.js based on collection coverColor
   &:hover
     text-decoration: none
+  &::before
+    position: absolute
+    width: inherit
+    height: inherit
+    background:white
+    border-width: 1px
+    border-style: solid
+    border-color: secondary
+    display: inline
+    content: ''
+    transform: translate(9px,11px)
+    z-index: 0
+    border-radius: 5px
+  &::after
+    position: absolute
+    width: inherit
+    height: inherit
+    background: white
+    display: inline
+    content: ''
+    transform: translate(3px,5px)
+    z-index: 0
+    border-radius: 5px
+    border-width: 1px
+    border-style: solid
+    border-color: secondary
     
 .bubbleContainer
   flex: 1 0 auto
@@ -111,6 +179,9 @@
   border-radius: 5px 5px 0 0
   word-break: break-word
   padding: 1rem 1rem  
+  max-height: 140px
+  z-index: 1
+  border-color: var(--border-color) // set in collection-item-small.js based on collection coverColor
   &:hover
     .itemButtonWrap
       width: fit-content
@@ -163,10 +234,11 @@
 .smallProjectCount
   flex: 0 0 auto
   background-color: secondary-background
-  padding: 0.5rem
+  padding: 0.5rem 1rem
   font-size: 14px
   font-weight: 600
   border-radius: 0 0 5px 5px
+  z-index: 1
   
 a:hover .smallProjectCount
   text-decoration: underline
@@ -185,3 +257,16 @@ a:hover .smallProjectCount
   width: 50%
   vertical-align: top
   margin: 20px
+  
+svg.arrow
+  vertical-align: text-top
+
+.onClickMyStuffButton
+  flex: 0 1 110px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  text-align: left;
+  .linkBody
+    top: 0;
+    left: 0;
+    position: absolute;

@@ -48,7 +48,7 @@ module.exports = function(external) {
 
   const ms = dayjs.convert(7, 'days', 'miliseconds');
   app.use(express.static('public', { index: false }));
-  app.use(express.static('build', { index: false, maxAge: ms }));
+  app.use(express.static('build/client', { index: false, maxAge: ms }));
 
   const readFilePromise = util.promisify(fs.readFile);
   const imageDefault = 'https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fsocial-card%402x.png';
@@ -65,20 +65,15 @@ module.exports = function(external) {
     }
 
     try {
-      const stats = JSON.parse(await readFilePromise('build/stats.json'));
-      stats.entrypoints.styles.assets.forEach((file) => {
-        if (file.match(/\.css(\?|$)/)) {
-          styles.push(`${stats.publicPath}${file}`);
-        }
-      });
-      stats.entrypoints.client.assets.forEach((file) => {
+      const stats = JSON.parse(await readFilePromise('build/client/stats.json'));
+      for (const file of stats.entrypoints.client.assets) {
         if (file.match(/\.js(\?|$)/)) {
           scripts.push(`${stats.publicPath}${file}`);
         }
         if (file.match(/\.css(\?|$)/)) {
           styles.push(`${stats.publicPath}${file}`);
         }
-      });
+      }
     } catch (error) {
       console.error("Failed to load webpack stats file. Unless you see a webpack error here, the initial build probably just isn't ready yet.");
       built = false;
@@ -179,10 +174,24 @@ module.exports = function(external) {
       description = `${textDescription} 🎏 Glitch is the ${constants.tagline}`;
     }
 
-    // const cache = { [`project:${domain}`]: project };
-    await render(req, res, { title: domain, canonicalUrl, description, image: avatar }, false);
+    const cache = { [`project:${domain}`]: project };
+    await render(req, res, { title: domain, canonicalUrl, description, image: avatar, cache }, true);
   });
 
+  app.get('/~:domain/edit', async (req, res) => {
+    const { domain } = req.params;
+    const editorUrl = `${APP_URL}/edit/#!/${domain}`;
+
+    res.redirect(editorUrl);
+  });
+  
+  app.get('/~:domain/console', async (req, res) => {
+    const { domain } = req.params;
+    const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
+
+    res.redirect(consoleUrl);
+  });
+  
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
     const canonicalUrl = `${APP_URL}/@${name}`;
@@ -197,7 +206,8 @@ module.exports = function(external) {
         description += cheerio.load(md.render(team.description)).text();
       }
 
-      const args = { title: team.name, description, canonicalUrl };
+      const cache = { [`team-or-user:${name}`]: { team } };
+      const args = { title: team.name, description, canonicalUrl, cache };
 
       if (team.hasAvatarImage) {
         args.image = `${CDN_URL}/team-avatar/${team.id}/large`;
@@ -206,7 +216,7 @@ module.exports = function(external) {
         args.image = `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fteam-avatar.png?1558031923766`;
       }
 
-      await render(req, res, args);
+      await render(req, res, args, true);
       return;
     }
     const user = await getUser(name);
@@ -218,29 +228,30 @@ module.exports = function(external) {
         canonicalUrl,
         description,
         image: user.avatarThumbnailUrl || `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932`,
-      });
+        cache: { [`team-or-user:${name}`]: { user } },
+      }, true);
       return;
     }
     await render(req, res, { title: `@${name}`, description: `We couldn't find @${name}`, canonicalUrl });
   });
 
-  app.get('/@:name/:collection', async (req, res) => {
-    const { name, collection } = req.params;
-    const canonicalUrl = `${APP_URL}/@${name}/${collection}`;
-    const collectionObj = await getCollection(name, collection);
-    const author = name;
+  app.get('/@:author/:url', async (req, res) => {
+    const { author, url } = req.params;
+    const canonicalUrl = `${APP_URL}/@${author}/${url}`;
+    const collection = await getCollection(author, url);
 
-    if (collectionObj) {
-      let { name, description } = collectionObj;
+    if (collection) {
+      let { name, description } = collection;
       description = description ? cheerio.load(md.render(description)).text() : '';
       description = description.trimEnd(); // trim trailing whitespace from description
       description += ` 🎏 A collection of apps by @${author}`;
       description = description.trimStart(); // if there was no description, trim space before the fish
 
-      await render(req, res, { title: name, description, canonicalUrl });
+      const cache = { [`collection:${author}/${url}`]: collection };
+      await render(req, res, { title: name, description, canonicalUrl, cache }, true);
       return;
     }
-    await render(req, res, { title: collection, description: `We couldn't find @${name}/${collection}`, canonicalUrl });
+    await render(req, res, { title: collection, description: `We couldn't find @${author}/${url}`, canonicalUrl });
   });
 
   app.get('/auth/:domain', async (req, res) => {

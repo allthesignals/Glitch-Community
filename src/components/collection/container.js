@@ -8,6 +8,7 @@ import { Button, Icon } from '@fogcreek/shared-components';
 import { isDarkColor } from 'Utils/color';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
+
 import FeaturedProject from 'Components/project/featured-project';
 import { ProfileItem } from 'Components/profile-list';
 import ProjectsList from 'Components/containers/projects-list';
@@ -15,12 +16,14 @@ import CollectionNameInput from 'Components/fields/collection-name-input';
 import AddCollectionProject from 'Components/collection/add-collection-project-pop';
 import EditCollectionColor from 'Components/collection/edit-collection-color-pop';
 import AuthDescription from 'Components/fields/auth-description';
-import { CollectionAvatar, BookmarkAvatar } from 'Components/images/avatar';
+import { BookmarkAvatar } from 'Components/images/avatar';
+import CollectionAvatar from 'Components/collection/collection-avatar';
 import { CollectionLink } from 'Components/link';
-import Arrow from 'Components/arrow';
+import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import useSample from 'Hooks/use-sample';
+import { useTrackedFunc } from 'State/segment-analytics';
 
 import styles from './container.styl';
 import { emoji } from '../global.styl';
@@ -52,14 +55,14 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
 
   const enableSorting = isAuthorized && projects.length > 1;
 
-  let avatar;
+  let avatar = null;
   if (myStuffIsEnabled && collection.isMyStuff) {
     avatar = <BookmarkAvatar width="50%" />;
-  } else if (collection.avatarUrl) {
-    avatar = <Image src={collection.avatarUrl} alt="" />;
-  } else {
+  } else if (collection.projects.length > 0) {
     avatar = <CollectionAvatar collection={collection} />;
   }
+
+  const setPrivate = useTrackedFunc(() => funcs.updatePrivacy(!collection.private), `Collection toggled ${collection.private ? 'public' : 'private'}`);
 
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark, preview && styles.preview)}>
@@ -67,6 +70,17 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         <div className={styles.imageContainer}>{avatar}</div>
         <div>
           <h1 className={styles.name}>{collectionName}</h1>
+
+          {isAuthorized && myStuffIsEnabled && (
+            <div className={styles.privacyToggle}>
+              <PrivateToggle
+                align={['left']}
+                type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'}
+                isPrivate={!!collection.private}
+                setPrivate={setPrivate}
+              />
+            </div>
+          )}
 
           <div className={styles.owner}>
             <ProfileItem hasLink {...curator} glitchTeam={collection.glitchTeam} />
@@ -106,8 +120,8 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
                     <Icon className={emoji} icon="mouse" /> Click and drag to reorder
                   </Text>
                   <Text>
-                    <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press space again to
-                    save.
+                    <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press
+                    space again to save.
                   </Text>
                 </div>
               )}
@@ -158,7 +172,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         )}
         {preview && (
           <CollectionLink collection={collection} className={styles.viewAll}>
-            View all <Pluralize count={collection.projects.length} singular="project" /> <Arrow />
+            View all <Pluralize count={collection.projects.length} singular="project" /> <Icon className={styles.arrow} icon="arrowRight" />
           </CollectionLink>
         )}
       </div>

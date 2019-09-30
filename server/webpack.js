@@ -31,15 +31,13 @@ module.exports = function(app) {
   switch (process.env.DEPLOY_ENV) {
     case 'production':
       // Production here is glitch.com/~community!
-      // We use a webpack background process to
-      // allow for live-edits to be made!
-      webpackBackgroundProcess();
+      // webpack --watch is running via prestart
       break;
     case 'ci':
       // Do not webpack, we have already built
       break;
     default:
-      // Use webpack middlware for dev/staging/etc.
+      // Use webpack middleware for dev/staging/etc.
       app.use(webpackExpressMiddleware());
       break;
   }
