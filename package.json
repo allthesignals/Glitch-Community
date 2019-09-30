@@ -141,6 +141,7 @@
     "webpack-cli": "^3.3.5",
     "webpack-dev-middleware": "^3.7.0",
     "winston": "^3.2.1",
+    "@optimizely/optimizely-sdk": "^3.2.2",
     "complementary-colors": "^1.0.5"
   },
   "engines": {
