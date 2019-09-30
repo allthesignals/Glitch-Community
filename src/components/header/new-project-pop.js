@@ -10,6 +10,7 @@ import { useTracker } from 'State/segment-analytics';
 import { createAPIHook } from 'State/api';
 
 import styles from './new-project-pop.styl';
+import { mediumPopover } from '../global.styl';
 
 const importGitRepo = () => {
   /* eslint-disable no-alert */
@@ -97,7 +98,7 @@ function NewProjectPopButton() {
   const onOpen = useTracker('open new-project pop');
 
   return (
-    <Popover align="right" renderLabel={({ onClick, ref }) => <Button onClick={() => { onOpen(); onClick(); }} ref={ref} size="small">New Project</Button>}>
+    <Popover className={mediumPopover} align="right" renderLabel={({ onClick, ref }) => <Button onClick={() => { onOpen(); onClick(); }} ref={ref} size="small">New Project</Button>}>
       {() => <NewProjectPop projects={projects} />}
     </Popover>
   );

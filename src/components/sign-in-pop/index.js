@@ -18,7 +18,7 @@ import useDevToggle from 'State/dev-toggles';
 import { captureException } from 'Utils/sentry';
 
 import styles from './styles.styl';
-import { emoji } from '../global.styl';
+import { emoji, mediumPopover } from '../global.styl';
 
 const SignInCodeSection = ({ onClick }) => (
   <Actions>
@@ -390,7 +390,7 @@ export const SignInPopBase = withRouter(({ location }) => {
 });
 
 const SignInPopContainer = ({ align }) => (
-  <Popover align={align} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small">Sign in</Button>}>
+  <Popover align={align} className={mediumPopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small">Sign in</Button>}>
     {() => <SignInPopBase />}
   </Popover>
 );

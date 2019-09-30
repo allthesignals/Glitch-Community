@@ -12,7 +12,7 @@ import { useCurrentUser } from 'State/current-user';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
-import { emoji, widePopover } from '../global.styl';
+import { emoji, mediumPopover } from '../global.styl';
 
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
 const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
@@ -28,7 +28,7 @@ const PopoverMenuItems = ({ children }) =>
             (item) =>
               item.onClick && (
                 <>
-                  <Button variant="warning" key={item.label} onClick={item.onClick}>
+                  <Button size="small" variant="warning" key={item.label} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
@@ -42,7 +42,7 @@ const PopoverMenuItems = ({ children }) =>
             (item) =>
               item.onClick && (
                 <>
-                  <Button key={item.label} onClick={item.onClick}>
+                  <Button size="small" variant="secondary" key={item.label} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
@@ -127,7 +127,7 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
   return (
     <Popover
       align="right"
-      className={widePopover}
+      className={mediumPopover}
       renderLabel={({ onClick, ref }) => (
         <UnstyledButton onClick={onClick} ref={ref} label="Project Options for {project.domain}">
           <Icon icon="chevronDown" />
