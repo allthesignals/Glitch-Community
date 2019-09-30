@@ -12,8 +12,14 @@ const optimizelyClient = createInstance({
   },
 });
 
-const getOptimizely
+const getOptimizelyClient = async () => {
+  await optimizelyClient.onReady();
+  return optimizelyClient;
+};
 
-const getOptimizelyData = () => {
+const getOptimizelyData = async () => {
+  await optimizelyClient.onReady();
   return optimizelyClient.projectConfigManager.datafileManager.get();
 };
+
+module.exports = { getOptimizelyClient, getOptimizelyData };

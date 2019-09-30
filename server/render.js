@@ -3,7 +3,7 @@ const { performance } = require('perf_hooks');
 const dayjs = require('dayjs');
 const { captureException } = require('@sentry/node');
 const createCache = require('./cache');
-const optimizely = require('./optimizely');
+const { getOptimizelyClient, getOptimizelyData } = require('./optimizely');
 
 const setup = () => {
   const src = path.join(__dirname, '../src');
@@ -79,7 +79,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
   const page = React.createElement(Page, {
     origin: url.origin,
     route: url.pathname + url.search + url.hash,
-    optimizely,
+    optimizely: await getOptimizelyClient(),
     helmetContext,
     AB_TESTS,
     API_CACHE,
@@ -92,7 +92,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
-  const OPTIMIZELY_DATA = optimizely.projectConfigManager.datafileManager.get();
+  const OPTIMIZELY_DATA = await getOptimizelyData();
   const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_DATA, SSR_SIGNED_IN, ZINE_POSTS };
   return { html, helmet: helmetContext.helmet, context, styleTags };
 };

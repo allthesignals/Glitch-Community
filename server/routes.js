@@ -18,6 +18,7 @@ const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { defaultProjectDescriptionPattern } = require('../shared/regex');
 const { getData, saveDataToFile } = require('./home');
+const { getOptimizelyData } = require('./optimizely');
 
 const DEFAULT_USER_DESCRIPTION = (login, name) => `See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
 const DEFAULT_TEAM_DESCRIPTION = (login, name) => `See what Team ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
@@ -122,6 +123,7 @@ module.exports = function(external) {
       HOME_CONTENT: homeContent,
       SSR_SIGNED_IN: signedIn,
       AB_TESTS: assignments,
+      OPTIMIZELY_DATA: await getOptimizelyData(),
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
       ENVIRONMENT: process.env.NODE_ENV || 'dev',
       RUNNING_ON: process.env.RUNNING_ON,
