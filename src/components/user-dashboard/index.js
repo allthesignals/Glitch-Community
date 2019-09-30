@@ -71,7 +71,18 @@ const RecentProjects = () => {
 
 const Postcards = () => {
   return (
-    <div className=
+    <div className={styles.postcards}>
+      <Postcard borderColor='#EAE6FF' innerBorderColor='#6C57DF'
+    </div>
+  );
+};
+
+const Postcard = ({ title, children, }) => {
+  return (
+    <div className={styles.postcard} style>
+      <div classname={styles.postcardContent}>
+      </div>
+    </div>
   );
 };
 
