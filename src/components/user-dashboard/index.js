@@ -98,6 +98,7 @@ const Postcards = () => {
             innerBorderColor="#EAE6FF"
             buttonText="All New Features"
             buttonProps={{ onClick: showNewStuffOverlay }}
+            thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
           >
             Quickly save cool apps to your My Stuff collection with a single click.
           </Postcard>
@@ -112,12 +113,12 @@ const Postcards = () => {
         outerBorderColor="#E1D262"
         innerBorderColor="#FEED64"
         buttonText="Watch It"
-        buttonProps={{ onClick: () => {} }}
+        buttonProps={{ as: 'a', href: 'https://www.youtube.com/watch?v=Zk0IYKYOLWs' }}
         waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
       >
         Follow along as we build a collaborative rainbow app you can interact with via SMS.
       </Postcard>
-      
+
       <Postcard
         heading="Notifications"
         stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-notifications.svg"
@@ -134,26 +135,53 @@ const Postcards = () => {
   );
 };
 
-const Postcard = ({ heading, subheading, stampImage, stampIcon, innerBorderColor, outerBorderColor, thumbnail, buttonText, buttonProps, waveStyles, children }) => {
+const Postcard = ({
+  heading,
+  subheading,
+  stampImage,
+  stampIcon,
+  innerBorderColor,
+  outerBorderColor,
+  thumbnail,
+  buttonText,
+  buttonProps,
+  waveStyles,
+  children,
+}) => {
+  var content = (
+    <>
+      {subheading && (
+        <Heading className={styles.postcardSubheading} tagName="h3">
+          {subheading}
+        </Heading>
+      )}
+      <Text className={styles.postcardText} size="15px" defaultMargin>
+        {children}
+      </Text>
+
+      <span className={styles.postcardCta}>
+        <Button variant="secondary" size="small" {...buttonProps}>
+          {buttonText} <Icon icon="arrowRight" />
+        </Button>
+      </span>
+    </>
+  );
+
   return (
     <div className={styles.postcard} style={{ '--inner-border-color': innerBorderColor, '--outer-border-color': outerBorderColor }}>
-      <div className={styles.waves} style={waveStyles} aria-hidden="true"></div>
+      <div className={styles.waves} style={waveStyles} aria-hidden="true" />
       <div className={styles.postcardContent}>
         <Stamp label={heading} labelImage={stampImage} icon={stampIcon} />
-        <div className={styles.postcardContentContainer}>
-          {subheading && <Heading className={styles.postcardSubheading} tagName="h3">{subheading}</Heading>}
-          <Text className={styles.postcardText} size="15px" defaultMargin>
-            {children}
-          </Text>
-          
-          <span className={styles.postcardCta}>
-            <Button variant="secondary" size="small" {...buttonProps}>{buttonText} <Icon icon="arrowRight" /></Button>
-          </span>
-        </div>
-        {thumbnail && (
-          <div className={styles.postcardThumbnailContainer}>
-            <Image src={thumbnail} alt="" />
+
+        {thumbnail ? (
+          <div className={styles.postcardColumns}>
+            <div className={styles.postContentColumn}>{content}</div>
+            <div className={styles.postcardThumbnailColumn}>
+              <Image src={thumbnail} alt="" />
+            </div>
           </div>
+        ) : (
+          content
         )}
       </div>
     </div>
