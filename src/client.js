@@ -46,14 +46,12 @@ window.bootstrap = async (container) => {
   setLogger(logging.createLogger());
   const optimizelyClientInstance = createInstance({
     sdkKey: process.env.OPTIMIZELY_KEY || OPTIMIZELY_KEY,
+    datafile: window.OPTIMIZELY_DATA,
     datafileOptions: {
       autoUpdate: true,
       updateInterval: 60 * 1000, // check once per minute
     },
   });
-  // Wait until it's ready before doing anything
-  // TODO: have the server send a datafile so we don't have to wait
-  await optimizelyClientInstance.onReady();
 
   const element = (
     <BrowserRouter>
