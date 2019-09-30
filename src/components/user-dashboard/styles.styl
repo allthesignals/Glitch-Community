@@ -54,14 +54,17 @@ svg.arrow
   
 .postcard
   border: 4px solid var(--outer-border-color)
-  border-radius: 7px
+  border-radius: 5px
+  background: var(--inner-border-color)
+  background-image: url('https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fwave.svg')
+  background-position: 0 -2px
+  padding: 7px
   
 .postcardContent
   position: relative
   display: flex
   height: 100%
   background: #fff
-  border: 7px solid var(--inner-border-color)
   border-radius: 5px
   padding: 10px
   
@@ -74,9 +77,11 @@ svg.arrow
 .stampLabel
   opacity: 0
   width: 0
+  height: 0
+  margin: 0
   
 .postcardContentContainer
-  max-width: 70%
+  max-width: 150px
   
 .postcardSubheading
   margin: 0
