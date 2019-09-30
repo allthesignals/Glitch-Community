@@ -26,6 +26,7 @@ const OverlayVideo = () => {
   const renderOuter = ({ visible, togglePopover }) => {
     const onClick = () => {
       track();
+      console.log('overlayvideo')
       togglePopover();
     };
     return (
