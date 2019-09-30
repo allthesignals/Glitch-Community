@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Loader } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
@@ -10,7 +11,19 @@ import { captureException } from 'Utils/sentry';
 
 import styles from './styles.styl';
 
-const UseMagicCode = () => {
+const EllipsizeEmail = ({ email }) => {
+  const sliceIndex = email.indexOf('@') - 2;
+  return (
+    <span aria-label={email} className={styles.emailAddress}>
+      <span aria-hidden="true" className={styles.firstEmail}>
+        {email.slice(0, sliceIndex)}
+      </span>
+      <span aria-hidden="true">{email.slice(sliceIndex)}</span>
+    </span>
+  );
+};
+
+const UseMagicCode = ({ emailAddress }) => {
   const { login } = useCurrentUser();
   const api = useAPI();
   const [code, setCode] = useState('');
@@ -38,20 +51,17 @@ const UseMagicCode = () => {
   }
 
   return (
-    <div>
-      <Text>Now paste the code here to sign in.</Text>
+    <>
+      <Notification persistent type="success">
+        Sent magic link to <EllipsizeEmail email={emailAddress} />
+      </Notification>
+      <Text>Click the magic link in your email to sign in directly.</Text>
+      <Text>...or enter your temporary login code below.</Text>
       {status === 'loading' ? (
         <Loader />
       ) : (
         <form onSubmit={onSubmit} style={{ marginBottom: 10 }} data-cy="sign-in-code-form">
-          <TextInput
-            value={code}
-            onChange={setCode}
-            type="text"
-            labelText="sign in code"
-            placeholder="cute-unique-cosmos"
-            testingId="sign-in-code"
-          />
+          <TextInput value={code} onChange={setCode} type="text" labelText="sign in code" placeholder="cute-unique-cosmos" testingId="sign-in-code" />
           <div className={styles.submitWrap}>
             <Button disabled={!isEnabled} onClick={onSubmit}>
               Sign In
@@ -72,8 +82,12 @@ const UseMagicCode = () => {
           <Text>Code not found or already used. Try signing in with email.</Text>
         </>
       )}
-    </div>
+    </>
   );
+};
+
+UseMagicCode.propTypes = {
+  emailAddress: PropTypes.string.isRequired,
 };
 
 export default UseMagicCode;

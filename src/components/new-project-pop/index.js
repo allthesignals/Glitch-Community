@@ -9,8 +9,12 @@ import { getRemixUrl } from 'Models/project';
 import { useTracker } from 'State/segment-analytics';
 import { createAPIHook } from 'State/api';
 
+<<<<<<< HEAD:src/components/header/new-project-pop.js
 import styles from './new-project-pop.styl';
 import { mediumPopover } from '../global.styl';
+=======
+import styles from './styles.styl';
+>>>>>>> 56b0142b5c5fd5375dbee2c4dbaa853e79f65501:src/components/new-project-pop/index.js
 
 const importGitRepo = () => {
   /* eslint-disable no-alert */
@@ -36,9 +40,15 @@ const NewProjectResultItem = ({ project }) => (
   </div>
 );
 
+<<<<<<< HEAD:src/components/header/new-project-pop.js
 const NewProjectPop = ({ projects }) => (
   <>
     <Actions>
+=======
+const NewProjectPop = ({ projects, align }) => (
+  <PopoverDialog align={align}>
+    <PopoverSection>
+>>>>>>> 56b0142b5c5fd5375dbee2c4dbaa853e79f65501:src/components/new-project-pop/index.js
       {projects.length ? (
         <ResultsList items={projects}>
           {(project) => (
@@ -92,16 +102,32 @@ const useNewProjectAPI = createAPIHook(async (api) => {
   return projectIds.map((id) => data[id]);
 });
 
-function NewProjectPopButton() {
+function NewProjectPopButton({ buttonText, buttonType, align }) {
   const { value } = useNewProjectAPI();
   const projects = value || [];
   const onOpen = useTracker('open new-project pop');
 
   return (
+<<<<<<< HEAD:src/components/header/new-project-pop.js
     <Popover className={mediumPopover} align="right" renderLabel={({ onClick, ref }) => <Button onClick={() => { onOpen(); onClick(); }} ref={ref} size="small">New Project</Button>}>
       {() => <NewProjectPop projects={projects} />}
     </Popover>
+=======
+    <PopoverWithButton onOpen={onOpen} buttonProps={{ size: 'small', variant: buttonType }} buttonText={buttonText}>
+      {() => <NewProjectPop projects={projects} align={align} />}
+    </PopoverWithButton>
+>>>>>>> 56b0142b5c5fd5375dbee2c4dbaa853e79f65501:src/components/new-project-pop/index.js
   );
 }
+
+NewProjectPopButton.propTypes = {
+  buttonText: PropTypes.string,
+  align: PropTypes.string,
+};
+
+NewProjectPopButton.defaultProps = {
+  buttonText: 'New Project',
+  align: 'right',
+};
 
 export default NewProjectPopButton;

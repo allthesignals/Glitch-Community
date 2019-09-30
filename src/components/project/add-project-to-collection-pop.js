@@ -100,7 +100,7 @@ function useCollectionSearch(query, project, collectionType) {
   const myStuffEnabled = useDevToggle('My Stuff');
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList = myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0;
+    const shouldPutMyStuffAtFrontOfList = myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }

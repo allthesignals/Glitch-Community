@@ -5,7 +5,7 @@ const dayjs = require('dayjs');
 
 const { API_URL } = require('./constants').current;
 const createCache = require('./cache');
-const { allByKeys } = require('Shared/api');
+const { getCollection, getProject, getTeam, getUser } = require('Shared/api-loaders');
 
 const api = axios.create({
   baseURL: API_URL,
@@ -14,55 +14,49 @@ const api = axios.create({
 
 // group similar requests made in a small period of time
 const batches = new Map();
-function getBatchedEntity(type, field, value) {
-  const key = `${type}:${field}`;
+function getBatchedEntity(api, entity, idType, id) {
+  const key = `${entity}:${idType}`;
 
   // create a new batch
   if (!batches.has(key)) {
     const BATCH_TIME = 50; // ms
     const promise = new Promise((resolve) => setTimeout(() => {
-      const [values] = batches.get(key);
+      const [ids] = batches.get(key);
       batches.delete(key);
-      const query = values.map((value) => `${field}=${encodeURIComponent(value)}`).join('&');
-      resolve(api.get(`v1/${type}/by/${field}?${query}`));
+      const query = ids.map((id) => `${idType}=${encodeURIComponent(id)}`).join('&');
+      resolve(api.get(`v1/${entity}/by/${idType}?${query}`));
     }, BATCH_TIME));
     batches.set(key, [[], promise]);
   }
 
   // add us to the batch
-  const [values, promise] = batches.get(key);
-  batches.set(key, [[...values, value], promise]);
+  const [ids, promise] = batches.get(key);
+  batches.set(key, [[...ids, id], promise]);
 
   // pull what we want out of the batch
   // this does the same thing as getSingleItem
   return promise.then(({ data }) => {
-    if (data[value]) return data[value];
-    const realValue = Object.keys(data).find((key) => key.toLowerCase() === value.toLowerCase());
-    if (realValue) return data[realValue];
+    if (data[id]) return data[id];
+    const realId = Object.keys(data).find((key) => key.toLowerCase() === id.toLowerCase());
+    if (realId) return data[realId];
     return null;
   });
 }
 
 async function getProjectFromApi(domain) {
-  const project = await getBatchedEntity('projects', 'domain', domain);
-  if (!project) return project;
-  const members = await allByKeys({
-    // teams: getAllPages(api, `v1/projects/by/domain/teams?domain=${domain}`),
-    // users: getAllPages(api, `v1/projects/by/domain/users?domain=${domain}`),
-  });
-  return { ...project, ...members };
+  return getProject(api, domain, 'domain', getBatchedEntity);
 }
 
-function getTeamFromApi(url) {
-  return getBatchedEntity('teams', 'url', url);
+async function getTeamFromApi(url) {
+  return getTeam(api, url, 'url', getBatchedEntity);
 }
 
-function getUserFromApi(login) {
-  return getBatchedEntity('users', 'login', login);
+async function getUserFromApi(login) {
+  return getUser(api, login, 'login', getBatchedEntity);
 }
 
-function getCollectionFromApi(login, collection) {
-  return getBatchedEntity('collections', 'fullUrl', `${login}/${collection}`);
+async function getCollectionFromApi(login, collection) {
+  return getCollection(api, `${login}/${collection}`, 'fullUrl', getBatchedEntity);
 }
 
 async function getCultureZinePosts() {

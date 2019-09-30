@@ -5,9 +5,8 @@ import { Avatar } from '@fogcreek/shared-components';
 
 import TooltipContainer from 'Components/tooltips/tooltip-container';
 import Image from 'Components/images/image';
-import CollectionAvatarBase from 'Components/collection/defaultAvatar';
+import { CollectionDefaultAvatar } from 'Components/collection/collection-avatar';
 
-import { hexToRgbA } from 'Utils/color';
 import { CDN_URL } from 'Utils/constants';
 
 import { DEFAULT_TEAM_AVATAR, getTeamAvatarUrl } from 'Models/team';
@@ -19,7 +18,8 @@ import styles from './avatar.styl';
 // UserAvatar
 export const AvatarBase = ({ name, src, color, srcFallback, variant, type, tiny, hideTooltip, withinButton }) => {
   const className = classNames(styles.avatar, styles[type], { [styles.tiny]: tiny });
-  const contents = <Avatar src={src} defaultSrc={srcFallback} alt={name} backgroundcolor={color} variant={variant} className={className} />;
+  const style = color && { backgroundColor: color };
+  const contents = <Avatar src={src} defaultSrc={srcFallback} alt={name} style={style} variant={variant} className={className} />;
 
   if (!hideTooltip) {
     return <TooltipContainer tooltip={name} target={contents} type="action" align={['left']} fallback={withinButton} />;
@@ -111,7 +111,9 @@ ProjectAvatar.defaultProps = {
   hasAlt: false,
 };
 
-export const CollectionAvatar = ({ collection, tiny }) => <CollectionAvatarBase backgroundFillColor={hexToRgbA(collection.coverColor)} tiny={tiny} />;
+export const CollectionAvatar = ({ collection }) => (
+  <CollectionDefaultAvatar color={collection.coverColor} projectCount={collection.projects.length} />
+);
 
 CollectionAvatar.propTypes = {
   collection: PropTypes.shape({

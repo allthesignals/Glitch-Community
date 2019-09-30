@@ -10,33 +10,16 @@ import { useNotifications } from 'State/notifications';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
 
-const createAPICallForCollectionProjects = (encodedFullUrl) =>
-  `/v1/collections/by/fullUrl/projects?fullUrl=${encodedFullUrl}&orderKey=projectOrder&limit=100`;
-
-export const getCollectionWithProjects = async (api, { owner, name }) => {
-  const fullUrl = encodeURIComponent(`${owner}/${name}`);
-  try {
-    const [collection, projects] = await Promise.all([
-      getSingleItem(api, `/v1/collections/by/fullUrl?fullUrl=${fullUrl}`, `${owner}/${name}`),
-      getAllPages(api, createAPICallForCollectionProjects(fullUrl)),
-    ]);
-    return { ...collection, projects };
-  } catch (error) {
-    if (error && error.response && error.response.status === 404) return null;
-    captureException(error);
-    return null;
-  }
-};
-
 async function getCollectionProjectsFromAPI(api, collection, withCacheBust) {
+  const url = `/v1/collections/by/id/projects?id=${collection.id}&orderKey=projectOrder&limit=100`;
+
   if (withCacheBust) {
-    // busts cache for collection projects by both url and by id
-    api.bustCache(createAPICallForCollectionProjects(encodeURIComponent(collection.fullUrl)));
-    api.bustCache(`/v1/collections/by/id/projects?id=${collection.id}&limit=100`);
+    // busts cache for collection projects by id
+    api.bustCache(url);
   }
 
   // then get the latest collection projects
-  return getAllPages(api, `/v1/collections/by/id/projects?id=${collection.id}&limit=100`);
+  return getAllPages(api, url);
 }
 
 const loadingResponse = { status: 'loading' };
@@ -325,6 +308,8 @@ export function useCollectionEditor(initialCollection) {
       });
       await orderProjectInCollection({ project, collection }, index);
     }, handleError),
+
+    updatePrivacy: (bool) => updateFields({ private: bool }).catch(handleError),
 
     featureProject: withErrorHandler(async (project) => {
       if (collection.featuredProjectId) {

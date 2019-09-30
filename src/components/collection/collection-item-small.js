@@ -6,10 +6,8 @@ import { Button, Icon } from '@fogcreek/shared-components';
 
 import Markdown from 'Components/text/markdown';
 import { ProfileItem } from 'Components/profile-list';
-import { CollectionAvatar } from 'Components/images/avatar';
 import { CollectionLink } from 'Components/link';
 import VisibilityContainer from 'Components/visibility-container';
-import Arrow from 'Components/arrow';
 import { isDarkColor } from 'Utils/color';
 import { useCollectionCurator } from 'State/collection';
 
@@ -38,15 +36,12 @@ const CollectionItemSmall = ({ collection, showCurator }) => (
         <CollectionCuratorLoader collection={collection} />
       </div>
     )}
-    <CollectionLink collection={collection} className={styles.smallCollectionLink}>
+    <CollectionLink collection={collection} className={styles.smallCollectionLink} style={{ '--border-color': collection.coverColor }}>
       <div
         className={classnames(styles.bubbleContainer, styles.smallNameDescriptionArea, showCurator && styles.showCurator)}
         style={collectionColorStyles(collection)}
       >
         <div className={styles.nameArea}>
-          <div className={styles.collectionAvatarContainer}>
-            <CollectionAvatar collection={collection} />
-          </div>
           <div className={styles.collectionNameWrap}>
             <div className={styles.itemButtonWrap}>
               <Button as="span" image={collection.private ? <Icon icon="private" /> : null} imagePosition="left">
@@ -60,7 +55,7 @@ const CollectionItemSmall = ({ collection, showCurator }) => (
         </div>
       </div>
       <div className={styles.smallProjectCount}>
-        <Pluralize count={collection.projects.length} singular="project" /> <Arrow />
+        <Pluralize count={collection.projects.length} singular="project" /> <Icon className={styles.arrow} icon="arrowRight" />
       </div>
     </CollectionLink>
   </div>

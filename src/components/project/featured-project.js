@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from '@fogcreek/shared-components';
+import { AnimationContainer, slideDown, Icon } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import ProjectEmbed from 'Components/project/project-embed';
 import Note from 'Components/collection/note';
-import AnimationContainer from 'Components/animation-container';
 import BookmarkButton from 'Components/buttons/bookmark-button';
 
 import { useCurrentUser } from 'State/current-user';
@@ -83,7 +82,7 @@ const FeaturedProject = ({
 
   return (
     <div data-cy="featured-project">
-      <AnimationContainer type="slideDown" onAnimationEnd={unfeatureProject}>
+      <AnimationContainer animation={slideDown} onAnimationEnd={unfeatureProject}>
         {(animateAndUnfeatureProject) => (
           <ProjectEmbed
             top={
