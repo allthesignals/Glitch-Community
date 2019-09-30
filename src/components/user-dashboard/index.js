@@ -71,12 +71,15 @@ const RecentProjects = () => {
   );
 };
 
-const Stamp = ({ labelImage, label }) => (
+const Stamp = ({ labelImage, label, icon }) => (
   <div className={styles.stamp}>
     <Heading tagName="h2" className={styles.stampLabel}>
       {label}
     </Heading>
     <Image src={labelImage} alt="" />
+    <span className={styles.stampIcon}>
+      <Icon icon={icon} />
+    </span>
   </div>
 );
 
@@ -87,8 +90,8 @@ const Postcards = () => {
         heading="Update"
         subheading="My Stuff"
         stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
-        outerBorderColor="#EAE6FF"
-        innerBorderColor="#7460E1"
+        outerBorderColor="#7460E1"
+        innerBorderColor="#EAE6FF"
         buttonText="All New Features"
         buttonProps={{ onClick: () => {} }}
       >
@@ -104,22 +107,23 @@ const Postcards = () => {
         buttonText="Watch It"
         buttonProps={{ onClick: () => {} }}
       >
-        Follow along as we build a collaborative rainbow app
+        Follow along as we build a collaborative rainbow app you can interacti with via SMS.
       </Postcard>
     </div>
   );
 };
 
-const Postcard = ({ heading, subheading, stampImage, innerBorderColor, outerBorderColor, thumbnail, buttonText, buttonProps, children }) => {
+const Postcard = ({ heading, subheading, stampImage, stampIcon, innerBorderColor, outerBorderColor, thumbnail, buttonText, buttonProps, children }) => {
   return (
     <div className={styles.postcard} style={{ '--inner-border-color': innerBorderColor, '--outer-border-color': outerBorderColor }}>
       <div className={styles.postcardContent}>
-        <Stamp label={heading} labelImage={stampImage} />
+        <Stamp label={heading} labelImage={stampImage} icon={stampIcon} />
         <div className={styles.postcardContentContainer}>
-          <Text className={styles.postcardContentText} size="14px" defaultMargin>
+          <Heading className={styles.postcardSubheading} tagName="h3">{subheading}</Heading>
+          <Text className={styles.postcardText} size="14px" defaultMargin>
             {children}
           </Text>
-          <Button variant="secondary" {...buttonProps}>{buttonText}</Button>
+          <Button variant="secondary" size="small" {...buttonProps}>{buttonText}</Button>
         </div>
         {thumbnail && (
           <div className={styles.postcardThumbnailContainer}>
