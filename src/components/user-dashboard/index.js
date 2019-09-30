@@ -69,19 +69,26 @@ const RecentProjects = () => {
   );
 };
 
+const Stamp = ({ labelImage, label }) => (
+  <div className={styles.stamp}>
+    <Heading tagName="h2" className={styles.stampLabel}>{label}</Heading>
+    <Image src={labelImage} alt="" />
+  </div>
+);
+
 const Postcards = () => {
   return (
     <div className={styles.postcards}>
-      <Postcard heading="Update" subheading="My Stuff" outerBorderColor="#EAE6FF" innerBorderColor="#7460E1" buttonText="All New Features">
+      <Postcard stamp={<Stamp label="Update" labelImage=""} subheading="My Stuff" outerBorderColor="#EAE6FF" innerBorderColor="#7460E1" buttonText="All New Features">
         Quickly save cool apps to your My Stuff collection with a single click.
       </Postcard>
     </div>
   );
 };
 
-const Postcard = ({ title, children, innerBorderColor, outerBorderColor }) => {
+const Postcard = ({ title, children, innerBorderColor, outerBorderColor, stamp }) => {
   return (
-    <div className={styles.postcard} style={{ 'inner-border-color': innerBorderColor, 'outer-order-color': outerBorderColor }}>
+    <div className={styles.postcard} style={{ '--inner-border-color': innerBorderColor, '--outer-border-color': outerBorderColor }}>
       <div className={styles.postcardContent}>{children}</div>
     </div>
   );
