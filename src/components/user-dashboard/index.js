@@ -90,7 +90,7 @@ const Postcards = () => {
         heading="Update"
         subheading="My Stuff"
         stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
-        stampIcon="dog"
+        stampIcon="dogFace"
         outerBorderColor="#7460E1"
         innerBorderColor="#EAE6FF"
         buttonText="All New Features"
@@ -111,6 +111,18 @@ const Postcards = () => {
       >
         Follow along as we build a collaborative rainbow app you can interacti with via SMS.
       </Postcard>
+      
+      <Postcard
+        heading="Notifications"
+        stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-notifications.svg"
+        stampIcon="telephone"
+        outerBorderColor="#FFA6BC"
+        innerBorderColor="#FFE7EC"
+        buttonText="View All"
+        buttonProps={{ onClick: () => {} }}
+      >
+        Follow along as we build a collaborative rainbow app you can interacti with via SMS.
+      </Postcard>
     </div>
   );
 };
@@ -121,13 +133,13 @@ const Postcard = ({ heading, subheading, stampImage, stampIcon, innerBorderColor
       <div className={styles.postcardContent}>
         <Stamp label={heading} labelImage={stampImage} icon={stampIcon} />
         <div className={styles.postcardContentContainer}>
-          <Heading className={styles.postcardSubheading} tagName="h3">{subheading}</Heading>
+          {subheading && <Heading className={styles.postcardSubheading} tagName="h3">{subheading}</Heading>}
           <Text className={styles.postcardText} size="14px" defaultMargin>
             {children}
           </Text>
           
           <span className={styles.postcardCta}>
-            <Button variant="secondary" size="small" {...buttonProps}>{buttonText} <Icon icon="rightArrow" /></Button>
+            <Button variant="secondary" size="small" {...buttonProps}>{buttonText} <Icon icon="arrowRight" /></Button>
           </span>
         </div>
         {thumbnail && (
