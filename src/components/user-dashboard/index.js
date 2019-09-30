@@ -47,7 +47,9 @@ const RecentProjects = () => {
   return (
     <section data-cy="recent-projects">
       <Heading tagName="h2">
-        <UserLink user={currentUser}>Your Projects <Icon className={styles.arrow} icon="arrowRight" /></UserLink>
+        <UserLink user={currentUser}>
+          Your Projects <Icon className={styles.arrow} icon="arrowRight" />
+        </UserLink>
       </Heading>
       {isAnonymousUser && <SignInNotice />}
       <CoverContainer type="user" item={currentUser}>
@@ -58,11 +60,7 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            {fetched ? (
-              <ProjectsList layout="row" projects={currentUser.projects.slice(0, 3)} />
-            ) : (
-              <Loader style={{ width: '25px' }} />
-            )}
+            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 3)} /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
         {isAnonymousUser && <ClearSession clearUser={clear} />}
@@ -72,12 +70,20 @@ const RecentProjects = () => {
 };
 
 const Postcards = () => {
-  
+  return (
+    <div className=
+  );
 };
 
 const UserDashboard = () => {
-  return <Postcards />
+  const { currentUser } = useCurrentUser();
+  
+  return (
+    <>
+      <RecentProjects />
+      {currentUser.projects.length > 2 && <Postcards />}
+    </>
+  );
 };
-
 
 export default UserDashboard;

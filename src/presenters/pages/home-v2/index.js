@@ -11,7 +11,7 @@ import MaskImage from 'Components/images/mask-image';
 import Markdown from 'Components/text/markdown';
 import Text from 'Components/text/text';
 import Questions from 'Components/questions';
-import RecentProjects from 'Components/recent-projects';
+import UserDashboard from 'Components/user-dashboard';
 import ReportButton from 'Components/report-abuse-pop';
 import Layout from 'Components/layout';
 import Link from 'Components/link';
@@ -278,7 +278,7 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
   <main id="main" className={styles.homeContainer}>
     {!loggedIn && <Banner />}
     {!loggedIn && <FeatureCallouts content={data.featureCallouts} />}
-    {hasProjects && <RecentProjects />}
+    {hasProjects && <UserDashboard />}
     {loggedIn && !hasProjects && <OnboardingBanner isHomepage />}
     {loggedIn && <Questions />}
     <UnifiedStories content={data.unifiedStories} />
