@@ -44,7 +44,7 @@ const PopoverMenuItems = ({ children }) =>
                   <Button size="small" variant="secondary" key={item.label} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
-                  
+                  <br />
                 </>
               ),
           )}

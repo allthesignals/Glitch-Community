@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Loader, Popover } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Markdown from 'Components/text/markdown';
@@ -36,7 +36,7 @@ import { useAPIHandlers } from 'State/api';
 import { useCachedProject } from 'State/api-cache';
 
 import styles from './project.styl';
-import { emoji } from '../../components/global.styl';
+import { emoji, widePopover } from '../../components/global.styl';
 
 function syncPageToDomain(domain) {
   history.replaceState(null, null, `/~${domain}`);
@@ -97,12 +97,13 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
   return (
     <section>
       <PopoverWithButton buttonProps={{ size: 'small', variant: 'warning', emoji: 'bomb' }} buttonText="Delete Project">
+      <Popover align="left" className={widePopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Delete Project <Icon classNAme={emoji}</Button>}
         {({ togglePopover }) => (
           <PopoverDialog align="left" wide>
-            <PopoverActions>
+            <Actions>
               <ActionDescription>You can always undelete a project from your profile page.</ActionDescription>
-            </PopoverActions>
-            <PopoverActions type="dangerZone">
+            </Actions>
+            <DangerZone>
               {loading ? (
                 <Loader />
               ) : (
@@ -120,7 +121,7 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
                   Delete {projectDomain} <Icon className={emoji} icon="bomb" />
                 </Button>
               )}
-            </PopoverActions>
+            </DangerZone>
           </PopoverDialog>
         )}
       </PopoverWithButton>
