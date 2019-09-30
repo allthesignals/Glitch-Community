@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
+import Text from 'Components/text/text';
 import Image from 'Components/images/image';
 import ProjectsList from 'Components/containers/projects-list';
 import CoverContainer from 'Components/containers/cover-container';
@@ -88,37 +89,43 @@ const Postcards = () => {
         stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
         outerBorderColor="#EAE6FF"
         innerBorderColor="#7460E1"
-        buttonProps={{ buttonText: 'All New Features', onClick: () => {}}}
+        buttonText="All New Features"
+        buttonProps={{ onClick: () => {} }}
       >
         Quickly save cool apps to your My Stuff collection with a single click.
       </Postcard>
-      
+
       <Postcard
         heading="Video"
-        subheading="Potch Learns Twilio"
+        subheading="Potch Learns Twilio!"
         stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg"
         outerBorderColor="#E1D262"
         innerBorderColor="#FEED64"
-        buttonProps={{ buttonText: 'Watch It', onClick: () => {}}}
+        buttonText="Watch It"
+        buttonProps={{ onClick: () => {} }}
       >
-        Quickly save cool apps to your My Stuff collection with a single click.
+        Follow along as we build a collaborative rainbow app
       </Postcard>
-      
-      
     </div>
   );
 };
 
-const Postcard = ({ heading, subheading, stampImage, innerBorderColor, outerBorderColor, thumbnail, buttonProps, children }) => {
+const Postcard = ({ heading, subheading, stampImage, innerBorderColor, outerBorderColor, thumbnail, buttonText, buttonProps, children }) => {
   return (
     <div className={styles.postcard} style={{ '--inner-border-color': innerBorderColor, '--outer-border-color': outerBorderColor }}>
       <div className={styles.postcardContent}>
-      <Stamp label={heading} labelImage={stampImage} />
-        <div>
-          <Text className={styles.postcardContent} fontSize="14px" defaultMargin>{children}</Text>
-          <Button variant="tertiary" {...buttonProps}></Button> 
+        <Stamp label={heading} labelImage={stampImage} />
+        <div className={styles.postcardContentContainer}>
+          <Text className={styles.postcardContentText} size="14px" defaultMargin>
+            {children}
+          </Text>
+          <Button variant="secondary" {...buttonProps}>{buttonText}</Button>
         </div>
-        {thumbnail && <div className={styles.postcardThumbnailContainer}><Image src={thumbnail} alt="" /></div>}
+        {thumbnail && (
+          <div className={styles.postcardThumbnailContainer}>
+            <Image src={thumbnail} alt="" />
+          </div>
+        )}
       </div>
     </div>
   );
