@@ -49,10 +49,17 @@ const CollectionProjects = ({ collection, isAuthorized }) => {
 
   // show placeholder text/image to encourage people to add projects to my stuff
   if (projects.length === 0 && isAuthorized && collection.isMyStuff) {
+    // return (
+    //   <div className={classNames(styles.projectsContainer, styles.empty)}>
+    //     <Image src={MY_STUFF_PLACEHOLDER} alt="" className={styles.placeholder} />
+    //     <Text className={styles.placeholderText}>Quickly add any app on Glitch to your My Stuff collection</Text>
+    //   </div>
+    // );
     return (
-      <div className={classNames(styles.projectsContainer, styles.empty, styles.placeholderContainer)}>
-        <Image src={MY_STUFF_PLACEHOLDER} alt="" className={styles.placeholder} />
-        <Text className={styles.placeholderText}>Quickly add any app on Glitch to your My Stuff collection</Text>
+      <div className={classNames(styles.projectsContainer, styles.empty)}>
+        <Text className={styles.emptyCollectionText}>
+          This collection is empty – add some projects <Icon className={emoji} icon="index" />
+        </Text>
       </div>
     );
   }
