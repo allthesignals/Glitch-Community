@@ -71,7 +71,9 @@ const RecentProjects = () => {
 
 const Stamp = ({ labelImage, label }) => (
   <div className={styles.stamp}>
-    <Heading tagName="h2" className={styles.stampLabel}>{label}</Heading>
+    <Heading tagName="h2" className={styles.stampLabel}>
+      {label}
+    </Heading>
     <Image src={labelImage} alt="" />
   </div>
 );
@@ -79,17 +81,28 @@ const Stamp = ({ labelImage, label }) => (
 const Postcards = () => {
   return (
     <div className={styles.postcards}>
-      <Postcard stamp={<Stamp label="Update" labelImage=""} subheading="My Stuff" outerBorderColor="#EAE6FF" innerBorderColor="#7460E1" buttonText="All New Features">
+      <Postcard
+        heading="Update"
+        subheading="My Stuff"
+        stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
+        outerBorderColor="#EAE6FF"
+        innerBorderColor="#7460E1"
+        buttonProps={{ buttonText: 'All New Features', onClick: () => {}}}
+      >
         Quickly save cool apps to your My Stuff collection with a single click.
       </Postcard>
     </div>
   );
 };
 
-const Postcard = ({ title, children, innerBorderColor, outerBorderColor, stamp }) => {
+const Postcard = ({ heading, subheading, stampImage, innerBorderColor, outerBorderColor, thumbnail, children }) => {
   return (
     <div className={styles.postcard} style={{ '--inner-border-color': innerBorderColor, '--outer-border-color': outerBorderColor }}>
-      <div className={styles.postcardContent}>{children}</div>
+      <Stamp label={heading} labelImage={stampImage} />
+      <div className={styles.postcardContent}>
+        <div>{children}</div>
+        {thumbnail && <div className={styles.postcardThumbnailContainer}><Image src={thumbnail} alt="" /></div>}
+      </div>
     </div>
   );
 };
