@@ -198,7 +198,7 @@ const AboutCareersPage = withRouter(() => {
           />
         </article>
       </section>
-      <BlockSection>
+      <section>
         <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-orange)">Glitch handbook</Mark>
         </Heading>
@@ -219,7 +219,7 @@ const AboutCareersPage = withRouter(() => {
             style={{ height: '100%', width: '100%', border: 0 }}
           />
         </div>
-      </BlockSection>
+      </section>
     </AboutLayout>
   );
 });
