@@ -72,7 +72,9 @@ const RecentProjects = () => {
 const Postcards = () => {
   return (
     <div className={styles.postcards}>
-      <Postcard borderColor='#EAE6FF' innerBorderColor='#6C57DF'
+      <Postcard heading="Update" subheading="My Stuff" borderColor='#EAE6FF' innerBorderColor='#7460E1' buttonText='All New Features'>
+        Quickly save cool apps to your My Stuff collection with a single click.
+      </Postcard>
     </div>
   );
 };
