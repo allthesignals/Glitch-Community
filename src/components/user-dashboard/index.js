@@ -6,6 +6,7 @@ import Text from 'Components/text/text';
 import Image from 'Components/images/image';
 import ProjectsList from 'Components/containers/projects-list';
 import CoverContainer from 'Components/containers/cover-container';
+import NewStuffContainer from 'Components/new-stuff';
 import { UserLink, WrappingLink } from 'Components/link';
 import SignInPop from 'Components/sign-in-pop';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
@@ -86,18 +87,22 @@ const Stamp = ({ labelImage, label, icon }) => (
 const Postcards = () => {
   return (
     <div className={styles.postcards}>
-      <Postcard
-        heading="Update"
-        subheading="My Stuff"
-        stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
-        stampIcon="dogFace"
-        outerBorderColor="#7460E1"
-        innerBorderColor="#EAE6FF"
-        buttonText="All New Features"
-        buttonProps={{ onClick: () => {} }}
-      >
-        Quickly save cool apps to your My Stuff collection with a single click.
-      </Postcard>
+      <NewStuffContainer>
+        {(showNewStuffOverlay) => (
+          <Postcard
+            heading="Update"
+            subheading="My Stuff"
+            stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
+            stampIcon="dogFace"
+            outerBorderColor="#7460E1"
+            innerBorderColor="#EAE6FF"
+            buttonText="All New Features"
+            buttonProps={{ onClick: showNewStuffOverlay }}
+          >
+            Quickly save cool apps to your My Stuff collection with a single click.
+          </Postcard>
+        )}
+      </NewStuffContainer>
 
       <Postcard
         heading="Video"
