@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { kebabCase } from 'lodash';
+import { Button, Icon, Popover } from '@fogcreek/shared-components';
 
 import { getCollectionLink } from 'Models/collection';
 import { PopoverWithButton } from 'Components/popover';
@@ -16,6 +17,8 @@ import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useCollectionEditor, userOrTeamIsAuthor, getCollectionWithProjects } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
+
+import { emoji } from '../../components/global.styl';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -40,9 +43,12 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
         {currentUserIsAuthor && !collection.isMyStuff && (
-          <PopoverWithButton buttonProps={{ size: 'small', variant: 'warning', emoji: 'bomb' }} buttonText={`Delete ${collection.name}`}>
+          <Popover align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small" variant="warning">Delete {collection.name} <Icon className={emoji} icon="bomb" /></Button>}>
             {() => <DeleteCollection collection={collection} />}
-          </PopoverWithButton>
+          </Popover>
+          /* <PopoverWithButton buttonProps={{ size: 'small', variant: 'warning', emoji: 'bomb' }} buttonText={`Delete ${collection.name}`}>
+            {() => <DeleteCollection collection={collection} />}
+          </PopoverWithButton> */
         )}
       </main>
       <MoreCollectionsContainer collection={collection} />
