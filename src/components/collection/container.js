@@ -62,7 +62,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
     avatar = <CollectionAvatar collection={collection} />;
   }
 
-  const setPrivate = useTrackedFunc(() => funcs.updatePrivacy(!collection.private), `Collection toggled ${collection.private ? "public" : "private"}`);
+  const setPrivate = useTrackedFunc(() => funcs.updatePrivacy(!collection.private), `Collection toggled ${collection.private ? 'public' : 'private'}`);
 
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark, preview && styles.preview)}>
