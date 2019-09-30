@@ -90,6 +90,7 @@ const Postcards = () => {
         heading="Update"
         subheading="My Stuff"
         stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
+        stampIcon="dog"
         outerBorderColor="#7460E1"
         innerBorderColor="#EAE6FF"
         buttonText="All New Features"
@@ -102,6 +103,7 @@ const Postcards = () => {
         heading="Video"
         subheading="Potch Learns Twilio!"
         stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg"
+        stampIcon="television"
         outerBorderColor="#E1D262"
         innerBorderColor="#FEED64"
         buttonText="Watch It"
@@ -123,7 +125,10 @@ const Postcard = ({ heading, subheading, stampImage, stampIcon, innerBorderColor
           <Text className={styles.postcardText} size="14px" defaultMargin>
             {children}
           </Text>
-          <Button variant="secondary" size="small" {...buttonProps}>{buttonText}</Button>
+          
+          <span className={styles.postcardCta}>
+            <Button variant="secondary" size="small" {...buttonProps}>{buttonText} <Icon icon="rightArrow" /></Button>
+          </span>
         </div>
         {thumbnail && (
           <div className={styles.postcardThumbnailContainer}>

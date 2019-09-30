@@ -9,7 +9,7 @@ dependencies:
   '@babel/register': 7.5.5
   '@babel/runtime': 7.6.2
   '@babel/runtime-corejs3': 7.6.2
-  '@fogcreek/shared-components': 0.8.0
+  '@fogcreek/shared-components': 0.10.0
   '@optimizely/optimizely-sdk': 3.3.0
   '@percy/cypress': 1.0.9
   '@sentry/browser': 4.6.6
@@ -992,7 +992,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
-  /@fogcreek/shared-components/0.8.0:
+  /@fogcreek/shared-components/0.10.0:
     dependencies:
       prop-types: 15.7.2
       react-textarea-autosize: 7.1.0
@@ -1003,7 +1003,7 @@ packages:
       react: ^16.8.0
       styled-components: ^4.3.0
     resolution:
-      integrity: sha512-XhxhDAB8fElwMJVS5yWeMZ3OfFhjObh0HkomReeF9ghWYYsnQaLEliOGSGl1SyI5Krc+y1rYxTiqt/6zhoRP3w==
+      integrity: sha512-t16Mkf3fOJGhodBpRIFbEElkRhYSF6EnrpX4H53xLXl5dQjqh2foFrpLMe8DK5mSHtnv+6ZNpK1+UXmSWustkg==
   /@hapi/address/2.1.2:
     dev: false
     resolution:
@@ -10563,7 +10563,7 @@ specifiers:
   '@babel/register': 7.5.5
   '@babel/runtime': ^7.5.4
   '@babel/runtime-corejs3': ^7.5.5
-  '@fogcreek/shared-components': ^0.8.0
+  '@fogcreek/shared-components': ^0.10.0
   '@optimizely/optimizely-sdk': ^3.2.2
   '@percy/cypress': ^1.0.9
   '@sentry/browser': ^4.6.6
