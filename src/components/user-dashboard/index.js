@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
+import Image from 'Components/images/image';
 import ProjectsList from 'Components/containers/projects-list';
 import CoverContainer from 'Components/containers/cover-container';
 import { UserLink, WrappingLink } from 'Components/link';
@@ -91,16 +92,32 @@ const Postcards = () => {
       >
         Quickly save cool apps to your My Stuff collection with a single click.
       </Postcard>
+      
+      <Postcard
+        heading="Video"
+        subheading="Potch Learns Twilio"
+        stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg"
+        outerBorderColor="#E1D262"
+        innerBorderColor="#FEED64"
+        buttonProps={{ buttonText: 'Watch It', onClick: () => {}}}
+      >
+        Quickly save cool apps to your My Stuff collection with a single click.
+      </Postcard>
+      
+      
     </div>
   );
 };
 
-const Postcard = ({ heading, subheading, stampImage, innerBorderColor, outerBorderColor, thumbnail, children }) => {
+const Postcard = ({ heading, subheading, stampImage, innerBorderColor, outerBorderColor, thumbnail, buttonProps, children }) => {
   return (
     <div className={styles.postcard} style={{ '--inner-border-color': innerBorderColor, '--outer-border-color': outerBorderColor }}>
-      <Stamp label={heading} labelImage={stampImage} />
       <div className={styles.postcardContent}>
-        <div>{children}</div>
+      <Stamp label={heading} labelImage={stampImage} />
+        <div>
+          <Text className={styles.postcardContent} fontSize="14px" defaultMargin>{children}</Text>
+          <Button variant="tertiary" {...buttonProps}></Button> 
+        </div>
         {thumbnail && <div className={styles.postcardThumbnailContainer}><Image src={thumbnail} alt="" /></div>}
       </div>
     </div>
