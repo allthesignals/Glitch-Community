@@ -175,7 +175,7 @@ const Postcard = ({
 
         {thumbnail ? (
           <div className={styles.postcardColumns}>
-            <div className={styles.postContentColumn}>{content}</div>
+            <div className={styles.postcardContentColumn}>{content}</div>
             <div className={styles.postcardThumbnailColumn}>
               <Image src={thumbnail} alt="" />
             </div>

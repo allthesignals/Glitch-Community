@@ -96,11 +96,6 @@ svg.arrow
   right: 9px
   font-size: 20px
   
-.postcardContentContainer
-  display: flex
-  flex-direction: column
-  max-width: 155px
-  
 .postcardCta
   margin-top: auto
   
@@ -110,13 +105,22 @@ svg.arrow
   
 .postcardText
   color: text-on-secondary-background
-  
-.postcardThumbnailContainer
+
+.postcardColumns
   display: flex
-  align-items: center
+
+.postcardContentColumn
+.postcardThumbnailColumn
+  display: inline-flex
+  flex-direction: column
+  flex-basis: 50%
+
+.postcardThumbnailColumn
   padding: 0 10px
-  border-left
+  margin: 0 0 0 15px
+  border-left: 1px solid #ddd
   
   img
-    max-height: 55%
+    max-height: 75%
+    margin-top: 30px
   
