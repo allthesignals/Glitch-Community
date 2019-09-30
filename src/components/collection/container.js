@@ -23,6 +23,7 @@ import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import useSample from 'Hooks/use-sample';
+import { useTrackedFunc } from 'State/segment-analytics';
 
 import styles from './container.styl';
 import { emoji } from '../global.styl';
@@ -61,6 +62,8 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
     avatar = <CollectionAvatar collection={collection} />;
   }
 
+  const setPrivate = useTrackedFunc(() => funcs.updatePrivacy(!collection.private), `Collection toggled ${collection.private ? "public" : "private"}`);
+
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark, preview && styles.preview)}>
       <header className={styles.collectionHeader} style={{ backgroundColor: collection.coverColor }}>
@@ -74,7 +77,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
                 align={['left']}
                 type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'}
                 isPrivate={!!collection.private}
-                setPrivate={() => funcs.updatePrivacy(!collection.private)}
+                setPrivate={setPrivate}
               />
             </div>
           )}
