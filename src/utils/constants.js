@@ -21,10 +21,10 @@ const getNodeEnv = () => {
   return envs[runningOn] ? runningOn : 'production';
 };
 
-const isBrowser = typeof window !== 'undefined';
-const currentEnv = isBrowser ? getBrowserEnv() : getNodeEnv();
+export const isBrowser = typeof window !== 'undefined';
+export const currentEnv = isBrowser ? getBrowserEnv() : getNodeEnv();
 
-const {
+export const {
   APP_URL,
   API_URL,
   EDITOR_URL,
@@ -34,16 +34,3 @@ const {
   OPTIMIZELY_KEY,
   PROJECTS_DOMAIN,
 } = envs[currentEnv];
-
-export {
-  currentEnv,
-  isBrowser,
-  APP_URL,
-  API_URL,
-  EDITOR_URL,
-  CDN_URL,
-  GITHUB_CLIENT_ID,
-  FACEBOOK_CLIENT_ID,
-  OPTIMIZELY_KEY,
-  PROJECTS_DOMAIN,
-};
