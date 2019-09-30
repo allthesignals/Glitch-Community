@@ -108,8 +108,9 @@ const Postcards = () => {
         innerBorderColor="#FEED64"
         buttonText="Watch It"
         buttonProps={{ onClick: () => {} }}
+        waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
       >
-        Follow along as we build a collaborative rainbow app you can interacti with via SMS.
+        Follow along as we build a collaborative rainbow app you can interact with via SMS.
       </Postcard>
       
       <Postcard
@@ -120,6 +121,7 @@ const Postcards = () => {
         innerBorderColor="#FFE7EC"
         buttonText="View All"
         buttonProps={{ onClick: () => {} }}
+        waveStyles={{ filter: 'hue-rotate(90deg) saturate(.95)' }}
       >
         Follow along as we build a collaborative rainbow app you can interacti with via SMS.
       </Postcard>
@@ -127,9 +129,10 @@ const Postcards = () => {
   );
 };
 
-const Postcard = ({ heading, subheading, stampImage, stampIcon, innerBorderColor, outerBorderColor, thumbnail, buttonText, buttonProps, children }) => {
+const Postcard = ({ heading, subheading, stampImage, stampIcon, innerBorderColor, outerBorderColor, thumbnail, buttonText, buttonProps, waveStyles, children }) => {
   return (
     <div className={styles.postcard} style={{ '--inner-border-color': innerBorderColor, '--outer-border-color': outerBorderColor }}>
+      <div className={styles.waves} style={waveStyles} aria-hidden="true"></div>
       <div className={styles.postcardContent}>
         <Stamp label={heading} labelImage={stampImage} icon={stampIcon} />
         <div className={styles.postcardContentContainer}>
