@@ -134,7 +134,7 @@ const Postcard = ({ heading, subheading, stampImage, stampIcon, innerBorderColor
         <Stamp label={heading} labelImage={stampImage} icon={stampIcon} />
         <div className={styles.postcardContentContainer}>
           {subheading && <Heading className={styles.postcardSubheading} tagName="h3">{subheading}</Heading>}
-          <Text className={styles.postcardText} size="14px" defaultMargin>
+          <Text className={styles.postcardText} size="15px" defaultMargin>
             {children}
           </Text>
           
