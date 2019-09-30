@@ -72,25 +72,24 @@ const RecentProjects = () => {
 const Postcards = () => {
   return (
     <div className={styles.postcards}>
-      <Postcard heading="Update" subheading="My Stuff" borderColor='#EAE6FF' innerBorderColor='#7460E1' buttonText='All New Features'>
+      <Postcard heading="Update" subheading="My Stuff" outerBorderColor="#EAE6FF" innerBorderColor="#7460E1" buttonText="All New Features">
         Quickly save cool apps to your My Stuff collection with a single click.
       </Postcard>
     </div>
   );
 };
 
-const Postcard = ({ title, children, }) => {
+const Postcard = ({ title, children, innerBorderColor, outerBorderColor }) => {
   return (
-    <div className={styles.postcard} style>
-      <div classname={styles.postcardContent}>
-      </div>
+    <div className={styles.postcard} style={{ 'inner-border-color': innerBorderColor, 'outer-order-color': outerBorderColor }}>
+      <div className={styles.postcardContent}>{children}</div>
     </div>
   );
 };
 
 const UserDashboard = () => {
   const { currentUser } = useCurrentUser();
-  
+
   return (
     <>
       <RecentProjects />
