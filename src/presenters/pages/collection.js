@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { kebabCase } from 'lodash';
-<<<<<<< HEAD
-import { Button, Icon, Popover } from '@fogcreek/shared-components';
-=======
-import { Loader } from '@fogcreek/shared-components';
->>>>>>> 56b0142b5c5fd5375dbee2c4dbaa853e79f65501
+import { Button, Icon, Loader, Popover } from '@fogcreek/shared-components';
 
 import { getCollectionLink } from 'Models/collection';
 import NotFound from 'Components/errors/not-found';

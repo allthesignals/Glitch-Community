@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function webpackBackgroundProcess() {
   // Launch webpack in a separate process because it blocks a bit
   const { spawn } = require('child_process');
@@ -6,8 +5,6 @@ function webpackBackgroundProcess() {
   spawn('webpack', ['--watch', '--info-verbosity', 'verbose'], { env, stdio: 'inherit' });
 }
 
-=======
->>>>>>> 56b0142b5c5fd5375dbee2c4dbaa853e79f65501
 function webpackExpressMiddleware() {
   const webpack = require('webpack');
   const webpackConfig = require('../webpack.config.js');
