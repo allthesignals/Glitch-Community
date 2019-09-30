@@ -4,10 +4,13 @@ import { Icon, Popover, UnstyledButton } from '@fogcreek/shared-components';
 
 import DeleteCollection from 'Components/collection/delete-collection-pop';
 
+import { mediumPopover } from '../global.styl';
+
 export default function CollectionOptions({ collection, deleteCollection }) {
   return (
     <Popover
       align="right"
+      className={mediumPopover}
       renderLabel={({ onClick, ref }) => (
         <UnstyledButton onClick={onClick} ref={ref} label={`Collection options for ${collection.name}`}>
           <Icon icon="chevronDown" />

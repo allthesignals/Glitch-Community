@@ -11,7 +11,7 @@ import { useCurrentUser } from 'State/current-user';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
-import { emoji, widePopover } from '../global.styl';
+import { emoji, mediumPopover } from '../global.styl';
 
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
 const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
@@ -125,7 +125,7 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
   return (
     <Popover
       align="right"
-      className={widePopover}
+      className={mediumPopover}
       renderLabel={({ onClick, ref }) => (
         <UnstyledButton onClick={onClick} ref={ref} label="Project Options for {project.domain}">
           <Icon icon="chevronDown" />

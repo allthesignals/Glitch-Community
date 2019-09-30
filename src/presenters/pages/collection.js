@@ -5,7 +5,6 @@ import { kebabCase } from 'lodash';
 import { Button, Icon, Popover } from '@fogcreek/shared-components';
 
 import { getCollectionLink } from 'Models/collection';
-import { PopoverWithButton } from 'Components/popover';
 import NotFound from 'Components/errors/not-found';
 import DataLoader from 'Components/data-loader';
 import CollectionContainer from 'Components/collection/container';
@@ -18,7 +17,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useCollectionEditor, userOrTeamIsAuthor, getCollectionWithProjects } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
 
-import { emoji } from '../../components/global.styl';
+import { emoji, mediumPopover } from '../../components/global.styl';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -43,12 +42,9 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
         {currentUserIsAuthor && !collection.isMyStuff && (
-          <Popover align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small" variant="warning">Delete {collection.name} <Icon className={emoji} icon="bomb" /></Button>}>
+          <Popover align="left" className={mediumPopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small" variant="warning">Delete {collection.name} <Icon className={emoji} icon="bomb" /></Button>}>
             {() => <DeleteCollection collection={collection} />}
           </Popover>
-          /* <PopoverWithButton buttonProps={{ size: 'small', variant: 'warning', emoji: 'bomb' }} buttonText={`Delete ${collection.name}`}>
-            {() => <DeleteCollection collection={collection} />}
-          </PopoverWithButton> */
         )}
       </main>
       <MoreCollectionsContainer collection={collection} />
