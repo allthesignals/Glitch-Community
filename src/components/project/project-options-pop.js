@@ -27,7 +27,7 @@ const PopoverMenuItems = ({ children }) =>
             (item) =>
               item.onClick && (
                 <>
-                  <Button variant="warning" key={item.label} onClick={item.onClick}>
+                  <Button size="small" variant="warning" key={item.label} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
@@ -41,10 +41,10 @@ const PopoverMenuItems = ({ children }) =>
             (item) =>
               item.onClick && (
                 <>
-                  <Button key={item.label} onClick={item.onClick}>
+                  <Button size="small" variant="secondary" key={item.label} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
-                  <br />
+                  
                 </>
               ),
           )}
