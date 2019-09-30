@@ -8,6 +8,7 @@ const envs = {
     CDN_URL: 'https://cdn.glitch.com',
     GITHUB_CLIENT_ID: 'b4cb743ed07e20abf0b2',
     FACEBOOK_CLIENT_ID: '660180164153542',
+    OPTIMIZELY_KEY: 'SUV4dn9FiCp1osqWQUZr82',
     PROJECTS_DOMAIN: 'glitch.me',
   },
   staging: {
@@ -17,6 +18,7 @@ const envs = {
     CDN_URL: 'https://cdn.staging.glitch.com',
     GITHUB_CLIENT_ID: '65efbd87382354ca25e7',
     FACEBOOK_CLIENT_ID: '1858825521057112',
+    OPTIMIZELY_KEY: 'SUV4dn9FiCp1osqWQUZr82',
     PROJECTS_DOMAIN: 'staging.glitch.me',
   },
   development: {
@@ -26,6 +28,7 @@ const envs = {
     CDN_URL: 'https://s3.amazonaws.com/hyperdev-development',
     GITHUB_CLIENT_ID: '5d4f1392f69bcdf73d9f',
     FACEBOOK_CLIENT_ID: '1121393391305429',
+    OPTIMIZELY_KEY: 'SUV4dn9FiCp1osqWQUZr82',
     PROJECTS_DOMAIN: 'glitch.development',
   },
 	local: {
@@ -35,6 +38,7 @@ const envs = {
     CDN_URL: 'https://s3.amazonaws.com/hyperdev-development',
     GITHUB_CLIENT_ID: '5d4f1392f69bcdf73d9f',
     FACEBOOK_CLIENT_ID: '1121393391305429',
+    OPTIMIZELY_KEY: 'SUV4dn9FiCp1osqWQUZr82',
     PROJECTS_DOMAIN: 'glitch.me',
   }  
 };
