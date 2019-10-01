@@ -75,8 +75,9 @@ const RecentProjects = () => {
 
 const Ideas = () => (
   <div className={styles.ideas}>
-    <Heading tagName="h3">
+    <Heading className={styles.ideasHeading} tagName="h3">
       <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
+      <Button variant="secondary" size="tiny">More Ideas <Icon icon="new" /></Button>
     </Heading>
   </div>
 );
