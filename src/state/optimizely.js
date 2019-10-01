@@ -1,4 +1,5 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useCallback, useEffect, useState } from 'react';
+import { enums } from '@optimizely/optimizely-sdk';
 
 const Context = createContext();
 
@@ -8,8 +9,20 @@ export const OptimizelyProvider = ({ optimizely, children }) => (
 
 const useOptimizely = () => useContext(Context);
 
-export const useFeatureEnabled = (whichToggle, entityId) => {
+const useOptimizelyValue = (getValue) => {
   const optimizely = useOptimizely();
-  // TODO: force a re render when the optimizely config changes because the feature toggle could change
-  return optimizely.isFeatureEnabled(whichToggle, entityId);
+  const [value, setValue] = useState(() => getValue(optimizely));
+  useEffect(() => {
+    const event = enums.NOTIFICATION_TYPES.OPTIMIZELY_CONFIG_UPDATE;
+    const id = optimizely.notificationCenter.addNotificationListener(event, () => {
+      setValue(getValue(optimizely));
+    });
+    return () => optimizely.notificationCenter.removeNotificationListener(id);
+  }, [optimizely, getValue]);
+  return value;
+};
+
+export const useFeatureEnabled = (whichToggle, entityId) => {
+  const getValue = useCallback((optimizely) => optimizely.isFeatureEnabled(whichToggle, entityId), [whichToggle, entityId]);
+  return useOptimizelyValue(getValue);
 };
