@@ -11,6 +11,7 @@ import { UserLink, WrappingLink } from 'Components/link';
 import SignInPop from 'Components/sign-in-pop';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
+import { useCollectionProjects } from 'State/collection';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
@@ -74,6 +75,9 @@ const RecentProjects = () => {
 };
 
 const Ideas = ({ count }) => {
+  const { value: projects } = useCollectionProjects({ id: 4571 }); 
+  if (!projects) return 'Loading...';
+  
   return (
     <div className={styles.ideas}>
       <div className={styles.ideasHeader}>
@@ -85,7 +89,7 @@ const Ideas = ({ count }) => {
         </Button>
       </div>
 
-      <div className={styles.ideasGrid}>{ideas.slice(0, count).map(<Idea />)}</div>
+      <div className={styles.ideasGrid}>{[].slice(0, count).map(<Idea />)}</div>
     </div>
   );
 };
