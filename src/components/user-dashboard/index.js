@@ -130,7 +130,7 @@ const Postcards = () => {
         buttonProps={{ onClick: () => {} }}
         waveStyles={{ filter: 'hue-rotate(90deg) saturate(.95)' }}
       >
-        Follow along as we build a collaborative rainbow app you can interacti with via SMS.
+        <em>Coming soon</em>
       </Postcard>
     </div>
   );
