@@ -390,7 +390,17 @@ export const SignInPopBase = withRouter(({ location }) => {
 });
 
 const SignInPopContainer = ({ align }) => (
-  <Popover align={align} className={mediumPopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small">Sign in</Button>}>
+  <Popover
+    align={align}
+    className={mediumPopover}
+    renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small">Sign in</Button>}
+    views={{
+      email: (showView) => <EmailHandler showView={showView} />,
+      signInCode: (showView) => <SignInWithCode showTwoFactor={setTwoFactorAnd(showView.twoFactor)} />,
+      twoFactor: () => <TwoFactorSignIn token={tfaToken} />,
+      forgotPassword: () => <ForgotPasswordHandler />,
+    }}
+    >
     {() => <SignInPopBase />}
   </Popover>
 );
