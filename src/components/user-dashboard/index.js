@@ -73,22 +73,22 @@ const RecentProjects = () => {
   );
 };
 
-const Ideas = ({ count }) => (
-  <div className={styles.ideas}>
-    <div className={styles.ideasHeader}>
-      <Heading className={styles.ideasHeading} tagName="h3">
-        <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
-      </Heading>
-      <Button variant="secondary" size="tiny">
-        More Ideas <Icon icon="new" />
-      </Button>
+const Ideas = ({ count }) => {
+  return (
+    <div className={styles.ideas}>
+      <div className={styles.ideasHeader}>
+        <Heading className={styles.ideasHeading} tagName="h3">
+          <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
+        </Heading>
+        <Button variant="secondary" size="tiny">
+          More Ideas <Icon icon="new" />
+        </Button>
+      </div>
+
+      <div className={styles.ideasGrid}>{ideas.slice(0, count).map(<Idea />)}</div>
     </div>
-    
-    <div className={styles.ideasGrid}>
-      {count.}
-    </div>
-  </div>
-);
+  );
+};
 
 const Stamp = ({ labelImage, label, icon }) => (
   <div className={styles.stamp}>
