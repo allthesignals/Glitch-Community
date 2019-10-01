@@ -18,7 +18,6 @@ import EditCollectionColor from 'Components/collection/edit-collection-color-pop
 import AuthDescription from 'Components/fields/auth-description';
 import { BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
-import { CollectionLink } from 'Components/link';
 import { PrivateToggle } from 'Components/private-badge';
 
 import { useCollectionCurator } from 'State/collection';
@@ -26,22 +25,17 @@ import useDevToggle from 'State/dev-toggles';
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
 
-import useSample from 'Hooks/use-sample';
-
 import styles from './container.styl';
 import { emoji } from '../global.styl';
 
-const CollectionContainer = withRouter(({ history, collection, showFeaturedProject, isAuthorized, preview, funcs }) => {
+const CollectionContainer = withRouter(({ history, collection, showFeaturedProject, isAuthorized, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
-  const previewProjects = useSample(collection.projects, 3);
   const [displayHint, setDisplayHint] = useState(false);
 
   const collectionHasProjects = collection.projects.length > 0;
   let featuredProject = null;
   let { projects } = collection;
-  if (preview) {
-    projects = previewProjects;
-  }
+
   if (showFeaturedProject && collection.featuredProjectId) {
     [[featuredProject], projects] = partition(collection.projects, (p) => p.id === collection.featuredProjectId);
   }
@@ -52,8 +46,6 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
   let collectionName = collection.name;
   if (canEditNameAndDescription) {
     collectionName = <CollectionNameInput name={collection.name} onChange={funcs.onNameChange} />;
-  } else if (preview) {
-    collectionName = <CollectionLink collection={collection}>{collection.name}</CollectionLink>;
   }
 
   const enableSorting = isAuthorized && projects.length > 1;
@@ -74,7 +66,7 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
   );
 
   const { location } = useGlobals();
-  const onPlayPage = location.pathname.endsWith('/play');
+  const onPlayPage = location.pathname.endsWith('/play') && collectionHasProjects;
   const togglePlay = () => {
     if (onPlayPage) {
       history.push(location.pathname.slice(0, -5));
@@ -85,7 +77,7 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
 
   // TODO: add the right icon for Grid
   return (
-    <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark, preview && styles.preview)}>
+    <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark)}>
       <header className={styles.collectionHeader} style={{ backgroundColor: collection.coverColor }}>
         <div className={styles.collectionHeaderNameDescription}>
           <span className={styles.colorBtnContainer}>
@@ -119,32 +111,32 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
               />
             </div>
 
-            {!preview && (
-              <div className={styles.projectCount}>
-                <Text weight="600">
-                  <Pluralize count={collection.projects.length} singular="Project" />
-                </Text>
-              </div>
-            )}
+            <div className={styles.projectCount}>
+              <Text weight="600">
+                <Pluralize count={collection.projects.length} singular="Project" />
+              </Text>
+            </div>
           </div>
         </div>
-        <div className={styles.playControlContainer}>
-          {onPlayPage && (
-            <Button onClick={togglePlay}>
-              <Icon className={emoji} icon="eyes" /> Grid
-            </Button>
-          )}
-          {!onPlayPage && (
-            <Button onClick={togglePlay}>
-              <Icon className={emoji} icon="playButton" /> Play
-            </Button>
-          )}
-        </div>
+        {collectionHasProjects && (
+          <div className={styles.playControlContainer}>
+            {onPlayPage && (
+              <Button onClick={togglePlay}>
+                <Icon className={emoji} icon="eyes" /> Show All
+              </Button>
+            )}
+            {!onPlayPage && (
+              <Button onClick={togglePlay}>
+                <Icon className={emoji} icon="playButton" /> Play
+              </Button>
+            )}
+          </div>
+        )}
       </header>
 
       <div className={styles.collectionContents}>
         <div className={styles.collectionProjectContainerHeader}>
-          {isAuthorized && funcs.addProjectToCollection && (
+          {isAuthorized && funcs.addProjectToCollection && !onPlayPage && (
             <AddCollectionProject addProjectToCollection={funcs.addProjectToCollection} collection={collection} />
           )}
         </div>
@@ -169,7 +161,7 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
         )}
         {collectionHasProjects && (
           <ProjectsList
-            layout={preview ? 'row' : 'gridCompact'}
+            layout="gridCompact"
             projects={projects}
             collection={collection}
             enableSorting={enableSorting}
@@ -182,12 +174,8 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
             projectOptions={{ ...funcs, collection }}
           />
         )}
-        {preview && (
-          <CollectionLink collection={collection} className={styles.viewAll}>
-            View all <Pluralize count={collection.projects.length} singular="project" /> <Icon className={styles.arrow} icon="arrowRight" />
-          </CollectionLink>
-        )}
-        {enableSorting && (
+
+        {enableSorting && !onPlayPage && (
           <div className={classnames(styles.hint, isDarkColor(collection.coverColor) && styles.dark)}>
             <Icon className={emoji} icon="new" />
             <Text> You can reorder your projects</Text>
@@ -224,13 +212,11 @@ CollectionContainer.propTypes = {
   }).isRequired,
   showFeaturedProject: PropTypes.bool,
   isAuthorized: PropTypes.bool,
-  preview: PropTypes.bool,
   funcs: PropTypes.object,
 };
 CollectionContainer.defaultProps = {
   showFeaturedProject: false,
   isAuthorized: false,
-  preview: false,
   funcs: {},
 };
 
