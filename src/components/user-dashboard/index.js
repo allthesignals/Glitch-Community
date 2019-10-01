@@ -115,6 +115,7 @@ const Postcards = () => {
         buttonText="Watch It"
         buttonProps={{ as: 'a', href: 'https://www.youtube.com/watch?v=Zk0IYKYOLWs' }}
         waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
+        thumbnail="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpotch-twilio.png"
       >
         Follow along as we build a collaborative rainbow app you can interact with via SMS.
       </Postcard>
@@ -181,7 +182,7 @@ const Postcard = ({
             </div>
           </div>
         ) : (
-          <div className={styles.postcardContentColumncontent
+          <div className={styles.postcardContentColumn}>{content}</div>
         )}
       </div>
     </div>
