@@ -277,21 +277,21 @@ export const useCurrentUser = () => {
 };
 
 export const useSuperUserHelpers = () => {
-  const { currentUser: cachedUser } = useCurrentUser();
-  const superUserFeature = cachedUser && cachedUser.features && cachedUser.features.find((feature) => feature.name === 'super_user');
+  const { currentUser, fetched } = useCurrentUser();
+  const superUserFeature = fetched && currentUser && currentUser.features && currentUser.features.find((feature) => feature.name === 'super_user');
   const [isLoading, setLoading] = useState(false);
 
   return {
     toggleSuperUser: async () => {
       setLoading(true);
-      if (!cachedUser) return;
-      const api = getAPIForToken(cachedUser.persistentToken);
+      if (!currentUser) return;
+      const api = getAPIForToken(currentUser.persistentToken);
       await api.post(`https://support-toggle.glitch.me/support/${superUserFeature ? 'disable' : 'enable'}`);
       window.scrollTo(0, 0);
       window.location.reload();
     },
     canBecomeSuperUser:
-      cachedUser && cachedUser.projects && cachedUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
+      currentUser && currentUser.projects && currentUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
     superUserFeature,
     isLoading,
   };
