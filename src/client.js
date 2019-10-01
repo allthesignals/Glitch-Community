@@ -57,6 +57,10 @@ window.bootstrap = async (container) => {
     },
     logLevel: 'warn',
   });
+  optimizelyClientInstance.onReady().then(() => {
+    console.log('ready');
+    debugger;
+  });
 
   const element = (
     <BrowserRouter>
