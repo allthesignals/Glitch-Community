@@ -26,7 +26,7 @@ const SignInCodeSection = ({ onClick }) => (
   </Actions>
 );
 
-const ForgotPasswordHandler = () => {
+const ForgotPasswordHandler = ({ onBack }) => {
   const api = useAPI();
   const [email, setEmail, validationError] = useEmail();
   const [{ status, errorMessage }, setState] = useState({ status: 'active', errorMessage: null });
@@ -49,7 +49,7 @@ const ForgotPasswordHandler = () => {
   const isEnabled = email.length > 0 && !isWorking;
   return (
     <>
-      <Title>Forgot Password</Title>
+      <Title onBack={onBack}>Forgot Password</Title>
       <Actions>
         {!isDone && (
           <form onSubmit={onSubmit}>
@@ -91,7 +91,7 @@ const ForgotPasswordHandler = () => {
   );
 };
 
-const EmailHandler = ({ showView }) => {
+const EmailHandler = ({ onBack, showView }) => {
   const api = useAPI();
   const [email, setEmail, validationError] = useEmail();
   const [isFocused, setIsFocused] = useState(true);
@@ -124,7 +124,7 @@ const EmailHandler = ({ showView }) => {
 
   return (
     <>
-      <Title>
+      <Title onBack={onBack}>
         Email Sign In&nbsp;
         <Icon className={emoji} icon="email" />
       </Title>
@@ -173,7 +173,7 @@ const EmailHandler = ({ showView }) => {
   );
 };
 
-const SignInWithCode = ({ showTwoFactor }) => {
+const SignInWithCode = ({ onBack, showTwoFactor }) => {
   const { login } = useCurrentUser();
   const api = useAPI();
   const [code, setCode] = useState('');
@@ -201,7 +201,7 @@ const SignInWithCode = ({ showTwoFactor }) => {
 
   return (
     <>
-      <Title>Use a sign in code</Title>
+      <Title onBack={onBack}>Use a sign in code</Title>
       <Actions>
         {status === 'ready' && (
           <form onSubmit={onSubmit} style={{ marginBottom: 0 }} data-cy="sign-in-code-form">
@@ -241,9 +241,9 @@ const SignInWithCode = ({ showTwoFactor }) => {
   );
 };
 
-const TwoFactorSignIn = ({ token }) => (
+const TwoFactorSignIn = ({ onBack, token }) => (
   <>
-    <Title>
+    <Title onBack={onBack}>
       Two factor auth <Icon className={emoji} icon="key" />
     </Title>
     <Actions>
@@ -340,16 +340,6 @@ export const SignInPopBase = withRouter(({ location }) => {
       },
     });
 
-  const setDestinationAnd = (next) => () => {
-    onSignInClick();
-    next();
-  };
-
-  const setTwoFactorAnd = (next) => (token) => {
-    setTfaToken(token);
-    next();
-  };
-
   return (
     <Popover
       align="right"
@@ -360,13 +350,13 @@ export const SignInPopBase = withRouter(({ location }) => {
         </Button>
       )}
       views={{
-        email: (showView, onBack) => <EmailHandler onBack={onBack} showView={showView} />,
-        signInCode: (showView, onBack) => <SignInWithCode onBack={onBack} showTwoFactor={setTwoFactorAnd(showView.twoFactor)} />,
-        twoFactor: () => <TwoFactorSignIn token={tfaToken} />,
-        forgotPassword: () => <ForgotPasswordHandler />,
+        email: ({ setActiveView, onBack }) => <EmailHandler onBack={onBack} showView={setActiveView} />,
+        signInCode: ({ setActiveView, onBack }) => <SignInWithCode onBack={onBack} showTwoFactor={() => { setTfaToken(tfaToken); setActiveView('twoFactor'); }} />,
+        twoFactor: (onBack) => <TwoFactorSignIn onBack={onBack} token={tfaToken} />,
+        forgotPassword: ({ onBack }) => <ForgotPasswordHandler onBack={onBack} />,
       }}
     >
-      {(showView) => (
+      {({ setActiveView }) => (
         <>
           <Info>
             <Icon className={emoji} icon="carpStreamer" /> New to Glitch? Create an account by signing in.
@@ -378,17 +368,17 @@ export const SignInPopBase = withRouter(({ location }) => {
             </div>
           </Info>
           {userPasswordEnabled && (
-            <PasswordLoginSection showTwoFactor={setTwoFactorAnd(showView.twoFactor)} showForgotPassword={showView.forgotPassword} />
+            <PasswordLoginSection showTwoFactor={() => { setTfaToken(tfaToken); setActiveView('twoFactor'); }} showForgotPassword={() => { setActiveView('forgotPassword'); }} />
           )}
           <Actions>
             <SignInButton companyName="facebook" onClick={onSignInClick} />
             <SignInButton companyName="github" onClick={onSignInClick} />
             <SignInButton companyName="google" onClick={onSignInClick} />
-            <Button size="small" onClick={setDestinationAnd(showView.email)}>
+            <Button size="small" onClick={() => { onSignInClick(); setActiveView('email'); }}>
               Sign in with Email <Icon className={emoji} icon="email" />
             </Button>
           </Actions>
-          <SignInCodeSection onClick={setDestinationAnd(showView.signInCode)} />
+          <SignInCodeSection onClick={() => { onSignInClick(); setActiveView('signInCode'); }} />
         </>
       )}
     </Popover>
