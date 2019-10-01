@@ -8,7 +8,7 @@ import { TeamAvatar, ProjectAvatar } from 'Components/images/avatar';
 import Text from 'Components/text/text';
 import Markdown from 'Components/text/markdown';
 import Heading from 'Components/text/heading';
-import Link from 'Components/link';
+import Link, { TeamLink } from 'Components/link';
 import Embed from 'Components/project/embed';
 import Video from 'Components/video';
 import WistiaVideo from 'Components/wistia-video';
@@ -19,7 +19,6 @@ import CategoriesGrid from 'Components/categories-grid';
 import { useAPI } from 'State/api';
 import { useTracker } from 'State/segment-analytics';
 import { getRemixUrl } from 'Models/project';
-import { getTeamLink } from 'Models/team';
 import { emojiPattern } from 'Shared/regex';
 import { CDN_URL } from 'Utils/constants';
 import useSample from 'Hooks/use-sample';
@@ -165,7 +164,7 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button as="a" href={getTeamLink(team)}>{team.name}</Button>
+          <Button as={TeamLink} team={team}>{team.name}</Button>
         </div>
         <Text size="14px">
           <Markdown renderAsPlaintext>{team.description}</Markdown>
