@@ -10,6 +10,7 @@ import NewStuffContainer from 'Components/new-stuff';
 import { UserLink, WrappingLink } from 'Components/link';
 import SignInPop from 'Components/sign-in-pop';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
+import { getProjectLink } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
 import { useCollectionProjects } from 'State/collection';
 
@@ -76,9 +77,7 @@ const RecentProjects = () => {
 
 const Ideas = ({ count }) => {
   const { value: ideas } = useCollectionProjects({ id: 4571 });
-  if (!ideas) return 'Loading';
   const [ideasIdx, setIdeasIdx] = useState(0);
-  const activeIdeas = ideas.slice(ideasIdx, ideasIdx + count);
   
   return (
     <div className={styles.ideas}>
@@ -91,13 +90,16 @@ const Ideas = ({ count }) => {
         </Button>
       </div>
 
-      {ideas && <div className={styles.ideasGrid}>{activeIdeas.map(Idea)}</div>}
+      {ideas && <div className={styles.ideasGrid}>{ideas.slice(ideasIdx, ideasIdx + count).map(Idea)}</div>}
     </div>
   );
 };
 
-const Idea = (idea) => (
-  <div>This is an idea</div>
+const Idea = ({ domain, description }) => (
+  <div className={styles.idea}>
+    <Button as="a" href={getProjectLink(domain)}>{domain}</Button>
+    <Text>{description}</Text>
+  </div>
 );
 
 const Stamp = ({ labelImage, label, icon }) => (
