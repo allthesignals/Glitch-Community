@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
-import { Button, Icon, Mark, Popover } from '@fogcreek/shared-components';
+import { Button, Icon, Mark } from '@fogcreek/shared-components';
 
 import { Overlay, OverlaySection, OverlayBackground } from 'Components/overlays';
 import { PopoverContainer } from 'Components/popover';

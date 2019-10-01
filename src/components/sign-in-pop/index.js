@@ -26,7 +26,7 @@ const SignInCodeSection = ({ onClick }) => (
   </Actions>
 );
 
-const ForgotPasswordHandler = () => {
+const ForgotPasswordHandler = ({ onBack }) => {
   const api = useAPI();
   const [email, setEmail, validationError] = useEmail();
   const [{ status, errorMessage }, setState] = useState({ status: 'active', errorMessage: null });
@@ -49,7 +49,7 @@ const ForgotPasswordHandler = () => {
   const isEnabled = email.length > 0 && !isWorking;
   return (
     <>
-      <Title>Forgot Password</Title>
+      <Title onBack={onBack}>Forgot Password</Title>
       <Actions>
         {!isDone && (
           <form onSubmit={onSubmit}>
@@ -241,9 +241,9 @@ const SignInWithCode = ({ onBack, showTwoFactor }) => {
   );
 };
 
-const TwoFactorSignIn = ({ token }) => (
+const TwoFactorSignIn = ({ onBack, token }) => (
   <>
-    <Title>
+    <Title onBack={onBack}>
       Two factor auth <Icon className={emoji} icon="key" />
     </Title>
     <Actions>
@@ -340,11 +340,6 @@ export const SignInPopBase = withRouter(({ location }) => {
       },
     });
 
-  const setTwoFactorAnd = (next) => (token) => {
-    setTfaToken(token);
-    next();
-  };
-
   return (
     <Popover
       align="right"
@@ -355,15 +350,15 @@ export const SignInPopBase = withRouter(({ location }) => {
         </Button>
       )}
       views={{
-        email: (showView, onBack) => <EmailHandler onBack={onBack} showView={showView} />,
-        signInCode: (showView, onBack) => <SignInWithCode onBack={onBack} showTwoFactor={(setTwoFactorAnd(showView.twoFactor))} />,
-        twoFactor: () => <TwoFactorSignIn token={tfaToken} />,
-        forgotPassword: () => <ForgotPasswordHandler />,
+        email: ({ setActiveView, onBack }) => <EmailHandler onBack={onBack} showView={setActiveView} />,
+        signInCode: ({ setActiveView, onBack }) => <SignInWithCode onBack={onBack} showTwoFactor={() => { setTfaToken(tfaToken); setActiveView('twoFactor'); }} />,
+        twoFactor: (onBack) => <TwoFactorSignIn onBack={onBack} token={tfaToken} />,
+        forgotPassword: ({ onBack }) => <ForgotPasswordHandler onBack={onBack} />,
       }}
     >
-      {({ setActiveView, onBack }) => (
+      {({ setActiveView }) => (
         <>
-          <Info onBack={onBack}>
+          <Info>
             <Icon className={emoji} icon="carpStreamer" /> New to Glitch? Create an account by signing in.
           </Info>
           <Info>
