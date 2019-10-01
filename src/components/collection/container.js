@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Pluralize from 'react-pluralize';
 import { partition } from 'lodash';
 import classnames from 'classnames';
@@ -8,7 +9,6 @@ import { Button, Icon } from '@fogcreek/shared-components';
 import { isDarkColor } from 'Utils/color';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
-
 import FeaturedProject from 'Components/project/featured-project';
 import { ProfileItem } from 'Components/profile-list';
 import ProjectsList from 'Components/containers/projects-list';
@@ -20,15 +20,18 @@ import { BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
 import { CollectionLink } from 'Components/link';
 import { PrivateToggle } from 'Components/private-badge';
+
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
-import useSample from 'Hooks/use-sample';
 import { useTrackedFunc } from 'State/segment-analytics';
+import { useGlobals } from 'State/globals';
+
+import useSample from 'Hooks/use-sample';
 
 import styles from './container.styl';
 import { emoji } from '../global.styl';
 
-const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, preview, funcs }) => {
+const CollectionContainer = withRouter(({ history, collection, showFeaturedProject, isAuthorized, preview, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
   const previewProjects = useSample(collection.projects, 3);
   const [displayHint, setDisplayHint] = useState(false);
@@ -70,6 +73,17 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
     `Collection toggled ${collection.private ? 'public' : 'private'}`,
   );
 
+  const { location } = useGlobals();
+  const onPlayPage = location.pathname.endsWith('/play');
+  const togglePlay = () => {
+    if (onPlayPage) {
+      history.push(location.pathname.slice(0, -5));
+    } else {
+      history.push(`${location.pathname}/play`);
+    }
+  };
+
+  // TODO: add the right icon for Grid
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark, preview && styles.preview)}>
       <header className={styles.collectionHeader} style={{ backgroundColor: collection.coverColor }}>
@@ -114,7 +128,18 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
             )}
           </div>
         </div>
-        <div className={styles.playControlContainer}>Playyyyy</div>
+        <div className={styles.playControlContainer}>
+          {onPlayPage && (
+            <Button onClick={togglePlay}>
+              <Icon className={emoji} icon="eyes" /> Grid
+            </Button>
+          )}
+          {!onPlayPage && (
+            <Button onClick={togglePlay}>
+              <Icon className={emoji} icon="playButton" /> Play
+            </Button>
+          )}
+        </div>
       </header>
 
       <div className={styles.collectionContents}>
@@ -187,7 +212,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
       </div>
     </article>
   );
-};
+});
 
 CollectionContainer.propTypes = {
   collection: PropTypes.shape({
