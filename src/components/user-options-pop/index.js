@@ -173,7 +173,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
 
   return (
     <CheckForCreateTeamHash>
-      {(createTeamOpen) => (
+      
         <Popover
           align="right"
           renderLabel={({ onClick }) => {
@@ -190,18 +190,22 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
 
             return <TooltipContainer target={userOptionsButton} tooltip="User options" type="action" align={['right']} />;
           }}
-          views={{
-            createTeam: ({ onBack }) => <CreateTeamPop onBack={onBack} />,
-          }}
         >
-          {({ setActiveView, onClose }) => (
-            <UserOptionsPop
-              showAccountSettingsOverlay={showAccountSettingsOverlay}
-              showNewStuffOverlay={showNewStuffOverlay}
-              togglePopover={onClose}
-              showCreateTeam={setActiveView('createTeam')}
-            />
-          )}
+          {({ onClose }) => (
+            <MultiPopover
+              views={{
+                createTeam: () => <CreateTeamPop />,
+              }}
+            >
+              {({ createTeam }) => (
+                <UserOptionsPop
+                  showAccountSettingsOverlay={showAccountSettingsOverlay}
+                  showNewStuffOverlay={showNewStuffOverlay}
+                  togglePopover={onClose}
+                  showCreateTeam={createTeam}
+                />
+              )}
+            </MultiPopover>
           )}
         </Popover>
         /* <PopoverContainer startOpen={createTeamOpen} triggerButtonRef={buttonRef}>
@@ -241,7 +245,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
             );
           }}
         </PopoverContainer> */
-      )}
+      
     </CheckForCreateTeamHash>
   );
 }
