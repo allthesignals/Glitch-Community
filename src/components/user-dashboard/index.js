@@ -181,7 +181,7 @@ const Postcard = ({
             </div>
           </div>
         ) : (
-          content
+          <div className={styles.postcardContentColumncontent
         )}
       </div>
     </div>
