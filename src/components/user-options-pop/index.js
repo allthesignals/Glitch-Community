@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
-import { Button, CheckboxButton, Icon, UnstyledButton } from '@fogcreek/shared-components';
+import { Button, CheckboxButton, Icon, UnstyledButton, Loader } from '@fogcreek/shared-components';
 
 import { getTeamLink } from 'Models/team';
 import { getUserAvatarThumbnailUrl } from 'Models/user';
@@ -43,12 +43,7 @@ const TeamList = ({ teams, showCreateTeam }) => {
     <PopoverActions>
       {orderedTeams.map((team) => (
         <div className={styles.buttonWrap} key={team.id}>
-          <Button
-            as="a"
-            href={getTeamLink(team)}
-            size="small"
-            variant="secondary"
-          >
+          <Button as="a" href={getTeamLink(team)} size="small" variant="secondary">
             {team.name} <TeamAvatar team={team} size="small" className={emoji} tiny hideTooltip />
           </Button>
         </div>
@@ -74,7 +69,7 @@ TeamList.propTypes = {
 
 const UserOptionsPop = ({ togglePopover, showCreateTeam, showAccountSettingsOverlay, showNewStuffOverlay }) => {
   const { currentUser: user, clear: signOut } = useCurrentUser();
-  const { superUserFeature, canBecomeSuperUser, toggleSuperUser } = useSuperUserHelpers();
+  const { superUserFeature, canBecomeSuperUser, toggleSuperUser, isLoading } = useSuperUserHelpers();
 
   const trackLogout = useTracker('Logout');
 
@@ -131,9 +126,12 @@ Are you sure you want to sign out?`)
       <PopoverInfo>
         {(canBecomeSuperUser || !!superUserFeature) && (
           <div className={styles.buttonWrap}>
-            <CheckboxButton className={styles.buttonWrap} size="small" value={!!superUserFeature} onChange={toggleSuperUser} variant="secondary">
-              Super User
-            </CheckboxButton>
+            {isLoading && <Loader style={{ width: '20px' }} />}
+            {!isLoading && (
+              <CheckboxButton className={styles.buttonWrap} size="small" value={!!superUserFeature} onChange={toggleSuperUser} variant="secondary">
+                Super User
+              </CheckboxButton>
+            )}
           </div>
         )}
         <div className={styles.buttonWrap}>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { mapKeys, memoize } from 'lodash';
 import { createSlice } from 'redux-starter-kit';
 import { useSelector, useDispatch } from 'react-redux';
@@ -278,9 +279,11 @@ export const useCurrentUser = () => {
 export const useSuperUserHelpers = () => {
   const { currentUser: cachedUser } = useCurrentUser();
   const superUserFeature = cachedUser && cachedUser.features && cachedUser.features.find((feature) => feature.name === 'super_user');
+  const [isLoading, setLoading] = useState(false);
 
   return {
     toggleSuperUser: async () => {
+      setLoading(true);
       if (!cachedUser) return;
       const api = getAPIForToken(cachedUser.persistentToken);
       await api.post(`https://support-toggle.glitch.me/support/${superUserFeature ? 'disable' : 'enable'}`);
@@ -290,5 +293,6 @@ export const useSuperUserHelpers = () => {
     canBecomeSuperUser:
       cachedUser && cachedUser.projects && cachedUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
     superUserFeature,
+    isLoading,
   };
 };
