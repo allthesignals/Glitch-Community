@@ -93,7 +93,7 @@ const useNewProjectAPI = createAPIHook(async (api) => {
   return projectIds.map((id) => data[id]);
 });
 
-function NewProjectPopButton({ buttonText, buttonType, align }) {
+function NewProjectPopButton() {
   const { value } = useNewProjectAPI();
   const projects = value || [];
   const onOpen = useTracker('open new-project pop');
@@ -104,15 +104,5 @@ function NewProjectPopButton({ buttonText, buttonType, align }) {
     </Popover>
   );
 }
-
-NewProjectPopButton.propTypes = {
-  buttonText: PropTypes.string,
-  align: PropTypes.string,
-};
-
-NewProjectPopButton.defaultProps = {
-  buttonText: 'New Project',
-  align: 'right',
-};
 
 export default NewProjectPopButton;
