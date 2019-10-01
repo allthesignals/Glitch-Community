@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import TrackedButtonGroup from 'Components/buttons/tracked-button-group';
 
 import { getTeamProfileStyle } from 'Models/team';
-import { getUserProfileStyle, getDashboardProfileStyle } from 'Models/user';
+import { getUserProfileStyle } from 'Models/user';
 import styles from './cover-container.styl';
 
 const cx = classNames.bind(styles);

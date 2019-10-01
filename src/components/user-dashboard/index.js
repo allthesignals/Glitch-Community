@@ -66,22 +66,20 @@ const RecentProjects = () => {
             {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
-        <Ideas count=
+        <Ideas count={1} />
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
   );
 };
 
-const Ideas = ({ count }) => {
-  return (
-    <div className={styles.ideas}>
-      <Heading tagname="h3">
-        <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
-      </Heading>
-    </div>
-  );
-};
+const Ideas = () => (
+  <div className={styles.ideas}>
+    <Heading tagname="h3">
+      <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
+    </Heading>
+  </div>
+);
 
 const Stamp = ({ labelImage, label, icon }) => (
   <div className={styles.stamp}>
@@ -95,57 +93,55 @@ const Stamp = ({ labelImage, label, icon }) => (
   </div>
 );
 
-const Postcards = () => {
-  return (
-    <div className={styles.postcards}>
-      <NewStuffContainer>
-        {(showNewStuffOverlay) => (
-          <Postcard
-            heading="Update"
-            subheading="My Stuff"
-            stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
-            stampIcon="dogFace"
-            outerBorderColor="#7460E1"
-            innerBorderColor="#EAE6FF"
-            buttonText="All Updates"
-            buttonProps={{ onClick: showNewStuffOverlay }}
-            thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
-          >
-            Quickly save cool apps to your My Stuff collection with a single click.
-          </Postcard>
-        )}
-      </NewStuffContainer>
+const Postcards = () => (
+  <div className={styles.postcards}>
+    <NewStuffContainer>
+      {(showNewStuffOverlay) => (
+        <Postcard
+          heading="Update"
+          subheading="My Stuff"
+          stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
+          stampIcon="dogFace"
+          outerBorderColor="#7460E1"
+          innerBorderColor="#EAE6FF"
+          buttonText="All Updates"
+          buttonProps={{ onClick: showNewStuffOverlay }}
+          thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
+        >
+          Quickly save cool apps to your My Stuff collection with a single click.
+        </Postcard>
+      )}
+    </NewStuffContainer>
 
-      <Postcard
-        heading="Video"
-        subheading="Potch Learns Twilio!"
-        stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg"
-        stampIcon="television"
-        outerBorderColor="#E1D262"
-        innerBorderColor="#FEED64"
-        buttonText="Watch It"
-        buttonProps={{ as: 'a', href: 'https://www.youtube.com/watch?v=Zk0IYKYOLWs' }}
-        waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
-        thumbnail="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpotch-twilio.png"
-      >
-        Follow along as we build a collaborative rainbow app you can interact with via SMS.
-      </Postcard>
+    <Postcard
+      heading="Video"
+      subheading="Potch Learns Twilio!"
+      stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg"
+      stampIcon="television"
+      outerBorderColor="#E1D262"
+      innerBorderColor="#FEED64"
+      buttonText="Watch It"
+      buttonProps={{ as: 'a', href: 'https://www.youtube.com/watch?v=Zk0IYKYOLWs' }}
+      waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
+      thumbnail="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpotch-twilio.png"
+    >
+      Follow along as we build a collaborative rainbow app you can interact with via SMS.
+    </Postcard>
 
-      <Postcard
-        heading="Notifications"
-        stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-notifications.svg"
-        stampIcon="telephone"
-        outerBorderColor="#FFA6BC"
-        innerBorderColor="#FFE7EC"
-        buttonText="View All"
-        buttonProps={{ onClick: () => {} }}
-        waveStyles={{ filter: 'hue-rotate(90deg) saturate(.95)' }}
-      >
-        <em>Coming soon</em>
-      </Postcard>
-    </div>
-  );
-};
+    <Postcard
+      heading="Notifications"
+      stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-notifications.svg"
+      stampIcon="telephone"
+      outerBorderColor="#FFA6BC"
+      innerBorderColor="#FFE7EC"
+      buttonText="View All"
+      buttonProps={{ onClick: () => {} }}
+      waveStyles={{ filter: 'hue-rotate(90deg) saturate(.95)' }}
+    >
+      <em>Coming soon</em>
+    </Postcard>
+  </div>
+);
 
 const Postcard = ({
   heading,
@@ -160,7 +156,7 @@ const Postcard = ({
   waveStyles,
   children,
 }) => {
-  var content = (
+  const content = (
     <>
       {subheading && (
         <Heading className={styles.postcardSubheading} tagName="h3">
