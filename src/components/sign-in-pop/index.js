@@ -127,7 +127,8 @@ const EmailHandler = ({ showView }) => {
   return (
     <>
       <Title>
-        Email Sign In&nbsp;<Icon className={emoji} icon="email" />
+        Email Sign In&nbsp;
+        <Icon className={emoji} icon="email" />
       </Title>
       <Actions>
         {status === 'ready' && (
@@ -352,10 +353,17 @@ export const SignInPopBase = withRouter(({ location }) => {
   };
 
   return (
-    <Popover align="right" className={mediumPopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small">Sign in</Button>}
+    <Popover
+      align="right"
+      className={mediumPopover}
+      renderLabel={({ onClick, ref }) => (
+        <Button onClick={onClick} ref={ref} size="small">
+          Sign in
+        </Button>
+      )}
       views={{
-        email: (showView) => <EmailHandler showView={showView} />,
-        signInCode: (showView) => <SignInWithCode showTwoFactor={setTwoFactorAnd(showView.twoFactor)} />,
+        email: (showView, onBack) => <EmailHandler onBack={onBack} showView={showView} />,
+        signInCode: (showView, onBack) => <SignInWithCode onBack={onBack} showTwoFactor={setTwoFactorAnd(showView.twoFactor)} />,
         twoFactor: () => <TwoFactorSignIn token={tfaToken} />,
         forgotPassword: () => <ForgotPasswordHandler />,
       }}
@@ -389,11 +397,7 @@ export const SignInPopBase = withRouter(({ location }) => {
   );
 });
 
-const SignInPopContainer = ({ align }) => (
-  <Popover align={align} className={mediumPopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small">Sign in</Button>}>
-    {() => <SignInPopBase />}
-  </Popover>
-);
+const SignInPopContainer = () => <SignInPopBase />;
 
 SignInPopContainer.propTypes = {
   align: PropTypes.string.isRequired,
