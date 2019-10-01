@@ -57,10 +57,10 @@ window.bootstrap = async (container) => {
     },
     logLevel: 'warn',
   });
-  optimizelyClientInstance.onReady().then(() => {
-    console.log('ready');
-    debugger;
-  });
+  // This should happen immediately because we provided a datafile
+  console.log(Date.now());
+  await optimizelyClientInstance.onReady();
+  console.log(Date.now());
 
   const element = (
     <BrowserRouter>
