@@ -63,12 +63,23 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 3)} /> : <Loader style={{ width: '25px' }} />}
+            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
+        <Ideas count=
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
+  );
+};
+
+const Ideas = ({ count }) => {
+  return (
+    <div className={styles.ideas}>
+      <Heading tagname="h3">
+        <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
+      </Heading>
+    </div>
   );
 };
 
