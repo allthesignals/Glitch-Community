@@ -121,6 +121,7 @@ module.exports = function(external) {
       EXTERNAL_ROUTES: external,
       ZINE_POSTS: zine || [],
       HOME_CONTENT: homeContent,
+      PUPDATES_CONTENT: pupdatesContent,
       SSR_SIGNED_IN: signedIn,
       AB_TESTS: assignments,
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,

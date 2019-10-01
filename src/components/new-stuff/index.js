@@ -90,7 +90,7 @@ const NewStuff = ({ children }) => {
   const isSignedIn = !!currentUser && !!currentUser.login;
   const [showNewStuff, setShowNewStuff] = useUserPref('showNewStuff', true);
   const [newStuffReadId, setNewStuffReadId] = useUserPref('newStuffReadId', 0);
-  const { PUPDATES_CONTENT: pupdates } = useGlobals();
+  const { PUPDATES_CONTENT: { pupdates } } = useGlobals();
   
   const latestId = Math.max(...pupdates.map(({ id }) => id));
 
