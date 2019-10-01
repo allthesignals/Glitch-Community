@@ -17,6 +17,7 @@ const useOptimizelyValue = (getValue) => {
     const id = optimizely.notificationCenter.addNotificationListener(event, () => {
       setValue(getValue(optimizely));
     });
+    setValue(getValue(optimizely));
     return () => optimizely.notificationCenter.removeNotificationListener(id);
   }, [optimizely, getValue]);
   return value;
