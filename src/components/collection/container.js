@@ -73,67 +73,48 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark, preview && styles.preview)}>
       <header className={styles.collectionHeader} style={{ backgroundColor: collection.coverColor }}>
-        <div className={styles.imageContainer}>{avatar}</div>
-        <div>
-          <h1 className={styles.name}>{collectionName}</h1>
+        <div className={styles.collectionHeaderNameDescription}>
+          <span className={styles.colorBtnContainer}>
+            {isAuthorized && funcs.updateColor && <EditCollectionColor update={funcs.updateColor} initialColor={collection.coverColor} />}
+          </span>
+          <div className={styles.imageContainer}>{avatar}</div>
+          <div className={styles.nameContainer}>
+            <h1 className={styles.name}>{collectionName}</h1>
 
-          {isAuthorized && myStuffIsEnabled && (
-            <div className={styles.privacyToggle}>
-              <PrivateToggle
-                align={['left']}
-                type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'}
-                isPrivate={!!collection.private}
-                setPrivate={setPrivate}
+            {isAuthorized && myStuffIsEnabled && (
+              <div className={styles.privacyToggle}>
+                <PrivateToggle
+                  align={['left']}
+                  type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'}
+                  isPrivate={!!collection.private}
+                  setPrivate={setPrivate}
+                />
+              </div>
+            )}
+
+            <div className={styles.owner}>
+              <ProfileItem hasLink {...curator} glitchTeam={collection.glitchTeam} />
+            </div>
+
+            <div className={styles.description}>
+              <AuthDescription
+                authorized={canEditNameAndDescription}
+                description={collection.description}
+                update={funcs.updateDescription}
+                placeholder="Tell us about your collection"
               />
             </div>
-          )}
 
-          <div className={styles.owner}>
-            <ProfileItem hasLink {...curator} glitchTeam={collection.glitchTeam} />
+            {!preview && (
+              <div className={styles.projectCount}>
+                <Text weight="600">
+                  <Pluralize count={collection.projects.length} singular="Project" />
+                </Text>
+              </div>
+            )}
           </div>
-
-          <div className={styles.description}>
-            <AuthDescription
-              authorized={canEditNameAndDescription}
-              description={collection.description}
-              update={funcs.updateDescription}
-              placeholder="Tell us about your collection"
-            />
-          </div>
-
-          {!preview && (
-            <div className={styles.projectCount}>
-              <Text weight="600">
-                <Pluralize count={collection.projects.length} singular="Project" />
-              </Text>
-            </div>
-          )}
-
-          {isAuthorized && funcs.updateColor && <EditCollectionColor update={funcs.updateColor} initialColor={collection.coverColor} />}
-
-          {enableSorting && (
-            <div className={classnames(styles.hint, isDarkColor(collection.coverColor) && styles.dark)}>
-              <Icon className={emoji} icon="new" />
-              <Text> You can reorder your projects</Text>
-              {!displayHint && (
-                <Button variant="secondary" size="small" onClick={() => setDisplayHint(true)}>
-                  Learn More
-                </Button>
-              )}
-              {displayHint && (
-                <div className={styles.hintBody}>
-                  <Text>
-                    <Icon className={emoji} icon="mouse" /> Click and drag to reorder
-                  </Text>
-                  <Text>
-                    <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press
-                    space again to save.
-                  </Text>
-                </div>
-              )}
-            </div>
-          )}
         </div>
+        <div className={styles.playControlContainer}>Playyyyy</div>
       </header>
 
       <div className={styles.collectionContents}>
@@ -180,6 +161,28 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
           <CollectionLink collection={collection} className={styles.viewAll}>
             View all <Pluralize count={collection.projects.length} singular="project" /> <Icon className={styles.arrow} icon="arrowRight" />
           </CollectionLink>
+        )}
+        {enableSorting && (
+          <div className={classnames(styles.hint, isDarkColor(collection.coverColor) && styles.dark)}>
+            <Icon className={emoji} icon="new" />
+            <Text> You can reorder your projects</Text>
+            {!displayHint && (
+              <Button variant="secondary" size="small" onClick={() => setDisplayHint(true)}>
+                Learn More
+              </Button>
+            )}
+            {displayHint && (
+              <div className={styles.hintBody}>
+                <Text>
+                  <Icon className={emoji} icon="mouse" /> Click and drag to reorder
+                </Text>
+                <Text>
+                  <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press
+                  space again to save.
+                </Text>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </article>
