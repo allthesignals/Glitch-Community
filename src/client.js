@@ -50,7 +50,7 @@ window.bootstrap = async (container) => {
       updateInterval: 60 * 1000, // check once per minute
     },
     errorHandler: {
-      handleError: function (error) {
+      handleError: (error) => {
         captureException(error);
         console.error(error);
       },
