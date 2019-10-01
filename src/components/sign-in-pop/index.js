@@ -366,7 +366,7 @@ export const SignInPopBase = withRouter(({ location }) => {
         forgotPassword: () => <ForgotPasswordHandler />,
       }}
     >
-      {(showView) => (
+      {(setActiveView) => (
         <>
           <Info>
             <Icon className={emoji} icon="carpStreamer" /> New to Glitch? Create an account by signing in.
@@ -378,13 +378,13 @@ export const SignInPopBase = withRouter(({ location }) => {
             </div>
           </Info>
           {userPasswordEnabled && (
-            <PasswordLoginSection showTwoFactor={setTwoFactorAnd(showView.twoFactor)} showForgotPassword={showView.forgotPassword} />
+            <PasswordLoginSection showTwoFactor={setTwoFactorAnd(showView.twoFactor)} showForgotPassword={setActiveView('forgotPassword')} />
           )}
           <Actions>
             <SignInButton companyName="facebook" onClick={onSignInClick} />
             <SignInButton companyName="github" onClick={onSignInClick} />
             <SignInButton companyName="google" onClick={onSignInClick} />
-            <Button size="small" onClick={() => { onSignInClick(); showView(showView.email); }}>
+            <Button size="small" onClick={() => { onSignInClick(); setActiveView('email'); }}>
               Sign in with Email <Icon className={emoji} icon="email" />
             </Button>
           </Actions>
