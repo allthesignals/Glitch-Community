@@ -176,7 +176,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
       {(createTeamOpen) => (
         <Popover
           align="right"
-          renderLabel={({ onClick, ref }) => {
+          renderLabel={({ onClick }) => {
             const userOptionsButton = (
               <UnstyledButton type="dropDown" onClick={onClick} decorative={!user.id} ref={buttonRef}>
                 <span className={styles.userOptionsWrap}>
@@ -188,24 +188,20 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
               </UnstyledButton>
             );
 
-            return <TooltipContainer target={userOptionsButton} tooltip="User options" type="action" align={['right']}></TooltipContainer>;
+            return <TooltipContainer target={userOptionsButton} tooltip="User options" type="action" align={['right']} />;
+          }}
+          views={{
+            createTeam: ({ onBack }) => <CreateTeamPop onBack={onBack} />,
           }}
         >
-          {({ onClose }) => (
-            <MultiPopover
-              views={{
-                createTeam: () => <CreateTeamPop />,
-              }}
-            >
-              {({ createTeam }) => (
-                <UserOptionsPop
-                  showAccountSettingsOverlay={showAccountSettingsOverlay}
-                  showNewStuffOverlay={showNewStuffOverlay}
-                  togglePopover={onClose}
-                  showCreateTeam={createTeam}
-                />
-              )}
-            </MultiPopover>
+          {({ setActiveView, onClose }) => (
+            <UserOptionsPop
+              showAccountSettingsOverlay={showAccountSettingsOverlay}
+              showNewStuffOverlay={showNewStuffOverlay}
+              togglePopover={onClose}
+              showCreateTeam={setActiveView('createTeam')}
+            />
+          )}
           )}
         </Popover>
         /* <PopoverContainer startOpen={createTeamOpen} triggerButtonRef={buttonRef}>
