@@ -1,5 +1,4 @@
-import React from 'react';
-import { chunk } from 'lodash';
+import React, { useState, useEffect } from 'react';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
@@ -76,10 +75,10 @@ const RecentProjects = () => {
 };
 
 const Ideas = ({ count }) => {
-  const { value: ideas } = useCollectionProjects({ id: 4571 }); 
-  if (!ideas) return 'Loading...';
-  const [ideasChunks] = 
-  const [initialIdeas, remainingIdeas] = partition()
+  const { value: ideas } = useCollectionProjects({ id: 4571 });
+  if (!ideas) return 'Loading';
+  const [ideasIdx, setIdeasIdx] = useState(0);
+  const activeIdeas = ideas.slice(ideasIdx, ideasIdx + count);
   
   return (
     <div className={styles.ideas}>
@@ -87,20 +86,19 @@ const Ideas = ({ count }) => {
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
         </Heading>
-        <Button variant="secondary" size="tiny">
+        <Button variant="secondary" size="tiny" onClick={() => setIdeasIdx(ideasIdx + count)}>
           More Ideas <Icon icon="new" />
         </Button>
       </div>
 
-      <div className={styles.ideasGrid}>{initialIdeas.map(<Idea />)}</div>
+      {ideas && <div className={styles.ideasGrid}>{activeIdeas.map(Idea)}</div>}
     </div>
   );
 };
 
-const Idea = (idea) => {
-  console.log(idea);
-  return 'idea';
-};
+const Idea = (idea) => (
+  <div>This is an idea</div>
+);
 
 const Stamp = ({ labelImage, label, icon }) => (
   <div className={styles.stamp}>
