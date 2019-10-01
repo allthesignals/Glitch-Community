@@ -3,7 +3,7 @@ import './polyfills';
 // Init our dayjs plugins
 import dayjs from 'dayjs';
 import relativeTimePlugin from 'dayjs/plugin/relativeTime';
-import { setLogLevel, setLogger, logging, createInstance } from '@optimizely/optimizely-sdk';
+import { createInstance } from '@optimizely/optimizely-sdk';
 
 import React from 'react';
 import ReactDOM, { hydrate, render } from 'react-dom';
@@ -42,8 +42,6 @@ window.bootstrap = async (container) => {
   });
 
   // Now initalize the Optimizely sdk
-  setLogLevel('warning');
-  setLogger(logging.createLogger());
   const optimizelyClientInstance = createInstance({
     sdkKey: process.env.OPTIMIZELY_KEY || OPTIMIZELY_KEY,
     datafile: window.OPTIMIZELY_DATA,
@@ -57,6 +55,7 @@ window.bootstrap = async (container) => {
         console.error(error);
       },
     },
+    logLevel: 'warning',
   });
 
   const element = (

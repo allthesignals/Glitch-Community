@@ -1,9 +1,6 @@
-const { setLogLevel, setLogger, logging, createInstance } = require('@optimizely/optimizely-sdk');
+const { createInstance } = require('@optimizely/optimizely-sdk');
 const { captureException } = require('@sentry/node');
 const constants = require('./constants').current;
-
-setLogLevel('warning');
-setLogger(logging.createLogger());
 
 const optimizelyClient = createInstance({
   sdkKey: process.env.OPTIMIZELY_KEY || constants.OPTIMIZELY_KEY,
@@ -17,6 +14,7 @@ const optimizelyClient = createInstance({
       console.error(error);
     },
   },
+  logLevel: 'warning',
 });
 
 const getOptimizelyClient = async () => {
