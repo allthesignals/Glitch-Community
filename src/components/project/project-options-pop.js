@@ -39,7 +39,13 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
         </ActionDescription>
       </PopoverActions>
       <PopoverActions type="dangerZone">
-        <Button variant="warning" onClick={() => { trackLeaveProject(project); togglePopover(); }}>
+        <Button
+          variant="warning"
+          onClick={() => {
+            trackLeaveProject(project);
+            togglePopover();
+          }}
+        >
           Leave Project
         </Button>
       </PopoverActions>
@@ -65,9 +71,7 @@ const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover
           [{ onClick: projectOptions.displayNewNote, label: 'Add Note', emoji: 'spiralNotePad' }],
           [{ onClick: projectOptions.addProjectToCollection && addToCollectionPopover, label: 'Add to Collection', emoji: 'framedPicture' }],
           [{ onClick: projectOptions.joinTeamProject, label: 'Join Project', emoji: 'rainbow' }],
-          [
-            { onClick: leaveProjectDirect && onClickLeaveProject, label: 'Leave Project', emoji: 'wave' },
-          ],
+          [{ onClick: leaveProjectDirect && onClickLeaveProject, label: 'Leave Project', emoji: 'wave' }],
           [
             { onClick: projectOptions.removeProjectFromTeam, label: 'Remove Project', emoji: 'thumbsDown', dangerZone: true },
             { onClick: onClickDeleteProject, label: 'Delete Project', emoji: 'bomb', dangerZone: true },
@@ -84,10 +88,12 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
 
   if (noProjectOptions) return null;
 
-  const toggleBeforeAction = (togglePopover, action) => action && ((...args) => {
-    togglePopover();
-    action(...args);
-  });
+  const toggleBeforeAction = (togglePopover, action) =>
+    action &&
+    ((...args) => {
+      togglePopover();
+      action(...args);
+    });
   const toggleBeforeActions = (togglePopover) => mapValues(projectOptions, (action) => toggleBeforeAction(togglePopover, action));
 
   return (
@@ -104,7 +110,12 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
                 createCollectionPopover={createCollection}
               />
             ),
-            createCollection: () => <CreateCollectionWithProject project={project} addProjectToCollection={projectOptions.addProjectToCollection} />,
+            createCollection: () => (
+              <CreateCollectionWithProject
+                project={project}
+                addProjectToCollection={toggleBeforeAction(togglePopover, projectOptions.addProjectToCollection)}
+              />
+            ),
             leaveProject: () => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={togglePopover} />,
           }}
         >
