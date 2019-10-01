@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { kebabCase, debounce } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, Title } from '@fogcreek/shared-components';
 
 
 import TextInput from 'Components/inputs/text-input';
-import { MultiPopoverTitle, PopoverDialog, PopoverInfo, PopoverActions, InfoDescription } from 'Components/popover';
 import { getPredicates, getTeamPair } from 'Models/words';
 import { getTeamLink } from 'Models/team';
 import { useAPI } from 'State/api';
@@ -16,7 +15,7 @@ import { emoji } from '../global.styl';
 
 // Create Team 🌿
 
-const CreateTeamPop = withRouter(({ history }) => {
+const CreateTeamPop = withRouter(({ onBack, history }) => {
   const api = useAPI();
   const trackSubmit = useTracker('Create Team submitted');
   const [state, replaceState] = useState({
@@ -119,9 +118,9 @@ const CreateTeamPop = withRouter(({ history }) => {
   const placeholder = 'Your Team Name';
 
   return (
-    <PopoverDialog align="right" className={styles.createTeamPop}>
+    <>
       <Title onBack={onBack}>
-        Create Team <Icon className={emoji} icon="herb" inTitle />
+        Create Team <Icon className={emoji} icon="herb" />
       </Title>
 
       <Info>
@@ -146,7 +145,7 @@ const CreateTeamPop = withRouter(({ history }) => {
       <Info>
         You can change this later
       </Info>
-    </PopoverDialog>
+    </>
   );
 });
 
