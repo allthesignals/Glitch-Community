@@ -44,16 +44,16 @@ export function getUserAvatarStyle(user, size) {
   };
 }
 
-export function getUserCoverUrl({ id, hasCoverImage, updatedAt, size = 'large' }) {
+export function getUserCoverUrl({ id, hasCoverImage, updatedAt, size = 'large' }, useDefaultImage = false) {
   const customImage = `${CDN_URL}/user-cover/${id}/${size}?${updatedAt}`;
   const defaultImage = 'https://cdn.glitch.com/b065beeb-4c71-4a9c-a8aa-4548e266471f%2Fuser-pattern.svg';
-  return hasCoverImage ? customImage : defaultImage;
+  return hasCoverImage && !useDefaultImage ? customImage : defaultImage;
 }
 
 export function getUserProfileStyle(params, type = '') {
   // five random light colors from randomcolor
   return {
     backgroundColor: lightColors[params.id % 4],
-    backgroundImage: type === 'dashboard' ? '' : `url('${getUserCoverUrl(params)}')`,
+    backgroundImage: `url('${getUserCoverUrl(params, type === 'dashboard')}')`,
   };
 }
