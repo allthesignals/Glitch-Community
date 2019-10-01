@@ -50,10 +50,10 @@ export function getUserCoverUrl({ id, hasCoverImage, updatedAt, size = 'large' }
   return hasCoverImage ? customImage : defaultImage;
 }
 
-export function getUserProfileStyle(params) {
+export function getUserProfileStyle(params, type = '') {
   // five random light colors from randomcolor
   return {
     backgroundColor: lightColors[params.id % 4],
-    backgroundImage: `url('${getUserCoverUrl(params)}')`,
+    backgroundImage: type === 'dashboard' ? '' : `url('${getUserCoverUrl(params)}')`,
   };
 }

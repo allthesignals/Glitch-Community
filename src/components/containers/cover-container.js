@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import TrackedButtonGroup from 'Components/buttons/tracked-button-group';
 
 import { getTeamProfileStyle } from 'Models/team';
-import { getUserProfileStyle } from 'Models/user';
+import { getUserProfileStyle, getDashboardProfileStyle } from 'Models/user';
 import styles from './cover-container.styl';
 
 const cx = classNames.bind(styles);
@@ -12,15 +12,17 @@ const cx = classNames.bind(styles);
 const getProfileStyles = {
   team: getTeamProfileStyle,
   user: getUserProfileStyle,
+  dashboard: getUserProfileStyle,
 };
 
 const CoverContainer = ({ coverActions, children, type, item }) => {
   const className = cx({
     coverContainer: true,
     hasCoverImage: item.hasCoverImage,
+    dashboard: type === 'dashboard',
   });
   return (
-    <div className={className} style={getProfileStyles[type](item)}>
+    <div className={className} style={getProfileStyles[type](item, type)}>
       {children}
       <div className={styles.buttonWrap}>{coverActions && <TrackedButtonGroup actions={coverActions} />}</div>
     </div>

@@ -55,7 +55,7 @@ const RecentProjects = () => {
         </UserLink>
       </Heading>
       {isAnonymousUser && <SignInNotice />}
-      <CoverContainer type="user" item={currentUser}>
+      <CoverContainer type="dashboard" item={currentUser}>
         <div className={styles.coverWrap}>
           <div className={styles.avatarWrap}>
             <WrappingLink user={currentUser} href={getUserLink(currentUser)}>
