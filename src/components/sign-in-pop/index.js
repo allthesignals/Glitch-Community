@@ -384,7 +384,7 @@ export const SignInPopBase = withRouter(({ location }) => {
             <SignInButton companyName="facebook" onClick={onSignInClick} />
             <SignInButton companyName="github" onClick={onSignInClick} />
             <SignInButton companyName="google" onClick={onSignInClick} />
-            <Button size="small" onClick={setDestinationAnd(showView.email)}>
+            <Button size="small" onClick={() => { onSignInClick(); showView(showView.email); }}>
               Sign in with Email <Icon className={emoji} icon="email" />
             </Button>
           </Actions>
