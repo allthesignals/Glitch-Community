@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
@@ -9,7 +8,6 @@ import TextInput from 'Components/inputs/text-input';
 import Link from 'Components/link';
 import Notification from 'Components/notification';
 import TwoFactorForm from 'Components/sign-in/two-factor-form';
-import { MultiPopover } from 'Components/popover';
 import useEmail from 'Hooks/use-email';
 import useLocalStorage from 'State/local-storage';
 import { useAPI } from 'State/api';
@@ -127,7 +125,8 @@ const EmailHandler = ({ showView }) => {
   return (
     <>
       <Title>
-        Email Sign In&nbsp;<Icon className={emoji} icon="email" />
+        Email Sign In&nbsp;
+        <Icon className={emoji} icon="email" />
       </Title>
       <Actions>
         {status === 'ready' && (
@@ -330,7 +329,7 @@ export const SignInPopBase = withRouter(({ location }) => {
   const [, setDestination] = useLocalStorage('destinationAfterAuth');
   const [tfaToken, setTfaToken] = React.useState('');
 
-  const onClick = () =>
+  const onSignInClick = () =>
     setDestination({
       expires: dayjs()
         .add(10, 'minutes')
@@ -342,7 +341,7 @@ export const SignInPopBase = withRouter(({ location }) => {
     });
 
   const setDestinationAnd = (next) => () => {
-    onClick();
+    onSignInClick();
     next();
   };
 
@@ -352,10 +351,17 @@ export const SignInPopBase = withRouter(({ location }) => {
   };
 
   return (
-    <MultiPopover
+    <Popover
+      align="right"
+      className={mediumPopover}
+      renderLabel={({ onClick, ref }) => (
+        <Button onClick={onClick} ref={ref} size="small">
+          Sign in
+        </Button>
+      )}
       views={{
-        email: (showView) => <EmailHandler showView={showView} />,
-        signInCode: (showView) => <SignInWithCode showTwoFactor={setTwoFactorAnd(showView.twoFactor)} />,
+        email: (showView, onBack) => <EmailHandler onBack={onBack} showView={showView} />,
+        signInCode: (showView, onBack) => <SignInWithCode onBack={onBack} showTwoFactor={setTwoFactorAnd(showView.twoFactor)} />,
         twoFactor: () => <TwoFactorSignIn token={tfaToken} />,
         forgotPassword: () => <ForgotPasswordHandler />,
       }}
@@ -375,9 +381,9 @@ export const SignInPopBase = withRouter(({ location }) => {
             <PasswordLoginSection showTwoFactor={setTwoFactorAnd(showView.twoFactor)} showForgotPassword={showView.forgotPassword} />
           )}
           <Actions>
-            <SignInButton companyName="facebook" onClick={onClick} />
-            <SignInButton companyName="github" onClick={onClick} />
-            <SignInButton companyName="google" onClick={onClick} />
+            <SignInButton companyName="facebook" onClick={onSignInClick} />
+            <SignInButton companyName="github" onClick={onSignInClick} />
+            <SignInButton companyName="google" onClick={onSignInClick} />
             <Button size="small" onClick={setDestinationAnd(showView.email)}>
               Sign in with Email <Icon className={emoji} icon="email" />
             </Button>
@@ -385,18 +391,10 @@ export const SignInPopBase = withRouter(({ location }) => {
           <SignInCodeSection onClick={setDestinationAnd(showView.signInCode)} />
         </>
       )}
-    </MultiPopover>
+    </Popover>
   );
 });
 
-const SignInPopContainer = ({ align }) => (
-  <Popover align={align} className={mediumPopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small">Sign in</Button>}>
-    {() => <SignInPopBase />}
-  </Popover>
-);
-
-SignInPopContainer.propTypes = {
-  align: PropTypes.string.isRequired,
-};
+const SignInPopContainer = () => <SignInPopBase />;
 
 export default SignInPopContainer;
