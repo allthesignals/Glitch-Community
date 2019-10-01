@@ -18,6 +18,7 @@ GlobalsProvider.propTypes = {
   origin: PropTypes.string.isRequired,
   EXTERNAL_ROUTES: PropTypes.array.isRequired,
   HOME_CONTENT: PropTypes.object.isRequired,
+  PUPDATES_CONTENT: PropTypes.array.isRequired,
   SSR_SIGNED_IN: PropTypes.bool.isRequired,
   ZINE_POSTS: PropTypes.array.isRequired,
 };
