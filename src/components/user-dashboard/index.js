@@ -76,7 +76,7 @@ const RecentProjects = () => {
 };
 
 const Ideas = ({ count }) => {
-  const { value: ideas } = useCollectionProjects({ id: 4571 });
+  const { value: ideas } = useCollectionProjects({ id: 13045 });
   const [ideasIdx, setIdeasIdx] = useState(0);
   
   return (
@@ -85,7 +85,7 @@ const Ideas = ({ count }) => {
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
         </Heading>
-        <Button variant="secondary" size="tiny" onClick={() => setIdeasIdx(ideasIdx + count)}>
+        <Button variant="secondary" size="small" onClick={() => setIdeasIdx(ideasIdx + count)}>
           More Ideas <Icon icon="new" />
         </Button>
       </div>
@@ -95,10 +95,15 @@ const Ideas = ({ count }) => {
   );
 };
 
-const Idea = ({ domain, description }) => (
+const Idea = (idea) => (
   <div className={styles.idea}>
-    <Button as="a" href={getProjectLink(domain)}>{domain}</Button>
-    <Text>{description}</Text>
+    <div>
+      <Button as="a" href={getProjectLink(idea.domain)}>{idea.domain}</Button>
+      <Text>{idea.description}</Text>
+    </div>
+    <div className={styles.ideaThumbnailContainer}>
+      <Image src={`https://cdn.glitch.com/${idea.id}/thumbnail.png`} alt="" />
+    </div>
   </div>
 );
 
