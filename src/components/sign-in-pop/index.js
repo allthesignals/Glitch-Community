@@ -9,7 +9,6 @@ import TextInput from 'Components/inputs/text-input';
 import Link from 'Components/link';
 import Notification from 'Components/notification';
 import TwoFactorForm from 'Components/sign-in/two-factor-form';
-import { MultiPopover } from 'Components/popover';
 import useEmail from 'Hooks/use-email';
 import useLocalStorage from 'State/local-storage';
 import { useAPI } from 'State/api';
@@ -326,12 +325,12 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
   );
 };
 
-export const SignInPopBase = withRouter(({ location }) => {
+export const SignInPopBase = withRouter(({ align, location }) => {
   const userPasswordEnabled = useDevToggle('User Passwords');
   const [, setDestination] = useLocalStorage('destinationAfterAuth');
   const [tfaToken, setTfaToken] = React.useState('');
 
-  const onClick = () =>
+  const onSignInClick = () =>
     setDestination({
       expires: dayjs()
         .add(10, 'minutes')
@@ -343,7 +342,7 @@ export const SignInPopBase = withRouter(({ location }) => {
     });
 
   const setDestinationAnd = (next) => () => {
-    onClick();
+    onSignInClick();
     next();
   };
 
@@ -354,7 +353,7 @@ export const SignInPopBase = withRouter(({ location }) => {
 
   return (
     <Popover
-      align="right"
+      align={align}
       className={mediumPopover}
       renderLabel={({ onClick, ref }) => (
         <Button onClick={onClick} ref={ref} size="small">
@@ -383,10 +382,10 @@ export const SignInPopBase = withRouter(({ location }) => {
             <PasswordLoginSection showTwoFactor={setTwoFactorAnd(showView.twoFactor)} showForgotPassword={showView.forgotPassword} />
           )}
           <Actions>
-            <SignInButton companyName="facebook" onClick={onClick} />
-            <SignInButton companyName="github" onClick={onClick} />
-            <SignInButton companyName="google" onClick={onClick} />
-            <Button size="small" onClick={setDestinationAnd(showView.email)}>
+            <SignInButton companyName="facebook" onClick={onSignInClick} />
+            <SignInButton companyName="github" onClick={onSignInClick} />
+            <SignInButton companyName="google" onClick={onSignInClick} />
+            <Button size="small" onClick={() => {onSignInClick(); showView.email}>
               Sign in with Email <Icon className={emoji} icon="email" />
             </Button>
           </Actions>
