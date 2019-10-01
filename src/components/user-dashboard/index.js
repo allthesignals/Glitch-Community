@@ -1,4 +1,5 @@
 import React from 'react';
+import { chunk } from 'lodash';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
@@ -64,10 +65,10 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} /> : <Loader style={{ width: '25px' }} />}
+            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 1)} /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
-        <Ideas count={1} />
+        <Ideas count={2} />
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
@@ -75,8 +76,10 @@ const RecentProjects = () => {
 };
 
 const Ideas = ({ count }) => {
-  const { value: projects } = useCollectionProjects({ id: 4571 }); 
-  if (!projects) return 'Loading...';
+  const { value: ideas } = useCollectionProjects({ id: 4571 }); 
+  if (!ideas) return 'Loading...';
+  const [ideasChunks] = 
+  const [initialIdeas, remainingIdeas] = partition()
   
   return (
     <div className={styles.ideas}>
@@ -89,12 +92,15 @@ const Ideas = ({ count }) => {
         </Button>
       </div>
 
-      <div className={styles.ideasGrid}>ideas</div>
+      <div className={styles.ideasGrid}>{initialIdeas.map(<Idea />)}</div>
     </div>
   );
 };
 
-const Idea = () => 'idea';
+const Idea = (idea) => {
+  console.log(idea);
+  return 'idea';
+};
 
 const Stamp = ({ labelImage, label, icon }) => (
   <div className={styles.stamp}>
