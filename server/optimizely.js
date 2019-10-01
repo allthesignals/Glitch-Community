@@ -1,4 +1,5 @@
 const { setLogLevel, setLogger, logging, createInstance } = require('@optimizely/optimizely-sdk');
+const { captureException } = require('@sentry/node');
 const constants = require('./constants').current;
 
 setLogLevel('warning');
@@ -9,6 +10,12 @@ const optimizelyClient = createInstance({
   datafileOptions: {
     autoUpdate: true,
     updateInterval: 60 * 1000, // check once per minute
+  },
+  errorHandler: {
+    handleError: (error) => {
+      captureException(error);
+      console.error(error);
+    },
   },
 });
 

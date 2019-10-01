@@ -10,7 +10,7 @@ import ReactDOM, { hydrate, render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import convertPlugin from 'Shared/dayjs-convert';
-import { configureScope } from 'Utils/sentry';
+import { configureScope, captureException } from 'Utils/sentry';
 import { EDITOR_URL, OPTIMIZELY_KEY } from 'Utils/constants';
 import { TestsProvider } from 'State/ab-tests';
 import { GlobalsProvider } from 'State/globals';
@@ -50,6 +50,12 @@ window.bootstrap = async (container) => {
     datafileOptions: {
       autoUpdate: true,
       updateInterval: 60 * 1000, // check once per minute
+    },
+    errorHandler: {
+      handleError: (error) => {
+        captureException(error);
+        console.error(error);
+      },
     },
   });
 
