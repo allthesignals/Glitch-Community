@@ -89,10 +89,12 @@ const Ideas = ({ count }) => {
         </Button>
       </div>
 
-      <div className={styles.ideasGrid}>{[].slice(0, count).map(<Idea />)}</div>
+      <div className={styles.ideasGrid}>ideas</div>
     </div>
   );
 };
+
+const Idea = () => 'idea';
 
 const Stamp = ({ labelImage, label, icon }) => (
   <div className={styles.stamp}>
