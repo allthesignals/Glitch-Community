@@ -66,6 +66,7 @@ window.bootstrap = async (container) => {
         origin={window.location.origin}
         EXTERNAL_ROUTES={window.EXTERNAL_ROUTES}
         HOME_CONTENT={window.HOME_CONTENT}
+        PUPDATES_CONTENT={window.PUPDATES_CONTENT}
         SSR_SIGNED_IN={window.SSR_SIGNED_IN}
         ZINE_POSTS={window.ZINE_POSTS}
       >

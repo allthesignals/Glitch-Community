@@ -7,12 +7,13 @@ import { TestsProvider } from 'State/ab-tests';
 import { OptimizelyProvider } from 'State/optimizely';
 import App from './app';
 
-const Page = ({ origin, route, AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS, optimizely, helmetContext }) => (
+const Page = ({ origin, route, AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS, optimizely, helmetContext }) => (
   <StaticRouter location={route}>
     <GlobalsProvider
       origin={origin}
       EXTERNAL_ROUTES={EXTERNAL_ROUTES}
       HOME_CONTENT={HOME_CONTENT}
+      PUPDATES_CONTENT={PUPDATES_CONTENT}
       SSR_SIGNED_IN={SSR_SIGNED_IN}
       ZINE_POSTS={ZINE_POSTS}
     >

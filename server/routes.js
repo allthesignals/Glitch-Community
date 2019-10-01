@@ -17,8 +17,8 @@ const constants = require('./constants');
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { defaultProjectDescriptionPattern } = require('../shared/regex');
-const { getData, saveDataToFile } = require('./home');
 const { getOptimizelyData } = require('./optimizely');
+const { getData, saveDataToFile } = require('./curated');
 
 const DEFAULT_USER_DESCRIPTION = (login, name) => `See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
 const DEFAULT_TEAM_DESCRIPTION = (login, name) => `See what Team ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
@@ -82,7 +82,7 @@ module.exports = function(external) {
 
     const assignments = getAssignments(req, res);
     const signedIn = !!req.cookies.hasLogin;
-    const [zine, homeContent] = await Promise.all([getZine(), getData('home')]);
+    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
 
     let ssr = { rendered: null, styleTags: '' };
     if (shouldRender) {
@@ -93,6 +93,7 @@ module.exports = function(external) {
           API_CACHE: cache,
           EXTERNAL_ROUTES: external,
           HOME_CONTENT: homeContent,
+          PUPDATES_CONTENT: pupdatesContent,
           SSR_SIGNED_IN: signedIn,
           ZINE_POSTS: zine || [],
         });
@@ -121,6 +122,7 @@ module.exports = function(external) {
       EXTERNAL_ROUTES: external,
       ZINE_POSTS: zine || [],
       HOME_CONTENT: homeContent,
+      PUPDATES_CONTENT: pupdatesContent,
       SSR_SIGNED_IN: signedIn,
       AB_TESTS: assignments,
       OPTIMIZELY_DATA: await getOptimizelyData(),

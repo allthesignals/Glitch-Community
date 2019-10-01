@@ -69,7 +69,7 @@ setImmediate(() => {
   }
 });
 
-const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
+const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
   const { Page, resetState } = requireClient();
   resetState();
   const sheet = new ServerStyleSheet();
@@ -85,6 +85,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
     API_CACHE,
     ZINE_POSTS,
     HOME_CONTENT,
+    PUPDATES_CONTENT,
     SSR_SIGNED_IN,
     EXTERNAL_ROUTES,
   });
@@ -93,7 +94,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
   const styleTags = sheet.getStyleTags();
   sheet.seal();
   const OPTIMIZELY_DATA = await getOptimizelyData();
-  const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_DATA, SSR_SIGNED_IN, ZINE_POSTS };
+  const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_DATA, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
   return { html, helmet: helmetContext.helmet, context, styleTags };
 };
 
