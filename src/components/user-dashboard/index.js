@@ -99,7 +99,7 @@ const Idea = (idea) => (
   <div className={styles.idea}>
     <div className={styles.ideaContentContainer}>
       <Button as="a" href={getProjectLink(idea.domain)}>{idea.domain}</Button>
-      <Text defaultMargin size="14px">{idea.description}</Text>
+      <Text size="14px">{idea.description}</Text>
     </div>
     <div className={styles.ideaThumbnailContainer}>
       <Image src={`https://cdn.glitch.com/${idea.id}/thumbnail.png`} alt="" />
