@@ -14,7 +14,7 @@ const optimizelyClient = createInstance({
       console.error(error);
     },
   },
-  logLevel: 'warning',
+  logLevel: 'warn',
 });
 
 const getOptimizelyClient = async () => {
