@@ -340,11 +340,6 @@ export const SignInPopBase = withRouter(({ location }) => {
       },
     });
 
-  const setDestinationAnd = (next) => () => {
-    onSignInClick();
-    next();
-  };
-
   const setTwoFactorAnd = (next) => (token) => {
     setTfaToken(token);
     next();
@@ -360,15 +355,15 @@ export const SignInPopBase = withRouter(({ location }) => {
         </Button>
       )}
       views={{
-        email: (showView, onBack, focusedOnMount) => <EmailHandler onBack={onBack} onBackRef={focusedOnMount} showView={showView} />,
-        signInCode: (showView, onBack) => <SignInWithCode onBack={onBack} showTwoFactor={setTwoFactorAnd(showView.twoFactor)} />,
+        email: (showView, onBack) => <EmailHandler onBack={onBack} showView={showView} />,
+        signInCode: (showView, onBack) => <SignInWithCode onBack={onBack} showTwoFactor={(setTwoFactorAnd(showView.twoFactor))} />,
         twoFactor: () => <TwoFactorSignIn token={tfaToken} />,
         forgotPassword: () => <ForgotPasswordHandler />,
       }}
     >
-      {({ setActiveView }) => (
+      {({ setActiveView, onBack }) => (
         <>
-          <Info>
+          <Info onBack={onBack}>
             <Icon className={emoji} icon="carpStreamer" /> New to Glitch? Create an account by signing in.
           </Info>
           <Info>
@@ -378,7 +373,7 @@ export const SignInPopBase = withRouter(({ location }) => {
             </div>
           </Info>
           {userPasswordEnabled && (
-            <PasswordLoginSection showTwoFactor={() => { setTfaToken(tfaToken); setActiveView('twoFactor'); }} showForgotPassword={setActiveView('forgotPassword')} />
+            <PasswordLoginSection showTwoFactor={() => { setTfaToken(tfaToken); setActiveView('twoFactor'); }} showForgotPassword={() => { setActiveView('forgotPassword'); }} />
           )}
           <Actions>
             <SignInButton companyName="facebook" onClick={onSignInClick} />
