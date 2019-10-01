@@ -91,7 +91,7 @@ const NewStuff = ({ children }) => {
   const [showNewStuff, setShowNewStuff] = useUserPref('showNewStuff', true);
   const [newStuffReadId, setNewStuffReadId] = useUserPref('newStuffReadId', 0);
   const { PUPDATES_CONTENT: { pupdates } } = useGlobals();
-  
+
   const latestId = Math.max(...pupdates.map(({ id }) => id));
 
   const [log, setLog] = useState(pupdates);
