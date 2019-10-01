@@ -96,7 +96,7 @@ const Postcards = () => {
             stampIcon="dogFace"
             outerBorderColor="#7460E1"
             innerBorderColor="#EAE6FF"
-            buttonText="All New Features"
+            buttonText="All Updates"
             buttonProps={{ onClick: showNewStuffOverlay }}
             thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
           >
