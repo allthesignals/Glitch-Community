@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
@@ -325,7 +324,7 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
   );
 };
 
-export const SignInPopBase = withRouter(({ align, location }) => {
+export const SignInPopBase = withRouter(({ location }) => {
   const userPasswordEnabled = useDevToggle('User Passwords');
   const [, setDestination] = useLocalStorage('destinationAfterAuth');
   const [tfaToken, setTfaToken] = React.useState('');
@@ -353,7 +352,7 @@ export const SignInPopBase = withRouter(({ align, location }) => {
 
   return (
     <Popover
-      align={align}
+      align="right"
       className={mediumPopover}
       renderLabel={({ onClick, ref }) => (
         <Button onClick={onClick} ref={ref} size="small">
@@ -385,7 +384,7 @@ export const SignInPopBase = withRouter(({ align, location }) => {
             <SignInButton companyName="facebook" onClick={onSignInClick} />
             <SignInButton companyName="github" onClick={onSignInClick} />
             <SignInButton companyName="google" onClick={onSignInClick} />
-            <Button size="small" onClick={() => {onSignInClick(); showView.email}>
+            <Button size="small" onClick={setDestinationAnd(showView.email)}>
               Sign in with Email <Icon className={emoji} icon="email" />
             </Button>
           </Actions>
@@ -397,9 +396,5 @@ export const SignInPopBase = withRouter(({ align, location }) => {
 });
 
 const SignInPopContainer = () => <SignInPopBase />;
-
-SignInPopContainer.propTypes = {
-  align: PropTypes.string.isRequired,
-};
 
 export default SignInPopContainer;
