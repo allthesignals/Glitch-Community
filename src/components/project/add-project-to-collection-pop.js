@@ -34,7 +34,7 @@ const collectionTypeOptions = [
   },
 ];
 
-const AddProjectPopoverTitle = ({ project }) => (
+const AddProjectPopoverTitle = ({ project, onBack }) => (
   <Title onBack={onBack}>
     <ProjectAvatar project={project} tiny />
     &nbsp;Add {project.domain} to collection
@@ -115,7 +115,7 @@ function useCollectionSearch(query, project, collectionType) {
   return { status: searchResults.status, collections, collectionsWithProject };
 }
 
-export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToCollection, togglePopover, createCollectionPopover }) => {
+export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToCollection, togglePopover, onBack, createCollectionPopover }) => {
   const [collectionType, setCollectionType] = useState('user');
   const [query, setQuery] = useState('');
   const { status, collections, collectionsWithProject } = useCollectionSearch(query, project, collectionType);
@@ -143,7 +143,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
   return (
     <>
       {/* Only show this nested popover title from project-options */}
-      {fromProject && <AddProjectPopoverTitle project={project} />}
+      {fromProject && <AddProjectPopoverTitle project={project} onBack={onBack} />}
 
       {currentUser.teams.length > 0 && (
         <Actions>
@@ -205,31 +205,27 @@ const AddProjectToCollection = ({ project, addProjectToCollection }) => (
         Add to Collection <Icon className={emoji} icon="framedPicture" />
       </Button>
     )}
+    views={{
+      createCollectionPopover: ({ onClick }) => (
+        <CreateCollectionWithProject
+          addProjectToCollection={(...args) => {
+            addProjectToCollection(...args);
+            onClick();
+          }}
+          project={project}
+        />
+      ),
+    }}
   >
-    {({ onClick }) => (
-      <MultiPopover
-        views={{
-          createCollectionPopover: () => (
-            <CreateCollectionWithProject
-              addProjectToCollection={(...args) => {
-                addProjectToCollection(...args);
-                onClick();
-              }}
-              project={project}
-            />
-          ),
-        }}
-      >
-        {({ createCollectionPopover }) => (
+        {({ createCollectionPopover, onClose, setActiveView }) => (
           <AddProjectToCollectionBase
             addProjectToCollection={addProjectToCollection}
             fromProject={false}
             project={project}
-            togglePopover={onClick}
-            createCollectionPopover={createCollectionPopover}
+            togglePopover={onClose}
+            createCollectionPopover={() => setActiveView('createCollectionPopover') }}
           />
         )}
-      </MultiPopover>
     )}
   </Popover>
 );
