@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 import { Actions, Button, CheckboxButton, Icon, Info, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
@@ -66,20 +66,20 @@ TeamList.propTypes = {
 
 // User Options 🧕
 
-const UserOptionsPop = ({ onClose, showCreateTeam, showAccountSettingsOverlay, showNewStuffOverlay }) => {
+const UserOptionsPop = ({ togglePopover, showCreateTeam, showAccountSettingsOverlay, showNewStuffOverlay }) => {
   const { currentUser: user, clear: signOut } = useCurrentUser();
   const { superUserFeature, canBecomeSuperUser, toggleSuperUser } = useSuperUserHelpers();
 
   const trackLogout = useTracker('Logout');
 
   const clickNewStuff = (event) => {
-    onClose();
+    togglePopover();
     showNewStuffOverlay();
     event.stopPropagation();
   };
 
   const clickAccountSettings = (event) => {
-    onClose();
+    togglePopover();
     showAccountSettingsOverlay();
     event.stopPropagation();
   };
@@ -94,7 +94,7 @@ Are you sure you want to sign out?`)
         return;
       }
     }
-    onClose();
+    togglePopover();
     trackLogout();
     window.analytics.reset();
     signOut();
@@ -168,7 +168,6 @@ function CheckForCreateTeamHash(props) {
 export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettingsOverlay, showNewStuffOverlay }) {
   const { currentUser: user } = useCurrentUser();
   const avatarStyle = { backgroundColor: user.color };
-  const buttonRef = useRef();
 
   return (
     <CheckForCreateTeamHash>
@@ -176,9 +175,9 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
         <Popover
           initialView={createTeamOpen ? 'createTeam' : 'UserOptionsPop'}
           align="right"
-          renderLabel={({ onClick }) => {
+          renderLabel={({ onClick, ref }) => {
             const userOptionsButton = (
-              <UnstyledButton type="dropDown" onClick={onClick} decorative={!user.id} ref={buttonRef}>
+              <UnstyledButton type="dropDown" onClick={onClick} decorative={!user.id} ref={ref}>
                 <span className={styles.userOptionsWrap}>
                   <span className={styles.userOptionsButtonAvatar}>
                     <UserAvatar user={user} hideTooltip withinButton style={avatarStyle} />
@@ -198,7 +197,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
             <UserOptionsPop
               showAccountSettingsOverlay={showAccountSettingsOverlay}
               showNewStuffOverlay={showNewStuffOverlay}
-              onClose={onClose}
+              togglePopover={onClose}
               showCreateTeam={() => { setActiveView('createTeam'); }}
             />
           )}
