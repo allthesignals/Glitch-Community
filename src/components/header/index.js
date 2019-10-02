@@ -14,14 +14,6 @@ import { useGlobals } from 'State/globals';
 import Logo from './logo';
 import styles from './header.styl';
 
-const ResumeCoding = () => (
-  <TrackedExternalLink name="Resume Coding clicked" to={EDITOR_URL}>
-    <Button variant="cta" size="small" as="span">
-      Resume Coding
-    </Button>
-  </TrackedExternalLink>
-);
-
 const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay }) => {
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN } = useGlobals();
@@ -47,11 +39,6 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay }
             {(signedIn || signedOut) && (
               <li className={styles.buttonWrap}>
                 <NewProjectPop />
-              </li>
-            )}
-            {hasProjects && (
-              <li className={styles.buttonWrap}>
-                <ResumeCoding />
               </li>
             )}
             {signedOut && (
