@@ -89,7 +89,7 @@ const AppsWeLove = ({ content }) => {
           <Link key={id} to={`/~${domain}`} className={classnames(styles.plainLink, styles.appItemMini)}>
             <img src={getProjectAvatarUrl({ id })} alt="" className={styles.appAvatar} />
             <div className={styles.appContent}>
-              <h4 className={styles.h4}>{title}</h4>
+              <h3 className={styles.h4}>{title}</h3>
               <p>{description}</p>
             </div>
           </Link>
@@ -107,7 +107,7 @@ const AppsWeLove = ({ content }) => {
               </div>
               <div className={classnames(styles.appItem, i === currentTab && styles.active)}>
                 <div className={styles.appContent}>
-                  <h4 className={styles.h4}>{title}</h4>
+                  <h3 className={styles.h4}>{title}</h3>
                   <p>{description}</p>
                 </div>
                 <img src={getProjectAvatarUrl({ id })} alt="" className={styles.appAvatar} />
