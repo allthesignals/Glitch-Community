@@ -137,10 +137,14 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
             togglePopover={onClose}
             onBack={onBack}
             addProjectToCollection={projectOptions.addProjectToCollection}
-            createCollectionPopover={() => { setActiveView('createCollection'); }}
+            createCollectionPopover={() => {
+              setActiveView('createCollection');
+            }}
           />
         ),
-        createCollection: ({ onBack }) => <CreateCollectionWithProject onBack={onBack} project={project} addProjectToCollection={projectOptions.addProjectToCollection} />,
+        createCollection: ({ onBack }) => (
+          <CreateCollectionWithProject onBack={onBack} project={project} addProjectToCollection={projectOptions.addProjectToCollection} />
+        ),
         leaveProject: ({ onClose }) => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={onClose} />,
       }}
     >
@@ -148,8 +152,12 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
         <ProjectOptionsContent
           project={project}
           projectOptions={toggleBeforeActions(onClose)}
-          addToCollectionPopover={() => { setActiveView('addToCollection'); }}
-          leaveProjectPopover={() => { setActiveView('leaveProject'); }}
+          addToCollectionPopover={() => {
+            setActiveView('addToCollection');
+          }}
+          leaveProjectPopover={() => {
+            setActiveView('leaveProject');
+          }}
           leaveProjectDirect={toggleBeforeAction(onClose, projectOptions.leaveProject)}
         />
       )}
