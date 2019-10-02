@@ -123,7 +123,13 @@ const Ideas = ({ count }) => {
         </Button>
       </div>
 
-      {ideas && <div className={styles.ideasGrid}>{ideas.slice(ideasIdx, ideasIdx + count).map((project) => <Idea project={project} />)}</div>}
+      {ideas && (
+        <div className={styles.ideasGrid}>
+          {ideas.slice(ideasIdx, ideasIdx + count).map((project) => (
+            <Idea project={project} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
