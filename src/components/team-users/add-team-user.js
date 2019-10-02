@@ -182,18 +182,6 @@ const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setW
         />
       )}
     </Popover>
-    /* <PopoverWithButton buttonProps={{ size: 'small', variant: 'secondary' }} buttonText="Add" onOpen={track}>
-      {({ toggleAndCall }) => (
-        <AddTeamUserPop
-          members={members}
-          whitelistedDomain={whitelistedDomain}
-          setWhitelistedDomain={toggleAndCall(setWhitelistedDomain)}
-          inviteUser={toggleAndCall(inviteUser)}
-          inviteEmail={toggleAndCall(inviteEmail)}
-        />
-      )}
-    </PopoverWithButton>
-    */
   );
 };
 AddTeamUser.propTypes = {
