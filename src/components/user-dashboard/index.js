@@ -77,7 +77,7 @@ const RecentProjects = () => {
   );
 };
 
-const Idea = (project) => {
+const Idea = ({ project }) => {
   const { currentUser } = useCurrentUser();
   const [hasBookmarked, toggleBookmark] = useToggleBookmark(project);
 
@@ -121,7 +121,7 @@ const Ideas = ({ count }) => {
         </Button>
       </div>
 
-      {ideas && <div className={styles.ideasGrid}>{ideas.slice(ideasIdx, ideasIdx + count).map(Idea)}</div>}
+      {ideas && <div className={styles.ideasGrid}>{ideas.slice(ideasIdx, ideasIdx + count).map((project) => <Idea project={project} />)}</div>}
     </div>
   );
 };
