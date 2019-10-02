@@ -66,20 +66,20 @@ TeamList.propTypes = {
 
 // User Options 🧕
 
-const UserOptionsPop = ({ togglePopover, showCreateTeam, showAccountSettingsOverlay, showNewStuffOverlay }) => {
+const UserOptionsPop = ({ onClose, showCreateTeam, showAccountSettingsOverlay, showNewStuffOverlay }) => {
   const { currentUser: user, clear: signOut } = useCurrentUser();
   const { superUserFeature, canBecomeSuperUser, toggleSuperUser } = useSuperUserHelpers();
 
   const trackLogout = useTracker('Logout');
 
   const clickNewStuff = (event) => {
-    togglePopover();
+    onClose();
     showNewStuffOverlay();
     event.stopPropagation();
   };
 
   const clickAccountSettings = (event) => {
-    togglePopover();
+    onClose();
     showAccountSettingsOverlay();
     event.stopPropagation();
   };
@@ -94,7 +94,7 @@ Are you sure you want to sign out?`)
         return;
       }
     }
-    togglePopover();
+    onClose();
     trackLogout();
     window.analytics.reset();
     signOut();
@@ -196,9 +196,9 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
         >
           {({ onClose, setActiveView }) => (
             <UserOptionsPop
-              showAccountSettingsOverlay={() => {onClose(); showAccountSettingsOverlay(); }}
+              showAccountSettingsOverlay={showAccountSettingsOverlay}
               showNewStuffOverlay={showNewStuffOverlay}
-              togglePopover={onClose}
+              onClose={onClose}
               showCreateTeam={() => { setActiveView('createTeam'); }}
             />
           )}
