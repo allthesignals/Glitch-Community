@@ -32,7 +32,7 @@ let needsTranspile = true;
 // it'll get loaded off the disk again when the render calls require
 require('chokidar').watch(directory).on('change', () => {
   needsTranspile = true;
-  clearCache();
+  clearCache(); // clear the server rendering cache
 });
 
 const requireClient = () => {
