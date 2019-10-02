@@ -172,8 +172,9 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
 
   return (
     <CheckForCreateTeamHash>
-      {() => (
+      {(createTeamOpen) => (
         <Popover
+          initialView={createTeamOpen ? 'createTeam' : 'UserOptionsPop'}
           align="right"
           renderLabel={({ onClick }) => {
             const userOptionsButton = (
@@ -193,52 +194,15 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
             createTeam: ({ onBack }) => <CreateTeamPop onBack={onBack} />,
           }}
         >
-          {({ onClose, setActiveView, createTeam }) => (
+          {({ onClose, setActiveView }) => (
             <UserOptionsPop
-              showAccountSettingsOverlay={showAccountSettingsOverlay}
+              showAccountSettingsOverlay={() => {onClose(); showAccountSettingsOverlay(); }}
               showNewStuffOverlay={showNewStuffOverlay}
               togglePopover={onClose}
               showCreateTeam={() => { setActiveView('createTeam'); }}
             />
           )}
         </Popover>
-        /* <PopoverContainer startOpen={createTeamOpen} triggerButtonRef={buttonRef}>
-          {({ togglePopover, visible }) => {
-            const userOptionsButton = (
-              <UnstyledButton type="dropDown" onClick={togglePopover} decorative={!user.id} ref={buttonRef}>
-                <span className={styles.userOptionsWrap}>
-                  <span className={styles.userOptionsButtonAvatar}>
-                    <UserAvatar user={user} hideTooltip withinButton style={avatarStyle} />
-                  </span>
-                  <span className={styles.userOptionsArrow}>
-                    <Icon icon="chevronDown" />
-                  </span>
-                </span>
-              </UnstyledButton>
-            );
-
-            return (
-              <TooltipContainer target={userOptionsButton} tooltip="User options" type="action" align={['right']}>
-                {visible && (
-                  <MultiPopover
-                    views={{
-                      createTeam: () => <CreateTeamPop />,
-                    }}
-                  >
-                    {({ createTeam }) => (
-                      <UserOptionsPop
-                        showAccountSettingsOverlay={showAccountSettingsOverlay}
-                        showNewStuffOverlay={showNewStuffOverlay}
-                        togglePopover={togglePopover}
-                        showCreateTeam={createTeam}
-                      />
-                    )}
-                  </MultiPopover>
-                )}
-              </TooltipContainer>
-            );
-          }}
-        </PopoverContainer> */
       )}
     </CheckForCreateTeamHash>
   );
