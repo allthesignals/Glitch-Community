@@ -28,6 +28,75 @@ import { useGlobals } from 'State/globals';
 import styles from './container.styl';
 import { emoji } from '../global.styl';
 
+const GridView = ({ isAuthorized, funcs, collectionHasProjects, featuredProject, collection, projects, enableSorting, displayHint }) => {
+  return (
+    <>
+      <div className={styles.collectionProjectContainerHeader}>
+        {isAuthorized && funcs.addProjectToCollection && (
+          <AddCollectionProject addProjectToCollection={funcs.addProjectToCollection} collection={collection} />
+        )}
+      </div>
+      {!collectionHasProjects && isAuthorized && (
+        <div className={styles.emptyCollectionHint}>
+          <Image src="https://cdn.glitch.com/1afc1ac4-170b-48af-b596-78fe15838ad3%2Fpsst-pink.svg?1541086338934" alt="psst" width="" height="" />
+          <Text className={isDarkColor(collection.coverColor) && styles.dark}>You can add any project, created by any user</Text>
+        </div>
+      )}
+      {!collectionHasProjects && !isAuthorized && <div className={styles.emptyCollectionHint}>No projects to see in this collection just yet.</div>}
+      {featuredProject && (
+        <FeaturedProject
+          isAuthorized={isAuthorized}
+          featuredProject={featuredProject}
+          unfeatureProject={funcs.unfeatureProject}
+          addProjectToCollection={funcs.addProjectToCollection}
+          collection={collection}
+          displayNewNote={funcs.displayNewNote}
+          updateNote={funcs.updateNote}
+          hideNote={funcs.hideNote}
+        />
+      )}
+      {collectionHasProjects && (
+        <ProjectsList
+          layout="gridCompact"
+          projects={projects}
+          collection={collection}
+          enableSorting={enableSorting}
+          onReorder={funcs.updateProjectOrder}
+          noteOptions={{
+            hideNote: funcs.hideNote,
+            updateNote: funcs.updateNote,
+            isAuthorized,
+          }}
+          projectOptions={{ ...funcs, collection }}
+        />
+      )}
+
+      {enableSorting && (
+        <div className={classnames(styles.hint, isDarkColor(collection.coverColor) && styles.dark)}>
+          <Icon className={emoji} icon="new" />
+          <Text> You can reorder your projects</Text>
+          {!displayHint && (
+            <Button variant="secondary" size="small" onClick={() => setDisplayHint(true)}>
+              Learn More
+            </Button>
+          )}
+          {displayHint && (
+            <div className={styles.hintBody}>
+              <Text>
+                <Icon className={emoji} icon="mouse" /> Click and drag to reorder
+              </Text>
+              <Text>
+                <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press space
+                again to save.
+              </Text>
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
+
 const CollectionContainer = withRouter(({ history, collection, showFeaturedProject, isAuthorized, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
   const [displayHint, setDisplayHint] = useState(false);
@@ -135,67 +204,17 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
       </header>
 
       <div className={styles.collectionContents}>
-        <div className={styles.collectionProjectContainerHeader}>
-          {isAuthorized && funcs.addProjectToCollection && !onPlayPage && (
-            <AddCollectionProject addProjectToCollection={funcs.addProjectToCollection} collection={collection} />
-          )}
-        </div>
-        {!collectionHasProjects && isAuthorized && (
-          <div className={styles.emptyCollectionHint}>
-            <Image src="https://cdn.glitch.com/1afc1ac4-170b-48af-b596-78fe15838ad3%2Fpsst-pink.svg?1541086338934" alt="psst" width="" height="" />
-            <Text className={isDarkColor(collection.coverColor) && styles.dark}>You can add any project, created by any user</Text>
-          </div>
-        )}
-        {!collectionHasProjects && !isAuthorized && <div className={styles.emptyCollectionHint}>No projects to see in this collection just yet.</div>}
-        {featuredProject && (
-          <FeaturedProject
+        {!onPlayPage && (
+          <GridView 
             isAuthorized={isAuthorized}
+            funcs={funcs}
+            collectionHasProjects={collectionHasProjects}
             featuredProject={featuredProject}
-            unfeatureProject={funcs.unfeatureProject}
-            addProjectToCollection={funcs.addProjectToCollection}
             collection={collection}
-            displayNewNote={funcs.displayNewNote}
-            updateNote={funcs.updateNote}
-            hideNote={funcs.hideNote}
-          />
-        )}
-        {collectionHasProjects && (
-          <ProjectsList
-            layout="gridCompact"
             projects={projects}
-            collection={collection}
             enableSorting={enableSorting}
-            onReorder={funcs.updateProjectOrder}
-            noteOptions={{
-              hideNote: funcs.hideNote,
-              updateNote: funcs.updateNote,
-              isAuthorized,
-            }}
-            projectOptions={{ ...funcs, collection }}
+            displayHint={displayHint}
           />
-        )}
-
-        {enableSorting && !onPlayPage && (
-          <div className={classnames(styles.hint, isDarkColor(collection.coverColor) && styles.dark)}>
-            <Icon className={emoji} icon="new" />
-            <Text> You can reorder your projects</Text>
-            {!displayHint && (
-              <Button variant="secondary" size="small" onClick={() => setDisplayHint(true)}>
-                Learn More
-              </Button>
-            )}
-            {displayHint && (
-              <div className={styles.hintBody}>
-                <Text>
-                  <Icon className={emoji} icon="mouse" /> Click and drag to reorder
-                </Text>
-                <Text>
-                  <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press
-                  space again to save.
-                </Text>
-              </div>
-            )}
-          </div>
         )}
       </div>
     </article>
