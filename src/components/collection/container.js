@@ -56,8 +56,11 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
   const enableSorting = isAuthorized && projects.length > 1;
 
   let avatar = null;
+  const defaultAvatarName = "collection-avatar"; // this was the old name for the default picture frame collection avatar
   if (myStuffIsEnabled && collection.isMyStuff) {
     avatar = <BookmarkAvatar width="50%" />;
+  } else if (collection.avatarUrl && !collection.avatarUrl.includes(defaultAvatarName)){
+    avatar = <Image src={collection.avatarUrl} alt='' />;
   } else if (collection.projects.length > 0) {
     avatar = <CollectionAvatar collection={collection} />;
   }
