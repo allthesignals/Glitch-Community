@@ -62,14 +62,19 @@ svg.arrow
   height: 35px
   img
     width: auto
+    
+.ideasGrid
+  display: grid
+  grid-gap: 20px
+  grid-template-columns: repeat(2, 1fr)
   
 .idea
   position: relative
   display: flex
   flex-wrap: nowrap
-  justify-content: space-between;
+  justify-content: space-between
   max-width: 325px
-  background: #eee
+  background: section-line
   border-radius: 5px
   
 .ideaMyStuffBtn
@@ -78,7 +83,7 @@ svg.arrow
   right: 0
   
 .ideaContentContainer
-  flex-basis: 66%
+  flex-basis: 60%
   padding: 15px
   p
     margin-top: 1em
@@ -87,7 +92,7 @@ svg.arrow
   display: inline-flex
   justify-content: center
   align-items: center
-  flex-basis: 33%
+  flex-basis: 40%
   background-color: #fff
   border-radius: 0 5px 5px 0
   img
