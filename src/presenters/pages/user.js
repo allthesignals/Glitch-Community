@@ -128,7 +128,7 @@ const UserPage = ({ user: initialUser }) => {
           />
         </UserProfileContainer>
 
-        {isAuthorized && !maybeCurrentUser.projects.length && <OnboardingBanner />}
+        {isAuthorized && !user.projects.length && <OnboardingBanner />}
       </section>
 
       {featuredProject && (
