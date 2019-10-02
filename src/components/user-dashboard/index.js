@@ -113,7 +113,10 @@ const Ideas = ({ count }) => {
   const [ideasIdx, setIdeasIdx] = useState(0);
   
   const onClickMoreIdeas = () => {
-    if (count + ideasIdx < ideas.length) setIdeasIdx(ideasIdx + count)}
+    const nextIdx = ideasIdx + count;
+    if (nextIdx < ideas.length - 1) setIdeasIdx(ideasIdx + count)) {
+      setIdeasIdx(count + Ide)
+    }
   }
 
   return (
