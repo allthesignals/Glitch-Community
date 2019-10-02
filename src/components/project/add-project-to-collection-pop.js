@@ -6,7 +6,7 @@ import { partition } from 'lodash';
 import { Actions, Badge, Button, Icon, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
-import { MultiPopover, PopoverSearch } from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 import { ProjectAvatar } from 'Components/images/avatar';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
@@ -34,7 +34,7 @@ const collectionTypeOptions = [
   },
 ];
 
-const AddProjectPopoverTitle = ({ project }) => (
+const AddProjectPopoverTitle = ({ project, onBack }) => (
   <Title onBack={onBack}>
     <ProjectAvatar project={project} tiny />
     &nbsp;Add {project.domain} to collection
@@ -100,7 +100,8 @@ function useCollectionSearch(query, project, collectionType) {
   const myStuffEnabled = useDevToggle('My Stuff');
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList = myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
+    const shouldPutMyStuffAtFrontOfList =
+      myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }
@@ -115,7 +116,7 @@ function useCollectionSearch(query, project, collectionType) {
   return { status: searchResults.status, collections, collectionsWithProject };
 }
 
-export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToCollection, togglePopover, createCollectionPopover }) => {
+export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToCollection, togglePopover, onBack, createCollectionPopover }) => {
   const [collectionType, setCollectionType] = useState('user');
   const [query, setQuery] = useState('');
   const { status, collections, collectionsWithProject } = useCollectionSearch(query, project, collectionType);
@@ -143,7 +144,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
   return (
     <>
       {/* Only show this nested popover title from project-options */}
-      {fromProject && <AddProjectPopoverTitle project={project} />}
+      {fromProject && <AddProjectPopoverTitle project={project} onBack={onBack} />}
 
       {currentUser.teams.length > 0 && (
         <Actions>
@@ -205,32 +206,32 @@ const AddProjectToCollection = ({ project, addProjectToCollection }) => (
         Add to Collection <Icon className={emoji} icon="framedPicture" />
       </Button>
     )}
+    views={{
+      createCollectionPopover: ({ onClick, onBack }) => (
+        <CreateCollectionWithProject
+          onBack={onBack}
+          addProjectToCollection={(...args) => {
+            addProjectToCollection(...args);
+            onClick();
+          }}
+          project={project}
+        />
+      ),
+    }}
   >
-    {({ onClick }) => (
-      <MultiPopover
-        views={{
-          createCollectionPopover: () => (
-            <CreateCollectionWithProject
-              addProjectToCollection={(...args) => {
-                addProjectToCollection(...args);
-                onClick();
-              }}
-              project={project}
-            />
-          ),
+    {({ onClose, onBack, setActiveView }) => (
+      <AddProjectToCollectionBase
+        onBack={onBack}
+        addProjectToCollection={addProjectToCollection}
+        fromProject={false}
+        project={project}
+        togglePopover={onClose}
+        createCollectionPopover={() => {
+          setActiveView('createCollectionPopover');
         }}
-      >
-        {({ createCollectionPopover }) => (
-          <AddProjectToCollectionBase
-            addProjectToCollection={addProjectToCollection}
-            fromProject={false}
-            project={project}
-            togglePopover={onClick}
-            createCollectionPopover={createCollectionPopover}
-          />
-        )}
-      </MultiPopover>
+      />
     )}
+    )
   </Popover>
 );
 
