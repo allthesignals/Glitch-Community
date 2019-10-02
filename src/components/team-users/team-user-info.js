@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Actions, Button, DangerZone, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
 
+import { MultiPopover, PopoverContainer } from 'Components/popover';
 import { getDisplayName } from 'Models/user';
 import { userIsTeamAdmin, userIsOnlyTeamAdmin } from 'Models/team';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
@@ -203,7 +204,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
   const onMakeAdmin = useTrackedFunc(() => updateUserPermissions(user, ADMIN_ACCESS_LEVEL), 'Make an Admin clicked');
 
   return (
-    <Popover
+    /* <Popover
       align="left"
       renderLabel={({ onClick, ref }) => (
         <TransparentButton onClick={onClick} ref={ref}>
@@ -238,8 +239,8 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           onRemoveUser={() => onOrShowRemoveUser(setActiveView('remove'), onClose)}
         />
       )}
-    </Popover>
-    /* <PopoverContainer>
+    </Popover> */
+    <PopoverContainer>
       {({ visible, togglePopover, toggleAndCall }) => (
         <div style={{ position: 'relative' }}>
           <TransparentButton onClick={togglePopover}>
@@ -265,7 +266,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           )}
         </div>
       )}
-    </PopoverContainer> */
+    </PopoverContainer>
   );
 };
 
