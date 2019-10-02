@@ -6,7 +6,7 @@ import { partition } from 'lodash';
 import { Actions, Badge, Button, Icon, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
-import { MultiPopover, PopoverSearch } from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 import { ProjectAvatar } from 'Components/images/avatar';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
@@ -100,7 +100,8 @@ function useCollectionSearch(query, project, collectionType) {
   const myStuffEnabled = useDevToggle('My Stuff');
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList = myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
+    const shouldPutMyStuffAtFrontOfList =
+      myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }
@@ -206,8 +207,9 @@ const AddProjectToCollection = ({ project, addProjectToCollection }) => (
       </Button>
     )}
     views={{
-      createCollectionPopover: ({ onClick }) => (
+      createCollectionPopover: ({ onClick, onBack }) => (
         <CreateCollectionWithProject
+          onBack={onBack}
           addProjectToCollection={(...args) => {
             addProjectToCollection(...args);
             onClick();
@@ -217,16 +219,19 @@ const AddProjectToCollection = ({ project, addProjectToCollection }) => (
       ),
     }}
   >
-        {({ createCollectionPopover, onClose, setActiveView }) => (
-          <AddProjectToCollectionBase
-            addProjectToCollection={addProjectToCollection}
-            fromProject={false}
-            project={project}
-            togglePopover={onClose}
-            createCollectionPopover={() => setActiveView('createCollectionPopover') }}
-          />
-        )}
+    {({ onClose, onBack, setActiveView }) => (
+      <AddProjectToCollectionBase
+        onBack={onBack}
+        addProjectToCollection={addProjectToCollection}
+        fromProject={false}
+        project={project}
+        togglePopover={onClose}
+        createCollectionPopover={() => {
+          setActiveView('createCollectionPopover');
+        }}
+      />
     )}
+    )
   </Popover>
 );
 
