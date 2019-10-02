@@ -178,7 +178,7 @@ const ProjectPage = ({ project: initialProject }) => {
               <div className={styles.headingWrap}>
                 <Heading tagName="h1">
                   <OptimisticTextInput
-                    labelText="Project Domain"
+                    label="Project Domain"
                     value={project.domain}
                     onChange={updateDomainAndSync}
                     placeholder="Name your project"
@@ -191,7 +191,7 @@ const ProjectPage = ({ project: initialProject }) => {
                 )}
               </div>
               <div className={styles.privacyToggle}>
-                <PrivateToggle isPrivate={!!project.private} setPrivate={updatePrivate} />
+                <PrivateToggle type="project" isPrivate={!!project.private} setPrivate={updatePrivate} />
               </div>
             </>
           ) : (
@@ -206,7 +206,7 @@ const ProjectPage = ({ project: initialProject }) => {
               </div>
               {project.private && (
                 <div className={styles.privacyToggle}>
-                  <PrivateBadge />
+                  <PrivateBadge type="project" />
                 </div>
               )}
             </>

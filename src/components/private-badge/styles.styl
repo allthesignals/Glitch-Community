@@ -1,6 +1,6 @@
 @import '../constants.styl' 
 
-.projectBadge
+.privateIcon
   display: inline-block
   width: 22px
   height: 20px
@@ -8,17 +8,27 @@
   border: 1px transparent
   border-radius: 3px
   vertical-align: middle
-  >*
-    left: 5px
-    top: 2px
-  &.private
-    background-color: private
-    color: private-foreground
-  &.public svg
-    opacity: 0.7
 
-.button
+.privateBadge
+  color: private-foreground
+  svg 
+    margin: 2px 5px;
+
+.privateButton
   border: 1px solid secondary
   cursor: pointer
+  svg 
+    margin: 1px 0
+    cursor: pointer
   >*
-    left: 4px
+    display: inline-block;
+    width: inherit;
+    padding-left: 4px;
+  &.private
+    background-color: private
+
+.public
+  background-color: secondary-background
+  color: private-foreground
+  svg
+    opacity: 0.7
