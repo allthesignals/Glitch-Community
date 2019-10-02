@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@fogcreek/shared-components';
 
-import { EDITOR_URL } from 'Utils/constants';
 import SearchForm from 'Components/search-form';
 import SignInPop from 'Components/sign-in-pop';
 import UserOptionsPop from 'Components/user-options-pop';
 import NewProjectPop from 'Components/new-project-pop';
-import Link, { TrackedExternalLink } from 'Components/link';
+import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
@@ -21,7 +20,6 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay }
   const fakeSignedIn = !currentUser.id && SSR_SIGNED_IN;
   const signedIn = !!currentUser.login || fakeSignedIn;
   const signedOut = !!currentUser.id && !signedIn;
-  const hasProjects = currentUser.projects.length > 0 || fakeSignedIn;
   return (
     <AnalyticsContext properties={{ origin: 'navbar' }}>
       <header role="banner" className={styles.header}>

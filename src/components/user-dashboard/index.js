@@ -111,6 +111,10 @@ const Idea = ({ project }) => {
 const Ideas = ({ count }) => {
   const { value: ideas } = useCollectionProjects({ id: 13045 });
   const [ideasIdx, setIdeasIdx] = useState(0);
+  
+  const onClickMoreIdeas = () => {
+    if (count + ideasIdx < ideas.length) setIdeasIdx(ideasIdx + count)}
+  }
 
   return (
     <div className={styles.ideas}>
@@ -118,21 +122,15 @@ const Ideas = ({ count }) => {
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
         </Heading>
-        
+
         {count > 1 && <Text size="14px">Looking for project ideas? Try remixing a starter.</Text>}
 
-        {ideas ? (
-          ideasIdx + count < ideas.length ? (
-            <span className={styles.moreIdeasBtn}>
-              <Button variant="secondary" size="small" onClick={() => setIdeasIdx(ideasIdx + count)}>
-                More Ideas <Icon icon="new" />
-              </Button>
-            </span>
-          ) : (
-            'Check back later for more ideas'
-          )
-        ) : (
-          ''
+        {ideas && (
+          <span className={styles.moreIdeasBtn}>
+            <Button variant="secondary" size="small" onClick={onClickMoreIdeas}>
+              More Ideas <Icon icon="new" />
+            </Button>
+          </span>
         )}
       </div>
 
