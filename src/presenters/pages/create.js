@@ -31,7 +31,7 @@ import { emoji as emojiStyle } from '../../components/global.styl';
 const RatioWrap = styled.div`
   width: 100%;
   height: 0;
-  padding-bottom: ${({ aspectRatio = 9 / 16 }) => aspectRatio * 100}%;
+  padding-bottom: ${({ aspectRatio = 617 / 1020 }) => aspectRatio * 100}%;
   position: relative;
 `;
 const RatioInner = styled.div`
@@ -41,8 +41,8 @@ const RatioInner = styled.div`
   width: 100%;
   height: 100%;
 `;
-const RatioContainer = ({ children }) => (
-  <RatioWrap>
+const RatioContainer = ({ children, ...props }) => (
+  <RatioWrap {...props}>
     <RatioInner>{children}</RatioInner>
   </RatioWrap>
 );
