@@ -91,7 +91,9 @@ const Idea = ({ project }) => {
 
   return (
     <div className={styles.idea}>
-      <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
+      <span className={styles.ideaMyStuffBtn}>
+        <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
+      </span>
 
       <div className={styles.ideaContentContainer}>
         <Button as="a" href={getProjectLink(project.domain)}>
