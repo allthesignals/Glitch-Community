@@ -118,22 +118,23 @@ const Ideas = ({ count }) => {
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
         </Heading>
-
-        {ideas && ideasIdx + count < ideas.length ? (
-          <Button variant="secondary" size="small" onClick={() => setIdeasIdx(ideasIdx + count)}>
-            More Ideas <Icon icon="new" />
-          </Button>
-        ) : (
-          'Check back later for more ideas'
-        )}
       </div>
 
       {ideas && (
-        <div className={styles.ideasGrid}>
-          {ideas.slice(ideasIdx, ideasIdx + count).map((project) => (
-            <Idea project={project} />
-          ))}
-        </div>
+        <>
+          {ideasIdx + count < ideas.length ? (
+            <Button variant="secondary" size="small" onClick={() => setIdeasIdx(ideasIdx + count)}>
+              More Ideas <Icon icon="new" />
+            </Button>
+          ) : (
+            'Check back later for more ideas'
+          )}
+          <div className={styles.ideasGrid}>
+            {ideas.slice(ideasIdx, ideasIdx + count).map((project) => (
+              <Idea project={project} />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
