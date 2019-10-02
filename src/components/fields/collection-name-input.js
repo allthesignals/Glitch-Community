@@ -5,7 +5,7 @@ import OptimisticWrappingTextInput from './optimistic-wrapping-text-input';
 
 const CollectionNameInput = ({ name, onChange }) => (
   <OptimisticWrappingTextInput
-    labelText="Collection Name"
+    label="Collection Name"
     value={name}
     onChange={onChange}
     placeholder="Name your collection"
