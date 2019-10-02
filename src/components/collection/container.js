@@ -23,10 +23,13 @@ import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import { useTrackedFunc } from 'State/segment-analytics';
-import { useGlobals } from 'State/globals';
 
 import styles from './container.styl';
 import { emoji } from '../global.styl';
+
+// TODO:
+// - add the right icon for Grid
+// - add the left and right icons for back and forward buttons
 
 const CollectionProjectsGridView = ({
   isAuthorized,
@@ -105,21 +108,60 @@ const CollectionProjectsGridView = ({
   </>
 );
 
-const CollectionProjectPlayer = ({ isAuthorized, featuredProject, funcs, collection }) => (
-  <FeaturedProject
-    isAuthorized={isAuthorized}
-    featuredProject={featuredProject}
-    unfeatureProject={funcs.unfeatureProject}
-    addProjectToCollection={funcs.addProjectToCollection}
-    collection={collection}
-    displayNewNote={funcs.displayNewNote}
-    updateNote={funcs.updateNote}
-    hideNote={funcs.hideNote}
-    isPlayer
-  />
-);
+const getCurrentProjectIndexFromUrl = (projectId, projects) => {
+  let currentIndex = 0;
+  if (projectId) {
+    projects.forEach((project, idx) => {
+      if (project.id === projectId) {
+        currentIndex = idx;
+      }
+    });
+  }
+  return currentIndex;
+};
 
-const CollectionContainer = withRouter(({ history, collection, showFeaturedProject, isAuthorized, funcs }) => {
+const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, projects, funcs, collection }) => {
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(getCurrentProjectIndexFromUrl(match.params.projectId, projects));
+
+  const back = () => {
+    if (currentProjectIndex > 0) {
+      history.push(`/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex - 1].id}`);
+      setCurrentProjectIndex(currentProjectIndex - 1);
+    }
+  };
+
+  const forward = () => {
+    if (currentProjectIndex < projects.length - 1) {
+      history.push(`/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex + 1].id}`);
+      setCurrentProjectIndex(currentProjectIndex + 1);
+    }
+  };
+  return (
+    <>
+      <div>
+        <Button onClick={back} disabled={currentProjectIndex === 0}>
+          back
+        </Button>
+        <Button onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
+          forward
+        </Button>
+      </div>
+      <FeaturedProject
+        isAuthorized={isAuthorized}
+        featuredProject={projects[currentProjectIndex]}
+        unfeatureProject={funcs.unfeatureProject}
+        addProjectToCollection={funcs.addProjectToCollection}
+        collection={collection}
+        displayNewNote={funcs.displayNewNote}
+        updateNote={funcs.updateNote}
+        hideNote={funcs.hideNote}
+        isPlayer
+      />
+    </>
+  );
+});
+
+const CollectionContainer = withRouter(({ history, match, collection, showFeaturedProject, isAuthorized, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
   const [displayHint, setDisplayHint] = useState(false);
 
@@ -156,17 +198,16 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
     `Collection toggled ${collection.private ? 'public' : 'private'}`,
   );
 
-  const { location } = useGlobals();
-  const onPlayPage = location.pathname.endsWith('/play') && collectionHasProjects;
+  const onPlayPage = 'projectId' in match.params && collectionHasProjects;
+
   const togglePlay = () => {
     if (onPlayPage) {
-      history.push(location.pathname.slice(0, -5));
+      history.push(`/@${match.params.owner}/${match.params.name}`);
     } else {
-      history.push(`${location.pathname}/play`);
+      history.push(`/@${match.params.owner}/${match.params.name}/play`);
     }
   };
 
-  // TODO: add the right icon for Grid
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark)}>
       <header className={styles.collectionHeader} style={{ backgroundColor: collection.coverColor }}>
@@ -239,9 +280,7 @@ const CollectionContainer = withRouter(({ history, collection, showFeaturedProje
             setDisplayHint={setDisplayHint}
           />
         )}
-        {onPlayPage && (
-          <CollectionProjectPlayer isAuthorized={isAuthorized} featuredProject={featuredProject} funcs={funcs} collection={collection} />
-        )}
+        {onPlayPage && <CollectionProjectPlayer isAuthorized={isAuthorized} funcs={funcs} collection={collection} projects={projects} />}
       </div>
     </article>
   );
