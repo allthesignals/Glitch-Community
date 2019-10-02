@@ -1,0 +1,20 @@
+{
+  "isSupport": false,
+  "isInfrastructureUser": false,
+  "id": 123,
+  "avatarUrl": "https://cdn.glitch.com/55f8497b-3334-43ca-851e-6c9780082244%2Fdefault-team-avatar.svg?1503510366819",
+  "avatarThumbnailUrl": "https://cdn.glitch.com/55f8497b-3334-43ca-851e-6c9780082244%2Fdefault-team-avatar.svg?1503510366819",
+  "login": "testUser",
+  "name": "Test User",
+  "location": null,
+  "color": "#7bf2b2",
+  "description": "",
+  "hasCoverImage": false,
+  "coverColor": "rgb(252,252,252)",
+  "thanksCount": 1,
+  "utcOffset": -300,
+  "featuredProjectId": null,
+  "createdAt": "2018-02-27T20:37:20.477Z",
+  "updatedAt": "2019-10-01T13:17:42.487Z",
+  "features": []
+}

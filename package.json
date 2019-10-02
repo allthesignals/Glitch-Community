@@ -148,7 +148,9 @@
     "node": "10.x"
   },
   "devDependencies": {
+    "axe-core": "^3.3.2",
     "chai": "^4.2.0",
+    "cypress-axe": "^0.5.1",
     "mocha": "^6.2.0"
   }
 }

@@ -14,6 +14,7 @@ const omitBy = require('lodash/omitBy');
 const keys = require('lodash/keys');
 const isObject = require('lodash/isObject');
 const isArray = require('lodash/isArray');
+const { fakePersistentToken } = require('./data.js');
 
 const filterTokens = (value) => {
   if (isArray(value)) {
@@ -36,9 +37,8 @@ Cypress.Commands.add('createFixture', (name, url) =>
 Cypress.Commands.add('createFixtures', (fixtures) => Object.entries(fixtures).forEach((entry) => cy.createFixture(entry[0], entry[1])));
 
 Cypress.Commands.add('signIn', () => {
-  const GLITCH_TOKEN = Cypress.env('GLITCH_TOKEN');
   const cachedUser = {
-    persistentToken: GLITCH_TOKEN,
+    persistentToken: fakePersistentToken,
   };
   window.localStorage.setItem('cachedUser', JSON.stringify(cachedUser));
 });

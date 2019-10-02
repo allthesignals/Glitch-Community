@@ -1,27 +1,45 @@
 /// <reference types="Cypress" />
 
-xdescribe('Sign in', () => {
+const { fakePersistentToken } = require('../../support/data.js');
+
+import { itemsResponse, keyByValueResponse } from '../../support/util';
+import { makeTestProject, makeTestUser, makeTestCollection } from '../../support/data';
+
+const anonPersistentToken = '444-444-444';
+const anonId = 23;
+
+describe('Sign in', () => {
   context('with email', () => {
     beforeEach(() => {
       cy.enableDevToggles(['User Passwords']);
 
-      cy.server();
-
+      cy.server({ force404: true} );
+      cy.route('POST', '**/users/anon', makeTestUser());
       // Stop the login email from actually sending
       cy.route('POST', '**/email/sendLoginEmail', {});
       cy.route('POST', '**/auth/email/*', {
-        persistentToken: Cypress.env('GLITCH_TOKEN'),
+        persistentToken: fakePersistentToken,
       }).as('emailLogin');
       cy.route('POST', '**/user/login*', {
-        persistentToken: Cypress.env('GLITCH_TOKEN'),
+        persistentToken: fakePersistentToken,
       }).as('passwordLogin');
 
+      cy.route('POST', '**/users/anon', makeTestUser({persistentToken: anonPersistentToken, id: anonId})).as('anon-user');
+      cy.route('GET', '**/v1/users/by/id/emails**', itemsResponse([])).as('emails');
+      cy.route('GET', '**/v1/users/by/id**', keyByValueResponse([makeTestUser()], anonId)).as('anon-by-id');
+      cy.route('GET', '**/v1/users/by/id/collections**', itemsResponse([]));
+      cy.route('GET', '**/v1/users/by/id/projects**', itemsResponse([]));
+      cy.route('GET', '**/v1/users/by/id/teams**', itemsResponse([]));
+      cy.route('PATCH', 'users', {});
+      
       cy.visit('/');
 
-      cy.get('.what-is-glitch').should('exist');
+      // cy.get('.what-is-glitch').should('exist');
     });
 
     it('can sign in with a code', () => {
+      cy.route('GET', `**/v1/users/by/persistentToken?persistentToken=${user.persistentToken}`, keyByValueResponse(makeTestUser(), 'persistentToken'));
+
       cy.contains('Sign in').click();
       cy.contains('Sign in with Email').click();
       cy.get('[data-cy="sign-in-email"]').type('email.olivia@glitch.com');
@@ -56,7 +74,7 @@ xdescribe('Sign in', () => {
     beforeEach(() => {
       cy.enableDevToggles(['User Passwords']);
 
-      cy.server();
+      cy.server({ force404: true });
 
       cy.route('POST', '**/user/login*', {
         tfaToken: 'TwoFactorAuthToken',
@@ -103,7 +121,7 @@ xdescribe('Sign in', () => {
 
   context('signing in with oauth', () => {
     it('suggests email sign in when provider fails to return email', () => {
-      cy.server();
+      cy.server({ force404: true });
       cy.route({
         method: 'POST',
         url: '**/auth/facebook/fbcode?callbackURL=https://glitch.com/login/facebook',

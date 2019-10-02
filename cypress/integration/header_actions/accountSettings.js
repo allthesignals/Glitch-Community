@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-xdescribe('Account settings', () => {
+describe('Account settings', () => {
   context('when signed in', () => {
     beforeEach(() => {
       cy.signIn();

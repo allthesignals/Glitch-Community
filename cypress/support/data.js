@@ -53,18 +53,44 @@ export const makeTestCollection = (options) => {
 
 export const makeTestUser = (options) => {
   return {
-    id: 1,
-    name: 'glitch-user',
-    login: 'glitch-user',
-    description: "I'm on Glitch dot com!",
-    color: '#8faaff',
-    avatarThumbnailUrl: null,
-    avatarUrl: null,
+    isInfrastructureUser: false,
+    persistentToken: fakePersistentToken,
+    color: '#f4fc99',
     hasCoverImage: false,
-    coverColor: 'rgb(160,200,255)',
+    twoFactorEnabled: false,
+    accountLocked: false,
+    loginAttempts: 0,
+    passwordEnabled: false,
+    id: 7317834,
+    updatedAt: '2019-10-01T21:40:48.399Z',
+    createdAt: '2019-10-01T21:40:48.399Z',
+    githubId: null,
+    githubToken: null,
+    avatarUrl: null,
+    login: null,
+    email: null,
+    name: null,
+    location: null,
+    facebookId: null,
+    facebookToken: null,
+    description: '',
+    coverColor: null,
     thanksCount: 0,
+    utcOffset: null,
+    avatarThumbnailUrl: null,
+    customerId: null,
+    lastActiveDay: null,
     featuredProjectId: null,
-    utcOffset: -420,
+    googleId: null,
+    googleToken: null,
+    slackId: null,
+    slackToken: null,
+    slackTeamId: null,
+    password: null,
+    passwordVersion: null,
+    twoFactorSecret: null,
+    twoFactorLastCodeUsed: null,
+    features: [],
     ...options,
   };
 };
@@ -89,8 +115,11 @@ export const makeTestTeam = (options) => {
   };
 };
 
+export const fakePersistentToken = '123-456-123123-12312';
+
 export default {
   makeTestProject,
   makeTestCollection,
   makeTestUser,
+  fakePersistentToken,
 };

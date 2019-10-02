@@ -10,9 +10,15 @@ export const keyByValueResponse = (array, key) =>
     {},
   );
 
-export const itemsResponse = (items = []) => {
+export const itemsResponse = (items = [], options) => {
   return {
     items: [...items],
+    limit: 100,
+    orderKey: 'createdAt',
+    orderDirection: 'ASC',
+    lastOrderValue: null,
+    hasMore: false,
+    ...options,
   };
 };
 

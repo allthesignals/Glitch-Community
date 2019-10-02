@@ -95,7 +95,7 @@ let deletedProjects = [deletedProject];
 
 const shouldHaveProjectOptions = (options) => options.forEach((option) => cy.contains('.project-options-pop', option).should('exist'));
 
-xdescribe('User profile', () => {
+describe('User profile', () => {
   context('when signed in on your own profile', () => {
     /**
      * Perform feature, pin, add to collection, take a Percy snapshot
@@ -104,7 +104,7 @@ xdescribe('User profile', () => {
      */
     it('can perform project actions', () => {
       // Set up our sever and mock responses
-      cy.server();
+      cy.server({force404: true});
 
       // TeamOrUser tries to load a team before a user to determine what page to render
       cy.route('GET', `**/v1/teams/by/url?url=${user.login}`, {});
