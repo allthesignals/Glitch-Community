@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PopoverMenu, PopoverDialog, PopoverActions, PopoverMenuButton } from 'Components/popover';
 
-export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote }) {
+export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote, isPlayer }) {
   function toggleAndUnfeature(togglePopover) {
     togglePopover();
     unfeatureProject();
@@ -19,7 +19,7 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
         <PopoverDialog align="right" focusOnPopover>
           <PopoverActions>
             {!hasNote && createNote && <PopoverMenuButton onClick={() => toggleAndCreateNote(togglePopover)} label="Add note" emoji="spiralNotePad" />}
-            <PopoverMenuButton onClick={() => toggleAndUnfeature(togglePopover)} label="Un-feature" emoji="arrowDown" />
+            {!isPlayer && <PopoverMenuButton onClick={() => toggleAndUnfeature(togglePopover)} label="Un-feature" emoji="arrowDown" />}
           </PopoverActions>
         </PopoverDialog>
       )}
@@ -31,9 +31,11 @@ FeaturedProjectOptionsPop.propTypes = {
   unfeatureProject: PropTypes.func.isRequired,
   createNote: PropTypes.func,
   hasNote: PropTypes.bool,
+  isPlayer: PropTypes.bool,
 };
 
 FeaturedProjectOptionsPop.defaultProps = {
   createNote: null,
   hasNote: false,
+  isPlayer: false,
 };

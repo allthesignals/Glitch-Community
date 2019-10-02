@@ -28,13 +28,16 @@ const Top = ({
   isAnonymousUser,
   bookmarkAction,
   hasBookmarked,
+  isPlayer,
 }) => (
   <div className={styles.top}>
     <div className={styles.left}>
-      <Heading tagName="h2">
-        Featured Project
-        <Icon className={emoji} icon="clapper" inTitle />
-      </Heading>
+      {!isPlayer && (
+        <Heading tagName="h2">
+          Featured Project
+          <Icon className={emoji} icon="clapper" inTitle />
+        </Heading>
+      )}
       {collection && (
         <div className={styles.note}>
           <Note project={featuredProject} collection={collection} updateNote={updateNote} hideNote={hideNote} isAuthorized={isAuthorized} />
@@ -49,7 +52,12 @@ const Top = ({
       )}
       {isAuthorized && (
         <div className={styles.unfeatureBtn}>
-          <FeaturedProjectOptionsPop unfeatureProject={unfeatureProject} createNote={createNote} hasNote={!!featuredProject.note} />
+          <FeaturedProjectOptionsPop
+            unfeatureProject={unfeatureProject}
+            createNote={createNote}
+            hasNote={!!featuredProject.note}
+            isPlayer={isPlayer}
+          />
         </div>
       )}
     </div>
@@ -65,6 +73,7 @@ const FeaturedProject = ({
   isAuthorized,
   updateNote,
   unfeatureProject,
+  isPlayer,
 }) => {
   const myStuffEnabled = useDevToggle('My Stuff');
   const { currentUser } = useCurrentUser();
@@ -98,6 +107,7 @@ const FeaturedProject = ({
                 isAnonymousUser={isAnonymousUser}
                 bookmarkAction={bookmarkAction}
                 hasBookmarked={hasBookmarked}
+                isPlayer={isPlayer}
               />
             }
             project={featuredProject}
@@ -118,6 +128,7 @@ FeaturedProject.propTypes = {
   displayNewNote: PropTypes.func,
   hideNote: PropTypes.func,
   updateNote: PropTypes.func,
+  isPlayer: PropTypes.bool,
 };
 
 FeaturedProject.defaultProps = {
@@ -126,6 +137,7 @@ FeaturedProject.defaultProps = {
   displayNewNote: () => {},
   hideNote: () => {},
   updateNote: () => {},
+  isPlayer: false,
 };
 
 export default FeaturedProject;
