@@ -31,7 +31,7 @@ import { emoji as emojiStyle } from '../../components/global.styl';
 const RatioWrap = styled.div`
   width: 100%;
   height: 0;
-  padding-bottom: ${({ aspectRatio = 617 / 1020 }) => aspectRatio * 100}%;
+  padding-bottom: ${({ aspectRatio }) => aspectRatio * 100}%;
   position: relative;
 `;
 const RatioInner = styled.div`
@@ -306,7 +306,7 @@ function ScreencapSection({ title, description, video, smallVideos, blob, image,
       ))}
 
       <div className={classNames(styles.screencap, styles.bigScreencap)}>
-        <RatioContainer>
+        <RatioContainer aspectRatio={968 / 1600}>
           <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
         </RatioContainer>
       </div>
@@ -438,7 +438,7 @@ function VSCode() {
           loop
         />
         <div className={classNames(styles.screencap, styles.bigScreencap)}>
-          <RatioContainer>
+          <RatioContainer aspectRatio={968 / 1600}>
             <Video
               sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
               track="muted"
