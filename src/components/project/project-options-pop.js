@@ -143,8 +143,13 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
             }}
           />
         ),
-        createCollection: ({ onBack }) => (
-          <CreateCollectionWithProject onBack={onBack} project={project} addProjectToCollection={projectOptions.addProjectToCollection} />
+        createCollection: ({ onBack, onClose }) => (
+          <CreateCollectionWithProject
+            onBack={onBack}
+            onClose={onClose}
+            project={project}
+            addProjectToCollection={projectOptions.addProjectToCollection}
+          />
         ),
         leaveProject: ({ onClose }) => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={onClose} />,
       }}
