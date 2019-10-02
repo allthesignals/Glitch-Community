@@ -151,7 +151,7 @@ function CreateCollectionPopBase({ name, onBack, onSubmit, options }) {
   );
 }
 
-export function CreateCollectionWithProject({ project, addProjectToCollection }) {
+export function CreateCollectionWithProject({ project, addProjectToCollection, onBack }) {
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
   const options = getOptions(currentUser);
@@ -173,7 +173,7 @@ export function CreateCollectionWithProject({ project, addProjectToCollection })
     }
   };
 
-  return <CreateCollectionPopBase align="right" name={project.domain} options={options} onSubmit={onSubmit} />;
+  return <CreateCollectionPopBase align="right" name={project.domain} options={options} onSubmit={onSubmit} onBack={onBack} />;
 }
 
 CreateCollectionWithProject.propTypes = {
@@ -193,7 +193,15 @@ const CreateCollectionPop = withRouter(({ team, history }) => {
   };
 
   return (
-    <Popover className={widePopover} align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Create Collection</Button>}>
+    <Popover
+      className={widePopover}
+      align="left"
+      renderLabel={({ onClick, ref }) => (
+        <Button onClick={onClick} ref={ref}>
+          Create Collection
+        </Button>
+      )}
+    >
       {() => <CreateCollectionPopBase options={options} onSubmit={onSubmit} />}
     </Popover>
   );

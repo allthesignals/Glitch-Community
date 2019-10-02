@@ -142,7 +142,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
   };
 
   return (
-    <>
+    <div style={{ width: '350px' }}>
       {/* Only show this nested popover title from project-options */}
       {fromProject && <AddProjectPopoverTitle project={project} onBack={onBack} />}
 
@@ -185,7 +185,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
           Add to a new collection
         </Button>
       </Actions>
-    </>
+    </div>
   );
 };
 

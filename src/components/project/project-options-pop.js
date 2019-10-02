@@ -4,15 +4,13 @@ import { mapValues } from 'lodash';
 import { Actions, Button, DangerZone, Icon, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
-import { MultiPopover } from 'Components/popover';
-
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
-import { emoji, mediumPopover } from '../global.styl';
+import { emoji } from '../global.styl';
 
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
 const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
@@ -127,39 +125,42 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
   return (
     <Popover
       align="right"
-      className={mediumPopover}
       renderLabel={({ onClick, ref }) => (
         <UnstyledButton onClick={onClick} ref={ref} label="Project Options for {project.domain}">
           <Icon icon="chevronDown" />
         </UnstyledButton>
       )}
+      views={{
+        addToCollection: ({ onClose, onBack, setActiveView }) => (
+          <AddProjectToCollectionBase
+            fromProject
+            project={project}
+            togglePopover={onClose}
+            onBack={onBack}
+            addProjectToCollection={projectOptions.addProjectToCollection}
+            createCollectionPopover={() => {
+              setActiveView('createCollection');
+            }}
+          />
+        ),
+        createCollection: ({ onBack }) => (
+          <CreateCollectionWithProject onBack={onBack} project={project} addProjectToCollection={projectOptions.addProjectToCollection} />
+        ),
+        leaveProject: ({ onClose }) => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={onClose} />,
+      }}
     >
-      {({ onClose }) => (
-        <MultiPopover
-          views={{
-            addToCollection: ({ createCollection }) => (
-              <AddProjectToCollectionBase
-                fromProject
-                project={project}
-                togglePopover={onClose}
-                addProjectToCollection={projectOptions.addProjectToCollection}
-                createCollectionPopover={createCollection}
-              />
-            ),
-            createCollection: () => <CreateCollectionWithProject project={project} addProjectToCollection={projectOptions.addProjectToCollection} />,
-            leaveProject: () => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={onClose} />,
+      {({ onClose, setActiveView }) => (
+        <ProjectOptionsContent
+          project={project}
+          projectOptions={toggleBeforeActions(onClose)}
+          addToCollectionPopover={() => {
+            setActiveView('addToCollection');
           }}
-        >
-          {({ addToCollection, leaveProject }) => (
-            <ProjectOptionsContent
-              project={project}
-              projectOptions={toggleBeforeActions(onClose)}
-              addToCollectionPopover={addToCollection}
-              leaveProjectPopover={leaveProject}
-              leaveProjectDirect={toggleBeforeAction(onClose, projectOptions.leaveProject)}
-            />
-          )}
-        </MultiPopover>
+          leaveProjectPopover={() => {
+            setActiveView('leaveProject');
+          }}
+          leaveProjectDirect={toggleBeforeAction(onClose, projectOptions.leaveProject)}
+        />
       )}
     </Popover>
   );
