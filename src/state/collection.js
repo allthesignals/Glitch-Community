@@ -309,6 +309,8 @@ export function useCollectionEditor(initialCollection) {
       await orderProjectInCollection({ project, collection }, index);
     }, handleError),
 
+    updatePrivacy: (bool) => updateFields({ private: bool }).catch(handleError),
+
     featureProject: withErrorHandler(async (project) => {
       if (collection.featuredProjectId) {
         // this is needed to force an dismount of an optimistic state value of a note and to ensure the old featured collection goes where it's supposed to.

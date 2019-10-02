@@ -212,7 +212,7 @@ const ProjectPage = ({ project: initialProject }) => {
                 )}
               </div>
               <div className={styles.privacyToggle}>
-                <PrivateToggle isPrivate={!!project.private} setPrivate={updatePrivate} />
+                <PrivateToggle type="project" isPrivate={!!project.private} setPrivate={updatePrivate} />
               </div>
             </>
           ) : (
@@ -227,7 +227,7 @@ const ProjectPage = ({ project: initialProject }) => {
               </div>
               {project.private && (
                 <div className={styles.privacyToggle}>
-                  <PrivateBadge />
+                  <PrivateBadge type="project" />
                 </div>
               )}
             </>

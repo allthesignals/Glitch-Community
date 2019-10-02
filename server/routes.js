@@ -13,7 +13,7 @@ const constants = require('./constants');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
-const { getData, saveDataToFile } = require('./home');
+const { getData, saveDataToFile } = require('./curated');
 
 module.exports = function(external) {
   const app = express.Router();
@@ -72,7 +72,7 @@ module.exports = function(external) {
 
     const assignments = getAssignments(req, res);
     const signedIn = !!req.cookies.hasLogin;
-    const [zine, homeContent] = await Promise.all([getZine(), getData('home')]);
+    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
 
     let ssr = { rendered: null, helmet: null, styleTags: '' };
     try {
@@ -82,6 +82,7 @@ module.exports = function(external) {
         API_CACHE: cache,
         EXTERNAL_ROUTES: external,
         HOME_CONTENT: homeContent,
+        PUPDATES_CONTENT: pupdatesContent,
         SSR_SIGNED_IN: signedIn,
         ZINE_POSTS: zine || [],
       });
@@ -105,6 +106,7 @@ module.exports = function(external) {
       EXTERNAL_ROUTES: external,
       ZINE_POSTS: zine || [],
       HOME_CONTENT: homeContent,
+      PUPDATES_CONTENT: pupdatesContent,
       SSR_SIGNED_IN: signedIn,
       AB_TESTS: assignments,
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,

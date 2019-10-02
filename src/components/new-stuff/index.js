@@ -8,8 +8,8 @@ import { PopoverContainer } from 'Components/popover';
 import { useTracker } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import useUserPref from 'State/user-prefs';
+import { useGlobals } from 'State/globals';
 
-import pupdates from '../../curated/pupdates.json';
 import NewStuffArticle from './new-stuff-article';
 import NewStuffPrompt from './new-stuff-prompt';
 import NewStuffPup from './new-stuff-pup';
@@ -17,8 +17,6 @@ import NewStuffPup from './new-stuff-pup';
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
 
-const pupdatesArray = pupdates.pupdates;
-const latestId = Math.max(...pupdatesArray.map(({ id }) => id));
 
 function usePreventTabOut() {
   const first = useRef();
@@ -92,7 +90,11 @@ const NewStuff = ({ children }) => {
   const isSignedIn = !!currentUser && !!currentUser.login;
   const [showNewStuff, setShowNewStuff] = useUserPref('showNewStuff', true);
   const [newStuffReadId, setNewStuffReadId] = useUserPref('newStuffReadId', 0);
-  const [log, setLog] = useState(pupdatesArray);
+  const { PUPDATES_CONTENT: { pupdates } } = useGlobals();
+
+  const latestId = Math.max(...pupdates.map(({ id }) => id));
+
+  const [log, setLog] = useState(pupdates);
   const track = useTracker('pupdates');
 
   const renderOuter = ({ visible, openPopover }) => {
@@ -100,8 +102,8 @@ const NewStuff = ({ children }) => {
     const show = () => {
       track();
       openPopover();
-      const unreadStuff = pupdatesArray.filter(({ id }) => id > newStuffReadId);
-      setLog(unreadStuff.length ? unreadStuff : pupdatesArray);
+      const unreadStuff = pupdates.filter(({ id }) => id > newStuffReadId);
+      setLog(unreadStuff.length ? unreadStuff : pupdates);
       setNewStuffReadId(latestId);
     };
 

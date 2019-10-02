@@ -71,6 +71,7 @@ CollectionPageContents.propTypes = {
 
 const CollectionPage = ({ owner, name }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
+
   return (
     <Layout>
       {collection ? (
