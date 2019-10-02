@@ -102,7 +102,7 @@ const Idea = ({ project }) => {
         <Text size="14px">{project.description}</Text>
       </div>
       <div className={styles.ideaThumbnailContainer}>
-        <Image src={`https://cdn.glitch.com/${project.id}/thumbnail.png`} alt="" />
+        <Image src={`https://cdn.glitch.com/${project.id}/thumbnail.png?version=${Date.now()}`} alt="" />
       </div>
     </div>
   );
@@ -118,12 +118,16 @@ const Ideas = ({ count }) => {
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
         </Heading>
+        
+        {count > 1 && <Text size="14px">Looking for project ideas? Try remixing a starter.</Text>}
 
         {ideas ? (
           ideasIdx + count < ideas.length ? (
-            <Button variant="secondary" size="small" onClick={() => setIdeasIdx(ideasIdx + count)}>
-              More Ideas <Icon icon="new" />
-            </Button>
+            <span className={styles.moreIdeasBtn}>
+              <Button variant="secondary" size="small" onClick={() => setIdeasIdx(ideasIdx + count)}>
+                More Ideas <Icon icon="new" />
+              </Button>
+            </span>
           ) : (
             'Check back later for more ideas'
           )
