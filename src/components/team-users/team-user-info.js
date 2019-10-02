@@ -8,7 +8,6 @@ import TooltipContainer from 'Components/tooltips/tooltip-container';
 import { UserAvatar, ProjectAvatar } from 'Components/images/avatar';
 import { UserLink } from 'Components/link';
 import Thanks from 'Components/thanks';
-import { MultiPopover } from 'Components/popover';
 import TransparentButton from 'Components/buttons/transparent-button';
 
 import { useTrackedFunc, useTracker } from 'State/segment-analytics';
@@ -211,38 +210,33 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           <UserAvatar user={user} suffix={adminStatusDisplay(team.adminIds, user)} withinButton />
         </TransparentButton>
       )}
+      views={{
+        remove: ({ onClose }) => (
+          <TeamUserRemovePop
+            user={user}
+            userTeamProjects={userTeamProjects}
+            onRemoveUser={() => {
+              onClose();
+              removeUser();
+            }}
+          />
+        ),
+      }}
     >
-      {({ onClose }) => (
-        <MultiPopover
-          views={{
-            remove: () => (
-              <TeamUserRemovePop
-                user={user}
-                userTeamProjects={userTeamProjects}
-                onRemoveUser={() => {
-                  onClose();
-                  removeUser();
-                }}
-              />
-            ),
+      {({ onClose, setActiveView }) => (
+        <TeamUserInfo
+          user={user}
+          team={team}
+          onRemoveAdmin={() => {
+            onClose();
+            onRemoveAdmin();
           }}
-        >
-          {(showViews) => (
-            <TeamUserInfo
-              user={user}
-              team={team}
-              onRemoveAdmin={() => {
-                onClose();
-                onRemoveAdmin();
-              }}
-              onMakeAdmin={() => {
-                onClose();
-                onMakeAdmin();
-              }}
-              onRemoveUser={() => onOrShowRemoveUser(showViews.remove, onClose)}
-            />
-          )}
-        </MultiPopover>
+          onMakeAdmin={() => {
+            onClose();
+            onMakeAdmin();
+          }}
+          onRemoveUser={() => onOrShowRemoveUser(setActiveView('remove'), onClose)}
+        />
       )}
     </Popover>
     /* <PopoverContainer>
