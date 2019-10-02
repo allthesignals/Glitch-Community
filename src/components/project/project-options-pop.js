@@ -10,6 +10,7 @@ import { useCurrentUser } from 'State/current-user';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
+import styles from './popover.styl';
 import { emoji } from '../global.styl';
 
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
@@ -26,7 +27,7 @@ const PopoverMenuItems = ({ children }) =>
             (item) =>
               item.onClick && (
                 <>
-                  <Button size="small" variant="warning" key={item.label} onClick={item.onClick}>
+                  <Button className={styles.noWrap} size="small" variant="warning" key={item.label} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
@@ -40,7 +41,7 @@ const PopoverMenuItems = ({ children }) =>
             (item) =>
               item.onClick && (
                 <>
-                  <Button size="small" variant="secondary" key={item.label} onClick={item.onClick}>
+                  <Button className={styles.noWrap} size="small" variant="secondary" key={item.label} onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
@@ -143,8 +144,13 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
             }}
           />
         ),
-        createCollection: ({ onBack }) => (
-          <CreateCollectionWithProject onBack={onBack} project={project} addProjectToCollection={projectOptions.addProjectToCollection} />
+        createCollection: ({ onBack, onClose }) => (
+          <CreateCollectionWithProject
+            onBack={onBack}
+            onClose={onClose}
+            project={project}
+            addProjectToCollection={projectOptions.addProjectToCollection}
+          />
         ),
         leaveProject: ({ onClose }) => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={onClose} />,
       }}

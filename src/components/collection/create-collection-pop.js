@@ -151,7 +151,7 @@ function CreateCollectionPopBase({ name, onBack, onSubmit, options }) {
   );
 }
 
-export function CreateCollectionWithProject({ project, addProjectToCollection, onBack }) {
+export function CreateCollectionWithProject({ project, addProjectToCollection, onClose, onBack }) {
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
   const options = getOptions(currentUser);
@@ -161,6 +161,7 @@ export function CreateCollectionWithProject({ project, addProjectToCollection, o
   }));
   const onSubmit = async (collection) => {
     track();
+    onClose();
     if (!collection || !collection.id) return;
 
     try {
