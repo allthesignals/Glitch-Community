@@ -4,6 +4,7 @@ import { Button, Icon, Loader } from '@fogcreek/shared-components';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
+import BookmarkButton from 'Components/buttons/bookmark-button';
 import ProjectsList from 'Components/containers/projects-list';
 import CoverContainer from 'Components/containers/cover-container';
 import NewStuffContainer from 'Components/new-stuff';
@@ -97,6 +98,10 @@ const Ideas = ({ count }) => {
 
 const Idea = (idea) => (
   <div className={styles.idea}>
+    <BookmarkButton action={bookmarkAction}
+                          initialIsBookmarked={hasBookmarked}
+                          containerDetails={{ isHoveringOnProjectItem }}
+                          projectName={project.domain} />
     <div className={styles.ideaContentContainer}>
       <Button as="a" href={getProjectLink(idea.domain)}>{idea.domain}</Button>
       <Text size="14px">{idea.description}</Text>
