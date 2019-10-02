@@ -118,6 +118,8 @@ const Ideas = ({ count }) => {
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
         </Heading>
+        
+        {ideasIdx < ideas.length 
         <Button variant="secondary" size="small" onClick={() => setIdeasIdx(ideasIdx + count)}>
           More Ideas <Icon icon="new" />
         </Button>
