@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
@@ -13,7 +13,6 @@ import SignInPop from 'Components/sign-in-pop';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
 import { getProjectLink } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
-import { useProjectOptions } from 'State/project-options';
 import { useCollectionProjects, useToggleBookmark } from 'State/collection';
 import { useTrackedFunc } from 'State/segment-analytics';
 
@@ -78,6 +77,35 @@ const RecentProjects = () => {
   );
 };
 
+const Idea = (project) => {
+  const { currentUser } = useCurrentUser();
+  const [hasBookmarked, toggleBookmark] = useToggleBookmark(project);
+
+  const bookmarkAction = useTrackedFunc(toggleBookmark, `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`, (inherited) => ({
+    ...inherited,
+    projectName: project.domain,
+    baseProjectId: project.baseId || project.baseProject,
+    userId: currentUser.id,
+    origin: `${inherited.origin}-user-dashboard`,
+  }));
+
+  return (
+    <div className={styles.idea}>
+      <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
+
+      <div className={styles.ideaContentContainer}>
+        <Button as="a" href={getProjectLink(project.domain)}>
+          {project.domain}
+        </Button>
+        <Text size="14px">{project.description}</Text>
+      </div>
+      <div className={styles.ideaThumbnailContainer}>
+        <Image src={`https://cdn.glitch.com/${project.id}/thumbnail.png`} alt="" />
+      </div>
+    </div>
+  );
+};
+
 const Ideas = ({ count }) => {
   const { value: ideas } = useCollectionProjects({ id: 13045 });
   const [ideasIdx, setIdeasIdx] = useState(0);
@@ -94,33 +122,6 @@ const Ideas = ({ count }) => {
       </div>
 
       {ideas && <div className={styles.ideasGrid}>{ideas.slice(ideasIdx, ideasIdx + count).map(Idea)}</div>}
-    </div>
-  );
-};
-
-const Idea = (project) => {
-  const { currentUser } = useCurrentUser();
-  const [hasBookmarked, toggleBookmark] = useToggleBookmark(project);
-
-  const bookmarkAction = useTrackedFunc(
-    () => projectOptions.toggleBookmark(project, hasBookmarked, setHasBookmarked),
-    `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`,
-    (inherited) => ({ ...inherited, projectName: project.domain, baseProjectId: project.baseId || project.baseProject, userId: currentUser.id }),
-  );
-
-  return (
-    <div className={styles.idea}>
-      <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
-
-      <div className={styles.ideaContentContainer}>
-        <Button as="a" href={getProjectLink(project.domain)}>
-          {project.domain}
-        </Button>
-        <Text size="14px">{project.description}</Text>
-      </div>
-      <div className={styles.ideaThumbnailContainer}>
-        <Image src={`https://cdn.glitch.com/${project.id}/thumbnail.png`} alt="" />
-      </div>
     </div>
   );
 };
