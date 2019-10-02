@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Pluralize from 'react-pluralize';
@@ -120,9 +120,16 @@ const getCurrentProjectIndexFromUrl = (projectId, projects) => {
   return currentIndex;
 };
 
+// TODO batch this so if we have a huge collection we don't explode glitch
+const wakeUpAllProjectsInACollection = (projects) => {
+  projects.forEach((project) => {
+    fetch(`${project.domain}.glitch.me`);
+  });
+};
+
 const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, projects, funcs, collection }) => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(getCurrentProjectIndexFromUrl(match.params.projectId, projects));
-
+  useEffect(() => wakeUpAllProjectsInACollection(projects), []);
   const back = () => {
     if (currentProjectIndex > 0) {
       history.push(`/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex - 1].id}`);
@@ -136,6 +143,7 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
       setCurrentProjectIndex(currentProjectIndex + 1);
     }
   };
+
   return (
     <>
       <div>
