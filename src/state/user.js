@@ -36,7 +36,7 @@ export function useUserEditor(initialUser) {
   const { getDeletedProject, getProject } = useUserPageGetters();
 
   useEffect(() => {
-    setUser(initialUser);
+    setUser((prev) => ({ ...prev, ...initialUser }));
   }, [initialUser]);
 
   const isCurrentUser = !!currentUser && user.id === currentUser.id;
