@@ -26,30 +26,28 @@ const { directory, verb } = setup();
 const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', {});
 
 let isFirstTranspile = true;
-let freshTranspile = true;
+let needsTranspile = true;
 
 // clear client code from the require cache whenever it gets changed
 // it'll get loaded off the disk again when the render calls require
 require('chokidar').watch(directory).on('change', () => {
-  if (!freshTranspile) {
+  needsTranspile = true;
+  clearCache();
+});
+
+const requireClient = () => {
+  if (needsTranspile) {
     // remove everything in the src directory
     Object.keys(require.cache).forEach((location) => {
       if (location.startsWith(directory)) delete require.cache[location];
     });
-    // clear out the server rendering cache
-    clearCache();
-    // flag that everything is cleared out
-    freshTranspile = true;
   }
-});
-
-const requireClient = () => {
-  freshTranspile = false;
   const startTime = performance.now();
   const required = require(path.join(directory, './server'));
   const endTime = performance.now();
-  if (freshTranspile) console.log(`SSR ${isFirstTranspile ? '' : 're'}${verb} took ${Math.round(endTime - startTime)}ms`);
+  if (needsTranspile) console.log(`SSR ${isFirstTranspile ? '' : 're'}${verb} took ${Math.round(endTime - startTime)}ms`);
   isFirstTranspile = false;
+  needsTranspile = false;
   return required;
 };
 
