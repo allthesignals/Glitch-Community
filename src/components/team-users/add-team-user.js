@@ -176,9 +176,9 @@ const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setW
         <AddTeamUserPop
           members={members}
           whitelistedDomain={whitelistedDomain}
-          setWhitelistedDomain={() => { onClose(); setWhitelistedDomain(); }}
-          inviteUser={() => { onClose(); inviteUser(); }}
-          inviteEmail={() => { onClose(); inviteEmail(); }}
+          setWhitelistedDomain={(domain) => { onClose(); setWhitelistedDomain(domain); }}
+          inviteUser={(user) => { onClose(); inviteUser(user); }}
+          inviteEmail={(email) => { onClose(); inviteEmail(email); }}
         />
       )}
     </Popover>
