@@ -1,10 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { throttle } from 'lodash';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Button, Icon, TextInput } from '@fogcreek/shared-components';
 
 import { isGoodColorContrast, pickRandomColor } from 'Utils/color';
-import TextInput from 'Components/inputs/text-input';
 import ColorInput from 'Components/inputs/color';
 import { PopoverWithButton, PopoverDialog, PopoverInfo, PopoverActions } from 'Components/popover';
 
@@ -87,7 +86,7 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
               onChange={onChangeHex}
               onKeyPress={keyPress}
               placeholder="Hex"
-              labelText="Custom color hex"
+              label="Custom color hex"
               error={error}
             />
           </div>
