@@ -130,29 +130,29 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
         </UnstyledButton>
       )}
       views={{
-        addToCollection: ({ onClose, setActiveView }) => (
+        addToCollection: ({ onClose, onBack, setActiveView }) => (
           <AddProjectToCollectionBase
             fromProject
             project={project}
             togglePopover={onClose}
+            onBack={onBack}
             addProjectToCollection={projectOptions.addProjectToCollection}
             createCollectionPopover={() => { setActiveView('createCollection'); }}
           />
         ),
-        createCollection: () => <CreateCollectionWithProject project={project} addProjectToCollection={projectOptions.addProjectToCollection} />,
+        createCollection: ({ onBack }) => <CreateCollectionWithProject onBack={onBack} project={project} addProjectToCollection={projectOptions.addProjectToCollection} />,
         leaveProject: ({ onClose }) => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={onClose} />,
       }}
     >
-          {({ onClose, setActiveView, leaveProject }) => (
-            <ProjectOptionsContent
-              project={project}
-              projectOptions={toggleBeforeActions(onClose)}
-              addToCollectionPopover={() => { setActiveView('addToCollection'); }}
-              leaveProjectPopover={leaveProject}
-              leaveProjectDirect={toggleBeforeAction(onClose, projectOptions.leaveProject)}
-            />
-          )}
-      )
+      {({ onClose, setActiveView }) => (
+        <ProjectOptionsContent
+          project={project}
+          projectOptions={toggleBeforeActions(onClose)}
+          addToCollectionPopover={() => { setActiveView('addToCollection'); }}
+          leaveProjectPopover={() => { setActiveView('leaveProject'); }}
+          leaveProjectDirect={toggleBeforeAction(onClose, projectOptions.leaveProject)}
+        />
+      )}
     </Popover>
   );
 }
