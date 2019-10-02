@@ -5,7 +5,7 @@ import OptimisticTextInput from './optimistic-text-input';
 
 const UserLoginInput = ({ login, onChange }) => (
   <OptimisticTextInput
-    labelText="User Login"
+    label="User Login"
     value={login}
     onChange={onChange}
     placeholder="Nickname?"
