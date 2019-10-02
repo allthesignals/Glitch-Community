@@ -185,9 +185,7 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button as="a" href={getTeamLink(team)}>
-            {team.name}
-          </Button>
+          <Button as="a" href={getTeamLink(team)}>{team.name}</Button>
         </div>
         <Text size="14px">
           <Markdown renderAsPlaintext>{team.description}</Markdown>
@@ -296,8 +294,8 @@ function ScreencapSection({ title, description, video, smallVideos, blob, image,
     <div className={styles.screencapContainer}>
       {smallVideos.map((v) => (
         <Video
-          key={v}
           sources={[{ src: v, minWidth: 0, maxWidth: 669 }]}
+          key={v}
           className={classNames(styles.screencap, styles.smallScreencap, styles[`small${smallVideos.length}`])}
           track="muted"
           autoPlay
@@ -417,7 +415,10 @@ function VSCode() {
       </Text>
 
       <Text className={styles.sectionDescription}>
-        <Button as="a" href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch">
+        <Button
+          as="a"
+          href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch"
+        >
           <Image src={vscodeIcon} alt="" width="17" height="17" />
           &nbsp;Download from Visual Studio Marketplace <span aria-hidden="true">&rarr;</span>
         </Button>
