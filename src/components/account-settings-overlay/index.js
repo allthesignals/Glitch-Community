@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Icon, SegmentedButton } from '@fogcreek/shared-components';
+import { Icon, Popover, SegmentedButton } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
 import { Overlay, OverlaySection, OverlayTitle, OverlayBackground } from 'Components/overlays';
@@ -58,9 +58,9 @@ const AccountSettingsContainer = ({ children }) => {
     </>
   );
   return (
-    <PopoverContainer outer={renderOuter}>
+    <Popover align="left" renderLabel={() => {}} outer={renderOuter}>
       {({ visible }) => visible ? <AccountSettingsOverlay /> : null}
-    </PopoverContainer>
+    </Popover>
   );
 };
 
