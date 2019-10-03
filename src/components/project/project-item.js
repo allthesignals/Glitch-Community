@@ -23,7 +23,7 @@ import styles from './project-item.styl';
 
 const ProfileAvatar = ({ project }) => <Image className={styles.avatar} src={getProjectAvatarUrl(project)} defaultSrc={FALLBACK_AVATAR_URL} alt="" />;
 
-const getLinkBodyStyles = (project) =>
+const getLinkBodyStyles = (project, showEditButton) =>
   classnames(styles.linkBody, {
     [styles.private]: project.private,
     [styles.hasFooter]: showEditButton,
@@ -125,7 +125,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <ProjectOptionsPop project={project} projectOptions={animatedProjectOptions} />
                     </div>
                   </header>
-                  <ProjectLink className={getLinkBodyStyles(project)} project={project}>
+                  <ProjectLink className={getLinkBodyStyles(project, showEditButton)} project={project}>
                     <div className={styles.projectHeader}>
                       <div className={styles.avatarWrap}>
                         <ProfileAvatar project={project} />
