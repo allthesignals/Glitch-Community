@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import { Button } from '@fogcreek/shared-components';
 
-import Image from 'Components/images/image';
+import { PopoverDialog, PopoverActions, PopoverMenuButton, PopoverMenu, MultiPopover } from 'Components/popover';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { useCurrentUser } from 'State/current-user';
+import { useTrackedFunc } from 'State/segment-analytics';
 import { userIsProjectTeamMember } from 'Models/project';
 
 import LeaveProjectPopover from './leave-project-pop';

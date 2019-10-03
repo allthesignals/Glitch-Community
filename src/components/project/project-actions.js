@@ -2,17 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from '@fogcreek/shared-components';
 
-<<<<<<< HEAD
-import Button, { SIZES } from 'Components/buttons/button';
 import { PopoverWithButton } from 'Components/popover';
-import { getShowUrl, getEditorUrl, getRemixUrl } from '../../models/project';
-
+import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
 import LeaveProjectPopover from './leave-project-pop';
-=======
-import { getShowUrl, getEditorUrl, getRemixUrl } from '../../models/project';
 
 import { emoji } from '../global.styl';
->>>>>>> 3a2759a3d8d6765c11e2db65b99a78d6ab47ecbb
 
 export const ShowButton = ({ name, size }) => (
   <Button as="a" href={getShowUrl(name)} size={size}>
@@ -57,16 +51,16 @@ RemixButton.defaultProps = {
 export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject }) => {
   if (!isMember) {
     return isTeamProject ? (
-      <Button size="small" onClick={joinProject} emoji="rainbow">
-        Join Project
+      <Button size="small" onClick={joinProject}>
+        Join Project <Icon icon="rainbow" />
       </Button>
     ) : null;
   }
 
   // let team members leave directly, warn non team members
-  if (isTeamProject) return <Button size="small" onClick={() => leaveProject(project)} emoji="wave">Leave Project</Button>;
+  if (isTeamProject) return <Button size="small" onClick={() => leaveProject(project)}>Leave Project <Icon icon="wave" /></Button>;
   return (
-    <PopoverWithButton buttonProps={{ emoji: 'wave', size: 'small' }} buttonText="Leave Project">
+    <PopoverWithButton buttonProps={{ size: 'small' }} buttonText="Leave Project">
       {({ togglePopover }) => <LeaveProjectPopover project={project} leaveProject={leaveProject} togglePopover={togglePopover} align="left" />}
     </PopoverWithButton>
   );
