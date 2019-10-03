@@ -240,7 +240,26 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
         />
       )}
     </Popover> */
-    <PopoverContainer>
+    <Popover
+      align="right"
+      renderLabel={({ onClick, ref }) => 
+        <TransparentButton onClick={togglePopover} ref={ref}>
+          <UserAvatar user={user} suffix={adminStatusDisplay(team, user)} withinButton />
+        </TransparentButton>    
+      }
+      views={{
+        remove: () => <TeamUserRemovePop user={user} userTeamProjects={userTeamProjects} onRemoveUser={toggleAndCall(removeUser)} />,
+      }}>
+        {({ onClose }) => (
+          <TeamUserInfo
+            user={user}
+            team={team}
+            onRemoveAdmin={toggleAndCall(onRemoveAdmin)}
+            onMakeAdmin={toggleAndCall(onMakeAdmin)}
+            onRemoveUser={() => onOrShowRemoveUser(showViews.remove, togglePopover)}
+          />
+        )}
+    </Popover>
       {({ visible, togglePopover, toggleAndCall }) => (
         <div style={{ position: 'relative' }}>
           <TransparentButton onClick={togglePopover}>
@@ -266,7 +285,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           )}
         </div>
       )}
-    </PopoverContainer>
+    </Popover>
   );
 };
 
