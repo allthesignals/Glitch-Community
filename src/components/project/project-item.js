@@ -10,7 +10,7 @@ import ProfileList from 'Components/profile-list';
 import { ProjectLink } from 'Components/link';
 import VisibilityContainer from 'Components/visibility-container';
 import Note from 'Components/collection/note';
-import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
+import { FALLBACK_AVATAR_URL, getProjectAvatarUrl, getEditorUrl } from 'Models/project';
 import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
 import { useCurrentUser } from 'State/current-user';
@@ -41,16 +41,19 @@ const ProfileListLoader = ({ project }) => (
   </VisibilityContainer>
 );
 
-const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions }) => {
+const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions, showEditButton }) => {
   const { location } = useGlobals();
   const myStuffEnabled = useDevToggle('My Stuff');
   const { currentUser } = useCurrentUser();
   const isAnonymousUser = !currentUser.login;
 
   const [hasBookmarked, setHasBookmarked] = useState(project.authUserHasBookmarked);
-  useEffect(() => {
-    setHasBookmarked(project.authUserHasBookmarked);
-  }, [project.authUserHasBookmarked]);
+  useEffect(
+    () => {
+      setHasBookmarked(project.authUserHasBookmarked);
+    },
+    [project.authUserHasBookmarked],
+  );
 
   const [isHoveringOnProjectItem, setIsHoveringOnProjectItem] = useState(false);
   const onMouseEnter = () => {
@@ -131,12 +134,12 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       </div>
                       <div className={styles.nameWrap}>
                         <div className={styles.itemButtonWrap}>
-                          <Button
-                            as="span"
-                            disabled={!!project.suspendedReason}
-                            imagePosition="left"
-                          >
-                            {project.private && (<span className={styles.privateIcon}><Icon icon="private" alt="private" /></span>)}
+                          <Button as="span" disabled={!!project.suspendedReason} imagePosition="left">
+                            {project.private && (
+                              <span className={styles.privateIcon}>
+                                <Icon icon="private" alt="private" />
+                              </span>
+                            )}
                             <span className={styles.projectDomain}>{project.suspendedReason ? 'suspended project' : project.domain}</span>
                           </Button>
                         </div>
@@ -146,6 +149,13 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <Markdown length={80}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
                     </div>
                   </ProjectLink>
+                  {showEditButton && (
+                    <footer>
+                      <Button variant="secondary" as="a" href={getEditorUrl(project.domain)}>
+                        Edit Project
+                      </Button>
+                    </footer>
+                  )}
                 </div>
               </>
             );
@@ -167,11 +177,13 @@ ProjectItem.propTypes = {
   }).isRequired,
   projectOptions: PropTypes.object,
   collection: PropTypes.object,
+  showEditButton: PropTypes.bool,
 };
 
 ProjectItem.defaultProps = {
   projectOptions: {},
   collection: null,
+  showEditButton: false,
 };
 
 export default ProjectItem;
