@@ -12,7 +12,7 @@ import TeamPage from './team';
 import UserPage from './user';
 
 const mustExist = (value) => {
-  if (!value) throw Error('Not found');
+  if (!value) throw new Error('Not found');
   return value;
 };
 
