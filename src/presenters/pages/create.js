@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classNames from 'classnames/bind';
+import styled from 'styled-components';
 import { Button, Icon, Loader, Mark } from '@fogcreek/shared-components';
 
 import GlitchHelmet from 'Components/glitch-helmet';
@@ -9,7 +10,7 @@ import { TeamAvatar, ProjectAvatar } from 'Components/images/avatar';
 import Text from 'Components/text/text';
 import Markdown from 'Components/text/markdown';
 import Heading from 'Components/text/heading';
-import Link from 'Components/link';
+import Link, { TeamLink } from 'Components/link';
 import Embed from 'Components/project/embed';
 import Video from 'Components/video';
 import WistiaVideo from 'Components/wistia-video';
@@ -20,13 +21,31 @@ import CategoriesGrid from 'Components/categories-grid';
 import { useAPI } from 'State/api';
 import { useTracker } from 'State/segment-analytics';
 import { getRemixUrl } from 'Models/project';
-import { getTeamLink } from 'Models/team';
 import { emojiPattern } from 'Shared/regex';
 import { CDN_URL } from 'Utils/constants';
 import useSample from 'Hooks/use-sample';
 
 import styles from './create.styl';
 import { emoji as emojiStyle } from '../../components/global.styl';
+
+const RatioWrap = styled.div`
+  width: 100%;
+  height: 0;
+  padding-bottom: ${({ aspectRatio }) => aspectRatio * 100}%;
+  position: relative;
+`;
+const RatioInner = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
+const RatioContainer = ({ children, ...props }) => (
+  <RatioWrap {...props}>
+    <RatioInner>{children}</RatioInner>
+  </RatioWrap>
+);
 
 function RemixButton({ app, type, size, emoji, children }) {
   const trackRemix = useTracker('Click Remix', {
@@ -166,7 +185,7 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button as="a" href={getTeamLink(team)}>{team.name}</Button>
+          <Button as={TeamLink} team={team}>{team.name}</Button>
         </div>
         <Text size="14px">
           <Markdown renderAsPlaintext>{team.description}</Markdown>
@@ -285,7 +304,9 @@ function ScreencapSection({ title, description, video, smallVideos, blob, image,
       ))}
 
       <div className={classNames(styles.screencap, styles.bigScreencap)}>
-        <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
+        <RatioContainer aspectRatio={968 / 1600}>
+          <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
+        </RatioContainer>
       </div>
 
       <div className={classNames(styles.screencapBlob, styles.blobContainer)}>
@@ -418,12 +439,14 @@ function VSCode() {
           loop
         />
         <div className={classNames(styles.screencap, styles.bigScreencap)}>
-          <Video
-            sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
-            track="muted"
-            autoPlay
-            loop
-          />
+          <RatioContainer aspectRatio={968 / 1600}>
+            <Video
+              sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
+              track="muted"
+              autoPlay
+              loop
+            />
+          </RatioContainer>
         </div>
       </div>
     </section>

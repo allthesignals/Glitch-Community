@@ -17,7 +17,7 @@ const nullMyStuffCollection = {
   coverColor: pickRandomColor(),
   projects: [],
   id: 'nullMyStuff',
-  isPrivate: true,
+  private: true,
 };
 
 // puts my stuff at the front of the array, if my stuff doesn't exist we add it.

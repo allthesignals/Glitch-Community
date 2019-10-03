@@ -188,6 +188,10 @@ export const { reducer, actions } = createSlice({
     }),
     // TODO: more granular actions for managing user's teams, collections etc
     updated: (state, { payload }) => ({ ...state, ...payload }),
+    // TODO: use the same action that's defined in the resource manager PR
+    leftProject: (state, { payload }) => {
+      state.projects = state.projects.filter((p) => p.id !== payload.id);
+    },
   },
 });
 
@@ -287,8 +291,7 @@ export const useSuperUserHelpers = () => {
       window.scrollTo(0, 0);
       window.location.reload();
     },
-    canBecomeSuperUser:
-      cachedUser && cachedUser.projects && cachedUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
+    canBecomeSuperUser: cachedUser && cachedUser.projects && cachedUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
     superUserFeature,
   };
 };

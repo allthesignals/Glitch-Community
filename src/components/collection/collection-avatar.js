@@ -61,11 +61,6 @@ export const CollectionDefaultAvatar = ({ color, projectCount }) => (
   </svg>
 );
 
-CollectionDefaultAvatar.propTypes = {
-  color: PropTypes.object.isRequired,
-  projectCount: PropTypes.object.isRequired,
-};
-
 // the avatar that appears on collection pages
 const CollectionAvatar = ({ collection }) => (
   <div
