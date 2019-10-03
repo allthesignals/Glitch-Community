@@ -34,6 +34,8 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
 
   const trackedLeaveProject = useTrackedFunc(projectOptions.leaveProject, 'Leave Project clicked');
   const trackedJoinProject = useTrackedFunc(projectOptions.joinTeamProject, 'Join Project clicked');
+  
+  console.log('projectOptions', Object.keys(projectOptions));
 
   return (
     <section className={styles.projectEmbed}>
