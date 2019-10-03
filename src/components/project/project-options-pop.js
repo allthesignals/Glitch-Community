@@ -4,8 +4,8 @@ import { mapValues } from 'lodash';
 
 import { PopoverDialog, PopoverActions, PopoverMenuButton, PopoverMenu, MultiPopover } from 'Components/popover';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
-import { useCurrentUser } from 'State/current-user';
 import { useTrackedFunc } from 'State/segment-analytics';
+import { useCurrentUser } from 'State/current-user';
 import { userIsProjectTeamMember } from 'Models/project';
 
 import LeaveProjectPopover from './leave-project-pop';
@@ -26,8 +26,8 @@ const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover
   const { currentUser } = useCurrentUser();
   const onClickDeleteProject = useTrackedFunc(projectOptions.deleteProject, 'Delete Project clicked');
   const trackedLeaveProjectDirect = useTrackedFunc(leaveProjectDirect, 'Leave Project clicked');
-  const isMember = userIsProjectTeamMember({ user: currentUser, project });
-  const onClickLeaveProject = isMember ? trackedLeaveProjectDirect : leaveProjectPopover;
+  const isTeamMember = userIsProjectTeamMember({ user: currentUser, project });
+  const onClickLeaveProject = isTeamMember ? trackedLeaveProjectDirect : leaveProjectPopover;
 
   return (
     <PopoverDialog align="right">
@@ -39,7 +39,7 @@ const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover
             { onClick: projectOptions.removePin, label: 'Un-Pin', emoji: 'pushpin' },
           ],
           [{ onClick: projectOptions.displayNewNote, label: 'Add Note', emoji: 'spiralNotePad' }],
-          [{ onClick: addToCollectionPopover, label: 'Add to Collection', emoji: 'framedPicture' }],
+          [{ onClick: projectOptions.addProjectToCollection && addToCollectionPopover, label: 'Add to Collection', emoji: 'framedPicture' }],
           [{ onClick: projectOptions.joinTeamProject, label: 'Join Project', emoji: 'rainbow' }],
           [{ onClick: leaveProjectDirect && onClickLeaveProject, label: 'Leave Project', emoji: 'wave' }],
           [
