@@ -61,18 +61,10 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
       <Title>Leave {project.domain}</Title>
       <Actions>
         <Image height="50px" width="auto" src={illustration} alt="" />
-<<<<<<< HEAD
         <br />
         Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
       </Actions>
       <DangerZone>
-=======
-        <ActionDescription>
-          Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
-        </ActionDescription>
-      </PopoverActions>
-      <PopoverActions type="dangerZone">
->>>>>>> 930063bc93006fdc321e494727128a9aaa3d991f
         <Button
           variant="warning"
           onClick={() => {
@@ -131,7 +123,6 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
   const toggleBeforeActions = (togglePopover) => mapValues(projectOptions, (action) => toggleBeforeAction(togglePopover, action));
 
   return (
-<<<<<<< HEAD
     <Popover
       align="right"
       renderLabel={({ onClick, ref }) => (
@@ -169,28 +160,6 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
           projectOptions={toggleBeforeActions(onClose)}
           addToCollectionPopover={() => {
             setActiveView('addToCollection');
-=======
-    <PopoverMenu label={`Project Options for ${project.domain}`}>
-      {({ togglePopover }) => (
-        <MultiPopover
-          views={{
-            addToCollection: ({ createCollection }) => (
-              <AddProjectToCollectionBase
-                fromProject
-                project={project}
-                togglePopover={togglePopover}
-                addProjectToCollection={projectOptions.addProjectToCollection}
-                createCollectionPopover={createCollection}
-              />
-            ),
-            createCollection: () => (
-              <CreateCollectionWithProject
-                project={project}
-                addProjectToCollection={toggleBeforeAction(togglePopover, projectOptions.addProjectToCollection)}
-              />
-            ),
-            leaveProject: () => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={togglePopover} />,
->>>>>>> 930063bc93006fdc321e494727128a9aaa3d991f
           }}
           leaveProjectPopover={() => {
             setActiveView('leaveProject');

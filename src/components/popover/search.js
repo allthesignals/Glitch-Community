@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
-import { Actions, Icon, Info, Loader } from '@fogcreek/shared-components';
-=======
-import { Icon, Loader, TextInput } from '@fogcreek/shared-components';
->>>>>>> 930063bc93006fdc321e494727128a9aaa3d991f
+import { Actions, Icon, Info, Loader, TextInput } from '@fogcreek/shared-components';
 
 import ResultsList from 'Components/containers/results-list';
 

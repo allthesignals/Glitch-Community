@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { parseOneAddress } from 'email-addresses';
 import { debounce, trimStart } from 'lodash';
 import axios from 'axios';
-<<<<<<< HEAD
-import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
-=======
-import { Button, Icon, Loader, TextArea, TextInput } from '@fogcreek/shared-components';
->>>>>>> 930063bc93006fdc321e494727128a9aaa3d991f
+import { Actions, Button, Icon, Info, Loader, Popover, TextArea, TextInput, Title } from '@fogcreek/shared-components';
 
 import Notification from 'Components/notification';
 import { useCurrentUser } from 'State/current-user';

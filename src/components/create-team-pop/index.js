@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { kebabCase, debounce } from 'lodash';
 import { withRouter } from 'react-router-dom';
-<<<<<<< HEAD
-import { Actions, Button, Icon, Info, Loader, Title } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, TextInput, Title } from '@fogcreek/shared-components';
 
-
-import TextInput from 'Components/inputs/text-input';
-=======
-import { Button, Icon, Loader, TextInput } from '@fogcreek/shared-components';
-
-import { MultiPopoverTitle, PopoverDialog, PopoverInfo, PopoverActions, InfoDescription } from 'Components/popover';
->>>>>>> 930063bc93006fdc321e494727128a9aaa3d991f
 import { getPredicates, getTeamPair } from 'Models/words';
 import { getTeamLink } from 'Models/team';
 import { useAPI } from 'State/api';

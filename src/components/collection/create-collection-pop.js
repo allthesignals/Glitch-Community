@@ -3,11 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, orderBy } from 'lodash';
 import { withRouter } from 'react-router-dom';
-<<<<<<< HEAD
-import { Actions, Button, Loader, Popover, Title } from '@fogcreek/shared-components';
-=======
-import { Button, Loader, TextInput } from '@fogcreek/shared-components';
->>>>>>> 930063bc93006fdc321e494727128a9aaa3d991f
+import { Actions, Button, Loader, Popover, TextInput, Title } from '@fogcreek/shared-components';
 
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import { AddProjectToCollectionMsg } from 'Components/notification';
