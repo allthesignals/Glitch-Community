@@ -6,6 +6,7 @@ import ReportButton from 'Components/report-abuse-pop';
 import { useTracker, useTrackedFunc } from 'State/segment-analytics';
 import { userIsProjectMember, userIsProjectTeamMember } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
+import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
 
 import { EditButton, RemixButton, MembershipButton } from './project-actions';
@@ -18,7 +19,8 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
   const projectOptions = useProjectOptions(project, addProjectToCollection ? { addProjectToCollection } : {});
   const { currentUser } = useCurrentUser();
 
-  const isMember = userIsProjectMember({ project, user: currentUser });
+  const { value: members } = useProjectMembers(project.id);
+  const isMember = userIsProjectMember({ members, user: currentUser });
   const canBecomeMember = userIsProjectTeamMember({ project, user: currentUser });
 
   const trackRemix = useTracker('Click Remix', {
