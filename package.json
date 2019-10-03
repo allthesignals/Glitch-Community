@@ -31,7 +31,7 @@
     "build:webpack": "npx webpack",
     "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
     "build": "npm run build:webpack && npm run build:babel",
-    "test": "mocha"
+    "test": "mocha --require ./register-babel.js"
   },
   "dependencies": {
     "@babel/cli": "^7.5.5",
@@ -149,6 +149,8 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "mocha": "^6.2.0"
   }
 }

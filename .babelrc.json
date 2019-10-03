@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": "41",
+        },
+        "corejs": "runtime"
+      }
+    ]
+  ],
+  "plugins": [
+    "styled-components",
+    "@babel/syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties"
+  ],
+  "sourceType": "unambiguous"
+}
