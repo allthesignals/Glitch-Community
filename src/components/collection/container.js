@@ -145,19 +145,29 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
     }
   };
 
+  const featuredProject = projects[currentProjectIndex];
+
   return (
     <>
-      <div>
-        <Button onClick={back} disabled={currentProjectIndex === 0}>
-          back
-        </Button>
-        <Button onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
-          forward
-        </Button>
+      <div className={classnames(styles.playerContainer, isDarkColor(collection.coverColor) && styles.dark)} style={{ backgroundColor: collection.coverColor, borderColor: collection.coverColor }}>
+        <div className={styles.playerHeader}>
+          projectAvatar will go here
+          {featuredProject.domain}
+          <Button onClick={back} disabled={currentProjectIndex === 0}>
+            back
+          </Button>
+          <Button onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
+            forward
+          </Button>
+        </div>
+        <div className={styles.playerDescription}>
+          <Text>{featuredProject.description}</Text>
+          author will go here
+        </div>
       </div>
       <FeaturedProject
         isAuthorized={isAuthorized}
-        featuredProject={projects[currentProjectIndex]}
+        featuredProject={featuredProject}
         unfeatureProject={funcs.unfeatureProject}
         addProjectToCollection={funcs.addProjectToCollection}
         collection={collection}
