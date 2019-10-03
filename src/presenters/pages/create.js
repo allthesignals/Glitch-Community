@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classNames from 'classnames/bind';
+import styled from 'styled-components';
 import { Button, Icon, Loader, Mark } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
@@ -26,6 +27,25 @@ import useSample from 'Hooks/use-sample';
 
 import styles from './create.styl';
 import { emoji as emojiStyle } from '../../components/global.styl';
+
+const RatioWrap = styled.div`
+  width: 100%;
+  height: 0;
+  padding-bottom: ${({ aspectRatio }) => aspectRatio * 100}%;
+  position: relative;
+`;
+const RatioInner = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
+const RatioContainer = ({ children, ...props }) => (
+  <RatioWrap {...props}>
+    <RatioInner>{children}</RatioInner>
+  </RatioWrap>
+);
 
 function RemixButton({ app, type, size, emoji, children }) {
   const trackRemix = useTracker('Click Remix', {
@@ -284,7 +304,9 @@ function ScreencapSection({ title, description, video, smallVideos, blob, image,
       ))}
 
       <div className={classNames(styles.screencap, styles.bigScreencap)}>
-        <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
+        <RatioContainer aspectRatio={968 / 1600}>
+          <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
+        </RatioContainer>
       </div>
 
       <div className={classNames(styles.screencapBlob, styles.blobContainer)}>
@@ -417,12 +439,14 @@ function VSCode() {
           loop
         />
         <div className={classNames(styles.screencap, styles.bigScreencap)}>
-          <Video
-            sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
-            track="muted"
-            autoPlay
-            loop
-          />
+          <RatioContainer aspectRatio={968 / 1600}>
+            <Video
+              sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
+              track="muted"
+              autoPlay
+              loop
+            />
+          </RatioContainer>
         </div>
       </div>
     </section>
