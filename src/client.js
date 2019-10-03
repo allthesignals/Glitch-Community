@@ -14,7 +14,7 @@ import { configureScope, captureException } from 'Utils/sentry';
 import { EDITOR_URL, OPTIMIZELY_KEY } from 'Utils/constants';
 import { TestsProvider } from 'State/ab-tests';
 import { GlobalsProvider } from 'State/globals';
-import { OptimizelyProvider } from 'State/optimizely';
+import { OptimizelyProvider } from 'State/rollouts';
 import App from './app';
 
 dayjs.extend(relativeTimePlugin);

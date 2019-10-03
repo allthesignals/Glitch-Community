@@ -4,7 +4,7 @@ import { resetIdCounter } from 'react-tabs';
 import { resetUniqueId } from 'Hooks/use-unique-id';
 import { GlobalsProvider } from 'State/globals';
 import { TestsProvider } from 'State/ab-tests';
-import { OptimizelyProvider } from 'State/optimizely';
+import { OptimizelyProvider } from 'State/rollouts';
 import App from './app';
 
 const Page = ({

@@ -9,7 +9,7 @@ import Text from 'Components/text/text';
 import { createAPIHook } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
-import { useFeatureEnabled } from 'State/optimizely';
+import { useFeatureEnabled } from 'State/rollouts';
 import TeamAnalyticsTimePop from './team-analytics-time-pop';
 import TeamAnalyticsProjectPop from './team-analytics-project-pop';
 import SummaryItem from './team-analytics-summary';
