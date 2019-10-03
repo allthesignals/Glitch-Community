@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { kebabCase, debounce } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Actions, Button, Icon, Info, Loader, Title } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, TextInput, Title } from '@fogcreek/shared-components';
 
-
-import TextInput from 'Components/inputs/text-input';
 import { getPredicates, getTeamPair } from 'Models/words';
 import { getTeamLink } from 'Models/team';
 import { useAPI } from 'State/api';
@@ -129,7 +127,7 @@ const CreateTeamPop = withRouter(({ onBack, history }) => {
 
       <Actions>
         <form onSubmit={handleSubmit}>
-          <TextInput autoFocus labelText={placeholder} value={state.teamName} onChange={handleChange} placeholder={placeholder} error={state.error} />
+          <TextInput autoFocus label={placeholder} value={state.teamName} onChange={handleChange} error={state.error} />
           <div className={styles.teamUrlPreview}>/@{kebabCase(state.teamName || placeholder)}</div>
 
           {state.isLoading ? (

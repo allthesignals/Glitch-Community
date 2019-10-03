@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { parseOneAddress } from 'email-addresses';
 import { debounce, trimStart } from 'lodash';
 import axios from 'axios';
-import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, Popover, TextArea, TextInput, Title } from '@fogcreek/shared-components';
 
-import TextArea from 'Components/inputs/text-area';
-import TextInput from 'Components/inputs/text-input';
 import Notification from 'Components/notification';
 import { useCurrentUser } from 'State/current-user';
 import { captureException } from 'Utils/sentry';
@@ -120,6 +118,7 @@ function ReportAbusePop({ reportedType, reportedModel }) {
       <Title>Report Abuse</Title>
       <Actions>
         <TextArea
+          label="Report Abuse"
           className={styles.textArea}
           value={reason}
           onChange={reasonOnChange}
@@ -143,7 +142,7 @@ function ReportAbusePop({ reportedType, reportedModel }) {
             placeholder="your@email.com"
             error={emailError}
             type="email"
-            labelText="email address"
+            label="email address"
           />
         </Info>
       )}
