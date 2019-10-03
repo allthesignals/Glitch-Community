@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Button, Icon, Loader, TextInput } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
-import Button from 'Components/buttons/button';
-import TextInput from 'Components/inputs/text-input';
 import Notification from 'Components/notification';
-import Loader from 'Components/loader';
 import useEmail from 'Hooks/use-email';
 import { useAPI } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
 import styles from './styles.styl';
+import { emoji } from '../global.styl';
 
-const GetMagicCode = () => {
+const GetMagicCode = ({ onCodeSent }) => {
   const api = useAPI();
   const [email, setEmail, validationError] = useEmail();
   const [isFocused, setIsFocused] = useState(true);
@@ -23,8 +23,9 @@ const GetMagicCode = () => {
 
     setStatus({ status: 'loading' });
     try {
-      await api.post('/email/sendLoginEmail', { emailAddress: email });
-      setStatus({ status: 'done' });
+      const data = { emailAddress: email };
+      await api.post('/email/sendLoginEmail', data);
+      onCodeSent(data);
     } catch (error) {
       if (error && error.response) {
         if (error.response.status === 429) {
@@ -49,7 +50,7 @@ const GetMagicCode = () => {
         <form onSubmit={onSubmit} style={{ marginBottom: 10 }}>
           <TextInput
             type="email"
-            labelText="Email address"
+            label="Email address"
             value={email}
             onChange={setEmail}
             onBlur={() => setIsFocused(false)}
@@ -60,21 +61,13 @@ const GetMagicCode = () => {
             testingId="sign-in-email"
           />
           <div className={styles.submitWrap}>
-            <Button emoji="loveLetter" disabled={!isEnabled || validationError} onClick={onSubmit}>
-              Send a Code
+            <Button disabled={!isEnabled || validationError} onClick={onSubmit}>
+              Send a Code <Icon className={emoji} icon="loveLetter" />
             </Button>
           </div>
         </form>
       )}
       {status === 'loading' && <Loader />}
-      {status === 'done' && (
-        <>
-          <Notification persistent type="success">
-            Almost Done
-          </Notification>
-          <div>Finish signing in from the email sent to {email}.</div>
-        </>
-      )}
       {status === 'error' && (
         <>
           <Notification persistent type="error">
@@ -85,6 +78,10 @@ const GetMagicCode = () => {
       )}
     </div>
   );
+};
+
+GetMagicCode.propTypes = {
+  onCodeSent: PropTypes.func.isRequired,
 };
 
 export default GetMagicCode;

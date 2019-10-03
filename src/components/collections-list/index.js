@@ -30,7 +30,6 @@ const CreateFirstCollection = () => (
 */
 function MyStuffController({ children, collections, isAuthorized, maybeTeam }) {
   const myStuffEnabled = useDevToggle('My Stuff');
-
   // put mystuff at beginning of list (and fake one if it's not there yet)
   const collectionsWithMyStuff = getCollectionsWithMyStuff({ collections });
 
@@ -112,7 +111,7 @@ function CollectionsList({
                   </>
                 )}
 
-                {hasCollections && (
+                {!!collectionsWithMyStuff.length && (
                   <SkipSectionButtons sectionName="Collections">
                     {renderItems((filteredCollections) => (
                       <PaginationController
@@ -122,7 +121,7 @@ function CollectionsList({
                         fetchDataOptimistically={getCollectionProjects}
                       >
                         {(paginatedCollections, isExpanded) => (
-                          <Grid items={paginatedCollections}>
+                          <Grid items={paginatedCollections} className={styles.collectionsGrid}>
                             {(collection) =>
                               myStuffEnabled && collection.isMyStuff ? (
                                 <MyStuffItem collection={collection} isAuthorized={isAuthorized} showLoader={isExpanded} />

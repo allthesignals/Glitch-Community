@@ -7,9 +7,11 @@ import rootTeams from 'Curated/teams';
 
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
+import { useAppMounted } from 'State/app-mounted';
 
-import { FacebookLoginPage, GitHubLoginPage, GoogleLoginPage, SlackLoginPage, EmailTokenLoginPage } from './login';
-import ResetPasswordPage from './reset-password';
+import LoginPage from './login';
+import ResetPasswordPage from './login/reset-password';
+import { FacebookLoginPage, GitHubLoginPage, GoogleLoginPage, EmailTokenLoginPage } from './login/callbacks';
 import OauthSignIn from './signin';
 import JoinTeamPage from './join-team';
 import QuestionsPage from './questions';
@@ -52,18 +54,15 @@ const PageChangeHandler = withRouter(({ location }) => {
   const { reload } = useCurrentUser();
   const isUpdate = useRef(false);
 
-  useEffect(
-    () => {
-      if (isUpdate.current) {
-        window.scrollTo(0, 0);
-        reload();
-      }
+  useEffect(() => {
+    if (isUpdate.current) {
+      window.scrollTo(0, 0);
+      reload();
+    }
 
-      isUpdate.current = true;
-      track();
-    },
-    [location.key],
-  );
+    isUpdate.current = true;
+    track();
+  }, [location.key]);
 
   const [scrolledToLinkedEl, setScrolledToLinkedEl] = useState(false);
   let linkedEl = null;
@@ -81,6 +80,7 @@ const PageChangeHandler = withRouter(({ location }) => {
 
 const Router = () => {
   const { EXTERNAL_ROUTES } = useGlobals();
+  useAppMounted();
   return (
     <>
       <PageChangeHandler />
@@ -90,6 +90,7 @@ const Router = () => {
         <Route path="/index/preview" exact render={({ location }) => <NewHomePagePreview key={location.key} />} />
         <Route path="/pupdates/preview" exact render={({ location }) => <PupdatesPreview key={location.key} />} />
 
+        <Route path="/login" exact render={({ location }) => <LoginPage key={location.key} />} />
         <Route
           path="/login/facebook"
           exact
@@ -110,11 +111,6 @@ const Router = () => {
           render={({ location }) => (
             <GoogleLoginPage key={location.key} code={parse(location.search, 'code')} error={parse(location.search, 'error')} />
           )}
-        />
-        <Route
-          path="/login/slack"
-          exact
-          render={({ location }) => <SlackLoginPage key={location.key} code={parse(location.search, 'code')} error={parse(location.search, 'error')} />}
         />
         <Route
           path="/login/email"

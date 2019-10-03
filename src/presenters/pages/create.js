@@ -1,30 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import classNames from 'classnames/bind';
-import { values, sampleSize, shuffle } from 'lodash';
+import styled from 'styled-components';
+import { Button, Icon, Loader, Mark } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
 import { TeamAvatar, ProjectAvatar } from 'Components/images/avatar';
 import Text from 'Components/text/text';
 import Markdown from 'Components/text/markdown';
 import Heading from 'Components/text/heading';
-import Button from 'Components/buttons/button';
-import Link from 'Components/link';
+import Link, { TeamLink } from 'Components/link';
 import Embed from 'Components/project/embed';
 import Video from 'Components/video';
 import WistiaVideo from 'Components/wistia-video';
 import Layout from 'Components/layout';
-import Loader from 'Components/loader';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
+import CategoriesGrid from 'Components/categories-grid';
 import { useAPI } from 'State/api';
 import { useTracker } from 'State/segment-analytics';
 import { getRemixUrl } from 'Models/project';
-import { getTeamLink } from 'Models/team';
 import { emojiPattern } from 'Shared/regex';
 import { CDN_URL } from 'Utils/constants';
+import useSample from 'Hooks/use-sample';
 
 import styles from './create.styl';
+import { emoji as emojiStyle } from '../../components/global.styl';
+
+const RatioWrap = styled.div`
+  width: 100%;
+  height: 0;
+  padding-bottom: ${({ aspectRatio }) => aspectRatio * 100}%;
+  position: relative;
+`;
+const RatioInner = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
+const RatioContainer = ({ children, ...props }) => (
+  <RatioWrap {...props}>
+    <RatioInner>{children}</RatioInner>
+  </RatioWrap>
+);
 
 function RemixButton({ app, type, size, emoji, children }) {
   const trackRemix = useTracker('Click Remix', {
@@ -34,17 +54,11 @@ function RemixButton({ app, type, size, emoji, children }) {
   });
 
   return (
-    <Button href={getRemixUrl(app.domain)} onClick={() => trackRemix()} type={type} size={size} emoji={emoji}>
-      {children}
+    <Button as="a" href={getRemixUrl(app.domain)} onClick={() => trackRemix()} variant={type} size={size}>
+      {children} {emoji && <Icon className={emojiStyle} icon={emoji} />}
     </Button>
   );
 }
-
-const Mark = ({ color, children }) => (
-  <span className={styles.mark} style={{ '--mark-color': color }}>
-    <span className={styles.markText}>{children}</span>
-  </span>
-);
 
 const Unmarked = ({ children }) => <span className={styles.unmarked}>{children}</span>;
 
@@ -170,7 +184,7 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button href={getTeamLink(team)}>{team.name}</Button>
+          <Button as={TeamLink} team={team}>{team.name}</Button>
         </div>
         <Text size="14px">
           <Markdown renderAsPlaintext>{team.description}</Markdown>
@@ -187,7 +201,7 @@ function Starters() {
       const url = `/v1/teams/by/url?url=${PLATFORM_STARTERS.join('&url=')}`;
       const { data } = await api.get(url);
 
-      let teams = values(data);
+      let teams = Object.values(data);
       teams = teams.map((team) => Object.assign(team, { description: team.description.replace(emojiPattern, '') }));
       setPlatformStarters(teams);
     };
@@ -221,7 +235,7 @@ function Starters() {
           </Heading>
           <Text size="16px">Your favorite companies use Glitch to share apps that get you up and running with their APIs.</Text>
         </div>
-        {platformStarters ? platformStarters.map(PlatformStarterItem) : <Loader />}
+        {platformStarters ? platformStarters.map(PlatformStarterItem) : <Loader style={{ width: '25px' }} />}
       </div>
     </section>
   );
@@ -289,7 +303,9 @@ function ScreencapSection({ title, description, video, smallVideos, blob, image,
       ))}
 
       <div className={classNames(styles.screencap, styles.bigScreencap)}>
-        <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
+        <RatioContainer aspectRatio={968 / 1600}>
+          <Video track="muted" autoPlay loop sources={[{ src: video, minWidth: 670 }]} />
+        </RatioContainer>
       </div>
 
       <div className={classNames(styles.screencapBlob, styles.blobContainer)}>
@@ -339,7 +355,7 @@ function Help() {
           <Heading tagName="h3">Help Center</Heading>
           <Text>The best place to find answers about Glitch</Text>
           <Text>
-            <Button href="https://glitch.com/help">
+            <Button as="a" href="https://glitch.com/help">
               Read FAQs <span aria-hidden="true">&rarr;</span>
             </Button>
           </Text>
@@ -360,7 +376,7 @@ function Help() {
           <Heading tagName="h3">Support Forum</Heading>
           <Text>Personalized support for your app-specific questions.</Text>
           <Text>
-            <Button href="https://support.glitch.com">
+            <Button as="a" href="https://support.glitch.com">
               Get Support <span aria-hidden="true">&rarr;</span>
             </Button>
           </Text>
@@ -399,11 +415,11 @@ function VSCode() {
 
       <Text className={styles.sectionDescription}>
         <Button
+          as="a"
           href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch"
-          image={<Image src={vscodeIcon} alt="" width="17" height="17" />}
-          imagePosition="left"
         >
-          Download from Visual Studio Marketplace <span aria-hidden="true">&rarr;</span>
+          <Image src={vscodeIcon} alt="" width="17" height="17" />
+          &nbsp;Download from Visual Studio Marketplace <span aria-hidden="true">&rarr;</span>
         </Button>
       </Text>
 
@@ -422,12 +438,14 @@ function VSCode() {
           loop
         />
         <div className={classNames(styles.screencap, styles.bigScreencap)}>
-          <Video
-            sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
-            track="muted"
-            autoPlay
-            loop
-          />
+          <RatioContainer aspectRatio={968 / 1600}>
+            <Video
+              sources={[{ src: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.mp4?v=1562182730854`, minWidth: 670 }]}
+              track="muted"
+              autoPlay
+              loop
+            />
+          </RatioContainer>
         </div>
       </div>
     </section>
@@ -446,7 +464,7 @@ function GitHub() {
       </Text>
 
       <Text className={styles.sectionDescription}>
-        <Button href="https://glitch.com/help/import-git/">
+        <Button as="a" href="https://glitch.com/help/import-git/">
           Find Out How <span aria-hidden="true">&rarr;</span>
         </Button>
       </Text>
@@ -465,12 +483,8 @@ function Remix() {
   ];
 
   const [currentTab, setCurrentTab] = useState(0);
-  const [apps, setApps] = useState([]);
-
-  useEffect(() => {
-    // we show 5 apps total: starter-leaflet first because it's pretty, 4 random projects after
-    setApps([leaflet].concat(shuffle(sampleSize(appsToRandomize, 4))));
-  }, []);
+  // we show 5 apps total: starter-leaflet first because it's pretty, 4 random projects after
+  const apps = [leaflet].concat(useSample(appsToRandomize, 4));
 
   return (
     <VisibilityContainer>
@@ -512,70 +526,10 @@ function Remix() {
 }
 
 function Categories() {
-  const categories = [
-    {
-      name: 'Games',
-      color: '#fae3d1',
-      url: '/games',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Ftetris.svg?v=1561575626455`,
-    },
-    {
-      name: 'Bots',
-      color: '#c7bff0',
-      url: '/handy-bots',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fbot.svg?v=1561575218667`,
-    },
-    {
-      name: 'Music',
-      color: '#a9c4f7',
-      url: '/music',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fmusic.svg?v=1561575625725`,
-    },
-    {
-      name: 'Art',
-      color: '#f2a7bb',
-      url: '/art',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fart.svg?v=1561575091996`,
-    },
-    {
-      name: 'Productivity',
-      color: '#7aa4d3',
-      url: '/tools-for-work',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fwork.svg?v=1561575627331`,
-    },
-    {
-      name: 'Hardware',
-      color: '#6cd8a9',
-      url: '/hardware',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fhardware.svg?v=1561575405808`,
-    },
-    {
-      name: 'Building Blocks',
-      color: '#65cad2',
-      url: '/building-blocks',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fbuilding-blocks.svg?v=1561575219123`,
-    },
-    {
-      name: 'Learn to Code',
-      color: '#f8d3c8',
-      url: '/learn-to-code',
-      icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Flearn.svg?v=1561575404279`,
-    },
-  ];
   return (
     <section className={classNames(styles.categories, styles.section)}>
       <Text>...or browse starter apps for inspiration</Text>
-
-      <ul className={styles.categoriesGrid}>
-        {categories.map((category) => (
-          <li key={category.url} className={styles.categoriesGridItem} style={{ '--bgColor': category.color }}>
-            <Link to={category.url}>
-              <Image src={category.icon} alt="" />
-              {category.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <CategoriesGrid className={styles.categoriesGrid} wrapItems />
     </section>
   );
 }

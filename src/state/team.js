@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import * as assets from 'Utils/assets';
 
@@ -9,15 +9,14 @@ import useUploader from 'State/uploader';
 import useErrorHandlers from 'State/error-handlers';
 import { useProjectReload } from 'State/project';
 
-const MEMBER_ACCESS_LEVEL = 20;
-const ADMIN_ACCESS_LEVEL = 30;
+import { MEMBER_ACCESS_LEVEL, userIsOnlyTeamAdmin } from 'Models/team';
 
 // eslint-disable-next-line import/prefer-default-export
 export function useTeamEditor(initialTeam) {
   const { currentUser, update: updateCurrentUser } = useCurrentUser();
   const { uploadAssetSizes } = useUploader();
   const { createNotification } = useNotifications();
-  const { handleError, handleErrorForInput } = useErrorHandlers();
+  const { handleError, handleErrorForInput, handleImageUploadError } = useErrorHandlers();
   const { getAvatarImagePolicy, getCoverImagePolicy } = assets.useAssetPolicy();
   const reloadProjectMembers = useProjectReload();
   const {
@@ -36,6 +35,10 @@ export function useTeamEditor(initialTeam) {
     joinTeamProject,
   } = useAPIHandlers();
   const [team, setTeam] = useState(initialTeam);
+
+  useEffect(() => {
+    setTeam(initialTeam);
+  }, [initialTeam]);
 
   async function updateFields(changes) {
     const { data } = await updateItem({ team }, changes);
@@ -76,16 +79,6 @@ export function useTeamEditor(initialTeam) {
     }));
   }
 
-  function removeUserAdmin(user) {
-    const index = team.adminIds.indexOf(user.id);
-    if (index !== -1) {
-      setTeam((prev) => ({
-        ...prev,
-        counter: prev.adminIds.splice(index, 1),
-      }));
-    }
-  }
-
   const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
 
   const funcs = {
@@ -111,7 +104,6 @@ export function useTeamEditor(initialTeam) {
       await Promise.all(projects.map((project) => removeUserFromProject({ project, user })));
       // Now remove them from the team. Remove them last so if something goes wrong you can do this over again
       await removeUserFromTeam({ user, team });
-      removeUserAdmin(user);
       setTeam((prev) => ({
         ...prev,
         teamPermissions: prev.teamPermissions.filter((p) => p.userId !== user.id),
@@ -129,7 +121,10 @@ export function useTeamEditor(initialTeam) {
       assets.requestFile(
         withErrorHandler(async (blob) => {
           const { data: policy } = await getAvatarImagePolicy({ team });
-          await uploadAssetSizes(blob, policy, assets.AVATAR_SIZES);
+          const success = await uploadAssetSizes(blob, policy, assets.AVATAR_SIZES);
+          if (!success) {
+            return;
+          }
 
           const image = await assets.blobToImage(blob);
           const color = assets.getDominantColor(image);
@@ -138,13 +133,16 @@ export function useTeamEditor(initialTeam) {
             backgroundColor: color,
           });
           setTeam((prev) => ({ ...prev, updatedAt: Date.now() }));
-        }, handleError),
+        }, handleImageUploadError),
       ),
     uploadCover: () =>
       assets.requestFile(
         withErrorHandler(async (blob) => {
           const { data: policy } = await getCoverImagePolicy({ team });
-          await uploadAssetSizes(blob, policy, assets.COVER_SIZES);
+          const success = await uploadAssetSizes(blob, policy, assets.COVER_SIZES);
+          if (!success) {
+            return;
+          }
 
           const image = await assets.blobToImage(blob);
           const color = assets.getDominantColor(image);
@@ -153,7 +151,7 @@ export function useTeamEditor(initialTeam) {
             coverColor: color,
           });
           setTeam((prev) => ({ ...prev, updatedAt: Date.now() }));
-        }, handleError),
+        }, handleImageUploadError),
       ),
     clearCover: () => updateFields({ hasCoverImage: false }).catch(handleError),
     addProject: withErrorHandler(async (project) => {
@@ -183,31 +181,27 @@ export function useTeamEditor(initialTeam) {
       await addPinnedProject({ project, team });
       setTeam((prev) => ({
         ...prev,
-        teamPins: [...prev.teamPins, { projectId: project.id }],
+        pinnedProjects: [...prev.pinnedProjects, project],
       }));
     }, handleError),
     removePin: withErrorHandler(async (project) => {
       await removePinnedProject({ project, team });
       setTeam((prev) => ({
         ...prev,
-        teamPins: prev.teamPins.filter((p) => p.projectId !== project.id),
+        pinnedProjects: prev.pinnedProjects.filter((p) => p.id !== project.id),
       }));
     }, handleError),
     updateWhitelistedDomain: (whitelistedDomain) => updateFields({ whitelistedDomain }).catch(handleError),
     updateUserPermissions: withErrorHandler(async (user, accessLevel) => {
-      if (accessLevel === MEMBER_ACCESS_LEVEL && team.adminIds.length <= 1) {
+      if (accessLevel === MEMBER_ACCESS_LEVEL && userIsOnlyTeamAdmin({ user, team })) {
         createNotification('A team must have at least one admin', { type: 'error' });
         return false;
       }
       await updateUserAccessLevel({ user, team }, accessLevel);
-      if (accessLevel === ADMIN_ACCESS_LEVEL) {
-        setTeam((prev) => ({
-          ...prev,
-          counter: prev.adminIds.push(user.id),
-        }));
-      } else {
-        removeUserAdmin(user);
-      }
+      setTeam((prev) => {
+        const teamPermissions = prev.teamPermissions.map((perm) => perm.userId === user.id ? { ...perm, accessLevel } : perm);
+        return { ...prev, teamPermissions };
+      });
       return null;
     }, handleError),
     joinTeamProject: withErrorHandler(async (project) => {

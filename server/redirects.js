@@ -8,11 +8,11 @@ module.exports = function(app) {
   redirect(app, '/you-got-this*', '/culture/you-got-this-zine/');
   redirect(app, '/function*', '/culture/function/');
   redirect(app, '/revisionpath*', '/culture/revisionpath/');
+  redirect(app, '/open-world*', '/culture/open-world/');
   redirect(app, '/careers*', '/about/careers/');
   redirect(app, '/mythbustersjr*', '/culture/mythbusters-jr/');
   redirect(app, '/mythbusters*', '/culture/mythbusters-jr/');
   redirect(app, '/saastr', 'https://saastr.glitch.me/');
-  redirect(app, '/storybook', '/storybook/index.html');
   redirect(app, '/vscode', 'https://marketplace.visualstudio.com/items?itemName=glitch.glitch');  
   redirect(app, '/support', 'https://support.glitch.com');
   redirectPath(app, '/featured*', '/culture/');

@@ -9,14 +9,11 @@ const StatsPlugin = require('stats-webpack-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { EnvironmentPlugin } = require('webpack');
-const aliases = require('./shared/aliases');
+const aliases = require('./aliases');
 
-const BUILD = path.resolve(__dirname, 'build');
+const BUILD = path.resolve(__dirname, 'build/client');
 const SRC = path.resolve(__dirname, 'src');
 const SHARED = path.resolve(__dirname, 'shared');
-const STYLES = path.resolve(__dirname, 'styles');
-const NODE_MODULES = path.resolve(__dirname, 'node_modules');
-const STYLE_BUNDLE_NAME = 'styles';
 
 let mode = 'development';
 if (process.env.NODE_ENV === 'production') {
@@ -27,10 +24,10 @@ const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
 
 console.log(`Starting Webpack in ${mode} mode.`);
 
-let prevBuildAssets = [];
+let prevBuildAssets = ['**/*'];
 try {
   const prevBuildStats = JSON.parse(fs.readFileSync(path.resolve(BUILD, 'stats.json')));
-  prevBuildAssets = ['!stats.json'].concat(...prevBuildStats.assets.map((asset) => `!${asset.name}`));
+  prevBuildAssets = [...prevBuildAssets, '!stats.json', ...prevBuildStats.assets.map((asset) => `!${asset.name}`)];
 } catch (error) {
   // Don't worry about it, there's probably just no stats.json
 }
@@ -39,7 +36,6 @@ module.exports = smp.wrap({
   mode,
   entry: {
     client: `${SRC}/client.js`,
-    [STYLE_BUNDLE_NAME]: `${STYLES}/styles.styl`,
   },
   output: {
     filename: '[name].[chunkhash:8].js',
@@ -99,7 +95,7 @@ module.exports = smp.wrap({
   context: path.resolve(__dirname),
   resolve: {
     extensions: ['.js'],
-    alias: aliases,
+    alias: aliases.client,
   },
   module: {
     rules: [
@@ -122,9 +118,11 @@ module.exports = smp.wrap({
           {
             test: /\.js$/,
             loader: 'babel-loader',
-            include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED, NODE_MODULES],
-            query: {
+            include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED, /[\\/]@fogcreek[\\/]/],
+            options: {
               compact: mode === 'development' ? true : false,
+              // we can't rely on babel's auto config loading for stuff in node_modules
+              configFile: path.resolve(__dirname, './.babelrc.client.json'),
             },
           },
           {
@@ -139,26 +137,6 @@ module.exports = smp.wrap({
                   modules: {
                     localIdentName: '[name]__[local]___[hash:base64:5]',
                   },
-                },
-              },
-              {
-                loader: 'stylus-loader',
-                options: {
-                  compress: mode === 'production', // Compress CSS as part of the stylus build
-                  use: [AutoprefixerStylus()],
-                },
-              },
-            ],
-          },
-          {
-            test: /\.styl$/,
-            include: STYLES,
-            use: [
-              MiniCssExtractPlugin.loader,
-              {
-                loader: 'css-loader',
-                options: {
-                  sourceMap: mode !== 'production', // no css source maps in production
                 },
               },
               {
@@ -185,12 +163,15 @@ module.exports = smp.wrap({
       hash: true,
       publicPath: true,
     }),
-    new CleanWebpackPlugin({ dry: false, verbose: true, cleanOnceBeforeBuildPatterns: ['**/*', '!storybook/**', ...prevBuildAssets] }),
+    new CleanWebpackPlugin({ dry: false, verbose: true, cleanOnceBeforeBuildPatterns: prevBuildAssets }),
     new EnvironmentPlugin({
       FWD_SUBDOMAIN_PREFIX: process.env.PROJECT_NAME || os.userInfo().username,
-    }),    
+    }),
   ],
   watchOptions: {
     ignored: /node_modules/,
+  },
+  stats: {
+    children: false,
   },
 });

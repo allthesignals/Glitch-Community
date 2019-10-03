@@ -1,15 +1,5 @@
 @import '../../components/constants.styl';
 
-u0 = 2px
-u05 = 4px
-u1 = 5px
-u2 = 10px
-u3 = 16px
-u4 = 32px
-u5 = 50px
-
-focusYellow = #fff25c
-
 .main
   max-width: 1100px
   margin: auto
@@ -23,20 +13,6 @@ focusYellow = #fff25c
   font-size: 23px
 .h3
   font-size: 20px
-.mark
-  display: inline-block
-  transform: rotate(-1deg)
-  position: relative
-  left: "-%s" % u1
-  z-index: 0
-  background-color: var(--mark-color)
-  padding: u05 u2
-  border-radius: u1
-  line-height: 1
-.markText
-  position: relative
-  display: inline-block
-  transform: rotate(1deg)
 .unmarked
   position: relative
   z-index: 1
@@ -425,37 +401,17 @@ focusYellow = #fff25c
 .embedRemixBtn
   margin-top: u2
   text-align: center
-  
+
 // categories
 .categories
   text-align: center
+
 .categoriesGrid
-  display: grid
-  grid-gap: u3
-  padding: 0
   grid-template-columns: repeat(2, 1fr)
   @media (min-width: mediumViewport)
     grid-template-columns: repeat(4, 1fr)
   @media (min-width: largeViewport)    
     grid-template-columns: repeat(8, 1fr)
-.categoriesGridItem
-  list-style: none
-  text-align: center
-  background: var(--bgColor);
-  border-radius: u05
-  font-size: 12px
-  font-weight: 600
-  a
-    display: block
-    width: 100%
-    height: 100%
-    padding: u2 u1 u1 u1
-    color: inherit
-  img
-    display: block
-    max-width: 60px
-    height: 50px
-    margin: 0 auto u1 auto
 
  // wistia embeds
 .whatIsGlitchVideoContainer :global

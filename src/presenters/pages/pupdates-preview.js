@@ -1,5 +1,5 @@
 import React from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { withRouter } from 'react-router-dom';
 
 import PreviewContainer from 'Components/containers/preview-container';
@@ -10,13 +10,13 @@ import { useGlobals } from 'State/globals';
 
 import { NewStuffOverlay } from 'Components/new-stuff';
 
-const PupdatesPreview = withRouter(({ history }) => {
+const PupdatesPreview = withRouter(() => {
   const api = useAPI();
   const { origin } = useGlobals();
   const onPublish = async (data) => {
     try {
       await api.post(`${origin}/api/pupdate`, data);
-      history.push('/');
+      window.location = '/';
     } catch (e) {
       console.error(e);
     }

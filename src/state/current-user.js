@@ -1,32 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { mapKeys, memoize } from 'lodash';
+import { createSlice } from 'redux-starter-kit';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { getSingleItem, getAllPages, allByKeys } from 'Shared/api';
 import { sortProjectsByLastAccess } from 'Models/project';
 import { configureScope, captureException, captureMessage, addBreadcrumb } from 'Utils/sentry';
-import useLocalStorage from './local-storage';
+import runLatest from 'Utils/run-latest';
+import { getStorage, readFromStorage, writeToStorage } from './local-storage';
 import { getAPIForToken } from './api'; // eslint-disable-line import/no-cycle
+import { appMounted } from './app-mounted';
 
-export const Context = React.createContext();
-
-// Default values for all of the user fields we need you to have
-// We always generate a 'real' anon user, but use this until we do
-const defaultUser = {
-  id: 0,
-  login: null,
-  name: null,
-  description: '',
-  color: '#aaa',
-  avatarUrl: null,
-  avatarThumbnailUrl: null,
-  hasCoverImage: false,
-  coverColor: null,
-  emails: [],
-  features: [],
-  projects: [],
-  teams: [],
-  collections: [],
-};
+const getStorageMemo = memoize(getStorage);
+const getFromStorage = (key) => readFromStorage(getStorageMemo(), key);
+const setStorage = (key, value) => writeToStorage(getStorageMemo(), key, value);
 
 function identifyUser(user) {
   document.cookie = `hasLogin=; expires=${new Date()}`;
@@ -57,6 +43,7 @@ function identifyUser(user) {
           login: user.login,
           email,
           created_at: user.createdAt,
+          ...mapKeys(window.AB_TESTS, (assignment, test) => `abtest-${test}`),
         },
         { groupId: '0' },
       );
@@ -111,11 +98,9 @@ async function getCachedUser(sharedUser) {
   if (!sharedUser.id || !sharedUser.persistentToken) return 'error';
   const api = getAPIForToken(sharedUser.persistentToken);
   try {
-    const makeUrl = (type) => `v1/users/by/id/${type}?id=${sharedUser.id}&limit=100`;
-    const makeOrderedUrl = (type, order, direction) => `${makeUrl(type)}&orderKey=${order}&orderDirection=${direction}`;
-    const {
-      baseUser, emails, projects, teams, collections,
-    } = await allByKeys({
+    const makeUrl = (type) => `v1/users/by/id/${type}?id=${sharedUser.id}&limit=100&cache=${Date.now()}`;
+    const makeOrderedUrl = (type, order, direction) => `${makeUrl(type)}&orderKey=${order}&orderDirection=${direction}&cache=${Date.now()}`;
+    const { baseUser, emails, projects, teams, collections } = await allByKeys({
       baseUser: getSingleItem(api, `v1/users/by/id?id=${sharedUser.id}&cache=${Date.now()}`, sharedUser.id),
       emails: getAllPages(api, makeUrl('emails')),
       projects: getAllPages(api, makeOrderedUrl('projects', 'domain', 'ASC')),
@@ -133,24 +118,6 @@ async function getCachedUser(sharedUser) {
     throw error;
   }
 }
-
-const getSuperUserHelpers = (cachedUser) => {
-  const superUserFeature = cachedUser && cachedUser.features && cachedUser.features.find((feature) => feature.name === 'super_user');
-
-  return {
-    toggleSuperUser: async () => {
-      if (!cachedUser) return;
-      const api = getAPIForToken(cachedUser.persistentToken);
-      await api.post(`https://support-toggle.glitch.me/support/${superUserFeature ? 'disable' : 'enable'}`);
-      window.scrollTo(0, 0);
-      window.location.reload();
-    },
-    canBecomeSuperUser:
-      cachedUser && cachedUser.projects && cachedUser.projects.filter((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff').length > 0,
-    superUserFeature,
-  };
-};
-
 const logSharedUserError = (sharedUser, newSharedUser) => {
   console.log(`Fixed shared cachedUser from ${sharedUser.id} to ${newSharedUser && newSharedUser.id}`);
   addBreadcrumb({
@@ -164,119 +131,167 @@ const logSharedUserError = (sharedUser, newSharedUser) => {
   captureMessage('Invalid cachedUser');
 };
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// sharedUser syncs with the editor and is authoritative on id and persistentToken
+const sharedUserKey = 'cachedUser';
+// cachedUser mirrors the v1 API data and is what we actually display
+const cachedUserKey = 'community-cachedUser';
 
-const useDebouncedAsync = (fn) => {
-  const [working, setWorking] = useState(false); // tracks if fn is currently running
-  const [pending, setPending] = useState(false); // run fn again whenever it finishes
-  const debouncedFn = async () => {
-    if (working) {
-      setPending(true);
-      return;
-    }
-    setWorking(true);
-    setPending(false);
-    // delay loading a moment so both items from storage have a chance to update
-    await sleep(1);
-    await fn();
-    setWorking(false);
-  };
-  useEffect(() => {
-    if (!working && pending) {
-      debouncedFn();
-    }
-  }, [working, pending]);
-  return debouncedFn;
+// Default values for all of the user fields we need you to have
+// We always generate a 'real' anon user, but use this until we do
+const defaultUser = {
+  id: 0,
+  login: null,
+  name: null,
+  description: '',
+  color: '#aaa',
+  avatarUrl: null,
+  avatarThumbnailUrl: null,
+  hasCoverImage: false,
+  coverColor: null,
+  emails: [],
+  features: [],
+  projects: [],
+  teams: [],
+  collections: [],
 };
 
-export const CurrentUserProvider = ({ children }) => {
-  const [fetched, setFetched] = useState(false); // Set true on first complete load
+export const { reducer, actions } = createSlice({
+  slice: 'currentUser',
+  initialState: {
+    ...defaultUser,
+    status: 'loading',
+  },
+  reducers: {
+    loadedFromCache: (_, { payload }) => ({
+      ...payload,
+      status: 'loading', // because this data is probably stale
+    }),
+    loadedFresh: (_, { payload }) => ({
+      ...payload,
+      status: 'ready',
+    }),
+    loggedIn: () => ({
+      ...defaultUser,
+      status: 'loading', // because the auth token has been set, but there's no user data yet
+    }),
+    loggedOut: () => ({
+      ...defaultUser,
+      status: 'loading', // because we're now fetching a new anonymous user
+    }),
+    requestedReload: (state) => ({
+      ...state,
+      status: 'loading',
+    }),
+    updatedInAnotherTab: (state, { payload }) => ({
+      ...state,
+      ...payload,
+    }),
+    // TODO: more granular actions for managing user's teams, collections etc
+    updated: (state, { payload }) => ({ ...state, ...payload }),
+    // TODO: use the same action that's defined in the resource manager PR
+    leftProject: (state, { payload }) => {
+      state.projects = state.projects.filter((p) => p.id !== payload.id);
+    },
+  },
+});
 
-  // sharedUser syncs with the editor and is authoritative on id and persistentToken
-  const [sharedUser, setSharedUser, ready] = useLocalStorage('cachedUser', null);
-  // put sharedUser in a ref so that we can access its current value in load(),
-  // even if it was changed elsewhwere
-  const sharedUserRef = useRef(sharedUser);
-  useEffect(() => {
-    sharedUserRef.current = sharedUser;
-  }, [sharedUser]);
+// eslint-disable-next-line func-names
+const load = runLatest(function* (action, store) {
+  let sharedUser = getFromStorage(sharedUserKey);
 
-  // cachedUser mirrors GET /users/{id} and is what we actually display
-  const [cachedUser, setCachedUser] = useLocalStorage('community-cachedUser', null);
+  // If we're signed out create a new anon user
+  if (!sharedUser) {
+    sharedUser = yield getAnonUser();
+    setStorage(sharedUserKey, sharedUser);
+  }
 
-  const load = useDebouncedAsync(async () => {
-    let sharedOrAnonUser = sharedUser;
+  let newCachedUser = yield getCachedUser(sharedUser);
 
-    // If we're signed out create a new anon user
-    if (!sharedOrAnonUser) {
-      sharedOrAnonUser = await getAnonUser();
-      setSharedUser(sharedOrAnonUser);
-    }
+  while (newCachedUser === 'error') {
+    // Looks like our sharedUser is bad
+    // Anon users get their token and id deleted when they're merged into a user on sign in
+    const prevSharedUser = sharedUser;
+    sharedUser = yield getSharedUser(sharedUser.persistentToken);
+    setStorage(sharedUserKey, sharedUser);
+    logSharedUserError(prevSharedUser, sharedUser);
 
-    // Check if we have to clear the cached user
-    if (!usersMatch(sharedOrAnonUser, cachedUser)) {
-      setCachedUser(undefined);
-    }
+    newCachedUser = yield getCachedUser(sharedUser);
+  }
 
-    const newCachedUser = await getCachedUser(sharedOrAnonUser);
+  // The shared user is good, store it
+  setStorage(cachedUserKey, newCachedUser);
+  identifyUser(newCachedUser);
+  store.dispatch(actions.loadedFresh(newCachedUser));
+});
 
-    if (newCachedUser === 'error') {
-      // Looks like our sharedUser is bad, make sure it wasn't changed since we read it
-      // Anon users get their token and id deleted when they're merged into a user on sign in
-      // If it did change then quit out and let useEffect sort it out
-      if (usersMatch(sharedOrAnonUser, sharedUserRef.current)) {
-        // The user wasn't changed, so we need to fix it
-        setFetched(false);
-        const newSharedUser = await getSharedUser(sharedOrAnonUser.persistentToken);
-        setSharedUser(newSharedUser);
-        logSharedUserError(sharedUser, newSharedUser);
+export const handlers = {
+  [appMounted]: async (action, store) => {
+    const onStorage = (event) => {
+      if (!event.key || event.key === sharedUserKey || event.key === cachedUserKey) {
+        store.dispatch(actions.updatedInAnotherTab(getFromStorage(cachedUserKey)));
       }
-    } else {
-      // The shared user is good, store it
-      setCachedUser(newCachedUser);
-      setFetched(true);
+    };
+
+    window.addEventListener('storage', onStorage, { passive: true });
+
+    const cachedUser = getFromStorage(cachedUserKey);
+    if (cachedUser) {
+      identifyUser(cachedUser);
+      store.dispatch(actions.loadedFromCache(cachedUser));
     }
-  });
+    await load(action, store);
+  },
+  [actions.requestedReload]: load,
+  [actions.updated]: (_, store) => {
+    setStorage(cachedUserKey, store.getState().currentUser);
+  },
+  [actions.loggedIn]: async (action, store) => {
+    setStorage(sharedUserKey, action.payload);
+    setStorage(cachedUserKey, undefined);
+    await load(action, store);
+  },
+  [actions.loggedOut]: async (action, store) => {
+    setStorage(sharedUserKey, undefined);
+    setStorage(cachedUserKey, undefined);
+    await load(action, store);
+  },
+  [actions.updatedInAnotherTab]: async (action, store) => {
+    const sharedUser = getFromStorage(sharedUserKey);
+    if (!sharedUser) {
+      store.dispatch(actions.loggedOut());
+    } else if (!usersMatch(sharedUser, store.getState().currentUser)) {
+      store.dispatch(actions.loggedIn(sharedUser));
+    }
+  },
+};
 
-  useEffect(() => {
-    identifyUser(cachedUser);
-  }, [cachedUser && cachedUser.id, cachedUser && cachedUser.persistentToken]);
-
-  useEffect(() => {
-    if (ready) load();
-    // for easier debugging
-    window.currentUser = cachedUser;
-  }, [
-    ready,
-    cachedUser && cachedUser.id,
-    cachedUser && cachedUser.persistentToken,
-    sharedUser && sharedUser.id,
-    sharedUser && sharedUser.persistentToken,
-  ]);
-
-  const userProps = {
-    currentUser: { ...defaultUser, ...sharedUser, ...cachedUser },
-    persistentToken: sharedUser ? sharedUser.persistentToken : null,
-    fetched: !!cachedUser && fetched,
-    reload: load,
-    login: (data) => {
-      setSharedUser(data);
-      setCachedUser(undefined);
-    },
-    update: (changes) => {
-      setCachedUser({ ...cachedUser, ...changes });
-    },
-    clear: () => {
-      setSharedUser(undefined);
-      setCachedUser(undefined);
-    },
-    superUserHelpers: getSuperUserHelpers(cachedUser),
+export const useCurrentUser = () => {
+  const currentUser = useSelector((state) => state.currentUser);
+  const dispatch = useDispatch();
+  return {
+    currentUser,
+    fetched: currentUser.status === 'ready',
+    persistentToken: currentUser.persistentToken,
+    reload: () => dispatch(actions.requestedReload()),
+    login: (data) => dispatch(actions.loggedIn(data)),
+    update: (data) => dispatch(actions.updated(data)),
+    clear: () => dispatch(actions.loggedOut()),
   };
-
-  return <Context.Provider value={userProps}>{children}</Context.Provider>;
-};
-CurrentUserProvider.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
-export const useCurrentUser = () => React.useContext(Context);
+export const useSuperUserHelpers = () => {
+  const { currentUser: cachedUser } = useCurrentUser();
+  const superUserFeature = cachedUser && cachedUser.features && cachedUser.features.find((feature) => feature.name === 'super_user');
+
+  return {
+    toggleSuperUser: async () => {
+      if (!cachedUser) return;
+      const api = getAPIForToken(cachedUser.persistentToken);
+      await api.post(`https://support-toggle.glitch.me/support/${superUserFeature ? 'disable' : 'enable'}`);
+      window.scrollTo(0, 0);
+      window.location.reload();
+    },
+    canBecomeSuperUser: cachedUser && cachedUser.projects && cachedUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
+    superUserFeature,
+  };
+};

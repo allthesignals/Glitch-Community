@@ -7,17 +7,86 @@
 body
   font-family: sansserif
   color: primary
+  margin: 0
+  overflow-x: hidden
 
-// visually hides content while allowing it to be accessible to assistive technology (e.g., when you don't want an input label in the design even though all inputs must be labeled)  
-.visuallyHidden
-  border: 0 !important
-  height: 1px !important
-  width: 1px !important
-  margin: -1px !important
-  overflow: hidden !important
-  padding: 0 !important
-  position: absolute !important
-  white-space: nowrap !important
-  clip: rect(1px, 1px, 1px, 1px) !important
-  clip-path: inset(50%) !important
-  -webkit-clip-path: inset(50%) !important
+h1
+  font-weight: bold
+  font-size: 22px
+
+h2
+  font-weight: bold
+  font-size: 18px
+  a
+    color: primary
+
+h3
+  font-size: 16px
+
+h4
+  font-size: 14px
+
+p
+  line-height: 20px
+
+a, :global(.link)
+  color: link
+  text-decoration: none
+  &:hover
+    text-decoration: underline
+
+hr
+  background-color: section-line
+  height: 1px
+  border: none
+
+main,
+section
+  clear: both
+
+section,
+article
+  margin-top: 1rem
+  margin-bottom: 1rem
+
+section
+  margin-top: 2rem
+
+.emoji
+  height: 1em !important
+  width: 1em !important
+  vertical-align: sub !important
+  margin-left: 5px !important
+  margin-bottom: 2px !important 
+
+// styles for index.ejs
+// There will always be a little special sauce here, since these styles have to work
+// in a no-react environment.
+:global
+  #fallback
+    #fallback-img
+      padding: calc(20%) 0
+      margin: 0 auto
+    .error-msg 
+      background: secondary-background 
+      border: 3px solid black
+      border-radius: 10px
+      h1, p
+        margin: 20px
+
+  @media(min-width: 700px)
+    #fallback
+      main
+        width: 700px
+        position: absolute
+        top: 40%
+        left: 50%
+        transform: translate(-50%, -40%)
+      #fallback-img
+        padding: 0
+        float: left
+        margin-right: 40px
+      .error-msg
+        float: left
+        width: 350px
+        margin-top: 65px

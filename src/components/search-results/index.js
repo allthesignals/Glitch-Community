@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { mapValues, values } from 'lodash';
+import { Badge, Button, Loader, SegmentedButton } from '@fogcreek/shared-components';
 
 import { createAPIHook } from 'State/api';
 
-import SegmentedButtons from 'Components/buttons/segmented-buttons';
-import Button from 'Components/buttons/button';
-import Badge from 'Components/badges/badge';
 import Heading from 'Components/text/heading';
 import UserItem from 'Components/user/user-item';
 import TeamItem from 'Components/team/team-item';
@@ -15,13 +14,12 @@ import CollectionItemSmall from 'Components/collection/collection-item-small';
 import StarterKitItem from 'Components/search/starter-kit-result';
 import Grid from 'Components/containers/grid';
 import NotFound from 'Components/errors/not-found';
-import Loader from 'Components/loader';
 import styles from './search-results.styl';
 
 const FilterContainer = ({ filters, activeFilter, setFilter }) => {
   const buttons = filters.map((filter) => ({
-    name: filter.id,
-    contents: (
+    id: filter.id,
+    label: (
       <>
         {filter.label}
         {filter.hits && <Badge>{filter.hits > filter.maxHits ? `${filter.maxHits}+` : filter.hits}</Badge>}
@@ -29,7 +27,7 @@ const FilterContainer = ({ filters, activeFilter, setFilter }) => {
     ),
   }));
 
-  return <SegmentedButtons value={activeFilter} buttons={buttons} onChange={setFilter} />;
+  return <SegmentedButton variant="secondary" value={activeFilter} options={buttons} onChange={setFilter} />;
 };
 
 const groups = [
@@ -39,12 +37,15 @@ const groups = [
   { id: 'collection', label: 'Collections' },
 ];
 
-const useProjectsWithUserData = createAPIHook(async (api, projects) => {
-  if (!projects.length) return {};
-  const idString = projects.map((p) => `id=${p.id}`).join('&');
-  const { data } = await api.get(`/v1/projects/by/id?${idString}&limit=100`);
-  return data;
-}, { captureException: true });
+const useProjectsWithUserData = createAPIHook(
+  async (api, projects) => {
+    if (!projects.length) return {};
+    const idString = projects.map((p) => `id=${p.id}`).join('&');
+    const { data } = await api.get(`/v1/projects/by/id?${idString}&limit=100`);
+    return data;
+  },
+  { captureException: true },
+);
 
 const resultComponents = {
   team: ({ result }) => <TeamItem team={result} />,
@@ -93,6 +94,7 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
   const ready = searchResults.status === 'ready';
   const noResults = ready && searchResults.totalHits === 0;
   const showTopResults = ready && searchResults.starterKit.length + searchResults.topResults.length > 0 && activeFilter === 'all';
+  const topResultsIncludesProject = showTopResults && values(mapValues(searchResults.topResults, (result) => result.type)).includes('project');
 
   const filters = [
     { id: 'all', label: 'All' },
@@ -116,19 +118,21 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
 
   return (
     <main className={styles.page} id="main">
-      {ready && searchResults.totalHits > 0 && (
-        <FilterContainer filters={filters} setFilter={setActiveFilter} activeFilter={activeFilter} />
-      )}
+      {ready && searchResults.totalHits > 0 && <FilterContainer filters={filters} setFilter={setActiveFilter} activeFilter={activeFilter} />}
       {activeFilter === 'all' && <h1>All results for {query}</h1>}
-      {!ready && <Loader />}
+      {!ready && <Loader style={{ width: '25px' }} />}
       {showTopResults && (
         <article className={classnames(styles.groupContainer, styles.topResults)}>
           <Heading tagName="h2">Top Results</Heading>
           <Grid items={searchResults.starterKit} className={styles.starterKitResultsContainer}>
             {(result) => <StarterKitItem result={result} />}
           </Grid>
-          <Grid items={searchResults.topResults} className={styles.resultsContainer}>
-            {(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}
+          <Grid items={searchResults.topResults} className={classnames(styles.resultsContainer, topResultsIncludesProject && styles.includesProject)}>
+            {(result) => (
+              <div className={classnames(styles.resultWrap, result.type === 'project' && styles.project)}>
+                <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />
+              </div>
+            )}
           </Grid>
         </article>
       )}
@@ -136,9 +140,7 @@ function SearchResults({ query, searchResults, activeFilter, setActiveFilter }) 
         renderedGroups.map(({ id, label, results, canShowMoreResults }) => (
           <article key={id} className={styles.groupContainer}>
             <Heading tagName="h2">{label}</Heading>
-            <Grid items={results} className={styles.resultsContainer}>
-              {(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}
-            </Grid>
+            <Grid items={results} gap="25px">{(result) => <ResultComponent result={result} projectsWithUserData={projectsWithUserData} />}</Grid>
             {canShowMoreResults && <ShowAllButton label={label} onClick={() => setActiveFilter(id)} />}
           </article>
         ))}

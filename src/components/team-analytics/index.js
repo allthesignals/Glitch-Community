@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { cloneDeep, sumBy } from 'lodash';
 import sampleAnalytics, { sampleAnalyticsTime } from 'Curated/sample-analytics';
+import { Loader, SegmentedButton } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
-import SegmentedButtons from 'Components/buttons/segmented-buttons';
-import Loader from 'Components/loader';
 import { createAPIHook } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
+import isFeatureEnabled from 'State/rollout-toggles';
 import TeamAnalyticsTimePop from './team-analytics-time-pop';
 import TeamAnalyticsProjectPop from './team-analytics-project-pop';
 import SummaryItem from './team-analytics-summary';
@@ -18,6 +18,7 @@ import Referrers from './team-analytics-referrers';
 import TeamAnalyticsProjectDetails from './team-analytics-project-details';
 
 import styles from './styles.styl';
+
 
 const dateFromTime = (newTime) => {
   const timeMap = {
@@ -44,7 +45,9 @@ function getSampleAnalytics() {
 }
 
 const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  if (!projects.length) return getSampleAnalytics();
+  if (!isFeatureEnabled('analytics', String(id)) || projects.length === 0) {
+    return getSampleAnalytics();
+  }
 
   const path = currentProjectDomain ? `analytics/${id}/project/${currentProjectDomain}?from=${fromDate}` : `analytics/${id}/team?from=${fromDate}`;
   try {
@@ -57,9 +60,26 @@ const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, cur
 });
 
 function useAnalytics(props) {
-  // make an object with a stable identity so it can be used as single argumnent to api hook
+  // make an object with a stable identity so it can be used as single argument to api hook
   const memoProps = useMemo(() => props, Object.values(props));
   return useAnalyticsData(memoProps);
+}
+
+function BannerMessage({ id, projects }) {
+  if (!isFeatureEnabled('analytics', String(id))) {
+    return (
+      <aside className={styles.inlineBanner}>
+        Analytics are currently unavailable.
+        Have questions? Email us at <strong>support@glitch.com</strong>
+      </aside>
+    );
+  }
+  if (projects.length === 0) {
+    return (
+      <aside className={styles.inlineBanner}>Add projects to see their stats</aside>
+    );
+  }
+  return null;
 }
 
 function TeamAnalytics({ id, projects }) {
@@ -69,6 +89,8 @@ function TeamAnalytics({ id, projects }) {
   const fromDate = useMemo(() => dateFromTime(currentTimeFrame), [currentTimeFrame]);
 
   const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
+
+  const placeholder = !isFeatureEnabled('analytics', String(id)) || projects.length === 0;
 
   const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
 
@@ -82,12 +104,12 @@ function TeamAnalytics({ id, projects }) {
   );
 
   // segmented button filters
-  const buttons = [{ name: 'views', contents: 'App Views' }, { name: 'remixes', contents: 'Remixes' }];
+  const buttons = [{ id: 'views', label: 'App Views' }, { id: 'remixes', label: 'Remixes' }];
 
   if (!analytics) {
     return (
       <section className={styles.container}>
-        <Loader />
+        <Loader style={{ width: '25px' }} />
       </section>
     );
   }
@@ -96,13 +118,13 @@ function TeamAnalytics({ id, projects }) {
     <section className={styles.container}>
       <h2>
         Analytics
-        {projects.length === 0 && <aside className={styles.inlineBanner}>Add projects to see their stats</aside>}
+        {placeholder && <BannerMessage id={id} projects={projects} />}
       </h2>
 
       {projects.length > 0 && (
         <section className={styles.section}>
           <div className={styles.segmentedButtonsWrap}>
-            <SegmentedButtons value={activeFilter} buttons={buttons} onChange={setActiveFilter} />
+            <SegmentedButton value={activeFilter} options={buttons} onChange={setActiveFilter} />
           </div>
           <div className={styles.options}>
             <TeamAnalyticsProjectPop updateProjectDomain={setCurrentProjectDomain} currentProjectDomain={currentProjectDomain} projects={projects} />
@@ -145,7 +167,7 @@ function TeamAnalytics({ id, projects }) {
         </section>
       </div>
 
-      {!projects.length && <div className={styles.placeholderMask} />}
+      {placeholder && <div className={styles.placeholderMask} />}
     </section>
   );
 }

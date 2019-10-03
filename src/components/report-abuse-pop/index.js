@@ -3,19 +3,16 @@ import PropTypes from 'prop-types';
 import { parseOneAddress } from 'email-addresses';
 import { debounce, trimStart } from 'lodash';
 import axios from 'axios';
+import { Button, Icon, Loader, TextArea, TextInput } from '@fogcreek/shared-components';
 
-import TextArea from 'Components/inputs/text-area';
-import Loader from 'Components/loader';
-import TextInput from 'Components/inputs/text-input';
 import Notification from 'Components/notification';
-import Button from 'Components/buttons/button';
-import Emoji from 'Components/images/emoji';
 import { PopoverWithButton, PopoverDialog, PopoverInfo, PopoverActions, PopoverTitle, InfoDescription } from 'Components/popover';
 import { useCurrentUser } from 'State/current-user';
 import { captureException } from 'Utils/sentry';
 import { getAbuseReportTitle, getAbuseReportBody } from 'Utils/abuse-reporting';
 
 import styles from './styles.styl';
+import { emoji } from '../global.styl';
 
 function getDefaultReason(reportedType) {
   if (reportedType === 'user') {
@@ -52,7 +49,7 @@ const Success = () => (
     <PopoverActions>
       <Notification persistent type="success">Report Sent</Notification>
       <InfoDescription>
-        Thanks for helping to keep Glitch a safe, friendly community <Emoji name="park" />
+        Thanks for helping to keep Glitch a safe, friendly community <Icon className={emoji} icon="park" />
       </InfoDescription>
     </PopoverActions>
   </>
@@ -61,7 +58,7 @@ const Success = () => (
 const Failure = ({ value }) => (
   <>
     <PopoverTitle>
-      Failed to Send <Emoji name="sick" />
+      Failed to Send <Icon className={emoji} icon="sick" />
     </PopoverTitle>
     <PopoverInfo>
       <InfoDescription>
@@ -126,6 +123,7 @@ function ReportAbusePop({ reportedType, reportedModel }) {
       <PopoverTitle>Report Abuse</PopoverTitle>
       <PopoverActions>
         <TextArea
+          label="Report Abuse"
           className={styles.textArea}
           value={reason}
           onChange={reasonOnChange}
@@ -151,13 +149,13 @@ function ReportAbusePop({ reportedType, reportedModel }) {
             placeholder="your@email.com"
             error={emailError}
             type="email"
-            labelText="email address"
+            label="email address"
           />
         </PopoverInfo>
       )}
       <PopoverActions>
         {status === 'loading' ? (
-          <Loader />
+          <Loader style={{ width: '25px' }} />
         ) : (
           <Button size="small" onClick={submitReport}>
             Submit Report
@@ -169,7 +167,7 @@ function ReportAbusePop({ reportedType, reportedModel }) {
 }
 
 const ReportAbusePopButton = ({ reportedType, reportedModel }) => (
-  <PopoverWithButton buttonProps={{ size: 'small', type: 'tertiary' }} buttonText="Report Abuse">
+  <PopoverWithButton buttonProps={{ size: 'small', variant: 'secondary' }} buttonText="Report Abuse">
     {() => (
       <PopoverDialog align="topLeft" wide>
         <ReportAbusePop reportedType={reportedType} reportedModel={reportedModel} />

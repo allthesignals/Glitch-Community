@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { sample } from 'lodash';
+import { Icon } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Link from 'Components/link';
 import Grid from 'Components/containers/grid';
 import ErrorBoundary from 'Components/error-boundary';
-import Arrow from 'Components/arrow';
 
 import { pickRandomColors } from 'Utils/color';
 import { captureException } from 'Utils/sentry';
@@ -21,6 +21,7 @@ async function load(api, max) {
   const kaomoji = sample(kaomojis);
   try {
     const { data } = await api.get(`projects/questions?cache=${Date.now()}`);
+
     const questions = data
       .map((q) => JSON.parse(q.details))
       .filter((q) => !!q)
@@ -29,6 +30,7 @@ async function load(api, max) {
         const [colorInner, colorOuter] = pickRandomColors(2);
         return { colorInner, colorOuter, id: question.questionId, ...question };
       });
+
     return { kaomoji, questions };
   } catch (error) {
     console.error(error);
@@ -51,14 +53,20 @@ function Questions({ max }) {
     kaomoji: '',
     questions: [],
   });
-  useRepeatingEffect(() => {
-    load(api, max).then(setState);
-  }, 10000, [api.persistentToken, max]);
+  useRepeatingEffect(
+    () => {
+      load(api, max).then(setState);
+    },
+    10000,
+    [api.persistentToken, max],
+  );
 
   return (
     <section className={styles.container}>
       <Heading tagName="h2">
-        <Link to="/questions">Help Others, Get Thanks <Arrow /></Link>
+        <Link to="/questions">
+          Help Others, Get Thanks <Icon className={styles.arrow} icon="arrowRight" />
+        </Link>
       </Heading>
       <div>
         {questions.length ? (

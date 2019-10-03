@@ -1,15 +1,16 @@
 import React, { useState, useContext, useMemo, createContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
+import { Button, Icon, VisuallyHidden } from '@fogcreek/shared-components';
+
 import TransparentButton from 'Components/buttons/transparent-button';
-import Button from 'Components/buttons/button';
 
 import PopoverContainer from './container';
 import PopoverDialog from './dialog';
 import PopoverSearch from './search';
 import { PopoverSection, PopoverActions, PopoverInfo, PopoverTitle, InfoDescription, ActionDescription } from './base';
 import styles from './styles.styl';
-import globalStyles from '../global.styl';
+import { emoji as emojiStyle } from '../global.styl';
 
 /*
 A popover is a light, hollow roll made from an egg batter similar to
@@ -58,7 +59,7 @@ export const MultiPopoverTitle = ({ children }) => {
     <TransparentButton onClick={() => setActiveView(defaultView)} aria-label="go back">
       <PopoverTitle>
         <span className={styles.backArrow}>
-          <span className="left-arrow icon" />
+          <Icon icon="chevronLeft" />
         </span>
         &nbsp;
         {children}
@@ -80,6 +81,7 @@ export const PopoverWithButton = ({ buttonProps, buttonText, children: renderChi
             <div className={styles.buttonWrap}>
               <Button {...buttonProps} ref={buttonRef} onClick={popoverProps.togglePopover}>
                 {buttonText}
+                {buttonProps.emoji && <Icon icon={buttonProps.emoji} className={emojiStyle} />}
               </Button>
             </div>
             {popoverProps.visible && renderChildren(popoverProps)}
@@ -114,7 +116,7 @@ export const PopoverMenu = ({ label, children: renderChildren, onOpen }) => {
                 <span className={styles.arrowPadding}>
                   <span className={styles.downArrow} />
                 </span>
-                <span className={globalStyles.visuallyHidden}>{label}</span>
+                <VisuallyHidden>{label}</VisuallyHidden>
               </TransparentButton>
             </div>
             {popoverProps.visible && renderChildren(popoverProps)}
@@ -139,8 +141,8 @@ PopoverMenu.defaultProps = {
 // Use with PopoverMenu so that popover can correctly adjust to fit the content
 export const PopoverMenuButton = ({ label, emoji, onClick }) => (
   <div className={styles.menuButtonWrap}>
-    <Button size="small" type="tertiary" emoji={emoji} onClick={onClick}>
-      <div className={styles.popoverButtonContent}>{label}</div>
+    <Button size="small" variant="secondary" onClick={onClick} className={styles.popoverButtonContent}>
+      {label} <Icon icon={emoji} />
     </Button>
   </div>
 );

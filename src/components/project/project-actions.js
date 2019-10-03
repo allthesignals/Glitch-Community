@@ -1,15 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button, Icon } from '@fogcreek/shared-components';
 
+<<<<<<< HEAD
 import Button, { SIZES } from 'Components/buttons/button';
 import { PopoverWithButton } from 'Components/popover';
 import { getShowUrl, getEditorUrl, getRemixUrl } from '../../models/project';
 
 import LeaveProjectPopover from './leave-project-pop';
+=======
+import { getShowUrl, getEditorUrl, getRemixUrl } from '../../models/project';
+
+import { emoji } from '../global.styl';
+>>>>>>> 3a2759a3d8d6765c11e2db65b99a78d6ab47ecbb
 
 export const ShowButton = ({ name, size }) => (
-  <Button href={getShowUrl(name)} size={size} emoji="sunglasses" emojiPosition="left">
-    Show
+  <Button as="a" href={getShowUrl(name)} size={size}>
+    <Icon icon="sunglasses" /> Show
   </Button>
 );
 
@@ -18,26 +25,26 @@ ShowButton.propTypes = {
 };
 
 export const EditButton = ({ name, isMember, size }) => (
-  <Button href={getEditorUrl(name)} size={size}>
+  <Button as="a" href={getEditorUrl(name)} size={size} variant={isMember ? 'cta' : undefined}>
     {isMember ? 'Edit Project' : 'View Source'}
   </Button>
 );
+
 EditButton.propTypes = {
   name: PropTypes.string.isRequired,
   isMember: PropTypes.bool,
-  size: PropTypes.oneOf(SIZES),
 };
 
 EditButton.defaultProps = {
   isMember: false,
-  size: null,
 };
 
 export const RemixButton = ({ name, isMember }) => (
-  <Button href={getRemixUrl(name)} size="small" emoji="microphone">
-    {isMember ? 'Remix This' : 'Remix your own'}
+  <Button as="a" href={getRemixUrl(name)} size="small">
+    {isMember ? 'Remix This' : 'Remix your own'} <Icon className={emoji} icon="microphone" />
   </Button>
 );
+
 RemixButton.propTypes = {
   name: PropTypes.string.isRequired,
   isMember: PropTypes.bool,

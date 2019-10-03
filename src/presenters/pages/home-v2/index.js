@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import classnames from 'classnames';
 import Pluralize from 'react-pluralize';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Button, Icon, Mark } from '@fogcreek/shared-components';
 
-import Button from 'Components/buttons/button';
 import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';
 import Embed from 'Components/project/embed';
@@ -15,11 +15,10 @@ import RecentProjects from 'Components/recent-projects';
 import ReportButton from 'Components/report-abuse-pop';
 import Layout from 'Components/layout';
 import Link from 'Components/link';
-import Mark from 'Components/mark';
 import PreviewContainer from 'Components/containers/preview-container';
-import Arrow from 'Components/arrow';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
+import OnboardingBanner from 'Components/onboarding-banner';
 import { useCurrentUser } from 'State/current-user';
 import { getEditorUrl, getProjectAvatarUrl } from 'Models/project';
 import { useAPI } from 'State/api';
@@ -29,6 +28,7 @@ import Banner from './banner';
 import CuratedCollectionContainer from './collection-container';
 import { Discover, Dreams, Teams } from './feature-callouts';
 import styles from './styles.styl';
+import { emoji } from '../../../components/global.styl';
 
 const calloutGraphics = {
   apps: {
@@ -133,13 +133,15 @@ const CuratedCollections = ({ content }) => (
     <Row items={content.map((data) => ({ ...data, id: data.fullUrl }))} className={styles.curatedCollectionRow}>
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
-          <h4 className={styles.h4}>{title}</h4>
-          <p>{description}</p>
           <div className={styles.curatedCollectionButtonWrap}>
-            <Button decorative>
-              View <Pluralize count={count} singular="Project" /> <Arrow />
+            <Button as="span">
+              {title}
             </Button>
           </div>
+          <p>{description}</p>
+          <span className={styles.collectionLink}>
+            View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
+          </span>
         </CuratedCollectionContainer>
       )}
     </Row>
@@ -167,8 +169,8 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
         <div className={styles.unifiedStoriesContentWrap}>
           <h3 className={styles.h3}>{dek}</h3>
           <Markdown>{summary}</Markdown>
-          <Button href={href}>
-            {cta} <Arrow />
+          <Button as="a" href={href}>
+            {cta} <Icon icon="arrowRight" />
           </Button>
         </div>
       </div>
@@ -221,8 +223,8 @@ const CultureZine = ({ content }) => (
                 )}
               </Row>
               <div className={styles.readMoreLink}>
-                <Button href="https://glitch.com/culture/">
-                  Read More on Culture <Arrow />
+                <Button as="a" href="https://glitch.com/culture/">
+                  Read More on Culture <Icon icon="arrowRight" />
                 </Button>
               </div>
             </>
@@ -251,8 +253,8 @@ const BuildingOnGlitch = ({ content }) => (
           </div>
           <h3>{title}</h3>
           <p>{description}</p>
-          <Button decorative>
-            {cta} <Arrow />
+          <Button as="span">
+            {cta} <Icon icon="arrowRight" />
           </Button>
         </Link>
       ))}
@@ -263,8 +265,9 @@ const BuildingOnGlitch = ({ content }) => (
 const MadeInGlitch = () => (
   <HomeSection className={styles.madeInGlitch}>
     <Text defaultMargin>Of course, this site was made on Glitch too.</Text>
-    <Button href={getEditorUrl('community')} emoji="carpStreamer">
+    <Button as="a" href={getEditorUrl('community')}>
       View Source
+      <Icon className={emoji} icon="carpStreamer" />
     </Button>
   </HomeSection>
 );
@@ -276,6 +279,7 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
     {!loggedIn && <Banner />}
     {!loggedIn && <FeatureCallouts content={data.featureCallouts} />}
     {hasProjects && <RecentProjects />}
+    {loggedIn && !hasProjects && <OnboardingBanner isHomepage />}
     {loggedIn && <Questions />}
     <UnifiedStories content={data.unifiedStories} />
     <TopPicks>

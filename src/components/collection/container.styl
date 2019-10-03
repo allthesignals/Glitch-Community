@@ -9,7 +9,7 @@
     
 .collectionHeader
   flex: 0 0 auto
-  padding: 12px 25px
+  padding: 20px
   border-radius: 5px 5px 0 0
   flex-direction: column
   @media (min-width: largeViewport)
@@ -94,6 +94,9 @@
   line-height: 35px
   &.dark
     background:  rgba(109, 109, 109, 0.8)
+  p:first-of-type
+    display: inline
+    margin: 0.5em
 
 .hintBody
   margin: 1em 0
@@ -107,3 +110,8 @@
   &:hover
     text-decoration: underline !important  
 
+.privacyToggle
+  margin-top: 1rem
+  
+svg.arrow
+  vertical-align: middle

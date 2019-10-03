@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import { PopoverMenu, MultiPopover, PopoverDialog, PopoverActions, PopoverMenuButton } from 'Components/popover';
+import { Button } from '@fogcreek/shared-components';
+
+import Image from 'Components/images/image';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
-import { useTrackedFunc } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { userIsProjectTeamMember } from 'Models/project';
 
@@ -78,8 +79,13 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
                 createCollectionPopover={createCollection}
               />
             ),
-            createCollection: () => <CreateCollectionWithProject project={project} addProjectToCollection={projectOptions.addProjectToCollection} />,
-            leaveProject: () => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={togglePopover}  align="right" />,
+            createCollection: () => (
+              <CreateCollectionWithProject
+                project={project}
+                addProjectToCollection={toggleBeforeAction(togglePopover, projectOptions.addProjectToCollection)}
+              />
+            ),
+            leaveProject: () => <LeaveProjectPopover project={project} leaveProject={projectOptions.leaveProject} togglePopover={togglePopover} align="right" />,
           }}
         >
           {({ addToCollection, leaveProject }) => (

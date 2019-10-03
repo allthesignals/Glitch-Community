@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import * as assets from 'Utils/assets';
 import { useAPI, useAPIHandlers } from 'State/api';
@@ -23,7 +23,7 @@ export function useUserEditor(initialUser) {
   });
   const { currentUser, update: updateCurrentUser } = useCurrentUser();
   const { uploadAsset, uploadAssetSizes } = useUploader();
-  const { handleError, handleErrorForInput } = useErrorHandlers();
+  const { handleError, handleErrorForInput, handleImageUploadError } = useErrorHandlers();
   const { getCoverImagePolicy } = assets.useAssetPolicy();
   const {
     updateItem,
@@ -35,7 +35,16 @@ export function useUserEditor(initialUser) {
   } = useAPIHandlers();
   const { getDeletedProject, getProject } = useUserPageGetters();
 
+  useEffect(() => {
+    setUser((prev) => ({ ...prev, ...initialUser }));
+  }, [initialUser]);
+
   const isCurrentUser = !!currentUser && user.id === currentUser.id;
+  useEffect(() => {
+    if (isCurrentUser) {
+      setUser((prev) => ({ ...prev, ...currentUser }));
+    }
+  }, [currentUser]);
 
   async function updateFields(changes) {
     const { data } = await updateItem({ user }, changes);
@@ -55,20 +64,25 @@ export function useUserEditor(initialUser) {
         withErrorHandler(async (blob) => {
           const { data: policy } = await getCoverImagePolicy({ user }); // TODO: why not 'getAvatarImagePolicy' here?
           const url = await uploadAsset(blob, policy, 'temporary-user-avatar');
-
+          if (!url) {
+            return;
+          }
           const image = await assets.blobToImage(blob);
           const color = assets.getDominantColor(image);
           await updateFields({
             avatarUrl: url,
             color,
           });
-        }, handleError),
+        }, handleImageUploadError),
       ),
     uploadCover: () =>
       assets.requestFile(
         withErrorHandler(async (blob) => {
           const { data: policy } = await getCoverImagePolicy({ user });
-          await uploadAssetSizes(blob, policy, assets.COVER_SIZES);
+          const success = await uploadAssetSizes(blob, policy, assets.COVER_SIZES);
+          if (!success) {
+            return;
+          }
 
           const image = await assets.blobToImage(blob);
           const color = assets.getDominantColor(image);
@@ -77,21 +91,21 @@ export function useUserEditor(initialUser) {
             coverColor: color,
           });
           setUser((prev) => ({ ...prev, updatedAt: Date.now() }));
-        }, handleError),
+        }, handleImageUploadError),
       ),
     clearCover: () => updateFields({ hasCoverImage: false }).catch(handleError),
     addPin: withErrorHandler(async (project) => {
       await addPinnedProject({ project, user });
       setUser((prev) => ({
         ...prev,
-        pins: [...prev.pins, { id: project.id }],
+        pinnedProjects: [...prev.pinnedProjects, project],
       }));
     }, handleError),
     removePin: withErrorHandler(async (project) => {
       await removePinnedProject({ project, user });
       setUser((prev) => ({
         ...prev,
-        pins: prev.pins.filter((p) => p.id !== project.id),
+        pinnedProjects: prev.pinnedProjects.filter((p) => p.id !== project.id),
       }));
     }, handleError),
     leaveProject: withErrorHandler(async (project) => {

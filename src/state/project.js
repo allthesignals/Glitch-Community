@@ -4,16 +4,7 @@ import useUploader from 'State/uploader';
 import { useAPI, useAPIHandlers } from 'State/api';
 import useErrorHandlers from 'State/error-handlers';
 import * as assets from 'Utils/assets';
-import { allByKeys, getSingleItem, getAllPages } from 'Shared/api';
-
-export async function getProjectByDomain(api, domain) {
-  const { project, teams, users } = await allByKeys({
-    project: getSingleItem(api, `v1/projects/by/domain?domain=${domain}`, domain),
-    teams: getAllPages(api, `v1/projects/by/domain/teams?domain=${domain}`),
-    users: getAllPages(api, `v1/projects/by/domain/users?domain=${domain}`),
-  });
-  return { ...project, teams, users };
-}
+import { getAllPages } from 'Shared/api';
 
 async function getMembers(api, projectId, withCacheBust) {
   const cacheBust = withCacheBust ? `&cacheBust=${Date.now()}` : '';
@@ -90,7 +81,7 @@ export function useProjectReload() {
 export function useProjectEditor(initialProject) {
   const [project, setProject] = useState(initialProject);
   const { uploadAsset } = useUploader();
-  const { handleError, handleErrorForInput } = useErrorHandlers();
+  const { handleError, handleErrorForInput, handleImageUploadError } = useErrorHandlers();
   const { getAvatarImagePolicy } = assets.useAssetPolicy();
   const { updateItem, deleteItem, updateProjectDomain } = useAPIHandlers();
   useEffect(() => setProject(initialProject), [initialProject]);
@@ -118,12 +109,16 @@ export function useProjectEditor(initialProject) {
       assets.requestFile(
         withErrorHandler(async (blob) => {
           const { data: policy } = await getAvatarImagePolicy({ project });
-          await uploadAsset(blob, policy, '', { cacheControl: 60 });
+          const url = await uploadAsset(blob, policy, '', { cacheControl: 60 });
+          if (!url) {
+            return;
+          }
+
           setProject((prev) => ({
             ...prev,
             avatarUpdatedAt: Date.now(),
           }));
-        }, handleError),
+        }, handleImageUploadError),
       ),
   };
   return [project, funcs];
