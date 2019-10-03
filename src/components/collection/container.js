@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Pluralize from 'react-pluralize';
-import { partition } from 'lodash';
+import { partition, chunk } from 'lodash';
 import classnames from 'classnames';
 import { Button, Icon } from '@fogcreek/shared-components';
 
@@ -120,10 +120,11 @@ const getCurrentProjectIndexFromUrl = (projectId, projects) => {
   return currentIndex;
 };
 
-// TODO batch this so if we have a huge collection we don't explode glitch
 const wakeUpAllProjectsInACollection = (projects) => {
-  projects.forEach((project) => {
-    fetch(`${project.domain}.glitch.me`);
+  const chunkedProjects = chunk(projects, 10);
+  chunkedProjects.map(async (projectsBatch) => {
+    const promisedBatch = projectsBatch.map(async (project) => fetch(`https://${project.domain}.glitch.me`, { mode: 'no-cors' }));
+    await Promise.all(promisedBatch);
   });
 };
 
