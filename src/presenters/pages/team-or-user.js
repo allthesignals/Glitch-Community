@@ -11,8 +11,13 @@ import { getTeam, getUser } from 'Shared/api-loaders';
 import TeamPage from './team';
 import UserPage from './user';
 
+const mustExist = (value) => {
+  if (!value) throw Error('Not found');
+  return value;
+};
+
 const TeamPageLoader = ({ name, ...props }) => (
-  <DataLoader get={(api) => getTeam(api, name, 'url')} renderError={() => <NotFound name={name} />}>
+  <DataLoader get={(api) => getTeam(api, name, 'url').then(mustExist)} renderError={() => <NotFound name={name} />}>
     {(team) => <TeamPage team={team} {...props} />}
   </DataLoader>
 );
@@ -22,7 +27,7 @@ TeamPageLoader.propTypes = {
 };
 
 const UserPageLoader = ({ id, name, ...props }) => (
-  <DataLoader get={(api) => getUser(api, id, 'id')} renderError={() => <NotFound name={name} />}>
+  <DataLoader get={(api) => getUser(api, id, 'id').then(mustExist)} renderError={() => <NotFound name={name} />}>
     {(user) => <UserPage user={user} {...props} />}
   </DataLoader>
 );
