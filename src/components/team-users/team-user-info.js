@@ -219,7 +219,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           />
         ),
       }}
-      >
+    >
       {({ onClose, setActiveView }) => (
         <TeamUserInfo
           user={user}
