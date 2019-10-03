@@ -13,6 +13,7 @@ const aliases = require('./aliases');
 
 const BUILD = path.resolve(__dirname, 'build/client');
 const SRC = path.resolve(__dirname, 'src');
+const TEST = path.resolve(__dirname, 'test');
 const SHARED = path.resolve(__dirname, 'shared');
 
 let mode = 'development';
@@ -32,7 +33,7 @@ try {
   // Don't worry about it, there's probably just no stats.json
 }
 
-module.exports = smp.wrap({
+module.exports = smp.wrap((env) => ({
   mode,
   entry: {
     client: `${SRC}/client.js`,
@@ -118,7 +119,7 @@ module.exports = smp.wrap({
           {
             test: /\.js$/,
             loader: 'babel-loader',
-            include: mode === 'development' ? [SRC, SHARED] : [SRC, SHARED, /[\\/]@fogcreek[\\/]/],
+            include: mode === 'development' ? [SRC, SHARED, TEST] : [SRC, SHARED, /[\\/]@fogcreek[\\/]/],
             options: {
               compact: mode === 'development' ? true : false,
               // we can't rely on babel's auto config loading for stuff in node_modules
@@ -174,4 +175,4 @@ module.exports = smp.wrap({
   stats: {
     children: false,
   },
-});
+}));

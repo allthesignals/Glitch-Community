@@ -1,15 +1,14 @@
 require('react');
-const expect = require('chai').should();
 require('enzyme');
-require('../src/components/filter-controller');
+require('chai');
+require('../../src/components/filter-controller');
 //import React from 'react';
-//import { expect } from 'chai';
 //import { configure, shallow, mount } from 'enzyme';
 //import FilterController from 'Components/filter-controller';
 
 //import Adapter from 'enzyme-adapter-react-16';
 
-configure({ adapter: new Adapter() });
+// configure({ adapter: new Adapter() });
 
 // a test test - delete when we have real things to test here
 describe('Array', function() {
@@ -21,8 +20,9 @@ describe('Array', function() {
 });
 
 describe('FilterController', function() {
-  describe('should render', function() {
-    const wrapper = mount(<FilterController />);
-    wrapper.find('input').should.be.true;
-  })
+  it('should render', function() {
+    
+    const wrapper = shallow(<FilterController />);
+    return wrapper.find('input').should.be(true);
+  });
 })
