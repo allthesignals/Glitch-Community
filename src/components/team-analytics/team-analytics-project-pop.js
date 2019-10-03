@@ -72,10 +72,10 @@ const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProject
       </Button>
     )}
   >
-    {({ onClose }) => (
+    {() => (
       <ProjectSearch
         projects={projects}
-        updateProjectDomain={(project.domain) => { onClose(); updateProjectDomain(project.domain); }}
+        updateProjectDomain={updateProjectDomain}
         currentProjectDomain={currentProjectDomain}
       />
     )}
