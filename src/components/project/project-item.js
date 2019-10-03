@@ -23,9 +23,10 @@ import styles from './project-item.styl';
 
 const ProfileAvatar = ({ project }) => <Image className={styles.avatar} src={getProjectAvatarUrl(project)} defaultSrc={FALLBACK_AVATAR_URL} alt="" />;
 
-const getLinkBodyStyles = (project) =>
+const getLinkBodyStyles = (project, showEditButton) =>
   classnames(styles.linkBody, {
     [styles.private]: project.private,
+    [styles.hasFooter]: showEditButton,
   });
 
 const ProfileListWithData = ({ project }) => {
@@ -48,12 +49,9 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
   const isAnonymousUser = !currentUser.login;
 
   const [hasBookmarked, setHasBookmarked] = useState(project.authUserHasBookmarked);
-  useEffect(
-    () => {
-      setHasBookmarked(project.authUserHasBookmarked);
-    },
-    [project.authUserHasBookmarked],
-  );
+  useEffect(() => {
+    setHasBookmarked(project.authUserHasBookmarked);
+  }, [project.authUserHasBookmarked]);
 
   const [isHoveringOnProjectItem, setIsHoveringOnProjectItem] = useState(false);
   const onMouseEnter = () => {
@@ -127,19 +125,19 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <ProjectOptionsPop project={project} projectOptions={animatedProjectOptions} />
                     </div>
                   </header>
-                  <ProjectLink className={getLinkBodyStyles(project)} project={project}>
+                  <ProjectLink className={getLinkBodyStyles(project, showEditButton)} project={project}>
                     <div className={styles.projectHeader}>
                       <div className={styles.avatarWrap}>
                         <ProfileAvatar project={project} />
                       </div>
                       <div className={styles.nameWrap}>
                         <div className={styles.itemButtonWrap}>
-                          <Button as="span" disabled={!!project.suspendedReason} imagePosition="left">
-                            {project.private && (
-                              <span className={styles.privateIcon}>
-                                <Icon icon="private" alt="private" />
-                              </span>
-                            )}
+                          <Button
+                            as="span"
+                            disabled={!!project.suspendedReason}
+                            imagePosition="left"
+                          >
+                            {project.private && (<span className={styles.privateIcon}><Icon icon="private" alt="private" /></span>)}
                             <span className={styles.projectDomain}>{project.suspendedReason ? 'suspended project' : project.domain}</span>
                           </Button>
                         </div>
@@ -150,10 +148,8 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                     </div>
                   </ProjectLink>
                   {showEditButton && (
-                    <footer>
-                      <Button variant="secondary" as="a" href={getEditorUrl(project.domain)}>
-                        Edit Project
-                      </Button>
+                    <footer className={styles.footer}>
+                      <Button variant="secondary" as="a" size="small" href={getEditorUrl(project.domain)}>Edit Project</Button>
                     </footer>
                   )}
                 </div>
