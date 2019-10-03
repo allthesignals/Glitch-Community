@@ -19,7 +19,10 @@ import AuthDescription from 'Components/fields/auth-description';
 import { BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
 import { PrivateToggle } from 'Components/private-badge';
-
+import { PopoverMenu, PopoverDialog, PopoverSection, PopoverActions, PopoverMenuButton } from 'Components/popover';
+import ResultsList from 'Components/containers/results-list';
+import ProjectResultItem from 'Components/project/project-result-item';
+import { useActiveIndex } from 'Components/popover/search'; // TODO move this somewhere else
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import { useTrackedFunc } from 'State/segment-analytics';
@@ -144,7 +147,9 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
       setCurrentProjectIndex(currentProjectIndex + 1);
     }
   };
-
+  const onSubmit = (item) => {
+    console.log("submit?", item)
+  }
   const featuredProject = projects[currentProjectIndex];
 
   return (
@@ -153,11 +158,22 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
         <div className={styles.playerHeader}>
           projectAvatar will go here
           {featuredProject.domain}
+          <PopoverMenu label="Featured Project Options">
+            {({ togglePopover }) => (
+              <PopoverDialog align="left" focusOnPopover>
+                <PopoverSection>
+                  <ResultsList scroll items={projects}>
+                    {(project, i) => <Button onClick={() => {}}>{project.domain}</Button>}
+                  </ResultsList>
+                </PopoverSection>
+              </PopoverDialog>
+            )}
+          </PopoverMenu>
           <Button onClick={back} disabled={currentProjectIndex === 0}>
-            back
+            <span className={classnames(styles.arrow, styles.back)}></span>
           </Button>
           <Button onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
-            forward
+            <span className={classnames(styles.arrow, styles.forward)}></span>
           </Button>
         </div>
         <div className={styles.playerDescription}>
