@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { Actions, Button, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, Popover, TextInput, Title } from '@fogcreek/shared-components';
 
 import SignInButton from 'Components/buttons/sign-in-button';
-import TextInput from 'Components/inputs/text-input';
 import Link from 'Components/link';
 import Notification from 'Components/notification';
 import TwoFactorForm from 'Components/sign-in/two-factor-form';
@@ -55,7 +54,7 @@ const ForgotPasswordHandler = ({ onBack }) => {
           <form onSubmit={onSubmit}>
             <TextInput
               type="email"
-              labelText="Email address"
+              label="Email address"
               value={email}
               onChange={setEmail}
               placeholder="your@email.com"
@@ -133,7 +132,7 @@ const EmailHandler = ({ onBack, showView }) => {
           <form onSubmit={onSubmit} style={{ marginBottom: 0 }}>
             <TextInput
               type="email"
-              labelText="Email address"
+              label="Email address"
               value={email}
               onChange={setEmail}
               onBlur={() => setIsFocused(false)}
@@ -210,7 +209,7 @@ const SignInWithCode = ({ onBack, showTwoFactor }) => {
               value={code}
               onChange={setCode}
               type="text"
-              labelText="sign in code"
+              label="sign in code"
               placeholder="cute-unique-cosmos"
               autoFocus
               testingId="sign-in-code"
@@ -293,7 +292,7 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
       <form data-cy="sign-in-form" onSubmit={handleSubmit}>
         <TextInput
           placeholder="your@email.com"
-          labelText="email"
+          label="email"
           value={emailAddress}
           error={emailValidationError}
           onChange={setEmail}
@@ -303,7 +302,7 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
         <TextInput
           placeholder="password"
           type="password"
-          labelText="password"
+          label="password"
           value={password}
           onChange={setPassword}
           disabled={working}

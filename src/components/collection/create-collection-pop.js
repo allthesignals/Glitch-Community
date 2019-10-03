@@ -3,10 +3,13 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, orderBy } from 'lodash';
 import { withRouter } from 'react-router-dom';
+<<<<<<< HEAD
 import { Actions, Button, Loader, Popover, Title } from '@fogcreek/shared-components';
+=======
+import { Button, Loader, TextInput } from '@fogcreek/shared-components';
+>>>>>>> 930063bc93006fdc321e494727128a9aaa3d991f
 
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
-import TextInput from 'Components/inputs/text-input';
 import { AddProjectToCollectionMsg } from 'Components/notification';
 import { createCollection } from 'Models/collection';
 import { useTracker } from 'State/segment-analytics';
@@ -126,8 +129,7 @@ function CreateCollectionPopBase({ name, onBack, onSubmit, options }) {
               value={collectionName}
               onChange={setCollectionName}
               error={error}
-              placeholder="New Collection Name"
-              labelText="New Collection Name"
+              label="New Collection Name"
             />
           </div>
 
