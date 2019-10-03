@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import Embed from 'Components/project/embed';
 import ReportButton from 'Components/report-abuse-pop';
-import { userIsProjectMember, userIsProjectTeamMember } from 'Models/project';
 import { useTracker, useTrackedFunc } from 'State/segment-analytics';
+import { userIsProjectMember, userIsProjectTeamMember } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
 import { useProjectOptions } from 'State/project-options';
 
