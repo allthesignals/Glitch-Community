@@ -14,7 +14,7 @@ describe('Homepage', () => {
 
       cy.route('POST', '**/users/anon', makeTestUser({ persistentToken: anonPersistentToken, id: anonId })).as('anon-user');
       cy.route('GET', '**/v1/users/by/id/emails**', itemsResponse([])).as('emails');
-      cy.route('GET', '**/v1/users/by/id**', keyByValueResponse([makeTestUser()], anonId)).as('anon-by-id');
+      cy.route('GET', '**/v1/users/by/id**', keyByValueResponse([makeTestUser()], 'id')).as('anon-by-id');
       cy.route('GET', '**/v1/users/by/id/collections**', itemsResponse([]));
       cy.route('GET', '**/v1/users/by/id/projects**', itemsResponse([]));
       cy.route('GET', '**/v1/users/by/id/teams**', itemsResponse([]));

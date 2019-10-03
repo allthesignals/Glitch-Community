@@ -214,7 +214,7 @@ const CultureZine = ({ content }) => (
                           <MaskImage src={img} />
                         </div>
                         <div className={styles.cultureZineText}>
-                          <h4 className={styles.h4}>{title}</h4>
+                          <h3 className={styles.h4}>{title}</h3>
                           {source && <p>{source.name}</p>}
                         </div>
                       </Link>
