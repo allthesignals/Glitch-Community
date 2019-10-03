@@ -73,7 +73,7 @@ const NameConflictWarning = ({ id }) => (
     <Text>
       This team has your name. You should update your info to remain unique <Icon className={emoji} icon="sparkles" />
     </Text>
-    <Button as="a" size="small" variant="secondary" href={`/user/${id}`}>
+    <Button as={Link} size="small" variant="secondary" to={`/user/${id}`}>
       Your Profile
     </Button>
   </>

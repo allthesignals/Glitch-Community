@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Button } from '@fogcreek/shared-components';
+import { Button, TextInput } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
-import TextInput from 'Components/inputs/text-input';
 import Notification from 'Components/notification';
 import NewPasswordInput from 'Components/new-password-input';
 import { useAPI } from 'State/api';
@@ -82,7 +81,7 @@ const PasswordSettings = () => {
 
       <form className={styles.accountSettingsForm} onSubmit={updatePassword}>
         {currentUser.passwordEnabled && (
-          <TextInput type="password" labelText="current password" placeholder="current password" value={oldPassword} disabled={status.working} onChange={setOldPassword} />
+          <TextInput type="password" label="current password" value={oldPassword} disabled={status.working} onChange={setOldPassword} />
         )}
 
         <NewPasswordInput key={passwordVersion} disabled={status.working} onChange={andClearState(setNewPassword)} />

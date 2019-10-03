@@ -25,31 +25,29 @@ const { directory, verb } = setup();
 
 const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', {});
 
-let isTranspiled = false;
 let isFirstTranspile = true;
+let needsTranspile = true;
 
 // clear client code from the require cache whenever it gets changed
 // it'll get loaded off the disk again when the render calls require
 require('chokidar').watch(directory).on('change', () => {
-  if (isTranspiled) {
+  needsTranspile = true;
+  clearCache(); // clear the server rendering cache
+});
+
+const requireClient = () => {
+  if (needsTranspile) {
     // remove everything in the src directory
     Object.keys(require.cache).forEach((location) => {
       if (location.startsWith(directory)) delete require.cache[location];
     });
-    // remove all rendered pages from the cache
-    clearCache();
-    // flag for performance profiling
-    isTranspiled = false;
   }
-});
-
-const requireClient = () => {
   const startTime = performance.now();
   const required = require(path.join(directory, './server'));
   const endTime = performance.now();
-  if (!isTranspiled) console.log(`SSR ${isFirstTranspile ? '' : 're'}${verb} took ${Math.round(endTime - startTime)}ms`);
+  if (needsTranspile) console.log(`SSR ${isFirstTranspile ? '' : 're'}${verb} took ${Math.round(endTime - startTime)}ms`);
   isFirstTranspile = false;
-  isTranspiled = true;
+  needsTranspile = false;
   return required;
 };
 
@@ -68,7 +66,7 @@ setImmediate(() => {
   }
 });
 
-const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
+const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
   const { Page, resetState } = requireClient();
   resetState();
   const sheet = new ServerStyleSheet();
@@ -83,6 +81,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
     API_CACHE,
     ZINE_POSTS,
     HOME_CONTENT,
+    PUPDATES_CONTENT,
     SSR_SIGNED_IN,
     EXTERNAL_ROUTES,
   });
@@ -90,7 +89,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
-  const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
+  const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
   return { html, helmet: helmetContext.helmet, context, styleTags };
 };
 

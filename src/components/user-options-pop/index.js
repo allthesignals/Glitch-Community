@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 import { Button, CheckboxButton, Icon, UnstyledButton, Loader } from '@fogcreek/shared-components';
 
-import { getTeamLink } from 'Models/team';
 import { getUserAvatarThumbnailUrl } from 'Models/user';
 import Image from 'Components/images/image';
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
-import { UserLink } from 'Components/link';
+import { TeamLink, UserLink } from 'Components/link';
 import { MultiPopover, PopoverContainer, PopoverActions, PopoverInfo, PopoverDialog, PopoverTitle, InfoDescription } from 'Components/popover';
 import CreateTeamPop from 'Components/create-team-pop';
 import { useGlobals } from 'State/globals';
@@ -43,7 +42,12 @@ const TeamList = ({ teams, showCreateTeam }) => {
     <PopoverActions>
       {orderedTeams.map((team) => (
         <div className={styles.buttonWrap} key={team.id}>
-          <Button as="a" href={getTeamLink(team)} size="small" variant="secondary">
+          <Button
+            as={TeamLink}
+            team={team}
+            size="small"
+            variant="secondary"
+          >
             {team.name} <TeamAvatar team={team} size="small" className={emoji} tiny hideTooltip />
           </Button>
         </div>

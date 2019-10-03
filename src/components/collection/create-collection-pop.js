@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, orderBy } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Button, Loader } from '@fogcreek/shared-components';
+import { Button, Loader, TextInput } from '@fogcreek/shared-components';
 
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
-import TextInput from 'Components/inputs/text-input';
 import { AddProjectToCollectionMsg } from 'Components/notification';
 import { PopoverDialog, MultiPopoverTitle, PopoverActions, PopoverWithButton } from 'Components/popover';
 import { createCollection } from 'Models/collection';
@@ -127,8 +126,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
               value={collectionName}
               onChange={setCollectionName}
               error={error}
-              placeholder="New Collection Name"
-              labelText="New Collection Name"
+              label="New Collection Name"
             />
           </div>
 
