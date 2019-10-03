@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
-import { Actions, Button, CheckboxButton, Icon, Info, Overlay, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
+import { Actions, Button, CheckboxButton, Icon, Info, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
 
 import { getTeamLink } from 'Models/team';
 import { getUserAvatarThumbnailUrl } from 'Models/user';
@@ -69,7 +69,6 @@ TeamList.propTypes = {
 const UserOptionsPop = ({ togglePopover, showCreateTeam, showAccountSettingsOverlay, showNewStuffOverlay }) => {
   const { currentUser: user, clear: signOut } = useCurrentUser();
   const { superUserFeature, canBecomeSuperUser, toggleSuperUser } = useSuperUserHelpers();
-  const { open, onOpen, onClose, toggleRef } = useOverlay();
 
   const trackLogout = useTracker('Logout');
 
@@ -139,7 +138,7 @@ Are you sure you want to sign out?`)
         </div>
         {userPasswordEnabled && (
           <div className={styles.buttonWrap}>
-            <Button size="small" variant="secondary" ref={toggleRef} onClick={clickAccountSettings}>
+            <Button size="small" variant="secondary" onClick={clickAccountSettings}>
               Account Settings <Icon className={emoji} icon="key" />
             </Button>
           </div>
