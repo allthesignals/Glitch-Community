@@ -10,7 +10,7 @@ import ProfileList from 'Components/profile-list';
 import { ProjectLink } from 'Components/link';
 import VisibilityContainer from 'Components/visibility-container';
 import Note from 'Components/collection/note';
-import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
+import { FALLBACK_AVATAR_URL, getProjectAvatarUrl, getEditorUrl } from 'Models/project';
 import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
 import { useCurrentUser } from 'State/current-user';
@@ -26,6 +26,7 @@ const ProfileAvatar = ({ project }) => <Image className={styles.avatar} src={get
 const getLinkBodyStyles = (project) =>
   classnames(styles.linkBody, {
     [styles.private]: project.private,
+    [styles.hasFooter]: showEditButton,
   });
 
 const ProfileListWithData = ({ project }) => {
@@ -147,8 +148,8 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                     </div>
                   </ProjectLink>
                   {showEditButton && (
-                    <footer>
-                      <Button variant="secondary" as={Link} href={getEditorUrl(project.domain)}>Edit Project</Button>
+                    <footer className={styles.footer}>
+                      <Button variant="secondary" as="a" size="small" href={getEditorUrl(project.domain)}>Edit Project</Button>
                     </footer>
                   )}
                 </div>

@@ -20,12 +20,19 @@ const containers = {
   gridCompact: (props) => <Grid className={styles.projectsGridCompact} {...props} />,
 };
 
-const ProjectsUL = ({ collection, projects, sortable, onReorder, noteOptions, layout, projectOptions, showEditButton, }) => {
+const ProjectsUL = ({ collection, projects, sortable, onReorder, noteOptions, layout, projectOptions, showEditButton }) => {
   const Container = containers[layout];
   return (
     <Container itemClassName={styles.projectsItem} items={projects} sortable={sortable} onReorder={onReorder}>
       {(project) => (
-        <ProjectItem key={project.id} project={project} projectOptions={projectOptions} collection={collection} noteOptions={noteOptions} showEditButton={showEditButton} />
+        <ProjectItem
+          key={project.id}
+          project={project}
+          projectOptions={projectOptions}
+          collection={collection}
+          noteOptions={noteOptions}
+          showEditButton={showEditButton}
+        />
       )}
     </Container>
   );
