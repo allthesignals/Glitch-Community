@@ -41,7 +41,7 @@ const ProfileListLoader = ({ project }) => (
   </VisibilityContainer>
 );
 
-const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions }) => {
+const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions, showEditButton }) => {
   const { location } = useGlobals();
   const myStuffEnabled = useDevToggle('My Stuff');
   const { currentUser } = useCurrentUser();
@@ -146,6 +146,11 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <Markdown length={80}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
                     </div>
                   </ProjectLink>
+                  {showEditButton && (
+                    <footer>
+                      <Button variant="secondary" as={Link} href={getEditorUrl(project.domain)}>Edit Project</Button>
+                    </footer>
+                  )}
                 </div>
               </>
             );
@@ -167,11 +172,13 @@ ProjectItem.propTypes = {
   }).isRequired,
   projectOptions: PropTypes.object,
   collection: PropTypes.object,
+  showEditButton: PropTypes.bool,
 };
 
 ProjectItem.defaultProps = {
   projectOptions: {},
   collection: null,
+  showEditButton: false,
 };
 
 export default ProjectItem;
