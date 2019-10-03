@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Actions, Button, DangerZone, Icon, Info, Loader, Popover, Title } from '@fogcreek/shared-components';
 
-import { MultiPopover, PopoverContainer } from 'Components/popover';
 import { getDisplayName } from 'Models/user';
 import { userIsTeamAdmin, userIsOnlyTeamAdmin } from 'Models/team';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
@@ -204,11 +203,11 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
   const onMakeAdmin = useTrackedFunc(() => updateUserPermissions(user, ADMIN_ACCESS_LEVEL), 'Make an Admin clicked');
 
   return (
-    /* <Popover
+    <Popover
       align="left"
       renderLabel={({ onClick, ref }) => (
         <TransparentButton onClick={onClick} ref={ref}>
-          <UserAvatar user={user} suffix={adminStatusDisplay(team.adminIds, user)} withinButton />
+          <UserAvatar user={user} suffix={adminStatusDisplay(team, user)} withinButton />
         </TransparentButton>
       )}
       views={{
@@ -216,74 +215,19 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           <TeamUserRemovePop
             user={user}
             userTeamProjects={userTeamProjects}
-            onRemoveUser={() => {
-              onClose();
-              removeUser();
-            }}
+            onRemoveUser={() => { onClose(); removeUser(); }}
           />
         ),
       }}
-    >
+      >
       {({ onClose, setActiveView }) => (
         <TeamUserInfo
           user={user}
           team={team}
-          onRemoveAdmin={() => {
-            onClose();
-            onRemoveAdmin();
-          }}
-          onMakeAdmin={() => {
-            onClose();
-            onMakeAdmin();
-          }}
+          onRemoveAdmin={() => { onClose(); onRemoveAdmin(); }}
+          onMakeAdmin={() => { onClose(); onMakeAdmin(); }}
           onRemoveUser={() => onOrShowRemoveUser(setActiveView('remove'), onClose)}
         />
-      )}
-    </Popover> */
-    <Popover
-      align="right"
-      renderLabel={({ onClick, ref }) => 
-        <TransparentButton onClick={togglePopover} ref={ref}>
-          <UserAvatar user={user} suffix={adminStatusDisplay(team, user)} withinButton />
-        </TransparentButton>    
-      }
-      views={{
-        remove: () => <TeamUserRemovePop user={user} userTeamProjects={userTeamProjects} onRemoveUser={toggleAndCall(removeUser)} />,
-      }}>
-        {({ onClose }) => (
-          <TeamUserInfo
-            user={user}
-            team={team}
-            onRemoveAdmin={toggleAndCall(onRemoveAdmin)}
-            onMakeAdmin={toggleAndCall(onMakeAdmin)}
-            onRemoveUser={() => onOrShowRemoveUser(showViews.remove, togglePopover)}
-          />
-        )}
-    </Popover>
-      {({ visible, togglePopover, toggleAndCall }) => (
-        <div style={{ position: 'relative' }}>
-          <TransparentButton onClick={togglePopover}>
-            <UserAvatar user={user} suffix={adminStatusDisplay(team, user)} withinButton />
-          </TransparentButton>
-
-          {visible && (
-            <MultiPopover
-              views={{
-                remove: () => <TeamUserRemovePop user={user} userTeamProjects={userTeamProjects} onRemoveUser={toggleAndCall(removeUser)} />,
-              }}
-            >
-              {(showViews) => (
-                <TeamUserInfo
-                  user={user}
-                  team={team}
-                  onRemoveAdmin={toggleAndCall(onRemoveAdmin)}
-                  onMakeAdmin={toggleAndCall(onMakeAdmin)}
-                  onRemoveUser={() => onOrShowRemoveUser(showViews.remove, togglePopover)}
-                />
-              )}
-            </MultiPopover>
-          )}
-        </div>
       )}
     </Popover>
   );
