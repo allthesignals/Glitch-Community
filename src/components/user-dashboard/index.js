@@ -70,7 +70,7 @@ const RecentProjects = () => {
             {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 1)} /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
-        <Ideas count={2} />
+        {!isAnonymousUser && <Ideas count={2} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
