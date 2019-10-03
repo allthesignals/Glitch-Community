@@ -48,8 +48,6 @@ export function userIsProjectMember({ members, user }) {
 }
 
 export function userIsProjectTeamMember({ project, user }) {
-  console.log('user', user);
-  console.log('project', project);
   if (!user || !user.teams || !project || !project.teamIds) return false;
   return project.teamIds.some((projectTeamId) => user.teams.some((userTeam) => projectTeamId === userTeam.id));
 }

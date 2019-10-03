@@ -27,7 +27,6 @@ const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover
   const onClickDeleteProject = useTrackedFunc(projectOptions.deleteProject, 'Delete Project clicked');
   const trackedLeaveProjectDirect = useTrackedFunc(leaveProjectDirect, 'Leave Project clicked');
   const isMember = userIsProjectTeamMember({ user: currentUser, project });
-  console.log(isMember);
   const onClickLeaveProject = isMember ? trackedLeaveProjectDirect : leaveProjectPopover;
 
   return (

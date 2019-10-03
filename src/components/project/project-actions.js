@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from '@fogcreek/shared-components';
 
@@ -60,7 +60,7 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
   // let team members leave directly, warn non team members
   if (isTeamProject && leaveProject) return <Button size="small" onClick={() => leaveProject(project)}>Leave Project <Icon icon="wave" /></Button>;
   return (
-    <PopoverWithButton buttonProps={{ size: 'small' }} buttonText="Leave Project">
+    <PopoverWithButton buttonProps={{ emoji: 'wave', size: 'small' }} buttonText="Leave Project">
       {({ togglePopover }) => <LeaveProjectPopover project={project} leaveProject={leaveProject} togglePopover={togglePopover} align="left" />}
     </PopoverWithButton>
   );
