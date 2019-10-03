@@ -65,13 +65,9 @@ const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProject
     renderLabel={({ onClick, ref }) => (
       <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
         {currentProjectDomain ? (
-          <>
-            Project: {currentProjectDomain} <Dropdown />
-          </>
+          <>Project: {currentProjectDomain} <Dropdown /></>
         ) : (
-          <>
-            All Projects <Dropdown />
-          </>
+          <>All Projects <Dropdown /></>
         )}
       </Button>
     )}
@@ -79,10 +75,7 @@ const TeamAnalyticsProjectPop = ({ projects, updateProjectDomain, currentProject
     {({ onClose }) => (
       <ProjectSearch
         projects={projects}
-        updateProjectDomain={() => {
-          onClose();
-          updateProjectDomain();
-        }}
+        updateProjectDomain={(project.domain) => { onClose(); updateProjectDomain(project.domain); }}
         currentProjectDomain={currentProjectDomain}
       />
     )}
