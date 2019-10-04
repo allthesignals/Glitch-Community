@@ -49,7 +49,9 @@ const ClearSession = ({ clearUser }) => {
 
 const RecentProjects = () => {
   const { currentUser, fetched, clear } = useCurrentUser();
+  const numProjects = currentUser.projects.length;
   const isAnonymousUser = !currentUser.login;
+  console.log(numProjects);
 
   return (
     <section data-cy="recent-projects">
@@ -67,10 +69,10 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 1)} /> : <Loader style={{ width: '25px' }} />}
+            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
-        {!isAnonymousUser && currentUser.projects.length < 3 && <Ideas count={2} />}
+        {!isAnonymousUser && numProjects < 3 && <Ideas count={3 - numProjects} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
@@ -111,13 +113,13 @@ const Idea = ({ project }) => {
 const Ideas = ({ count }) => {
   const { value: ideas } = useCollectionProjects({ id: 13045 });
   const [ideasIdx, setIdeasIdx] = useState(0);
-  
+
   const onClickMoreIdeas = () => {
     const nextIdx = ideasIdx + count;
     if (nextIdx < ideas.length - 1) {
       setIdeasIdx(count + nextIdx);
     }
-  }
+  };
 
   return (
     <div className={styles.ideas}>
