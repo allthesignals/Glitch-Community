@@ -10,7 +10,7 @@ import { isDarkColor } from 'Utils/color';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
 import FeaturedProject from 'Components/project/featured-project';
-import { ProfileItem } from 'Components/profile-list';
+import ProfileList, { ProfileItem } from 'Components/profile-list';
 import ProjectsList from 'Components/containers/projects-list';
 import CollectionNameInput from 'Components/fields/collection-name-input';
 import AddCollectionProject from 'Components/collection/add-collection-project-pop';
@@ -22,6 +22,7 @@ import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import { useTrackedFunc } from 'State/segment-analytics';
+import { useProjectMembers } from 'State/project';
 
 import styles from './container.styl';
 import { emoji } from '../global.styl';
@@ -156,6 +157,8 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
     setCurrentProjectIndex(selectedProjectIndex);
     onClose();
   };
+  const { value: members } = useProjectMembers(featuredProject.id);
+
   return (
     <>
       <div
@@ -201,7 +204,7 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
         </div>
         <div className={styles.playerDescription}>
           <Text>{featuredProject.description}</Text>
-          author will go here
+          {members && <ProfileList layout="row" {...members} />}
         </div>
       </div>
       <FeaturedProject
