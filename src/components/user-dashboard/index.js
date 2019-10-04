@@ -51,7 +51,6 @@ const RecentProjects = () => {
   const { currentUser, fetched, clear } = useCurrentUser();
   const numProjects = currentUser.projects.length;
   const isAnonymousUser = !currentUser.login;
-  console.log(numProjects);
 
   return (
     <section data-cy="recent-projects">
@@ -72,7 +71,7 @@ const RecentProjects = () => {
             {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} showEditButton /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
-        {!isAnonymousUser && numProjects < 3 && <Ideas count={3 - numProjects} />}
+        {numProjects < 3 && <Ideas count={3 - numProjects} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
