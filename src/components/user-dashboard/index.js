@@ -70,7 +70,7 @@ const RecentProjects = () => {
             {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 1)} /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
-        {!isAnonymousUser && <Ideas count={2} />}
+        {!isAnonymousUser && currentUser.projects.length < 3 && <Ideas count={2} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
@@ -114,8 +114,8 @@ const Ideas = ({ count }) => {
   
   const onClickMoreIdeas = () => {
     const nextIdx = ideasIdx + count;
-    if (nextIdx < ideas.length - 1) setIdeasIdx(ideasIdx + count)) {
-      setIdeasIdx(count + Ide)
+    if (nextIdx < ideas.length - 1) {
+      setIdeasIdx(count + nextIdx);
     }
   }
 
