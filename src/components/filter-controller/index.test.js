@@ -1,15 +1,11 @@
 /* eslint-disable */
 import 'chai';
 
-require('react');
-require('enzyme');
-require('./index.js');
+import React from 'react';
+import { configure, shallow, mount } from 'enzyme';
+import FilterController from 'Components/filter-controller';
 
-// import React from 'react';
-// import { configure, shallow, mount } from 'enzyme';
-// import FilterController from 'Components/filter-controller';
-
-// import Adapter from 'enzyme-adapter-react-16';
+import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 

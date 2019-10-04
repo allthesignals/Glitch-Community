@@ -153,6 +153,7 @@
     "enzyme-adapter-react-16": "^1.14.0",
     "mocha": "^6.2.0",
     "mochapack": "^1.1.5",
-    "null-loader": "^3.0.0"
+    "null-loader": "^3.0.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }

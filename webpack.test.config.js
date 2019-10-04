@@ -7,6 +7,7 @@
 
 const sharedConfig = require('./webpack.config');
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 // eslint-disable-next-line func-names
 module.exports = function(env) {
@@ -22,7 +23,8 @@ module.exports = function(env) {
     mode: 'development',
     devtool: 'cheap-module-eval-source-map',
     target: 'node',
-    // externals: [nodeExternals()],
+    optimization: {},
+    externals: [nodeExternals()],
     module: {
       rules: [
         {
