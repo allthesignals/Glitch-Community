@@ -69,7 +69,7 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} /> : <Loader style={{ width: '25px' }} />}
+            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} showEditButton /> : <Loader style={{ width: '25px' }} />}
           </div>
         </div>
         {!isAnonymousUser && numProjects < 3 && <Ideas count={3 - numProjects} />}
