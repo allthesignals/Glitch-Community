@@ -1,14 +1,14 @@
-require('react');
-require('enzyme');
-require('chai');
-require('../../src/components/filter-controller');
+const React = require('react');
+const {configure, shallow, mount} = require('enzyme');
+const expect = require('chai').should();
+const FilterController = require('../../src/components/filter-controller').default;
+const ProjectsList = require('../../src/components/containers/projects-list').default;
+const Adapter = require('enzyme-adapter-react-16');
 //import React from 'react';
 //import { configure, shallow, mount } from 'enzyme';
 //import FilterController from 'Components/filter-controller';
 
-//import Adapter from 'enzyme-adapter-react-16';
-
-// configure({ adapter: new Adapter() });
+configure({ adapter: new Adapter() });
 
 // a test test - delete when we have real things to test here
 describe('Array', function() {
@@ -19,10 +19,17 @@ describe('Array', function() {
   });
 });
 
-describe('FilterController', function() {
-  it('should render', function() {
-    
-    const wrapper = shallow(<FilterController />);
-    return wrapper.find('input').should.be(true);
+describe('ProjectsList', function() {
+  it('should contain an input when filtering', function() {
+    const wrapper = mount(<ProjectsList layout="row" projects={[]} enableFiltering />);
+    // .find(FilterController)
+    // .renderProp('children')({
+    //   matchFn: (x, y) => x === y,
+    // enabled: true,
+    // placeholder: "find a project",
+    // searchPrompt:"find a project",
+    // label:"project search",
+    // items:[]});
+    return wrapper.exists('input').should.equal(true);
   });
 })

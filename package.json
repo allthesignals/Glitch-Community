@@ -151,6 +151,7 @@
     "chai": "^4.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "jsdom": "^15.1.1",
     "mocha": "^6.2.0",
     "mochapack": "^1.1.5",
     "null-loader": "^3.0.0",
