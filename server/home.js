@@ -32,7 +32,7 @@ async function saveDataToFile({ page, data, persistentToken }) {
   pageCache[page] = data;
   console.log(path.join(__dirname, `../src/curated/${page}.json`));
   console.log(JSON.stringify(data));
-  // await writeFile(path.join(__dirname, `../src/curated/${page}.json`), JSON.stringify(data), { encoding: 'utf8' });
+  await writeFile(path.join(__dirname, `../src/curated/${page}.json`), JSON.stringify(data), { encoding: 'utf8' });
 }
 
-module.exports = { getData, getRawData, saveDataToFile };
+module.exports = { getData, saveDataToFile };
