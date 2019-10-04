@@ -122,9 +122,7 @@ const CreateMyStuffOnClickComponent = withRouter(({ history, children, className
 
   return (
     <button type="submit" onClick={createMyStuffCollection} className={styles.onClickMyStuffButton} style={style}>
-      <div className={className}>
-        {children}
-      </div>
+      <div className={className}>{children}</div>
     </button>
   );
 });
@@ -137,7 +135,12 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
       <div className={styles.collectionItem}>
         {isAuthorized && <div className={styles.header} />}
         <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
-          <CollectionLinkComponent collection={collection} className={styles.linkBody} style={collectionColorStyles(collection)}>
+          <CollectionLinkComponent
+            collection={collection}
+            className={styles.linkBody}
+            style={collectionColorStyles(collection)}
+            label={`${collection.private ? 'private ' : ''}${collection.name}`}
+          >
             <div className={styles.avatarContainer}>
               <BookmarkAvatar />
             </div>
@@ -176,6 +179,7 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
             collection={collection}
             className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
             style={collectionColorStyles(collection)}
+            label={`${collection.private ? 'private ' : ''}${collection.name}`}
           >
             <div className={styles.nameDescriptionContainer}>
               <div className={styles.itemButtonWrap}>

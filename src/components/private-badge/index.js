@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Icon } from '@fogcreek/shared-components';
@@ -28,8 +28,8 @@ export const PrivateBadge = ({ type }) => (
     type="info"
     tooltip={TYPES[type].privateText}
     target={
-      <span className={classnames(styles.privateIcon, styles.privateBadge, styles.private)}>
-        <Icon icon="private" />
+      <span aria-label="private" className={classnames(styles.privateIcon, styles.privateBadge, styles.private)}>
+        <Icon icon="private" alt="private" />
       </span>
     }
   />
@@ -38,20 +38,24 @@ PrivateBadge.propTypes = {
   type: PropTypes.oneOf(Object.keys(TYPES)).isRequired,
 };
 
-export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => (
-  <TooltipContainer
-    type="action"
-    align={align}
-    tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
-    target={
-      <span className={classnames(styles.privateIcon, styles.privateButton, isPrivate ? styles.private : styles.public)}>
-        <HiddenCheckbox value={isPrivate} onChange={setPrivate}>
-          {isPrivate ? <Icon icon="private" /> : <Icon icon="public" />}
+export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => {
+  const [isFocused, setFocus] = useState(false);
+
+  return (
+    <TooltipContainer
+      type="action"
+      align={align}
+      tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
+      target={
+        <HiddenCheckbox value={isPrivate} onChange={setPrivate} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}>
+          <span aria-label="Mark as private" className={classnames(styles.privateIcon, styles.privateButton, isPrivate ? styles.private : styles.public, isFocused && styles.focused)}>
+            {isPrivate ? <Icon icon="private" alt="private" /> : <Icon icon="public" alt="public" />}
+          </span>
         </HiddenCheckbox>
-      </span>
-    }
-  />
-);
+      }
+    />
+  );
+};
 PrivateToggle.propTypes = {
   isPrivate: PropTypes.bool.isRequired,
   setPrivate: PropTypes.func.isRequired,
