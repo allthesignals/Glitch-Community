@@ -24,9 +24,7 @@ export const RowItem = ({ as: Component = 'div', className, children, ...props }
   </Component>
 );
 
-const Row = ({ items, children, count, gap, minWidth, className, style }) => {
-  console.log('count', count)
-  return (
+const Row = ({ items, children, count, gap, minWidth, className, style }) => (
   <RowContainer as="ul" className={className} style={style} count={count} gap={gap} minWidth={minWidth}>
     {items.slice(0, count).map((item, index) => (
       <RowItem as="li" key={item.id}>
@@ -36,7 +34,6 @@ const Row = ({ items, children, count, gap, minWidth, className, style }) => {
     {count > items.length && range(0, count - items.length).map((i) => <li key={`filler-${i}`} className={styles.filler} />)}
   </RowContainer>
 );
-};
 
 Row.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.node.isRequired })).isRequired,
