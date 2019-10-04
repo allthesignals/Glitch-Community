@@ -66,8 +66,10 @@ div[data-module="Popover"]
     z-index: 10
   section
     margin: 0
+  [data-module="Title"] h2
+    font-size: var(--fontSizes-small)
   
-div[data-module="Popover"] button[data-module="UnstyledButton"]
+div[data-module="Popover"] > button[data-module="UnstyledButton"]
   padding: 10px 10px 8px
   border-radius: 5px
   svg
