@@ -63,11 +63,13 @@ section
 div[data-module="Popover"]
   text-align: left
   [data-module="Popover"]
-    z-index: 2
+    z-index: 10
   section
     margin: 0
+  [data-module="Title"] h2
+    font-size: var(--fontSizes-small)
   
-div[data-module="Popover"] button[data-module="UnstyledButton"]
+div[data-module="Popover"] > button[data-module="UnstyledButton"]
   padding: 10px 10px 8px
   border-radius: 5px
   svg
@@ -81,8 +83,6 @@ div[data-module="Popover"] button[data-module="UnstyledButton"]
 .mediumPopover div[data-module="Popover"]
   width: 250px
 
-.narrowPopover div[data-module="Popover"]
-  width: 150px
 
 // styles for index.ejs
 // There will always be a little special sauce here, since these styles have to work
