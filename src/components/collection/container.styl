@@ -142,6 +142,10 @@ svg.arrow
 
 .playerHeader
   padding: 12px
+  display: flex
+  > *
+    align-self: center
+    padding: 5px
 
 .playerDescription
   background-color: white
@@ -149,14 +153,14 @@ svg.arrow
   border-bottom-right-radius: 5px
   padding: 12px
 
-.arrow
-  background-image: url("https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fdown-arrow.svg")
-  width: 10px
-  height: 8px
-  opacity: 0.4
-  background-repeat: no-repeat
-  display: block
-  &.back
-    transform: rotate(90deg)
-  &.forward
-    transform: rotate(-90deg)
+.popoverItem
+  display: flex
+  min-width: 150px
+
+  img
+    width: 15px
+    height: 15px
+    margin-right: 5px
+
+.buttonWrap
+  margin-left: auto

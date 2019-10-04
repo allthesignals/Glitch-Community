@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Pluralize from 'react-pluralize';
-import { partition, chunk } from 'lodash';
+import { partition, chunk, findIndex } from 'lodash';
 import classnames from 'classnames';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Button, Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledButton, ButtonGroup, ButtonSegment } from '@fogcreek/shared-components';
 
 import { isDarkColor } from 'Utils/color';
 import Text from 'Components/text/text';
@@ -16,13 +16,9 @@ import CollectionNameInput from 'Components/fields/collection-name-input';
 import AddCollectionProject from 'Components/collection/add-collection-project-pop';
 import EditCollectionColor from 'Components/collection/edit-collection-color-pop';
 import AuthDescription from 'Components/fields/auth-description';
-import { BookmarkAvatar } from 'Components/images/avatar';
+import { BookmarkAvatar, ProjectAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
 import { PrivateToggle } from 'Components/private-badge';
-import { PopoverMenu, PopoverDialog, PopoverSection, PopoverActions, PopoverMenuButton } from 'Components/popover';
-import ResultsList from 'Components/containers/results-list';
-import ProjectResultItem from 'Components/project/project-result-item';
-import { useActiveIndex } from 'Components/popover/search'; // TODO move this somewhere else
 import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import { useTrackedFunc } from 'State/segment-analytics';
@@ -147,34 +143,61 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
       setCurrentProjectIndex(currentProjectIndex + 1);
     }
   };
-  const onSubmit = (item) => {
-    console.log("submit?", item)
-  }
   const featuredProject = projects[currentProjectIndex];
 
+  const [selectedPopoverProjectId, setSelectedPopoverProjectId] = useState(featuredProject.id);
+
+  const onChange = (newId) => {
+    setSelectedPopoverProjectId(newId);
+  };
+
+  const onClickOnProject = (project, onClose) => {
+    const selectedProjectIndex = findIndex(projects, (p) => p.id === project.id);
+    setCurrentProjectIndex(selectedProjectIndex);
+    onClose();
+  };
   return (
     <>
-      <div className={classnames(styles.playerContainer, isDarkColor(collection.coverColor) && styles.dark)} style={{ backgroundColor: collection.coverColor, borderColor: collection.coverColor }}>
+      <div
+        className={classnames(styles.playerContainer, isDarkColor(collection.coverColor) && styles.dark)}
+        style={{ backgroundColor: collection.coverColor, borderColor: collection.coverColor }}
+      >
         <div className={styles.playerHeader}>
-          projectAvatar will go here
-          {featuredProject.domain}
-          <PopoverMenu label="Featured Project Options">
-            {({ togglePopover }) => (
-              <PopoverDialog align="left" focusOnPopover>
-                <PopoverSection>
-                  <ResultsList scroll items={projects}>
-                    {(project, i) => <Button onClick={() => {}}>{project.domain}</Button>}
-                  </ResultsList>
-                </PopoverSection>
-              </PopoverDialog>
+          <span className={styles.projectAvatar}>
+            <ProjectAvatar project={featuredProject} />
+          </span>
+          <Text>{featuredProject.domain}</Text>
+          <Popover
+            align="right"
+            renderLabel={({ onClick, ref }) => (
+              <UnstyledButton ref={ref} onClick={onClick}>
+                <Icon icon="chevronDown" />
+              </UnstyledButton>
             )}
-          </PopoverMenu>
-          <Button onClick={back} disabled={currentProjectIndex === 0}>
-            <span className={classnames(styles.arrow, styles.back)}></span>
-          </Button>
-          <Button onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
-            <span className={classnames(styles.arrow, styles.forward)}></span>
-          </Button>
+          >
+            {({ onClose }) => (
+              <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
+                {({ item, buttonProps }) => (
+                  <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
+                    <div className={styles.popoverItem}>
+                      <ProjectAvatar project={item} />
+                      <ResultName>{item.domain}</ResultName>
+                    </div>
+                  </ResultItem>
+                )}
+              </ResultsList>
+            )}
+          </Popover>
+          <div className={styles.buttonWrap}>
+            <ButtonGroup variant="primary" size="normal">
+              <ButtonSegment onClick={back}>
+                <Icon icon="chevronLeft" alt="back" />
+              </ButtonSegment>
+              <ButtonSegment onClick={forward}>
+                <Icon icon="chevronRight" alt="foward" />
+              </ButtonSegment>
+            </ButtonGroup>
+          </div>
         </div>
         <div className={styles.playerDescription}>
           <Text>{featuredProject.description}</Text>
@@ -233,7 +256,7 @@ const CollectionContainer = withRouter(({ history, match, collection, showFeatur
     `Collection toggled ${collection.private ? 'public' : 'private'}`,
   );
 
-  const onPlayPage = 'projectId' in match.params && collectionHasProjects;
+  const onPlayPage = match.params[0] === 'play' && collectionHasProjects;
 
   const togglePlay = () => {
     if (onPlayPage) {
