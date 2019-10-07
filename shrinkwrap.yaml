@@ -50,7 +50,7 @@ dependencies:
   eslint-plugin-import: 2.18.2
   eslint-plugin-jsx-a11y: 6.2.3
   eslint-plugin-react: 7.16.0
-  eslint-plugin-react-hooks: 1.7.0
+  eslint-plugin-react-hooks: 2.1.2
   eslint-scope: 5.0.0
   express: 4.17.1
   express-http-proxy: 1.6.0
@@ -4106,14 +4106,14 @@ packages:
       eslint: ^3 || ^4 || ^5 || ^6
     resolution:
       integrity: sha512-CawzfGt9w83tyuVekn0GDPU9ytYtxyxyFZ3aSWROmnRRFQFT2BiPJd7jvRdzNDi6oLWaS2asMeYSNMjWTV4eNg==
-  /eslint-plugin-react-hooks/1.7.0:
+  /eslint-plugin-react-hooks/2.1.2:
     dev: false
     engines:
       node: '>=7'
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
     resolution:
-      integrity: sha512-iXTCFcOmlWvw4+TOE8CLWj6yX1GwzT0Y6cUfHHZqWnSk144VmVIRcVGtUAzrLES7C798lmvnt02C7rxaOX1HNA==
+      integrity: sha512-ZR+AyesAUGxJAyTFlF3MbzeVHAcQTFQt1fFVe5o0dzY/HFoj1dgQDMoIkiM+ltN/HhlHBYX4JpJwYonjxsyQMA==
   /eslint-plugin-react/7.16.0:
     dependencies:
       array-includes: 3.0.3
@@ -10622,7 +10622,7 @@ specifiers:
   eslint-plugin-import: ^2.18.2
   eslint-plugin-jsx-a11y: ^6.2.3
   eslint-plugin-react: ^7.16.0
-  eslint-plugin-react-hooks: ^1.6.1
+  eslint-plugin-react-hooks: ^2.1.2
   eslint-scope: ^5.0.0
   express: ^4.16.4
   express-http-proxy: ^1.5.1
@@ -10644,7 +10644,7 @@ specifiers:
   mini-css-extract-plugin: ^0.8.0
   mocha: ^6.2.0
   module-alias: ^2.2.0
-  nodemon: ^1.19.1
+  nodemon: ^1.19.3
   prop-types: ^15.7.2
   punycode: ^2.1.1
   qrcode: ^1.4.0
