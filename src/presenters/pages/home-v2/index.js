@@ -327,6 +327,7 @@ export const HomePreview = () => {
 const HomeWithProductionData = () => {
   const { currentUser } = useCurrentUser();
   const { HOME_CONTENT, ZINE_POSTS, SSR_SIGNED_IN } = useGlobals();
+  console.log(HOME_CONTENT);
   return (
     <Layout>
       <Home
