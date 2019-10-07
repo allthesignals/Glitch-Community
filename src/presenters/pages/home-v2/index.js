@@ -8,7 +8,6 @@ import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';
 import Embed from 'Components/project/embed';
 import MaskImage from 'Components/images/mask-image';
-import Markdown from 'Components/text/markdown';
 import Text from 'Components/text/text';
 import Questions from 'Components/questions';
 import RecentProjects from 'Components/recent-projects';
@@ -45,9 +44,7 @@ const calloutGraphics = {
   },
 };
 
-const HomeSection = ({ className = '', ...props }) => (
-  <section className={classnames(styles.homeSection, className)} {...props} />
-);
+const HomeSection = ({ className = '', ...props }) => <section className={classnames(styles.homeSection, className)} {...props} />;
 
 const FeatureCallouts = ({ content }) => (
   <HomeSection id="feature-callouts" className={styles.featureCalloutsContainer}>
@@ -108,7 +105,8 @@ const AppsWeLove = ({ content }) => {
               <div className={classnames(styles.appItem, i === currentTab && styles.active)}>
                 <div className={styles.appContent}>
                   <h4 className={styles.h4}>{title}</h4>
-                  <p>{description}</p>
+                  {/* eslint-disable-next-line react/no-danger */}
+                  <span dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
                 <img src={getProjectAvatarUrl({ id })} alt="" className={styles.appAvatar} />
               </div>
@@ -134,7 +132,8 @@ const CuratedCollections = ({ content }) => (
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
           <h4 className={styles.h4}>{title}</h4>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
           <div className={styles.curatedCollectionButtonWrap}>
             <Button as="span">
               View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
@@ -149,50 +148,52 @@ const CuratedCollections = ({ content }) => (
 const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent } }) => {
   console.log({ hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent });
   return (
-  <HomeSection id="unified-stories" className={styles.unifiedStories}>
-    <div className={styles.unifiedStoriesContainer}>
-      <div className={styles.unifiedStoriesHeadline}>
-        <div className={styles.unifiedStoriesContentWrap}>
-          {hed
-            .trim()
-            .split('\n')
-            .map((line, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <h2 key={i}>
-                <Mark color="white">{line}</Mark>
-              </h2>
-            ))}
-          <img src={featuredImage} alt={featuredImageDescription} />
+    <HomeSection id="unified-stories" className={styles.unifiedStories}>
+      <div className={styles.unifiedStoriesContainer}>
+        <div className={styles.unifiedStoriesHeadline}>
+          <div className={styles.unifiedStoriesContentWrap}>
+            {hed
+              .trim()
+              .split('\n')
+              .map((line, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <h2 key={i}>
+                  <Mark color="white">{line}</Mark>
+                </h2>
+              ))}
+            <img src={featuredImage} alt={featuredImageDescription} />
+          </div>
+        </div>
+        <div className={styles.unifiedStoriesPreview}>
+          <div className={styles.unifiedStoriesContentWrap}>
+            <h3 className={styles.h3}>{dek}</h3>
+            {/* eslint-disable-next-line react/no-danger */}
+            <span dangerouslySetInnerHTML={{ __html: summary }} />
+            <Button as="a" href={href}>
+              {cta} <Icon icon="arrowRight" />
+            </Button>
+          </div>
+        </div>
+        <div className={styles.unifiedStoriesRelatedContent}>
+          <div className={styles.unifiedStoriesContentWrap}>
+            <h3>Related</h3>
+            <ul>
+              {relatedContent
+                .filter((related) => !!related.href)
+                .map((related) => (
+                  <li key={related.href}>
+                    <Link to={related.href} className={styles.plainLink}>
+                      <h4>{related.title}</h4>
+                      <p>{related.source}</p>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
       </div>
-      <div className={styles.unifiedStoriesPreview}>
-        <div className={styles.unifiedStoriesContentWrap}>
-          <h3 className={styles.h3}>{dek}</h3>
-          {/* eslint-disable-next-line react/no-danger */}
-          <span dangerouslySetInnerHTML={{ __html: summary}} />
-          <Button as="a" href={href}>
-            {cta} <Icon icon="arrowRight" />
-          </Button>
-        </div>
-      </div>
-      <div className={styles.unifiedStoriesRelatedContent}>
-        <div className={styles.unifiedStoriesContentWrap}>
-          <h3>Related</h3>
-          <ul>
-            {relatedContent.filter((related) => !!related.href).map((related) => (
-              <li key={related.href}>
-                <Link to={related.href} className={styles.plainLink}>
-                  <h4>{related.title}</h4>
-                  <p>{related.source}</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  </HomeSection>
-  )
+    </HomeSection>
+  );
 };
 
 const CultureZine = ({ content }) => (
@@ -254,7 +255,8 @@ const BuildingOnGlitch = ({ content }) => (
             <img src={buildingGraphics[index]} alt="" />
           </div>
           <h3>{title}</h3>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
           <Button as="span">
             {cta} <Icon icon="arrowRight" />
           </Button>
@@ -311,11 +313,11 @@ export const HomePreview = () => {
   return (
     <Layout>
       <PreviewContainer
-        get={() => api.get('https://community-home-editor.glitch.me/home.json').then((res) => res.data)}
+        get={() => api.get('https://community-cms.glitch.me/home.json').then((res) => res.data)}
         onPublish={onPublish}
         previewMessage={
           <>
-            This is a live preview of edits done with <Link to="/index/edit">Community Home Editor.</Link>
+            This is a live preview of a planned release authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
           </>
         }
       >

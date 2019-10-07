@@ -275,7 +275,6 @@ module.exports = function(external) {
   app.post('/api/home', async (req, res) => {
     const persistentToken = req.headers.authorization;
     const data = req.body;
-    console.log(data);
     const page = 'home';
     try {
       await saveDataToFile({ page, persistentToken, data });
@@ -294,7 +293,6 @@ module.exports = function(external) {
   app.post('/api/pupdate', async (req, res) => {
     const persistentToken = req.headers.authorization;
     const data = req.body;
-    console.log('data', data);
     const page = 'pupdates';
     try {
       await saveDataToFile({ page, persistentToken, data });
