@@ -168,7 +168,8 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
       <div className={styles.unifiedStoriesPreview}>
         <div className={styles.unifiedStoriesContentWrap}>
           <h3 className={styles.h3}>{dek}</h3>
-          <Markdown>{summary}</Markdown>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: summary}} />
           <Button as="a" href={href}>
             {cta} <Icon icon="arrowRight" />
           </Button>
@@ -327,7 +328,6 @@ export const HomePreview = () => {
 const HomeWithProductionData = () => {
   const { currentUser } = useCurrentUser();
   const { HOME_CONTENT, ZINE_POSTS, SSR_SIGNED_IN } = useGlobals();
-  console.log(HOME_CONTENT);
   return (
     <Layout>
       <Home
