@@ -59,7 +59,8 @@ const FeatureCallouts = ({ content }) => (
               <Mark color={calloutGraphics[id].color}>{label}</Mark>
             </h2>
           </Link>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
         </>
       )}
     </Row>
@@ -300,21 +301,11 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
 export const HomePreview = () => {
   const api = useAPI();
   const { origin, ZINE_POSTS } = useGlobals();
-  const onPublish = async (data) => {
-    try {
-      await api.post(`${origin}/api/home`, data);
-      // need to do a hard reload for this to take effect
-      window.location = '/';
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   return (
     <Layout>
       <PreviewContainer
         get={() => api.get('https://community-cms.glitch.me/home.json').then((res) => res.data)}
-        onPublish={onPublish}
         previewMessage={
           <>
             This is a live preview of a planned release authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
