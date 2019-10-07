@@ -66,7 +66,7 @@ function ProjectsList({
       enabled={enableFiltering}
       placeholder={placeholder}
       searchPrompt="find a project"
-      label="project search"
+      label="find a project"
       items={projects}
     >
       {({ filterInput, filterHeaderStyles, renderItems }) => (

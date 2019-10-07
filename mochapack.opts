@@ -1,3 +1,4 @@
 --webpack-config ./webpack.test.config.js
 --include test/setup.js
+-- include test/reactA11yHelper.js
 test/**/*.js

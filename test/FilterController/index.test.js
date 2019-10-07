@@ -4,6 +4,7 @@ const expect = require('chai').should();
 const FilterController = require('../../src/components/filter-controller').default;
 const ProjectsList = require('../../src/components/containers/projects-list').default;
 const Adapter = require('enzyme-adapter-react-16');
+const { a11yHelper } = require("../reactA11yHelper");
 //import React from 'react';
 //import { configure, shallow, mount } from 'enzyme';
 //import FilterController from 'Components/filter-controller';
@@ -20,8 +21,15 @@ describe('Array', function() {
 });
 
 describe('ProjectsList', function() {
+  it('should have no accessibility errors', function() {
+    a11yHelper.testEnzymeComponent(<ProjectsList layout="row" projects={[]} enableFiltering />, {}, function (results) {
+      results.violations.length.should.equal(0);
+    });
+  });
+
   it('should contain an input when filtering', function() {
     const wrapper = mount(<ProjectsList layout="row" projects={[]} enableFiltering />);
+    console.log(wrapper.find('input').debug());
     // .find(FilterController)
     // .renderProp('children')({
     //   matchFn: (x, y) => x === y,
