@@ -20,12 +20,19 @@ const containers = {
   gridCompact: (props) => <Grid className={styles.projectsGridCompact} {...props} />,
 };
 
-const ProjectsUL = ({ collection, projects, sortable, onReorder, noteOptions, layout, projectOptions }) => {
+const ProjectsUL = ({ collection, projects, sortable, onReorder, noteOptions, layout, projectOptions, showEditButton }) => {
   const Container = containers[layout];
   return (
     <Container itemClassName={styles.projectsItem} items={projects} sortable={sortable} onReorder={onReorder}>
       {(project) => (
-        <ProjectItem key={project.id} project={project} projectOptions={projectOptions} collection={collection} noteOptions={noteOptions} />
+        <ProjectItem
+          key={project.id}
+          project={project}
+          projectOptions={projectOptions}
+          collection={collection}
+          noteOptions={noteOptions}
+          showEditButton={showEditButton}
+        />
       )}
     </Container>
   );
@@ -45,6 +52,7 @@ function ProjectsList({
   collection,
   noteOptions,
   projectOptions,
+  showEditButton,
   dataCy,
 }) {
   const matchFn = (project, filter) => project.domain.includes(filter) || project.description.toLowerCase().includes(filter);
@@ -87,6 +95,7 @@ function ProjectsList({
                     sortable={enableSorting && paginatedProjects.length === projects.length}
                     onReorder={onReorder}
                     projectOptions={projectOptions}
+                    showEditButton={showEditButton}
                   />
                 )}
               </PaginationController>
@@ -110,6 +119,7 @@ ProjectsList.propTypes = {
   projectsPerPage: PropTypes.number,
   collection: PropTypes.object,
   noteOptions: PropTypes.object,
+  showEditButton: PropTypes.bool,
   projectOptions: PropTypes.object,
   dataCy: PropTypes.string,
 };
@@ -124,6 +134,7 @@ ProjectsList.defaultProps = {
   projectsPerPage: 6,
   collection: null,
   noteOptions: {},
+  showEditButton: false,
   projectOptions: {},
   dataCy: null,
 };
