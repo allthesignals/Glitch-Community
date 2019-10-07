@@ -33,7 +33,7 @@ try {
   // Don't worry about it, there's probably just no stats.json
 }
 
-module.exports = smp.wrap((env) => ({
+module.exports = smp.wrap({
   mode,
   entry: {
     client: `${SRC}/client.js`,
@@ -175,4 +175,4 @@ module.exports = smp.wrap((env) => ({
   stats: {
     children: false,
   },
-}));
+});

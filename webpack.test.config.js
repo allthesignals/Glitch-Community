@@ -1,24 +1,14 @@
 /**
  * Webpack config for running the tests via mocha.
  */
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-//const nodeExternals = require('webpack-node-externals');
-
 const sharedConfig = require('./webpack.config');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 // eslint-disable-next-line func-names
 module.exports = function(env) {
-  // Set default values
-  /* env = {
-    production: false,
-    ...env,
-  }; */
-
   return {
-    ...sharedConfig(env),
+    ...sharedConfig,
 
     mode: 'development',
     devtool: 'cheap-module-eval-source-map',

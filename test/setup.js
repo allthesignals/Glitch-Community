@@ -22,3 +22,5 @@ global.cancelAnimationFrame = function (id) {
   clearTimeout(id);
 };
 copyProps(window, global);
+
+var ENVIRONMENT = "testing";
