@@ -146,7 +146,9 @@ const CuratedCollections = ({ content }) => (
   </HomeSection>
 );
 
-const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent } }) => (
+const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent } }) => {
+  console.log({ hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent });
+  return (
   <HomeSection id="unified-stories" className={styles.unifiedStories}>
     <div className={styles.unifiedStoriesContainer}>
       <div className={styles.unifiedStoriesHeadline}>
@@ -189,7 +191,8 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
       </div>
     </div>
   </HomeSection>
-);
+  )
+};
 
 const CultureZine = ({ content }) => (
   <VisibilityContainer>
