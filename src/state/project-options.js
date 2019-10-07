@@ -55,7 +55,7 @@ const useDefaultProjectOptions = () => {
       } else {
         if (setHasBookmarked) setHasBookmarked(true);
         if (!myStuffCollection) {
-          myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification, myStuffEnabled: true });
+          myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
         }
         await addProjectToCollection({ project, collection: myStuffCollection });
         reloadCollectionProjects([myStuffCollection]);
