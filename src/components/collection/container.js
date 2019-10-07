@@ -28,7 +28,7 @@ import styles from './container.styl';
 import { emoji } from '../global.styl';
 
 // TODO:
-// - add the right icon for Grid
+// - add the right icon for Grid: https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fgrid.svg?v=1570468906458
 // - add the left and right icons for back and forward buttons
 
 const CollectionProjectsGridView = ({
