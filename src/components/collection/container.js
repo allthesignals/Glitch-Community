@@ -315,7 +315,8 @@ const CollectionContainer = withRouter(({ history, match, collection, showFeatur
           <div className={styles.playControlContainer}>
             {onPlayPage && (
               <Button onClick={togglePlay}>
-                <Icon className={emoji} icon="eyes" /> Show All
+                <Image className={styles.gridIcon} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fgrid.svg?v=1570468906458" alt="grid view" width="" height="" />
+                Show All
               </Button>
             )}
             {!onPlayPage && (
