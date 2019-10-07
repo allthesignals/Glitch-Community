@@ -1,30 +1,29 @@
-const React = require('react');
-const {configure, shallow, mount} = require('enzyme');
-const expect = require('chai').should();
-const FilterController = require('../../src/components/filter-controller').default;
-const ProjectsList = require('../../src/components/containers/projects-list').default;
-const Adapter = require('enzyme-adapter-react-16');
-const { a11yHelper } = require("../reactA11yHelper");
-//import React from 'react';
-//import { configure, shallow, mount } from 'enzyme';
-//import FilterController from 'Components/filter-controller';
+import React from 'react';
+import { configure, shallow, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16'
+import chai from 'chai';
+
+import FilterController from 'Components/filter-controller';
+import ProjectsList from 'Components/containers/projects-list';
+import { a11yHelper } from '../reactA11yHelper';
+
+chai.should();
 
 configure({ adapter: new Adapter() });
 
-// a test test - delete when we have real things to test here
-describe('Array', function() {
-  describe('#indexOf()', function() {
-    it('should return -1 when the value is not present', function() {
-      [1, 2, 3].indexOf(4).should.equal(-1);
-    });
-  });
-});
-
 describe('ProjectsList', function() {
-  it('should have no accessibility errors', function() {
-    a11yHelper.testEnzymeComponent(<ProjectsList layout="row" projects={[]} enableFiltering />, {}, function (results) {
-      results.violations.length.should.equal(0);
+  describe('a11y testing', function() {
+    it('should have no errors when there are no projects', function() {
+      a11yHelper.testEnzymeComponent(<ProjectsList layout="row" projects={[]} enableFiltering />, {}, function (results) {
+        results.violations.length.should.equal(0);
+      });
     });
+    it('should have no errors when there are projects', function() {
+      a11yHelper.testEnzymeComponent(<ProjectsList layout="row" projects={[]} enableFiltering />, {}, function (results) {
+        results.violations.length.should.equal(0);
+      });
+    })
+  
   });
 
   it('should contain an input when filtering', function() {
