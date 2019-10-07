@@ -12,7 +12,8 @@ const NewStuffArticle = ({ title, body, image, imageAlt, link }) => (
   <article className={styles.article}>
     <h2 className={styles.title}>{title}</h2>
     <div className={styles.body}>
-      <span dangerouslySetInnerHTML={{ __html: body }}></span>
+      {/* eslint-disable-next-line react/no-danger */}
+      <span dangerouslySetInnerHTML={{ __html: body }} />
       {image && <Image src={image} alt={imageAlt || ''} />}
     </div>
     {!!link && (
