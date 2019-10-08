@@ -17,7 +17,7 @@ import Row from 'Components/containers/row';
 import RelatedProjects from 'Components/related-projects';
 import Expander from 'Components/containers/expander';
 import { PopoverWithButton, PopoverDialog, PopoverActions, ActionDescription } from 'Components/popover';
-import { ShowButton, EditButton } from 'Components/project/project-actions';
+import { ShowButton, EditButtonCta } from 'Components/project/project-actions';
 import AuthDescription from 'Components/fields/auth-description';
 import Layout from 'Components/layout';
 import { PrivateBadge, PrivateToggle } from 'Components/private-badge';
@@ -227,7 +227,7 @@ const ProjectPage = ({ project: initialProject }) => {
               <ShowButton name={domain} />
             </span>
             <span className={styles.profileButton}>
-              <EditButton name={domain} isMember={isAuthorized} />
+              <EditButtonCta name={domain} isMember={isAuthorized} />
             </span>
           </div>
         </ProjectProfileContainer>
