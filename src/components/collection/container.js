@@ -201,10 +201,10 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
           </Popover>
           <div className={styles.buttonWrap}>
             <ButtonGroup variant="primary" size="normal">
-              <ButtonSegment onClick={back}>
+              <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
                 <Icon icon="chevronLeft" alt="back" />
               </ButtonSegment>
-              <ButtonSegment onClick={forward}>
+              <ButtonSegment onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
                 <Icon icon="chevronRight" alt="foward" />
               </ButtonSegment>
             </ButtonGroup>
