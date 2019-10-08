@@ -29,7 +29,9 @@ const getLinkBodyStyles = (project) =>
   });
 
 const ProfileListWithData = ({ project }) => {
-  const { value: members } = useProjectMembers(project.id);
+  const obj = useProjectMembers(project.id);
+  console.log(obj);
+  const members = obj.value;
   return <ProfileList layout="row" glitchTeam={project.showAsGlitchTeam} {...members} />;
 };
 
