@@ -154,7 +154,7 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
   };
   const featuredProject = projects[currentProjectIndex];
 
-  const [selectedPopoverProjectId, setSelectedPopoverProjectId] = useState(featuredProject.id);
+  const [selectedPopoverProjectId, setSelectedPopoverProjectId] = useState(null);
 
   const onChange = (newId) => {
     setSelectedPopoverProjectId(newId);
@@ -189,18 +189,20 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
             )}
           >
             {({ onClose }) => (
-              <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
-                {({ item, buttonProps }) => (
-                  <div className={styles.resultItemWrapper}>
-                    <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
-                      <div className={styles.popoverItem}>
-                        <ProjectAvatar project={item} />
-                        <ResultName>{item.domain}</ResultName>
-                      </div>
-                    </ResultItem>
-                  </div>
-                )}
-              </ResultsList>
+              <div className={styles.resultListWrapper}>
+                <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
+                  {({ item, buttonProps }) => (
+                    <div className={styles.resultItemWrapper}>
+                      <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
+                        <div className={styles.popoverItem}>
+                          <ProjectAvatar project={item} />
+                          <ResultName>{item.domain}</ResultName>
+                        </div>
+                      </ResultItem>
+                    </div>
+                  )}
+                </ResultsList>
+              </div>
             )}
           </Popover>
           <div className={styles.buttonWrap}>

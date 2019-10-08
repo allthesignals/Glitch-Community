@@ -148,10 +148,11 @@ svg.arrow
     color: white
 
 .playerHeader
-  padding: 12px
+  padding: 12px 12px 12px 0
   display: flex
 
 .popoverButton
+  padding-left: 12px
   display: flex
   > *
     align-self: center
@@ -177,8 +178,12 @@ svg.arrow
   margin-left: auto
 
 .resultItemWrapper
-  button[data-module="ResultItem"]
+  button
     &:hover, &:focus
       background-color: general-link
       color: #fff
       outline: none
+
+.resultListWrapper
+  max-height: 400px
+  overflow: scroll
