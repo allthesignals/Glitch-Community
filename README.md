@@ -41,10 +41,11 @@ The following commands are available for use during development:
 
 Set the following values in `.env` to change how the site is built and runs
 
-| Name         | Options                     | Default       | Description                                                            |
-| ------------ | - | - | - |
-| `NODE_ENV`   | `development` `production`  | `development` | Adds extra minification and compilation steps when set to `production` |
-| `BUILD_TYPE` | `memory` `watcher` `static` | `memory`      | `memory` builds in memory and blocks rquests until the latest code is ready. `watcher` compiles code in a separate process, improving performance. `static` does not run any builds and expects that artifacts are already present |
+| Name         | Default       | Description                                                                                |
+| ------------ | ------------- | ------------------------------------------------------------------------------------------ |
+| `NODE_ENV`   | `development` | Adds extra minification and compilation steps when set to `production`                     |
+| `BUILD_TYPE` | `memory`      | Perform builds in `memory`, a separate `watcher` process, or use a `static` build artifact |
+| `RUNNING_ON` | `production`  | Where should the site look for user and projects (see `shared/constants.js`)               |
 
 ## Built with
 
