@@ -34,7 +34,6 @@ const CreateTeamPop = withRouter(({ history }) => {
     if (name) {
       const url = kebabCase(name);
       let error = null;
-
       try {
         const { data } = await api.get(`userId/byLogin/${url}`);
         if (data !== 'NOT FOUND') {
@@ -134,7 +133,7 @@ const CreateTeamPop = withRouter(({ history }) => {
           {state.isLoading ? (
             <Loader style={{ width: '25px' }} />
           ) : (
-            <Button onClick={handleSubmit} size="small" disabled={!!state.error}>
+            <Button onClick={handleSubmit} size="small" disabled={!!state.error} type="submit">
               Create Team
               <Icon icon="thumbsUp" className={emoji} />
             </Button>
