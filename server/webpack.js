@@ -21,7 +21,7 @@ function webpackExpressMiddleware() {
 }
 
 module.exports = function(app) {
-  if (process.env.BUILD_TYPE === 'memory') {
+  if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
     // Use webpack middleware for dev/staging/etc.
     app.use(webpackExpressMiddleware());
   }
