@@ -111,7 +111,7 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
   const { width } = useWindowDimensions();
 
   if (!isMember && joinProject) {
-    let joinProjectBtnText = 'Join Project';
+    let joinProjectBtnText = 'Join Team Project';
 
     if (width < mediumSmallViewport) {
       joinProjectBtnText = 'Join';
