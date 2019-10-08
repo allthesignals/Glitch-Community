@@ -150,8 +150,12 @@ svg.arrow
 .playerHeader
   padding: 12px
   display: flex
+
+.popoverButton
+  display: flex
   > *
     align-self: center
+  p 
     padding: 5px
 
 .playerDescription
@@ -162,7 +166,7 @@ svg.arrow
 
 .popoverItem
   display: flex
-  min-width: 150px
+  min-width: 200px
 
   img
     width: 15px
@@ -171,3 +175,10 @@ svg.arrow
 
 .buttonWrap
   margin-left: auto
+
+.resultItemWrapper
+  button[data-module="ResultItem"]
+    &:hover, &:focus
+      background-color: general-link
+      color: #fff
+      outline: none

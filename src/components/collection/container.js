@@ -174,27 +174,31 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
         style={{ backgroundColor: collection.coverColor, borderColor: collection.coverColor }}
       >
         <div className={styles.playerHeader}>
-          <span className={styles.projectAvatar}>
-            <ProjectAvatar project={featuredProject} />
-          </span>
-          <Text>{featuredProject.domain}</Text>
           <Popover
-            align="right"
+            align="left"
             renderLabel={({ onClick, ref }) => (
               <UnstyledButton ref={ref} onClick={onClick}>
-                <Icon icon="chevronDown" />
+                <span className={styles.popoverButton}>
+                  <span className={styles.projectAvatar}>
+                    <ProjectAvatar project={featuredProject} />
+                  </span>
+                  <Text>{featuredProject.domain}</Text>
+                  <Icon icon="chevronDown" />
+                </span>
               </UnstyledButton>
             )}
           >
             {({ onClose }) => (
               <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
                 {({ item, buttonProps }) => (
-                  <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
-                    <div className={styles.popoverItem}>
-                      <ProjectAvatar project={item} />
-                      <ResultName>{item.domain}</ResultName>
-                    </div>
-                  </ResultItem>
+                  <div className={styles.resultItemWrapper}>
+                    <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
+                      <div className={styles.popoverItem}>
+                        <ProjectAvatar project={item} />
+                        <ResultName>{item.domain}</ResultName>
+                      </div>
+                    </ResultItem>
+                  </div>
                 )}
               </ResultsList>
             )}
