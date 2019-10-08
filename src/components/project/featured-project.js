@@ -50,7 +50,7 @@ const Top = ({
           <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={featuredProject.domain} />
         </div>
       )}
-      {isAuthorized && (
+      {isAuthorized && !(isPlayer && !!featuredProject.note) && (
         <div className={styles.unfeatureBtn}>
           <FeaturedProjectOptionsPop
             unfeatureProject={unfeatureProject}
