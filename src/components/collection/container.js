@@ -27,10 +27,6 @@ import { useProjectMembers } from 'State/project';
 import styles from './container.styl';
 import { emoji } from '../global.styl';
 
-// TODO:
-// - add the right icon for Grid: https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fgrid.svg?v=1570468906458
-// - add the left and right icons for back and forward buttons
-
 const CollectionProjectsGridView = ({
   isAuthorized,
   funcs,
@@ -133,14 +129,26 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
   useEffect(() => wakeUpAllProjectsInACollection(projects), []);
   const back = () => {
     if (currentProjectIndex > 0) {
-      history.push(`/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex - 1].id}`);
+      const newLocation = {
+        pathname: `/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex - 1].id}`,
+        state: {
+          preventScroll: true,
+        },
+      };
+      history.push(newLocation);
       setCurrentProjectIndex(currentProjectIndex - 1);
     }
   };
 
   const forward = () => {
     if (currentProjectIndex < projects.length - 1) {
-      history.push(`/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex + 1].id}`);
+      const newLocation = {
+        pathname: `/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex + 1].id}`,
+        state: {
+          preventScroll: true,
+        },
+      };
+      history.push(newLocation);
       setCurrentProjectIndex(currentProjectIndex + 1);
     }
   };
@@ -262,11 +270,19 @@ const CollectionContainer = withRouter(({ history, match, collection, showFeatur
   const onPlayPage = match.params[0] === 'play' && collectionHasProjects;
 
   const togglePlay = () => {
+    const newLocation = {};
     if (onPlayPage) {
-      history.push(`/@${match.params.owner}/${match.params.name}`);
+      newLocation.pathname = `/@${match.params.owner}/${match.params.name}`;
+      newLocation.state = {
+        preventScroll: true,
+      };
     } else {
-      history.push(`/@${match.params.owner}/${match.params.name}/play`);
+      newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
+      newLocation.state = {
+        preventScroll: true,
+      };
     }
+    history.push(newLocation);
   };
 
   return (
@@ -315,7 +331,13 @@ const CollectionContainer = withRouter(({ history, match, collection, showFeatur
           <div className={styles.playControlContainer}>
             {onPlayPage && (
               <Button onClick={togglePlay}>
-                <Image className={styles.gridIcon} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fgrid.svg?v=1570468906458" alt="grid view" width="" height="" />
+                <Image
+                  className={styles.gridIcon}
+                  src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fgrid.svg?v=1570468906458"
+                  alt="grid view"
+                  width=""
+                  height=""
+                />
                 Show All
               </Button>
             )}
