@@ -31,7 +31,8 @@
     "build:webpack": "npx webpack",
     "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
     "build": "npm run build:webpack && npm run build:babel",
-    "test": "mochapack"
+    "test": "mochapack",
+    "jesttest": "jest"
   },
   "dependencies": {
     "@babel/cli": "^7.5.5",
@@ -149,9 +150,12 @@
   },
   "devDependencies": {
     "axe-core": "^3.3.2",
+    "babel-jest": "^24.9.0",
     "chai": "^4.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
     "jsdom": "^15.1.1",
     "mocha": "^6.2.0",
     "mochapack": "^1.1.5",
@@ -159,5 +163,20 @@
     "redux-mock-store": "^1.5.3",
     "sinon": "^7.5.0",
     "webpack-node-externals": "^1.7.2"
+  },
+  "jest": {
+    "moduleFileExtensions": ["js"],
+    "moduleDirectories": ["node_modules", "src", "shared"],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|less|styl)$": "identity-obj-proxy",
+      "^Components$": "<rootDir>/src/components",
+      "^Utils$": "<rootDir>/src/utils",
+      "^Curated$": "<rootDir>/src/curated",
+      "^Models$": "<rootDir>/src/models",
+      "^State$": "<rootDir>/src/state",
+      "^Shared/(.*)$": "<rootDir>/shared/$1",
+      "^Hooks$": "<rootDir>/src/hooks"
+    }
   }
 }

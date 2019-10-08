@@ -16,6 +16,9 @@ import * as Notifications from 'State/notifications';
 import { context as NotificationContext } from 'State/notifications';
 import { ProjectMemberContext } from 'State/project';
 
+import 'babel-polyfill';
+
+
 chai.should();
 const middlewares = [];
 const mockStore = configureStore(middlewares);
