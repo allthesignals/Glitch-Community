@@ -48,6 +48,7 @@ module.exports = {
     'react/prop-types': [OFF], // disabled so we can use composed prop-types
     'react/forbid-prop-types': [OFF],
     'react/destructuring-assignment': [OFF, 'always'],
+    'react/jsx-curly-brace-presence': [OFF],
     'react/no-multi-comp': [OFF], // someday on
     'react/jsx-wrap-multilines': [
       ERROR,

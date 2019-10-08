@@ -165,6 +165,7 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
     setCurrentProjectIndex(selectedProjectIndex);
     onClose();
   };
+
   const { value: members } = useProjectMembers(featuredProject.id);
 
   return (
@@ -220,6 +221,7 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
           <Text>{featuredProject.description}</Text>
           {members && <ProfileList layout="row" {...members} />}
         </div>
+        <div className={styles.projectCounter}>{currentProjectIndex + 1}/{projects.length}</div>
       </div>
       <FeaturedProject
         isAuthorized={isAuthorized}
