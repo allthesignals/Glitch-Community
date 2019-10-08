@@ -7,18 +7,16 @@ const createCache = require('./cache');
 const setup = () => {
   const src = path.join(__dirname, '../src');
   const build = path.join(__dirname, '../build/node/');
-  switch (process.env.DEPLOY_ENV) {
-    case 'production':
-    case 'ci':
-      // use the build created either statically or by a watcher
-      return { directory: build, verb: 'load' };
-    default:
-      // transpile on render to ensure we always use the latest code
-      require('@babel/register')({
-        only: [(location) => location.startsWith(src)],
-        configFile: path.join(__dirname, '../.babelrc.node.js'),
-      });
-      return { directory: src, verb: 'transpile' };
+  if (process.env.BUILD_TYPE === 'memory') {
+    // transpile on render to ensure we always use the latest code
+    require('@babel/register')({
+      only: [(location) => location.startsWith(src)],
+      configFile: path.join(__dirname, '../.babelrc.node.js'),
+    });
+    return { directory: src, verb: 'transpile' };
+  default:
+    // use the build created either statically or by a watcher
+    return { directory: build, verb: 'load' };
   }
 };
 const { directory, verb } = setup();

@@ -10,13 +10,9 @@ const makeAliases = (root) => ({
   Shared: path.join(__dirname, './shared'),
 });
 
-const clientPath = './src';
 const builtPath = './build/node';
-
-let serverPath = clientPath;
-if (process.env.DEPLOY_ENV === 'production' || process.env.DEPLOY_ENV === 'ci') {
-  serverPath = builtPath;
-}
+const clientPath = './src';
+const serverPath = process.env.BUILD_TYPE === 'memory' ? clientPath : builtPath;
 
 module.exports = {
   server: makeAliases(serverPath),
