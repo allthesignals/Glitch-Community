@@ -7,7 +7,7 @@ const createCache = require('./cache');
 const setup = () => {
   const src = path.join(__dirname, '../src');
   const build = path.join(__dirname, '../build/node/');
-  if (!process.env.process.env.BUILD_TYPE === 'memory') {
+  if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
     // transpile on render to ensure we always use the latest code
     require('@babel/register')({
       only: [(location) => location.startsWith(src)],
