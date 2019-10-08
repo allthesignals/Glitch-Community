@@ -44,7 +44,7 @@ ShowButton.propTypes = {
 
 // the Edit Button that appears on the top of the project page in the ProfileWrap
 export const EditButtonCta = ({ name, isMember, size }) => (
-  <Button as="a" href={getEditorUrl(name)} size={size} variant="cta">
+  <Button as="a" href={getEditorUrl(name)} size={size} variant={isMember ? 'cta' : undefined}>
     {isMember ? 'Edit Project' : 'View Source'}
   </Button>
 );
