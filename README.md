@@ -37,6 +37,14 @@ The following commands are available for use during development:
 | `npm run cy:ci`   | Auto-start a temporary dev server and run integration tests against it   |
 | `npm run build`   | Perform a production build of the site and store the results in `build/` |
 
+## Environment Variables
+
+Set the following values in `.env` to change how the site is built and runs
+
+| Name         | Options                     | Default       | Description                                                            |
+| ------------ | - | - | - |
+| `NODE_ENV`   | `development` `production`  | `development` | Adds extra minification and compilation steps when set to `production` |
+| `BUILD_TYPE` | `memory` `watcher` `static` | `memory`      | `memory` builds in memory and blocks rquests until the latest code is ready. `watcher` compiles code in a separate process, improving performance. `static` does not run any builds and expects that artifacts are already present |
 
 ## Built with
 
