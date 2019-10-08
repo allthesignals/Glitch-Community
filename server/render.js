@@ -14,10 +14,9 @@ const setup = () => {
       configFile: path.join(__dirname, '../.babelrc.node.js'),
     });
     return { directory: src, verb: 'transpile' };
-  default:
-    // use the build created either statically or by a watcher
-    return { directory: build, verb: 'load' };
   }
+  // use the build created either statically or by a watcher
+  return { directory: build, verb: 'load' };
 };
 const { directory, verb } = setup();
 
