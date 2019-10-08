@@ -11,9 +11,6 @@ import styles from './note.styl';
 
 const cx = classNames.bind(styles);
 
-/**
- * Note Component
- */
 const Note = ({ collection, project, updateNote, hideNote, isAuthorized }) => {
   function hideEmptyNote(event) {
     let description = event.target.value || '';
