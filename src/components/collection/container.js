@@ -24,6 +24,7 @@ import { useCollectionCurator } from 'State/collection';
 import useDevToggle from 'State/dev-toggles';
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useProjectMembers } from 'State/project';
+import { ProjectLink } from 'Components/link';
 
 import styles from './container.styl';
 import { emoji } from '../global.styl';
@@ -125,6 +126,52 @@ const wakeUpAllProjectsInACollection = (projects) => {
   });
 };
 
+const PlayerControls = ({ featuredProject, selectedPopoverProjectId, onChange, projects, onClickOnProject, back, forward, currentProjectIndex  }) => (
+  <>
+    <Popover
+      align="left"
+      renderLabel={({ onClick, ref }) => (
+        <UnstyledButton ref={ref} onClick={onClick}>
+          <span className={styles.popoverButton}>
+            <span className={styles.projectAvatar}>
+              <ProjectAvatar project={featuredProject} />
+            </span>
+            <Text>{featuredProject.domain}</Text>
+            <Icon icon="chevronDown" />
+          </span>
+        </UnstyledButton>
+      )}
+    >
+      {({ onClose }) => (
+        <div className={styles.resultListWrapper}>
+          <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
+            {({ item, buttonProps }) => (
+              <div className={styles.resultItemWrapper}>
+                <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
+                  <div className={styles.popoverItem}>
+                    <ProjectAvatar project={item} />
+                    <ResultName>{item.domain}</ResultName>
+                  </div>
+                </ResultItem>
+              </div>
+            )}
+          </ResultsList>
+        </div>
+      )}
+    </Popover>
+    <div className={styles.buttonWrap}>
+      <ButtonGroup variant="primary" size="normal">
+        <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
+          <Icon icon="chevronLeft" alt="back" />
+        </ButtonSegment>
+        <ButtonSegment onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
+          <Icon icon="chevronRight" alt="foward" />
+        </ButtonSegment>
+      </ButtonGroup>
+    </div>
+  </>
+);
+
 const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, projects, funcs, collection }) => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(getCurrentProjectIndexFromUrl(match.params.projectId, projects));
   useEffect(() => wakeUpAllProjectsInACollection(projects), []);
@@ -176,47 +223,26 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
         style={{ backgroundColor: collection.coverColor, borderColor: collection.coverColor }}
       >
         <div className={styles.playerHeader}>
-          <Popover
-            align="left"
-            renderLabel={({ onClick, ref }) => (
-              <UnstyledButton ref={ref} onClick={onClick}>
-                <span className={styles.popoverButton}>
-                  <span className={styles.projectAvatar}>
-                    <ProjectAvatar project={featuredProject} />
-                  </span>
-                  <Text>{featuredProject.domain}</Text>
-                  <Icon icon="chevronDown" />
-                </span>
-              </UnstyledButton>
-            )}
-          >
-            {({ onClose }) => (
-              <div className={styles.resultListWrapper}>
-                <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
-                  {({ item, buttonProps }) => (
-                    <div className={styles.resultItemWrapper}>
-                      <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
-                        <div className={styles.popoverItem}>
-                          <ProjectAvatar project={item} />
-                          <ResultName>{item.domain}</ResultName>
-                        </div>
-                      </ResultItem>
-                    </div>
-                  )}
-                </ResultsList>
-              </div>
-            )}
-          </Popover>
-          <div className={styles.buttonWrap}>
-            <ButtonGroup variant="primary" size="normal">
-              <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
-                <Icon icon="chevronLeft" alt="back" />
-              </ButtonSegment>
-              <ButtonSegment onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
-                <Icon icon="chevronRight" alt="foward" />
-              </ButtonSegment>
-            </ButtonGroup>
-          </div>
+          {projects.length > 1 && (
+            <PlayerControls 
+              featuredProject={featuredProject} 
+              selectedPopoverProjectId={selectedPopoverProjectId}
+              onChange={onChange}
+              projects={projects}
+              onClickOnProject={onClickOnProject}
+              back={back}
+              forward={forward}
+              currentProjectIndex={currentProjectIndex}
+            />
+          )}
+          {projects.length === 1 && (
+            <ProjectLink project={featuredProject} className={styles.popoverButton}>
+              <span className={styles.projectAvatar}>
+                <ProjectAvatar project={featuredProject} />
+              </span>
+              <Text>{featuredProject.domain}</Text>
+            </ProjectLink>
+          )}
         </div>
         <div className={styles.playerDescription}>
           <Markdown length={80}>{featuredProject.description || ' '}</Markdown>
