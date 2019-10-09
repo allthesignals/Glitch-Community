@@ -39,7 +39,6 @@ const togglePlay = ({ onPlayPage, match, history }) => {
   history.push(newLocation);
 };
 
-// TODO what should the experience be for collections without any projects on play vs show all
 const CollectionContainer = withRouter(({ history, match, collection, showFeaturedProject, isAuthorized, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
 

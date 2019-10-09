@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { partition } from 'lodash';
-import classnames from 'classnames';
-
-import { isDarkColor } from 'Utils/color';
 
 import { Button, Icon } from '@fogcreek/shared-components';
 
@@ -13,9 +11,8 @@ import Text from 'Components/text/text';
 import FeaturedProject from 'Components/project/featured-project';
 
 import { emoji } from '../global.styl';
-import styles from './container.styl'; // TODO make separate file
+import styles from './collection-projects-grid-view.styl';
 
-// TODO: showFeaturedProject is interesting is there a way to get rid of that?
 const CollectionProjectsGridView = ({ isAuthorized, funcs, showFeaturedProject, collection }) => {
   const [displayHint, setDisplayHint] = useState(false);
 
@@ -31,7 +28,7 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, showFeaturedProject, 
 
   return (
     <>
-      <div className={styles.collectionProjectContainerHeader}>
+      <div className={styles.addProjectHeader}>
         {isAuthorized && funcs.addProjectToCollection && (
           <AddCollectionProject addProjectToCollection={funcs.addProjectToCollection} collection={collection} />
         )}
@@ -39,7 +36,7 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, showFeaturedProject, 
       {!collectionHasProjects && isAuthorized && (
         <div className={styles.emptyCollectionHint}>
           <Image src="https://cdn.glitch.com/1afc1ac4-170b-48af-b596-78fe15838ad3%2Fpsst-pink.svg?1541086338934" alt="psst" width="" height="" />
-          <Text className={isDarkColor(collection.coverColor) && styles.dark}>You can add any project, created by any user</Text>
+          <Text>You can add any project, created by any user</Text>
         </div>
       )}
       {!collectionHasProjects && !isAuthorized && <div className={styles.emptyCollectionHint}>No projects to see in this collection just yet.</div>}
@@ -72,7 +69,7 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, showFeaturedProject, 
       )}
 
       {enableSorting && (
-        <div className={classnames(styles.hint, isDarkColor(collection.coverColor) && styles.dark)}>
+        <div className={styles.enableSortingHint}>
           <Icon className={emoji} icon="new" />
           <Text> You can reorder your projects</Text>
           {!displayHint && (
@@ -95,6 +92,17 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, showFeaturedProject, 
       )}
     </>
   );
+};
+
+CollectionProjectsGridView.propTypes = {
+  isAuthorized: PropTypes.bool.isRequired,
+  funcs: PropTypes.object.isRequired,
+  collection: PropTypes.object.isRequired,
+  showFeaturedProject: PropTypes.bool,
+};
+
+CollectionProjectsGridView.defaultProps = {
+  showFeaturedProject: undefined, // TODO is there a way around this one, feels like prop drilling
 };
 
 export default CollectionProjectsGridView;
