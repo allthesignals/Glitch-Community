@@ -67,6 +67,7 @@ export const makeTestUser = (options) => {
     thanksCount: 0,
     featuredProjectId: null,
     utcOffset: -420,
+    pinnedProjects: [],
     ...options,
   };
 };

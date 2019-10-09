@@ -11,9 +11,13 @@ module.exports = function(env) {
     ...sharedConfig,
 
     mode: 'development',
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'inline-source-map',
     target: 'node',
     optimization: {},
+    output: {
+      devtoolModuleFilenameTemplate        : '[absolute-resource-path]',
+      devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+    },
     externals: [nodeExternals()],
     module: {
       rules: [
