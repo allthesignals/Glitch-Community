@@ -10,7 +10,7 @@ import { captureException } from 'Utils/sentry';
 
 import styles from './styles.styl';
 
-const EllipsizeEmail = ({ email }) => {
+export const EllipsizeEmail = ({ email }) => {
   const sliceIndex = email.indexOf('@') - 2;
   return (
     <span aria-label={email} className={styles.emailAddress}>
