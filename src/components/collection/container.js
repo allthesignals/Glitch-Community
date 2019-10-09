@@ -126,7 +126,7 @@ const wakeUpAllProjectsInACollection = (projects) => {
   });
 };
 
-const PlayerControls = ({ featuredProject, selectedPopoverProjectId, onChange, projects, onClickOnProject, back, forward, currentProjectIndex  }) => (
+const PlayerControls = ({ featuredProject, selectedPopoverProjectId, onChange, projects, onClickOnProject, back, forward, currentProjectIndex }) => (
   <>
     <Popover
       align="left"
@@ -224,8 +224,8 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
       >
         <div className={styles.playerHeader}>
           {projects.length > 1 && (
-            <PlayerControls 
-              featuredProject={featuredProject} 
+            <PlayerControls
+              featuredProject={featuredProject}
               selectedPopoverProjectId={selectedPopoverProjectId}
               onChange={onChange}
               projects={projects}
@@ -246,9 +246,15 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
         </div>
         <div className={styles.playerDescription}>
           <Markdown length={80}>{featuredProject.description || ' '}</Markdown>
-          {members && <div className={styles.membersContainer}><ProfileList layout="row" {...members} /></div>}
+          {members && (
+            <div className={styles.membersContainer}>
+              <ProfileList layout="row" {...members} />
+            </div>
+          )}
         </div>
-        <div className={styles.projectCounter}>{currentProjectIndex + 1}/{projects.length}</div>
+        <div className={styles.projectCounter}>
+          {currentProjectIndex + 1}/{projects.length}
+        </div>
       </div>
       <FeaturedProject
         isAuthorized={isAuthorized}
