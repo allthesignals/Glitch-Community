@@ -8,6 +8,7 @@ import { Button, Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledBut
 
 import { isDarkColor } from 'Utils/color';
 import Text from 'Components/text/text';
+import Markdown from 'Components/text/markdown';
 import Image from 'Components/images/image';
 import FeaturedProject from 'Components/project/featured-project';
 import ProfileList, { ProfileItem } from 'Components/profile-list';
@@ -218,8 +219,8 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
           </div>
         </div>
         <div className={styles.playerDescription}>
-          <Text>{featuredProject.description}</Text>
-          {members && <ProfileList layout="row" {...members} />}
+          <Markdown length={80}>{featuredProject.description || ' '}</Markdown>
+          {members && <div className={styles.membersContainer}><ProfileList layout="row" {...members} /></div>}
         </div>
         <div className={styles.projectCounter}>{currentProjectIndex + 1}/{projects.length}</div>
       </div>
