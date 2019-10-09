@@ -63,7 +63,7 @@ const ReadmeError = (error) =>
       This project would be even better with a <code>README.md</code>
     </>
   ) : (
-    <>We couldn{"'"}t load the readme. Try refreshing?</>
+    <>We couldn't load the readme. Try refreshing?</>
   );
 const ReadmeLoader = withRouter(({ domain, location }) => (
   <DataLoader get={(api) => api.get(`projects/${domain}/readme`)} renderError={ReadmeError}>
