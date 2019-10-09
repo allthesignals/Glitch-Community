@@ -8,7 +8,10 @@ import SignInButton, { companyNames } from 'Components/buttons/sign-in-button';
 import Image from 'Components/images/image';
 import UseMagicCode from 'Components/sign-in/use-magic-code';
 import GetMagicCode from 'Components/sign-in/get-magic-code';
+import SignInWithPassword from 'Components/sign-in/sign-in-with-password';
+import ForgotPassword from 'Components/sign-in/forgot-password';
 import Text from 'Components/text/text';
+import useDevToggle from 'State/dev-toggles';
 
 import styles from './sign-in-layout.styl';
 import { emoji } from '../global.styl';
@@ -32,6 +35,9 @@ const SignInLayout = () => {
   const showGetCodePage = () => setPage('getCode');
   const showUseCodePage = () => setPage('useCode');
   const showCreateAccountPage = () => setPage('createAccount');
+  const showUsePasswordPage = () => setPage('usePassword');
+  const showForgotPasswordPage = () => setPage('forgotPassword');
+  const userPasswordsEnabled = useDevToggle('User Passwords');
 
   return (
     <div className={styles.layout}>
@@ -50,7 +56,7 @@ const SignInLayout = () => {
                 <span className={styles.backArrow}>
                   <Icon icon="chevronLeft" />
                 </span>
-                <h1>Magic Code</h1>
+                <h1 className={styles.center}>Magic Code</h1>
               </div>
             </TransparentButton>
           )}
@@ -65,7 +71,27 @@ const SignInLayout = () => {
                 <span className={styles.backArrow}>
                   <span className="left-arrow icon" />
                 </span>
-                <h1>Magic Code</h1>
+                <h1 className={styles.center}>Magic Code</h1>
+              </div>
+            </TransparentButton>
+          )}
+          {page === 'usePassword' && (
+            <TransparentButton onClick={showMainPage}>
+              <div className={styles.magicCode}>
+                <span className={styles.backArrow}>
+                  <Icon icon="chevronLeft" />
+                </span>
+                <h1 className={styles.center}>Sign in With Password</h1>
+              </div>
+            </TransparentButton>
+          )}
+          {page === 'forgotPassword' && (
+            <TransparentButton onClick={showMainPage}>
+              <div className={styles.magicCode}>
+                <span className={styles.backArrow}>
+                  <Icon icon="chevronLeft" />
+                </span>
+                <h1 className={styles.center}>Forgot Password</h1>
               </div>
             </TransparentButton>
           )}
@@ -81,9 +107,16 @@ const SignInLayout = () => {
                     </div>
                   ))}
                 </div>
-                <Button onClick={showGetCodePage}>
-                  Email Magic Link <Icon className={emoji} icon="loveLetter" />
-                </Button>
+                <div className={styles.signInWithGlitchButtons}>
+                  <Button onClick={showGetCodePage}>
+                    Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                  </Button>
+                  {userPasswordsEnabled && (
+                    <Button onClick={showUsePasswordPage}>
+                    Password <Icon className={emoji} icon="key" />
+                    </Button>
+                  )}
+                </div>
               </div>
               <TermsAndConditions />
               <Text className={styles.accountCreationHelpText}>Don't have an account?</Text>
@@ -139,6 +172,15 @@ const SignInLayout = () => {
               </Button>
             </div>
           )}
+          {page === 'usePassword' && (
+            <div>
+              <SignInWithPassword showForgotPasswordPage={showForgotPasswordPage} />
+              <div className={styles.footer}>
+                <TermsAndConditions />
+              </div>
+            </div>
+          )}
+          {page === 'forgotPassword' && <ForgotPassword showMainPage={showMainPage} />}
         </section>
       </div>
     </div>
