@@ -13,7 +13,6 @@ const aliases = require('./aliases');
 
 const BUILD = path.resolve(__dirname, 'build/client');
 const SRC = path.resolve(__dirname, 'src');
-const TEST = path.resolve(__dirname, 'test');
 const SHARED = path.resolve(__dirname, 'shared');
 
 let mode = 'development';
