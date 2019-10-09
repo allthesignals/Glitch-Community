@@ -305,7 +305,7 @@ export const HomePreview = () => {
   return (
     <Layout>
       <PreviewContainer
-        get={() => api.get('https://community-cms.glitch.me/home.json').then((res) => res.data)}
+        get={() => api.get('https://cms.glitch.me/home.json').then((res) => res.data)}
         previewMessage={
           <>
             This is a live preview of a planned release authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
