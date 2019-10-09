@@ -67,13 +67,6 @@ const AboutPressPage = withRouter(() => {
             </Button>
           </center>
           <br />
-          <p>
-            Or check out the latest{' '}
-            <a href="http://latest-gtw.glitch.me/now" target="_new">
-              <i>Glitch This Week</i>
-            </a>{' '}
-            collection.
-          </p>
         </article>
         <article>
           <Heading tagName="h2" className={aboutStyles.h2}>
