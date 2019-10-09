@@ -30,8 +30,7 @@ const getLinkBodyStyles = (project, showEditButton) =>
   });
 
 const ProfileListWithData = ({ project }) => {
-  const obj = useProjectMembers(project.id);
-  const members = obj.value;
+  const { value: members } = useProjectMembers(project.id);
   return <ProfileList layout="row" glitchTeam={project.showAsGlitchTeam} {...members} />;
 };
 
@@ -80,7 +79,6 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
     };
   };
 
-  console.log(VisibilityContainer);
   return (
     <AnimationContainer animation={slideDown} onAnimationEnd={() => {}}>
       {(doSlideDown) => (
