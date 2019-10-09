@@ -13,7 +13,8 @@
   },
   "license": "Apache License Version 2.0",
   "sideEffects": [
-    "./src/polyfills.js"
+    "./src/polyfills.js",
+    "./src/utils/sentry.js"
   ],
   "scripts": {
     "prestart": "npm run watch:lint:server & \n if if-env DEPLOY_ENV=production; then \n npm run watch:babel & npm run watch:webpack & \n fi",
