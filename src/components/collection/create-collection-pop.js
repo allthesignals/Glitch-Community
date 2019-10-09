@@ -132,7 +132,7 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
 
           {options.length > 1 && (
             <div>
-              for{' '}
+              {'for '}
               <Dropdown options={options} selection={selection} onUpdate={(value) => setSelection(value)} />
             </div>
           )}
