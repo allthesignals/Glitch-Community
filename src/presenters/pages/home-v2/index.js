@@ -305,7 +305,7 @@ const HomeDraftSelector = ({ options }) => (
 
 export const HomePreview = () => {
   const api = useAPI();
-  const [draft, setDraft] = 
+  const [draft, setDraft] = { }
   const { origin, ZINE_POSTS } = useGlobals();
   
   const DraftSelector = () => {
