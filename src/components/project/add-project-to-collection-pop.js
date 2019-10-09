@@ -20,7 +20,6 @@ import { ProjectAvatar } from 'Components/images/avatar';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { AddProjectToCollectionMsg } from 'Components/notification';
-import { mediumSmallViewport, useWindowDimensions } from 'Components/project/project-actions';
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
 import { useCurrentUser } from 'State/current-user';
@@ -44,8 +43,7 @@ const collectionTypeOptions = [
 
 const AddProjectPopoverTitle = ({ project }) => (
   <MultiPopoverTitle>
-    <ProjectAvatar project={project} tiny />
-    &nbsp;Add {project.domain} to collection
+    <ProjectAvatar project={project} tiny />&nbsp;Add {project.domain} to collection
   </MultiPopoverTitle>
 );
 AddProjectPopoverTitle.propTypes = {
@@ -102,14 +100,11 @@ function useCollectionSearch(query, project, collectionType) {
   const debouncedQuery = useDebouncedValue(query, 200);
   const filters = collectionType === 'user' ? { userIDs: [currentUser.id] } : { teamIDs: currentUser.teams.map((team) => team.id) };
 
-  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [
-    collectionType,
-  ]);
+  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [collectionType]);
   const myStuffEnabled = useDevToggle('My Stuff');
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList =
-      myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
+    const shouldPutMyStuffAtFrontOfList = myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }
@@ -170,11 +165,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
         labelText="Filter collections"
         renderMessage={() => {
           if (collectionsWithProject.length) {
-            return (
-              <PopoverInfo>
-                <AlreadyInCollection project={project} collections={collectionsWithProject} />
-              </PopoverInfo>
-            );
+            return <PopoverInfo><AlreadyInCollection project={project} collections={collectionsWithProject} /></PopoverInfo>;
           }
           return null;
         }}
@@ -205,43 +196,35 @@ AddProjectToCollectionBase.propTypes = {
   createCollectionPopover: PropTypes.func.isRequired,
 };
 
-const AddProjectToCollection = ({ project, addProjectToCollection }) => {
-  const { width } = useWindowDimensions();
-  let buttonText = 'Add to Collection';
-  if (width < mediumSmallViewport) {
-    buttonText = 'Add';
-  }
-
-  return (
-    <PopoverWithButton buttonProps={{ size: 'small', emoji: 'framedPicture' }} buttonText={buttonText}>
-      {({ togglePopover }) => (
-        <MultiPopover
-          views={{
-            createCollectionPopover: () => (
-              <CreateCollectionWithProject
-                addProjectToCollection={(...args) => {
-                  addProjectToCollection(...args);
-                  togglePopover();
-                }}
-                project={project}
-              />
-            ),
-          }}
-        >
-          {({ createCollectionPopover }) => (
-            <AddProjectToCollectionBase
-              addProjectToCollection={addProjectToCollection}
-              fromProject={false}
+const AddProjectToCollection = ({ project, addProjectToCollection }) => (
+  <PopoverWithButton buttonProps={{ size: 'small', emoji: 'framedPicture' }} buttonText="Add to Collection">
+    {({ togglePopover }) => (
+      <MultiPopover
+        views={{
+          createCollectionPopover: () => (
+            <CreateCollectionWithProject
+              addProjectToCollection={(...args) => {
+                addProjectToCollection(...args);
+                togglePopover();
+              }}
               project={project}
-              togglePopover={togglePopover}
-              createCollectionPopover={createCollectionPopover}
             />
-          )}
-        </MultiPopover>
-      )}
-    </PopoverWithButton>
-  );
-};
+          ),
+        }}
+      >
+        {({ createCollectionPopover }) => (
+          <AddProjectToCollectionBase
+            addProjectToCollection={addProjectToCollection}
+            fromProject={false}
+            project={project}
+            togglePopover={togglePopover}
+            createCollectionPopover={createCollectionPopover}
+          />
+        )}
+      </MultiPopover>
+    )}
+  </PopoverWithButton>
+);
 
 AddProjectToCollection.propTypes = {
   addProjectToCollection: PropTypes.func.isRequired,
