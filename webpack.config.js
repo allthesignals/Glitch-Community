@@ -119,7 +119,7 @@ module.exports = smp.wrap({
           {
             test: /\.js$/,
             loader: 'babel-loader',
-            include: mode === 'development' ? [SRC, SHARED, TEST] : [SRC, SHARED, /[\\/]@fogcreek[\\/]/],
+            include: [SRC, SHARED, /[\\/]node_modules[\\/]@fogcreek[\\/]/],
             options: {
               compact: mode === 'development' ? true : false,
               // we can't rely on babel's auto config loading for stuff in node_modules
