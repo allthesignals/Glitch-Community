@@ -298,17 +298,30 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
   </main>
 );
 
+const HomeDraftSelector = ({ options }) => (
+  <select>
+  </select>
+);
+
 export const HomePreview = () => {
   const api = useAPI();
+  const [draft, setDraft] = 
   const { origin, ZINE_POSTS } = useGlobals();
+  
+  const DraftSelector = () => {
+    
+  }
 
   return (
     <Layout>
       <PreviewContainer
-        get={() => api.get('https://cms.glitch.me/XZ4_1xAAAFcAd2Og~XZuqxBAAACEAa-Ue/home.json').then((res) => res.data)}
+        get={() => api.get(`https://cms.glitch.me/${draft.ref}/home.json`).then((res) => res.data)}
         previewMessage={
           <>
             This is a live preview of a planned release authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
+            <select>
+              <option
+            </select>
           </>
         }
       >
