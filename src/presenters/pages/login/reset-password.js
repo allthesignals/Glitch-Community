@@ -10,12 +10,13 @@ import useLocalStorage from 'State/local-storage';
 
 import Notification from 'Components/notification';
 import Text from 'Components/text/text';
+import { Overlay, OverlayTitle, OverlaySection } from 'Components/overlays';
 
 import AuthLayout from 'Components/layout/auth-layout';
 import NewPasswordInput from 'Components/new-password-input';
 import { EmailTokenLoginPage } from './callbacks';
 
-import styles from './reset-password.styl';
+import styles from './styles.styl';
 
 const ResetPasswordLogin = ({ loginToken, resetPasswordToken }) => {
   const [ready, setReady] = React.useState(false);
@@ -65,24 +66,30 @@ const ResetPasswordForm = ({ resetPasswordToken }) => {
 
   return (
     <AuthLayout>
-      <Text>Enter a new password</Text>
-      {state.error ? (
-        <>
-          <Notification type="error" persistent>
-            Error
-          </Notification>
-          <Text>{state.error}</Text>
-        </>
-      ) : (
-        <form onSubmit={onSubmit}>
-          <NewPasswordInput disabled={state.working} onChange={setPassword} />
-          <div className={styles.submitWrap}>
-            <Button size="small" disabled={!password || state.working} onClick={onSubmit}>
-              Set Password
-            </Button>
-          </div>
-        </form>
-      )}
+      <Overlay className={styles.overlay}>
+        <OverlaySection type="info">
+          <OverlayTitle>Enter a New Password</OverlayTitle>
+        </OverlaySection>
+        <OverlaySection type="actions">
+          {state.error ? (
+            <>
+              <Notification type="error" persistent>
+                Error
+              </Notification>
+              <Text>{state.error}</Text>
+            </>
+          ) : (
+            <form onSubmit={onSubmit}>
+              <NewPasswordInput disabled={state.working} onChange={setPassword} />
+              <div className={styles.submitWrap}>
+                <Button size="small" disabled={!password || state.working} onClick={onSubmit}>
+                  Set Password
+                </Button>
+              </div>
+            </form>
+          )}
+        </OverlaySection>
+      </Overlay>
     </AuthLayout>
   );
 };

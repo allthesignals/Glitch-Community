@@ -39,9 +39,9 @@ export const OverlayTitle = ({ children, id, goBack }) => {
     return (
       <TransparentButton onClick={goBack}>
         <div className={styles.goBack}>
-          <span>
+          <div>
             <Icon icon="chevronLeft" />
-          </span>
+          </div>
           <h1 className={styles.title} id={id}>
             {children}
           </h1>
