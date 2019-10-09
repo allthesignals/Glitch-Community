@@ -137,9 +137,9 @@ const CuratedCollections = ({ content }) => (
             </Button>
           </div>
           <p>{description}</p>
-          <Link to={`/@${fullUrl}`} className={styles.collectionLink}>
+          <span className={styles.collectionLink}>
             View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
-          </Link>
+          </span>
         </CuratedCollectionContainer>
       )}
     </Row>

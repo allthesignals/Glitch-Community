@@ -17,7 +17,7 @@ import Row from 'Components/containers/row';
 import RelatedProjects from 'Components/related-projects';
 import Expander from 'Components/containers/expander';
 import { PopoverWithButton, PopoverDialog, PopoverActions, ActionDescription } from 'Components/popover';
-import { ShowButton, EditButton } from 'Components/project/project-actions';
+import { ShowButton, EditButtonCta } from 'Components/project/project-actions';
 import AuthDescription from 'Components/fields/auth-description';
 import Layout from 'Components/layout';
 import { PrivateBadge, PrivateToggle } from 'Components/private-badge';
@@ -63,7 +63,7 @@ const ReadmeError = (error) =>
       This project would be even better with a <code>README.md</code>
     </>
   ) : (
-    <>We couldn{"'"}t load the readme. Try refreshing?</>
+    <>We couldn't load the readme. Try refreshing?</>
   );
 const ReadmeLoader = withRouter(({ domain, location }) => (
   <DataLoader get={(api) => api.get(`projects/${domain}/readme`)} renderError={ReadmeError}>
@@ -178,7 +178,7 @@ const ProjectPage = ({ project: initialProject }) => {
               <div className={styles.headingWrap}>
                 <Heading tagName="h1">
                   <OptimisticTextInput
-                    labelText="Project Domain"
+                    label="Project Domain"
                     value={project.domain}
                     onChange={updateDomainAndSync}
                     placeholder="Name your project"
@@ -191,7 +191,7 @@ const ProjectPage = ({ project: initialProject }) => {
                 )}
               </div>
               <div className={styles.privacyToggle}>
-                <PrivateToggle isPrivate={!!project.private} setPrivate={updatePrivate} />
+                <PrivateToggle type="project" isPrivate={!!project.private} setPrivate={updatePrivate} />
               </div>
             </>
           ) : (
@@ -206,7 +206,7 @@ const ProjectPage = ({ project: initialProject }) => {
               </div>
               {project.private && (
                 <div className={styles.privacyToggle}>
-                  <PrivateBadge />
+                  <PrivateBadge type="project" />
                 </div>
               )}
             </>
@@ -227,7 +227,7 @@ const ProjectPage = ({ project: initialProject }) => {
               <ShowButton name={domain} />
             </span>
             <span className={styles.profileButton}>
-              <EditButton name={domain} isMember={isAuthorized} />
+              <EditButtonCta name={domain} isMember={isAuthorized} />
             </span>
           </div>
         </ProjectProfileContainer>

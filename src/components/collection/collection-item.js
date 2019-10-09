@@ -13,6 +13,7 @@ import Row from 'Components/containers/row';
 import ProjectItemSmall from 'Components/project/project-item-small';
 import { BookmarkAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
+import { PrivateBadge } from 'Components/private-badge';
 
 import { isDarkColor } from 'Utils/color';
 import { CDN_URL } from 'Utils/constants';
@@ -49,7 +50,7 @@ const CollectionProjects = ({ collection, isAuthorized }) => {
   // show placeholder text/image to encourage people to add projects to my stuff
   if (projects.length === 0 && isAuthorized && collection.isMyStuff) {
     return (
-      <div className={classNames(styles.projectsContainer, styles.empty, styles.placeholderContainer)}>
+      <div className={classNames(styles.projectsContainer, styles.empty)}>
         <Image src={MY_STUFF_PLACEHOLDER} alt="" className={styles.placeholder} />
         <Text className={styles.placeholderText}>Quickly add any app on Glitch to your My Stuff collection</Text>
       </div>
@@ -120,8 +121,8 @@ const CreateMyStuffOnClickComponent = withRouter(({ history, children, className
   };
 
   return (
-    <button onClick={createMyStuffCollection} type="submit" className={className} style={style}>
-      {children}
+    <button type="submit" onClick={createMyStuffCollection} className={styles.onClickMyStuffButton} style={style}>
+      <div className={className}>{children}</div>
     </button>
   );
 });
@@ -130,23 +131,33 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
   const CollectionLinkComponent = collection.fullUrl ? CollectionLink : CreateMyStuffOnClickComponent;
 
   return (
-    <div className={styles.collectionItem}>
-      {isAuthorized && <div className={styles.header} />}
-      <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
-        <CollectionLinkComponent collection={collection} className={classNames(styles.linkBody)} style={collectionColorStyles(collection)}>
-          <div className={styles.bookmarkContainer}>
-            <BookmarkAvatar />
-          </div>
-          <div className={styles.nameDescriptionContainer}>
-            <div className={styles.itemButtonWrap}>
-              <Button as="span">{collection.name}</Button>
+    <div>
+      <div className={styles.collectionItem}>
+        {isAuthorized && <div className={styles.header} />}
+        <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
+          <CollectionLinkComponent
+            collection={collection}
+            className={styles.linkBody}
+            style={collectionColorStyles(collection)}
+            label={`${collection.private ? 'private ' : ''}${collection.name}`}
+          >
+            <div className={styles.avatarContainer}>
+              <BookmarkAvatar />
             </div>
-            <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
-              <Markdown length={100}>{collection.description || ' '}</Markdown>
+            <div className={styles.nameDescriptionContainer}>
+              <div className={styles.itemButtonWrap}>
+                <Button as="span">
+                  {collection.private && <PrivateBadge type="userCollection" />}
+                  {collection.name}
+                </Button>
+              </div>
+              <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
+                <Markdown length={100}>{collection.description || ' '}</Markdown>
+              </div>
             </div>
-          </div>
-        </CollectionLinkComponent>
-        <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+          </CollectionLinkComponent>
+          <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
+        </div>
       </div>
     </div>
   );
@@ -162,22 +173,26 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
             {isAuthorized && <CollectionOptions collection={collection} deleteCollection={animateAndDeleteCollection} />}
           </div>
         )}
+
         <div className={styles.collectionItemBody} style={{ '--border-color': collection.coverColor }}>
           <CollectionLink
             collection={collection}
             className={classNames(styles.linkBody, { [styles.showCurator]: showCurator })}
             style={collectionColorStyles(collection)}
+            label={`${collection.private ? 'private ' : ''}${collection.name}`}
           >
             <div className={styles.nameDescriptionContainer}>
               <div className={styles.itemButtonWrap}>
-                <Button as="span">{collection.name}</Button>
+                <Button as="span">
+                  {collection.private && <PrivateBadge type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'} />}
+                  {collection.name}
+                </Button>
               </div>
               <div className={classNames(styles.description, { [styles.dark]: isDarkColor(collection.coverColor) })}>
                 <Markdown length={100}>{collection.description || ' '}</Markdown>
               </div>
             </div>
           </CollectionLink>
-
           <CollectionProjectsLoader collection={collection} isAuthorized={isAuthorized} showLoader={showLoader} />
         </div>
       </div>

@@ -89,15 +89,17 @@
     svg
       width: 100%
       height: auto
-  .nameDescriptionContainer
-    overflow: hidden
+    img
+      width: 100%
+      height: auto
   &:hover
-    .nameDescriptionContainer
-      .itemButtonWrap
-        width: fit-content
-        height: fit-content
-        box-shadow: 2px 2px 0 primary
-        border-radius: 5px
+    .itemButtonWrap
+      display: inline-block 
+      width: auto // edge doesn't support width: fit-content, using display: inline-block and width auto helps recreate that
+      box-shadow: 2px 2px 0 primary
+      border-radius: 5px
+
+      
 .projectsContainer
   flex: 1 0 auto
   padding: 10px
@@ -258,3 +260,14 @@ a:hover .smallProjectCount
   
 svg.arrow
   vertical-align: text-top
+
+.onClickMyStuffButton
+  flex: 0 1 110px
+  border-top-right-radius: 5px
+  border-top-left-radius: 5px
+  text-align: left
+  .linkBody
+    top: 0
+    left: 0
+    position: absolute
+    z-index: 1
