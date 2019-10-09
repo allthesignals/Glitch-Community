@@ -202,7 +202,7 @@ const CollectionProjectPlayer = withRouter(({ history, match, isAuthorized, proj
   };
   const featuredProject = projects[currentProjectIndex];
 
-  const [selectedPopoverProjectId, setSelectedPopoverProjectId] = useState(null);
+  const [selectedPopoverProjectId, setSelectedPopoverProjectId] = useState(featuredProject.id);
 
   const onChange = (newId) => {
     setSelectedPopoverProjectId(newId);
