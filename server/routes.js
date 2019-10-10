@@ -29,7 +29,7 @@ module.exports = function(external) {
   // don't enforce HTTPS if building the site locally, not on glitch.com
   if (!process.env.RUNNING_LOCALLY) {
     app.use(enforce.HTTPS({ trustProtoHeader: true }));
-  } 
+  }
 
   // CORS - Allow pages from any domain to make requests to our API
   app.use(function(request, response, next) {
@@ -267,48 +267,28 @@ module.exports = function(external) {
     });
   });
 
-  app.get('/api/:cmsData', async (req, res) => {
-    const {cmsData} = req.params;
-    if (!['home', 'pupdate'].includes(cmsData)) return res.sendStatus(400);
-    
-    const data = await getData(cmsData);
+  app.get('/api/:page', async (req, res) => {
+    const { page } = req.params;
+    if (!['home', 'pupdate'].includes(page)) return res.sendStatus(400);
+
+    const data = await getData(page);
     res.send(data);
   });
 
-  app.post('/api/:cmsData', async (req, res) => {
-    const {cmsData} = req.params;
-    if (!['home', 'pupdate'].includes(cmsData)) return res.sendStatus(400);
-    
+  app.post('/api/:page', async (req, res) => {
+    const { page } = req.params;
+    if (!['home', 'pupdate'].includes(page)) return res.sendStatus(400);
+
     const persistentToken = req.headers.authorization;
-    console.log(persistentToken);
     const data = req.body;
-    console.log(data);
     try {
-      await saveDataToFile({ cmsData, persistentToken, data });
+      await saveDataToFile({ page, persistentToken, data });
       res.sendStatus(200);
     } catch (e) {
       console.warn(e);
       res.sendStatus(403);
     }
   });
-
-//   app.get('/api/pupdate', async (req, res) => {
-//     const data = await getData('pupdates');
-//     res.send(data);
-//   });
-
-//   app.post('/api/pupdate', async (req, res) => {
-//     const persistentToken = req.headers.authorization;
-//     const data = req.body;
-//     const page = 'pupdates';
-//     try {
-//       await saveDataToFile({ page, persistentToken, data });
-//       res.sendStatus(200);
-//     } catch (e) {
-//       console.warn(e);
-//       res.sendStatus(403);
-//     }
-//   });
 
   app.get(['/', '/index.html'], async (req, res) => {
     const socialTitle = 'Glitch: The friendly community where everyone builds the web';
