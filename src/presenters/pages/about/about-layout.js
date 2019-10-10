@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import ReactKonami from 'react-konami';
 import { Button } from '@fogcreek/shared-components';
+import GlitchHelmet from 'Components/glitch-helmet';
 import Link from 'Components/link';
 import Logo from 'Components/header/logo';
 import Footer from 'Components/footer';
@@ -27,9 +28,8 @@ const AboutLayout = ({ children, mainClassName, currentPage }) => (
     <div className={styles.content}>
       <Helmet title="About Glitch">
         <body data-grey="true" />
-        <title>About Glitch</title>
-        <meta name="description" content="Simple, powerful, free tools to create and use millions of apps." />
       </Helmet>
+      <GlitchHelmet title="About Glitch" description="Glitch is a collaborative programming environment that lives in your browser and deploys code as you type." />
       <Button as="a" href="#main" className={styles.visibleOnFocus}>
         Skip to Main Content
       </Button>
