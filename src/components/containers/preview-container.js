@@ -7,24 +7,16 @@ import { useCurrentUser } from 'State/current-user';
 
 import styles from './preview-container.styl';
 
-const PreviewContainer = ({ children, getData, getDrafts, setDraft, onPublish, previewMessage }) => {
+const PreviewContainer = ({ children, get, previewMessage }) => {
   const { currentUser } = useCurrentUser();
   return (
-    <DataLoader get={getData}>
+    <DataLoader get={get}>
       {(data) => (
         <>
           <div className={styles.previewBanner}>
             <div className={styles.previewBannerMessage}>
               {previewMessage}
             </div>
-            
-            <DataLoader get={getDrafts}>
-              {(drafts) => (
-                <select onChange={setDraft}>
-                  {drafts.map(draft => <option value={draft.ref}>{draft.label}</option>)}
-                </select>
-              )}
-            </DataLoader>
           </div>
           {children(data)}
         </>
@@ -35,7 +27,6 @@ const PreviewContainer = ({ children, getData, getDrafts, setDraft, onPublish, p
 
 PreviewContainer.propTypes = {
   get: PropTypes.func.isRequired,
-  onPublish: PropTypes.func.isRequired,
   previewMessage: PropTypes.node.isRequired,
   children: PropTypes.func.isRequired,
 };
