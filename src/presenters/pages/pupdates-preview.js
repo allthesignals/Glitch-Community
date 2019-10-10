@@ -23,7 +23,7 @@ const PupdatesPreview = (() => {
       <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
         {(drafts) => (
           <>
-            <div style={{ position: 'sticky', top: '0', background: '#fff', padding: '10px 0' }}>
+            <div>
               <h2>Select a draft</h2>
               <select onChange={changeDraft} value={currentDraft}>
                 {drafts.map((draft, i) => (
@@ -32,13 +32,15 @@ const PupdatesPreview = (() => {
                   </option>
                 ))}
               </select>
+              &nbsp;
+              <Link to="/index/preview">Preview the home page</Link>
             </div>
 
             <PreviewContainer
               get={() => api.get(`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/pupdates.json`).then((res) => res.data)}
               previewMessage={
                 <>
-                  This is a live preview of the &quot;{drafts[currentDraft].label}&quot; draft. To publish this draft, go back to{' '}
+                  This is a live preview of Pupdates in the &quot;{drafts[currentDraft].label}&quot; draft. To publish this draft, go back to{' '}
                   <Link to="https://glitch.prismic.io">Prismic</Link>.
                 </>
               }

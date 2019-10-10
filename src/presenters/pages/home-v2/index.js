@@ -323,6 +323,8 @@ export const HomePreview = () => {
                   </option>
                 ))}
               </select>
+              &nbsp;
+              <Link to="/pupdates/preview">Preview Pupdates</Link>
             </div>
 
             <PreviewContainer
