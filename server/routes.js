@@ -267,13 +267,16 @@ module.exports = function(external) {
     });
   });
 
-  app.get('/api/home', async (req, res) => {
+  app.get('/api/:cmsData', async (req, res) => {
+    const {cmsData} = req.params;
+    if (!['home', 'pupdates'].includes(cmsData)) return res.send(401);
     const data = await getData('home');
     res.send(data);
   });
 
   app.post('/api/home', async (req, res) => {
     const persistentToken = req.headers.authorization;
+    console.log(persistentToken);
     const data = req.body;
     const page = 'home';
     try {

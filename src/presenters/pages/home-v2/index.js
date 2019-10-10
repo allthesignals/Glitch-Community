@@ -147,55 +147,53 @@ const CuratedCollections = ({ content }) => (
   </HomeSection>
 );
 
-const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent } }) => {
-  return (
-    <HomeSection id="unified-stories" className={styles.unifiedStories}>
-      <div className={styles.unifiedStoriesContainer}>
-        <div className={styles.unifiedStoriesHeadline}>
-          <div className={styles.unifiedStoriesContentWrap}>
-            {hed
-              .trim()
-              .split('\n')
-              .map((line, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <h2 key={i}>
-                  <Mark color="white">{line}</Mark>
-                </h2>
-              ))}
-            <img src={featuredImage} alt={featuredImageDescription} />
-          </div>
-        </div>
-        <div className={styles.unifiedStoriesPreview}>
-          <div className={styles.unifiedStoriesContentWrap}>
-            <h3 className={styles.h3}>{dek}</h3>
-            {/* eslint-disable-next-line react/no-danger */}
-            <span dangerouslySetInnerHTML={{ __html: summary }} />
-            <Button as="a" href={href}>
-              {cta} <Icon icon="arrowRight" />
-            </Button>
-          </div>
-        </div>
-        <div className={styles.unifiedStoriesRelatedContent}>
-          <div className={styles.unifiedStoriesContentWrap}>
-            <h3>Related</h3>
-            <ul>
-              {relatedContent
-                .filter((related) => !!related.href)
-                .map((related) => (
-                  <li key={related.href}>
-                    <Link to={related.href} className={styles.plainLink}>
-                      <h4>{related.title}</h4>
-                      <p>{related.source}</p>
-                    </Link>
-                  </li>
-                ))}
-            </ul>
-          </div>
+const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent } }) => (
+  <HomeSection id="unified-stories" className={styles.unifiedStories}>
+    <div className={styles.unifiedStoriesContainer}>
+      <div className={styles.unifiedStoriesHeadline}>
+        <div className={styles.unifiedStoriesContentWrap}>
+          {hed
+            .trim()
+            .split('\n')
+            .map((line, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <h2 key={i}>
+                <Mark color="white">{line}</Mark>
+              </h2>
+            ))}
+          <img src={featuredImage} alt={featuredImageDescription} />
         </div>
       </div>
-    </HomeSection>
-  );
-};
+      <div className={styles.unifiedStoriesPreview}>
+        <div className={styles.unifiedStoriesContentWrap}>
+          <h3 className={styles.h3}>{dek}</h3>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: summary }} />
+          <Button as="a" href={href}>
+            {cta} <Icon icon="arrowRight" />
+          </Button>
+        </div>
+      </div>
+      <div className={styles.unifiedStoriesRelatedContent}>
+        <div className={styles.unifiedStoriesContentWrap}>
+          <h3>Related</h3>
+          <ul>
+            {relatedContent
+              .filter((related) => !!related.href)
+              .map((related) => (
+                <li key={related.href}>
+                  <Link to={related.href} className={styles.plainLink}>
+                    <h4>{related.title}</h4>
+                    <p>{related.source}</p>
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </HomeSection>
+);
 
 const CultureZine = ({ content }) => (
   <VisibilityContainer>
