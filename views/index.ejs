@@ -29,7 +29,7 @@
     <noscript><style>#fallback, #fallback-noscript { display: inline-block !important } #fallback-img { display: block !important }</style></noscript>
     <% } %>
   </head>
-  <body>
+  <body <%- helmet ? helmet.bodyAttributes.toString() : null %>>
     <script>
       var RUNNING_ON = '<%= RUNNING_ON %>';
       var ENVIRONMENT = '<%= ENVIRONMENT %>';
