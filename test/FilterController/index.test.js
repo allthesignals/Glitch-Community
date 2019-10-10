@@ -57,7 +57,7 @@ describe('ProjectsList', function() {
     errorStub.returns({ handleError: () => {}, handleCustomError: () => {} });
 
     const visibilityContainerStub = sinon.stub(VisibilityContainer, 'default');
-    visibilityContainerStub.returns(FakeVisibilityContainer);
+    visibilityContainerStub.callsFake((props) => new FakeVisibilityContainer(props));
 
     const getProjectMembers = () => {
       return { value: { teams: [], users: [{ id: 1 }, { id: 2 }] } };
