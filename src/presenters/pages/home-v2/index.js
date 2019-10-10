@@ -273,7 +273,7 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
   <main id="main" className={styles.homeContainer}>
     {!loggedIn && <Banner />}
     {!loggedIn && <FeatureCallouts content={data.featureCallouts} />}
-    {hasProjects && <UserDashboard />}
+    {hasProjects && <UserDashboard postcardContent={data.postcard} />}
     {loggedIn && !hasProjects && <OnboardingBanner isHomepage />}
     {loggedIn && <Questions />}
     <UnifiedStories content={data.unifiedStories} />
