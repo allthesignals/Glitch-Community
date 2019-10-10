@@ -269,18 +269,21 @@ module.exports = function(external) {
 
   app.get('/api/:cmsData', async (req, res) => {
     const {cmsData} = req.params;
-    if (!['home', 'pupdates'].includes(cmsData)) return res.send(401);
-    const data = await getData('home');
+    if (!['home', 'pupdate'].includes(cmsData)) return res.sendStatus(400);
+    
+    const data = await getData(cmsData);
     res.send(data);
   });
 
-  app.post('/api/home', async (req, res) => {
+  app.post('/api/:cmsData', async (req, res) => {
+    const {cmsData} = req.params;
+    if (!['home', 'pupdate'].includes(cmsData)) return res.sendStatus(400);
+    
     const persistentToken = req.headers.authorization;
     console.log(persistentToken);
     const data = req.body;
-    const page = 'home';
     try {
-      await saveDataToFile({ page, persistentToken, data });
+      await saveDataToFile({ cmsData, persistentToken, data });
       res.sendStatus(200);
     } catch (e) {
       console.warn(e);
@@ -288,23 +291,23 @@ module.exports = function(external) {
     }
   });
 
-  app.get('/api/pupdate', async (req, res) => {
-    const data = await getData('pupdates');
-    res.send(data);
-  });
+//   app.get('/api/pupdate', async (req, res) => {
+//     const data = await getData('pupdates');
+//     res.send(data);
+//   });
 
-  app.post('/api/pupdate', async (req, res) => {
-    const persistentToken = req.headers.authorization;
-    const data = req.body;
-    const page = 'pupdates';
-    try {
-      await saveDataToFile({ page, persistentToken, data });
-      res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
-      res.sendStatus(403);
-    }
-  });
+//   app.post('/api/pupdate', async (req, res) => {
+//     const persistentToken = req.headers.authorization;
+//     const data = req.body;
+//     const page = 'pupdates';
+//     try {
+//       await saveDataToFile({ page, persistentToken, data });
+//       res.sendStatus(200);
+//     } catch (e) {
+//       console.warn(e);
+//       res.sendStatus(403);
+//     }
+//   });
 
   app.get(['/', '/index.html'], async (req, res) => {
     const socialTitle = 'Glitch: The friendly community where everyone builds the web';
