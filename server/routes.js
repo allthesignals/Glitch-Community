@@ -269,7 +269,7 @@ module.exports = function(external) {
 
   app.get('/api/:page', async (req, res) => {
     const { page } = req.params;
-    if (!['home', 'pupdate'].includes(page)) return res.sendStatus(400);
+    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
 
     const data = await getData(page);
     res.send(data);
@@ -277,7 +277,7 @@ module.exports = function(external) {
 
   app.post('/api/:page', async (req, res) => {
     const { page } = req.params;
-    if (!['home', 'pupdate'].includes(page)) return res.sendStatus(400);
+    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
 
     const persistentToken = req.headers.authorization;
     const data = req.body;
