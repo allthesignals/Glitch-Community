@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { Button } from '@fogcreek/shared-components';
 
 import DataLoader from 'Components/data-loader';
-import { useCurrentUser } from 'State/current-user';
 
 import styles from './preview-container.styl';
 
 const PreviewContainer = ({ children, get, previewMessage }) => {
-  const { currentUser } = useCurrentUser();
   return (
     <DataLoader get={get}>
       {(data) => (
