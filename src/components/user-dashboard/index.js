@@ -68,7 +68,11 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            {fetched ? <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} showEditButton /> : <Loader style={{ width: '25px' }} />}
+            {fetched ? (
+              <ProjectsList layout="row" projects={currentUser.projects.slice(0, 2)} showEditButton />
+            ) : (
+              <Loader style={{ width: '25px' }} />
+            )}
           </div>
         </div>
         {numProjects < 3 && <Ideas count={3 - numProjects} />}
@@ -180,7 +184,7 @@ const Postcards = ({ marketingContent }) => (
         </Postcard>
       )}
     </NewStuffContainer>
-    
+
     <Postcard
       heading="Video"
       subheading={marketingContent.title}
