@@ -282,6 +282,7 @@ module.exports = function(external) {
     const persistentToken = req.headers.authorization;
     console.log(persistentToken);
     const data = req.body;
+    console.log(data);
     try {
       await saveDataToFile({ cmsData, persistentToken, data });
       res.sendStatus(200);
