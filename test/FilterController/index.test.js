@@ -9,6 +9,7 @@ import Location from '@jedmao/location';
 
 import FilterController from 'Components/filter-controller';
 import ProjectsList from 'Components/containers/projects-list';
+import ProjectItem from 'Components/project/project-item';
 import { a11yHelper } from '../reactA11yHelper';
 import { makeTestProject, makeTestUser } from '../helpers/models';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -51,7 +52,7 @@ describe('ProjectsList', function() {
   });
 
   it('should show projects', function() {
-    const projects = [makeTestProject({ id: '1' }), makeTestProject({ id: '2' }), makeTestProject({ id: '3' })];
+    const projects = [makeTestProject({ id: '1', domain: 'first-project' }), makeTestProject({ id: '2' }), makeTestProject({ id: '3' })];
     const reduxStore = mockStore({ currentUser: makeTestUser({ projects, teams: [] }) });
     const errorStub = sinon.stub(ErrorHandlers, 'default');
     errorStub.returns({ handleError: () => {}, handleCustomError: () => {} });
@@ -81,6 +82,19 @@ describe('ProjectsList', function() {
       .find(ProjectsList)
       .exists('input')
       .should.equal(true);
+    const projectItems = wrapper.find(ProjectItem);
+   //console.log(projectItems.debug());
+    const firstProjectItem = projectItems.findWhere(node => {
+      const componentProps = node.props();
+      return componentProps.project && componentProps.project.domain === 'first-project'}
+      );
+    firstProjectItem.exists().should.equal(true);
+
+
+
+    //  .should.have.text('first-project');
+
+ //   console.log(firstProjectItem.debug());
 
     a11yHelper.testEnzymeComponent(componentsToTest, {}, function(results) {
       results.violations.length.should.equal(0);
