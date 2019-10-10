@@ -47,11 +47,6 @@ export function userIsProjectMember({ members, user }) {
   return !!(members && members.users && members.users.some(({ id }) => id === user.id));
 }
 
-export function userIsProjectTeamMember({ project, user }) {
-  if (!user || !user.teams || !project || !project.teamIds) return false;
-  return project.teamIds.some((projectTeamId) => user.teams.some((userTeam) => projectTeamId === userTeam.id));
-}
-
 export function userIsProjectAdmin({ project, user }) {
   if (!user || !project) return false;
   return project.permissions.some(({ userId, accessLevel }) => user.id === userId && accessLevel >= ADMIN_ACCESS_LEVEL);

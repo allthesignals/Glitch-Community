@@ -1,35 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
 import Embed from 'Components/project/embed';
 import ReportButton from 'Components/report-abuse-pop';
-import { useTracker, useTrackedFunc } from 'State/segment-analytics';
-import { userIsProjectMember, userIsProjectTeamMember } from 'Models/project';
+import { EditButton, RemixButton } from 'Components/project/project-actions';
+import { useTracker } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
-import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
-
-import { EditButton, RemixButton, MembershipButton } from './project-actions';
 import AddProjectToCollection from './add-project-to-collection-pop';
 
 import styles from './project-embed.styl';
 
-const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, loading }) => {
-  const project = initialProject;
+const cx = classNames.bind(styles);
+
+const ProjectEmbed = ({ project, top, addProjectToCollection, loading }) => {
   const projectOptions = useProjectOptions(project, addProjectToCollection ? { addProjectToCollection } : {});
   const { currentUser } = useCurrentUser();
-
-  const { value: members } = useProjectMembers(project.id);
-  const isMember = userIsProjectMember({ members, user: currentUser });
-  const canBecomeMember = userIsProjectTeamMember({ project, user: currentUser });
-
+  const isMember = currentUser.projects.some(({ id }) => id === project.id);
   const trackRemix = useTracker('Click Remix', {
     baseProjectId: project.id,
     baseDomain: project.domain,
   });
-
-  const trackedLeaveProject = useTrackedFunc(projectOptions.leaveProject, 'Leave Project clicked');
-  const trackedJoinProject = useTrackedFunc(projectOptions.joinTeamProject, 'Join Project clicked');
 
   return (
     <section className={styles.projectEmbed}>
@@ -38,35 +30,20 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
         <Embed domain={project.domain} loading={loading} />
       </div>
       <div className={styles.buttonContainer}>
-        <div>
-          <div className={styles.buttonWrap}>
-            {isMember ? (
-              <EditButton name={project.id} isMember={isMember} size="small" />
-            ) : (
-              <ReportButton reportedType="project" reportedModel={project} />
-            )}
-          </div>
-          {(projectOptions.leaveProject || projectOptions.joinTeamProject) && (
-            <div className={styles.buttonWrap}>
-              <MembershipButton
-                project={project}
-                isMember={isMember}
-                isTeamProject={canBecomeMember}
-                joinProject={trackedJoinProject}
-                leaveProject={trackedLeaveProject}
-              />
-            </div>
+        <div className={styles.left}>
+          {isMember ? (
+            <EditButton name={project.id} isMember={isMember} size="small" />
+          ) : (
+            <ReportButton reportedType="project" reportedModel={project} />
           )}
         </div>
-        <div>
+        <div className={cx({ right: true, buttonWrap: true })}>
           {projectOptions.addProjectToCollection && (
-            <div className={styles.buttonWrap}>
+            <div className={styles.addToCollectionWrap}>
               <AddProjectToCollection project={project} addProjectToCollection={projectOptions.addProjectToCollection} fromProject />
             </div>
           )}
-          <div className={styles.buttonWrap}>
-            <RemixButton name={project.domain} isMember={isMember} onClick={trackRemix} />
-          </div>
+          <RemixButton name={project.domain} isMember={isMember} onClick={trackRemix} />
         </div>
       </div>
     </section>
