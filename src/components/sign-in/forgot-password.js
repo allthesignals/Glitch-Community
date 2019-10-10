@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextInput } from '@fogcreek/shared-components';
 
@@ -17,25 +17,31 @@ const KeyImage = () => <Image width={92} src={keyInTheStoneUrl} alt="" />;
 
 const ForgotPassword = ({ showMainPage }) => {
   const api = useAPI();
-  const [email, setEmail, validationError] = useEmail();
   const [state, setState] = useState({
+    email: '',
     status: 'active',
     errorMessage: null,
     isFocused: true,
   });
+  const { email, status, errorMessage, isFocused } = state;
+  const [emailInHook, setEmail, validationError] = useEmail();
+  useEffect(() => {
+    if (email !== emailInHook) {
+      setEmail(email);
+    }
+  }, [email]);
 
-  const { status, errorMessage, isFocused } = state;
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setState({ status: 'working', error: null });
+    setState({ ...state, status: 'working', error: null });
 
     try {
       await api.post('email/sendResetPasswordEmail', { emailAddress: email });
-      setState({ status: 'done', error: null });
+      setState({ ...state, status: 'done', error: null });
     } catch (error) {
       const message = error && error.response && error.response.data && error.response.data.message;
-      setState({ status: 'done', errorMessage: message || 'Something went wrong' });
+      setState({ ...state, status: 'done', errorMessage: message || 'Something went wrong' });
     }
   };
 
@@ -73,11 +79,11 @@ const ForgotPassword = ({ showMainPage }) => {
             <Text>Enter your email to recieve instructions for resetting your password.</Text>
             <TextInput
               type="email"
-              labelText="Email address"
+              label="Email address"
               value={email}
               placeholder="email"
               error={isEnabled && !isFocused && validationError}
-              onChange={setEmail}
+              onChange={(updatedEmail) => setState({ ...state, email: updatedEmail })}
               onBlur={() => setState({ ...state, isFocused: false })}
               onFocus={() => setState({ ...state, isFocused: true })}
             />

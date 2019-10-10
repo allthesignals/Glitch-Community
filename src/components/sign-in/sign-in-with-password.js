@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, TextInput } from '@fogcreek/shared-components';
 import useEmail from 'Hooks/use-email';
@@ -12,16 +12,22 @@ import { emoji } from '../global.styl';
 import styles from './styles.styl';
 
 const SignInWithPassword = ({ showForgotPasswordPage }) => {
-  const [email, setEmail, validationError] = useEmail();
-  const isEnabled = email.length > 0;
-
   const [state, setState] = useState({
+    email: '',
     password: '',
     showPassword: false,
     isFocused: true,
     working: false,
     errorMessage: null,
   });
+  const { email } = state;
+  const [emailInHook, setEmail, validationError] = useEmail();
+  useEffect(() => {
+    if (email !== emailInHook) {
+      setEmail(email);
+    }
+  }, [email]);
+  const isEnabled = email.length > 0;
 
   const api = useAPI();
   const { login } = useCurrentUser();
@@ -32,7 +38,6 @@ const SignInWithPassword = ({ showForgotPasswordPage }) => {
 
     try {
       const { data } = await api.post('user/login', { emailAddress: email, password: state.password });
-      console.log('data', data);
       if (data.tfaToken) {
         // TODO 2 factor here!
       } else {
@@ -63,9 +68,9 @@ const SignInWithPassword = ({ showForgotPasswordPage }) => {
       <div>
         <TextInput
           type="email"
-          labelText="Email address"
+          label="Email address"
           value={email}
-          onChange={setEmail}
+          onChange={(updatedEmail) => setState({ ...state, email: updatedEmail })}
           onBlur={() => setState({ ...state, isFocused: false })}
           onFocus={() => setState({ ...state, isFocused: true })}
           placeholder="email"
@@ -77,7 +82,7 @@ const SignInWithPassword = ({ showForgotPasswordPage }) => {
           value={state.password}
           onChange={(password) => setState({ ...state, password })}
           type={state.showPassword ? 'text' : 'password'}
-          labelText="password"
+          label="password"
           placeholder="password"
           testingId="password"
         />
