@@ -18,33 +18,35 @@ import ErrorBoundary from 'Components/error-boundary';
 import Router from './presenters/pages/router';
 
 const App = ({ apiCache, helmetContext }) => (
-  <ErrorBoundary fallback="Something went very wrong, try refreshing?">
-    <LiveAnnouncer>
-      <Store>
-        <NotificationsProvider>
-          <LocalStorageProvider>
-            <AnalyticsContext context={{ groupId: '0' }}>
-              <APIContextProvider>
-                <APICacheProvider initial={apiCache}>
-                  <ProjectContextProvider>
-                    <CollectionContextProvider>
-                      <HelmetProvider helmetContext={helmetContext}>
-                        <LocalStyle theme={lightTheme}>
-                          <SuperUserBanner />
-                          <OfflineNotice />
-                          <Router />
-                        </LocalStyle>
-                      </HelmetProvider>
-                    </CollectionContextProvider>
-                  </ProjectContextProvider>
-                </APICacheProvider>
-              </APIContextProvider>
-            </AnalyticsContext>
-          </LocalStorageProvider>
-        </NotificationsProvider>
-      </Store>
-    </LiveAnnouncer>
-  </ErrorBoundary>
+  <LocalStyle theme={lightTheme}>
+    <ErrorBoundary fallback="Something went very wrong, try refreshing?">
+      <LiveAnnouncer>
+        <Store>
+          <NotificationsProvider>
+            <LocalStorageProvider>
+              <AnalyticsContext context={{ groupId: '0' }}>
+                <APIContextProvider>
+                  <APICacheProvider initial={apiCache}>
+                    <ProjectContextProvider>
+                      <CollectionContextProvider>
+                        <HelmetProvider context={helmetContext}>
+                          <>
+                            <SuperUserBanner />
+                            <OfflineNotice />
+                            <Router />
+                          </>
+                        </HelmetProvider>
+                      </CollectionContextProvider>
+                    </ProjectContextProvider>
+                  </APICacheProvider>
+                </APIContextProvider>
+              </AnalyticsContext>
+            </LocalStorageProvider>
+          </NotificationsProvider>
+        </Store>
+      </LiveAnnouncer>
+    </ErrorBoundary>
+  </LocalStyle>
 );
 
 export default App;

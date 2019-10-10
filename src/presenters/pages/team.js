@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from '@fogcreek/shared-components';
 
-import { Helmet } from 'react-helmet-async';
 import { partition } from 'lodash';
+import GlitchHelmet from 'Components/glitch-helmet';
 import Text from 'Components/text/text';
 import Heading from 'Components/text/heading';
 import FeaturedProject from 'Components/project/featured-project';
@@ -21,12 +21,14 @@ import TeamAnalytics from 'Components/team-analytics';
 import AuthDescription from 'Components/fields/auth-description';
 import ErrorBoundary from 'Components/error-boundary';
 import Link from 'Components/link';
-import { getTeamLink, userIsOnTeam, userIsTeamAdmin } from 'Models/team';
+import { getTeamLink, getTeamAvatarUrl, userIsOnTeam, userIsTeamAdmin } from 'Models/team';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
 import { useTeamEditor } from 'State/team';
 import useFocusFirst from 'Hooks/use-focus-first';
+import { tagline } from 'Utils/constants';
+import { renderText } from 'Utils/markdown';
 
 import styles from './team.styl';
 import { emoji } from '../../components/global.styl';
@@ -73,7 +75,7 @@ const NameConflictWarning = ({ id }) => (
     <Text>
       This team has your name. You should update your info to remain unique <Icon className={emoji} icon="sparkles" />
     </Text>
-    <Button as="a" size="small" variant="secondary" href={`/user/${id}`}>
+    <Button as={Link} size="small" variant="secondary" to={`/user/${id}`}>
       Your Profile
     </Button>
   </>
@@ -119,9 +121,21 @@ function TeamPage({ team: initialTeam }) {
 
   const projectOptions = { ...funcs, team };
 
+  const seoDescription = React.useMemo(() => {
+    const base = `See what Team ${team.name} (@${team.url}) is up to on Glitch, the ${tagline} `;
+    const showDescription = team.description && team.updatedAt !== team.createdAt;
+    return `${base} ${showDescription ? renderText(team.description) : ''}`;
+  }, [team.name, team.url, team.description, team.updatedAt, team.createdAt, tagline]);
+
   return (
     <main className={styles.container} id="main">
       <section>
+        <GlitchHelmet
+          title={team.name}
+          description={seoDescription}
+          image={team.hasAvatarImage ? getTeamAvatarUrl(team) : null}
+          canonicalUrl={getTeamLink(team)}
+        />
         <Beta />
         <TeamProfileContainer
           item={team}
@@ -252,7 +266,6 @@ TeamPage.propTypes = {
 
 const TeamPageContainer = ({ team }) => (
   <AnalyticsContext properties={{ origin: 'team' }} context={{ groupId: team.id.toString() }}>
-    <Helmet title={team.name} />
     <TeamPage team={team} />
   </AnalyticsContext>
 );

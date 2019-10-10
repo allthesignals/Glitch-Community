@@ -13,7 +13,7 @@ import { useGlobals } from 'State/globals';
 import Logo from './logo';
 import styles from './header.styl';
 
-const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay }) => {
+const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, showNav }) => {
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN } = useGlobals();
   // signedIn and signedOut are both false on the server so the sign in button doesn't render
@@ -29,28 +29,31 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay }
         <Link to="/" className={styles.logoWrap}>
           <Logo />
         </Link>
-        <nav className={styles.headerActions}>
-          <div className={styles.searchWrap}>
-            <SearchForm defaultValue={searchQuery} />
-          </div>
-          <ul className={styles.buttons}>
-            {(signedIn || signedOut) && (
-              <li className={styles.buttonWrap}>
-                <NewProjectPop />
-              </li>
-            )}
-            {signedOut && (
-              <li className={styles.buttonWrap}>
-                <SignInPop align="right" />
-              </li>
-            )}
-            {signedIn && (
-              <li className={styles.buttonWrap}>
-                <UserOptionsPop showAccountSettingsOverlay={showAccountSettingsOverlay} showNewStuffOverlay={showNewStuffOverlay} />
-              </li>
-            )}
-          </ul>
-        </nav>
+
+        {showNav && (
+          <nav className={styles.headerActions}>
+            <div className={styles.searchWrap}>
+              <SearchForm defaultValue={searchQuery} />
+            </div>
+            <ul className={styles.buttons}>
+              {(signedIn || signedOut) && (
+                <li className={styles.buttonWrap}>
+                  <NewProjectPop />
+                </li>
+              )}
+              {signedOut && (
+                <li className={styles.buttonWrap}>
+                  <SignInPop align="right" />
+                </li>
+              )}
+              {signedIn && (
+                <li className={styles.buttonWrap}>
+                  <UserOptionsPop showAccountSettingsOverlay={showAccountSettingsOverlay} showNewStuffOverlay={showNewStuffOverlay} />
+                </li>
+              )}
+            </ul>
+          </nav>
+        )}
       </header>
     </AnalyticsContext>
   );
@@ -60,10 +63,12 @@ Header.propTypes = {
   searchQuery: PropTypes.string,
   showAccountSettingsOverlay: PropTypes.func.isRequired,
   showNewStuffOverlay: PropTypes.func.isRequired,
+  showNav: PropTypes.bool,
 };
 
 Header.defaultProps = {
   searchQuery: '',
+  showNav: true,
 };
 
 export default Header;
