@@ -304,21 +304,23 @@ export const HomePreview = () => {
   const api = useAPI();
   const [currentDraft, setCurrentDraft] = useState(0);
   const { origin, ZINE_POSTS } = useGlobals();
-  
+
   const changeDraft = (e) => {
     setCurrentDraft(Number(e.target.value));
-  }
+  };
 
   return (
     <Layout>
       <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
         {(drafts) => (
           <>
-            <div style={{ position: 'sticky', top: '0', background: '#fff', padding: '10px 0'}}>
+            <div>
               <h2>Select a draft</h2>
               <select onChange={changeDraft} value={currentDraft}>
                 {drafts.map((draft, i) => (
-                  <option key={draft.id} value={i} >{draft.label}</option>
+                  <option key={draft.id} value={i}>
+                    {draft.label}
+                  </option>
                 ))}
               </select>
             </div>
