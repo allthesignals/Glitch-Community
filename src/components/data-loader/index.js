@@ -5,16 +5,14 @@ import { Loader } from '@fogcreek/shared-components';
 import { useAPI } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
-const DataLoader = ({ children, get, url, renderError, renderLoader, captureException: shouldCaptureException, args }) => {
+const DataLoader = ({ children, get, renderError, renderLoader, captureException: shouldCaptureException, args }) => {
   const [{ status, value }, setState] = useState({ status: 'loading', value: null });
   const api = useAPI();
-  console.log('url', url);
 
   useEffect(() => {
     let isCurrent = true;
     get(api, args).then(
       (data) => {
-        console.log(data)
         if (!isCurrent) return;
         setState({ status: 'ready', value: data });
       },

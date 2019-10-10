@@ -314,13 +314,14 @@ export const HomePreview = () => {
       <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
         {(drafts) => (
           <>
-            <select onChange={changeDraft} value={currentDraft}>
-              {drafts.map((draft, i) => (
-                <option key={draft.id} value={i} >{draft.label}</option>
-              ))}
-            </select>
-            
-            <h1>{`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`}</h1>
+            <div style={{ position: 'sticky', top: '0', background: '#fff', padding: '10px 0'}}>
+              <label>Select a draft</label>
+              <select onChange={changeDraft} value={currentDraft}>
+                {drafts.map((draft, i) => (
+                  <option key={draft.id} value={i} >{draft.label}</option>
+                ))}
+              </select>
+            </div>
 
             <PreviewContainer
               url={`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`}

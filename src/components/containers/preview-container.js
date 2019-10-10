@@ -6,9 +6,9 @@ import DataLoader from 'Components/data-loader';
 
 import styles from './preview-container.styl';
 
-const PreviewContainer = ({ children, get, url, previewMessage }) => {
+const PreviewContainer = ({ children, get, previewMessage }) => {
   return (
-    <DataLoader get={get} url={url}>
+    <DataLoader get={get}>
       {(data) => {
         return (
           <>
