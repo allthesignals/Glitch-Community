@@ -61,14 +61,14 @@ CollectionPageContents.propTypes = {
   }).isRequired,
 };
 
-const CollectionPage = ({ owner, name }) => {
+const CollectionPage = ({ owner, name, isCategory }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
 
   return (
     <Layout>
       {collection ? (
         <AnalyticsContext
-          properties={{ origin: 'collection', collectionId: collection.id }}
+          properties={{ origin: isCategory ? 'category' : 'collection', collectionId: collection.id }}
           context={{
             groupId: collection.team ? collection.team.id.toString() : '0',
           }}

@@ -17,7 +17,6 @@ import JoinTeamPage from './join-team';
 import QuestionsPage from './questions';
 import ProjectPage from './project';
 import { TeamPage, UserPage, TeamOrUserPage } from './team-or-user';
-import CategoryPage from './category';
 import CollectionPage from './collection';
 import CreatePage from './create';
 import { NotFoundPage } from './error';
@@ -167,7 +166,7 @@ const Router = () => {
             key={category.url}
             path={`/${category.url}`}
             exact
-            render={({ location }) => <CategoryPage key={location.key} category={category} />}
+            render={({ location }) => <CollectionPage key={location.key} owner="glitch" name={category.collectionName} isCategory />}
           />
         ))}
 
