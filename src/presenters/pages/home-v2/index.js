@@ -316,6 +316,8 @@ export const HomePreview = () => {
                 <option key={draft.id} value={draft.ref}>{draft.label}</option>
               ))}
             </select>
+            
+            <h1>{`https://cms.glitch.me/${drafts[currentDraft].ref}/home.json`}</h1>
 
             <PreviewContainer
               get={() => api.get(`https://cms.glitch.me/${drafts[currentDraft].ref}/home.json`).then((res) => res.data)}
