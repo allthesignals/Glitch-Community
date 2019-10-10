@@ -7,7 +7,7 @@ import { useCurrentUser } from 'State/current-user';
 
 import styles from './preview-container.styl';
 
-const PreviewContainer = ({ children, getData, getDrafts, onPublish, previewMessage }) => {
+const PreviewContainer = ({ children, getData, getDrafts, setDraft, onPublish, previewMessage }) => {
   const { currentUser } = useCurrentUser();
   return (
     <DataLoader get={getData}>
@@ -20,8 +20,8 @@ const PreviewContainer = ({ children, getData, getDrafts, onPublish, previewMess
             
             <DataLoader get={getDrafts}>
               {(drafts) => (
-                <select>
-                  {drafts.map(draft => <option value={}>{draft.label}</option>)}
+                <select onChange={setDraft}>
+                  {drafts.map(draft => <option value={draft.ref}>{draft.label}</option>)}
                 </select>
               )}
             </DataLoader>
