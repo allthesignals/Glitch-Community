@@ -6,6 +6,7 @@ import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import { MemoryRouter } from 'react-router-dom';
 import Location from '@jedmao/location';
+import { TextInput } from '@fogcreek/shared-components';
 
 import FilterController from 'Components/filter-controller';
 import ProjectsList from 'Components/containers/projects-list';
@@ -31,9 +32,7 @@ class FakeVisibilityContainer extends React.Component {
     super(props);
   }
   render() {
-    return (
-      <div>{this.props.children({ isVisible: true, wasEverVisible: true })}</div>
-    );
+    return <div>{this.props.children({ isVisible: true, wasEverVisible: true })}</div>;
   }
 }
 
@@ -83,18 +82,30 @@ describe('ProjectsList', function() {
       .exists('input')
       .should.equal(true);
     const projectItems = wrapper.find(ProjectItem);
-   //console.log(projectItems.debug());
-    const firstProjectItem = projectItems.findWhere(node => {
+    //console.log(projectItems.debug());
+    const firstProjectItem = projectItems.findWhere((node) => {
       const componentProps = node.props();
-      return componentProps.project && componentProps.project.domain === 'first-project'}
-      );
+      return componentProps.project && componentProps.project.domain === 'first-project';
+    });
     firstProjectItem.exists().should.equal(true);
 
+    wrapper
+      .find('input')
+      .simulate('change', { target: { value: 'hello' } });
+   // console.log(wrapper.find(TextInput).debug());
 
+    const projectItemsAfterFilter = wrapper.find(ProjectItem);
+    const projectItemThatNoLongerExists = projectItemsAfterFilter.findWhere((node) => {
+      const componentProps = node.props();
+      // QUESTION why are the things that are going through this filter not of type ProjectItem?? 
+      // console.log(node.type());
+      return componentProps.project && componentProps.project.domain === 'first-project';
+    });
+    projectItemThatNoLongerExists.exists().should.equal(false);
 
     //  .should.have.text('first-project');
 
- //   console.log(firstProjectItem.debug());
+    //   console.log(firstProjectItem.debug());
 
     a11yHelper.testEnzymeComponent(componentsToTest, {}, function(results) {
       results.violations.length.should.equal(0);
