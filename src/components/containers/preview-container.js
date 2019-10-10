@@ -7,25 +7,24 @@ import { useCurrentUser } from 'State/current-user';
 
 import styles from './preview-container.styl';
 
-const PreviewContainer = ({ children, get, onPublish, previewMessage }) => {
+const PreviewContainer = ({ children, getData, getDrafts, onPublish, previewMessage }) => {
   const { currentUser } = useCurrentUser();
   return (
-    <DataLoader get={get}>
+    <DataLoader get={getData}>
       {(data) => (
         <>
           <div className={styles.previewBanner}>
             <div className={styles.previewBannerMessage}>
               {previewMessage}
             </div>
-            {currentUser.login ? (
-              <Button variant="cta" onClick={() => onPublish(data)}>
-                Publish
-              </Button>
-            ) : (
-              <Button as="span" variant="cta" disabled>
-                Log in to publish
-              </Button>
-            )}
+            
+            <DataLoader get={getDrafts}>
+              {(drafts) => (
+                <select>
+                  {drafts.map(draft => <option value={}>{draft.label}</option>)}
+                </select>
+              )}
+            </DataLoader>
           </div>
           {children(data)}
         </>

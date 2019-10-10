@@ -305,13 +305,13 @@ const HomeDraftSelector = ({ options }) => (
 
 export const HomePreview = ({ drafts }) => {
   const api = useAPI();
-  const [draft, setDraft] = useState(drafts[0]);
   const { origin, ZINE_POSTS } = useGlobals();
 
   return (
     <Layout>
       <PreviewContainer
-        get={() => api.get(`https://cms.glitch.me/${draft.ref}/home.json`).then((res) => res.data)}
+        getData={() => api.get(`https://cms.glitch.me/XZ4_WxAAABIAd2Fw~XZuqxBAAACEAa-Ue/home.json`).then((res) => res.data)}
+        getDrafts={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}
         previewMessage={
           <>
             This is a live preview of a planned release authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
