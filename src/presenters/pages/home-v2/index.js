@@ -9,7 +9,6 @@ import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';
 import Embed from 'Components/project/embed';
 import MaskImage from 'Components/images/mask-image';
-import Text from 'Components/text/text';
 import Questions from 'Components/questions';
 import RecentProjects from 'Components/recent-projects';
 import ReportButton from 'Components/report-abuse-pop';
