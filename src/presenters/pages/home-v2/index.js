@@ -17,6 +17,7 @@ import Link from 'Components/link';
 import PreviewContainer from 'Components/containers/preview-container';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
+import DataLoader from 'Components/data-loader';
 import OnboardingBanner from 'Components/onboarding-banner';
 import { useCurrentUser } from 'State/current-user';
 import { getEditorUrl, getProjectAvatarUrl } from 'Models/project';
@@ -298,30 +299,37 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
   </main>
 );
 
-const HomeDraftSelector = ({ options }) => (
-  <select>
-  </select>
-);
+const HomeDraftSelector = ({ options }) => <select />;
 
-export const HomePreview = ({ drafts }) => {
+export const HomePreview = () => {
   const api = useAPI();
+  const [currentDraft, setCurrentDraft] = useState(0);
   const { origin, ZINE_POSTS } = useGlobals();
 
   return (
     <Layout>
-      <PreviewContainer
-        getData={() => api.get(`https://cms.glitch.me/XZ4_WxAAABIAd2Fw~XZuqxBAAACEAa-Ue/home.json`).then((res) => res.data)}
-        getDrafts={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}
-        previewMessage={
+      <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
+        {(drafts) => (
           <>
-            This is a live preview of a planned release authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
-            <select>
+            <select value={drafts[currentDraft].ref} onChange={setCurrentDraft}>
+              {drafts.map((draft) => (
+                <option key={draft.id} value={draft.ref}>{draft.label}</option>
+              ))}
             </select>
+
+            <PreviewContainer
+              get={() => api.get(`https://cms.glitch.me/${drafts[currentDraft].ref}/home.json`).then((res) => res.data)}
+              previewMessage={
+                <>
+                  This is a live preview of a draft version of the home page authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
+                </>
+              }
+            >
+              {(data) => <Home data={{ ...data, cultureZine: ZINE_POSTS.slice(0, 4) }} />}
+            </PreviewContainer>
           </>
-        }
-      >
-        {(data) => <Home data={{ ...data, cultureZine: ZINE_POSTS.slice(0, 4) }} />}
-      </PreviewContainer>
+        )}
+      </DataLoader>
     </Layout>
   );
 };
