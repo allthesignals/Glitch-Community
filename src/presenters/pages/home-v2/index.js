@@ -311,7 +311,7 @@ export const HomePreview = () => {
       <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
         {(drafts) => (
           <>
-            <select value={drafts[currentDraft].ref} onChange={setCurrentDraft}>
+            <select value={drafts[currentDraft].ref}>
               {drafts.map((draft) => (
                 <option key={draft.id} value={draft.ref}>{draft.label}</option>
               ))}
