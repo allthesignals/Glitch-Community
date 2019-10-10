@@ -10,11 +10,10 @@ import ProfileList from 'Components/profile-list';
 import { ProjectLink } from 'Components/link';
 import VisibilityContainer from 'Components/visibility-container';
 import Note from 'Components/collection/note';
-import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
+import { FALLBACK_AVATAR_URL, getProjectAvatarUrl, getEditorUrl } from 'Models/project';
 import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
 import { useCurrentUser } from 'State/current-user';
-import useDevToggle from 'State/dev-toggles';
 import { useGlobals } from 'State/globals';
 import { useTrackedFunc } from 'State/segment-analytics';
 
@@ -23,9 +22,10 @@ import styles from './project-item.styl';
 
 const ProfileAvatar = ({ project }) => <Image className={styles.avatar} src={getProjectAvatarUrl(project)} defaultSrc={FALLBACK_AVATAR_URL} alt="" />;
 
-const getLinkBodyStyles = (project) =>
+const getLinkBodyStyles = (project, showEditButton) =>
   classnames(styles.linkBody, {
     [styles.private]: project.private,
+    [styles.hasFooter]: showEditButton,
   });
 
 const ProfileListWithData = ({ project }) => {
@@ -41,9 +41,8 @@ const ProfileListLoader = ({ project }) => (
   </VisibilityContainer>
 );
 
-const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions }) => {
+const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions, showEditButton }) => {
   const { location } = useGlobals();
-  const myStuffEnabled = useDevToggle('My Stuff');
   const { currentUser } = useCurrentUser();
   const isAnonymousUser = !currentUser.login;
 
@@ -110,7 +109,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                     <div className={classnames(styles.userListContainer, { [styles.spaceForOptions]: hasProjectOptions })}>
                       <ProfileListLoader project={project} />
                     </div>
-                    {myStuffEnabled && !isAnonymousUser && !onMyStuffPage && (
+                    {!isAnonymousUser && !onMyStuffPage && (
                       <div className={styles.bookmarkButtonContainer}>
                         <BookmarkButton
                           action={bookmarkAction}
@@ -124,7 +123,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <ProjectOptionsPop project={project} projectOptions={animatedProjectOptions} />
                     </div>
                   </header>
-                  <ProjectLink className={getLinkBodyStyles(project)} project={project}>
+                  <ProjectLink className={getLinkBodyStyles(project, showEditButton)} project={project}>
                     <div className={styles.projectHeader}>
                       <div className={styles.avatarWrap}>
                         <ProfileAvatar project={project} />
@@ -146,6 +145,11 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <Markdown length={80}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
                     </div>
                   </ProjectLink>
+                  {showEditButton && (
+                    <footer className={styles.footer}>
+                      <Button variant="secondary" as="a" size="small" href={getEditorUrl(project.domain)}>Edit Project</Button>
+                    </footer>
+                  )}
                 </div>
               </>
             );
@@ -167,11 +171,13 @@ ProjectItem.propTypes = {
   }).isRequired,
   projectOptions: PropTypes.object,
   collection: PropTypes.object,
+  showEditButton: PropTypes.bool,
 };
 
 ProjectItem.defaultProps = {
   projectOptions: {},
   collection: null,
+  showEditButton: false,
 };
 
 export default ProjectItem;

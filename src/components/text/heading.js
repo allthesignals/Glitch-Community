@@ -17,7 +17,7 @@ const Heading = ({ children, className, tagName: TagName, ariaLabel }) => {
 
   headingClassNameObj[TagName] = true;
   return (
-    <TagName aria-label={ariaLabel} className={classNames(cx(headingClassNameObj), className)}>
+    <TagName aria-label={ariaLabel} className={classNames(className, cx(headingClassNameObj))}>
       {children}
     </TagName>
   );
@@ -29,10 +29,12 @@ Heading.propTypes = {
   /** heading tag to be rendered */
   tagName: PropTypes.oneOf(TAGS).isRequired,
   ariaLabel: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Heading.defaultProps = {
   ariaLabel: null,
+  className: '',
 };
 
 export default Heading;

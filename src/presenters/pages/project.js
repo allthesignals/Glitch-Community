@@ -31,7 +31,6 @@ import { userIsProjectMember, userIsProjectAdmin } from 'Models/project';
 import { addBreadcrumb } from 'Utils/sentry';
 import { getAllPages } from 'Shared/api';
 import useFocusFirst from 'Hooks/use-focus-first';
-import useDevToggle from 'State/dev-toggles';
 import { useAPIHandlers } from 'State/api';
 import { useCachedProject } from 'State/api-cache';
 
@@ -63,7 +62,7 @@ const ReadmeError = (error) =>
       This project would be even better with a <code>README.md</code>
     </>
   ) : (
-    <>We couldn{"'"}t load the readme. Try refreshing?</>
+    <>We couldn't load the readme. Try refreshing?</>
   );
 const ReadmeLoader = withRouter(({ domain, location }) => (
   <DataLoader get={(api) => api.get(`projects/${domain}/readme`)} renderError={ReadmeError}>
@@ -133,7 +132,6 @@ DeleteProjectPopover.propTypes = {
 };
 
 const ProjectPage = ({ project: initialProject }) => {
-  const myStuffEnabled = useDevToggle('My Stuff');
   const [project, { updateDomain, updateDescription, updatePrivate, deleteProject, uploadAvatar }] = useProjectEditor(initialProject);
   useFocusFirst();
   const { currentUser } = useCurrentUser();
@@ -178,13 +176,13 @@ const ProjectPage = ({ project: initialProject }) => {
               <div className={styles.headingWrap}>
                 <Heading tagName="h1">
                   <OptimisticTextInput
-                    labelText="Project Domain"
+                    label="Project Domain"
                     value={project.domain}
                     onChange={updateDomainAndSync}
                     placeholder="Name your project"
                   />
                 </Heading>
-                {myStuffEnabled && !isAnonymousUser && (
+                {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
                     <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
                   </div>
@@ -198,7 +196,7 @@ const ProjectPage = ({ project: initialProject }) => {
             <>
               <div className={styles.headingWrap}>
                 <Heading tagName="h1">{!currentUser.isSupport && suspendedReason ? 'suspended project' : domain}</Heading>
-                {myStuffEnabled && !isAnonymousUser && (
+                {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
                     <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
                   </div>

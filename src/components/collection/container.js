@@ -21,7 +21,6 @@ import CollectionAvatar from 'Components/collection/collection-avatar';
 import { CollectionLink } from 'Components/link';
 import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
-import useDevToggle from 'State/dev-toggles';
 import useSample from 'Hooks/use-sample';
 import { useTrackedFunc } from 'State/segment-analytics';
 
@@ -43,8 +42,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
     [[featuredProject], projects] = partition(collection.projects, (p) => p.id === collection.featuredProjectId);
   }
 
-  const myStuffIsEnabled = useDevToggle('My Stuff');
-  const canEditNameAndDescription = myStuffIsEnabled ? isAuthorized && !collection.isMyStuff : isAuthorized;
+  const canEditNameAndDescription = isAuthorized && !collection.isMyStuff;
 
   let collectionName = collection.name;
   if (canEditNameAndDescription) {
@@ -56,13 +54,19 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
   const enableSorting = isAuthorized && projects.length > 1;
 
   let avatar = null;
-  if (myStuffIsEnabled && collection.isMyStuff) {
+  const defaultAvatarName = 'collection-avatar'; // this was the old name for the default picture frame collection avatar
+  if (collection.isMyStuff) {
     avatar = <BookmarkAvatar width="50%" />;
+  } else if (collection.avatarUrl && !collection.avatarUrl.includes(defaultAvatarName)) {
+    avatar = <Image src={collection.avatarUrl} alt="" />;
   } else if (collection.projects.length > 0) {
     avatar = <CollectionAvatar collection={collection} />;
   }
 
-  const setPrivate = useTrackedFunc(() => funcs.updatePrivacy(!collection.private), `Collection toggled ${collection.private ? 'public' : 'private'}`);
+  const setPrivate = useTrackedFunc(
+    () => funcs.updatePrivacy(!collection.private),
+    `Collection toggled ${collection.private ? 'public' : 'private'}`,
+  );
 
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark, preview && styles.preview)}>
@@ -71,7 +75,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         <div>
           <h1 className={styles.name}>{collectionName}</h1>
 
-          {isAuthorized && myStuffIsEnabled && (
+          {isAuthorized && (
             <div className={styles.privacyToggle}>
               <PrivateToggle
                 align={['left']}

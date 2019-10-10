@@ -17,7 +17,7 @@ const nullMyStuffCollection = {
   coverColor: pickRandomColor(),
   projects: [],
   id: 'nullMyStuff',
-  isPrivate: true,
+  private: true,
 };
 
 // puts my stuff at the front of the array, if my stuff doesn't exist we add it.
@@ -57,7 +57,7 @@ export function getCollectionLink(collection) {
   return `/@${collection.fullUrl}`;
 }
 
-export async function createCollection({ api, name, teamId, createNotification, myStuffEnabled = false }) {
+export async function createCollection({ api, name, teamId, createNotification }) {
   let description = '';
   let generatedName = false;
   let isMyStuff = false;
@@ -75,7 +75,7 @@ export async function createCollection({ api, name, teamId, createNotification, 
     description = `A ${collectionSynonym} of projects that does ${predicate} things`;
   }
 
-  if (name === 'My Stuff' && myStuffEnabled) {
+  if (name === 'My Stuff') {
     isMyStuff = true;
     description = 'My place to save cool finds';
     isPrivate = true;
