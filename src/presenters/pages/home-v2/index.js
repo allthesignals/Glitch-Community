@@ -315,7 +315,7 @@ export const HomePreview = () => {
         {(drafts) => (
           <>
             <div style={{ position: 'sticky', top: '0', background: '#fff', padding: '10px 0'}}>
-              <label>Select a draft</label>
+              <h2>Select a draft</h2>
               <select onChange={changeDraft} value={currentDraft}>
                 {drafts.map((draft, i) => (
                   <option key={draft.id} value={i} >{draft.label}</option>
