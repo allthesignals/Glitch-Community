@@ -298,12 +298,10 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
   </main>
 );
 
-const HomeDraftSelector = ({ options }) => <select />;
-
 export const HomePreview = () => {
   const api = useAPI();
   const [currentDraft, setCurrentDraft] = useState(0);
-  const { origin, ZINE_POSTS } = useGlobals();
+  const { ZINE_POSTS } = useGlobals();
 
   const changeDraft = (e) => {
     setCurrentDraft(Number(e.target.value));
