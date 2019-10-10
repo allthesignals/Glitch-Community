@@ -9,12 +9,25 @@ import { useAPI } from 'State/api';
 
 import { NewStuffOverlay } from 'Components/new-stuff';
 
+<<<<<<< HEAD
 const PupdatesPreview = (() => {
   const api = useAPI();
   const [currentDraft, setCurrentDraft] = useState(0);
 
   const changeDraft = (e) => {
     setCurrentDraft(e.target.value);
+=======
+const PupdatesPreview = withRouter(() => {
+  const api = useAPI();
+  const { origin } = useGlobals();
+  const onPublish = async (data) => {
+    try {
+      await api.post(`${origin}/api/pupdate`, data);
+      window.location = '/';
+    } catch (e) {
+      console.error(e);
+    }
+>>>>>>> 0e316cb89e0da1603ddee0d4ed41fb7ab0f0cb81
   };
 
   return (
@@ -23,6 +36,7 @@ const PupdatesPreview = (() => {
       <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
         {(drafts) => (
           <>
+<<<<<<< HEAD
             <div>
               <h2>Select a draft</h2>
               <select onChange={changeDraft} value={currentDraft}>
@@ -47,6 +61,11 @@ const PupdatesPreview = (() => {
             >
               {(data) => <NewStuffOverlay showNewStuff setShowNewStuff={() => {}} newStuff={data.pupdates} closePopover={() => {}} />}
             </PreviewContainer>
+=======
+            This is a live preview of edits done with the <Link to="https://pupdates-editor.glitch.me">Pupdates Editor.</Link>
+            <br />
+            If you aren't logged in, <Link to="/">Go Home</Link> and then come back here to publish!
+>>>>>>> 0e316cb89e0da1603ddee0d4ed41fb7ab0f0cb81
           </>
         )}
       </DataLoader>

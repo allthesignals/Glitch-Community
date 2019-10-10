@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet-async';
 import { orderBy, partition } from 'lodash';
 import { Icon } from '@fogcreek/shared-components';
 
+import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import FeaturedProject from 'Components/project/featured-project';
 import Thanks from 'Components/thanks';
@@ -21,6 +21,8 @@ import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useUserEditor } from 'State/user';
 import useFocusFirst from 'Hooks/use-focus-first';
+import { tagline } from 'Utils/constants';
+import { renderText } from 'Utils/markdown';
 
 import styles from './user.styl';
 import { emoji } from '../../components/global.styl';
@@ -99,8 +101,16 @@ const UserPage = ({ user: initialUser }) => {
   const [pinnedProjects, recentProjects] = partition(sortedProjects.filter(({ id }) => id !== featuredProjectId), ({ id }) => pinnedSet.has(id));
   const featuredProject = user.projects.find(({ id }) => id === featuredProjectId);
 
+  const renderedDescription = React.useMemo(() => renderText(user.description), [user.description]);
+
   return (
     <main id="main" className={styles.container}>
+      <GlitchHelmet
+        title={user.name || (user.login && `@${user.login}`) || `User ${user.id}`}
+        description={`See what ${user.name} (@${user.login}) is up to on Glitch, the ${tagline} ${renderedDescription}`}
+        image={user.avatarUrl || 'https://cdn.glitch.com/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932'}
+        canonicalUrl={getUserLink(user)}
+      />
       <section>
         <UserProfileContainer
           item={user}
@@ -128,7 +138,7 @@ const UserPage = ({ user: initialUser }) => {
           />
         </UserProfileContainer>
 
-        {isAuthorized && !recentProjects.length && <OnboardingBanner />}
+        {isAuthorized && !user.projects.length && <OnboardingBanner />}
       </section>
 
       {featuredProject && (
@@ -219,7 +229,6 @@ UserPage.propTypes = {
 
 const UserPageContainer = ({ user }) => (
   <AnalyticsContext properties={{ origin: 'user' }}>
-    <Helmet title={user.name || (user.login ? `@${user.login}` : `User ${user.id}`)} />
     <UserPage user={user} />
   </AnalyticsContext>
 );

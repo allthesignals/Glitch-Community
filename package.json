@@ -13,25 +13,27 @@
   },
   "license": "Apache License Version 2.0",
   "sideEffects": [
-    "./src/polyfills.js"
+    "./src/polyfills.js",
+    "./src/utils/sentry.js",
+    "./src/utils/lever/lever.styl"
   ],
   "scripts": {
-    "prestart": "npm run watch:lint:server & \n if if-env DEPLOY_ENV=production; then \n npm run watch:babel & npm run watch:webpack & \n fi",
-    "start": "forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
-    "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
-    "lint:src": "eslint --config src/.eslintrc.js src",
-    "lint": "npm run lint:server && npm run lint:src",
-    "watch:webpack": "npm run build:webpack -- --watch --info-verbosity verbose",
-    "watch:babel": "npm run build:babel -- --watch",
-    "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
-    "cy:run": "npx cypress run",
+    "build": "npm run build:webpack && npm run build:babel",
+    "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
+    "build:webpack": "npx webpack",
+    "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
     "cy:open": "npx cypress open",
     "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
-    "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
-    "build:webpack": "npx webpack",
-    "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
-    "build": "npm run build:webpack && npm run build:babel",
-    "test": "mocha"
+    "cy:run": "npx cypress run",
+    "lint": "npm run lint:server && npm run lint:src",
+    "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
+    "lint:src": "eslint --config src/.eslintrc.js src",
+    "prestart": "npm run watch:lint:server & \n if if-env DEPLOY_ENV=production; then \n npm run watch:babel & npm run watch:webpack & \n fi",
+    "start": "NODE_OPTIONS='--max-old-space-size=4096' forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
+    "test": "mocha",
+    "watch:babel": "npm run build:babel -- --watch",
+    "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
+    "watch:webpack": "npm run build:webpack -- --watch --info-verbosity verbose"
   },
   "dependencies": {
     "@babel/cli": "^7.5.5",
@@ -45,10 +47,11 @@
     "@babel/runtime": "^7.5.4",
     "@babel/runtime-corejs3": "^7.5.5",
     "@fogcreek/shared-components": "^0.8.0",
+    "@optimizely/optimizely-sdk": "^3.2.2",
     "@percy/cypress": "^1.0.9",
-    "@sentry/browser": "^4.6.6",
+    "@sentry/browser": "^5.6.3",
     "@sentry/minimal": "^5.6.1",
-    "@sentry/node": "^4.6.6",
+    "@sentry/node": "^5.6.2",
     "algoliasearch": "^3.33.0",
     "autoprefixer-stylus": "^0.14.0",
     "axios": "^0.19.0",
@@ -62,10 +65,10 @@
     "body-parser": "^1.19.0",
     "c3": "^0.7.2",
     "cache-loader": "^4.1.0",
-    "cheerio": "^0.22.0",
-    "chokidar": "^3.0.2",
+    "chokidar": "^3.2.1",
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "^3.0.0",
+    "complementary-colors": "^1.0.5",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.4",
     "core-js": "^3.1.2",
@@ -82,8 +85,8 @@
     "eslint-loader": "^2.1.2",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.1.2",
     "eslint-scope": "^5.0.0",
     "express": "^4.16.4",
     "express-http-proxy": "^1.5.1",
@@ -104,7 +107,7 @@
     "memory-cache": "^0.2.0",
     "mini-css-extract-plugin": "^0.8.0",
     "module-alias": "^2.2.0",
-    "nodemon": "^1.19.1",
+    "nodemon": "^1.19.3",
     "prop-types": "^15.7.2",
     "punycode": "^2.1.1",
     "qrcode": "^1.4.0",
@@ -142,11 +145,11 @@
     "webpack-dev-middleware": "^3.7.0",
     "winston": "^3.2.1"
   },
-  "engines": {
-    "node": "10.x"
-  },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^6.2.0"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }

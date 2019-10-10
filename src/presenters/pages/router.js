@@ -26,6 +26,11 @@ import SearchPage from './search';
 import SecretPage from './secret';
 import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
+import AboutPage from './about';
+import AboutCompanyPage from './about/company';
+import AboutCareersPage from './about/careers';
+import AboutEventsPage from './about/events';
+import AboutPressPage from './about/press';
 
 const parse = (search, name) => {
   const params = new URLSearchParams(search);
@@ -174,6 +179,12 @@ const Router = () => {
         <Route path="/secret" exact render={({ location }) => <SecretPage key={location.key} />} />
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
+
+        <Route path="/about/company" render={({ location }) => <AboutCompanyPage key={location.key} />} />
+        <Route path="/about/careers" render={({ location }) => <AboutCareersPage key={location.key} />} />
+        <Route path="/about/events" render={({ location }) => <AboutEventsPage key={location.key} />} />
+        <Route path="/about/press" render={({ location }) => <AboutPressPage key={location.key} />} />
+        <Route path="/about" render={({ location }) => <AboutPage key={location.key} />} />
 
         {EXTERNAL_ROUTES.map((route) => (
           <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />
