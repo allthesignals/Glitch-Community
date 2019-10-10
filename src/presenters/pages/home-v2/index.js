@@ -313,17 +313,16 @@ export const HomePreview = ({ drafts }) => {
       <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
         {(drafts) => (
           <select onChange={setCurrentDraft}>
-            {drafts.map(draft => <option selected={draft.ref === cuvalue={draft.ref}>{draft.label}</option>)}
+            {drafts.map(draft => <option selected={draft.ref === drafts[currentDraft].ref} value={draft.ref}>{draft.label}</option>)}
           </select>
         )}
       </DataLoader>
+      
       <PreviewContainer
-        get={() => api.get(`https://cms.glitch.me/XZ4_WxAAABIAd2Fw~XZuqxBAAACEAa-Ue/home.json`).then((res) => res.data)}
+        get={() => api.get(`https://cms.glitch.me/${drafts[currentDraft].ref}/home.json`).then((res) => res.data)}
         previewMessage={
           <>
             This is a live preview of a planned release authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
-            <select>
-            </select>
           </>
         }
       >
