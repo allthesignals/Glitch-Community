@@ -20,7 +20,7 @@ let pageCache = {};
 
 async function getData(page) {
   if (page === 'home') {
-    const data = api.get('https://cms.glitch.me/drafts/XZ-axBAAACEAfW6N/home.json');
+    const { data } = await api.get('https://cms.glitch.me/drafts/XZ-axBAAACEAfW6N/home.json');
     console.log(data);
     return data;
   }
