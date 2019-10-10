@@ -322,10 +322,10 @@ export const HomePreview = () => {
               ))}
             </select>
             
-            <h1>{`https://cms.glitch.me/${drafts[currentDraft].ref}/home.json`}</h1>
+            <h1>{`https://cms.glitch.me/${drafts[currentDraft].id}/home.json`}</h1>
 
             <PreviewContainer
-              get={() => api.get(`https://cms.glitch.me/${drafts[currentDraft].ref}/home.json`).then((res) => res.data)}
+              get={() => api.get(`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`).then((res) => res.data)}
               previewMessage={
                 <>
                   This is a live preview of a draft version of the home page authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
