@@ -7,9 +7,8 @@ import DataLoader from 'Components/data-loader';
 import styles from './preview-container.styl';
 
 const PreviewContainer = ({ children, get, url, previewMessage }) => {
-  console.log(url);
   return (
-    <DataLoader get={get}>
+    <DataLoader get={get} url={url}>
       {(data) => {
         return (
           <>
