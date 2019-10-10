@@ -30,7 +30,6 @@ import { getUserLink } from 'Models/user';
 import { userIsProjectMember, userIsProjectAdmin, getProjectLink, getProjectAvatarUrl, SUSPENDED_AVATAR_URL } from 'Models/project';
 import { getAllPages } from 'Shared/api';
 import useFocusFirst from 'Hooks/use-focus-first';
-import useDevToggle from 'State/dev-toggles';
 import { useAPIHandlers } from 'State/api';
 import { useCachedProject } from 'State/api-cache';
 import { tagline } from 'Utils/constants';
@@ -135,7 +134,6 @@ DeleteProjectPopover.propTypes = {
 };
 
 const ProjectPage = ({ project: initialProject }) => {
-  const myStuffEnabled = useDevToggle('My Stuff');
   const [project, { updateDomain, updateDescription, updatePrivate, deleteProject, uploadAvatar }] = useProjectEditor(initialProject);
   useFocusFirst();
   const { currentUser } = useCurrentUser();
@@ -205,7 +203,7 @@ const ProjectPage = ({ project: initialProject }) => {
                     placeholder="Name your project"
                   />
                 </Heading>
-                {myStuffEnabled && !isAnonymousUser && (
+                {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
                     <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
                   </div>
@@ -219,7 +217,7 @@ const ProjectPage = ({ project: initialProject }) => {
             <>
               <div className={styles.headingWrap}>
                 <Heading tagName="h1">{!currentUser.isSupport && suspendedReason ? 'suspended project' : domain}</Heading>
-                {myStuffEnabled && !isAnonymousUser && (
+                {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
                     <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
                   </div>
