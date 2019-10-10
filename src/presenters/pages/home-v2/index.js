@@ -330,7 +330,8 @@ export const HomePreview = () => {
               get={() => api.get(`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`).then((res) => res.data)}
               previewMessage={
                 <>
-                  This is a live preview of a draft version of the home page authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
+                  This is a live preview of the \"{drafts[currentDraft].label}\" draft. To publish this draft, go back to{' '}
+                  <Link to="https://glith.prismic.io">Prismic</Link>.
                 </>
               }
             >

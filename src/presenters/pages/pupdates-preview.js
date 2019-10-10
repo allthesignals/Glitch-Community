@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { withRouter } from 'react-router-dom';
 
 import PreviewContainer from 'Components/containers/preview-container';
+import DataLoader from 'Components/data-loader';
 import Link from 'Components/link';
 
 import { useAPI } from 'State/api';
@@ -12,6 +13,7 @@ import { NewStuffOverlay } from 'Components/new-stuff';
 
 const PupdatesPreview = withRouter(({ history }) => {
   const api = useAPI();
+  const [currentDraft, setCurrentDraft] = useState(0);
   const { origin } = useGlobals();
   const onPublish = async (data) => {
     try {
@@ -22,21 +24,41 @@ const PupdatesPreview = withRouter(({ history }) => {
     }
   };
 
+  const changeDraft = (e) => {
+    setCurrentDraft(e.target.value);
+  };
+
   return (
     <main>
       <Helmet title="Glitch Pupdates Previewer" />
-      <PreviewContainer
-        get={() => api.get('https://pupdates-editor.glitch.me/pupdate.json').then((res) => res.data)}
-        onPublish={onPublish}
-        previewMessage={
+      <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
+        {(drafts) => (
           <>
-            This is a live preview of edits done with the <Link to="https://pupdates-editor.glitch.me">Pupdates Editor.</Link>
-            <br />If you aren't logged in, <Link to="/">Go Home</Link> and then come back here to publish!
+            <div style={{ position: 'sticky', top: '0', background: '#fff', padding: '10px 0' }}>
+              <h2>Select a draft</h2>
+              <select onChange={changeDraft} value={currentDraft}>
+                {drafts.map((draft, i) => (
+                  <option key={draft.id} value={i}>
+                    {draft.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <PreviewContainer
+              get={() => api.get(`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/pupdate.json`).then((res) => res.data)}
+              previewMessage={
+                <>
+                  This is a live preview of Pupdates in the \"{drafts[currentDraft].label}\" draft. To publish this draft, go back to{' '}
+                  <Link to="https://glith.prismic.io">Prismic</Link>.
+                </>
+              }
+            >
+              {(data) => <NewStuffOverlay showNewStuff setShowNewStuff={() => {}} newStuff={data.pupdates} closePopover={() => {}} />}
+            </PreviewContainer>
           </>
-        }
-      >
-        {(data) => <NewStuffOverlay showNewStuff setShowNewStuff={() => {}} newStuff={data.pupdates} closePopover={() => {}} />}
-      </PreviewContainer>
+        )}
+      </DataLoader>
     </main>
   );
 });
