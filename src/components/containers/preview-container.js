@@ -9,16 +9,17 @@ import styles from './preview-container.styl';
 const PreviewContainer = ({ children, get, previewMessage }) => {
   return (
     <DataLoader get={get}>
-      {(data) => (
-        <>
-          <div className={styles.previewBanner}>
-            <div className={styles.previewBannerMessage}>
-              {previewMessage}
+      {(data) => {
+        console.log('data', data);
+        return (
+          <>
+            <div className={styles.previewBanner}>
+              <div className={styles.previewBannerMessage}>{previewMessage}</div>
             </div>
-          </div>
-          {children(data)}
-        </>
-      )}
+            {children(data)}
+          </>
+        );
+      }}
     </DataLoader>
   );
 };
