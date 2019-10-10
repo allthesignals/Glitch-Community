@@ -303,14 +303,10 @@ const HomeDraftSelector = ({ options }) => (
   </select>
 );
 
-export const HomePreview = () => {
+export const HomePreview = ({ drafts }) => {
   const api = useAPI();
-  const [draft, setDraft] = { }
+  const [draft, setDraft] = useState(drafts[0]);
   const { origin, ZINE_POSTS } = useGlobals();
-  
-  const DraftSelector = () => {
-    
-  }
 
   return (
     <Layout>
@@ -320,7 +316,6 @@ export const HomePreview = () => {
           <>
             This is a live preview of a planned release authored with <Link to="https://glitch.prismic.io/">Prismic.</Link>
             <select>
-              <option
             </select>
           </>
         }
