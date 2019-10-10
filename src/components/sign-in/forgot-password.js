@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@fogcreek/shared-components';
+import { Button, TextInput } from '@fogcreek/shared-components';
 
 import useEmail from 'Hooks/use-email';
 import { useAPI } from 'State/api';
 
 import Text from 'Components/text/text';
-import TextInput from 'Components/inputs/text-input';
 import Notification from 'Components/notification';
 import Image from 'Components/images/image';
 import { EllipsizeEmail } from './use-magic-code';

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Button, Icon, TextInput } from '@fogcreek/shared-components';
 import useEmail from 'Hooks/use-email';
 import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 
 import Text from 'Components/text/text';
-import TextInput from 'Components/inputs/text-input';
 import Notification from 'Components/notification';
 
 import { emoji } from '../global.styl';
