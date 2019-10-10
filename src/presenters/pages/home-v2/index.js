@@ -9,11 +9,7 @@ import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';
 import Embed from 'Components/project/embed';
 import MaskImage from 'Components/images/mask-image';
-<<<<<<< HEAD
 import Text from 'Components/text/text';
-=======
-import Markdown from 'Components/text/markdown';
->>>>>>> 0e316cb89e0da1603ddee0d4ed41fb7ab0f0cb81
 import Questions from 'Components/questions';
 import RecentProjects from 'Components/recent-projects';
 import ReportButton from 'Components/report-abuse-pop';
@@ -137,12 +133,9 @@ const CuratedCollections = ({ content }) => (
     <Row items={content.map((data) => ({ ...data, id: data.fullUrl }))} className={styles.curatedCollectionRow}>
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
-<<<<<<< HEAD
           <h4 className={styles.h4}>{title}</h4>
           {/* eslint-disable-next-line react/no-danger */}
           <span dangerouslySetInnerHTML={{ __html: description }} />
-=======
->>>>>>> 0e316cb89e0da1603ddee0d4ed41fb7ab0f0cb81
           <div className={styles.curatedCollectionButtonWrap}>
             <Button as="span">
               {title}
