@@ -148,7 +148,6 @@ const CuratedCollections = ({ content }) => (
 );
 
 const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent } }) => {
-  console.log({ hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent });
   return (
     <HomeSection id="unified-stories" className={styles.unifiedStories}>
       <div className={styles.unifiedStoriesContainer}>
@@ -305,7 +304,6 @@ export const HomePreview = () => {
   const api = useAPI();
   const [currentDraft, setCurrentDraft] = useState(0);
   const { origin, ZINE_POSTS } = useGlobals();
-  console.log(currentDraft);
   
   const changeDraft = (e) => {
     setCurrentDraft(Number(e.target.value));
@@ -322,9 +320,10 @@ export const HomePreview = () => {
               ))}
             </select>
             
-            <h1>{`https://cms.glitch.me/${drafts[currentDraft].id}/home.json`}</h1>
+            <h1>{`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`}</h1>
 
             <PreviewContainer
+              url={`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`}
               get={() => api.get(`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`).then((res) => res.data)}
               previewMessage={
                 <>

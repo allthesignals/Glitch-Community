@@ -6,11 +6,11 @@ import DataLoader from 'Components/data-loader';
 
 import styles from './preview-container.styl';
 
-const PreviewContainer = ({ children, get, previewMessage }) => {
+const PreviewContainer = ({ children, get, url, previewMessage }) => {
+  console.log(url);
   return (
     <DataLoader get={get}>
       {(data) => {
-        console.log('data', data);
         return (
           <>
             <div className={styles.previewBanner}>
