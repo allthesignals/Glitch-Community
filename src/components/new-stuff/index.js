@@ -18,6 +18,7 @@ import styles from './styles.styl';
 import { emoji } from '../global.styl';
 
 const pupdatesArray = pupdates.pupdates;
+console.log(pupdatesArray);
 const latestId = Math.max(...pupdatesArray.map(({ id }) => id));
 
 function usePreventTabOut() {
