@@ -77,7 +77,7 @@ function OnboardingBanner() {
               <CategoriesGrid
                 wrapItems={windowWidth >= 1200 && categoriesWidth > 580}
                 className={styles.categoriesGrid}
-                categories={['games', 'handy-bots', 'art', 'tools-for-work', 'hardware', 'building-blocks']}
+                categories={['building-blocks', 'games', 'handy-bots', 'art', 'tools-for-work', 'hardware']}
               />
 
               {isHomepage && (
