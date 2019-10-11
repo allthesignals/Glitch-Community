@@ -1,5 +1,3 @@
-/* globals BUILD_TIMESTAMP, ENVIRONMENT, PROJECT_DOMAIN */
-
 //
 // This utility wraps the Sentry library so that we can guarantee
 // Sentry is initialized before its called.
@@ -20,8 +18,8 @@ if (isBrowser) {
   try {
     Sentry.init({
       dsn: 'https://4f1a68242b6944738df12eecc34d377c@sentry.io/1246508',
-      environment: ENVIRONMENT,
-      release: `community@${BUILD_TIMESTAMP}`,
+      environment: window.ENVIRONMENT,
+      release: `community@${window.BUILD_TIMESTAMP}`,
       ignoreErrors: SentryHelpers.ignoreErrors,
       whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/],
       beforeSend(event) {
@@ -31,7 +29,7 @@ if (isBrowser) {
           return null;
         }
         try {
-          return SentryHelpers.beforeSend(PROJECT_DOMAIN, currentEnv, event);
+          return SentryHelpers.beforeSend(window.PROJECT_DOMAIN, currentEnv, event);
         } catch (error) {
           console.error(error);
           if (!beforeSendFailed) {
@@ -59,7 +57,7 @@ if (isBrowser) {
     });
 
     Sentry.configureScope((scope) => {
-      scope.setTag('PROJECT_DOMAIN', PROJECT_DOMAIN);
+      scope.setTag('PROJECT_DOMAIN', window.PROJECT_DOMAIN);
     });
 
     // Expose for use on the developer console:

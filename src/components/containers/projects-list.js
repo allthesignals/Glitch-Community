@@ -54,6 +54,7 @@ function ProjectsList({
   projectOptions,
   showEditButton,
   dataCy,
+  debounceFunction,
 }) {
   const matchFn = (project, filter) => project.domain.includes(filter) || project.description.toLowerCase().includes(filter);
 
@@ -74,8 +75,9 @@ function ProjectsList({
       enabled={enableFiltering}
       placeholder={placeholder}
       searchPrompt="find a project"
-      label="project search"
+      label="find a project"
       items={projects}
+      debounceFunction={debounceFunction}
     >
       {({ filterInput, filterHeaderStyles, renderItems }) => (
         <article className={classNames(styles.projectsContainer)} data-cy={dataCy}>
@@ -122,6 +124,7 @@ ProjectsList.propTypes = {
   showEditButton: PropTypes.bool,
   projectOptions: PropTypes.object,
   dataCy: PropTypes.string,
+  debounceFunction: PropTypes.func,
 };
 
 ProjectsList.defaultProps = {
@@ -137,6 +140,7 @@ ProjectsList.defaultProps = {
   showEditButton: false,
   projectOptions: {},
   dataCy: null,
+  debounceFunction: undefined,
 };
 
 export default ProjectsList;
