@@ -187,6 +187,7 @@ module.exports = function(external) {
 
   app.get('/api/:page', async (req, res) => {
     const { page } = req.params;
+    console.log(page);
     if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
 
     const data = await getData(page);
