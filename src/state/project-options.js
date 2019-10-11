@@ -23,7 +23,7 @@ const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler
 const useDefaultProjectOptions = () => {
   const dispatch = useDispatch();
   const { addProjectToCollection, joinTeamProject, removeUserFromProject, removeProjectFromCollection } = useAPIHandlers();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, update: updateCurrentUser } = useCurrentUser();
   const { handleError, handleCustomError } = useErrorHandlers();
   const reloadProjectMembers = useProjectReload();
   const reloadCollectionProjects = useCollectionReload();
@@ -56,6 +56,7 @@ const useDefaultProjectOptions = () => {
         if (setHasBookmarked) setHasBookmarked(true);
         if (!myStuffCollection) {
           myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
+          updateCurrentUser({ collections: [myStuffCollection, ...currentUser.collections] });
         }
         await addProjectToCollection({ project, collection: myStuffCollection });
         reloadCollectionProjects([myStuffCollection]);
