@@ -14,7 +14,8 @@
   "license": "Apache License Version 2.0",
   "sideEffects": [
     "./src/polyfills.js",
-    "./src/utils/sentry.js"
+    "./src/utils/sentry.js",
+    "./src/utils/lever/lever.styl"
   ],
   "scripts": {
     "prestart": "npm run watch:lint:server & \n if if-env DEPLOY_ENV=production; then \n npm run watch:babel & npm run watch:webpack & \n fi",
@@ -63,7 +64,6 @@
     "body-parser": "^1.19.0",
     "c3": "^0.7.2",
     "cache-loader": "^4.1.0",
-    "cheerio": "^0.22.0",
     "chokidar": "^3.2.1",
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "^3.0.0",

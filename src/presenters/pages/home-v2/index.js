@@ -4,6 +4,7 @@ import Pluralize from 'react-pluralize';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Button, Mark, Icon } from '@fogcreek/shared-components';
 
+import GlitchHelmet from 'Components/glitch-helmet';
 import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';
 import Embed from 'Components/project/embed';
@@ -322,6 +323,13 @@ const HomeWithProductionData = () => {
   const { HOME_CONTENT, ZINE_POSTS, SSR_SIGNED_IN } = useGlobals();
   return (
     <Layout>
+      <GlitchHelmet
+        title="Glitch"
+        socialTitle="Glitch: The friendly community where everyone builds the web"
+        description="Simple, powerful, free tools to create and use millions of apps."
+        image="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781"
+        canonicalUrl="/"
+      />
       <Home
         data={{ ...HOME_CONTENT, cultureZine: ZINE_POSTS.slice(0, 4) }}
         loggedIn={!!currentUser.login || (!currentUser.id && SSR_SIGNED_IN)}
