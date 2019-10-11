@@ -34,11 +34,6 @@ describe('ProjectsList', function() {
     });
   });
 
-  it('should contain an input when filtering', function() {
-    const wrapper = mount(<ProjectsList layout="row" projects={[]} enableFiltering />);
-    return wrapper.exists('input').should.equal(true);
-  });
-
   it('should show projects', function() {
     const projects = [makeTestProject({ id: '1', domain: 'first-project' }), makeTestProject({ id: '2', description: 'hello project!' }), makeTestProject({ id: '3' })];
     const reduxStore = mockStore({ currentUser: makeTestUser({ projects, teams: [] }) });
