@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import ReactKonami from 'react-konami';
 
 import Header from 'Components/header';
 import Footer from 'Components/footer';
+import GlitchHelmet from 'Components/glitch-helmet';
 import AccountSettingsContainer from 'Components/account-settings-overlay';
 import NewStuffContainer from 'Components/new-stuff';
 import ErrorBoundary from 'Components/error-boundary';
@@ -13,7 +13,12 @@ import styles from './styles.styl';
 
 const Layout = withRouter(({ children, searchQuery, history }) => (
   <div className={styles.content}>
-    <Helmet title="Glitch" />
+    <GlitchHelmet
+      title="Glitch"
+      socialTitle="Glitch: The friendly community where everyone builds the web"
+      description="Simple, powerful, free tools to create and use millions of apps."
+      image="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781"
+    />
     <NewStuffContainer>
       {(showNewStuffOverlay) => (
         <AccountSettingsContainer>

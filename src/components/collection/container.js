@@ -21,7 +21,6 @@ import CollectionAvatar from 'Components/collection/collection-avatar';
 import { CollectionLink } from 'Components/link';
 import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
-import useDevToggle from 'State/dev-toggles';
 import useSample from 'Hooks/use-sample';
 import { useTrackedFunc } from 'State/segment-analytics';
 
@@ -43,8 +42,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
     [[featuredProject], projects] = partition(collection.projects, (p) => p.id === collection.featuredProjectId);
   }
 
-  const myStuffIsEnabled = useDevToggle('My Stuff');
-  const canEditNameAndDescription = myStuffIsEnabled ? isAuthorized && !collection.isMyStuff : isAuthorized;
+  const canEditNameAndDescription = isAuthorized && !collection.isMyStuff;
 
   let collectionName = collection.name;
   if (canEditNameAndDescription) {
@@ -57,7 +55,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
 
   let avatar = null;
   const defaultAvatarName = 'collection-avatar'; // this was the old name for the default picture frame collection avatar
-  if (myStuffIsEnabled && collection.isMyStuff) {
+  if (collection.isMyStuff) {
     avatar = <BookmarkAvatar width="50%" />;
   } else if (collection.avatarUrl && !collection.avatarUrl.includes(defaultAvatarName)) {
     avatar = <Image src={collection.avatarUrl} alt="" />;
@@ -77,7 +75,7 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
         <div>
           <h1 className={styles.name}>{collectionName}</h1>
 
-          {isAuthorized && myStuffIsEnabled && (
+          {isAuthorized && (
             <div className={styles.privacyToggle}>
               <PrivateToggle
                 align={['left']}
