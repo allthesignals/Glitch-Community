@@ -50,7 +50,7 @@ describe('ProjectsList', function() {
     return wrapper.exists('input').should.equal(true);
   });
 
-  it('should show projects', function() {
+  it.only('should show projects', function() {
     const projects = [makeTestProject({ id: '1', domain: 'first-project' }), makeTestProject({ id: '2' }), makeTestProject({ id: '3' })];
     const reduxStore = mockStore({ currentUser: makeTestUser({ projects, teams: [] }) });
     const errorStub = sinon.stub(ErrorHandlers, 'default');
@@ -68,7 +68,7 @@ describe('ProjectsList', function() {
           <GlobalsContext.Provider value={{ location: new Location('https://glitch.com/@userpage'), EXTERNAL_ROUTES: [] }}>
             <ReduxProvider store={reduxStore}>
               <MemoryRouter initialEntries={['@userpage']} initialIndex={0}>
-                <ProjectsList layout="row" projects={projects} enableFiltering />
+                <ProjectsList layout="row" projects={projects} enableFiltering debounceFunction={(arg) => arg} />
               </MemoryRouter>
             </ReduxProvider>
           </GlobalsContext.Provider>
@@ -81,6 +81,7 @@ describe('ProjectsList', function() {
       .find(ProjectsList)
       .exists('input')
       .should.equal(true);
+      
     const projectItems = wrapper.find(ProjectItem);
     //console.log(projectItems.debug());
     const firstProjectItem = projectItems.findWhere((node) => {
@@ -90,11 +91,12 @@ describe('ProjectsList', function() {
     firstProjectItem.exists().should.equal(true);
 
     wrapper
+      .find(ProjectsList)
       .find('input')
       .simulate('change', { target: { value: 'hello' } });
    // console.log(wrapper.find(TextInput).debug());
 
-    const projectItemsAfterFilter = wrapper.find(ProjectItem);
+   const projectItemsAfterFilter = wrapper.find(ProjectItem);
     const projectItemThatNoLongerExists = projectItemsAfterFilter.findWhere((node) => {
       const componentProps = node.props();
       // QUESTION why are the things that are going through this filter not of type ProjectItem?? 
