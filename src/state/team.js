@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import * as assets from 'Utils/assets';
 
@@ -9,7 +9,7 @@ import useUploader from 'State/uploader';
 import useErrorHandlers from 'State/error-handlers';
 import { useProjectReload } from 'State/project';
 
-import { MEMBER_ACCESS_LEVEL, ADMIN_ACCESS_LEVEL } from 'Models/team';
+import { MEMBER_ACCESS_LEVEL, userIsOnlyTeamAdmin } from 'Models/team';
 
 // eslint-disable-next-line import/prefer-default-export
 export function useTeamEditor(initialTeam) {
@@ -35,6 +35,10 @@ export function useTeamEditor(initialTeam) {
     joinTeamProject,
   } = useAPIHandlers();
   const [team, setTeam] = useState(initialTeam);
+
+  useEffect(() => {
+    setTeam(initialTeam);
+  }, [initialTeam]);
 
   async function updateFields(changes) {
     const { data } = await updateItem({ team }, changes);
@@ -75,16 +79,6 @@ export function useTeamEditor(initialTeam) {
     }));
   }
 
-  function removeUserAdmin(user) {
-    const index = team.adminIds.indexOf(user.id);
-    if (index !== -1) {
-      setTeam((prev) => ({
-        ...prev,
-        counter: prev.adminIds.splice(index, 1),
-      }));
-    }
-  }
-
   const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
 
   const funcs = {
@@ -110,7 +104,6 @@ export function useTeamEditor(initialTeam) {
       await Promise.all(projects.map((project) => removeUserFromProject({ project, user })));
       // Now remove them from the team. Remove them last so if something goes wrong you can do this over again
       await removeUserFromTeam({ user, team });
-      removeUserAdmin(user);
       setTeam((prev) => ({
         ...prev,
         teamPermissions: prev.teamPermissions.filter((p) => p.userId !== user.id),
@@ -200,19 +193,15 @@ export function useTeamEditor(initialTeam) {
     }, handleError),
     updateWhitelistedDomain: (whitelistedDomain) => updateFields({ whitelistedDomain }).catch(handleError),
     updateUserPermissions: withErrorHandler(async (user, accessLevel) => {
-      if (accessLevel === MEMBER_ACCESS_LEVEL && team.adminIds.length <= 1) {
+      if (accessLevel === MEMBER_ACCESS_LEVEL && userIsOnlyTeamAdmin({ user, team })) {
         createNotification('A team must have at least one admin', { type: 'error' });
         return false;
       }
       await updateUserAccessLevel({ user, team }, accessLevel);
-      if (accessLevel === ADMIN_ACCESS_LEVEL) {
-        setTeam((prev) => ({
-          ...prev,
-          counter: prev.adminIds.push(user.id),
-        }));
-      } else {
-        removeUserAdmin(user);
-      }
+      setTeam((prev) => {
+        const teamPermissions = prev.teamPermissions.map((perm) => perm.userId === user.id ? { ...perm, accessLevel } : perm);
+        return { ...prev, teamPermissions };
+      });
       return null;
     }, handleError),
     joinTeamProject: withErrorHandler(async (project) => {

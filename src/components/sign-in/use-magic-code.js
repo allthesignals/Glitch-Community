@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Loader } from '@fogcreek/shared-components';
+import { Button, Loader, TextInput } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
-import TextInput from 'Components/inputs/text-input';
 import Notification from 'Components/notification';
 import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
@@ -62,7 +61,14 @@ const UseMagicCode = ({ emailAddress, showTwoFactorPage }) => {
         <Loader />
       ) : (
         <form onSubmit={onSubmit} style={{ marginBottom: 10 }} data-cy="sign-in-code-form">
-          <TextInput value={code} onChange={setCode} type="text" labelText="sign in code" placeholder="cute-unique-cosmos" testingId="sign-in-code" />
+          <TextInput
+            value={code}
+            onChange={setCode}
+            type="text"
+            label="sign in code"
+            placeholder="cute-unique-cosmos"
+            testingId="sign-in-code"
+          />
           <div className={styles.submitWrap}>
             <Button disabled={!isEnabled} onClick={onSubmit}>
               Sign In

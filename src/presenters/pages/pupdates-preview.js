@@ -10,13 +10,13 @@ import { useGlobals } from 'State/globals';
 
 import { NewStuffOverlay } from 'Components/new-stuff';
 
-const PupdatesPreview = withRouter(({ history }) => {
+const PupdatesPreview = withRouter(() => {
   const api = useAPI();
   const { origin } = useGlobals();
   const onPublish = async (data) => {
     try {
       await api.post(`${origin}/api/pupdate`, data);
-      history.push('/');
+      window.location = '/';
     } catch (e) {
       console.error(e);
     }
@@ -31,7 +31,8 @@ const PupdatesPreview = withRouter(({ history }) => {
         previewMessage={
           <>
             This is a live preview of edits done with the <Link to="https://pupdates-editor.glitch.me">Pupdates Editor.</Link>
-            <br />If you aren't logged in, <Link to="/">Go Home</Link> and then come back here to publish!
+            <br />
+            If you aren't logged in, <Link to="/">Go Home</Link> and then come back here to publish!
           </>
         }
       >
