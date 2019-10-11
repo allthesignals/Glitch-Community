@@ -76,11 +76,6 @@ describe('ProjectsList', function() {
       </ProjectMemberContext.Provider>
     );
     const wrapper = mount(componentsToTest);
-
-    wrapper
-      .find(ProjectsList)
-      .exists('input')
-      .should.equal(true);
       
     const projectItems = wrapper.find(ProjectItem);
 
