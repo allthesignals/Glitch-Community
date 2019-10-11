@@ -50,8 +50,8 @@ describe('ProjectsList', function() {
     return wrapper.exists('input').should.equal(true);
   });
 
-  it.only('should show projects', function() {
-    const projects = [makeTestProject({ id: '1', domain: 'first-project' }), makeTestProject({ id: '2' }), makeTestProject({ id: '3' })];
+  it('should show projects', function() {
+    const projects = [makeTestProject({ id: '1', domain: 'first-project' }), makeTestProject({ id: '2', description: 'hello project!' }), makeTestProject({ id: '3' })];
     const reduxStore = mockStore({ currentUser: makeTestUser({ projects, teams: [] }) });
     const errorStub = sinon.stub(ErrorHandlers, 'default');
     errorStub.returns({ handleError: () => {}, handleCustomError: () => {} });
@@ -83,31 +83,30 @@ describe('ProjectsList', function() {
       .should.equal(true);
       
     const projectItems = wrapper.find(ProjectItem);
-    //console.log(projectItems.debug());
-    const firstProjectItem = projectItems.findWhere((node) => {
-      const componentProps = node.props();
-      return componentProps.project && componentProps.project.domain === 'first-project';
-    });
+
+    const findProject = (projectName) => {
+      return projectItems.findWhere((node) => {
+        const componentProps = node.props();
+        return componentProps.project && componentProps.project.domain === 'first-project';
+      });
+    }
+    const firstProjectItem = findProject('first-project');
     firstProjectItem.exists().should.equal(true);
+
+    const helloProjectItem = findProject('hello-project');
+    helloProjectItem.exists().should.equal(true);
 
     wrapper
       .find(ProjectsList)
       .find('input')
       .simulate('change', { target: { value: 'hello' } });
-   // console.log(wrapper.find(TextInput).debug());
 
    const projectItemsAfterFilter = wrapper.find(ProjectItem);
     const projectItemThatNoLongerExists = projectItemsAfterFilter.findWhere((node) => {
       const componentProps = node.props();
-      // QUESTION why are the things that are going through this filter not of type ProjectItem?? 
-      // console.log(node.type());
       return componentProps.project && componentProps.project.domain === 'first-project';
     });
     projectItemThatNoLongerExists.exists().should.equal(false);
-
-    //  .should.have.text('first-project');
-
-    //   console.log(firstProjectItem.debug());
 
     a11yHelper.testEnzymeComponent(componentsToTest, {}, function(results) {
       results.violations.length.should.equal(0);
