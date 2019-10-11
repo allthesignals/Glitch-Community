@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './hidden-checkbox.styl';
 import useUniqueId from 'Hooks/use-unique-id';
+import styles from './hidden-checkbox.styl';
 
 const HiddenCheckbox = ({ value, onChange, onFocus, onBlur, children }) => {
   const id = useUniqueId();
