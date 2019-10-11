@@ -1,14 +1,12 @@
-import React, { createClass } from 'react';
-import { configure, shallow, mount } from 'enzyme';
+import React from 'react';
+import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import chai from 'chai';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import { MemoryRouter } from 'react-router-dom';
 import Location from '@jedmao/location';
-import { TextInput } from '@fogcreek/shared-components';
 
-import FilterController from 'Components/filter-controller';
 import ProjectsList from 'Components/containers/projects-list';
 import ProjectItem from 'Components/project/project-item';
 import { a11yHelper } from '../reactA11yHelper';
@@ -16,11 +14,9 @@ import { makeTestProject, makeTestUser } from '../helpers/models';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Context as GlobalsContext } from 'State/globals';
 import * as ErrorHandlers from 'State/error-handlers';
-import * as Notifications from 'State/notifications';
 import { context as NotificationContext } from 'State/notifications';
 import { ProjectMemberContext } from 'State/project';
 import * as VisibilityContainer from 'Components/visibility-container';
-import { url } from 'inspector';
 
 chai.should();
 const middlewares = [];
