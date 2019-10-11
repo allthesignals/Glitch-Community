@@ -27,14 +27,7 @@ const middlewares = [];
 const mockStore = configureStore(middlewares);
 configure({ adapter: new Adapter() });
 
-class FakeVisibilityContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return <div>{this.props.children({ isVisible: true, wasEverVisible: true })}</div>;
-  }
-}
+const FakeVisibilityContainer = ({children}) => (<div>{children({ isVisible: true, wasEverVisible: true })}</div>);
 
 describe('ProjectsList', function() {
   describe('a11y testing', function() {
