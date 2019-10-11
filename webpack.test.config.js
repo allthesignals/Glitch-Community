@@ -24,7 +24,6 @@ module.exports = function(env) {
         {
           test: /\.js$/,
           loader: 'babel-loader',
-          // include: mode === 'development' ? [SRC, SHARED, TEST] : [SRC, SHARED, /[\\/]@fogcreek[\\/]/],
           options: {
             compact: true,
             // we can't rely on babel's auto config loading for stuff in node_modules
@@ -33,7 +32,6 @@ module.exports = function(env) {
         },
         {
           test: /\.styl/,
-          // include: SRC,
           use: [
             {
               loader: 'css-loader?modules',
