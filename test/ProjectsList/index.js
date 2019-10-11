@@ -77,8 +77,7 @@ describe('ProjectsList', function() {
 
     wrapper
       .find(ProjectsList)
-      .find('input')
-      .hostNodes()
+      .find("input[type='search']")
       .simulate('change', { target: { value: 'hello' } });
 
    const projectItemsAfterFilter = wrapper.find(ProjectItem);

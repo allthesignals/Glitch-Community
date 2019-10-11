@@ -1,13 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './hidden-checkbox.styl';
+import useUniqueId from 'Hooks/use-unique-id';
 
-const HiddenCheckbox = ({ value, onChange, onFocus, onBlur, children }) => (
-  <label className={styles.label}>
-    <input className={styles.checkbox} type="checkbox" checked={value} onChange={(e) => onChange(e.target.checked)} onFocus={onFocus} onBlur={onBlur} />
-    {children}
-  </label>
-);
+const HiddenCheckbox = ({ value, onChange, onFocus, onBlur, children }) => {
+  const id = useUniqueId();
+  return (
+    <label className={styles.label} htmlFor={id}>
+      <input
+        className={styles.checkbox}
+        type="checkbox"
+        checked={value}
+        onChange={(e) => onChange(e.target.checked)}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        id={id}
+      />
+      {children}
+    </label>
+  );
+};
 
 HiddenCheckbox.propTypes = {
   value: PropTypes.bool.isRequired,
