@@ -41,97 +41,97 @@ const SignInLayout = () => {
     <AuthLayout>
       <MultiPage defaultPage="signIn">
         {({ page, setPage, goBack }) => (
-            <Overlay className={styles.overlay}>
-              {page === 'signIn' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle>Sign In</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <SignInButtons />
-                    <Button onClick={() => setPage('getCode')}>
-                      Email Magic Link <Icon className={emoji} icon="loveLetter" />
-                    </Button>
+          <Overlay className={styles.overlay}>
+            {page === 'signIn' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle>Sign In</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <SignInButtons />
+                  <Button onClick={() => setPage('getCode')}>
+                    Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                  </Button>
+                  <TermsAndConditions />
+                  <Text className={styles.helpText}>Don't have an account?</Text>
+                  <Button onClick={() => setPage('createAccount')}>Create an account</Button>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'createAccount' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Create an Account</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <Text className={styles.helpText}>Almost there! How do you want to sign up?</Text>
+                  <SignInButtons />
+                  <Button onClick={() => setPage('getCode')}>
+                    Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                  </Button>
+                  <div className={styles.footer}>
                     <TermsAndConditions />
-                    <Text className={styles.helpText}>Don't have an account?</Text>
-                    <Button onClick={() => setPage('createAccount')}>Create an account</Button>
-                  </OverlaySection>
-                </>
-              )}
-              {page === 'createAccount' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Create an Account</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <Text className={styles.helpText}>Almost there! How do you want to sign up?</Text>
-                    <SignInButtons />
-                    <Button onClick={() => setPage('getCode')}>
-                      Email Magic Link <Icon className={emoji} icon="loveLetter" />
-                    </Button>
-                    <div className={styles.footer}>
-                      <TermsAndConditions />
-                      <BrainFriends />
-                    </div>
-                    <Text className={styles.helpText}>Already have an account?</Text>
-                    <Button onClick={() => setPage('signIn')}>Sign In</Button>
-                  </OverlaySection>
-                </>
-              )}
-              {page === 'getCode' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <GetMagicCode
-                      onCodeSent={({ emailAddress }) => {
-                        setState({ ...state, emailAddress });
-                        setPage('useCode');
-                      }}
-                    />
-                    <div className={styles.footer}>
-                      <MagicHat />
-                    </div>
-                  </OverlaySection>
-                </>
-              )}
-              {page === 'useCode' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <UseMagicCode
-                      emailAddress={state.emailAddress}
-                      onTwoFactorChallenge={(initialToken) => {
-                        setState({ ...state, initialToken });
-                        setPage('2fa');
-                      }}
-                    />
-                    <div className={styles.footer}>
-                      <TermsAndConditions />
-                      <MagicHat />
-                    </div>
-                  </OverlaySection>
-                </>
-              )}
-              {page === '2fa' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Two Factor Authentication</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <TwoFactorForm initialToken={state.initialToken} />
-                    <div className={styles.footer}>
-                      <TermsAndConditions />
-                      <Thumbprint />
-                    </div>
-                  </OverlaySection>
-                </>
-              )}
-            </Overlay>
-          )}
+                    <BrainFriends />
+                  </div>
+                  <Text className={styles.helpText}>Already have an account?</Text>
+                  <Button onClick={() => setPage('signIn')}>Sign In</Button>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'getCode' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <GetMagicCode
+                    onCodeSent={({ emailAddress }) => {
+                      setState({ ...state, emailAddress });
+                      setPage('useCode');
+                    }}
+                  />
+                  <div className={styles.footer}>
+                    <MagicHat />
+                  </div>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'useCode' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <UseMagicCode
+                    emailAddress={state.emailAddress}
+                    onTwoFactorChallenge={(initialToken) => {
+                      setState({ ...state, initialToken });
+                      setPage('2fa');
+                    }}
+                  />
+                  <div className={styles.footer}>
+                    <TermsAndConditions />
+                    <MagicHat />
+                  </div>
+                </OverlaySection>
+              </>
+            )}
+            {page === '2fa' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Two Factor Authentication</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <TwoFactorForm initialToken={state.initialToken} />
+                  <div className={styles.footer}>
+                    <TermsAndConditions />
+                    <Thumbprint />
+                  </div>
+                </OverlaySection>
+              </>
+            )}
+          </Overlay>
+        )}
       </MultiPage>
     </AuthLayout>
   );
