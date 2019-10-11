@@ -40,8 +40,7 @@ const SignInLayout = () => {
   return (
     <AuthLayout>
       <MultiPage defaultPage="signIn">
-        {({ page, setPage, goBack }) => {
-          return (
+        {({ page, setPage, goBack }) => (
             <Overlay className={styles.overlay}>
               {page === 'signIn' && (
                 <>
@@ -123,7 +122,7 @@ const SignInLayout = () => {
                     <OverlayTitle goBack={goBack}>Two Factor Authentication</OverlayTitle>
                   </OverlaySection>
                   <OverlaySection type="actions">
-                    <TwoFactorForm initialToken={initialToken} />
+                    <TwoFactorForm initialToken={state.initialToken} />
                     <div className={styles.footer}>
                       <TermsAndConditions />
                       <Thumbprint />
@@ -132,8 +131,7 @@ const SignInLayout = () => {
                 </>
               )}
             </Overlay>
-          );
-        }}
+          )}
       </MultiPage>
     </AuthLayout>
   );
