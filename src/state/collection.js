@@ -8,7 +8,6 @@ import { createCollection, getCollectionLink } from 'Models/collection';
 import { AddProjectToCollectionMsg } from 'Components/notification';
 import { useNotifications } from 'State/notifications';
 import { useCurrentUser } from 'State/current-user';
-import useDevToggle from 'State/dev-toggles';
 
 async function getCollectionProjectsFromAPI(api, collection, withCacheBust) {
   const url = `/v1/collections/by/id/projects?id=${collection.id}&orderKey=projectOrder&limit=100`;
@@ -96,10 +95,9 @@ export function useCollectionReload() {
 // used by featured-project and pages/project
 export const useToggleBookmark = (project) => {
   const api = useAPI();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, update: updateCurrentUser } = useCurrentUser();
   const reloadCollectionProjects = useCollectionReload();
 
-  const myStuffEnabled = useDevToggle('My Stuff');
   const { createNotification } = useNotifications();
 
   const { addProjectToCollection, removeProjectFromCollection } = useAPIHandlers();
@@ -119,7 +117,8 @@ export const useToggleBookmark = (project) => {
       } else {
         setHasBookmarked(true);
         if (!myStuffCollection) {
-          myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification, myStuffEnabled });
+          myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
+          updateCurrentUser({ collections: [myStuffCollection, ...currentUser.collections] });
         }
         await addProjectToCollection({ project, collection: myStuffCollection });
         const url = myStuffCollection.fullUrl || `${currentUser.login}/${myStuffCollection.url}`;
@@ -179,7 +178,7 @@ export function useCollectionEditor(initialCollection) {
   const { handleError, handleErrorForInput, handleCustomError } = useErrorHandlers();
   const reloadCollectionProjects = useCollectionReload();
   const { createNotification } = useNotifications();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, update: updateCurrentUser } = useCurrentUser();
 
   async function updateFields(changes) {
     // A note here: we don't want to setState with the data from the server from this call, as it doesn't return back the projects in depth with users and notes and things
@@ -329,7 +328,8 @@ export function useCollectionEditor(initialCollection) {
         createNotification(`Removed ${project.domain} from collection My Stuff`);
       } else {
         if (!myStuffCollection) {
-          myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification, myStuffEnabled: true });
+          myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
+          updateCurrentUser({ collections: [myStuffCollection, ...currentUser.collections] });
         }
         await funcs.addProjectToCollection(project, myStuffCollection);
         createNotification(
