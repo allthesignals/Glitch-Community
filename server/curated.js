@@ -19,7 +19,11 @@ const writeFile = util.promisify(fs.writeFile);
 let pageCache = {};
 
 async function getData(page) {
-  if (!pageCache[page]) {
+  // TODO replace this once the postcards data is live
+  if (page === 'home') {
+    const { data } = await api.get('https://cms.glitch.me/drafts/XZ-axBAAACEAfW6N/home.json');
+    return data;
+  } else if (!pageCache[page]) {
     const json = await readFile(path.join(__dirname, `../src/curated/${page}.json`));
     pageCache[page] = JSON.parse(json);
   }

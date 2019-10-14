@@ -12,15 +12,17 @@ const cx = classNames.bind(styles);
 const getProfileStyles = {
   team: getTeamProfileStyle,
   user: getUserProfileStyle,
+  dashboard: getUserProfileStyle,
 };
 
 const CoverContainer = ({ coverActions, children, type, item }) => {
   const className = cx({
     coverContainer: true,
-    hasCoverImage: item.hasCoverImage,
+    hasCoverImage: type !== 'dashboard' && item.hasCoverImage,
+    dashboard: type === 'dashboard',
   });
   return (
-    <div className={className} style={getProfileStyles[type](item)}>
+    <div className={className} style={getProfileStyles[type](item, type)}>
       {children}
       <div className={styles.buttonWrap}>{coverActions && <TrackedButtonGroup actions={coverActions} />}</div>
     </div>
