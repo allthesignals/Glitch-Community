@@ -163,7 +163,10 @@ svg.arrow
 .postcardSubheading
   margin: 0
   font-weight: 600
-
+  
+  @media (min-width: mediumViewport) and (max-width largeViewport)
+    max-width: 110px
+  
 .postcardText
   color: text-on-secondary-background
 
@@ -193,12 +196,13 @@ svg.arrow
     margin-top: 25px
   
   @media (min-width: mediumViewport) and (max-width largeViewport)
+    align-items: flex-start
     border-left: 0
     border-top: 1px solid #ddd
     padding: 0
     margin: 15px 0 0 0
     
     img
-      width: auto
-      max-height: 80px
+      max-width: 110px
+      max-height: 110px
       margin-top: 15px
