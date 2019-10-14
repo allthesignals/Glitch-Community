@@ -108,7 +108,10 @@ svg.arrow
 .postcards
   display: grid
   grid-gap: 30px
-  grid-template-columns: 1fr 1fr 1fr
+  grid-template-columns: 1fr
+  
+  @media (min-width: mediumViewport)
+    grid-template-columns: 1fr 1fr 1fr
 
 .postcard
   position: relative
@@ -166,6 +169,9 @@ svg.arrow
 
 .postcardColumns
   display: flex
+  
+  @media (min-width: mediumViewport) and (max-width largeViewport)
+    flex-direction: column
 
 .postcardContentColumn
 .postcardThumbnailColumn
