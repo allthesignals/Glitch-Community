@@ -21,17 +21,8 @@ function webpackExpressMiddleware() {
 }
 
 module.exports = function(app) {
-  switch (process.env.DEPLOY_ENV) {
-    case 'production':
-      // Production here is glitch.com/~community!
-      // webpack --watch is running via prestart
-      break;
-    case 'ci':
-      // Do not webpack, we have already built
-      break;
-    default:
-      // Use webpack middleware for dev/staging/etc.
-      app.use(webpackExpressMiddleware());
-      break;
+  if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
+    // Use webpack middleware for dev/staging/etc.
+    app.use(webpackExpressMiddleware());
   }
 };
