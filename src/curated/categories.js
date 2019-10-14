@@ -23,7 +23,7 @@ export default [
     color: '#65cad2',
     icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fbuilding-blocks.svg`,
   },
-  { // not actively used just supporting old routes
+  {
     url: 'learn-to-code',
     collectionName: 'learn-to-code',
     name: 'Learn to Code',
@@ -37,7 +37,7 @@ export default [
     color: '#7aa4d3',
     icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fwork.svg`,
   },
-  { // not actively used just supporting old routes
+  {
     url: 'community-picks',
     collectionName: 'ideas',
   },
