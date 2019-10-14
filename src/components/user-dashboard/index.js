@@ -114,15 +114,19 @@ const Idea = ({ project }) => {
 };
 
 const Ideas = ({ count }) => {
-  let { value: ideas } = useCollectionProjects({ id: 13045 });
+  const { value: ideas } = useCollectionProjects({ id: 13045 });
+  const [ideasArr, setIdeasArr] = useState([])
   
   useEffect(() => {
-    
+    if (!ideasArr) {
+      console.log('useEffect')
+      setIdeasArr(ideas)
+    }
   }, [ideas])
 
   const onClickMoreIdeas = () => {
     const els = ideas.splice(0, count)
-    ideas.push(...els)
+    setIdeasArr([...ideasArr, ...els])
   };
 
   return (
@@ -143,9 +147,9 @@ const Ideas = ({ count }) => {
         )}
       </div>
 
-      {ideas && (
+      {ideasArr && (
         <div className={styles.ideasGrid}>
-          {ideas.slice(0, count).map((project) => (
+          {ideasArr.slice(0, count).map((project) => (
             <Idea project={project} />
           ))}
         </div>
