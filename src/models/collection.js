@@ -3,7 +3,7 @@ import { kebabCase } from 'lodash';
 import { pickRandomColor } from 'Utils/color';
 
 import { getTeamLink } from './team';
-import { getUserLink } from './user';
+import { getUserLink, getDisplayName as getUserDisplayName } from './user';
 
 import { getCollectionPair } from './words';
 
@@ -17,7 +17,7 @@ const nullMyStuffCollection = {
   coverColor: pickRandomColor(),
   projects: [],
   id: 'nullMyStuff',
-  isPrivate: true,
+  private: true,
 };
 
 // puts my stuff at the front of the array, if my stuff doesn't exist we add it.
@@ -40,6 +40,16 @@ export function getCollectionsWithMyStuff({ collections }) {
   return updatedCollections;
 }
 
+export function getCollectionOwnerName(collection) {
+  if (collection.team) {
+    return collection.team.name || `@${collection.team.url}`;
+  }
+  if (collection.user) {
+    return getUserDisplayName(collection.user);
+  }
+  throw new Error(`Collection ${collection.id} has no team or user field!`);
+}
+
 export function getCollectionOwnerLink(collection) {
   if (collection.team) {
     return getTeamLink(collection.team);
@@ -57,7 +67,7 @@ export function getCollectionLink(collection) {
   return `/@${collection.fullUrl}`;
 }
 
-export async function createCollection({ api, name, teamId, createNotification, myStuffEnabled = false }) {
+export async function createCollection({ api, name, teamId, createNotification }) {
   let description = '';
   let generatedName = false;
   let isMyStuff = false;
@@ -75,7 +85,7 @@ export async function createCollection({ api, name, teamId, createNotification, 
     description = `A ${collectionSynonym} of projects that does ${predicate} things`;
   }
 
-  if (name === 'My Stuff' && myStuffEnabled) {
+  if (name === 'My Stuff') {
     isMyStuff = true;
     description = 'My place to save cool finds';
     isPrivate = true;

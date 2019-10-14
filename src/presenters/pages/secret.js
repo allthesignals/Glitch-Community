@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Button, VisuallyHidden } from '@fogcreek/shared-components';
 
+import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import { useDevToggles } from 'State/dev-toggles';
 import useTest, { useTestAssignments, tests } from 'State/ab-tests';
@@ -66,10 +66,12 @@ const Secret = () => {
     setEnabledToggles(newToggles);
   };
 
+  const tagline = "It's a secret to everybody.";
+
   return (
     <main className={styles.secretPage}>
-      <Helmet title="Glitch - It's a secret to everybody." />
-      <VisuallyHidden as={Heading} tagName="h1">It's a secret to everybody</VisuallyHidden>
+      <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
+      <VisuallyHidden as={Heading} tagName="h1">{tagline}</VisuallyHidden>
       <ul className={styles.toggles}>
         {toggleData.map(({ name, description }) => (
           <li key={name} className={isEnabled(name) ? styles.lit : ''}>
