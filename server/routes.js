@@ -13,6 +13,7 @@ const constants = require('./constants');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
+const { getOptimizelyData } = require('./optimizely');
 const { getData, saveDataToFile } = require('./curated');
 
 module.exports = function(external) {
@@ -109,6 +110,7 @@ module.exports = function(external) {
       PUPDATES_CONTENT: pupdatesContent,
       SSR_SIGNED_IN: signedIn,
       AB_TESTS: assignments,
+      OPTIMIZELY_DATA: await getOptimizelyData(),
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
       ENVIRONMENT: process.env.NODE_ENV || 'dev',
       RUNNING_ON: process.env.RUNNING_ON,
