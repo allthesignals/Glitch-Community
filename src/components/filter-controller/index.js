@@ -39,7 +39,7 @@ function FilterController({ matchFn, enabled, placeholder, items, children, sear
         className={styles.headerSearch}
         name="filter"
         onChange={setFilter}
-        opaque
+        variant="opaque"
         placeholder={searchPrompt}
         label={label}
         type="search"
