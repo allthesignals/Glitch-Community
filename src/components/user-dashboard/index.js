@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
@@ -75,7 +75,7 @@ const RecentProjects = () => {
             )}
           </div>
         </div>
-        {numProjects < 3 && <Ideas count={3 - numProjects} />}
+        {numProjects > 3 && <Ideas count={2} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
@@ -114,14 +114,15 @@ const Idea = ({ project }) => {
 };
 
 const Ideas = ({ count }) => {
-  const { value: ideas } = useCollectionProjects({ id: 13045 });
-  const [ideasIdx, setIdeasIdx] = useState(0);
+  let { value: ideas } = useCollectionProjects({ id: 13045 });
+  
+  useEffect(() => {
+    
+  }, [ideas])
 
   const onClickMoreIdeas = () => {
-    const nextIdx = ideasIdx + count;
-    if (nextIdx < ideas.length - 1) {
-      setIdeasIdx(count + nextIdx);
-    }
+    const els = ideas.splice(0, count)
+    ideas.push(...els)
   };
 
   return (
@@ -144,7 +145,7 @@ const Ideas = ({ count }) => {
 
       {ideas && (
         <div className={styles.ideasGrid}>
-          {ideas.slice(ideasIdx, ideasIdx + count).map((project) => (
+          {ideas.slice(0, count).map((project) => (
             <Idea project={project} />
           ))}
         </div>
