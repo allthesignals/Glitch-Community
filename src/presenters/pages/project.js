@@ -35,7 +35,7 @@ import { useAPIHandlers } from 'State/api';
 import { useCachedProject } from 'State/api-cache';
 
 import styles from './project.styl';
-import { emoji, widePopover } from '../../components/global.styl';
+import { emoji } from '../../components/global.styl';
 
 function syncPageToDomain(domain) {
   history.replaceState(null, null, `/~${domain}`);
@@ -95,11 +95,11 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
 
   return (
     <section>
-      <Popover align="left" className={widePopover} renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref}>Delete Project <Icon className={emoji} icon="bomb" /></Button>}>
+      <Popover align="left" renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref}>Delete Project <Icon className={emoji} icon="bomb" /></Button>}>
         {({ onClose }) => (
           <>
             <Actions>
-              You can always undelete a project from your profile page.
+              <p>You can always undelete a project from your profile page.</p>
             </Actions>
             <DangerZone>
               {loading ? (
