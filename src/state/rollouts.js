@@ -9,21 +9,21 @@ export const OptimizelyProvider = ({ optimizely, children }) => (
 
 const useOptimizely = () => useContext(Context);
 
-const useOptimizelyValue = (getValue) => {
+const useOptimizelyValue = (getValue, dependencies) => {
   const optimizely = useOptimizely();
   const [value, setValue] = useState(() => getValue(optimizely));
+  const getValueCallback = useCallback(getValue, dependencies);
   useEffect(() => {
     const event = enums.NOTIFICATION_TYPES.OPTIMIZELY_CONFIG_UPDATE;
     const id = optimizely.notificationCenter.addNotificationListener(event, () => {
-      setValue(getValue(optimizely));
+      setValue(getValueCallback(optimizely));
     });
-    setValue(getValue(optimizely));
+    setValue(getValueCallback(optimizely));
     return () => optimizely.notificationCenter.removeNotificationListener(id);
-  }, [optimizely, getValue]);
+  }, [optimizely, getValueCallback]);
   return value;
 };
 
 export const useFeatureEnabled = (whichToggle, entityId) => {
-  const getValue = useCallback((optimizely) => optimizely.isFeatureEnabled(whichToggle, entityId), [whichToggle, entityId]);
-  return useOptimizelyValue(getValue);
+  return useOptimizelyValue((optimizely) => optimizely.isFeatureEnabled(whichToggle, entityId), [whichToggle, entityId]);
 };
