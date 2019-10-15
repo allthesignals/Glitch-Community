@@ -2,25 +2,29 @@ import React, { useState } from 'react';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
-import Logo from 'Components/header/logo';
-import TransparentButton from 'Components/buttons/transparent-button';
-import SignInButton, { companyNames } from 'Components/buttons/sign-in-button';
 import Image from 'Components/images/image';
+import Text from 'Components/text/text';
+import { Overlay, OverlayTitle, OverlaySection } from 'Components/overlays';
+import SignInButton, { companyNames } from 'Components/buttons/sign-in-button';
+import TwoFactorForm from 'Components/sign-in/two-factor-form';
 import UseMagicCode from 'Components/sign-in/use-magic-code';
 import GetMagicCode from 'Components/sign-in/get-magic-code';
+import AuthLayout from 'Components/layout/auth-layout';
 import SignInWithPassword from 'Components/sign-in/sign-in-with-password';
 import ForgotPassword from 'Components/sign-in/forgot-password';
-import Text from 'Components/text/text';
 import useDevToggle from 'State/dev-toggles';
 
+import MultiPage from './multi-page';
 import styles from './sign-in-layout.styl';
 import { emoji } from '../global.styl';
 
-const magicImageUrl = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fmagic-link.svg?v=1568658265397';
-const brainFriendsUrl = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fbrainfriends.svg?v=1568814632916';
-
-const MagicHat = () => <Image width={92} src={magicImageUrl} alt="Get a magic code" />;
-const BrainFriends = () => <Image width={92} src={brainFriendsUrl} alt="" />;
+const SignInButtons = () => (
+  <div className={styles.signInButtons}>
+    {companyNames.map((companyName) => (
+      <SignInButton short companyName={companyName} key={companyName} />
+    ))}
+  </div>
+);
 
 const TermsAndConditions = () => (
   <div className={styles.termsAndConditions}>
@@ -28,162 +32,145 @@ const TermsAndConditions = () => (
   </div>
 );
 
+const MagicHatImage = () => (
+  <Image width={92} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fmagic-link.svg?v=1568658265397" alt="" />
+);
+const ThumbprintImage = () => <Image width={92} src="https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2F2fa.svg?v=1568309705782" alt="" />;
+const CreateAccountImage = () => (
+  <Image width={92} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fcreate-an-account.svg?v=1571162269523" alt="" />
+);
+
 const SignInLayout = () => {
-  const [page, setPage] = useState('main');
-  const [email, setEmail] = useState();
-  const showMainPage = () => setPage('main');
-  const showGetCodePage = () => setPage('getCode');
-  const showUseCodePage = () => setPage('useCode');
-  const showCreateAccountPage = () => setPage('createAccount');
-  const showUsePasswordPage = () => setPage('usePassword');
-  const showForgotPasswordPage = () => setPage('forgotPassword');
+  const [state, setState] = useState({ emailAddress: undefined, initialToken: undefined });
   const userPasswordsEnabled = useDevToggle('User Passwords');
 
   return (
-    <div className={styles.layout}>
-      <div className={styles.logo}>
-        <Link to="/">
-          <Logo />
-        </Link>
-      </div>
-      <div className={styles.overlay}>
-        <section className={styles.title}>
-          {page === 'main' && <h1>Sign In</h1>}
-          {page === 'createAccount' && <h1>Create an Account</h1>}
-          {page === 'getCode' && (
-            <TransparentButton onClick={showMainPage}>
-              <div className={styles.magicCode}>
-                <span className={styles.backArrow}>
-                  <Icon icon="chevronLeft" />
-                </span>
-                <h1 className={styles.center}>Magic Code</h1>
-              </div>
-            </TransparentButton>
-          )}
-          {page === 'useCode' && (
-            <TransparentButton
-              onClick={() => {
-                setEmail(null);
-                showGetCodePage();
-              }}
-            >
-              <div className={styles.magicCode}>
-                <span className={styles.backArrow}>
-                  <span className="left-arrow icon" />
-                </span>
-                <h1 className={styles.center}>Magic Code</h1>
-              </div>
-            </TransparentButton>
-          )}
-          {page === 'usePassword' && (
-            <TransparentButton onClick={showMainPage}>
-              <div className={styles.magicCode}>
-                <span className={styles.backArrow}>
-                  <Icon icon="chevronLeft" />
-                </span>
-                <h1 className={styles.center}>Sign in With Password</h1>
-              </div>
-            </TransparentButton>
-          )}
-          {page === 'forgotPassword' && (
-            <TransparentButton onClick={showMainPage}>
-              <div className={styles.magicCode}>
-                <span className={styles.backArrow}>
-                  <Icon icon="chevronLeft" />
-                </span>
-                <h1 className={styles.center}>Forgot Password</h1>
-              </div>
-            </TransparentButton>
-          )}
-        </section>
-        <section className={styles.content}>
-          {page === 'main' && (
-            <div>
-              <div className={styles.main}>
-                <div className={styles.signInButtons}>
-                  {companyNames.map((companyName) => (
-                    <div key={companyName} className={styles.signInButton}>
-                      <SignInButton short companyName={companyName} />
-                    </div>
-                  ))}
-                </div>
-                <div className={styles.signInWithGlitchButtons}>
-                  <Button onClick={showGetCodePage}>
+    <AuthLayout>
+      <MultiPage defaultPage="signIn">
+        {({ page, setPage, goBack }) => (
+          <Overlay className={styles.overlay}>
+            {page === 'signIn' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle>Sign In</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <SignInButtons />
+                  <div className={styles.signInWithGlitchButtons}>
+                    <Button onClick={() => setPage('getCode')}>
+                      Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                    </Button>
+                    {userPasswordsEnabled && (
+                      <Button onClick={() => setPage('usePassword')}>
+                        Password <Icon className={emoji} icon="key" />
+                      </Button>
+                    )}
+                  </div>
+                  <TermsAndConditions />
+                  <Text className={styles.helpText}>Don't have an account?</Text>
+                  <Button onClick={() => setPage('createAccount')}>Create an account</Button>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'createAccount' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Create an Account</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <Text className={styles.helpText}>Almost there! How do you want to sign up?</Text>
+                  <SignInButtons />
+                  <Button onClick={() => setPage('getCode')}>
                     Email Magic Link <Icon className={emoji} icon="loveLetter" />
                   </Button>
-                  {userPasswordsEnabled && (
-                    <Button onClick={showUsePasswordPage}>
-                    Password <Icon className={emoji} icon="key" />
-                    </Button>
-                  )}
-                </div>
-              </div>
-              <TermsAndConditions />
-              <Text className={styles.accountCreationHelpText}>Don't have an account?</Text>
-              <Button onClick={showCreateAccountPage}>
-                Create an account
-              </Button>
-            </div>
-          )}
-          {page === 'getCode' && (
-            <div>
-              <GetMagicCode
-                onCodeSent={({ emailAddress }) => {
-                  setEmail(emailAddress);
-                  showUseCodePage();
-                }}
-              />
-              <div className={styles.footer}>
-                <MagicHat />
-              </div>
-            </div>
-          )}
-          {page === 'useCode' && (
-            <div>
-              <UseMagicCode emailAddress={email} />
-              <div className={styles.footer}>
-                <TermsAndConditions />
-                <MagicHat />
-              </div>
-            </div>
-          )}
-          {page === 'createAccount' && (
-            <div>
-              <div className={styles.main}>
-                <Text className={styles.accountCreationIntroText}>Almost there! How do you want to sign up?</Text>
-                <div className={styles.signInButtons}>
-                  {companyNames.map((companyName) => (
-                    <div key={companyName} className={styles.signInButton}>
-                      <SignInButton short companyName={companyName} />
-                    </div>
-                  ))}
-                </div>
-                <Button onClick={showGetCodePage}>
-                  Email Magic Link <Icon className={emoji} icon="loveLetter" />
-                </Button>
-              </div>
-              <div className={styles.footer}>
-                <TermsAndConditions />
-                <BrainFriends />
-              </div>
-              <Text className={styles.accountCreationHelpText}>Already have an account?</Text>
-              <Button onClick={showMainPage}>
-                Sign In
-              </Button>
-            </div>
-          )}
-          {page === 'usePassword' && (
-            <div>
-              <SignInWithPassword showForgotPasswordPage={showForgotPasswordPage} />
-              <div className={styles.footer}>
-                <TermsAndConditions />
-              </div>
-            </div>
-          )}
-          {page === 'forgotPassword' && <ForgotPassword showMainPage={showMainPage} />}
-        </section>
-      </div>
-    </div>
+                  <div className={styles.footer}>
+                    <TermsAndConditions />
+                    <CreateAccountImage />
+                  </div>
+                  <Text className={styles.helpText}>Already have an account?</Text>
+                  <Button onClick={() => setPage('signIn')}>Sign In</Button>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'getCode' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <GetMagicCode
+                    onCodeSent={({ emailAddress }) => {
+                      setState({ ...state, emailAddress });
+                      setPage('useCode');
+                    }}
+                  />
+                  <div className={styles.footer}>
+                    <MagicHatImage />
+                  </div>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'useCode' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <UseMagicCode
+                    emailAddress={state.emailAddress}
+                    showTwoFactorPage={(initialToken) => {
+                      setState({ ...state, initialToken });
+                      setPage('2fa');
+                    }}
+                  />
+                  <div className={styles.footer}>
+                    <TermsAndConditions />
+                    <MagicHatImage />
+                  </div>
+                </OverlaySection>
+              </>
+            )}
+            {page === '2fa' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Two Factor Authentication</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <TwoFactorForm initialToken={state.initialToken} />
+                  <div className={styles.footer}>
+                    <TermsAndConditions />
+                    <ThumbprintImage />
+                  </div>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'usePassword' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Sign in With Password</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <SignInWithPassword showForgotPasswordPage={() => setPage('forgotPassword')} />
+                  <div className={styles.footer}>
+                    <TermsAndConditions />
+                  </div>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'forgotPassword' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Forgot Password</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <ForgotPassword showMainPage={() => setPage('signIn')} />
+                </OverlaySection>
+              </>
+            )}
+          </Overlay>
+        )}
+      </MultiPage>
+    </AuthLayout>
   );
 };
 
