@@ -12,7 +12,7 @@ const MoreIdeas = () => (
     <Heading tagName="h2">More Ideas</Heading>
     <Grid items={categories} className={styles.grid}>
       {(category) => (
-        <Link className={styles.link} to={category.url} style={{ backgroundColor: category.color }}>
+        <Link className={styles.link} to={`/@glitch/${category.collectionName}`} style={{ backgroundColor: category.color }}>
           <Image className={styles.image} src={category.icon} alt="" />
           <div>{category.name}</div>
         </Link>

@@ -19,7 +19,7 @@ export default [
     collectionName: 'games',
     icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Ftetris.svg`,
     name: 'Games',
-    color: '#fae3d1',
+    color: '#FBA058'
   },
   {
     url: 'building-blocks',
