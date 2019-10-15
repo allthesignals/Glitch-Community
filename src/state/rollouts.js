@@ -24,6 +24,7 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
-export const useFeatureEnabled = (whichToggle, entityId) => {
-  return useOptimizelyValue((optimizely) => optimizely.isFeatureEnabled(whichToggle, entityId), [whichToggle, entityId]);
-};
+export const useFeatureEnabled = (whichToggle, entityId) => useOptimizelyValue(
+  (optimizely) => optimizely.isFeatureEnabled(whichToggle, entityId),
+  [whichToggle, entityId],
+);
