@@ -65,10 +65,14 @@ CollectionPageContents.propTypes = {
 
 const CollectionPage = ({ owner, name, isCategory }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
-  console.log("collection", collection)
-  if (collection && collection.owner === '@glitch') {
-    const matchingCategory = find(allCategories, (category) => category.collectionName === collection.domain);
-    console.log(matchingCategory);
+  console.log("collection", collection, owner)
+  if (collection && owner === 'glitch') {
+    console.log("inside", allCategories)
+    const matchingCategory = find(allCategories, (category) => {
+      console.log("category", category)
+      return category.collectionName === collection.url
+    });
+    console.log("matchingCategory", matchingCategory);
     collection.avatarUrl = matchingCategory.icon
   }
   return (
