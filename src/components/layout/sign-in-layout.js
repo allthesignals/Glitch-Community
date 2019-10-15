@@ -29,10 +29,12 @@ const TermsAndConditions = () => (
   </div>
 );
 
-const MagicHat = () => <Image width={92} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fmagic-link.svg?v=1568658265397" alt="" />;
-const Thumbprint = () => <Image width={92} src="https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2F2fa.svg?v=1568309705782" alt="" />;
-const BrainFriends = () => (
-  <Image width={92} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fbrainfriends.svg?v=1568814632916" alt="" />
+const MagicHatImage = () => (
+  <Image width={92} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fmagic-link.svg?v=1568658265397" alt="" />
+);
+const ThumbprintImage = () => <Image width={92} src="https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2F2fa.svg?v=1568309705782" alt="" />;
+const CreateAccountImage = () => (
+  <Image width={92} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fcreate-an-account.svg?v=1571162269523" alt="" />
 );
 
 const SignInLayout = () => {
@@ -71,7 +73,7 @@ const SignInLayout = () => {
                   </Button>
                   <div className={styles.footer}>
                     <TermsAndConditions />
-                    <BrainFriends />
+                    <CreateAccountImage />
                   </div>
                   <Text className={styles.helpText}>Already have an account?</Text>
                   <Button onClick={() => setPage('signIn')}>Sign In</Button>
@@ -91,7 +93,7 @@ const SignInLayout = () => {
                     }}
                   />
                   <div className={styles.footer}>
-                    <MagicHat />
+                    <MagicHatImage />
                   </div>
                 </OverlaySection>
               </>
@@ -111,7 +113,7 @@ const SignInLayout = () => {
                   />
                   <div className={styles.footer}>
                     <TermsAndConditions />
-                    <MagicHat />
+                    <MagicHatImage />
                   </div>
                 </OverlaySection>
               </>
@@ -125,7 +127,7 @@ const SignInLayout = () => {
                   <TwoFactorForm initialToken={state.initialToken} />
                   <div className={styles.footer}>
                     <TermsAndConditions />
-                    <Thumbprint />
+                    <ThumbprintImage />
                   </div>
                 </OverlaySection>
               </>

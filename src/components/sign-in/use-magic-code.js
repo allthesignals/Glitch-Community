@@ -36,8 +36,6 @@ const UseMagicCode = ({ emailAddress, showTwoFactorPage }) => {
       const { data } = await api.post(`/auth/email/${code}`);
       if (data.tfaToken) {
         showTwoFactorPage();
-        // TODO Error? Maybe not?
-        // setStatus('error');
       } else {
         login(data);
         setStatus('done');
@@ -61,14 +59,7 @@ const UseMagicCode = ({ emailAddress, showTwoFactorPage }) => {
         <Loader />
       ) : (
         <form onSubmit={onSubmit} style={{ marginBottom: 10 }} data-cy="sign-in-code-form">
-          <TextInput
-            value={code}
-            onChange={setCode}
-            type="text"
-            label="sign in code"
-            placeholder="cute-unique-cosmos"
-            testingId="sign-in-code"
-          />
+          <TextInput value={code} onChange={setCode} type="text" label="sign in code" placeholder="cute-unique-cosmos" testingId="sign-in-code" />
           <div className={styles.submitWrap}>
             <Button disabled={!isEnabled} onClick={onSubmit}>
               Sign In

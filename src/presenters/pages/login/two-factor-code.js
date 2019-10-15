@@ -1,6 +1,3 @@
-/**
- * Login page for Glitch VS Code Plugin
- */
 import React from 'react';
 import PropTypes from 'prop-types';
 
