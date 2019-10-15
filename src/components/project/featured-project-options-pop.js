@@ -27,8 +27,17 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
       {({ onClose }) => (
         <>
           <Actions>
-            {!hasNote && createNote && <Button onClick={() => toggleAndCreateNote(onClose)}>Add note <Icon icon="spiralNotePad" className={emoji} /></Button>}
-            <Button onClick={() => toggleAndUnfeature(onClose)}>Un-feature <Icon icon="arrowDown" className={emoji} /></Button>
+            {!hasNote && createNote && (
+              <>
+                <Button onClick={() => toggleAndCreateNote(onClose)}>
+                  Add note <Icon icon="spiralNotePad" className={emoji} />
+                </Button>
+                <br />
+              </>
+            )}
+            <Button onClick={() => toggleAndUnfeature(onClose)}>
+              Un-feature <Icon icon="arrowDown" className={emoji} />
+            </Button>
           </Actions>
         </>
       )}

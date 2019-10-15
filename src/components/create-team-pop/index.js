@@ -122,7 +122,7 @@ const CreateTeamPop = withRouter(({ onBack, history }) => {
       </Title>
 
       <Info>
-        Showcase your projects in one place, manage collaborators, and view analytics
+        <p>Showcase your projects in one place, manage collaborators, and view analytics</p>
       </Info>
 
       <Actions>
@@ -141,7 +141,7 @@ const CreateTeamPop = withRouter(({ onBack, history }) => {
         </form>
       </Actions>
       <Info>
-        You can change this later
+        <p>You can change this later</p>
       </Info>
     </>
   );
