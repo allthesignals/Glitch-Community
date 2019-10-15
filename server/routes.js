@@ -14,6 +14,7 @@ const cheerio = require('cheerio');
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
+const categories = require('../shared/categories');
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { defaultProjectDescriptionPattern } = require('../shared/regex');
@@ -255,6 +256,13 @@ module.exports = function(external) {
     }
     await render(req, res, { title: collection, description: `We couldn't find @${author}/${url}`, canonicalUrl });
   });
+  
+  categories.forEach((category) => {
+    app.get(`/${category.url}`, (req, res) => {
+      res.redirect(301, `/@glitch/${category.collectionName}`);
+    });
+  });
+  
 
   app.get('/auth/:domain', async (req, res) => {
     const { domain } = req.params;

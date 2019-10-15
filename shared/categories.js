@@ -4,7 +4,7 @@
 // and shows particular custom names/illustrations for them
 // We currently use these categories on the search page, on the onboarding banner, and on the create page
 
-export default [
+module.exports = [
   {
     url: 'hello-worlds',
     name: 'Hello Worlds',
