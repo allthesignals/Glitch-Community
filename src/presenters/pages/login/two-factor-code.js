@@ -5,7 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AuthLayout from 'Components/layout/auth-layout';
-import Notification from 'Components/notification';
 import Link from 'Components/link';
 import Image from 'Components/images/image';
 import TwoFactorForm from 'Components/sign-in/two-factor-form';
