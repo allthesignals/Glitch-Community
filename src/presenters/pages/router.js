@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import punycode from 'punycode';
 
 import categories from 'Curated/categories';
@@ -166,7 +166,7 @@ const Router = () => {
             key={category.url}
             path={`/${category.url}`}
             exact
-            render={({ location }) => <CollectionPage key={location.key} owner="glitch" name={category.collectionName} isCategory />}
+            render={() => <Redirect to={`/@glitch/${category.collectionName}`} />}
           />
         ))}
 

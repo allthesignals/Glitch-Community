@@ -63,12 +63,14 @@ CollectionPageContents.propTypes = {
   }).isRequired,
 };
 
-const CollectionPage = ({ owner, name, isCategory }) => {
+const CollectionPage = ({ owner, name }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
 
+  let isCategory = false;
   if (collection && owner === 'glitch') {
     const matchingCategory = find(allCategories, (category) => category.collectionName === collection.url);
     if (matchingCategory) {
+      isCategory = true;
       collection.avatarUrl = matchingCategory.icon;
     }
   }
