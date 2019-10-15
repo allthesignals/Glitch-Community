@@ -97,6 +97,15 @@ const AboutCompanyPage = withRouter(() => (
         </p>
         <p>He advises non-profits including Eyebeam, a platform for artists to engage society's relationship with technology.</p>
       </Bio>
+      <Bio
+        imageUrl="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FJordanBioPhoto__1_-removebg-preview.png?v=1561974441318"
+        name="James Turnbull, VP of Engineering"
+      >
+        <p>
+          Here is James's bio
+        </p>
+        <p>It continues.</p>
+      </Bio>
     </BlockSection>
     <section className={aboutStyles.backgroundSection}>
       <Heading tagName="h4" className={styles.leaderHeader}>Team leads</Heading>
