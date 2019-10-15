@@ -41,7 +41,7 @@ function loadProjectMembers(api, projectIds, setProjectResponses, withCacheBust)
   });
 }
 
-const ProjectMemberContext = createContext();
+export const ProjectMemberContext = createContext();
 const ProjectReloadContext = createContext();
 
 export const ProjectContextProvider = ({ children }) => {

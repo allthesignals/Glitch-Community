@@ -42,7 +42,9 @@ const TwoFactorSignIn = ({ initialToken, onSuccess }) => {
   if (status.error) {
     return (
       <>
-        <Notification type="error" persistent>Error</Notification>
+        <Notification type="error" persistent>
+          Error
+        </Notification>
         We couldn't sign you in
       </>
     );
@@ -50,11 +52,22 @@ const TwoFactorSignIn = ({ initialToken, onSuccess }) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <Notification type="success" persistent>Almost Done</Notification>
+      <Notification type="success" persistent>
+        Almost Done
+      </Notification>
       <Text>Enter your two factor auth code to finish signing in</Text>
-      <TextInput value={code} onChange={onChange} placeholder="123456 or a backup code" label="code" error={status.message} disabled={status.working} />
+      <TextInput
+        value={code}
+        onChange={onChange}
+        placeholder="123456 or a backup code"
+        label="code"
+        error={status.message}
+        disabled={status.working}
+      />
       <div className={styles.submitWrap}>
-        <Button size="small" disabled={status.working || code.length < 6} onClick={onSubmit}>Sign in</Button>
+        <Button size="small" disabled={status.working || code.length < 6} onClick={onSubmit}>
+          Sign in
+        </Button>
       </div>
     </form>
   );

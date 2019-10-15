@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run:
           name: update-pnpm
-          command: 'sudo npm install -g pnpm@latest'
+          command: 'sudo npm install -g pnpm@3.x'
       - restore_cache:
           keys:
             - deps-{{ checksum "shrinkwrap.yaml" }}
@@ -46,7 +46,7 @@ jobs:
             - build-{{ .Revision }}
       - run:
           name: update-pnpm
-          command: 'sudo npm install -g pnpm@latest'
+          command: 'sudo npm install -g pnpm@3.x'
       - run:
           name: pnpm-install
           command: pnpm install
@@ -66,7 +66,7 @@ jobs:
             - build-{{ .Revision }}
       - run:
           name: update-pnpm
-          command: 'sudo npm install -g pnpm@latest'
+          command: 'sudo npm install -g pnpm@3.x'
       - run:
           name: pnpm-install
           command: pnpm install

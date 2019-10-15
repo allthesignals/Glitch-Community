@@ -94,8 +94,8 @@
       height: auto
   &:hover
     .itemButtonWrap
-      width: fit-content
-      height: fit-content
+      display: inline-block 
+      width: auto // edge doesn't support width: fit-content, using display: inline-block and width auto helps recreate that
       box-shadow: 2px 2px 0 primary
       border-radius: 5px
 
@@ -262,11 +262,12 @@ svg.arrow
   vertical-align: text-top
 
 .onClickMyStuffButton
-  flex: 0 1 110px;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  text-align: left;
+  flex: 0 1 110px
+  border-top-right-radius: 5px
+  border-top-left-radius: 5px
+  text-align: left
   .linkBody
-    top: 0;
-    left: 0;
-    position: absolute;
+    top: 0
+    left: 0
+    position: absolute
+    z-index: 1
