@@ -39,7 +39,7 @@ module.exports = function(external) {
   initWebpack(app);
   const buildTime = dayjs();
 
-  const ms = dayjs.convert(7, 'days', 'miliseconds');
+  const ms = dayjs.convert(7, 'days', 'milliseconds');
   app.use(express.static('public', { index: false }));
   app.use(express.static('build/client', { index: false, maxAge: ms }));
 
