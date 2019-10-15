@@ -167,7 +167,7 @@ const EmailHandler = ({ onBack, showView }) => {
           </>
         )}
       </Actions>
-      {status === 'done' && <SignInCodeSection onClick={showView.signInCode} />}
+      {status === 'done' && <SignInCodeSection onClick={showView('signInCode')} />}
     </>
   );
 };

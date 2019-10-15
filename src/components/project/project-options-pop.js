@@ -62,7 +62,7 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
       <Actions>
         <Image height="50px" width="auto" src={illustration} alt="" />
         <br />
-        Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
+        <p>Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.</p>
       </Actions>
       <DangerZone>
         <Button

@@ -141,7 +141,7 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
       )}
       {currentUserIsTeamAdmin && !selectedUserIsOnlyAdmin && (
         <Actions>
-          Admins can update team info, billing, and remove users
+          <p>Admins can update team info, billing, and remove users</p>
           {selectedUserIsTeamAdmin ? (
             <Button size="small" variant="secondary" onClick={onRemoveAdmin}>
               Remove Admin Status <Icon className={emoji} icon="fastDown" />
