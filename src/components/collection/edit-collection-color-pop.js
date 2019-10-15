@@ -81,7 +81,7 @@ function EditCollectionColorPop({ initialColor, updateColor, togglePopover }) {
           <div className={styles.hexWrap}>
             <TextInput
               autoFocus
-              opaque
+              variant="opaque"
               value={hex}
               onChange={onChangeHex}
               onKeyPress={keyPress}

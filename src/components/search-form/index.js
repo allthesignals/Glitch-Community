@@ -148,7 +148,7 @@ const AlgoliaSearchController = withRouter(({ history, visible, openPopover, def
         onKeyDown={onKeyDown}
         onFocus={openPopover}
         variant="opaque"
-        placeholder="bots, apps, users"
+        placeholder="apps, users, teams"
         type="search"
         value={query}
       />

@@ -11,12 +11,9 @@ const makeAliases = (root) => ({
 });
 
 const clientPath = './src';
-const builtPath = './build/node';
-
-let serverPath = clientPath;
-if (process.env.DEPLOY_ENV === 'production' || process.env.DEPLOY_ENV === 'ci') {
-  serverPath = builtPath;
-}
+const buildPath = './build/node';
+const useBuildPath = process.env.BUILD_TYPE && process.env.BUILD_TYPE !== 'memory';
+const serverPath = useBuildPath ? buildPath : clientPath;
 
 module.exports = {
   server: makeAliases(serverPath),
