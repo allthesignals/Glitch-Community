@@ -1,0 +1,248 @@
+@import '../../../components/constants.styl';
+
+u0 = 2px
+u05 = 4px
+u1 = 5px
+u2 = 10px
+u3 = 16px
+u4 = 32px
+u5 = 50px
+
+body[data-grey]
+  background-color: #f5f5f5
+
+.main
+  max-width: 1100px
+  margin: auto
+  --mark-blue: #aad6fb
+  --mark-pink: #ffaabf
+  --mark-yellow: #fcf3b0
+  --mark-purple: #daa9ff
+  --mark-orange: #F6C6B5
+  --mark-green: #d3f3e6
+
+
+.section + .section
+  margin-top: 60px
+
+.content
+  padding: 1rem 2rem
+  margin-left: auto
+  margin-right: auto
+  width: 100%
+  max-width: 1207px
+  @media (max-width: smallViewport)
+    padding-left: 20px
+    padding-right: 20px
+
+.headerWrap
+  margin-top: 16px
+
+.logoWrap
+  flex: 0 0 70px
+  margin-right: 10px
+
+.logo
+  width: 100%
+
+.headerActions
+  flex: 0 1 auto
+  a
+    color: #000;
+    margin: 0 6px;
+
+.header
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  position: relative
+
+
+.logoWrap
+  flex: 0 0 70px
+  margin-right: 10px
+
+.logo
+  width: 100%
+
+.h2
+  font-size: 23px
+
+.currentPage
+  font-weight: bold
+
+.visibleOnFocus
+  position: absolute
+  left: -1000px
+  top: -1000px
+  width: 1px
+  height: 1px
+  text-align: left 
+  overflow: hidden
+  z-index: 1
+
+.visibleOnFocus:focus, .visibleOnFocus:active
+  position: absolute 
+  left: 0
+  top: 0
+  width: auto
+  height: auto
+  overflow: visible
+  margin: 8px
+
+.banner
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  @media (min-width: mediumLargeViewport)
+    flex-wrap: nowrap
+  @media (min-width: largeViewport)
+    padding: 0 u4
+.bannerShape
+  position: relative
+  flex: 100%
+  background-repeat: no-repeat
+  background-size: contain
+  width: 100%
+  max-width: 410px
+  height: 350px
+  @media (max-width: mediumSmallViewport)
+    margin: auto
+  @media (min-width: mediumSmallViewport)
+    height: 360px
+  @media (min-width: mediumViewport)
+    flex: 1.8
+  @media (min-width: hugeViewport)
+    flex: 2.2
+.bannerText
+  position: absolute
+  left: 50px
+  top: 5px
+  max-width: 275px
+  p
+    margin-left: 1rem
+    @media (min-width: mediumViewport)
+      margin-left: 0
+      font-size: inherit
+  @media (min-width: smallViewport)
+    left: 60px
+    top: 20px
+  @media (min-width: mediumViewport)
+    left: 65px
+  @media (min-width: largeViewport)
+    left: 80px
+    top: 20px
+    
+.bannerTagline
+  font-size: 32px
+  transform: rotate(-5deg)
+.bannerIllustration
+  flex: 100%
+  order: -1
+  text-align: center
+  z-index: 1
+  margin-bottom: -40px
+  @media (min-width: mediumSmallViewport)
+    img
+      max-width: 90%
+  @media (min-width: mediumViewport)
+    flex: 1.5
+    order: 0
+    margin-bottom: 0
+    img
+      max-width: 100%
+      padding: 0 u3
+  @media (min-width: mediumLargeViewport)
+    img
+      padding: 0 u4
+  @media (min-width: hugeViewport)
+    flex: 3
+    img
+      max-width: 95%
+      padding: 0 u5
+
+.descriptionText
+  max-width: 520px;
+  margin-left: 50px;
+
+.numberedSection 
+  display: flex
+  flex-direction: column
+
+.sideBySide
+  display: flex
+  justify-content: space-between
+  @media (max-width: mediumSmallViewport)
+    flex-direction: column
+  .half 
+    width: 50%
+    @media (max-width: mediumSmallViewport)
+      width: 100%
+  .left
+    margin-right: 20px
+  video
+    max-width: 100%
+
+.videoHeading
+  margin-top: -10px
+
+.centeredButton
+  flex: 0 1 auto
+  margin: auto auto;
+
+.imageGrid, .imageRow
+  background: #fff;
+  max-width: 100%;
+  border-radius: 5px;
+
+.imageGrid
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  padding: 12px;
+  grid-gap: 12px;
+
+.imageGrid img
+  max-width: 100%
+
+.imageRow
+  margin-top: 1rem;
+  display: flex;
+.imageRow img
+  max-width: calc(33% - 24px)
+  margin: 12px;
+  border-radius: 5px;
+
+.thirdSectionButton 
+  flex: 0 1 auto;
+  margin-top: 14px;
+  width: fit-content;
+
+.madeOnGlitch
+  margin-top: 3rem;
+  border-top: 1px solid #e5e5e5;
+  padding-bottom: 1rem;
+
+.footerContainerClass 
+  margin-top: 0
+
+.main 
+  /* the boxes of text were carefully aligned to be the same height on desktop if this is the width, so we're keeping it here */
+  max-width: 1000px
+
+.backgroundSection
+  background-color: #FFF
+  border-radius: 5px
+
+.bioSection
+  margin-top: 3em
+
+.bioEmbed
+  height: 600px
+  width: 100%
+  margin-top: 12px
+  iframe
+    height: 100%
+    width: 100%
+    border: 0
+

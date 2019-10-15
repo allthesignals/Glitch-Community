@@ -14,10 +14,11 @@
   "license": "Apache License Version 2.0",
   "sideEffects": [
     "./src/polyfills.js",
-    "./src/utils/sentry.js"
+    "./src/utils/sentry.js",
+    "./src/utils/lever/lever.styl"
   ],
   "scripts": {
-    "prestart": "npm run watch:lint:server & \n if if-env DEPLOY_ENV=production; then \n npm run watch:babel & npm run watch:webpack & \n fi",
+    "prestart": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:babel & npm run watch:webpack & \n fi",
     "start": "NODE_OPTIONS='--max-old-space-size=4096' forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
@@ -63,7 +64,6 @@
     "body-parser": "^1.19.0",
     "c3": "^0.7.2",
     "cache-loader": "^4.1.0",
-    "cheerio": "^0.22.0",
     "chokidar": "^3.2.1",
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "^3.0.0",

@@ -14,7 +14,6 @@ import { FALLBACK_AVATAR_URL, getProjectAvatarUrl, getEditorUrl } from 'Models/p
 import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
 import { useCurrentUser } from 'State/current-user';
-import useDevToggle from 'State/dev-toggles';
 import { useGlobals } from 'State/globals';
 import { useTrackedFunc } from 'State/segment-analytics';
 
@@ -44,7 +43,6 @@ const ProfileListLoader = ({ project }) => (
 
 const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions, showEditButton }) => {
   const { location } = useGlobals();
-  const myStuffEnabled = useDevToggle('My Stuff');
   const { currentUser } = useCurrentUser();
   const isAnonymousUser = !currentUser.login;
 
@@ -111,7 +109,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                     <div className={classnames(styles.userListContainer, { [styles.spaceForOptions]: hasProjectOptions })}>
                       <ProfileListLoader project={project} />
                     </div>
-                    {myStuffEnabled && !isAnonymousUser && !onMyStuffPage && (
+                    {!isAnonymousUser && !onMyStuffPage && (
                       <div className={styles.bookmarkButtonContainer}>
                         <BookmarkButton
                           action={bookmarkAction}
