@@ -6,7 +6,6 @@ import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import { MemoryRouter } from 'react-router-dom';
 import Location from '@jedmao/location';
-
 import { PrivateToggle } from 'Components/private-badge';
 
 import { a11yHelper } from '../reactA11yHelper';
