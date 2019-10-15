@@ -35,7 +35,7 @@ const DeleteTeamPop = withRouter(({ history, team }) => {
       <Title>Delete {team.name}</Title>
       <Actions>
         <Image height="98px" width="auto" src={illustration} alt="" /><br />
-        Deleting {team.name} will remove this team page. No projects will be deleted, but only current project members will be able to edit them.
+        <p>Deleting {team.name} will remove this team page. No projects will be deleted, but only current project members will be able to edit them.</p>
       </Actions>
       <DangerZone>
         <Button size="small" variant="warning" onClick={deleteTeam}>
