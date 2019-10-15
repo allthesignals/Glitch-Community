@@ -157,7 +157,7 @@ const BookmarkButton = ({ action, initialIsBookmarked, containerDetails, project
 
   return (
     <HiddenCheckbox value={state.isBookmarked} onChange={onClick} onFocus={onFocus} onBlur={onBlur}>
-      <div
+      <span
         className={`${styles.bookmarkButton} ${state.isFocused ? styles.focused : ''} ${state.isVisible ? styles.visible : ''}`}
         aria-label={`Add ${projectName} to My Stuff`}
         role="img"
@@ -165,7 +165,7 @@ const BookmarkButton = ({ action, initialIsBookmarked, containerDetails, project
         <Halo isAnimating={state.isAnimating} onAnimationEnd={onAnimationEnd} />
         {state.isBookmarked ? <FilledBookmark /> : <EmptyBookmark />}
         <Image className={checkClassName} src={CHECKMARK} onAnimationEnd={onAnimationEnd} alt="" width="10px" height="10px" />
-      </div>
+      </span>
     </HiddenCheckbox>
   );
 };
