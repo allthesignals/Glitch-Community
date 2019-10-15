@@ -12,6 +12,7 @@ import GetMagicCode from 'Components/sign-in/get-magic-code';
 import AuthLayout from 'Components/layout/auth-layout';
 import SignInWithPassword from 'Components/sign-in/sign-in-with-password';
 import ForgotPassword from 'Components/sign-in/forgot-password';
+import useDevToggle from 'State/dev-toggles';
 
 import MultiPage from './multi-page';
 import styles from './sign-in-layout.styl';
@@ -41,6 +42,8 @@ const CreateAccountImage = () => (
 
 const SignInLayout = () => {
   const [state, setState] = useState({ emailAddress: undefined, initialToken: undefined });
+  const userPasswordsEnabled = useDevToggle('User Passwords');
+
   return (
     <AuthLayout>
       <MultiPage defaultPage="signIn">
@@ -53,9 +56,16 @@ const SignInLayout = () => {
                 </OverlaySection>
                 <OverlaySection type="actions">
                   <SignInButtons />
-                  <Button onClick={() => setPage('getCode')}>
-                    Email Magic Link <Icon className={emoji} icon="loveLetter" />
-                  </Button>
+                  <div className={styles.signInWithGlitchButtons}>
+                    <Button onClick={() => setPage('getCode')}>
+                      Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                    </Button>
+                    {userPasswordsEnabled && (
+                      <Button onClick={() => setPage('usePassword')}>
+                        Password <Icon className={emoji} icon="key" />
+                      </Button>
+                    )}
+                  </div>
                   <TermsAndConditions />
                   <Text className={styles.helpText}>Don't have an account?</Text>
                   <Button onClick={() => setPage('createAccount')}>Create an account</Button>
