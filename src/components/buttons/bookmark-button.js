@@ -160,6 +160,7 @@ const BookmarkButton = ({ action, initialIsBookmarked, containerDetails, project
       <div
         className={`${styles.bookmarkButton} ${state.isFocused ? styles.focused : ''} ${state.isVisible ? styles.visible : ''}`}
         aria-label={`Add ${projectName} to My Stuff`}
+        role="img"
       >
         <Halo isAnimating={state.isAnimating} onAnimationEnd={onAnimationEnd} />
         {state.isBookmarked ? <FilledBookmark /> : <EmptyBookmark />}
