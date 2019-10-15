@@ -33,11 +33,11 @@ export default [
   {
     url: 'tools-for-work',
     collectionName: 'tools-for-work',
-    name: 'Tools for Work',
+    name: 'Productivity',
     color: '#7aa4d3',
     icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fwork.svg`,
   },
-  {
+  { // not actively used just supporting old routes
     url: 'community-picks',
     collectionName: 'ideas',
   },
@@ -62,7 +62,7 @@ export default [
     name: 'Art',
     icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fart.svg`,
   },
-  { // not actively used just supporting old routes
+  {
     url: 'music',
     collectionName: 'music',
     color: '#a9c4f7',
