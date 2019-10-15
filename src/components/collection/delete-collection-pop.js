@@ -37,7 +37,7 @@ const DeleteCollectionPop = withRouter(({ location, history, collection, animate
       <Title>Delete {collection.name}</Title>
       <Actions>
         <Image height="98px" width="auto" src={illustration} alt="" /><br />
-        Deleting {collection.name} will remove this collection. No projects will be deleted.
+        <p>Deleting {collection.name} will remove this collection. No projects will be deleted.</p>
       </Actions>
       <DangerZone>
         <Button size="small" variant="warning" onClick={deleteThisCollection}>
