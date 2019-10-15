@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import punycode from 'punycode';
 
-import categories from 'Curated/categories';
+import categories from 'Shared/categories';
 import rootTeams from 'Curated/teams';
 
 import { useCurrentUser } from 'State/current-user';

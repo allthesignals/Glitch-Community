@@ -4,7 +4,8 @@ import { Helmet } from 'react-helmet-async';
 import { kebabCase, find } from 'lodash';
 import { Loader } from '@fogcreek/shared-components';
 
-import allCategories from 'Curated/categories';
+import allCategories from 'Shared/categories';
+import { CDN_URL } from 'Utils/constants';
 
 import { getCollectionLink } from 'Models/collection';
 import { PopoverWithButton } from 'Components/popover';
@@ -71,7 +72,7 @@ const CollectionPage = ({ owner, name }) => {
     const matchingCategory = find(allCategories, (category) => category.collectionName === collection.url);
     if (matchingCategory) {
       isCategory = true;
-      collection.avatarUrl = matchingCategory.icon;
+      collection.avatarUrl = `${CDN_URL}${matchingCategory.icon}`;
     }
   }
 

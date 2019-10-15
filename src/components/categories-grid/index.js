@@ -4,8 +4,8 @@ import classNames from 'classnames/bind';
 import { find } from 'lodash';
 import Link from 'Components/link';
 import Image from 'Components/images/image';
-import allCategories from 'Curated/categories';
-
+import allCategories from 'Shared/categories';
+import { CDN_URL } from 'Utils/constants';
 import styles from './styles.styl';
 
 const cx = classNames.bind(styles);
@@ -23,7 +23,7 @@ function CategoriesGrid({ categories, wrapItems, className }) {
       {categoriesToRender.map((category) => (
         <li key={category.url} className={itemClassNames} style={{ '--bg-color': category.color }}>
           <Link to={`/@glitch/${category.collectionName}`}>
-            <Image src={category.icon} alt="" />
+            <Image src={`${CDN_URL}${category.icon}`} alt="" />
             {category.name}
           </Link>
         </li>
