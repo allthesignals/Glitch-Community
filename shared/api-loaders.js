@@ -8,6 +8,7 @@ async function getSingleEntity(api, entity, idType, id) {
 
 async function getCollection(api, id, idType = 'id', getEntity = getSingleEntity) {
   const collection = await getEntity(api, 'collections', idType, id);
+  
   if (!collection) return collection;
   const projects = await getAllPages(api, `/v1/collections/by/id/projects?id=${collection.id}&orderKey=projectOrder&limit=100`);
   return { ...collection, projects };
