@@ -531,7 +531,7 @@ function Categories() {
       <CategoriesGrid
         className={styles.categoriesGrid}
         wrapItems
-        categories={['games', 'handy-bots', 'music', 'art', 'productivity', 'hardware', 'building-blocks', 'learn-to-code']}
+        categories={['games', 'handy-bots', 'music', 'art', 'tools-for-work', 'hardware', 'building-blocks', 'learn-to-code']}
       />
     </section>
   );
