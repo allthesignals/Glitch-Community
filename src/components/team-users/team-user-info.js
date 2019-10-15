@@ -81,7 +81,7 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
       )}
       {userTeamProjects && userTeamProjects.length > 0 && (
         <Actions>
-          Also remove them from these projects
+          <p>Also remove them from these projects</p>
           <ProjectsList options={userTeamProjects} value={selectedProjectIDs} onChange={setSelectedProjects} />
           {userTeamProjects.length > 1 && allProjectsSelected && (
             <Button size="small" onClick={unselectAllProjects}>
@@ -97,7 +97,7 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
       )}
 
       <DangerZone>
-        <Button variant="warning" onClick={() => onRemoveUser(projectsToRemove)}>
+        <Button variant="warning" size="small" onClick={() => onRemoveUser(projectsToRemove)}>
           Remove{' '}
           <span className={styles.tinyAvatar}>
             <UserAvatar user={user} withinButton />

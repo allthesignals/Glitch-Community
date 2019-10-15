@@ -56,7 +56,7 @@ function AddTeamProjectPop({ teamProjects, addProject }) {
       />
       {filteredProjects.length === 0 && query.length === 0 && (
         <Info>
-          Create or Join projects to add them to the team
+          <p>Create or Join projects to add them to the team</p>
         </Info>
       )}
     </>
