@@ -10,6 +10,8 @@ import TwoFactorForm from 'Components/sign-in/two-factor-form';
 import UseMagicCode from 'Components/sign-in/use-magic-code';
 import GetMagicCode from 'Components/sign-in/get-magic-code';
 import AuthLayout from 'Components/layout/auth-layout';
+import SignInWithPassword from 'Components/sign-in/sign-in-with-password';
+import ForgotPassword from 'Components/sign-in/forgot-password';
 
 import MultiPage from './multi-page';
 import styles from './sign-in-layout.styl';
@@ -129,6 +131,29 @@ const SignInLayout = () => {
                     <TermsAndConditions />
                     <ThumbprintImage />
                   </div>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'usePassword' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Sign in With Password</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <SignInWithPassword showForgotPasswordPage={() => setPage('forgotPassword')} />
+                  <div className={styles.footer}>
+                    <TermsAndConditions />
+                  </div>
+                </OverlaySection>
+              </>
+            )}
+            {page === 'forgotPassword' && (
+              <>
+                <OverlaySection type="info">
+                  <OverlayTitle goBack={goBack}>Forgot Password</OverlayTitle>
+                </OverlaySection>
+                <OverlaySection type="actions">
+                  <ForgotPassword showMainPage={() => setPage('signIn')} />
                 </OverlaySection>
               </>
             )}
