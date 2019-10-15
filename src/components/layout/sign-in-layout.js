@@ -104,7 +104,7 @@ const SignInLayout = () => {
                 <OverlaySection type="actions">
                   <UseMagicCode
                     emailAddress={state.emailAddress}
-                    onTwoFactorChallenge={(initialToken) => {
+                    showTwoFactorPage={(initialToken) => {
                       setState({ ...state, initialToken });
                       setPage('2fa');
                     }}

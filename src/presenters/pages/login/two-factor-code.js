@@ -20,9 +20,6 @@ const TwoFactorCodePage = ({ initialToken, onSuccess }) => (
         <OverlayTitle>Two Factor Authentication</OverlayTitle>
       </OverlaySection>
       <OverlaySection type="actions">
-        <Notification type="success" persistent>
-          Almost Done
-        </Notification>
         <TwoFactorForm initialToken={initialToken} onSuccess={onSuccess} />
         <div className={styles.footer}>
           <div className={styles.termsAndConditions}>
