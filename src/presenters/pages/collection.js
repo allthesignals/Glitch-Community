@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { kebabCase } from 'lodash';
 import { Loader } from '@fogcreek/shared-components';
-
+import allCategories from 'Curated/categories';
 import { getCollectionLink } from 'Models/collection';
 import { PopoverWithButton } from 'Components/popover';
 import NotFound from 'Components/errors/not-found';
@@ -63,7 +63,12 @@ CollectionPageContents.propTypes = {
 
 const CollectionPage = ({ owner, name, isCategory }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
-
+  console.log("collection", collection)
+  if (collection.owner === '@glitch') {
+    const matchingCategory = find(allCategories, (category) => category.collectionName === collection.domain);
+    console.log(matchingCategory);
+    collection.avatarUrl = matchingCategory.icon
+  }
   return (
     <Layout>
       {collection ? (
