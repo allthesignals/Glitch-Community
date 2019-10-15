@@ -237,6 +237,13 @@ module.exports = function(external) {
     }
     await render(req, res, { title: `@${name}`, description: `We couldn't find @${name}`, canonicalUrl });
   });
+  
+  categories.forEach((category) => {
+    app.get(`/${category.url}`, (req, res) => {
+      res.redirect(301, `/@glitch/${category.collectionName}`);
+    });
+  });
+  
 
   app.get('/@:author/:url', async (req, res) => {
     const { author, url } = req.params;
@@ -256,13 +263,6 @@ module.exports = function(external) {
     }
     await render(req, res, { title: collection, description: `We couldn't find @${author}/${url}`, canonicalUrl });
   });
-  
-  categories.forEach((category) => {
-    app.get(`/${category.url}`, (req, res) => {
-      res.redirect(301, `/@glitch/${category.collectionName}`);
-    });
-  });
-  
 
   app.get('/auth/:domain', async (req, res) => {
     const { domain } = req.params;
