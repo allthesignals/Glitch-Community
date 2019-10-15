@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Image from 'Components/images/image';
 import classNames from 'classnames/bind';
 import { CDN_URL } from 'Utils/constants';
-import TooltipContainer from 'Components/tooltips/tooltip-container';
 import HiddenCheckbox from 'Components/fields/hidden-checkbox';
 
 import styles from './bookmark-button.styl';
@@ -131,9 +130,6 @@ const BookmarkButton = ({ action, initialIsBookmarked, containerDetails, project
     }
   }, [containerDetails, initialIsBookmarked]);
 
-  const addText = 'Add to My Stuff';
-  const removeText = 'Remove from My Stuff';
-
   const onClick = (e) => {
     const fromKeyboard = !e.detail; // only show focus highlighting if onClick triggered from keyboard input
     if (!state.isBookmarked) {
@@ -160,22 +156,16 @@ const BookmarkButton = ({ action, initialIsBookmarked, containerDetails, project
   });
 
   return (
-    <TooltipContainer
-      type="action"
-      tooltip={state.isBookmarked ? removeText : addText}
-      target={
-        <HiddenCheckbox value={state.isBookmarked} onChange={onClick} onFocus={onFocus} onBlur={onBlur}>
-          <div
-            className={`${styles.bookmarkButton} ${state.isFocused ? styles.focused : ''} ${state.isVisible ? styles.visible : ''}`}
-            aria-label={`Add ${projectName} to My Stuff`}
-          >
-            <Halo isAnimating={state.isAnimating} onAnimationEnd={onAnimationEnd} />
-            {state.isBookmarked ? <FilledBookmark /> : <EmptyBookmark />}
-            <Image className={checkClassName} src={CHECKMARK} onAnimationEnd={onAnimationEnd} alt="" width="10px" height="10px" />
-          </div>
-        </HiddenCheckbox>
-      }
-    />
+    <HiddenCheckbox value={state.isBookmarked} onChange={onClick} onFocus={onFocus} onBlur={onBlur}>
+      <div
+        className={`${styles.bookmarkButton} ${state.isFocused ? styles.focused : ''} ${state.isVisible ? styles.visible : ''}`}
+        aria-label={`Add ${projectName} to My Stuff`}
+      >
+        <Halo isAnimating={state.isAnimating} onAnimationEnd={onAnimationEnd} />
+        {state.isBookmarked ? <FilledBookmark /> : <EmptyBookmark />}
+        <Image className={checkClassName} src={CHECKMARK} onAnimationEnd={onAnimationEnd} alt="" width="10px" height="10px" />
+      </div>
+    </HiddenCheckbox>
   );
 };
 

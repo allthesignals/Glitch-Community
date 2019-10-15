@@ -29,7 +29,7 @@ const App = ({ apiCache, helmetContext }) => (
                   <APICacheProvider initial={apiCache}>
                     <ProjectContextProvider>
                       <CollectionContextProvider>
-                        <HelmetProvider helmetContext={helmetContext}>
+                        <HelmetProvider context={helmetContext}>
                           <>
                             <SuperUserBanner />
                             <OfflineNotice />

@@ -3,16 +3,18 @@ import './polyfills';
 // Init our dayjs plugins
 import dayjs from 'dayjs';
 import relativeTimePlugin from 'dayjs/plugin/relativeTime';
+import { createInstance } from '@optimizely/optimizely-sdk';
 
 import React from 'react';
 import ReactDOM, { hydrate, render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import convertPlugin from 'Shared/dayjs-convert';
-import { configureScope } from 'Utils/sentry';
-import { EDITOR_URL } from 'Utils/constants';
+import { configureScope, captureException } from 'Utils/sentry';
+import { EDITOR_URL, OPTIMIZELY_KEY } from 'Utils/constants';
 import { TestsProvider } from 'State/ab-tests';
 import { GlobalsProvider } from 'State/globals';
+import { OptimizelyProvider } from 'State/rollouts';
 import App from './app';
 
 dayjs.extend(relativeTimePlugin);
@@ -39,6 +41,25 @@ window.bootstrap = async (container) => {
     scope.setTag('bootstrap', 'true');
   });
 
+  // Now initalize the Optimizely sdk
+  const optimizelyClientInstance = createInstance({
+    sdkKey: process.env.OPTIMIZELY_KEY || OPTIMIZELY_KEY,
+    datafile: window.OPTIMIZELY_DATA,
+    datafileOptions: {
+      autoUpdate: true,
+      updateInterval: 60 * 1000, // check once per minute
+    },
+    errorHandler: {
+      handleError: (error) => {
+        captureException(error);
+        console.error(error);
+      },
+    },
+    logLevel: 'warn',
+  });
+  // This will happen immediately because we provided a datafile
+  await optimizelyClientInstance.onReady();
+
   const element = (
     <BrowserRouter>
       <GlobalsProvider
@@ -50,7 +71,9 @@ window.bootstrap = async (container) => {
         ZINE_POSTS={window.ZINE_POSTS}
       >
         <TestsProvider AB_TESTS={window.AB_TESTS}>
-          <App apiCache={window.API_CACHE} />
+          <OptimizelyProvider optimizely={optimizelyClientInstance}>
+            <App apiCache={window.API_CACHE} />
+          </OptimizelyProvider>
         </TestsProvider>
       </GlobalsProvider>
     </BrowserRouter>

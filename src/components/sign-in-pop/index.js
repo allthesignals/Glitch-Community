@@ -46,6 +46,7 @@ const ForgotPasswordHandler = ({ onBack }) => {
   const isWorking = status === 'working';
   const isDone = status === 'done';
   const isEnabled = email.length > 0 && !isWorking;
+
   return (
     <>
       <Title onBack={onBack}>Forgot Password</Title>
@@ -246,6 +247,9 @@ const TwoFactorSignIn = ({ onBack, token }) => (
       Two factor auth <Icon className={emoji} icon="key" />
     </Title>
     <Actions>
+      <Notification type="success" persistent>
+        Almost Done
+      </Notification>
       <TwoFactorForm initialToken={token} />
     </Actions>
   </>

@@ -15,10 +15,6 @@ const toggleData = [
     name: 'User Passwords',
     description: 'Enable users to set a password for their account',
   },
-  {
-    name: 'My Stuff',
-    description: 'One click add to a collection',
-  },
 ].slice(0, 4); // <-- Yeah really, only 3...or rather 4.  If you need more, clean up one first.
 
 // Usage:

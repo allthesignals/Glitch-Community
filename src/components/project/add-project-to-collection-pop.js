@@ -15,7 +15,6 @@ import { useTrackedFunc } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
-import useDevToggle from 'State/dev-toggles';
 import { useAPI } from 'State/api';
 import { getCollectionsWithMyStuff, createCollection } from 'Models/collection';
 import useDebouncedValue from '../../hooks/use-debounced-value';
@@ -94,14 +93,10 @@ function useCollectionSearch(query, project, collectionType) {
   const debouncedQuery = useDebouncedValue(query, 200);
   const filters = collectionType === 'user' ? { userIDs: [currentUser.id] } : { teamIDs: currentUser.teams.map((team) => team.id) };
 
-  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [
-    collectionType,
-  ]);
-  const myStuffEnabled = useDevToggle('My Stuff');
+  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [collectionType]);
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList =
-      myStuffEnabled && searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
+    const shouldPutMyStuffAtFrontOfList = searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }
@@ -123,12 +118,11 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
   const { currentUser } = useCurrentUser();
   const { createNotification } = useNotifications();
   const api = useAPI();
-  const myStuffEnabled = useDevToggle('My Stuff');
 
   const addProjectTo = async (collection) => {
-    const shouldCreateMyStuffCollection = myStuffEnabled && collection.isMyStuff && collection.id === 'nullMyStuff';
+    const shouldCreateMyStuffCollection = collection.isMyStuff && collection.id === 'nullMyStuff';
     if (shouldCreateMyStuffCollection) {
-      collection = await createCollection({ api, name: 'My Stuff', createNotification, myStuffEnabled: true });
+      collection = await createCollection({ api, name: 'My Stuff', createNotification });
       collection.fullUrl = collection.fullUrl || `${currentUser.login}/${collection.url}`;
     }
 
