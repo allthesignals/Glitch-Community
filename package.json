@@ -108,6 +108,7 @@
     "markdown-it-sanitizer": "^0.4.3",
     "memory-cache": "^0.2.0",
     "mini-css-extract-plugin": "^0.8.0",
+    "mocha-jsdom": "^2.0.0",
     "module-alias": "^2.2.0",
     "nodemon": "^1.19.3",
     "prop-types": "^15.7.2",
