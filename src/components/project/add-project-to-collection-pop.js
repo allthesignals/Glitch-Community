@@ -232,7 +232,6 @@ const AddProjectToCollection = ({ project, addProjectToCollection }) => (
         }}
       />
     )}
-    )
   </Popover>
 );
 

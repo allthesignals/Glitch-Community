@@ -64,12 +64,15 @@ div[data-module="Popover"]
   text-align: left
   [data-module="Popover"]
     z-index: 10
+    width: max-content
+    p
+      max-width: 180px
   section
     margin: 0
   [data-module="Title"] h2
     font-size: var(--fontSizes-small)
   
-div[data-module="Popover"] > button[data-module="UnstyledButton"]
+button[data-module="UnstyledButton"].popoverMenuButton
   padding: 10px 10px 8px
   border-radius: 5px
   svg

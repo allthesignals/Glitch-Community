@@ -47,7 +47,7 @@ const Success = () => (
     <Title>Report Abuse</Title>
     <Actions>
       <Notification persistent type="success">Report Sent</Notification>
-      Thanks for helping to keep Glitch a safe, friendly community <Icon className={emoji} icon="park" />
+      <p>Thanks for helping to keep Glitch a safe, friendly community <Icon className={emoji} icon="park" /></p>
     </Actions>
   </>
 );
@@ -58,7 +58,7 @@ const Failure = ({ value }) => (
       Failed to Send <Icon className={emoji} icon="sick" />
     </Title>
     <Info>
-      But you can still send us your message by emailing the details below to <strong>support@glitch.com</strong>
+      <p>But you can still send us your message by emailing the details below to <strong>support@glitch.com</strong></p>
     </Info>
     <Actions>
       <textarea className={styles.manualReport} value={value} readOnly />

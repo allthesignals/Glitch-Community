@@ -110,7 +110,9 @@ const WhitelistedDomain = ({ domain, setDomain }) => (
   >
     {() => (
       <>
-        <Info>Anyone with an @{domain} email can join</Info>
+        <Info>
+          <p>Anyone with an @{domain} email can join</p>
+        </Info>
         {!!setDomain && (
           <DangerZone>
             <Button variant="warning" size="small" onClick={() => setDomain(null)}>

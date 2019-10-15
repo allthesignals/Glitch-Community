@@ -11,7 +11,7 @@ import { useCurrentUser } from 'State/current-user';
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
 import styles from './popover.styl';
-import { emoji } from '../global.styl';
+import { emoji, popoverMenuButton } from '../global.styl';
 
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
 const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
@@ -27,7 +27,7 @@ const PopoverMenuItems = ({ children }) =>
             (item) =>
               item.onClick && (
                 <>
-                  <Button className={styles.noWrap} size="small" variant="warning" key={item.label} onClick={item.onClick}>
+                  <Button className={styles.noWrap} size="small" variant="warning" onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
@@ -41,7 +41,7 @@ const PopoverMenuItems = ({ children }) =>
             (item) =>
               item.onClick && (
                 <>
-                  <Button className={styles.noWrap} size="small" variant="secondary" key={item.label} onClick={item.onClick}>
+                  <Button className={styles.noWrap} size="small" variant="secondary" onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
@@ -63,7 +63,7 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
       <Actions>
         <Image height="50px" width="auto" src={illustration} alt="" />
         <br />
-        Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.
+        <p>Are you sure you want to leave? You'll lose access to this project unless someone else invites you back.</p>
       </Actions>
       <DangerZone>
         <Button
@@ -127,7 +127,7 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
     <Popover
       align="right"
       renderLabel={({ onClick, ref }) => (
-        <UnstyledButton onClick={onClick} ref={ref} label="Project Options for {project.domain}">
+        <UnstyledButton className={popoverMenuButton} onClick={onClick} ref={ref} label="Project Options for {project.domain}">
           <Icon icon="chevronDown" />
         </UnstyledButton>
       )}

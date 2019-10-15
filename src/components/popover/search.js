@@ -67,7 +67,7 @@ const PopoverLoader = () => (
 
 const NothingFound = () => (
   <Actions>
-    Nothing found <Icon className={emoji} icon="sparkles" />
+    <p>Nothing found <Icon className={emoji} icon="sparkles" /></p>
   </Actions>
 );
 
@@ -103,12 +103,12 @@ function PopoverSearch({
         />
       </Info>
       {results.length > 0 && (
-        <>
+        <Actions>
           <ResultsList scroll items={results}>
             {(item, i) => renderItem({ item, onSubmit, active: i === activeIndex })}
           </ResultsList>
           {message}
-        </>
+        </Actions>
       )}
       {status === 'loading' && value.length > 0 && results.length === 0 && renderLoader()}
       {status === 'ready' && value.length > 0 && results.length === 0 && renderNoResults()}
