@@ -13,7 +13,7 @@ const MoreIdeas = () => (
     <Grid items={categories} className={styles.grid}>
       {(category) => (
         <Link className={styles.link} to={category.url} style={{ backgroundColor: category.color }}>
-          <Image className={styles.image} src={category.avatarUrl} alt="" />
+          <Image className={styles.image} src={category.icon} alt="" />
           <div>{category.name}</div>
         </Link>
       )}
