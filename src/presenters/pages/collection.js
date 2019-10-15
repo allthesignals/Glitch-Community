@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
-import { kebabCase } from 'lodash';
+import { kebabCase, find } from 'lodash';
 import { Loader } from '@fogcreek/shared-components';
 
 import allCategories from 'Curated/categories';
@@ -65,16 +65,14 @@ CollectionPageContents.propTypes = {
 
 const CollectionPage = ({ owner, name, isCategory }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
-  console.log("collection", collection, owner)
+
   if (collection && owner === 'glitch') {
-    console.log("inside", allCategories)
-    const matchingCategory = find(allCategories, (category) => {
-      console.log("category", category)
-      return category.collectionName === collection.url
-    });
-    console.log("matchingCategory", matchingCategory);
-    collection.avatarUrl = matchingCategory.icon
+    const matchingCategory = find(allCategories, (category) => category.collectionName === collection.url);
+    if (matchingCategory) {
+      collection.avatarUrl = matchingCategory.icon;
+    }
   }
+
   return (
     <Layout>
       {collection ? (
