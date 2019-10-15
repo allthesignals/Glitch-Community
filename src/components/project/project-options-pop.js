@@ -17,7 +17,7 @@ const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team
 const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
 
 /* eslint-disable react/no-array-index-key */
-const PopoverMenuItems = ({ children }) =>pages/
+const PopoverMenuItems = ({ children }) =>
   children.map(
     (group, i) =>
       group.some((item) => item.onClick) &&
