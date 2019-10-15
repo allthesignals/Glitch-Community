@@ -5,9 +5,11 @@ import { CDN_URL } from 'Utils/constants';
 // this ensures that old routes to categories point to new collections
 // and shows particular custom names/illustrations for them
 export default [
-  { // not actively used just supporting old routes
+  { // not actively linked to just supporting old routes
     url: 'hello-worlds',
-    collectionName: 'learn-to-code',
+    collectionName: 'hello-worlds',
+    icon: `${CDN_URL}/us-east-1%3Acba180f4-ee65-4dfc-8dd5-f143280d3c10%2Fcomputer.svg`,
+    color: '#FCF3AF',
   },
   {
     url: 'games',
@@ -37,9 +39,11 @@ export default [
     color: '#7aa4d3',
     icon: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fwork.svg`,
   },
-  { // not actively used just supporting old routes
+  { // not actively linked to just supporting old routes
     url: 'community-picks',
-    collectionName: 'ideas',
+    collectionName: 'community-picks',
+    icon: `${CDN_URL}/us-east-1%3Acba180f4-ee65-4dfc-8dd5-f143280d3c10%2Fdiamond.svg`,
+    color: '#9DE0FC',
   },
   {
     url: 'handy-bots',
