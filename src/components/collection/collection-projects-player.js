@@ -13,7 +13,7 @@ import { useProjectMembers } from 'State/project';
 import { ProjectLink } from 'Components/link';
 import Text from 'Components/text/text';
 
-import styles from './container.styl'; // TODO put into separate file
+import styles from './collection-projects-player.styl'; 
 
 const getCurrentProjectIndexFromUrl = (projectId, projects) => {
   let currentIndex = 0;
@@ -35,13 +35,13 @@ const wakeUpAllProjectsInACollection = (projects) => {
   });
 };
 
-const PlayerControls = ({ featuredProject, selectedPopoverProjectId, onChange, projects, onClickOnProject, back, forward, currentProjectIndex }) => (
+const PlayerControls = ({ featuredProject, selectedPopoverProjectId, onChange, projects, onClickOnProject, back, forward, currentProjectIndex, collection }) => (
   <>
     <Popover
       align="left"
       renderLabel={({ onClick, ref }) => (
         <UnstyledButton ref={ref} onClick={onClick}>
-          <span className={styles.popoverButton}>
+          <span className={classnames(styles.popoverButton, isDarkColor(collection.coverColor) && styles.dark)}>
             <span className={styles.projectAvatar}>
               <ProjectAvatar project={featuredProject} />
             </span>
@@ -133,7 +133,7 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
         style={{ backgroundColor: collection.coverColor, borderColor: collection.coverColor }}
       >
         <div className={styles.playerHeader}>
-          {projects.length > 1 && (
+          {projects.length > 1 ? (
             <PlayerControls
               featuredProject={featuredProject}
               selectedPopoverProjectId={selectedPopoverProjectId}
@@ -143,9 +143,9 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
               back={back}
               forward={forward}
               currentProjectIndex={currentProjectIndex}
+              collection={collection}
             />
-          )}
-          {projects.length === 1 && (
+          ) : (
             <ProjectLink project={featuredProject} className={styles.popoverButton}>
               <span className={styles.projectAvatar}>
                 <ProjectAvatar project={featuredProject} />

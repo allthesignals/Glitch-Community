@@ -1,0 +1,69 @@
+@import "../constants.styl"
+
+// CollectionProjectsPlayer
+.playerContainer
+  border: 2px solid
+  border-radius: 5px
+  max-width: 400px
+  &.dark
+    color: white
+
+.playerHeader
+  padding: 12px 12px 12px 0
+  display: flex
+
+.playerDescription
+  background-color: white
+  color: black
+  padding: 12px
+
+.membersContainer
+  margin-top: 10px
+
+.projectCounter
+  background-color: secondary-background
+  color: black
+  border-bottom-left-radius: 5px
+  border-bottom-right-radius: 5px
+  padding: 12px
+
+// PlayerControls
+.popoverButton
+  padding-left: 12px
+  display: flex
+  > *
+    align-self: center
+  p 
+    padding: 5px
+    font-weight: 600
+    color: black
+  &.dark
+    p
+      color: white
+
+.projectAvatar
+  img
+    width: 22px
+    height: 22px
+
+.resultListWrapper
+  max-height: 400px
+  overflow: scroll
+  button
+    &:hover, &:focus
+      background-color: general-link
+      color: #fff
+      outline: none
+
+.popoverItem
+  display: flex
+  min-width: 200px
+  span 
+    align-self: center
+  img
+    width: 22px
+    height: 22px
+    margin-right: 5px
+
+.buttonWrap
+  margin-left: auto
