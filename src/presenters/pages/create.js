@@ -185,7 +185,9 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button as={TeamLink} team={team}>{team.name}</Button>
+          <Button as={TeamLink} team={team}>
+            {team.name}
+          </Button>
         </div>
         <Text size="14px">
           <Markdown renderAsPlaintext>{team.description}</Markdown>
@@ -415,10 +417,7 @@ function VSCode() {
       </Text>
 
       <Text className={styles.sectionDescription}>
-        <Button
-          as="a"
-          href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch"
-        >
+        <Button as="a" href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch">
           <Image src={vscodeIcon} alt="" width="17" height="17" />
           &nbsp;Download from Visual Studio Marketplace <span aria-hidden="true">&rarr;</span>
         </Button>
@@ -530,7 +529,11 @@ function Categories() {
   return (
     <section className={classNames(styles.categories, styles.section)}>
       <Text>...or browse starter apps for inspiration</Text>
-      <CategoriesGrid className={styles.categoriesGrid} wrapItems />
+      <CategoriesGrid
+        className={styles.categoriesGrid}
+        wrapItems
+        categories={['games', 'handy-bots', 'music', 'art', 'tools-for-work', 'hardware', 'building-blocks', 'learn-to-code']}
+      />
     </section>
   );
 }
