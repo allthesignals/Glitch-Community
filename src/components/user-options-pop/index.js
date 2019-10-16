@@ -182,7 +182,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
     <CheckForCreateTeamHash>
       {(createTeamOpen) => (
         <Popover
-          startOpen={createTeamOpen}
+          toggleProps={createTeamOpen}
           initialView={createTeamOpen ? 'createTeam' : 'UserOptionsPop'}
           align="right"
           renderLabel={({ onClick, ref }) => {
