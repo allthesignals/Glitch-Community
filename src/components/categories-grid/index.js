@@ -21,7 +21,7 @@ function CategoriesGrid({ categories, wrapItems, className }) {
   return (
     <ul className={classNames(styles.categoriesGrid, className)}>
       {categoriesToRender.map((category) => (
-        <li key={category.url} className={itemClassNames} style={{ '--bg-color': category.color }}>
+        <li key={category.collectionName} className={itemClassNames} style={{ '--bg-color': category.color }}>
           <Link to={`/@glitch/${category.collectionName}`}>
             <Image src={`${CDN_URL}${category.icon}`} alt="" />
             {category.name}

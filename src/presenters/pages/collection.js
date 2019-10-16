@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { kebabCase } from 'lodash';
+import { kebabCase, find } from 'lodash';
 import { Loader } from '@fogcreek/shared-components';
 
 import { getCollectionLink, getCollectionOwnerName } from 'Models/collection';
