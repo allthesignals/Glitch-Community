@@ -13,7 +13,7 @@ import { useProjectMembers } from 'State/project';
 import { ProjectLink } from 'Components/link';
 import Text from 'Components/text/text';
 
-import styles from './collection-projects-player.styl'; 
+import styles from './collection-projects-player.styl';
 
 const getCurrentProjectIndexFromUrl = (projectId, projects) => {
   let currentIndex = 0;
@@ -35,7 +35,17 @@ const wakeUpAllProjectsInACollection = (projects) => {
   });
 };
 
-const PlayerControls = ({ featuredProject, selectedPopoverProjectId, onChange, projects, onClickOnProject, back, forward, currentProjectIndex, collection }) => (
+const PlayerControls = ({
+  featuredProject,
+  selectedPopoverProjectId,
+  onChange,
+  projects,
+  onClickOnProject,
+  back,
+  forward,
+  currentProjectIndex,
+  collection,
+}) => (
   <>
     <Popover
       align="left"
