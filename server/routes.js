@@ -10,6 +10,7 @@ const punycode = require('punycode');
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
+const categories = require('../shared/categories');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
@@ -170,6 +171,13 @@ module.exports = function(external) {
     }
     await render(req, res);
   });
+  
+  categories.forEach((category) => {
+    app.get(`/${category.url}`, (req, res) => {
+      res.redirect(301, `/@glitch/${category.collectionName}`);
+    });
+  });
+  
 
   // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
   Object.keys(rootTeams).forEach((teamName) => {
