@@ -42,6 +42,7 @@ window.bootstrap = async (container) => {
   });
 
   // Now initalize the Optimizely sdk
+  console.log(process.env.OPTIMIZELY_KEY);
   const optimizelyClientInstance = createInstance({
     sdkKey: process.env.OPTIMIZELY_KEY || OPTIMIZELY_KEY,
     datafile: window.OPTIMIZELY_DATA,
