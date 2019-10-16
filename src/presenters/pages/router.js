@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import punycode from 'punycode';
 
 import categories from 'Curated/categories';
-import rootTeams from 'Curated/teams';
+import rootTeams from 'Shared/teams';
 
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
@@ -16,7 +16,7 @@ import OauthSignIn from './signin';
 import JoinTeamPage from './join-team';
 import QuestionsPage from './questions';
 import ProjectPage from './project';
-import { TeamPage, UserPage, TeamOrUserPage } from './team-or-user';
+import { UserPage, TeamOrUserPage } from './team-or-user';
 import CategoryPage from './category';
 import CollectionPage from './collection';
 import CreatePage from './create';
@@ -153,7 +153,7 @@ const Router = () => {
         />
 
         {Object.keys(rootTeams).map((name) => (
-          <Route key={name} path={`/${name}`} exact render={({ location }) => <TeamPage key={location.key} name={name} />} />
+          <Route key={name} path={`/${name}`} exact render={() => <Redirect to={`/@${name}`} />} />
         ))}
 
         <Route

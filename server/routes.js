@@ -15,6 +15,7 @@ const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData } = require('./optimizely');
 const { getData, saveDataToFile } = require('./curated');
+const rootTeams = require('../shared/teams');
 
 module.exports = function(external) {
   const app = express.Router();
@@ -145,14 +146,14 @@ module.exports = function(external) {
 
     res.redirect(editorUrl);
   });
-  
+
   app.get('/~:domain/console', async (req, res) => {
     const { domain } = req.params;
     const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
 
     res.redirect(consoleUrl);
   });
-  
+
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
     const team = await getTeam(name);
@@ -168,6 +169,13 @@ module.exports = function(external) {
       return;
     }
     await render(req, res);
+  });
+
+  // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
+  Object.keys(rootTeams).forEach((teamName) => {
+    app.get(`/${teamName}`, (req, res) => {
+      res.redirect(301, `/@${teamName}`);
+    });
   });
 
   app.get('/@:author/:url', async (req, res) => {
@@ -187,33 +195,21 @@ module.exports = function(external) {
     });
   });
 
-  app.get('/api/home', async (req, res) => {
-    const data = await getData('home');
+  app.get('/api/:page', async (req, res) => {
+    const { page } = req.params;
+    console.log(page);
+    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
+
+    const data = await getData(page);
     res.send(data);
   });
 
-  app.post('/api/home', async (req, res) => {
+  app.post('/api/:page', async (req, res) => {
+    const { page } = req.params;
+    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
+
     const persistentToken = req.headers.authorization;
     const data = req.body;
-    const page = 'home';
-    try {
-      await saveDataToFile({ page, persistentToken, data });
-      res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
-      res.sendStatus(403);
-    }
-  });
-
-  app.get('/api/pupdate', async (req, res) => {
-    const data = await getData('pupdates');
-    res.send(data);
-  });
-
-  app.post('/api/pupdate', async (req, res) => {
-    const persistentToken = req.headers.authorization;
-    const data = req.body;
-    const page = 'pupdates';
     try {
       await saveDataToFile({ page, persistentToken, data });
       res.sendStatus(200);
@@ -230,7 +226,7 @@ module.exports = function(external) {
   app.get('/create', async (req, res) => {
     await render(req, res, {}, '2vcr60pnx9');
   });
-  
+
   app.get('*', async (req, res) => {
     await render(req, res);
   });
