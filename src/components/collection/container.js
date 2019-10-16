@@ -16,7 +16,6 @@ import { BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
 import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
-import useDevToggle from 'State/dev-toggles';
 import { useTrackedFunc } from 'State/segment-analytics';
 import CollectionProjectsGridView from 'Components/collection/collection-projects-grid-view';
 import CollectionProjectsPlayer from 'Components/collection/collection-projects-player';
@@ -42,8 +41,7 @@ const togglePlay = ({ onPlayPage, match, history }) => {
 const CollectionContainer = withRouter(({ history, match, collection, showFeaturedProject, isAuthorized, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
 
-  const myStuffIsEnabled = useDevToggle('My Stuff');
-  const canEditNameAndDescription = myStuffIsEnabled ? isAuthorized && !collection.isMyStuff : isAuthorized;
+  const canEditNameAndDescription = isAuthorized && !collection.isMyStuff;
 
   let collectionName = collection.name;
   if (canEditNameAndDescription) {
@@ -52,8 +50,8 @@ const CollectionContainer = withRouter(({ history, match, collection, showFeatur
 
   let avatar = null;
   const defaultAvatarName = 'collection-avatar'; // this was the old name for the default picture frame collection avatar
-  if (myStuffIsEnabled && collection.isMyStuff) {
-    avatar = <BookmarkAvatar width="50%" />;
+  if (collection.isMyStuff) {
+    avatar = <BookmarkAvatar height="auto" />;
   } else if (collection.avatarUrl && !collection.avatarUrl.includes(defaultAvatarName)) {
     avatar = <Image src={collection.avatarUrl} alt="" />;
   } else if (collection.projects.length > 0) {
@@ -78,7 +76,7 @@ const CollectionContainer = withRouter(({ history, match, collection, showFeatur
           <div className={styles.nameContainer}>
             <h1 className={styles.name}>{collectionName}</h1>
 
-            {isAuthorized && myStuffIsEnabled && (
+            {isAuthorized && (
               <div className={styles.privacyToggle}>
                 <PrivateToggle
                   align={['left']}

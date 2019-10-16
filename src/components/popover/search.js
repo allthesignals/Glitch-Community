@@ -100,7 +100,7 @@ function PopoverSearch({
           label={labelText}
           value={value}
           onChange={onChange}
-          opaque
+          variant="opaque"
           placeholder={placeholder}
           type="search"
         />

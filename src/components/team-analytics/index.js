@@ -9,7 +9,7 @@ import Text from 'Components/text/text';
 import { createAPIHook } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
-import isFeatureEnabled from 'State/rollout-toggles';
+import { useFeatureEnabled } from 'State/rollouts';
 import TeamAnalyticsTimePop from './team-analytics-time-pop';
 import TeamAnalyticsProjectPop from './team-analytics-project-pop';
 import SummaryItem from './team-analytics-summary';
@@ -44,8 +44,8 @@ function getSampleAnalytics() {
   return data;
 }
 
-const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  if (!isFeatureEnabled('analytics', String(id)) || projects.length === 0) {
+const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain, featureEnabled }) => {
+  if (!featureEnabled || projects.length === 0) {
     return getSampleAnalytics();
   }
 
@@ -60,13 +60,15 @@ const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, cur
 });
 
 function useAnalytics(props) {
+  const featureEnabled = useFeatureEnabled('analytics', String(props.id));
   // make an object with a stable identity so it can be used as single argument to api hook
-  const memoProps = useMemo(() => props, Object.values(props));
+  const memoProps = useMemo(() => ({ ...props, featureEnabled }), [featureEnabled, ...Object.values(props)]);
   return useAnalyticsData(memoProps);
 }
 
 function BannerMessage({ id, projects }) {
-  if (!isFeatureEnabled('analytics', String(id))) {
+  const featureEnabled = useFeatureEnabled('analytics', String(id));
+  if (!featureEnabled) {
     return (
       <aside className={styles.inlineBanner}>
         Analytics are currently unavailable.
@@ -90,7 +92,7 @@ function TeamAnalytics({ id, projects }) {
 
   const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
 
-  const placeholder = !isFeatureEnabled('analytics', String(id)) || projects.length === 0;
+  const placeholder = !useFeatureEnabled('analytics', String(id)) || projects.length === 0;
 
   const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
 

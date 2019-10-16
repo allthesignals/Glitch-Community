@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet-async';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Markdown from 'Components/text/markdown';
 import NotFound from 'Components/errors/not-found';
+import GlitchHelmet from 'Components/glitch-helmet';
 import CollectionItem from 'Components/collection/collection-item';
 import ProjectEmbed from 'Components/project/project-embed';
 import ProfileList from 'Components/profile-list';
@@ -27,13 +27,14 @@ import { useCurrentUser } from 'State/current-user';
 import { useToggleBookmark } from 'State/collection';
 import { useProjectEditor, useProjectMembers } from 'State/project';
 import { getUserLink } from 'Models/user';
-import { userIsProjectMember, userIsProjectAdmin } from 'Models/project';
-import { addBreadcrumb } from 'Utils/sentry';
+import { userIsProjectMember, userIsProjectAdmin, getProjectLink, getProjectAvatarUrl, SUSPENDED_AVATAR_URL } from 'Models/project';
 import { getAllPages } from 'Shared/api';
 import useFocusFirst from 'Hooks/use-focus-first';
-import useDevToggle from 'State/dev-toggles';
 import { useAPIHandlers } from 'State/api';
 import { useCachedProject } from 'State/api-cache';
+import { tagline } from 'Utils/constants';
+import { renderText } from 'Utils/markdown';
+import { addBreadcrumb } from 'Utils/sentry';
 
 import styles from './project.styl';
 import { emoji } from '../../components/global.styl';
@@ -63,7 +64,7 @@ const ReadmeError = (error) =>
       This project would be even better with a <code>README.md</code>
     </>
   ) : (
-    <>We couldn{"'"}t load the readme. Try refreshing?</>
+    <>We couldn't load the readme. Try refreshing?</>
   );
 const ReadmeLoader = withRouter(({ domain, location }) => (
   <DataLoader get={(api) => api.get(`projects/${domain}/readme`)} renderError={ReadmeError}>
@@ -133,7 +134,6 @@ DeleteProjectPopover.propTypes = {
 };
 
 const ProjectPage = ({ project: initialProject }) => {
-  const myStuffEnabled = useDevToggle('My Stuff');
   const [project, { updateDomain, updateDescription, updatePrivate, deleteProject, uploadAvatar }] = useProjectEditor(initialProject);
   useFocusFirst();
   const { currentUser } = useCurrentUser();
@@ -161,9 +161,28 @@ const ProjectPage = ({ project: initialProject }) => {
     return addProjectToCollection({ project: projectToAdd, collection });
   };
 
+  const seoDescription = React.useMemo(() => {
+    const helloTemplateDescriptions = new Set([
+      'Your very own basic web page, ready for you to customize.',
+      'A simple Node app built on Express, instantly up and running.',
+      'A simple Node app with a SQLite database to hold app data.',
+    ]);
+    const defaultProjectDescriptionPattern = /(A|The) [a-z]{2,} project that does [a-z]{2,} things/g;
+    const usesDefaultDescription = helloTemplateDescriptions.has(project.description) || defaultProjectDescriptionPattern.test(project.description);
+    if (!project.description || usesDefaultDescription || project.suspendedReason) {
+      return `Check out ~${project.domain} on Glitch, the ${tagline}`;
+    }
+    return `${renderText(project.description)} 🎏 Glitch is the ${tagline}`;
+  }, [project.domain, project.description, project.suspendedReason, tagline]);
+
   return (
     <main id="main">
-      <Helmet title={project.domain} />
+      <GlitchHelmet
+        title={project.domain}
+        description={seoDescription}
+        image={project.suspendedReason ? SUSPENDED_AVATAR_URL : getProjectAvatarUrl(project)}
+        canonicalUrl={getProjectLink(project)}
+      />
       <section id="info">
         <ProjectProfileContainer
           currentUser={currentUser}
@@ -184,7 +203,7 @@ const ProjectPage = ({ project: initialProject }) => {
                     placeholder="Name your project"
                   />
                 </Heading>
-                {myStuffEnabled && !isAnonymousUser && (
+                {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
                     <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
                   </div>
@@ -198,7 +217,7 @@ const ProjectPage = ({ project: initialProject }) => {
             <>
               <div className={styles.headingWrap}>
                 <Heading tagName="h1">{!currentUser.isSupport && suspendedReason ? 'suspended project' : domain}</Heading>
-                {myStuffEnabled && !isAnonymousUser && (
+                {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
                     <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
                   </div>
@@ -282,6 +301,7 @@ const ProjectPageContainer = ({ name: domain }) => {
           <ProjectPage project={project} />
         ) : (
           <>
+            <GlitchHelmet title={domain} description={`We couldn't find ~${domain}`} />
             {status === 'ready' && <NotFound name={domain} />}
             {status === 'loading' && <Loader style={{ width: '25px' }} />}
             {status === 'error' && <NotFound name={domain} />}

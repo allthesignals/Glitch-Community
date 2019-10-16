@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet-async';
 import { kebabCase } from 'lodash';
 import { Loader } from '@fogcreek/shared-components';
 
-import { getCollectionLink } from 'Models/collection';
+import { getCollectionLink, getCollectionOwnerName } from 'Models/collection';
 import { PopoverWithButton } from 'Components/popover';
 import NotFound from 'Components/errors/not-found';
 import CollectionContainer from 'Components/collection/container';
 import MoreCollectionsContainer from 'Components/collections-list/more-collections';
 import DeleteCollection from 'Components/collection/delete-collection-pop';
+import GlitchHelmet from 'Components/glitch-helmet';
 import Layout from 'Components/layout';
 import ReportButton from 'Components/report-abuse-pop';
 import { AnalyticsContext } from 'State/segment-analytics';
@@ -17,6 +17,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useCachedCollection } from 'State/api-cache';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
+import { renderText } from 'Utils/markdown';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -34,9 +35,16 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
       return result;
     },
   };
+
+  const seoDescription = React.useMemo(() => renderText(collection.description), [collection.description]);
+
   return (
     <>
-      <Helmet title={collection.name} />
+      <GlitchHelmet
+        title={collection.name}
+        description={`${seoDescription} 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
+        canonicalUrl={getCollectionLink(collection)}
+      />
       <main id="main">
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
@@ -77,6 +85,7 @@ const CollectionPage = ({ owner, name }) => {
         </AnalyticsContext>
       ) : (
         <>
+          <GlitchHelmet title={name} description={`We couldn't find @${owner}/${name}`} />
           {status === 'ready' && <NotFound name={name} />}
           {status === 'loading' && <Loader style={{ width: '25px' }} />}
           {status === 'error' && <NotFound name={name} />}
