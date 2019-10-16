@@ -33,10 +33,10 @@ const AccountSettingsOverlay = () => {
             <div className={styles.accountSettings}>
               {twoFactorEnabled && (
                 <div className={styles.accountSettingsActions}>
-                  <Button variant="secondary" size="small" disabled={page === 'password'} onClick={() => setPage('password')}>
+                  <Button size="small" disabled={page === 'password'} onClick={() => setPage('password')}>
                     Password
                   </Button>
-                  <Button variant="secondary" size="small" disabled={page === '2fa'} onClick={() => setPage('2fa')}>
+                  <Button size="small" disabled={page === '2fa'} onClick={() => setPage('2fa')}>
                     Two Factor Settings
                   </Button>
                 </div>
