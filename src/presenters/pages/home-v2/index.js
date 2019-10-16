@@ -132,15 +132,13 @@ const CuratedCollections = ({ content }) => (
     <Row items={content.map((data) => ({ ...data, id: data.fullUrl }))} className={styles.curatedCollectionRow}>
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
-          <h4 className={styles.h4}>{title}</h4>
-          {/* eslint-disable-next-line react/no-danger */}
-          <span dangerouslySetInnerHTML={{ __html: description }} />
           <div className={styles.curatedCollectionButtonWrap}>
             <Button as="span">
               {title}
             </Button>
           </div>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
           <span className={styles.collectionLink}>
             View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
           </span>
