@@ -7,7 +7,7 @@ import { PopoverActions, PopoverInfo, PopoverSection, InfoDescription } from './
 
 import { emoji } from '../global.styl';
 
-export function useActiveIndex(items, onSelect) {
+function useActiveIndex(items, onSelect) {
   const inputRef = useRef();
   const [activeIndex, setActiveIndex] = useState(-1);
 
