@@ -18,6 +18,7 @@
     "./src/utils/lever/lever.styl"
   ],
   "scripts": {
+<<<<<<< HEAD
     "build": "npm run build:webpack && npm run build:babel",
     "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
     "build:webpack": "npx webpack",
@@ -26,6 +27,10 @@
     "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
     "cy:run": "npx cypress run",
     "lint": "npm run lint:server && npm run lint:src",
+=======
+    "prestart": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:babel & npm run watch:webpack & \n fi",
+    "start": "NODE_OPTIONS='--max-old-space-size=4096' forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
+>>>>>>> fb70ce365735c6d21826125387ef0ae0c77042f9
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
     "prestart": "npm run watch:lint:server & \n if if-env DEPLOY_ENV=production; then \n npm run watch:babel & npm run watch:webpack & \n fi",
@@ -33,7 +38,19 @@
     "test": "mocha",
     "watch:babel": "npm run build:babel -- --watch",
     "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
+<<<<<<< HEAD
     "watch:webpack": "npm run build:webpack -- --watch --info-verbosity verbose"
+=======
+    "cy:run": "npx cypress run",
+    "cy:open": "npx cypress open",
+    "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
+    "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
+    "build:webpack": "npx webpack",
+    "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
+    "build": "npm run build:webpack && npm run build:babel",
+    "test": "mochapack",
+    "test:debug:watch": "node --inspect --inspect-brk node_modules/.bin/mochapack --watch \"test/**/*\""
+>>>>>>> fb70ce365735c6d21826125387ef0ae0c77042f9
   },
   "dependencies": {
     "@babel/cli": "^7.5.5",
@@ -47,6 +64,10 @@
     "@babel/runtime": "^7.5.4",
     "@babel/runtime-corejs3": "^7.5.5",
     "@fogcreek/shared-components": "^0.8.0",
+<<<<<<< HEAD
+=======
+    "@jedmao/location": "^2.0.4",
+>>>>>>> fb70ce365735c6d21826125387ef0ae0c77042f9
     "@optimizely/optimizely-sdk": "^3.2.2",
     "@percy/cypress": "^1.0.9",
     "@sentry/browser": "^5.6.3",
@@ -144,12 +165,31 @@
     "webpack-cli": "^3.3.5",
     "webpack-dev-middleware": "^3.7.0",
     "winston": "^3.2.1"
+<<<<<<< HEAD
+=======
+  },
+  "engines": {
+    "node": "10.x"
+>>>>>>> fb70ce365735c6d21826125387ef0ae0c77042f9
   },
   "devDependencies": {
+    "axe-core": "^3.3.2",
     "chai": "^4.2.0",
+<<<<<<< HEAD
     "mocha": "^6.2.0"
   },
   "engines": {
     "node": "10.x"
+=======
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jsdom": "^15.1.1",
+    "mocha": "^6.2.0",
+    "mochapack": "^1.1.5",
+    "mocha-jsdom": "^2.0.0",
+    "redux-mock-store": "^1.5.3",
+    "sinon": "^7.5.0",
+    "webpack-node-externals": "^1.7.2"
+>>>>>>> fb70ce365735c6d21826125387ef0ae0c77042f9
   }
 }

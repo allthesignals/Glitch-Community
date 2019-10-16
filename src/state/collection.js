@@ -95,7 +95,7 @@ export function useCollectionReload() {
 // used by featured-project and pages/project
 export const useToggleBookmark = (project) => {
   const api = useAPI();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, update: updateCurrentUser } = useCurrentUser();
   const reloadCollectionProjects = useCollectionReload();
 
   const { createNotification } = useNotifications();
@@ -118,6 +118,7 @@ export const useToggleBookmark = (project) => {
         setHasBookmarked(true);
         if (!myStuffCollection) {
           myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
+          updateCurrentUser({ collections: [myStuffCollection, ...currentUser.collections] });
         }
         await addProjectToCollection({ project, collection: myStuffCollection });
         const url = myStuffCollection.fullUrl || `${currentUser.login}/${myStuffCollection.url}`;
@@ -177,7 +178,7 @@ export function useCollectionEditor(initialCollection) {
   const { handleError, handleErrorForInput, handleCustomError } = useErrorHandlers();
   const reloadCollectionProjects = useCollectionReload();
   const { createNotification } = useNotifications();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, update: updateCurrentUser } = useCurrentUser();
 
   async function updateFields(changes) {
     // A note here: we don't want to setState with the data from the server from this call, as it doesn't return back the projects in depth with users and notes and things
@@ -328,6 +329,7 @@ export function useCollectionEditor(initialCollection) {
       } else {
         if (!myStuffCollection) {
           myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
+          updateCurrentUser({ collections: [myStuffCollection, ...currentUser.collections] });
         }
         await funcs.addProjectToCollection(project, myStuffCollection);
         createNotification(

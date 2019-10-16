@@ -13,7 +13,9 @@ const constants = require('./constants');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
+const { getOptimizelyData } = require('./optimizely');
 const { getData, saveDataToFile } = require('./curated');
+const rootTeams = require('../shared/teams');
 
 module.exports = function(external) {
   const app = express.Router();
@@ -109,6 +111,7 @@ module.exports = function(external) {
       PUPDATES_CONTENT: pupdatesContent,
       SSR_SIGNED_IN: signedIn,
       AB_TESTS: assignments,
+      OPTIMIZELY_DATA: await getOptimizelyData(),
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
       ENVIRONMENT: process.env.NODE_ENV || 'dev',
       RUNNING_ON: process.env.RUNNING_ON,
@@ -166,6 +169,13 @@ module.exports = function(external) {
       return;
     }
     await render(req, res);
+  });
+
+  // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
+  Object.keys(rootTeams).forEach((teamName) => {
+    app.get(`/${teamName}`, (req, res) => {
+      res.redirect(301, `/@${teamName}`);
+    });
   });
 
   app.get('/@:author/:url', async (req, res) => {
