@@ -11,13 +11,15 @@ module.exports = [
     collectionName: 'hello-worlds',
     icon: `/us-east-1%3Acba180f4-ee65-4dfc-8dd5-f143280d3c10%2Fcomputer.svg`,
     color: '#FCF3AF',
+    id: 'hello-worlds',
   },
   {
     url: 'games',
     collectionName: 'games',
     icon: `/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Ftetris.svg`,
     name: 'Games',
-    color: '#FBA058'
+    color: '#FBA058',
+    id: 'games',
   },
   {
     url: 'building-blocks',
@@ -25,6 +27,7 @@ module.exports = [
     name: 'Building Blocks',
     color: '#65cad2',
     icon: `/0fe043a8-1c51-4b42-ac88-f11facc21980%2Fbuilding-blocks.svg?v=15711672`,
+    id: 'building-blocks',
   },
   {
     url: 'learn-to-code',
@@ -32,6 +35,7 @@ module.exports = [
     name: 'Learn to Code',
     color: '#f8d3c8',
     icon: `/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Flearn.svg`,
+    id: 'learn-to-code',
   },
   {
     url: 'tools-for-work',
@@ -39,6 +43,7 @@ module.exports = [
     name: 'Productivity',
     color: '#7aa4d3',
     icon: `/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fwork.svg`,
+    id: 'tools-for-work',
   },
   {
     url: 'community-picks',
@@ -46,7 +51,7 @@ module.exports = [
     collectionName: 'community-picks',
     icon: `/us-east-1%3Acba180f4-ee65-4dfc-8dd5-f143280d3c10%2Fdiamond.svg`,
     color: '#9DE0FC',
-    isDeprecated: true,
+    id: 'community-picks',
   },
   {
     url: 'handy-bots',
@@ -54,6 +59,7 @@ module.exports = [
     name: 'Bots',
     color: '#c7bff0',
     icon: `/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fbot.svg`,
+    id: 'handy-bots',
   },
   {
     url: 'hardware',
@@ -61,6 +67,7 @@ module.exports = [
     name: 'Hardware',
     color: '#6cd8a9',
     icon: `/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fhardware.svg`,
+    id: 'hardware',
   },
   {
     url: 'art',
@@ -68,6 +75,7 @@ module.exports = [
     color: '#f2a7bb',
     name: 'Art',
     icon: `/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fart.svg`,
+    id: 'art',
   },
   {
     url: 'music',
@@ -75,5 +83,6 @@ module.exports = [
     color: '#a9c4f7',
     name: 'Music',
     icon: `/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fmusic.svg`,
+    id: 'music',
   },
 ];
