@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Icon, SegmentedButton, Button } from '@fogcreek/shared-components';
+import React from 'react';
+import { Icon, Button } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
 import { Overlay, OverlaySection, OverlayTitle, OverlayBackground } from 'Components/overlays';
