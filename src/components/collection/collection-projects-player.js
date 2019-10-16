@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import { isDarkColor } from 'Utils/color';
@@ -35,104 +37,107 @@ const wakeUpAllProjectsInACollection = (projects) => {
   });
 };
 
-const PlayerControls = ({
-  featuredProject,
-  selectedPopoverProjectId,
-  onChange,
-  projects,
-  onClickOnProject,
-  back,
-  forward,
-  currentProjectIndex,
-  collection,
-}) => (
-  <>
-    <Popover
-      align="left"
-      renderLabel={({ onClick, ref }) => (
-        <UnstyledButton ref={ref} onClick={onClick}>
-          <span className={classnames(styles.popoverButton, isDarkColor(collection.coverColor) && styles.dark)}>
-            <span className={styles.projectAvatar}>
-              <ProjectAvatar project={featuredProject} />
-            </span>
-            <Text>{featuredProject.domain}</Text>
-            <Icon icon="chevronDown" />
-          </span>
-        </UnstyledButton>
-      )}
-    >
-      {({ onClose }) => (
-        <div className={styles.resultListWrapper}>
-          <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
-            {({ item, buttonProps }) => (
-              <div className={styles.resultItemWrapper}>
-                <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
-                  <div className={styles.popoverItem}>
-                    <ProjectAvatar project={item} />
-                    <ResultName>{item.domain}</ResultName>
-                  </div>
-                </ResultItem>
-              </div>
-            )}
-          </ResultsList>
-        </div>
-      )}
-    </Popover>
-    <div className={styles.buttonWrap}>
-      <ButtonGroup variant="primary" size="normal">
-        <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
-          <Icon icon="chevronLeft" alt="back" />
-        </ButtonSegment>
-        <ButtonSegment onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
-          <Icon icon="chevronRight" alt="foward" />
-        </ButtonSegment>
-      </ButtonGroup>
-    </div>
-  </>
-);
-
-const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, funcs, collection }) => {
+const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjectIndex, collection, push, params }) => {
   const { projects } = collection;
-  const [currentProjectIndex, setCurrentProjectIndex] = useState(getCurrentProjectIndexFromUrl(match.params.projectId, projects));
-  useEffect(() => wakeUpAllProjectsInACollection(projects), []);
-  const back = () => {
-    if (currentProjectIndex > 0) {
-      const newLocation = {
-        pathname: `/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex - 1].id}`,
-        state: {
-          preventScroll: true,
-        },
-      };
-      history.push(newLocation);
-      setCurrentProjectIndex(currentProjectIndex - 1);
-    }
-  };
-
-  const forward = () => {
-    if (currentProjectIndex < projects.length - 1) {
-      const newLocation = {
-        pathname: `/@${match.params.owner}/${match.params.name}/play/${projects[currentProjectIndex + 1].id}`,
-        state: {
-          preventScroll: true,
-        },
-      };
-      history.push(newLocation);
-      setCurrentProjectIndex(currentProjectIndex + 1);
-    }
-  };
-  const featuredProject = projects[currentProjectIndex];
-
   const [selectedPopoverProjectId, setSelectedPopoverProjectId] = useState(featuredProject.id);
 
   const onChange = (newId) => {
     setSelectedPopoverProjectId(newId);
   };
 
+  const changeSelectedProject = (newIndex) => {
+    const newLocation = {
+      pathname: `/@${params.owner}/${params.name}/play/${projects[newIndex].id}`,
+      state: {
+        preventScroll: true,
+      },
+    };
+    push(newLocation);
+    setCurrentProjectIndex(newIndex);
+  };
+
   const onClickOnProject = (project, onClose) => {
     const selectedProjectIndex = findIndex(projects, (p) => p.id === project.id);
-    setCurrentProjectIndex(selectedProjectIndex);
+    changeSelectedProject(selectedProjectIndex);
     onClose();
   };
+
+  const back = () => {
+    if (currentProjectIndex > 0) {
+      const newIndex = currentProjectIndex - 1;
+      changeSelectedProject(newIndex);
+    }
+  };
+
+  const forward = () => {
+    if (currentProjectIndex < projects.length - 1) {
+      const newIndex = currentProjectIndex + 1;
+      changeSelectedProject(newIndex);
+    }
+  };
+
+  return (
+    <>
+      <Popover
+        align="left"
+        renderLabel={({ onClick, ref }) => (
+          <UnstyledButton ref={ref} onClick={onClick}>
+            <span className={classnames(styles.popoverButton, isDarkColor(collection.coverColor) && styles.dark)}>
+              <span className={styles.projectAvatar}>
+                <ProjectAvatar project={featuredProject} />
+              </span>
+              <Text>{featuredProject.domain}</Text>
+              <Icon icon="chevronDown" />
+            </span>
+          </UnstyledButton>
+        )}
+      >
+        {({ onClose }) => (
+          <div className={styles.resultListWrapper}>
+            <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
+              {({ item, buttonProps }) => (
+                <div className={styles.resultItemWrapper}>
+                  <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
+                    <div className={styles.popoverItem}>
+                      <ProjectAvatar project={item} />
+                      <ResultName>{item.domain}</ResultName>
+                    </div>
+                  </ResultItem>
+                </div>
+              )}
+            </ResultsList>
+          </div>
+        )}
+      </Popover>
+      <div className={styles.buttonWrap}>
+        <ButtonGroup variant="primary" size="normal">
+          <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
+            <Icon icon="chevronLeft" alt="back" />
+          </ButtonSegment>
+          <ButtonSegment onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
+            <Icon icon="chevronRight" alt="foward" />
+          </ButtonSegment>
+        </ButtonGroup>
+      </div>
+    </>
+  );
+};
+
+PlayerControls.propTypes = {
+  featuredProject: PropTypes.object.isRequired,
+  currentProjectIndex: PropTypes.number.isRequired,
+  setCurrentProjectIndex: PropTypes.func.isRequired,
+  collection: PropTypes.object.isRequired,
+  push: PropTypes.func.isRequired,
+  params: PropTypes.object.isRequired,
+};
+
+const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, funcs, collection }) => {
+  const { projects } = collection;
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(getCurrentProjectIndexFromUrl(match.params.projectId, projects));
+  useEffect(() => wakeUpAllProjectsInACollection(projects), []);
+
+  const featuredProject = projects[currentProjectIndex];
 
   const { value: members } = useProjectMembers(featuredProject.id);
 
@@ -146,14 +151,11 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
           {projects.length > 1 ? (
             <PlayerControls
               featuredProject={featuredProject}
-              selectedPopoverProjectId={selectedPopoverProjectId}
-              onChange={onChange}
-              projects={projects}
-              onClickOnProject={onClickOnProject}
-              back={back}
-              forward={forward}
+              setCurrentProjectIndex={setCurrentProjectIndex}
               currentProjectIndex={currentProjectIndex}
               collection={collection}
+              push={history.push}
+              params={match.params}
             />
           ) : (
             <ProjectLink project={featuredProject} className={styles.popoverButton}>
@@ -190,5 +192,11 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
     </>
   );
 });
+
+CollectionProjectsPlayer.propTypes = {
+  isAuthorized: PropTypes.bool.isRequired,
+  funcs: PropTypes.object.isRequired,
+  collection: PropTypes.object.isRequired,
+};
 
 export default CollectionProjectsPlayer;
