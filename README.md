@@ -21,6 +21,8 @@ File structure
 - stylus files like `styles/style.styl` are compiled and served directly as `build/style.css`
 - Files in `public/` and `build/` are served directly
 - drag in `assets`, like images or music, to add them to your project
+- `src/curated/{home|pupdates}.json` contain homepage and pupdates content from our CMS
+  - See [cms.glitch.me](https://cms.glitch.me) for CMS documentation
 
 application models -> presenter -> DOM
 

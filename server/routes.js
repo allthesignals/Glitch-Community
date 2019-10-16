@@ -10,6 +10,7 @@ const punycode = require('punycode');
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
+const categories = require('../shared/categories');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
@@ -170,6 +171,13 @@ module.exports = function(external) {
     }
     await render(req, res);
   });
+  
+  categories.forEach((category) => {
+    app.get(`/${category.url}`, (req, res) => {
+      res.redirect(301, `/@glitch/${category.collectionName}`);
+    });
+  });
+  
 
   // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
   Object.keys(rootTeams).forEach((teamName) => {
@@ -195,33 +203,21 @@ module.exports = function(external) {
     });
   });
 
-  app.get('/api/home', async (req, res) => {
-    const data = await getData('home');
+  app.get('/api/:page', async (req, res) => {
+    const { page } = req.params;
+    console.log(page);
+    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
+
+    const data = await getData(page);
     res.send(data);
   });
 
-  app.post('/api/home', async (req, res) => {
+  app.post('/api/:page', async (req, res) => {
+    const { page } = req.params;
+    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
+
     const persistentToken = req.headers.authorization;
     const data = req.body;
-    const page = 'home';
-    try {
-      await saveDataToFile({ page, persistentToken, data });
-      res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
-      res.sendStatus(403);
-    }
-  });
-
-  app.get('/api/pupdate', async (req, res) => {
-    const data = await getData('pupdates');
-    res.send(data);
-  });
-
-  app.post('/api/pupdate', async (req, res) => {
-    const persistentToken = req.headers.authorization;
-    const data = req.body;
-    const page = 'pupdates';
     try {
       await saveDataToFile({ page, persistentToken, data });
       res.sendStatus(200);

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import punycode from 'punycode';
 
-import categories from 'Curated/categories';
+import categories from 'Shared/categories';
 import rootTeams from 'Shared/teams';
 
 import { useCurrentUser } from 'State/current-user';
@@ -17,7 +17,6 @@ import JoinTeamPage from './join-team';
 import QuestionsPage from './questions';
 import ProjectPage from './project';
 import { UserPage, TeamOrUserPage } from './team-or-user';
-import CategoryPage from './category';
 import CollectionPage from './collection';
 import CreatePage from './create';
 import { NotFoundPage } from './error';
@@ -172,7 +171,7 @@ const Router = () => {
             key={category.url}
             path={`/${category.url}`}
             exact
-            render={({ location }) => <CategoryPage key={location.key} category={category} />}
+            render={() => <Redirect to={`/@glitch/${category.collectionName}`} />}
           />
         ))}
 
