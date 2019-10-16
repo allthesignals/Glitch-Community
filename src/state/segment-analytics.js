@@ -42,10 +42,8 @@ export const useTracker = (name, properties, context) => {
   const inherited = React.useContext(Context);
   return () => {
     try {
-      console.log("making an analytics call", name, resolveProperties(properties, inherited.properties, resolveProperties(context, inherited.context)))
       analytics.track(name, resolveProperties(properties, inherited.properties), resolveProperties(context, inherited.context));
     } catch (error) {
-      console.log("got an error", error)
       /*
       From Segment: "We currently return a 200 response for all API requests so debugging should be done in the Segment Debugger.
       The only exception is if the request is too large / json is invalid it will respond with a 400."
