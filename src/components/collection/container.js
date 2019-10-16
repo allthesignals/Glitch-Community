@@ -38,7 +38,7 @@ const togglePlay = ({ onPlayPage, match, history }) => {
   history.push(newLocation);
 };
 
-const CollectionContainer = withRouter(({ history, match, collection, showFeaturedProject, isAuthorized, funcs }) => {
+const CollectionContainer = withRouter(({ history, match, collection, isAuthorized, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
 
   const canEditNameAndDescription = isAuthorized && !collection.isMyStuff;
@@ -136,7 +136,7 @@ const CollectionContainer = withRouter(({ history, match, collection, showFeatur
         {onPlayPage ? (
           <CollectionProjectsPlayer isAuthorized={isAuthorized} funcs={funcs} collection={collection} />
         ) : (
-          <CollectionProjectsGridView isAuthorized={isAuthorized} funcs={funcs} collection={collection} showFeaturedProject={showFeaturedProject} />
+          <CollectionProjectsGridView isAuthorized={isAuthorized} funcs={funcs} collection={collection} />
         )}
       </div>
     </article>
@@ -151,12 +151,10 @@ CollectionContainer.propTypes = {
     description: PropTypes.string,
     featuredProjectId: PropTypes.string,
   }).isRequired,
-  showFeaturedProject: PropTypes.bool,
   isAuthorized: PropTypes.bool,
   funcs: PropTypes.object,
 };
 CollectionContainer.defaultProps = {
-  showFeaturedProject: false,
   isAuthorized: false,
   funcs: {},
 };

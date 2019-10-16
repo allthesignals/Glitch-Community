@@ -48,7 +48,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
         canonicalUrl={getCollectionLink(collection)}
       />
       <main id="main">
-        <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
+        <CollectionContainer collection={collection} isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
         {currentUserIsAuthor && !collection.isMyStuff && (
           <PopoverWithButton buttonProps={{ size: 'small', variant: 'warning', emoji: 'bomb' }} buttonText={`Delete ${collection.name}`}>

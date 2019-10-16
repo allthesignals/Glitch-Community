@@ -13,7 +13,7 @@ import FeaturedProject from 'Components/project/featured-project';
 import { emoji } from '../global.styl';
 import styles from './collection-projects-grid-view.styl';
 
-const CollectionProjectsGridView = ({ isAuthorized, funcs, showFeaturedProject, collection }) => {
+const CollectionProjectsGridView = ({ isAuthorized, funcs, collection }) => {
   const [displayHint, setDisplayHint] = useState(false);
 
   const collectionHasProjects = collection.projects.length > 0;
@@ -21,7 +21,7 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, showFeaturedProject, 
   let featuredProject = null;
   let { projects } = collection;
 
-  if (showFeaturedProject && collection.featuredProjectId) {
+  if (collection.featuredProjectId) {
     [[featuredProject], projects] = partition(collection.projects, (p) => p.id === collection.featuredProjectId);
   }
   const enableSorting = isAuthorized && projects.length > 1;
@@ -98,11 +98,6 @@ CollectionProjectsGridView.propTypes = {
   isAuthorized: PropTypes.bool.isRequired,
   funcs: PropTypes.object.isRequired,
   collection: PropTypes.object.isRequired,
-  showFeaturedProject: PropTypes.bool,
-};
-
-CollectionProjectsGridView.defaultProps = {
-  showFeaturedProject: undefined, // TODO is there a way around this one, feels like prop drilling
 };
 
 export default CollectionProjectsGridView;
