@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
 
-import { Actions, Button, CheckboxButton, createRemoteComponent, Icon, Info, Loader, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
+import { Actions, Button, CheckboxButton, Icon, Info, Loader, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
 
 
 import { getUserAvatarThumbnailUrl } from 'Models/user';
@@ -20,8 +20,6 @@ import styles from './styles.styl';
 import { emoji } from '../global.styl';
 
 // Create Team button
-const DevPopover = createRemoteComponent('https://blossom-bougon.glitch.me/module.js', 'Popover');
-
 const CreateTeamButton = ({ showCreateTeam }) => {
   const onClickCreateTeam = useTrackedFunc(showCreateTeam, 'Create Team clicked');
   return (
@@ -182,7 +180,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
   return (
     <CheckForCreateTeamHash>
       {(createTeamOpen) => (
-        <DevPopover
+        <Popover
           startOpen
           toggleProps={createTeamOpen}
           initialView={createTeamOpen ? 'createTeam' : 'UserOptionsPop'}
@@ -213,7 +211,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
               showCreateTeam={() => { setActiveView('createTeam'); }}
             />
           )}
-        </DevPopover>
+        </Popover>
       )}
     </CheckForCreateTeamHash>
   );
