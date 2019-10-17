@@ -12,6 +12,9 @@ Glitch employees should check out [DEPLOYING.md](https://glitch.com/edit/#!/comm
 
 ## Getting Started
 
+### Homepage and Pupdates Content
+Homepage content and pupdates are managed by the Marketing team. See [cms.glitch.me](https://cms.glitch.me) for CMS documentation.
+
 File structure
 
 - the backend app starts at `server/server.js`
@@ -21,8 +24,6 @@ File structure
 - stylus files like `styles/style.styl` are compiled and served directly as `build/style.css`
 - Files in `public/` and `build/` are served directly
 - drag in `assets`, like images or music, to add them to your project
-- `src/curated/{home|pupdates}.json` contain homepage and pupdates content from our CMS
-  - See [cms.glitch.me](https://cms.glitch.me) for CMS documentation
 
 application models -> presenter -> DOM
 
