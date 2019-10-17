@@ -15,7 +15,7 @@ const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData } = require('./optimizely');
-const { getData, saveDataToFile } = require('./curated');
+const { getData } = require('./curated');
 const rootTeams = require('../shared/teams');
 
 module.exports = function(external) {
