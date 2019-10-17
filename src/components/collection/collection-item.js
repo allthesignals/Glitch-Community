@@ -114,7 +114,7 @@ const CreateMyStuffOnClickComponent = withRouter(({ history, children, className
   const { currentUser } = useCurrentUser();
 
   const createMyStuffCollection = async () => {
-    const myStuff = await createCollection({ api, name: 'My Stuff', createNotification, myStuffEnabled: true });
+    const myStuff = await createCollection({ api, name: 'My Stuff', createNotification });
     if (myStuff) {
       history.push(`@${currentUser.login}/${myStuff.url}`);
     }

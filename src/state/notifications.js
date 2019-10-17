@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Notification from 'Components/notification';
 
-const context = React.createContext();
+export const context = React.createContext();
 const { Provider } = context;
 export const NotificationConsumer = context.Consumer;
 export const useNotifications = () => React.useContext(context);

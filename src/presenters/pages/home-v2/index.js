@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import classnames from 'classnames';
 import Pluralize from 'react-pluralize';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Button, Icon, Mark } from '@fogcreek/shared-components';
+import { Button, Mark, Icon } from '@fogcreek/shared-components';
 
+import GlitchHelmet from 'Components/glitch-helmet';
 import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';
 import Embed from 'Components/project/embed';
 import MaskImage from 'Components/images/mask-image';
-import Markdown from 'Components/text/markdown';
-import Text from 'Components/text/text';
 import Questions from 'Components/questions';
 import RecentProjects from 'Components/recent-projects';
 import ReportButton from 'Components/report-abuse-pop';
@@ -18,17 +17,17 @@ import Link from 'Components/link';
 import PreviewContainer from 'Components/containers/preview-container';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
+import DataLoader from 'Components/data-loader';
 import OnboardingBanner from 'Components/onboarding-banner';
 import { useCurrentUser } from 'State/current-user';
-import { getEditorUrl, getProjectAvatarUrl } from 'Models/project';
+import { getProjectAvatarUrl } from 'Models/project';
 import { useAPI } from 'State/api';
 import { useGlobals } from 'State/globals';
-
+import MadeOnGlitch from 'Components/footer/made-on-glitch';
 import Banner from './banner';
 import CuratedCollectionContainer from './collection-container';
 import { Discover, Dreams, Teams } from './feature-callouts';
 import styles from './styles.styl';
-import { emoji } from '../../../components/global.styl';
 
 const calloutGraphics = {
   apps: {
@@ -45,9 +44,7 @@ const calloutGraphics = {
   },
 };
 
-const HomeSection = ({ className = '', ...props }) => (
-  <section className={classnames(styles.homeSection, className)} {...props} />
-);
+const HomeSection = ({ className = '', ...props }) => <section className={classnames(styles.homeSection, className)} {...props} />;
 
 const FeatureCallouts = ({ content }) => (
   <HomeSection id="feature-callouts" className={styles.featureCalloutsContainer}>
@@ -62,7 +59,8 @@ const FeatureCallouts = ({ content }) => (
               <Mark color={calloutGraphics[id].color}>{label}</Mark>
             </h2>
           </Link>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
         </>
       )}
     </Row>
@@ -108,7 +106,8 @@ const AppsWeLove = ({ content }) => {
               <div className={classnames(styles.appItem, i === currentTab && styles.active)}>
                 <div className={styles.appContent}>
                   <h4 className={styles.h4}>{title}</h4>
-                  <p>{description}</p>
+                  {/* eslint-disable-next-line react/no-danger */}
+                  <span dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
                 <img src={getProjectAvatarUrl({ id })} alt="" className={styles.appAvatar} />
               </div>
@@ -138,7 +137,8 @@ const CuratedCollections = ({ content }) => (
               {title}
             </Button>
           </div>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
           <span className={styles.collectionLink}>
             View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
           </span>
@@ -168,7 +168,8 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
       <div className={styles.unifiedStoriesPreview}>
         <div className={styles.unifiedStoriesContentWrap}>
           <h3 className={styles.h3}>{dek}</h3>
-          <Markdown>{summary}</Markdown>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: summary }} />
           <Button as="a" href={href}>
             {cta} <Icon icon="arrowRight" />
           </Button>
@@ -178,14 +179,16 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
         <div className={styles.unifiedStoriesContentWrap}>
           <h3>Related</h3>
           <ul>
-            {relatedContent.filter((related) => !!related.href).map((related) => (
-              <li key={related.href}>
-                <Link to={related.href} className={styles.plainLink}>
-                  <h4>{related.title}</h4>
-                  <p>{related.source}</p>
-                </Link>
-              </li>
-            ))}
+            {relatedContent
+              .filter((related) => !!related.href)
+              .map((related) => (
+                <li key={related.href}>
+                  <Link to={related.href} className={styles.plainLink}>
+                    <h4>{related.title}</h4>
+                    <p>{related.source}</p>
+                  </Link>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
@@ -252,7 +255,8 @@ const BuildingOnGlitch = ({ content }) => (
             <img src={buildingGraphics[index]} alt="" />
           </div>
           <h3>{title}</h3>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
           <Button as="span">
             {cta} <Icon icon="arrowRight" />
           </Button>
@@ -264,11 +268,7 @@ const BuildingOnGlitch = ({ content }) => (
 
 const MadeInGlitch = () => (
   <HomeSection className={styles.madeInGlitch}>
-    <Text defaultMargin>Of course, this site was made on Glitch too.</Text>
-    <Button as="a" href={getEditorUrl('community')}>
-      View Source
-      <Icon className={emoji} icon="carpStreamer" />
-    </Button>
+    <MadeOnGlitch />
   </HomeSection>
 );
 
@@ -295,30 +295,46 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
 
 export const HomePreview = () => {
   const api = useAPI();
-  const { origin, ZINE_POSTS } = useGlobals();
-  const onPublish = async (data) => {
-    try {
-      await api.post(`${origin}/api/home`, data);
-      // need to do a hard reload for this to take effect
-      window.location = '/';
-    } catch (e) {
-      console.error(e);
-    }
+  const [currentDraft, setCurrentDraft] = useState(0);
+  const { ZINE_POSTS } = useGlobals();
+
+  const changeDraft = (e) => {
+    setCurrentDraft(Number(e.target.value));
   };
 
   return (
     <Layout>
-      <PreviewContainer
-        get={() => api.get('https://community-home-editor.glitch.me/home.json').then((res) => res.data)}
-        onPublish={onPublish}
-        previewMessage={
+      <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
+        {(drafts) => (
           <>
-            This is a live preview of edits done with <Link to="/index/edit">Community Home Editor.</Link>
+            <div>
+              <h2>Select a draft</h2>
+              <select onChange={changeDraft} value={currentDraft}>
+                {drafts.map((draft, i) => (
+                  <option key={draft.id} value={i}>
+                    {draft.label}
+                  </option>
+                ))}
+              </select>
+              &nbsp;
+              <Link to="/pupdates/preview">Preview Pupdates</Link>
+            </div>
+
+            <PreviewContainer
+              url={`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`}
+              get={() => api.get(`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`).then((res) => res.data)}
+              previewMessage={
+                <>
+                  This is a live preview of the &quot;{drafts[currentDraft].label}&quot; draft. To publish this draft, go back to{' '}
+                  <Link to="https://glitch.prismic.io">Prismic</Link>.
+                </>
+              }
+            >
+              {(data) => <Home data={{ ...data, cultureZine: ZINE_POSTS.slice(0, 4) }} />}
+            </PreviewContainer>
           </>
-        }
-      >
-        {(data) => <Home data={{ ...data, cultureZine: ZINE_POSTS.slice(0, 4) }} />}
-      </PreviewContainer>
+        )}
+      </DataLoader>
     </Layout>
   );
 };
@@ -328,6 +344,13 @@ const HomeWithProductionData = () => {
   const { HOME_CONTENT, ZINE_POSTS, SSR_SIGNED_IN } = useGlobals();
   return (
     <Layout>
+      <GlitchHelmet
+        title="Glitch"
+        socialTitle="Glitch: The friendly community where everyone builds the web"
+        description="Simple, powerful, free tools to create and use millions of apps."
+        image="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781"
+        canonicalUrl="/"
+      />
       <Home
         data={{ ...HOME_CONTENT, cultureZine: ZINE_POSTS.slice(0, 4) }}
         loggedIn={!!currentUser.login || (!currentUser.id && SSR_SIGNED_IN)}

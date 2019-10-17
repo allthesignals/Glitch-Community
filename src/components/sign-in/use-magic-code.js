@@ -10,7 +10,7 @@ import { captureException } from 'Utils/sentry';
 
 import styles from './styles.styl';
 
-const EllipsizeEmail = ({ email }) => {
+export const EllipsizeEmail = ({ email }) => {
   const sliceIndex = email.indexOf('@') - 2;
   return (
     <span aria-label={email} className={styles.emailAddress}>
@@ -22,7 +22,7 @@ const EllipsizeEmail = ({ email }) => {
   );
 };
 
-const UseMagicCode = ({ emailAddress }) => {
+const UseMagicCode = ({ emailAddress, showTwoFactorPage }) => {
   const { login } = useCurrentUser();
   const api = useAPI();
   const [code, setCode] = useState('');
@@ -35,8 +35,7 @@ const UseMagicCode = ({ emailAddress }) => {
     try {
       const { data } = await api.post(`/auth/email/${code}`);
       if (data.tfaToken) {
-        // TODO: Support 2FA here
-        setStatus('error');
+        showTwoFactorPage();
       } else {
         login(data);
         setStatus('done');
@@ -60,14 +59,7 @@ const UseMagicCode = ({ emailAddress }) => {
         <Loader />
       ) : (
         <form onSubmit={onSubmit} style={{ marginBottom: 10 }} data-cy="sign-in-code-form">
-          <TextInput
-            value={code}
-            onChange={setCode}
-            type="text"
-            label="sign in code"
-            placeholder="cute-unique-cosmos"
-            testingId="sign-in-code"
-          />
+          <TextInput value={code} onChange={setCode} type="text" label="sign in code" placeholder="cute-unique-cosmos" testingId="sign-in-code" />
           <div className={styles.submitWrap}>
             <Button disabled={!isEnabled} onClick={onSubmit}>
               Sign In

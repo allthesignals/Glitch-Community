@@ -10,8 +10,6 @@ import VisibilityContainer from 'Components/visibility-container';
 import { useCollectionCurator } from 'State/collection';
 import { BookmarkAvatar } from 'Components/images/avatar';
 
-import useDevToggle from 'State/dev-toggles';
-
 import styles from './collection-result-item.styl';
 
 const ProfileItemWithData = ({ collection }) => {
@@ -33,7 +31,7 @@ const ProfileItemWrap = ({ collection }) => (
 );
 
 const CollectionResultItem = ({ onClick, collection, active }) => {
-  const collectionIsMyStuff = useDevToggle('My Stuff') && collection.isMyStuff;
+  const collectionIsMyStuff = collection.isMyStuff;
 
   return (
     <div className={classnames(collection.private && styles.private)}>

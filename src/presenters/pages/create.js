@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import styled from 'styled-components';
 import { Button, Icon, Loader, Mark } from '@fogcreek/shared-components';
 
+import GlitchHelmet from 'Components/glitch-helmet';
 import Image from 'Components/images/image';
 import { TeamAvatar, ProjectAvatar } from 'Components/images/avatar';
 import Text from 'Components/text/text';
@@ -184,7 +185,9 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button as={TeamLink} team={team}>{team.name}</Button>
+          <Button as={TeamLink} team={team}>
+            {team.name}
+          </Button>
         </div>
         <Text size="14px">
           <Markdown renderAsPlaintext>{team.description}</Markdown>
@@ -414,10 +417,7 @@ function VSCode() {
       </Text>
 
       <Text className={styles.sectionDescription}>
-        <Button
-          as="a"
-          href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch"
-        >
+        <Button as="a" href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch">
           <Image src={vscodeIcon} alt="" width="17" height="17" />
           &nbsp;Download from Visual Studio Marketplace <span aria-hidden="true">&rarr;</span>
         </Button>
@@ -529,7 +529,11 @@ function Categories() {
   return (
     <section className={classNames(styles.categories, styles.section)}>
       <Text>...or browse starter apps for inspiration</Text>
-      <CategoriesGrid className={styles.categoriesGrid} wrapItems />
+      <CategoriesGrid
+        className={styles.categoriesGrid}
+        wrapItems
+        categories={['games', 'handy-bots', 'music', 'art', 'tools-for-work', 'hardware', 'building-blocks', 'learn-to-code']}
+      />
     </section>
   );
 }
@@ -537,6 +541,13 @@ function Categories() {
 const CreatePage = () => (
   <div style={{ maxWidth: '100vw', overflow: 'hidden', background: '#f5f5f5' }}>
     <Layout>
+      <GlitchHelmet
+        title="Glitch - Create"
+        socialTitle="Get Started Creating on Glitch"
+        description="Glitch is a collaborative programming environment that lives in your browser and deploys code as you type."
+        image="https://cdn.glitch.com/50f784d9-9995-4fa4-a185-b4b1ea6e77c0/create-illustration.png?v=1562612212463"
+        canonicalUrl="/create"
+      />
       <main id="main" className={styles.main}>
         <Banner />
         <WhatIsGlitch />

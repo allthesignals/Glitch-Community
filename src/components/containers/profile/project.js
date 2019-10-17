@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import TrackedButtonGroup from 'Components/buttons/tracked-button-group';
-import { getProjectAvatarUrl } from 'Models/project';
+import { SUSPENDED_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
 import styles from './styles.styl';
-
-const suspendedAvatarUrl = 'https://cdn.glitch.com/2b785d6f-8e71-423f-b484-ec2383060a9b%2Fno-entry.png?1556733100930';
 
 const getAvatarUrl = (currentUser, isAuthorized, project) => {
   if (project.suspendedReason && !isAuthorized && !currentUser.isSupport) {
-    return suspendedAvatarUrl;
+    return SUSPENDED_AVATAR_URL;
   }
   return getProjectAvatarUrl(project);
 };
