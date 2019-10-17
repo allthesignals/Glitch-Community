@@ -12,7 +12,6 @@
  */
 
 import React from 'react';
-import { Popover } from '@fogcreek/shared-components';
 
 import { SignInPopBase as SignInPop } from 'Components/sign-in-pop';
 import { useCurrentUser } from 'State/current-user';
@@ -39,9 +38,7 @@ const SignInPage = () => {
 
   return (
     <div className={styles.content}>
-      <Popover>
-        {() => <SignInPop align="none" />}
-      </Popover>
+      <SignInPop startOpen />
     </div>
   );
 };

@@ -327,7 +327,7 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
   );
 };
 
-export const SignInPopBase = withRouter(({ location }) => {
+export const SignInPopBase = withRouter(({ startOpen, location }) => {
   const userPasswordEnabled = useDevToggle('User Passwords');
   const [, setDestination] = useLocalStorage('destinationAfterAuth');
   const [tfaToken, setTfaToken] = React.useState('');
@@ -345,6 +345,7 @@ export const SignInPopBase = withRouter(({ location }) => {
 
   return (
     <Popover
+      startOpen={startOpen}
       align="right"
       className={mediumPopover}
       renderLabel={({ onClick, ref }) => (
