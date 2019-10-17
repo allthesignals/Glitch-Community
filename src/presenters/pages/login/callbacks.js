@@ -9,7 +9,7 @@ import { APP_URL } from 'Utils/constants';
 import useLocalStorage from 'State/local-storage';
 import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
-import TwoFactorCodePage from '../two-factor-code';
+import TwoFactorCodePage from './two-factor-code';
 import { EmailErrorPage, OauthErrorPage } from '../error';
 
 // The Editor may embed /login/* endpoints in an iframe in order to share code.
