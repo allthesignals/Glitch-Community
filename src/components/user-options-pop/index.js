@@ -20,7 +20,6 @@ import styles from './styles.styl';
 import { emoji } from '../global.styl';
 
 // Create Team button
-
 const CreateTeamButton = ({ showCreateTeam }) => {
   const onClickCreateTeam = useTrackedFunc(showCreateTeam, 'Create Team clicked');
   return (
@@ -182,7 +181,8 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
     <CheckForCreateTeamHash>
       {(createTeamOpen) => (
         <Popover
-          startOpen={createTeamOpen}
+          startOpen
+          toggleProps={createTeamOpen}
           initialView={createTeamOpen ? 'createTeam' : 'UserOptionsPop'}
           align="right"
           renderLabel={({ onClick, ref }) => {
