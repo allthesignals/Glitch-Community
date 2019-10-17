@@ -203,30 +203,6 @@ module.exports = function(external) {
     });
   });
 
-  app.get('/api/:page', async (req, res) => {
-    const { page } = req.params;
-    console.log(page);
-    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
-
-    const data = await getData(page);
-    res.send(data);
-  });
-
-  app.post('/api/:page', async (req, res) => {
-    const { page } = req.params;
-    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
-
-    const persistentToken = req.headers.authorization;
-    const data = req.body;
-    try {
-      await saveDataToFile({ page, persistentToken, data });
-      res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
-      res.sendStatus(403);
-    }
-  });
-
   app.get(['/', '/index.html'], async (req, res) => {
     await render(req, res, {}, 'z2ksbcs34d');
   });
