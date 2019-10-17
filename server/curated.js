@@ -20,7 +20,8 @@ let pageCache = {};
 
 async function getData(page) {
   if (!pageCache[page]) {
-    const json = await readFile(path.join(__dirname, `../src/curated/${page}.json`));
+    const json = await axios.get(`https://cms.glitch.me/${page}.json`);
+    // const json = await readFile(path.join(__dirname, `../src/curated/${page}.json`));
     pageCache[page] = JSON.parse(json);
   }
   return pageCache[page];
