@@ -182,7 +182,8 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
   return (
     <CheckForCreateTeamHash>
       {(createTeamOpen) => (
-        <Popover
+        <DevPopover
+          startOpen
           toggleProps={createTeamOpen}
           initialView={createTeamOpen ? 'createTeam' : 'UserOptionsPop'}
           align="right"
@@ -212,7 +213,7 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
               showCreateTeam={() => { setActiveView('createTeam'); }}
             />
           )}
-        </Popover>
+        </DevPopover>
       )}
     </CheckForCreateTeamHash>
   );
