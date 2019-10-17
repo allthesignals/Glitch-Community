@@ -12,7 +12,7 @@
  */
 
 import React from 'react';
-import { Popover } from '@fogcreek/shared-components';
+import { Popover, createRemoteComponent } from '@fogcreek/shared-components';
 
 import { SignInPopBase as SignInPop } from 'Components/sign-in-pop';
 import { useCurrentUser } from 'State/current-user';
@@ -20,6 +20,7 @@ import { API_URL } from 'Utils/constants';
 
 import styles from './signin.styl';
 
+const DevPopover = createRemoteComponent('https://blossom-bougon.glitch.me/module.js', 'Popover');
 const SignInPage = () => {
   const { currentUser } = useCurrentUser();
   const { persistentToken, login } = currentUser;
@@ -39,9 +40,9 @@ const SignInPage = () => {
 
   return (
     <div className={styles.content}>
-      <Popover>
+      <DevPopover>
         {() => <SignInPop align="none" />}
-      </Popover>
+      </DevPopover>
     </div>
   );
 };
