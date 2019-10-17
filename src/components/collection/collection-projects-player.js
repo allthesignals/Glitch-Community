@@ -9,9 +9,7 @@ import { chunk, findIndex } from 'lodash';
 import { Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledButton, ButtonGroup, ButtonSegment } from '@fogcreek/shared-components';
 import Markdown from 'Components/text/markdown';
 import FeaturedProject from 'Components/project/featured-project';
-import ProfileList from 'Components/profile-list';
 import { ProjectAvatar } from 'Components/images/avatar';
-import { useProjectMembers } from 'State/project';
 import { ProjectLink } from 'Components/link';
 import Text from 'Components/text/text';
 
@@ -114,7 +112,7 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
         <Markdown length={80}>{featuredProject.description || ' '}</Markdown>
       </div>
 
-      <div className={classnames(styles.projectCounter, isDarkColor(collection.coverColor && styles.dark))}>
+      <div className={classnames(styles.projectCounter, isDarkColor(collection.coverColor) && styles.dark)}>
         {currentProjectIndex + 1}/{projects.length}
       </div>
 
@@ -172,7 +170,6 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
               <Text>{featuredProject.domain}</Text>
             </ProjectLink>
           )}
-
         </div>
       </div>
       <FeaturedProject
