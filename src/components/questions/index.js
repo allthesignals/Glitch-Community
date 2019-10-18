@@ -22,7 +22,7 @@ async function load(api, max) {
   const kaomoji = sample(kaomojis);
   try {
     const response = await api.get(`/v1/questions?cache=${Date.now()}`);
-    
+
     const questions = response.data.items
       .map((q) => JSON.parse(q.details))
       .filter((q) => !!q)
@@ -36,8 +36,8 @@ async function load(api, max) {
     const userIDs = questions.map((q) => `id=${q.userId}`).join('&');
 
     const { projects, users } = await allByKeys({
-      projects: api.get(`/v1/projects/by/id?${projectIDs}`).then(res => res.data),
-      users: api.get(`/v1/users/by/id?${userIDs}`).then(res => res.data),
+      projects: api.get(`/v1/projects/by/id?${projectIDs}`).then((res) => res.data),
+      users: api.get(`/v1/users/by/id?${userIDs}`).then((res) => res.data),
     });
 
     for (const question of questions) {
