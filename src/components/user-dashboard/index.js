@@ -15,7 +15,6 @@ import { getProjectLink } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
 import { useCollectionProjects, useToggleBookmark } from 'State/collection';
 import { useTrackedFunc } from 'State/segment-analytics';
-import useWindowSize from 'Hooks/use-window-size';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
@@ -49,7 +48,6 @@ const ClearSession = ({ clearUser }) => {
 };
 
 const RecentProjects = () => {
-  const [windowWidth] = useWindowSize();
   const { currentUser, fetched, clear } = useCurrentUser();
   const numProjects = currentUser.projects.length;
   const isAnonymousUser = !currentUser.login;
@@ -71,13 +69,13 @@ const RecentProjects = () => {
           </div>
           <div className={styles.projectsWrap}>
             {fetched ? (
-              <ProjectsList layout="row" projects={currentUser.projects.slice(0, 1)} showEditButton />
+              <ProjectsList layout="row" projects={currentUser.projects.slice(0, 3)} showEditButton />
             ) : (
               <Loader style={{ width: '25px' }} />
             )}
           </div>
         </div>
-        {numProjects > 3 && <Ideas count={windowWidth && windowWidth < 800 ? 1 : 2} />}
+        {numProjects < 3 && <Ideas count={3 - numProjects} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
