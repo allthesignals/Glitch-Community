@@ -114,18 +114,15 @@ const Idea = ({ project }) => {
 };
 
 const Ideas = ({ count }) => {
-  const { value: ideas } = useCollectionProjects({ id: 13045 });
+  const { value: ideas } = useCollectionProjects({ id: 13044 });
   const [ideasArr, setIdeasArr] = useState([])
   
   useEffect(() => {
-    if (!ideasArr.length) {
-      console.log('useEffect')
-      setIdeasArr(ideas)
-    }
+    setIdeasArr(ideas)
   }, [ideas])
 
   const onClickMoreIdeas = () => {
-    const els = ideas.splice(0, count)
+    const els = ideasArr.splice(0, count)
     setIdeasArr([...ideasArr, ...els])
   };
 
