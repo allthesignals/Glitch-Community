@@ -25,20 +25,20 @@ function truncateTag(tag) {
   return tag.substring(0, max);
 }
 
-const QuestionItem = ({ colorOuter, colorInner, domain, question, tags, userAvatar, userColor, userLogin, path, line, character }) => (
+const QuestionItem = ({ colorOuter, colorInner, project, question, tags, user, path, line, character }) => (
   <>
     <Image className={styles.helpIcon} src={iconHelp} alt="Help icon" />
     <Link
-      to={getEditorUrl(domain, path, line, character)}
+      to={getEditorUrl(project.domain, path, line, character)}
       data-track="question"
-      data-track-label={domain}
+      data-track-label={project.domain}
       className={styles.question}
       style={{ backgroundColor: colorOuter }}
     >
       <div className={styles.questionInner} style={{ backgroundColor: colorInner }}>
         <div className={styles.questionAsker}>
-          <Image className={styles.avatar} src={userAvatar} style={{ backgroundColor: userColor }} alt="" />
-          <Button as="span">Help {userLogin}</Button>
+          <Image className={styles.avatar} src={user.avatarThumbnailUrl} style={{ backgroundColor: user.color }} alt="" />
+          <Button as="span">Help {user.login}</Button>
         </div>
 
         <div className={classNames(styles.questionText, { [styles.dark]: isDarkColor(colorInner) })} title={question}>
@@ -58,7 +58,7 @@ const QuestionItem = ({ colorOuter, colorInner, domain, question, tags, userAvat
 QuestionItem.propTypes = {
   colorOuter: PropTypes.string.isRequired,
   colorInner: PropTypes.string.isRequired,
-  domain: PropTypes.string.isRequired,
+
   question: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   userAvatar: PropTypes.string.isRequired,

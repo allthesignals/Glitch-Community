@@ -11,6 +11,7 @@ import ErrorBoundary from 'Components/error-boundary';
 import { pickRandomColors } from 'Utils/color';
 import { captureException } from 'Utils/sentry';
 import { useAPI } from 'State/api';
+import { allByKeys } from 'Shared/api';
 
 import QuestionItem from './item';
 import styles from './questions.styl';
@@ -20,7 +21,7 @@ const kaomojis = ['八(＾□＾*)', '(ノ^_^)ノ', 'ヽ(*ﾟｰﾟ*)ﾉ', '♪(
 async function load(api, max) {
   const kaomoji = sample(kaomojis);
   try {
-    const { data } = await api.get(`projects/questions?cache=${Date.now()}`);
+    const { data } = await api.get(`/v1/questions?cache=${Date.now()}`);
 
     const questions = data
       .map((q) => JSON.parse(q.details))
@@ -28,8 +29,21 @@ async function load(api, max) {
       .slice(0, max)
       .map((question) => {
         const [colorInner, colorOuter] = pickRandomColors(2);
-        return { colorInner, colorOuter, id: question.questionId, ...question };
+        return { colorInner, colorOuter, ...question };
       });
+
+    const projectIDs = questions.map((q) => `id=${q.projectId}`).join('&');
+    const userIDs = questions.map((q) => `id=${q.userId}`).join('&');
+
+    const { projects, users } = await allByKeys({
+      projects: api.get(`/v1/projects/by/id?${projectIDs}`),
+      users: api.get(`/v1/users/by/id?${userIDs}`),
+    });
+
+    for (const question of questions) {
+      question.user = users[question.userId];
+      question.project = projects[question.projectId];
+    }
 
     return { kaomoji, questions };
   } catch (error) {
