@@ -114,7 +114,8 @@ const Idea = ({ project }) => {
 };
 
 const Ideas = ({ count }) => {
-  const { value: ideas } = useCollectionProjects({ id: 13044 });
+  // when this goes live, use collection id 13044 (@glitch/ideas)
+  const { value: ideas } = useCollectionProjects({ id: 13045 });
   const [ideasArr, setIdeasArr] = useState([])
   
   useEffect(() => {
