@@ -89,8 +89,12 @@
         document.getElementById('fallback-' + name).removeAttribute('style');
         container.style.display = 'none';
       }
+      
+      showFallback('notbuilt');
+      
       var isIe = /Trident\/[7]{1}/i.test(navigator.userAgent);
-      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com";
+      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com"; 
+      
       if (isIe) {
         // ie doesn't support our css
         showFallback('ie');
