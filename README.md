@@ -21,6 +21,8 @@ File structure
 - stylus files like `styles/style.styl` are compiled and served directly as `build/style.css`
 - Files in `public/` and `build/` are served directly
 - drag in `assets`, like images or music, to add them to your project
+- `src/curated/{home|pupdates}.json` contain homepage and pupdates content from our CMS
+  - See [cms.glitch.me](https://cms.glitch.me) for CMS documentation
 
 application models -> presenter -> DOM
 
@@ -37,6 +39,15 @@ The following commands are available for use during development:
 | `npm run cy:ci`   | Auto-start a temporary dev server and run integration tests against it   |
 | `npm run build`   | Perform a production build of the site and store the results in `build/` |
 
+## Environment Variables
+
+Set the following values in `.env` to change how the site is built and runs
+
+| Name         | Default       | Description                                                                                |
+| ------------ | ------------- | ------------------------------------------------------------------------------------------ |
+| `NODE_ENV`   | `development` | Adds extra minification and compilation steps when set to `production`                     |
+| `BUILD_TYPE` | `memory`      | Perform builds in `memory`, a separate `watcher` process, or use a `static` build artifact |
+| `RUNNING_ON` | `production`  | Where should the site look for user and projects (see `shared/constants.js`)               |
 
 ## Built with
 

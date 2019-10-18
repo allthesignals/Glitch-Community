@@ -9,7 +9,6 @@ import Row from 'Components/containers/row';
 import ProfileList from 'Components/profile-list';
 import Embed from 'Components/project/embed';
 import MaskImage from 'Components/images/mask-image';
-import Markdown from 'Components/text/markdown';
 import Questions from 'Components/questions';
 import UserDashboard from 'Components/user-dashboard';
 import ReportButton from 'Components/report-abuse-pop';
@@ -18,6 +17,7 @@ import Link from 'Components/link';
 import PreviewContainer from 'Components/containers/preview-container';
 import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
+import DataLoader from 'Components/data-loader';
 import OnboardingBanner from 'Components/onboarding-banner';
 import { useCurrentUser } from 'State/current-user';
 import { getProjectAvatarUrl } from 'Models/project';
@@ -44,9 +44,7 @@ const calloutGraphics = {
   },
 };
 
-const HomeSection = ({ className = '', ...props }) => (
-  <section className={classnames(styles.homeSection, className)} {...props} />
-);
+const HomeSection = ({ className = '', ...props }) => <section className={classnames(styles.homeSection, className)} {...props} />;
 
 const FeatureCallouts = ({ content }) => (
   <HomeSection id="feature-callouts" className={styles.featureCalloutsContainer}>
@@ -61,7 +59,8 @@ const FeatureCallouts = ({ content }) => (
               <Mark color={calloutGraphics[id].color}>{label}</Mark>
             </h2>
           </Link>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
         </>
       )}
     </Row>
@@ -107,7 +106,8 @@ const AppsWeLove = ({ content }) => {
               <div className={classnames(styles.appItem, i === currentTab && styles.active)}>
                 <div className={styles.appContent}>
                   <h4 className={styles.h4}>{title}</h4>
-                  <p>{description}</p>
+                  {/* eslint-disable-next-line react/no-danger */}
+                  <span dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
                 <img src={getProjectAvatarUrl({ id })} alt="" className={styles.appAvatar} />
               </div>
@@ -137,7 +137,8 @@ const CuratedCollections = ({ content }) => (
               {title}
             </Button>
           </div>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
           <span className={styles.collectionLink}>
             View <Pluralize count={count} singular="Project" /> <Icon icon="arrowRight" />
           </span>
@@ -167,7 +168,8 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
       <div className={styles.unifiedStoriesPreview}>
         <div className={styles.unifiedStoriesContentWrap}>
           <h3 className={styles.h3}>{dek}</h3>
-          <Markdown>{summary}</Markdown>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: summary }} />
           <Button as="a" href={href}>
             {cta} <Icon icon="arrowRight" />
           </Button>
@@ -177,14 +179,16 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
         <div className={styles.unifiedStoriesContentWrap}>
           <h3>Related</h3>
           <ul>
-            {relatedContent.filter((related) => !!related.href).map((related) => (
-              <li key={related.href}>
-                <Link to={related.href} className={styles.plainLink}>
-                  <h4>{related.title}</h4>
-                  <p>{related.source}</p>
-                </Link>
-              </li>
-            ))}
+            {relatedContent
+              .filter((related) => !!related.href)
+              .map((related) => (
+                <li key={related.href}>
+                  <Link to={related.href} className={styles.plainLink}>
+                    <h4>{related.title}</h4>
+                    <p>{related.source}</p>
+                  </Link>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
@@ -251,7 +255,8 @@ const BuildingOnGlitch = ({ content }) => (
             <img src={buildingGraphics[index]} alt="" />
           </div>
           <h3>{title}</h3>
-          <p>{description}</p>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: description }} />
           <Button as="span">
             {cta} <Icon icon="arrowRight" />
           </Button>
@@ -290,30 +295,46 @@ export const Home = ({ data, loggedIn, hasProjects }) => (
 
 export const HomePreview = () => {
   const api = useAPI();
-  const { origin, ZINE_POSTS } = useGlobals();
-  const onPublish = async (data) => {
-    try {
-      await api.post(`${origin}/api/home`, data);
-      // need to do a hard reload for this to take effect
-      window.location = '/';
-    } catch (e) {
-      console.error(e);
-    }
+  const [currentDraft, setCurrentDraft] = useState(0);
+  const { ZINE_POSTS } = useGlobals();
+
+  const changeDraft = (e) => {
+    setCurrentDraft(Number(e.target.value));
   };
 
   return (
     <Layout>
-      <PreviewContainer
-        get={() => api.get('https://community-home-editor.glitch.me/home.json').then((res) => res.data)}
-        onPublish={onPublish}
-        previewMessage={
+      <DataLoader get={() => api.get('https://cms.glitch.me/drafts.json').then((res) => res.data)}>
+        {(drafts) => (
           <>
-            This is a live preview of edits done with <Link to="/index/edit">Community Home Editor.</Link>
+            <div>
+              <h2>Select a draft</h2>
+              <select onChange={changeDraft} value={currentDraft}>
+                {drafts.map((draft, i) => (
+                  <option key={draft.id} value={i}>
+                    {draft.label}
+                  </option>
+                ))}
+              </select>
+              &nbsp;
+              <Link to="/pupdates/preview">Preview Pupdates</Link>
+            </div>
+
+            <PreviewContainer
+              url={`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`}
+              get={() => api.get(`https://cms.glitch.me/drafts/${drafts[currentDraft].id}/home.json`).then((res) => res.data)}
+              previewMessage={
+                <>
+                  This is a live preview of the &quot;{drafts[currentDraft].label}&quot; draft. To publish this draft, go back to{' '}
+                  <Link to="https://glitch.prismic.io">Prismic</Link>.
+                </>
+              }
+            >
+              {(data) => <Home data={{ ...data, cultureZine: ZINE_POSTS.slice(0, 4) }} />}
+            </PreviewContainer>
           </>
-        }
-      >
-        {(data) => <Home data={{ ...data, cultureZine: ZINE_POSTS.slice(0, 4) }} />}
-      </PreviewContainer>
+        )}
+      </DataLoader>
     </Layout>
   );
 };
