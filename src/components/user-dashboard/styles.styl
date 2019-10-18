@@ -30,7 +30,7 @@
   @media(min-width: 800px)
     margin-right: 1rem
     display: block
-    flex: 0 0 12%
+    flex: 0 0 120px
 
 .userAvatar
   height: 0
@@ -163,6 +163,9 @@ svg.arrow
 .postcardSubheading
   margin: 0
   font-weight: 600
+  
+  @media (min-width: mediumViewport) and (max-width: mediumLargeViewport)
+    margin-top: 40px
   
   @media (min-width: mediumViewport) and (max-width largeViewport)
     max-width: 110px
