@@ -11,7 +11,6 @@ import ErrorBoundary from 'Components/error-boundary';
 import { pickRandomColors } from 'Utils/color';
 import { captureException } from 'Utils/sentry';
 import { useAPI } from 'State/api';
-import { allByKeys } from 'Shared/api';
 
 import QuestionItem from './item';
 import styles from './questions.styl';
@@ -29,21 +28,8 @@ async function load(api, max) {
       .slice(0, max)
       .map((question) => {
         const [colorInner, colorOuter] = pickRandomColors(2);
-        return { colorInner, colorOuter, ...question };
+        return { colorInner, colorOuter, id: question.questionId, ...question };
       });
-
-    const projectIDs = questions.map((q) => `id=${q.projectId}`).join('&');
-    const userIDs = questions.map((q) => `id=${q.userId}`).join('&');
-
-    const { projects, users } = await allByKeys({
-      projects: api.get(`/v1/projects/by/id?${projectIDs}`).then((res) => res.data),
-      users: api.get(`/v1/users/by/id?${userIDs}`).then((res) => res.data),
-    });
-
-    for (const question of questions) {
-      question.user = users[question.userId];
-      question.project = projects[question.projectId];
-    }
 
     return { kaomoji, questions };
   } catch (error) {
