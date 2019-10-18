@@ -153,7 +153,7 @@ const Ideas = ({ count }) => {
       {ideasArr && (
         <div className={styles.ideasGrid}>
           {ideasArr.slice(0, count).map((project) => (
-            <Idea project={project} />
+            <Idea key={project.id} project={project} />
           ))}
         </div>
       )}
