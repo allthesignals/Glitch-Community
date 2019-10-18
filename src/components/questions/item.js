@@ -58,12 +58,16 @@ const QuestionItem = ({ colorOuter, colorInner, project, question, tags, user, p
 QuestionItem.propTypes = {
   colorOuter: PropTypes.string.isRequired,
   colorInner: PropTypes.string.isRequired,
-
+  project: PropTypes.shape({
+    domain: PropTypes.string.isRequired,
+  }).isRequired,
   question: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  userAvatar: PropTypes.string.isRequired,
-  userColor: PropTypes.string.isRequired,
-  userLogin: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    avatarThumbnailUrl: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    login: PropTypes.string.isRequired,
+  }).isRequired,
   path: PropTypes.string,
   line: PropTypes.number,
   character: PropTypes.number,
