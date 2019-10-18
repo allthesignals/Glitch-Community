@@ -15,6 +15,7 @@ import { getProjectLink } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
 import { useCollectionProjects, useToggleBookmark } from 'State/collection';
 import { useTrackedFunc } from 'State/segment-analytics';
+import useWindowSize from 'Hooks/use-window-size';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
@@ -48,6 +49,7 @@ const ClearSession = ({ clearUser }) => {
 };
 
 const RecentProjects = () => {
+  const [windowWidth] = useWindowSize();
   const { currentUser, fetched, clear } = useCurrentUser();
   const numProjects = currentUser.projects.length;
   const isAnonymousUser = !currentUser.login;
@@ -75,7 +77,7 @@ const RecentProjects = () => {
             )}
           </div>
         </div>
-        {numProjects > 3 && <Ideas count={2} />}
+        {numProjects > 3 && <Ideas count={windowWidth && windowWidth < 800 ? 1 : 2} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
@@ -116,15 +118,18 @@ const Idea = ({ project }) => {
 const Ideas = ({ count }) => {
   // when this goes live, use collection id 13044 (@glitch/ideas)
   const { value: ideas } = useCollectionProjects({ id: 13045 });
-  const [ideasArr, setIdeasArr] = useState([])
-  
-  useEffect(() => {
-    setIdeasArr(ideas)
-  }, [ideas])
+  const [ideasArr, setIdeasArr] = useState([]);
+
+  useEffect(
+    () => {
+      setIdeasArr(ideas);
+    },
+    [ideas],
+  );
 
   const onClickMoreIdeas = () => {
-    const els = ideasArr.splice(0, count)
-    setIdeasArr([...ideasArr, ...els])
+    const els = ideasArr.splice(0, count);
+    setIdeasArr([...ideasArr, ...els]);
   };
 
   return (
