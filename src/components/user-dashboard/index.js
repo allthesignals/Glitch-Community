@@ -118,7 +118,7 @@ const Ideas = ({ count }) => {
   const [ideasArr, setIdeasArr] = useState([])
   
   useEffect(() => {
-    if (!ideasArr) {
+    if (!ideasArr.length) {
       console.log('useEffect')
       setIdeasArr(ideas)
     }
