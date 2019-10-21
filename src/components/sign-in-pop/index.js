@@ -127,7 +127,8 @@ const EmailHandler = ({ align, showView }) => {
   return (
     <PopoverDialog align={align}>
       <MultiPopoverTitle>
-        Email Sign In&nbsp;<Icon className={emoji} icon="email" />
+        Email Sign In&nbsp;
+        <Icon className={emoji} icon="email" />
       </MultiPopoverTitle>
       <PopoverActions>
         {status === 'ready' && (
@@ -248,6 +249,9 @@ const TwoFactorSignIn = ({ align, token }) => (
       Two factor auth <Icon className={emoji} icon="key" />
     </MultiPopoverTitle>
     <PopoverActions>
+      <Notification type="success" persistent>
+        Almost Done
+      </Notification>
       <TwoFactorForm initialToken={token} />
     </PopoverActions>
   </PopoverDialog>

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
+import { Icon } from '@fogcreek/shared-components';
+import TransparentButton from 'Components/buttons/transparent-button';
 import styles from './overlays.styl';
 
 export const Overlay = ({ children, className, ariaModal, ariaLabelledBy }) => {
@@ -33,17 +34,37 @@ OverlaySection.propTypes = {
   type: PropTypes.oneOf(['info', 'actions']).isRequired,
 };
 
-export const OverlayTitle = ({ children, id }) => (
-  <h1 className={styles.title} id={id}>
-    {children}
-  </h1>
-);
+export const OverlayTitle = ({ children, id, goBack }) => {
+  if (goBack) {
+    return (
+      <TransparentButton onClick={goBack}>
+        <div className={styles.goBack}>
+          <span>
+            <Icon icon="chevronLeft" />
+          </span>
+          <h1 className={styles.title} id={id}>
+            {children}
+          </h1>
+        </div>
+      </TransparentButton>
+    );
+  }
+
+  return (
+    <h1 className={styles.title} id={id}>
+      {children}
+    </h1>
+  );
+};
+
 OverlayTitle.propTypes = {
   children: PropTypes.node.isRequired,
   id: PropTypes.string,
+  goBack: PropTypes.func,
 };
 OverlayTitle.defaultProps = {
   id: '', // for aria labelled by purposes only
+  goBack: undefined,
 };
 
 export const OverlayBackground = () => <div className={styles.overlayBackground} role="presentation" tabIndex={-1} />;
