@@ -9,7 +9,6 @@ import BookmarkButton from 'Components/buttons/bookmark-button';
 
 import { useCurrentUser } from 'State/current-user';
 import { useToggleBookmark } from 'State/collection';
-import useDevToggle from 'State/dev-toggles';
 import { useTrackedFunc } from 'State/segment-analytics';
 
 import FeaturedProjectOptionsPop from './featured-project-options-pop';
@@ -24,7 +23,6 @@ const Top = ({
   isAuthorized,
   unfeatureProject,
   createNote,
-  myStuffEnabled,
   isAnonymousUser,
   bookmarkAction,
   hasBookmarked,
@@ -42,7 +40,7 @@ const Top = ({
       )}
     </div>
     <div className={styles.right}>
-      {myStuffEnabled && !isAnonymousUser && !window.location.pathname.includes('my-stuff') && (
+      {!isAnonymousUser && !window.location.pathname.includes('my-stuff') && (
         <div className={styles.bookmarkButtonContainer}>
           <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={featuredProject.domain} />
         </div>
@@ -66,18 +64,18 @@ const FeaturedProject = ({
   updateNote,
   unfeatureProject,
 }) => {
-  const myStuffEnabled = useDevToggle('My Stuff');
   const { currentUser } = useCurrentUser();
   const [hasBookmarked, toggleBookmark] = useToggleBookmark(featuredProject);
 
   const isAnonymousUser = !currentUser.login;
 
-  const bookmarkAction = useTrackedFunc(toggleBookmark, `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`, (inherited) => ({
+  const bookmarkAction = useTrackedFunc(toggleBookmark, 'My Stuff Button Clicked', (inherited) => ({
     ...inherited,
     projectName: featuredProject.domain,
     baseProjectId: featuredProject.baseId || featuredProject.baseProject,
     userId: currentUser.id,
     origin: `${inherited.origin}-featured-project`,
+    isAddingToMyStuff: !hasBookmarked,
   }));
 
   return (
@@ -94,7 +92,6 @@ const FeaturedProject = ({
                 isAuthorized={isAuthorized}
                 unfeatureProject={animateAndUnfeatureProject}
                 createNote={collection ? () => displayNewNote(featuredProject) : null}
-                myStuffEnabled={myStuffEnabled}
                 isAnonymousUser={isAnonymousUser}
                 bookmarkAction={bookmarkAction}
                 hasBookmarked={hasBookmarked}

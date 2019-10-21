@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from '@fogcreek/shared-components';
 
+import { CDN_URL } from 'Utils/constants';
 import Image from 'Components/images/image';
 import { getEditorUrl } from 'Models/project';
 import Link from 'Components/link';
 import { isDarkColor } from 'Utils/color';
 import styles from './questions.styl';
 
-const iconHelp = 'https://cdn.glitch.com/f7224274-1330-4022-a8f2-8ae09dbd68a8%2Fask-for-help.svg?1494954687906';
+const iconHelp = `${CDN_URL}/63d5c8f3-30cf-451e-953c-b133e7ec9007%2Fask-for-help.svg?v=1569605866088`;
 
 function truncateQuestion(question) {
   const max = 140;

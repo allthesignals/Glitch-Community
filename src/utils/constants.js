@@ -1,4 +1,4 @@
-const { envs } = require('Shared/constants');
+const { envs, tagline } = require('Shared/constants');
 
 // The current environment is based on the RUNNING_ON environment variable,
 // unless we're running under a staging/dev hostname, in which case we use the
@@ -21,27 +21,17 @@ const getNodeEnv = () => {
   return envs[runningOn] ? runningOn : 'production';
 };
 
-const isBrowser = typeof window !== 'undefined';
-const currentEnv = isBrowser ? getBrowserEnv() : getNodeEnv();
+export const isBrowser = typeof window !== 'undefined';
+export const currentEnv = isBrowser ? getBrowserEnv() : getNodeEnv();
+export { tagline };
 
-const {
+export const {
   APP_URL,
   API_URL,
   EDITOR_URL,
   CDN_URL,
   GITHUB_CLIENT_ID,
   FACEBOOK_CLIENT_ID,
+  OPTIMIZELY_KEY,
   PROJECTS_DOMAIN,
 } = envs[currentEnv];
-
-export {
-  currentEnv,
-  isBrowser,
-  APP_URL,
-  API_URL,
-  EDITOR_URL,
-  CDN_URL,
-  GITHUB_CLIENT_ID,
-  FACEBOOK_CLIENT_ID,
-  PROJECTS_DOMAIN,
-};

@@ -41,7 +41,8 @@ export const getTeamProfileStyle = (team) => {
 };
 
 export function teamAdmins({ team }) {
-  return team.users.filter((user) => team.adminIds.includes(user.id));
+  const admins = team.teamPermissions.filter(({ accessLevel }) => accessLevel === ADMIN_ACCESS_LEVEL);
+  return admins.map(({ userId }) => team.users.find((user) => user.id === userId));
 }
 
 export function userIsOnTeam({ user, team }) {
@@ -54,9 +55,10 @@ export function userCanJoinTeam({ user, team }) {
 }
 
 export function userIsTeamAdmin({ user, team }) {
-  return !!user && team.adminIds.includes(user.id);
+  return !!user && team.teamPermissions.some(({ userId, accessLevel }) => userId === user.id && accessLevel === ADMIN_ACCESS_LEVEL);
 }
 
 export function userIsOnlyTeamAdmin({ user, team }) {
-  return userIsTeamAdmin({ user, team }) && team.adminIds.length === 1;
+  if (!userIsTeamAdmin({ user, team })) return false;
+  return !team.teamPermissions.some(({ userId, accessLevel }) => userId !== user.id && accessLevel === ADMIN_ACCESS_LEVEL);
 }

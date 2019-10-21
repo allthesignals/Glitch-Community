@@ -1,11 +1,16 @@
 .blockSection 
+  display: grid
+  grid-template-columns: 1fr 1fr
+  h1, h2, p
+    grid-column: 1 / span 2;
   h3
     font-size: 16px
     margin-top: 0
+    grid-column: 1 / span 2;
   article
     vertical-align: top
     display: inline-block
-    width: calc(49.9% - 12px)
+    width: autoano
     margin-right: 12px
     padding: 12px
     margin-top: .5rem

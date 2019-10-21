@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@fogcreek/shared-components';
-
-import { EDITOR_URL } from 'Utils/constants';
 import SearchForm from 'Components/search-form';
 import SignInPop from 'Components/sign-in-pop';
 import UserOptionsPop from 'Components/user-options-pop';
@@ -11,6 +9,8 @@ import Link, { TrackedExternalLink } from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
+import { EDITOR_URL } from 'Utils/constants';
+
 import Logo from './logo';
 import styles from './header.styl';
 
@@ -39,7 +39,6 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
         <Link to="/" className={styles.logoWrap}>
           <Logo />
         </Link>
-
         {showNav && (
           <nav className={styles.headerActions}>
             <div className={styles.searchWrap}>

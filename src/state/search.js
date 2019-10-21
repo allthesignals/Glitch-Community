@@ -132,6 +132,7 @@ const formatByType = {
     user: null,
     teamId: collection.team,
     userId: collection.user,
+    private: collection.isPrivate,
   }),
 };
 

@@ -2,8 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title><%= title %></title>
-    <meta name="description" content="<%= description %>">
+    <% if (helmet) { %>
+    <%- helmet.title.toString() %>
+    <%- helmet.meta.toString() %>
+    <%- helmet.link.toString() %>
+    <% } else { %>
+    <title>Glitch</title>
+    <% } %>
     <script>
       var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";}
     </script> 
@@ -11,19 +16,6 @@
     <link id="apple-touch-icon" rel="apple-touch-icon" sizes="180x180" href="https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fapple-touch-icon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- facebook open graph tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="<%= canonicalUrl %>">
-    <meta property="og:title" content="<%= socialTitle || title %>">
-    <meta property="og:description" content="<%= description %>">
-    <meta property="og:image" content="<%= image %>">
-    <!-- twitter card tags (stacks with og: tags) -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@glitch">
-    <meta name="twitter:title" content="<%= socialTitle || title %>">
-    <meta name="twitter:description" content="<%= description %>">
-    <meta name="twitter:image" content="<%= image %>">
-    <meta name="twitter:url" content="<%= canonicalUrl %>">
     
     <link rel="stylesheet" href="https://cloud.webtype.com/css/3a8e55c6-b1f3-4659-99eb-125ae72bd084.css">
     <% for (let i = 0; i < styles.length; ++i) { %>
@@ -37,7 +29,7 @@
     <noscript><style>#fallback, #fallback-noscript { display: inline-block !important } #fallback-img { display: block !important }</style></noscript>
     <% } %>
   </head>
-  <body>
+  <body <%- helmet ? helmet.bodyAttributes.toString() : null %>>
     <script>
       var RUNNING_ON = '<%= RUNNING_ON %>';
       var ENVIRONMENT = '<%= ENVIRONMENT %>';
@@ -45,9 +37,11 @@
       var PROJECT_DOMAIN = '<%= PROJECT_DOMAIN %>';
       var ZINE_POSTS = <%- JSON.stringify(ZINE_POSTS) %>;
       var HOME_CONTENT = <%- JSON.stringify(HOME_CONTENT) %>;
+      var PUPDATES_CONTENT = <%- JSON.stringify(PUPDATES_CONTENT) %>;
       var API_CACHE = <%- JSON.stringify(API_CACHE) %>;
       var SSR_SIGNED_IN = <%- SSR_SIGNED_IN %>;
       var AB_TESTS = <%- JSON.stringify(AB_TESTS) %>;
+      var OPTIMIZELY_DATA = <%- JSON.stringify(OPTIMIZELY_DATA) %>;
       var BUILD_COMPLETE = <%- BUILD_COMPLETE %>;
       var BUILD_TIMESTAMP = '<%= BUILD_TIMESTAMP %>';
     </script>
