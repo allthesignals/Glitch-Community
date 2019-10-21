@@ -7,7 +7,7 @@ const util = require('util');
 const dayjs = require('dayjs');
 const punycode = require('punycode');
 
-const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
+const { getProject, getTeam, getUser, getCollection, getZine, getHome, getPupdates } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
 const categories = require('../shared/categories');
@@ -15,7 +15,6 @@ const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData } = require('./optimizely');
-const { getData } = require('./curated');
 const rootTeams = require('../shared/teams');
 
 module.exports = function(external) {
@@ -75,7 +74,7 @@ module.exports = function(external) {
 
     const assignments = getAssignments(req, res);
     const signedIn = !!req.cookies.hasLogin;
-    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
+    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), getHome(), getPupdates()]);
 
     let ssr = { rendered: null, helmet: null, styleTags: '' };
     try {
@@ -171,13 +170,12 @@ module.exports = function(external) {
     }
     await render(req, res);
   });
-  
+
   categories.forEach((category) => {
     app.get(`/${category.url}`, (req, res) => {
       res.redirect(301, `/@glitch/${category.collectionName}`);
     });
   });
-  
 
   // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
   Object.keys(rootTeams).forEach((teamName) => {

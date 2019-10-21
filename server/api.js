@@ -20,12 +20,14 @@ function getBatchedEntity(api, entity, idType, id) {
   // create a new batch
   if (!batches.has(key)) {
     const BATCH_TIME = 50; // ms
-    const promise = new Promise((resolve) => setTimeout(() => {
-      const [ids] = batches.get(key);
-      batches.delete(key);
-      const query = ids.map((id) => `${idType}=${encodeURIComponent(id)}`).join('&');
-      resolve(api.get(`v1/${entity}/by/${idType}?${query}`));
-    }, BATCH_TIME));
+    const promise = new Promise((resolve) =>
+      setTimeout(() => {
+        const [ids] = batches.get(key);
+        batches.delete(key);
+        const query = ids.map((id) => `${idType}=${encodeURIComponent(id)}`).join('&');
+        resolve(api.get(`v1/${entity}/by/${idType}?${query}`));
+      }, BATCH_TIME),
+    );
     batches.set(key, [[], promise]);
   }
 
@@ -68,6 +70,14 @@ async function getCultureZinePosts() {
   return response.data.posts;
 }
 
+async function getCMSContent(page) {
+  console.log(`Fetching CMS content for ${page}`);
+  const url = `https://cms.glitch.me/${page}.json`;
+  const response = await axios.get(url, { timeout: 10000 });
+  console.log(response.data);
+  return response.data;
+}
+
 const [getFromCache] = createCache(dayjs.convert(1, 'hour', 'ms'), 'load');
 const [getFromZineCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'load');
 
@@ -77,4 +87,6 @@ module.exports = {
   getUser: (login) => getFromCache(`user ${login}`, getUserFromApi, login),
   getCollection: (login, collection) => getFromCache(`collection ${login}/${collection}`, getCollectionFromApi, login, collection),
   getZine: () => getFromZineCache('culture zine', getCultureZinePosts),
+  getHome: () => getFromCache('home', () => getCMSContent('home')),
+  getPupdates: () => getFromCache('pupdates', () => getCMSContent('pupdates')),
 };
