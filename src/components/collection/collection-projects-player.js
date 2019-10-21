@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
-import { isDarkColor } from 'Utils/color';
+import { hexToRgbA, isDarkColor } from 'Utils/color';
 
 import { chunk, findIndex } from 'lodash';
 import { Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledButton, ButtonGroup, ButtonSegment } from '@fogcreek/shared-components';
 import Markdown from 'Components/text/markdown';
 import FeaturedProject from 'Components/project/featured-project';
-import ProfileList from 'Components/profile-list';
 import { ProjectAvatar } from 'Components/images/avatar';
-import { useProjectMembers } from 'State/project';
 import { ProjectLink } from 'Components/link';
 import Text from 'Components/text/text';
 
@@ -109,6 +107,15 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
           </div>
         )}
       </Popover>
+
+      <div className={classnames(styles.playerDescription, isDarkColor(collection.coverColor) && styles.dark)}>
+        <Markdown length={80}>{featuredProject.description || ' '}</Markdown>
+      </div>
+
+      <div className={classnames(styles.projectCounter, isDarkColor(collection.coverColor) && styles.dark)}>
+        {currentProjectIndex + 1}/{projects.length}
+      </div>
+
       <div className={styles.buttonWrap}>
         <ButtonGroup variant="primary" size="normal">
           <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
@@ -139,13 +146,11 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
 
   const featuredProject = projects[currentProjectIndex];
 
-  const { value: members } = useProjectMembers(featuredProject.id);
-
   return (
     <>
       <div
         className={classnames(styles.playerContainer, isDarkColor(collection.coverColor) && styles.dark)}
-        style={{ backgroundColor: collection.coverColor, borderColor: collection.coverColor }}
+        style={{ backgroundColor: hexToRgbA(collection.coverColor), borderColor: collection.coverColor }}
       >
         <div className={styles.playerHeader}>
           {projects.length > 1 ? (
@@ -165,17 +170,6 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
               <Text>{featuredProject.domain}</Text>
             </ProjectLink>
           )}
-        </div>
-        <div className={styles.playerDescription}>
-          <Markdown length={80}>{featuredProject.description || ' '}</Markdown>
-          {members && (
-            <div className={styles.membersContainer}>
-              <ProfileList layout="row" {...members} />
-            </div>
-          )}
-        </div>
-        <div className={styles.projectCounter}>
-          {currentProjectIndex + 1}/{projects.length}
         </div>
       </div>
       <FeaturedProject
