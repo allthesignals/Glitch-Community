@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { Icon } from '@fogcreek/shared-components';
 
 import styles from './password-strength.styl';
@@ -13,9 +12,10 @@ const PasswordStrength = ({ strength }) => {
     2: <><Icon className={emoji} icon="faceSlightlySmiling" /> okay</>,
     3: <><Icon className={emoji} icon="bicep" /> strong</>,
   };
+
   return (
     <div className={styles.container}>
-      <progress value={Math.max(strength, 1)} max="3" className={classNames(styles.meter, styles[`score${strength}`])} />
+      <progress value={Math.max(strength, 0)} max="3" className={styles[`score${strength}`]} />
       <span className={styles.word}>
         {labels[strength]}
       </span>
