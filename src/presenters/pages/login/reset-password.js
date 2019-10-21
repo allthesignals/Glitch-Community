@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { Button } from '@fogcreek/shared-components';
 
 import { useAPI } from 'State/api';
+import { useCurrentUser } from 'State/current-user';
 import useLocalStorage from 'State/local-storage';
 
 import Notification from 'Components/notification';
@@ -13,11 +14,13 @@ import { Overlay, OverlayTitle, OverlaySection } from 'Components/overlays';
 
 import AuthLayout from 'Components/layout/auth-layout';
 import NewPasswordInput from 'Components/new-password-input';
+import { EmailTokenLoginPage } from './callbacks';
 
 import styles from './styles.styl';
 
-const RedirectToLogin = ({ resetPasswordToken, loginToken }) => {
-  const [, setDestination, ready] = useLocalStorage('destinationAfterAuth');
+const ResetPasswordLogin = ({ loginToken, resetPasswordToken }) => {
+  const [ready, setReady] = React.useState(false);
+  const [, setDestination] = useLocalStorage('destinationAfterAuth');
   React.useEffect(() => {
     setDestination({
       expires: dayjs()
@@ -28,8 +31,9 @@ const RedirectToLogin = ({ resetPasswordToken, loginToken }) => {
         search: `resetPasswordToken=${resetPasswordToken}`,
       },
     });
-  }, [ready]);
-  return ready ? <Redirect to={`/login/email?token=${loginToken}`} /> : null;
+    setReady(true);
+  }, []);
+  return ready ? <EmailTokenLoginPage token={loginToken} /> : null;
 };
 
 const ResetPasswordForm = ({ resetPasswordToken }) => {
@@ -91,12 +95,14 @@ const ResetPasswordForm = ({ resetPasswordToken }) => {
 };
 
 const ResetPasswordPage = ({ loginToken, resetPasswordToken }) => {
+  const { currentUser } = useCurrentUser();
   if (loginToken && resetPasswordToken) {
-    return <RedirectToLogin resetPasswordToken={resetPasswordToken} loginToken={loginToken} />;
+    return <ResetPasswordLogin loginToken={loginToken} resetPasswordToken={resetPasswordToken} />;
   }
-  if (resetPasswordToken) {
+  if (resetPasswordToken && currentUser && currentUser.login) {
     return <ResetPasswordForm resetPasswordToken={resetPasswordToken} />;
   }
+  // Something went wrong
   return <Redirect to="/" />;
 };
 
