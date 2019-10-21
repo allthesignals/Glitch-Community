@@ -150,12 +150,18 @@ function ThirdSection() {
         descriptionText="We’re here to push the tech world to do better. We aim to set the standard for thoughtful and ethical practices in tech."
       />
       <div className={styles.imageRow}>
-        <img src={`${CDN_URL}/d2b595e6-45a6-4ddc-8110-038cdb509b16%2F1727f742f11aad77bc90a650cc0e8f1d-large.jpg`} alt="Glitch staff talking" />
-        <img
-          src={`${CDN_URL}/b205c719-a61d-400a-9e80-8784c201e1d2%2F91f31d4a0ca5cbd21d7296c723122afb-xlarge.jpg?1559307581223`}
-          alt="bag with 'You Got This' and a skateboarding turtle printed on it"
-        />
-        <img src={`${CDN_URL}/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fa64374d243f81b26f3d3742d4959cb84-large.jpg`} alt="Glitch staff smiling" />
+        <div>
+          <img src={`${CDN_URL}/d2b595e6-45a6-4ddc-8110-038cdb509b16%2F1727f742f11aad77bc90a650cc0e8f1d-large.jpg`} alt="Glitch staff talking" />
+        </div>
+        <div>
+          <img
+            src={`${CDN_URL}/b205c719-a61d-400a-9e80-8784c201e1d2%2F91f31d4a0ca5cbd21d7296c723122afb-xlarge.jpg?1559307581223`}
+            alt="bag with 'You Got This' and a skateboarding turtle printed on it"
+          />
+        </div>
+        <div>
+          <img src={`${CDN_URL}/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fa64374d243f81b26f3d3742d4959cb84-large.jpg`} alt="Glitch staff smiling" />
+        </div>
       </div>
       <Button className={styles.thirdSectionButton} as="a" href="https://glitch.com/about/company">
         Find Out What Makes Glitch Different <span aria-hidden="true">→</span>
