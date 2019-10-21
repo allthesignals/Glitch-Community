@@ -87,6 +87,6 @@ module.exports = {
   getUser: (login) => getFromCache(`user ${login}`, getUserFromApi, login),
   getCollection: (login, collection) => getFromCache(`collection ${login}/${collection}`, getCollectionFromApi, login, collection),
   getZine: () => getFromZineCache('culture zine', getCultureZinePosts),
-  getHome: () => getFromCache('home', () => getCMSContent('home')),
-  getPupdates: () => getFromCache('pupdates', () => getCMSContent('pupdates')),
+  getHome: () => getFromZineCache('home', () => getCMSContent('home')),
+  getPupdates: () => getFromZineCache('pupdates', () => getCMSContent('pupdates')),
 };
