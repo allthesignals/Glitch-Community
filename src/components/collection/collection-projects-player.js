@@ -32,16 +32,7 @@ const getCurrentProjectIndexFromUrl = (projectId, projects) => {
 const wakeUpAllProjectsInACollection = (projects) => {
   const chunkedProjects = chunk(projects, 10);
   chunkedProjects.map(async (projectsBatch) => {
-    const promisedBatch = projectsBatch.map((nextItem) => {
-      const xhttp = new XMLHttpRequest();
-      xhttp.addEventListener('readystatechange', () => {
-        if (this.readyState === this.DONE) {
-          console.log(this.responseText);
-        }
-      });
-      xhttp.open('GET', `https://${nextItem.domain}.glitch.me`, true);
-      xhttp.send();
-    });
+    const promisedBatch = projectsBatch.map(async (project) => fetch(`https://${project.domain}.glitch.me`, { mode: 'no-cors' }));
     await Promise.all(promisedBatch);
   });
 };
