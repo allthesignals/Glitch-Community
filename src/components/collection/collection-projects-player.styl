@@ -2,44 +2,54 @@
 
 // CollectionProjectsPlayer
 .playerContainer
-  border: 2px solid
-  border-radius: 5px
-  max-width: 400px
+  border-bottom: 1px solid
+  width: calc(100% + 40px)
+  margin: -20px -20px 20px -20px
   &.dark
     color: white
 
 .playerHeader
-  padding: 12px 12px 12px 0
+  padding: 12px 20px
   display: flex
-
-.playerDescription
-  background-color: white
-  color: black
-  padding: 12px
-
-.membersContainer
-  margin-top: 10px
-
-.projectCounter
-  background-color: secondary-background
-  color: black
-  border-bottom-left-radius: 5px
-  border-bottom-right-radius: 5px
-  padding: 12px
 
 // PlayerControls
 .popoverButton
-  padding-left: 12px
+  padding: 0 12px
+  border-radius: 5px
   display: flex
   > *
     align-self: center
+  background-color: overlay-background
   p 
     padding: 5px
     font-weight: 600
     color: black
   &.dark
+    background-color: tertiary
     p
       color: white
+  
+.playerDescription
+  font-size: 14px
+  margin-top: -0.2rem
+  flex-grow: 2
+  margin-left: 20px
+  font-family: monospace
+  &.dark
+    color: white
+  @media(max-width: mediumViewport)
+    display: none
+
+.projectCounter
+  font-size: 14px
+  color: tertiary
+  align-self: flex-start
+  padding: 8px 0 0
+  flex-grow: 1
+  margin: 0 20px
+  text-align: right
+  &.dark
+    color: white
 
 .projectAvatar
   img
