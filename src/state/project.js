@@ -15,7 +15,10 @@ async function getMembers(api, projectId, withCacheBust) {
     ]);
     return { users, teams };
   } catch (error) {
-    if (error.response )
+    if (error.response && error.response.status === 404) {
+      return { users: [], teams: [] };
+    }
+    throw error;
   }
 }
 
