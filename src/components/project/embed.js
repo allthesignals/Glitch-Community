@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+
 import { APP_URL } from 'Utils/constants';
 import Image from 'Components/images/image';
 import styles from './embed.styl';
@@ -24,19 +26,19 @@ const browserSatisfiesRequirements = (() => {
   return false;
 })();
 
-const Embed = ({ domain, loading }) => (
-  <div className={styles.embedContainer}>
+const Embed = ({ domain, loading, hideCode }) => (
+  <div className={classnames(styles.embedContainer, hideCode && styles.embedContainerWithPadding)}>
     {browserSatisfiesRequirements ? (
       // Embed iframe for app
       <iframe
-        className={styles.embedIframe}
+        className={classnames(styles.embedIframe, hideCode && styles.mimicGlitchEmbed)}
         title={`${domain} on Glitch`}
         allow="geolocation; microphone; camera; midi; encrypted-media"
         height="100%"
         width="100%"
         allowvr="yes"
         loading={loading}
-        src={`${APP_URL}/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
+        src={hideCode ? `https://${domain}.glitch.me` : `${APP_URL}/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
       />
     ) : (
       // Error message if JS not supported
@@ -55,10 +57,12 @@ const Embed = ({ domain, loading }) => (
 Embed.propTypes = {
   domain: PropTypes.string.isRequired,
   loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
+  hideCode: PropTypes.bool,
 };
 
 Embed.defaultProps = {
   loading: 'auto',
+  hideCode: false,
 };
 
 export default Embed;

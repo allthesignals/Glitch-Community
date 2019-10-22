@@ -14,7 +14,7 @@ import styles from './project-embed.styl';
 
 const cx = classNames.bind(styles);
 
-const ProjectEmbed = ({ project, top, addProjectToCollection, loading }) => {
+const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode }) => {
   const projectOptions = useProjectOptions(project, addProjectToCollection ? { addProjectToCollection } : {});
   const { currentUser } = useCurrentUser();
   const isMember = currentUser.projects.some(({ id }) => id === project.id);
@@ -27,7 +27,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading }) => {
     <section className={styles.projectEmbed}>
       {top}
       <div className={styles.embedWrap}>
-        <Embed domain={project.domain} loading={loading} />
+        <Embed domain={project.domain} loading={loading} hideCode={hideCode} />
       </div>
       <div className={styles.buttonContainer}>
         <div className={styles.left}>
@@ -55,12 +55,14 @@ ProjectEmbed.propTypes = {
   addProjectToCollection: PropTypes.func,
   top: PropTypes.any,
   loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
+  hideCode: PropTypes.bool,
 };
 
 ProjectEmbed.defaultProps = {
   addProjectToCollection: null,
   top: null,
   loading: 'auto',
+  hideCode: false,
 };
 
 export default ProjectEmbed;
