@@ -8,11 +8,15 @@ import { getAllPages } from 'Shared/api';
 
 async function getMembers(api, projectId, withCacheBust) {
   const cacheBust = withCacheBust ? `&cacheBust=${Date.now()}` : '';
-  const [users, teams] = await Promise.all([
-    getAllPages(api, `/v1/projects/by/id/users?id=${projectId}${cacheBust}`),
-    getAllPages(api, `/v1/projects/by/id/teams?id=${projectId}${cacheBust}`),
-  ]);
-  return { users, teams };
+  try {
+    const [users, teams] = await Promise.all([
+      getAllPages(api, `/v1/projects/by/id/users?id=${projectId}${cacheBust}`),
+      getAllPages(api, `/v1/projects/by/id/teams?id=${projectId}${cacheBust}`),
+    ]);
+    return { users, teams };
+  } catch (error) {
+    if (error.response )
+  }
 }
 
 const loadingResponse = { status: 'loading' };
