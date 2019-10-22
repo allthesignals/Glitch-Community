@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { sampleSize } from 'lodash';
 import { Icon } from '@fogcreek/shared-components';
@@ -45,6 +45,7 @@ function RelatedProjects({ project }) {
   const teams = useSample(project.teams || [], 1);
   const users = useSample(project.users || [], 2 - teams.length);
   const ignoreProjectId = project.id;
+  const getTeamProjects = useCallback((api, id) => getProjects(api, { type: 'team', id, ignoreProjectId }), [])
 
   if (!teams.length && !users.length) {
     return null;
@@ -53,7 +54,7 @@ function RelatedProjects({ project }) {
     <ul className={styles.container}>
       {teams.map((team) => (
         <li key={team.id}>
-          <DataLoader get={(api) => getProjects(api, { type: 'team', id: team.id, ignoreProjectId })}>
+          <DataLoader get={getProjects} args={{ type: 'team', id: team.id, ignoreProjectId }}>
             {(projects) =>
               projects && projects.length > 0 && (
                 <>
@@ -69,7 +70,7 @@ function RelatedProjects({ project }) {
       ))}
       {users.map((user) => (
         <li key={user.id}>
-          <DataLoader get={(api) => getProjects(api, { type: 'user', id: user.id, ignoreProjectId })}>
+          <DataLoader get={getProjects} args={{ type: 'user', id: user.id, ignoreProjectId }}>
             {(projects) =>
               projects && projects.length > 0 && (
                 <>
