@@ -73,24 +73,23 @@ module.exports = function(external) {
       built = false;
     }
 
-    const AB_TESTS = getAssignments(req, res);
-    const SSR_SIGNED_IN = !!req.cookies.hasLogin;
-    const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
-    const OPTIMIZELY_ID = getOptimizelyId(req, res);
+    const assignments = getAssignments(req, res);
+    const signedIn = !!req.cookies.hasLogin;
+    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
+    const optimizelyId = getOptimizelyId(req, res);
 
     let ssr = { rendered: null, helmet: null, styleTags: '' };
-    const context = 
     try {
       const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
       const { html, context, helmet, styleTags } = await renderPage(url, {
-        AB_TESTS,
+        AB_TESTS: assignments,
         API_CACHE: cache,
         EXTERNAL_ROUTES: external,
-        HOME_CONTENT,
-        OPTIMIZELY_ID,
-        PUPDATES_CONTENT,
-        SSR_SIGNED_IN,
-        ZINE_POSTS,
+        HOME_CONTENT: homeContent,
+        OPTIMIZELY_ID: optimizelyId,
+        PUPDATES_CONTENT: pupdatesContent,
+        SSR_SIGNED_IN: signedIn,
+        ZINE_POSTS: zine || [],
       });
       ssr = {
         rendered: html,
@@ -110,12 +109,11 @@ module.exports = function(external) {
       BUILD_TIMESTAMP: buildTime.toISOString(),
       API_CACHE: cache,
       EXTERNAL_ROUTES: external,
-      ZINE_POSTS,
-      HOME_CONTENT,
-      OPTIMIZELY_ID,
-      PUPDATES_CONTENT,
-      SSR_SIGNED_IN,
-      AB_TESTS,
+      ZINE_POSTS: zine || [],
+      HOME_CONTENT: homeContent,
+      PUPDATES_CONTENT: pupdatesContent,
+      SSR_SIGNED_IN: signedIn,
+      AB_TESTS: assignments,
       OPTIMIZELY_DATA: await getOptimizelyData(),
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
       ENVIRONMENT: process.env.NODE_ENV || 'dev',
