@@ -65,7 +65,11 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
 
   const setPrivate = useTrackedFunc(
     () => funcs.updatePrivacy(!collection.private),
-    `Collection toggled ${collection.private ? 'public' : 'private'}`,
+    'Collection Privacy Changed',
+    (inherited) => ({
+      ...inherited,
+      isSettingToPrivate: !collection.private,
+    }),
   );
 
   return (

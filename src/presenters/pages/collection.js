@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { kebabCase } from 'lodash';
+import { kebabCase, find } from 'lodash';
 import { Loader } from '@fogcreek/shared-components';
 
 import { getCollectionLink, getCollectionOwnerName } from 'Models/collection';
@@ -18,6 +18,8 @@ import { useCachedCollection } from 'State/api-cache';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
 import { renderText } from 'Utils/markdown';
+import allCategories from 'Shared/categories';
+import { CDN_URL } from 'Utils/constants';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -72,11 +74,20 @@ CollectionPageContents.propTypes = {
 const CollectionPage = ({ owner, name }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
 
+  let isCategory = false;
+  if (collection && owner === 'glitch') {
+    const matchingCategory = find(allCategories, (category) => category.collectionName === collection.url);
+    if (matchingCategory) {
+      isCategory = true;
+      collection.avatarUrl = `${CDN_URL}${matchingCategory.icon}`;
+    }
+  }
+
   return (
     <Layout>
       {collection ? (
         <AnalyticsContext
-          properties={{ origin: 'collection', collectionId: collection.id }}
+          properties={{ origin: isCategory ? 'category' : 'collection', collectionId: collection.id }}
           context={{
             groupId: collection.team ? collection.team.id.toString() : '0',
           }}

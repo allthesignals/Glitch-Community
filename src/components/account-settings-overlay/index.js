@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
-import { Icon, SegmentedButton } from '@fogcreek/shared-components';
+import React from 'react';
+import { Icon, Button } from '@fogcreek/shared-components';
 
 import Text from 'Components/text/text';
 import { Overlay, OverlaySection, OverlayTitle, OverlayBackground } from 'Components/overlays';
 import PopoverContainer from 'Components/popover/container';
 import { useCurrentUser } from 'State/current-user';
+import useDevToggle from 'State/dev-toggles';
 
 import PasswordSettings from './password-settings';
 import TwoFactorSettings from './two-factor-settings';
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
+import MultiPage from '../layout/multi-page';
 
 const AccountSettingsOverlay = () => {
   const { currentUser } = useCurrentUser();
-
-  const [page, setPage] = useState('password');
-
-  const options = [{ id: 'password', label: 'Password' }, { id: '2fa', label: 'Two-Factor Authentication' }];
+  const twoFactorEnabled = useDevToggle('Two Factor Auth');
 
   const primaryEmail = currentUser.emails.find((email) => email.primary);
 
@@ -29,15 +28,26 @@ const AccountSettingsOverlay = () => {
       </OverlaySection>
 
       <OverlaySection type="actions">
-        <div className={styles.accountSettings}>
-          <div className={styles.accountSettingsActions}>
-            <SegmentedButton size="small" value={page} onChange={(id) => setPage(id)} options={options} />
-          </div>
-          <div className={styles.accountSettingsContent}>
-            {page === 'password' ? <PasswordSettings /> : null}
-            {page === '2fa' ? <TwoFactorSettings /> : null}
-          </div>
-        </div>
+        <MultiPage defaultPage="password">
+          {({ page, setPage }) => (
+            <div className={styles.accountSettings}>
+              {twoFactorEnabled && (
+                <div className={styles.accountSettingsActions}>
+                  <Button size="small" disabled={page === 'password'} onClick={() => setPage('password')}>
+                    Password
+                  </Button>
+                  <Button size="small" disabled={page === '2fa'} onClick={() => setPage('2fa')}>
+                    Two Factor Settings
+                  </Button>
+                </div>
+              )}
+              <div className={styles.accountSettingsContent}>
+                {page === 'password' ? <PasswordSettings /> : null}
+                {page === '2fa' ? <TwoFactorSettings /> : null}
+              </div>
+            </div>
+          )}
+        </MultiPage>
       </OverlaySection>
       {!!primaryEmail && (
         <OverlaySection type="info">
@@ -57,11 +67,7 @@ const AccountSettingsContainer = ({ children }) => {
       {visible && <OverlayBackground />}
     </>
   );
-  return (
-    <PopoverContainer outer={renderOuter}>
-      {({ visible }) => visible ? <AccountSettingsOverlay /> : null}
-    </PopoverContainer>
-  );
+  return <PopoverContainer outer={renderOuter}>{({ visible }) => (visible ? <AccountSettingsOverlay /> : null)}</PopoverContainer>;
 };
 
 export default AccountSettingsContainer;
