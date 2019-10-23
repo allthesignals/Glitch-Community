@@ -64,7 +64,7 @@ setImmediate(() => {
   }
 });
 
-const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
+const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_ID, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
   const { Page, resetState } = requireClient();
   resetState();
   const sheet = new ServerStyleSheet();
@@ -78,18 +78,19 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
     helmetContext,
     AB_TESTS,
     API_CACHE,
-    ZINE_POSTS,
+    EXTERNAL_ROUTES,
     HOME_CONTENT,
+    OPTIMIZELY_ID,
     PUPDATES_CONTENT,
     SSR_SIGNED_IN,
-    EXTERNAL_ROUTES,
+    ZINE_POSTS,
   });
 
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
   const OPTIMIZELY_DATA = await getOptimizelyData();
-  const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_DATA, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
+  const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_DATA, OPTIMIZELY_ID, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
   return { html, helmet: helmetContext.helmet, context, styleTags };
 };
 

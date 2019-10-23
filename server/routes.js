@@ -14,7 +14,7 @@ const categories = require('../shared/categories');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
-const { getOptimizelyData } = require('./optimizely');
+const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
 const { getData, saveDataToFile } = require('./curated');
 const rootTeams = require('../shared/teams');
 
@@ -73,21 +73,24 @@ module.exports = function(external) {
       built = false;
     }
 
-    const assignments = getAssignments(req, res);
-    const signedIn = !!req.cookies.hasLogin;
-    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
+    const AB_TESTS = getAssignments(req, res);
+    const SSR_SIGNED_IN = !!req.cookies.hasLogin;
+    const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
+    const OPTIMIZELY_ID = getOptimizelyId(req, res);
 
     let ssr = { rendered: null, helmet: null, styleTags: '' };
+    const context = 
     try {
       const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
       const { html, context, helmet, styleTags } = await renderPage(url, {
-        AB_TESTS: assignments,
+        AB_TESTS,
         API_CACHE: cache,
         EXTERNAL_ROUTES: external,
-        HOME_CONTENT: homeContent,
-        PUPDATES_CONTENT: pupdatesContent,
-        SSR_SIGNED_IN: signedIn,
-        ZINE_POSTS: zine || [],
+        HOME_CONTENT,
+        OPTIMIZELY_ID,
+        PUPDATES_CONTENT,
+        SSR_SIGNED_IN,
+        ZINE_POSTS,
       });
       ssr = {
         rendered: html,
@@ -107,11 +110,12 @@ module.exports = function(external) {
       BUILD_TIMESTAMP: buildTime.toISOString(),
       API_CACHE: cache,
       EXTERNAL_ROUTES: external,
-      ZINE_POSTS: zine || [],
-      HOME_CONTENT: homeContent,
-      PUPDATES_CONTENT: pupdatesContent,
-      SSR_SIGNED_IN: signedIn,
-      AB_TESTS: assignments,
+      ZINE_POSTS,
+      HOME_CONTENT,
+      OPTIMIZELY_ID,
+      PUPDATES_CONTENT,
+      SSR_SIGNED_IN,
+      AB_TESTS,
       OPTIMIZELY_DATA: await getOptimizelyData(),
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
       ENVIRONMENT: process.env.NODE_ENV || 'dev',
