@@ -1182,13 +1182,13 @@ packages:
       node: '>=6.0.0'
     resolution:
       integrity: sha512-olkXopZBaf6CPOfd9AKFEPjJ422S0IRnPa8S7Xx6EVoXYFvi+ButzJLHbHopFnMfAxKYPPs3owAW6V5feGnaVQ==
-  /@optimizely/js-sdk-event-processor/0.3.1:
+  /@optimizely/js-sdk-event-processor/0.3.2:
     dependencies:
       '@optimizely/js-sdk-logging': 0.1.0
       '@optimizely/js-sdk-utils': 0.2.0
     dev: false
     resolution:
-      integrity: sha512-JL4AuGhV2HqoETj9wTiezm20qSe1m4f7istEx78CtnWRmXMKhcudJRDSeOF3fLsZ4i+ZcNwtHALHfiiq13A6SQ==
+      integrity: sha512-tk81PMeMn6FR9HfNzqxmkVB1f1KNguEATFZhJpV9XFA6NwjpG0erwi3zriYoI4K7Wc2LLGBlTLA2Tb1HNwrFgg==
   /@optimizely/js-sdk-logging/0.1.0:
     dependencies:
       '@optimizely/js-sdk-utils': 0.1.0
@@ -1210,7 +1210,7 @@ packages:
   /@optimizely/optimizely-sdk/3.3.0:
     dependencies:
       '@optimizely/js-sdk-datafile-manager': 0.4.0
-      '@optimizely/js-sdk-event-processor': 0.3.1
+      '@optimizely/js-sdk-event-processor': 0.3.2
       '@optimizely/js-sdk-logging': 0.1.0
       '@optimizely/js-sdk-utils': 0.2.0
       json-schema: 0.2.5
@@ -10959,7 +10959,7 @@ specifiers:
   '@babel/runtime-corejs3': ^7.5.5
   '@fogcreek/shared-components': ^0.8.0
   '@jedmao/location': ^2.0.4
-  '@optimizely/optimizely-sdk': ^3.2.2
+  '@optimizely/optimizely-sdk': ^3.3.0
   '@percy/cypress': ^1.0.9
   '@sentry/browser': ^5.6.3
   '@sentry/minimal': ^5.6.1
