@@ -92,6 +92,7 @@ module.exports = function(EXTERNAL_ROUTES) {
       const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
       const { html, context, helmet, styleTags } = await renderPage(url, baseContext);
       ssrContext = {
+        ...context,
         rendered: html,
         helmet,
         styleTags,
