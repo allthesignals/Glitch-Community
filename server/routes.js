@@ -76,8 +76,9 @@ module.exports = function(EXTERNAL_ROUTES) {
     const AB_TESTS = getAssignments(req, res);
     const SSR_SIGNED_IN = !!req.cookies.hasLogin;
     const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
+    const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
     
-    let baseContext = {
+    let context = {
       AB_TESTS,
       API_CACHE,
       EXTERNAL_ROUTES,
@@ -87,24 +88,12 @@ module.exports = function(EXTERNAL_ROUTES) {
       SSR_SIGNED_IN,
       ZINE_POSTS,
     };
-    let ssrContext = { rendered: null, helmet: null, styleTags: '' };
-    try {
-      const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-      const { html, context, helmet, styleTags } = await renderPage(url, baseContext);
-      ssrContext = {
-        ...context,
-        rendered: html,
-        helmet,
-        styleTags,
-      };
-    } catch (error) {
-      console.error(`Failed to server render ${req.url}: ${error.toString()}`);
-      captureException(error);
-    }
+    const { context: renderedContext, ...rendered } = await renderPage(url, context);
+    context = renderedContext;
 
     res.render('index.ejs', {
-      ...baseContext,
-      ...ssrContext,
+      ...context,
+      ...rendered,
       scripts,
       styles,
       BUILD_COMPLETE: built,

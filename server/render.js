@@ -21,7 +21,7 @@ const setup = () => {
 };
 const { directory, verb } = setup();
 
-const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', {});
+const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', { html: null, helmet: null, styleTags: null, context: {} });
 
 let isFirstTranspile = true;
 let needsTranspile = true;
@@ -90,7 +90,7 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
   sheet.seal();
   const OPTIMIZELY_DATA = await getOptimizelyData();
   const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_DATA, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
-  return { html, helmet: helmetContext.helmet, context, styleTags };
+  return { html, helmet: helmetContext.helmet, styleTags, context };
 };
 
 module.exports = (url, context) => {
