@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Embed from 'Components/project/embed';
@@ -23,10 +23,16 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
   const isMember = userIsProjectMember({ members, user: currentUser });
   const canBecomeMember = userIsProjectTeamMember({ project, user: currentUser });
 
+  const [embedKey, setEmbedKey] = useState(0); // used to refresh project embed when users leave or join projects
+
   const trackRemix = useTracker('Click Remix', {
     baseProjectId: project.id,
     baseDomain: project.domain,
   });
+
+  const refreshEmbed = () => {
+    setEmbedKey(embedKey + 1);
+  };
 
   const trackedLeaveProject = useTrackedFunc(projectOptions.leaveProject, 'Leave Project clicked');
   const trackedJoinProject = useTrackedFunc(projectOptions.joinTeamProject, 'Join Project clicked');
@@ -35,7 +41,7 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
     <section className={styles.projectEmbed}>
       {top}
       <div className={styles.embedWrap}>
-        <Embed domain={project.domain} loading={loading} />
+        <Embed key={embedKey} domain={project.domain} loading={loading} />
       </div>
       <div className={styles.buttonContainer}>
         <div>
@@ -54,6 +60,7 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
                 isTeamProject={canBecomeMember}
                 joinProject={trackedJoinProject}
                 leaveProject={trackedLeaveProject}
+                refreshEmbed={refreshEmbed}
               />
             </div>
           )}

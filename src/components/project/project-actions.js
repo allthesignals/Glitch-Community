@@ -107,7 +107,7 @@ RemixButton.defaultProps = {
   isMember: false,
 };
 
-export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject }) => {
+export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject, refreshEmbed }) => {
   const { width } = useWindowDimensions();
 
   if (!isMember && joinProject) {
@@ -117,7 +117,13 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
       joinProjectBtnText = 'Join';
     }
     return isTeamProject ? (
-      <Button size="small" onClick={joinProject}>
+      <Button
+        size="small"
+        onClick={() => {
+          joinProject();
+          refreshEmbed();
+        }}
+      >
         {joinProjectBtnText} <Icon icon="rainbow" />
       </Button>
     ) : null;
@@ -131,7 +137,13 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
     }
 
     return (
-      <Button size="small" onClick={() => leaveProject(project)}>
+      <Button
+        size="small"
+        onClick={() => {
+          leaveProject(project);
+          refreshEmbed();
+        }}
+      >
         {leaveProjectBtnText} <Icon icon="wave" />
       </Button>
     );
@@ -148,6 +160,7 @@ MembershipButton.propTypes = {
   isTeamProject: PropTypes.bool,
   leaveProject: PropTypes.func,
   joinProject: PropTypes.func,
+  refreshEmbed: PropTypes.func,
 };
 
 MembershipButton.defaultProps = {
@@ -155,4 +168,5 @@ MembershipButton.defaultProps = {
   joinProject: null,
   isMember: false,
   isTeamProject: false,
+  refreshEmbed: null,
 };
