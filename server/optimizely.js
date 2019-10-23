@@ -27,4 +27,12 @@ const getOptimizelyData = async () => {
   return optimizelyClient.projectConfigManager.datafileManager.get();
 };
 
-module.exports = { getOptimizelyClient, getOptimizelyData };
+const getOptimizelyId = (request, response) => {
+  
+};
+
+module.exports = {
+  getOptimizelyClient,
+  getOptimizelyData,
+  getOptimizelyId,
+};
