@@ -78,11 +78,11 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
     helmetContext,
     AB_TESTS,
     API_CACHE,
-    ZINE_POSTS,
+    EXTERNAL_ROUTES,
     HOME_CONTENT,
     PUPDATES_CONTENT,
     SSR_SIGNED_IN,
-    EXTERNAL_ROUTES,
+    ZINE_POSTS,
   });
 
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
