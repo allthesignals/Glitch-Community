@@ -73,6 +73,11 @@ const parametersForSize = {
     userOffset: -5,
     teamOffset: 2,
   },
+  medium: {
+    avatarWidth: 25,
+    userOffset: -5,
+    teamOffset: 2,
+  },
 };
 
 const RowContainer = ({ size, users, teams }) => {

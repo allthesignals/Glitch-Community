@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
+import { Button } from '@fogcreek/shared-components';
+import { ProjectAvatar } from 'Components/images/avatar';
+import { ProjectLink } from 'Components/link';
+import ProfileList from 'Components/profile-list';
+import { useProjectMembers } from 'State/project';
+import Image from 'Components/images/image';
+
 import Embed from 'Components/project/embed';
 import ReportButton from 'Components/report-abuse-pop';
 import { EditButton, RemixButton } from 'Components/project/project-actions';
@@ -13,6 +20,12 @@ import AddProjectToCollection from './add-project-to-collection-pop';
 import styles from './project-embed.styl';
 
 const cx = classNames.bind(styles);
+const fullscreenImageURL = 'https://cdn.glitch.com/1b65cd5c-de77-474f-81ed-1b8109651212%2Ffullscreen.svg?v=1571859608927';
+
+const ProfileListWithData = ({ project }) => {
+  const { value: members } = useProjectMembers(project.id);
+  return <ProfileList layout="row" glitchTeam={project.showAsGlitchTeam} {...members} size="medium" />;
+};
 
 const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode }) => {
   const projectOptions = useProjectOptions(project, addProjectToCollection ? { addProjectToCollection } : {});
@@ -28,6 +41,23 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode 
       {top}
       <div className={styles.embedWrap}>
         <Embed domain={project.domain} loading={loading} hideCode={hideCode} />
+        {hideCode && (
+          <div className={styles.embedBottomBar}>
+            <span className={styles.embedLeft}>
+              <ProjectLink project={project}>
+                <ProjectAvatar project={project} />
+                <span claåssName={styles.embedDomainLink}>{project.domain}</span>
+              </ProjectLink>
+              by
+              <span className={styles.embedAuthors}>
+                <ProfileListWithData project={project} />
+              </span>
+            </span>
+            <Button as="a" href={`https://${project.domain}.glitch.me`}>
+              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" />
+            </Button>
+          </div>
+        )}
       </div>
       <div className={styles.buttonContainer}>
         <div className={styles.left}>
