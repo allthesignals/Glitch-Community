@@ -1,4 +1,3 @@
-const { captureException } = require('@sentry/node');
 const express = require('express');
 const helmet = require('helmet');
 const enforce = require('express-sslify');
@@ -78,7 +77,7 @@ module.exports = function(EXTERNAL_ROUTES) {
     const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
     const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
     
-    let context = {
+    const context = {
       AB_TESTS,
       API_CACHE,
       EXTERNAL_ROUTES,
@@ -89,10 +88,10 @@ module.exports = function(EXTERNAL_ROUTES) {
       ZINE_POSTS,
     };
     const { context: renderedContext, ...rendered } = await renderPage(url, context);
-    context = renderedContext;
 
     res.render('index.ejs', {
       ...context,
+      ...renderedContext,
       ...rendered,
       scripts,
       styles,
