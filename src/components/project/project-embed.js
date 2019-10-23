@@ -46,7 +46,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode 
             <span className={styles.embedLeft}>
               <ProjectLink project={project}>
                 <ProjectAvatar project={project} />
-                <span claåssName={styles.embedDomainLink}>{project.domain}</span>
+                <span className={styles.embedDomainLink}>{project.domain}</span>
               </ProjectLink>
               by
               <span className={styles.embedAuthors}>
