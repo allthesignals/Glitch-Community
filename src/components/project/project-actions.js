@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import { PopoverWithButton } from 'Components/popover';
+import useWindowSize from 'Hooks/use-window-size';
 import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
 import LeaveProjectPopover from './leave-project-pop';
 
@@ -60,7 +61,7 @@ EditButtonCta.defaultProps = {
 
 // the Edit Button that appears below the embed
 export const EditButton = ({ name, isMember, size }) => {
-  const { width } = useWindowDimensions();
+  const [width] = useWindowSize();
   let editButtonText = null;
   if (width < mediumSmallViewport) {
     editButtonText = isMember ? 'Edit' : 'View';
@@ -84,7 +85,7 @@ EditButton.defaultProps = {
 };
 
 export const RemixButton = ({ name, isMember }) => {
-  const { width } = useWindowDimensions();
+  const [width] = useWindowSize();
 
   let remixButtonText = 'Remix';
   if (width > mediumSmallViewport) {
@@ -108,7 +109,7 @@ RemixButton.defaultProps = {
 };
 
 export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject, refreshEmbed }) => {
-  const { width } = useWindowDimensions();
+  const [width] = useWindowSize();
 
   if (!isMember && joinProject) {
     let joinProjectBtnText = 'Join Team Project';
