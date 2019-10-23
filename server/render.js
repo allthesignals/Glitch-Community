@@ -57,7 +57,7 @@ setImmediate(() => {
     requireClient();
   } catch (error) {
     // try importing right away so we don't have to wait
-    // but if this fails not it might just be because the first time build isn't ready
+    // but if it fails now it's probably because there are no past builds to use
     console.warn('Failed to load client code for ssr. This either means the initial build is not finished or there is a bug in the code');
     console.error(error.toString());
     captureException(error);
@@ -93,10 +93,12 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
   return { html, helmet: helmetContext.helmet, context, styleTags };
 };
 
-module.exports = (url, context) => {
+module.exports = async (url, context) => {
+  const optimizelyClient = await getOptimizelyClient();
   const key = [
     context.SSR_SIGNED_IN ? 'signed-in' : 'signed-out',
     ...Object.entries(context.AB_TESTS).map(([test, assignment]) => `${test}=${assignment}`),
+    ...optimizelyClient.getEnabledFeatures(context.OPTIMIZELY_ID),
     url,
   ];
   return getFromCache(key.join(' '), render, url, context);
