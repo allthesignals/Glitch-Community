@@ -149,11 +149,12 @@ const ProjectPage = ({ project: initialProject }) => {
 
   const { addProjectToCollection } = useAPIHandlers();
 
-  const bookmarkAction = useTrackedFunc(toggleBookmark, `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`, (inherited) => ({
+  const bookmarkAction = useTrackedFunc(toggleBookmark, 'My Stuff Button Clicked', (inherited) => ({
     ...inherited,
     projectName: project.domain,
     baseProjectId: project.baseId,
     userId: currentUser.id,
+    isAddingToMyStuff: !hasBookmarked,
   }));
 
   const addProjectToCollectionAndSetHasBookmarked = (projectToAdd, collection) => {

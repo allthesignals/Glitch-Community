@@ -53,7 +53,7 @@
           </a>
         </header>
           <main>
-            <img id="fallback-img" alt="" style="display: none" src="https://cdn.glitch.com/dbd73211-c667-4832-9229-c27f4cb66f5c%2Fmagikarp-illust.svg?1542746418939"/>
+            <img id="fallback-img" alt="" style="display: none" src="https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2Fbonsai.svg?v=157142334"/>
             <div class="error-msg" id="fallback-noscript" style="display: none">
               <h1>The web browser that you're using does not support Javascript</h1>
               <p>Since Glitch requires Javascript to run, please try using Glitch in a different web browser.</p>
@@ -89,8 +89,10 @@
         document.getElementById('fallback-' + name).removeAttribute('style');
         container.style.display = 'none';
       }
+      
       var isIe = /Trident\/[7]{1}/i.test(navigator.userAgent);
-      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com";
+      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com"; 
+      
       if (isIe) {
         // ie doesn't support our css
         showFallback('ie');

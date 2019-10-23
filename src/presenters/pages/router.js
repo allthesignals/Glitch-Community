@@ -135,7 +135,7 @@ const Router = () => {
 
         <Route path="/signin" exact render={({ location }) => <OauthSignIn key={location.key} />} />
 
-        <Route path="/join/@:teamUrl/:joinToken" exact render={({ match }) => <JoinTeamPage key={location.key} {...match.params} />} />
+        <Route path="/join/@:teamUrl/:joinToken" exact render={({ location, match }) => <JoinTeamPage key={location.key} {...match.params} />} />
 
         <Route path="/questions" exact render={({ location }) => <QuestionsPage key={location.key} />} />
 
