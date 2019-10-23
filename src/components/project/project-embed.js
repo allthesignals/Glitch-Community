@@ -20,7 +20,7 @@ import AddProjectToCollection from './add-project-to-collection-pop';
 import styles from './project-embed.styl';
 
 const cx = classNames.bind(styles);
-const fullscreenImageURL = 'https://cdn.glitch.com/1b65cd5c-de77-474f-81ed-1b8109651212%2Ffullscreen.svg?v=1571859608927';
+const fullscreenImageURL = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Ffullscreen.svg?v=1571865617764';
 
 const ProfileListWithData = ({ project }) => {
   const { value: members } = useProjectMembers(project.id);
