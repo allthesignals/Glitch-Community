@@ -54,7 +54,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode 
               </span>
             </span>
             <Button as="a" href={`https://${project.domain}.glitch.me`}>
-              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" />
+              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" alt="fullscreen" />
             </Button>
           </div>
         )}

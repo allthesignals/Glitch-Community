@@ -172,7 +172,7 @@ const ProfileList = React.memo(({ size, users, teams, layout, glitchTeam }) => {
 
 ProfileList.propTypes = {
   layout: PropTypes.oneOf(['row', 'block']).isRequired,
-  size: PropTypes.oneOf(['small', 'large']),
+  size: PropTypes.oneOf(Object.keys(parametersForSize)),
   users: PropTypes.array,
   teams: PropTypes.array,
   glitchTeam: PropTypes.bool,
