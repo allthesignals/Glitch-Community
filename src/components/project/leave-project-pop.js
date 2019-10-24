@@ -1,21 +1,18 @@
 import React from 'react';
-import { Button } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Title } from '@fogcreek/shared-components';
 
-import { PopoverDialog, PopoverActions, PopoverTitle, ActionDescription } from 'Components/popover';
 import { useTrackedFunc } from 'State/segment-analytics';
 
-const LeaveProjectPopover = ({ project, leaveProject, togglePopover, align }) => {
+const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
   const trackLeaveProject = useTrackedFunc(leaveProject, 'Leave Project clicked');
 
   return (
-    <PopoverDialog wide focusOnDialog align={align}>
-      <PopoverTitle>Leave {project.domain}</PopoverTitle>
-      <PopoverActions>
-        <ActionDescription>
-          Are you sure you want to leave? You'll lose access to this project unless someone invites you back.
-        </ActionDescription>
-      </PopoverActions>
-      <PopoverActions type="dangerZone">
+    <>
+      <Title>Leave {project.domain}</Title>
+      <Actions>
+        <p>Are you sure you want to leave? You'll lose access to this project unless someone invites you back.</p>
+      </Actions>
+      <DangerZone>
         <Button
           variant="warning"
           size="small"
@@ -26,8 +23,8 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover, align }) =>
         >
           Leave Project
         </Button>
-      </PopoverActions>
-    </PopoverDialog>
+      </DangerZone>
+    </>
   );
 };
 
