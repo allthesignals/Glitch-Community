@@ -21,7 +21,8 @@ import { AnalyticsContext } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useUserEditor } from 'State/user';
 import useFocusFirst from 'Hooks/use-focus-first';
-import { tagline } from 'Utils/constants';
+import { glitchTeamId, tagline } from 'Utils/constants';
+import TooltipContainer from 'Components/tooltips/tooltip-container';
 import { renderText } from 'Utils/markdown';
 
 import styles from './user.styl';
@@ -31,18 +32,28 @@ function syncPageToLogin(login) {
   history.replaceState(null, null, getUserLink({ login }));
 }
 
-const NameAndLogin = ({ name, login, isAuthorized, updateName, updateLogin }) => {
+const GlitchTeamMemberIndicator = () => <TooltipContainer type="info" target={<Icon icon="glitchLogo" alt="Glitch Team Member" />} tooltip="Glitch Team Member" />;
+
+const NameAndLogin = ({ name, login, teams, isAuthorized, updateName, updateLogin }) => {
+  const isOnGlitchTeam = teams.some((team) => team.id === glitchTeamId);
+
   if (!login) {
     return <Heading tagName="h1">Anonymous</Heading>;
   }
 
   if (!isAuthorized) {
     if (!name) {
-      return <Heading tagName="h1">@{login}</Heading>;
+      return (
+        <Heading tagName="h1">
+          @{login} {isOnGlitchTeam && <GlitchTeamMemberIndicator />}
+        </Heading>
+      );
     }
     return (
       <>
-        <Heading tagName="h1">{name}</Heading>
+        <Heading tagName="h1">
+          {name} {isOnGlitchTeam && <GlitchTeamMemberIndicator />}
+        </Heading>
         <Heading tagName="h2">@{login}</Heading>
       </>
     );
@@ -126,6 +137,7 @@ const UserPage = ({ user: initialUser }) => {
           <NameAndLogin
             name={user.name}
             login={user.login}
+            teams={user.teams}
             {...{ isAuthorized, updateName }}
             updateLogin={(login) => updateLogin(login).then(() => syncPageToLogin(login))}
           />
