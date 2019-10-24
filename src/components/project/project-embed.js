@@ -34,6 +34,7 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
   const refreshEmbed = () => {
     setEmbedKey(embedKey + 1);
   };
+  console.log(project.users, project.teams);
 
   const trackedLeaveProject = useTrackedFunc(projectOptions.leaveProject, 'Leave Project clicked');
   const trackedJoinProject = useTrackedFunc(projectOptions.joinTeamProject, 'Join Project clicked');
