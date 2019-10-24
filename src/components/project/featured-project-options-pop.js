@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions, Button, Icon, Popover, UnstyledButton } from '@fogcreek/shared-components';
 
+import styles from './featured-project.styl';
 import { emoji, popoverMenuButton } from '../global.styl';
 
 export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote }) {
@@ -29,7 +30,7 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
           <Actions>
             {!hasNote && createNote && (
               <>
-                <Button onClick={() => toggleAndCreateNote(onClose)}>
+                <Button className={styles.stackedButtons} onClick={() => toggleAndCreateNote(onClose)}>
                   Add note <Icon icon="spiralNotePad" className={emoji} />
                 </Button>
                 <br />
