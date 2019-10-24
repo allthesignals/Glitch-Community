@@ -75,8 +75,8 @@ module.exports = function(EXTERNAL_ROUTES) {
     const AB_TESTS = getAssignments(req, res);
     const SSR_SIGNED_IN = !!req.cookies.hasLogin;
     const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
+
     const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-    
     const context = {
       AB_TESTS,
       API_CACHE,
@@ -87,6 +87,7 @@ module.exports = function(EXTERNAL_ROUTES) {
       SSR_SIGNED_IN,
       ZINE_POSTS,
     };
+
     const { context: renderedContext, ...rendered } = await renderPage(url, context);
 
     res.render('index.ejs', {
