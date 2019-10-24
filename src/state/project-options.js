@@ -79,7 +79,7 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
     if (user) return user.pinnedProjects.some(({ id }) => id === project.id);
     if (team) return team.pinnedProjects.some(({ id }) => id === project.id);
     return false;
-  }, [user, team, project]);
+  }, [user, team, project.id]);
 
   const isLoggedIn = !!currentUser.login;
   const { value: members } = useProjectMembers(project.id);

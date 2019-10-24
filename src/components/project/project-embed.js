@@ -15,12 +15,13 @@ import AddProjectToCollection from './add-project-to-collection-pop';
 import styles from './project-embed.styl';
 
 const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, loading }) => {
-  const project = initialProject;
+  const { value: members } = useProjectMembers(initialProject.id);
+  const project = { ...initialProject, ...members };
+
   const projectOptions = useProjectOptions(project, addProjectToCollection ? { addProjectToCollection } : {});
   const { currentUser } = useCurrentUser();
 
-  const { value: members } = useProjectMembers(project.id);
-  const isMember = userIsProjectMember({ members, user: currentUser });
+  const isMember = userIsProjectMember({ members: project, user: currentUser });
   const canBecomeMember = userIsProjectTeamMember({ project, user: currentUser });
 
   const [embedKey, setEmbedKey] = useState(0); // used to refresh project embed when users leave or join projects
