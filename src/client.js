@@ -47,7 +47,7 @@ window.bootstrap = async (container) => {
     datafile: window.OPTIMIZELY_DATA,
     datafileOptions: {
       autoUpdate: true,
-      updateInterval: 60 * 1000, // check once per minute
+      updateInterval: dayjs.convert(1, 'hour', 'milliseconds'),
     },
     errorHandler: {
       handleError: (error) => {
