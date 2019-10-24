@@ -152,6 +152,7 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
     <PopoverWithButton buttonProps={{ emoji: 'wave', size: 'small' }} buttonText="Leave Project">
       {({ togglePopover }) => <LeaveProjectPopover project={project} leaveProject={leaveProject} togglePopover={togglePopover} align="left" />}
     </PopoverWithButton>
+    <Popover align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref{ref}Leave Project <Icon icon={wave} /></Button>}
   );
 };
 

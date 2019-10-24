@@ -16,7 +16,7 @@ import DataLoader from 'Components/data-loader';
 import Row from 'Components/containers/row';
 import RelatedProjects from 'Components/related-projects';
 import Expander from 'Components/containers/expander';
-import { ShowButton, EditButton } from 'Components/project/project-actions';
+import { ShowButton, EditButtonCta } from 'Components/project/project-actions';
 import AuthDescription from 'Components/fields/auth-description';
 import Layout from 'Components/layout';
 import { PrivateBadge, PrivateToggle } from 'Components/private-badge';
