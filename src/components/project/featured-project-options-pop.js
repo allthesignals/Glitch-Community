@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Actions, Button, Icon, Popover, UnstyledButton } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Popover } from '@fogcreek/shared-components';
 
-import { PopoverMenuButton } from '../popovers'
+import { PopoverMenuButton } from 'Components/popover';
 
 import styles from './featured-project.styl';
-import { emoji, popoverMenuButton } from '../global.styl';
+import { emoji } from '../global.styl';
 
 export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote }) {
   function toggleAndUnfeature(onClose) {
@@ -21,10 +21,10 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
   return (
     <Popover
       align="right"
-      renderLabel={({ onClick, ref }) => (
-        <UnstyledButton className={popoverMenuButton} onClick={onClick} ref={ref} label="Featured Project Options">
+      renderLabel={({ onClick, forwardRef }) => (
+        <PopoverMenuButton onClick={onClick} ref={forwardRef} label="Featured Project Options">
           <Icon icon="chevronDown" />
-        </UnstyledButton>
+        </PopoverMenuButton>
       )}
     >
       {({ onClose }) => (

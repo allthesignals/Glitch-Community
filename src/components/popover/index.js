@@ -1,3 +1,4 @@
+import React from 'react';
 import { UnstyledButton } from '@fogcreek/shared-components';
 
 import PopoverContainer from './container';

@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import { Actions, Button, DangerZone, Icon, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Popover, Title } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
+import { PopoverMenuButton } from 'Components/popover';
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
 import styles from './popover.styl';
-import { emoji, popoverMenuButton } from '../global.styl';
+import { emoji } from '../global.styl';
 
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
 const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
@@ -124,9 +125,9 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
     <Popover
       align="right"
       renderLabel={({ onClick, ref }) => (
-        <UnstyledButton className={popoverMenuButton} onClick={onClick} ref={ref} label="Project Options for {project.domain}">
+        <PopoverMenuButton onClick={onClick} forwardRef={ref} label="Project Options for {project.domain}">
           <Icon icon="chevronDown" />
-        </UnstyledButton>
+        </PopoverMenuButton>
       )}
       views={{
         addToCollection: ({ onClose, onBack, setActiveView }) => (
