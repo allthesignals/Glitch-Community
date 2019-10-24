@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 import classNames from 'classnames/bind';
 import { CDN_URL } from 'Utils/constants';
 
@@ -8,11 +7,7 @@ import { Button } from '@fogcreek/shared-components';
 import { ProjectAvatar } from 'Components/images/avatar';
 import { ProjectLink } from 'Components/link';
 import ProfileList from 'Components/profile-list';
-import { useProjectMembers } from 'State/project';
 import Image from 'Components/images/image';
-=======
->>>>>>> 7902cc7257e21918faaf2ccfe4c7b02294532d64
-
 import Embed from 'Components/project/embed';
 import ReportButton from 'Components/report-abuse-pop';
 import { useTracker, useTrackedFunc } from 'State/segment-analytics';
