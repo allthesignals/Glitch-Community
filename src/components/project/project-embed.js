@@ -25,9 +25,8 @@ const fullscreenImageURL = `${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Ffu
 
 const ProfileListWithData = ({ project }) => {
   const { value: members } = useProjectMembers(project.id);
-  let users;
-  if(members) users = members.users;
-  return <ProfileList layout="row" users={users} size="medium" />;
+  const { users } = members ||  {};
+  return <ProfileList layout="row" users={users} size="small" />;
 };
 
 const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode }) => {
@@ -57,7 +56,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode 
               </span>
             </span>
             <Button as="a" href={`https://${project.domain}.glitch.me`} variant="secondary" target="_blank">
-              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" />
+              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" alt="fullscreen"/>
             </Button>
           </div>
         )}
