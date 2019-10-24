@@ -1,7 +1,7 @@
 // These urls become root glitch.com/team pages
 // This is here for backwards compatibility
 
-export default {
+module.exports = {
   facebook: 26,
   microsoft: 27,
   google: 28,

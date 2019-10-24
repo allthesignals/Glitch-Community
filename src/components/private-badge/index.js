@@ -48,7 +48,7 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => {
       tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
       target={
         <HiddenCheckbox value={isPrivate} onChange={setPrivate} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}>
-          <span aria-label="Mark as private" className={classnames(styles.privateIcon, styles.privateButton, isPrivate ? styles.private : styles.public, isFocused && styles.focused)}>
+          <span role="img" aria-label="Mark as private" className={classnames(styles.privateIcon, styles.privateButton, isPrivate ? styles.private : styles.public, isFocused && styles.focused)}>
             {isPrivate ? <Icon icon="private" alt="private" /> : <Icon icon="public" alt="public" />}
           </span>
         </HiddenCheckbox>
