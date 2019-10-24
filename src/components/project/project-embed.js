@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import { CDN_URL } from 'Utils/constants';
 
 import { Button } from '@fogcreek/shared-components';
 import { ProjectAvatar } from 'Components/images/avatar';
@@ -20,11 +21,12 @@ import AddProjectToCollection from './add-project-to-collection-pop';
 import styles from './project-embed.styl';
 
 const cx = classNames.bind(styles);
-const fullscreenImageURL = 'https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Ffullscreen.svg?v=1571865617764';
+const fullscreenImageURL = `${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Ffullscreen.svg?v=1571867146900`;
 
 const ProfileListWithData = ({ project }) => {
   const { value: members } = useProjectMembers(project.id);
-  return <ProfileList layout="row" glitchTeam={project.showAsGlitchTeam} {...members} size="medium" />;
+  const { users } = members || {};
+  return <ProfileList layout="row" users={users} size="small" />;
 };
 
 const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode }) => {
@@ -53,7 +55,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode 
                 <ProfileListWithData project={project} />
               </span>
             </span>
-            <Button as="a" href={`https://${project.domain}.glitch.me`}>
+            <Button as="a" href={`https://${project.domain}.glitch.me`} variant="secondary" target="_blank">
               <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" alt="fullscreen" />
             </Button>
           </div>
