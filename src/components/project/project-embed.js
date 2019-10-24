@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
 import { CDN_URL } from 'Utils/constants';
 
 import { Button } from '@fogcreek/shared-components';
@@ -21,12 +20,11 @@ import AddProjectToCollection from './add-project-to-collection-pop';
 
 import styles from './project-embed.styl';
 
-const cx = classNames.bind(styles);
 const fullscreenImageURL = `${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Ffullscreen.svg?v=1571867146900`;
 
 const ProfileListWithData = ({ project }) => {
   const { value: members } = useProjectMembers(project.id);
-  const { users } = members ||  {};
+  const { users } = members || {};
   return <ProfileList layout="row" users={users} size="small" />;
 };
 
@@ -37,6 +35,9 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
 
   const { value: members } = useProjectMembers(project.id);
   const isMember = userIsProjectMember({ members, user: currentUser });
+  console.log('isMember', isMember);
+  console.log('project', project);
+  console.log('currentUser', currentUser);
   const canBecomeMember = userIsProjectTeamMember({ project, user: currentUser });
 
   const [embedKey, setEmbedKey] = useState(0); // used to refresh project embed when users leave or join projects
@@ -57,7 +58,6 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
     <section className={styles.projectEmbed}>
       {top}
       <div className={styles.embedWrap}>
-
         <Embed key={embedKey} domain={project.domain} loading={loading} hideCode={hideCode} />
         {hideCode && (
           <div className={styles.embedBottomBar}>
@@ -72,7 +72,7 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
               </span>
             </span>
             <Button as="a" href={`https://${project.domain}.glitch.me`} variant="secondary" target="_blank">
-              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" alt="fullscreen"/>
+              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" alt="fullscreen" />
             </Button>
           </div>
         )}
