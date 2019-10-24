@@ -60,7 +60,11 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
 
   const setPrivate = useTrackedFunc(
     () => funcs.updatePrivacy(!collection.private),
-    `Collection toggled ${collection.private ? 'public' : 'private'}`,
+    'Collection Privacy Changed',
+    (inherited) => ({
+      ...inherited,
+      isSettingToPrivate: !collection.private,
+    }),
   );
 
   const onPlayPage = match.params[0] === 'play' && collection.projects.length > 0;
