@@ -12,7 +12,7 @@ const TestsProvider = ({ AB_TESTS, children }) => {
     (test, assignment) => {
       setAssignments((oldAssignments) => {
         const newAssignments = { ...oldAssignments, [test]: assignment };
-        document.cookie = `${COOKIE_NAME}=${JSON.stringify(newAssignments)}`;
+        document.cookie = `${COOKIE_NAME}=${JSON.stringify(newAssignments)}; path=/`;
         return newAssignments;
       });
     },

@@ -30,7 +30,8 @@ const ProfileListWithData = ({ project }) => {
   return <ProfileList layout="row" users={users} size="small" />;
 };
 
-const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode }) => {
+const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, loading, hideCode }) => {
+  const project = initialProject;
   const projectOptions = useProjectOptions(project, addProjectToCollection ? { addProjectToCollection } : {});
   const { currentUser } = useCurrentUser();
 
@@ -56,6 +57,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode 
     <section className={styles.projectEmbed}>
       {top}
       <div className={styles.embedWrap}>
+
         <Embed key={embedKey} domain={project.domain} loading={loading} hideCode={hideCode} />
         {hideCode && (
           <div className={styles.embedBottomBar}>

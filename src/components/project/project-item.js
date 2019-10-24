@@ -65,8 +65,14 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
 
   const bookmarkAction = useTrackedFunc(
     () => projectOptions.toggleBookmark(project, hasBookmarked, setHasBookmarked),
-    `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`,
-    (inherited) => ({ ...inherited, projectName: project.domain, baseProjectId: project.baseId || project.baseProject, userId: currentUser.id }),
+    'My Stuff Button Clicked',
+    (inherited) => ({
+      ...inherited,
+      projectName: project.domain,
+      baseProjectId: project.baseId || project.baseProject,
+      userId: currentUser.id,
+      isAddingToMyStuff: !hasBookmarked,
+    }),
   );
 
   const sequence = (doAnimation, projectOption) => {
