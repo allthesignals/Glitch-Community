@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { sampleSize } from 'lodash';
 import { Icon } from '@fogcreek/shared-components';
@@ -41,10 +41,18 @@ async function getProjects(api, { type, id, ignoreProjectId }) {
   return [...sampledPins, ...sampledRecents];
 }
 
-function RelatedProjects({ project }) {
+const ProjectsDataLoader = ({ children, type, id, ignoreProjectId }) => {
+  const args = useMemo(() => ({ type, id, ignoreProjectId }), [type, id, ignoreProjectId]);
+  return (
+    <DataLoader get={getProjects} args={args}>
+      {(projects) => projects && projects.length > 0 && children(projects)}
+    </DataLoader>
+  );
+};
+
+const RelatedProjects = ({ project }) => {
   const teams = useSample(project.teams || [], 1);
   const users = useSample(project.users || [], 2 - teams.length);
-  const ignoreProjectId = project.id;
 
   if (!teams.length && !users.length) {
     return null;
@@ -53,39 +61,35 @@ function RelatedProjects({ project }) {
     <ul className={styles.container}>
       {teams.map((team) => (
         <li key={team.id}>
-          <DataLoader get={(api) => getProjects(api, { type: 'team', id: team.id, ignoreProjectId })}>
-            {(projects) =>
-              projects && projects.length > 0 && (
-                <>
-                  <h2>
-                    <TeamLink team={team}>More by {team.name} <Icon className={styles.arrow} icon="arrowRight" /></TeamLink>
-                  </h2>
-                  <RelatedProjectsBody projects={projects} type="team" item={team} />
-                </>
-              )
-            }
-          </DataLoader>
+          <ProjectsDataLoader type="team" id={team.id} ignoreProjectId={project.id}>
+            {(projects) => (
+              <>
+                <h2>
+                  <TeamLink team={team}>More by {team.name} <Icon className={styles.arrow} icon="arrowRight" /></TeamLink>
+                </h2>
+                <RelatedProjectsBody projects={projects} type="team" item={team} />
+              </>
+            )}
+          </ProjectsDataLoader>
         </li>
       ))}
       {users.map((user) => (
         <li key={user.id}>
-          <DataLoader get={(api) => getProjects(api, { type: 'user', id: user.id, ignoreProjectId })}>
-            {(projects) =>
-              projects && projects.length > 0 && (
-                <>
-                  <h2>
-                    <UserLink user={user}>More by {getDisplayName(user)} <Icon className={styles.arrow} icon="arrowRight" /></UserLink>
-                  </h2>
-                  <RelatedProjectsBody projects={projects} type="user" item={user} />
-                </>
-              )
-            }
-          </DataLoader>
+          <ProjectsDataLoader type="user" id={user.id} ignoreProjectId={project.id}>
+            {(projects) => (
+              <>
+                <h2>
+                  <UserLink user={user}>More by {getDisplayName(user)} <Icon className={styles.arrow} icon="arrowRight" /></UserLink>
+                </h2>
+                <RelatedProjectsBody projects={projects} type="user" item={user} />
+              </>
+            )}
+          </ProjectsDataLoader>
         </li>
       ))}
     </ul>
   );
-}
+};
 RelatedProjects.propTypes = {
   project: PropTypes.shape({
     id: PropTypes.string.isRequired,

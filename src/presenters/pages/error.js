@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { Button } from '@fogcreek/shared-components';
 
+import { CDN_URL } from 'Utils/constants';
+
 import Image from 'Components/images/image';
 import Text from 'Components/text/text';
 import Heading from 'Components/text/heading';
@@ -36,7 +38,7 @@ export const NotFoundPage = () => {
   );
 };
 
-const emailImageUrl = 'https://cdn.glitch.com/26ac422d-705d-42be-b9cb-1fbdfe7e5a63%2Ferror-mailer.svg?1543429767321';
+const emailImageUrl = `${CDN_URL}/26ac422d-705d-42be-b9cb-1fbdfe7e5a63%2Ferror-mailer.svg?1543429767321`;
 
 export const EmailErrorPage = ({ title, description }) => (
   <Layout>
@@ -53,7 +55,7 @@ EmailErrorPage.propTypes = {
   description: PropTypes.string.isRequired,
 };
 
-const oauthImageUrl = 'https://cdn.glitch.com/8ae9b195-ef39-406b-aee0-764888d15665%2Foauth-key.svg?1544466885907';
+const oauthImageUrl = `${CDN_URL}/02863ac1-a499-4a41-ac9c-41792950000f%2Foauth.svg?v=1571423403881`;
 
 export const OauthErrorPage = ({ title, description }) => (
   <Layout>

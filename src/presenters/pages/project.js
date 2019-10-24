@@ -16,7 +16,7 @@ import DataLoader from 'Components/data-loader';
 import Row from 'Components/containers/row';
 import RelatedProjects from 'Components/related-projects';
 import Expander from 'Components/containers/expander';
-import { ShowButton, EditButton } from 'Components/project/project-actions';
+import { ShowButton, EditButtonCta } from 'Components/project/project-actions';
 import AuthDescription from 'Components/fields/auth-description';
 import Layout from 'Components/layout';
 import { PrivateBadge, PrivateToggle } from 'Components/private-badge';
@@ -50,7 +50,9 @@ const IncludedInCollections = ({ projectId }) => (
       filteredCollections(collections).length > 0 && (
         <>
           <Heading tagName="h2">Included in Collections</Heading>
-          <Row items={filteredCollections(collections)} gap="20px">{(collection) => <CollectionItem collection={collection} showCurator />}</Row>
+          <Row items={filteredCollections(collections)} gap="20px">
+            {(collection) => <CollectionItem collection={collection} showCurator />}
+          </Row>
         </>
       )
     }
@@ -146,11 +148,12 @@ const ProjectPage = ({ project: initialProject }) => {
 
   const { addProjectToCollection } = useAPIHandlers();
 
-  const bookmarkAction = useTrackedFunc(toggleBookmark, `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`, (inherited) => ({
+  const bookmarkAction = useTrackedFunc(toggleBookmark, 'My Stuff Button Clicked', (inherited) => ({
     ...inherited,
     projectName: project.domain,
     baseProjectId: project.baseId,
     userId: currentUser.id,
+    isAddingToMyStuff: !hasBookmarked,
   }));
 
   const addProjectToCollectionAndSetHasBookmarked = (projectToAdd, collection) => {
@@ -195,12 +198,7 @@ const ProjectPage = ({ project: initialProject }) => {
             <>
               <div className={styles.headingWrap}>
                 <Heading tagName="h1">
-                  <OptimisticTextInput
-                    label="Project Domain"
-                    value={project.domain}
-                    onChange={updateDomainAndSync}
-                    placeholder="Name your project"
-                  />
+                  <OptimisticTextInput label="Project Domain" value={project.domain} onChange={updateDomainAndSync} placeholder="Name your project" />
                 </Heading>
                 {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
@@ -231,7 +229,7 @@ const ProjectPage = ({ project: initialProject }) => {
           )}
           {users.length + teams.length > 0 && (
             <div>
-              <ProfileList hasLinks teams={teams} users={users} layout="block" />
+              <ProfileList hasLinks teams={teams} {...members} layout="block" />
             </div>
           )}
           <AuthDescription
@@ -245,7 +243,7 @@ const ProjectPage = ({ project: initialProject }) => {
               <ShowButton name={domain} />
             </span>
             <span className={styles.profileButton}>
-              <EditButton name={domain} isMember={isAuthorized} />
+              <EditButtonCta name={domain} isMember={isAuthorized} />
             </span>
           </div>
         </ProjectProfileContainer>
