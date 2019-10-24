@@ -108,6 +108,7 @@ const FeaturedProject = ({
             }
             project={featuredProject}
             addProjectToCollection={addProjectToCollection}
+            previewOnly={isPlayer}
           />
         )}
       </AnimationContainer>
