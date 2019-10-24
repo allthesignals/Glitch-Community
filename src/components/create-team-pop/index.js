@@ -36,7 +36,7 @@ const CreateTeamPop = withRouter(({ history }) => {
       let error = null;
 
       try {
-        const { data } = await api.get(`userId/byLogin/${url}`);
+        const { data } = await api.get(`v1/userId/byLogin/${url}`);
         if (data !== 'NOT FOUND') {
           error = 'Name in use, try another';
         }
@@ -47,7 +47,7 @@ const CreateTeamPop = withRouter(({ history }) => {
       }
 
       try {
-        const { data } = await api.get(`teamId/byUrl/${url}`);
+        const { data } = await api.get(`v1/teamId/byUrl/${url}`);
         if (data !== 'NOT FOUND') {
           error = 'Team already exists, try another';
         }
