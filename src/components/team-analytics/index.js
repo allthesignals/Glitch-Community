@@ -9,6 +9,7 @@ import Text from 'Components/text/text';
 import { createAPIHook } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
+import { useFeatureEnabled } from 'State/rollouts';
 import TeamAnalyticsTimePop from './team-analytics-time-pop';
 import TeamAnalyticsProjectPop from './team-analytics-project-pop';
 import SummaryItem from './team-analytics-summary';
@@ -17,6 +18,7 @@ import Referrers from './team-analytics-referrers';
 import TeamAnalyticsProjectDetails from './team-analytics-project-details';
 
 import styles from './styles.styl';
+
 
 const dateFromTime = (newTime) => {
   const timeMap = {
@@ -42,8 +44,10 @@ function getSampleAnalytics() {
   return data;
 }
 
-const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain }) => {
-  if (!projects.length) return getSampleAnalytics();
+const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, currentProjectDomain, featureEnabled }) => {
+  if (!featureEnabled || projects.length === 0) {
+    return getSampleAnalytics();
+  }
 
   const path = currentProjectDomain ? `analytics/${id}/project/${currentProjectDomain}?from=${fromDate}` : `analytics/${id}/team?from=${fromDate}`;
   try {
@@ -56,9 +60,28 @@ const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, cur
 });
 
 function useAnalytics(props) {
-  // make an object with a stable identity so it can be used as single argumnent to api hook
-  const memoProps = useMemo(() => props, Object.values(props));
+  const featureEnabled = useFeatureEnabled('analytics', String(props.id));
+  // make an object with a stable identity so it can be used as single argument to api hook
+  const memoProps = useMemo(() => ({ ...props, featureEnabled }), [featureEnabled, ...Object.values(props)]);
   return useAnalyticsData(memoProps);
+}
+
+function BannerMessage({ id, projects }) {
+  const featureEnabled = useFeatureEnabled('analytics', String(id));
+  if (!featureEnabled) {
+    return (
+      <aside className={styles.inlineBanner}>
+        Analytics are currently unavailable.
+        Have questions? Email us at <strong>support@glitch.com</strong>
+      </aside>
+    );
+  }
+  if (projects.length === 0) {
+    return (
+      <aside className={styles.inlineBanner}>Add projects to see their stats</aside>
+    );
+  }
+  return null;
 }
 
 function TeamAnalytics({ id, projects }) {
@@ -68,6 +91,8 @@ function TeamAnalytics({ id, projects }) {
   const fromDate = useMemo(() => dateFromTime(currentTimeFrame), [currentTimeFrame]);
 
   const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
+
+  const placeholder = !useFeatureEnabled('analytics', String(id)) || projects.length === 0;
 
   const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
 
@@ -95,7 +120,7 @@ function TeamAnalytics({ id, projects }) {
     <section className={styles.container}>
       <h2>
         Analytics
-        {projects.length === 0 && <aside className={styles.inlineBanner}>Add projects to see their stats</aside>}
+        {placeholder && <BannerMessage id={id} projects={projects} />}
       </h2>
 
       {projects.length > 0 && (
@@ -144,7 +169,7 @@ function TeamAnalytics({ id, projects }) {
         </section>
       </div>
 
-      {!projects.length && <div className={styles.placeholderMask} />}
+      {placeholder && <div className={styles.placeholderMask} />}
     </section>
   );
 }

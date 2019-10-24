@@ -29,7 +29,7 @@ const DataLoader = ({ children, get, renderError, renderLoader, captureException
       isCurrent = false;
       setState({ status: 'loading', value: null });
     };
-  }, [api, args]);
+  }, [api, args, get]);
 
   if (status === 'ready') return children(value);
   if (status === 'error') return renderError(value);
