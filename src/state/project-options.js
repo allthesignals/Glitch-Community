@@ -82,7 +82,8 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
   }, [user, team, project.id]);
 
   const isLoggedIn = !!currentUser.login;
-  const { value: members } = useProjectMembers(project.id);
+  const { value: members, status } = useProjectMembers(project.id);
+  const areMembersReady = status === 'ready';
   const isProjectMember = userIsProjectMember({ members, user: currentUser });
   const isProjectAdmin = userIsProjectAdmin({ project, user: currentUser });
   const isOnlyProjectAdmin = userIsOnlyProjectAdmin({ project, user: currentUser });
@@ -100,8 +101,8 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
     addPin: isLoggedIn && isProfileOwner && !isPinned && bind(projectOptions.addPin, project),
     removePin: isProfileOwner && isPinned && bind(projectOptions.removePin, project),
     displayNewNote: !project.note && !project.isAddingANewNote && canAddNote && bind(projectOptions.displayNewNote, project),
-    joinTeamProject: !isProjectMember && !!projectTeam && bind(projectOptions.joinTeamProject, project, projectTeam),
-    leaveProject: isProjectMember && !isOnlyProjectAdmin && bind(projectOptions.leaveProject, project),
+    joinTeamProject: areMembersReady && !isProjectMember && !!projectTeam && bind(projectOptions.joinTeamProject, project, projectTeam),
+    leaveProject: areMembersReady && isProjectMember && !isOnlyProjectAdmin && bind(projectOptions.leaveProject, project),
     removeProjectFromTeam: isTeamMember && bind(projectOptions.removeProjectFromTeam, project),
     deleteProject: isProjectAdmin && bind(projectOptions.deleteProject, project),
     removeProjectFromCollection: isCollectionOwner && bind(projectOptions.removeProjectFromCollection, project),

@@ -14,14 +14,13 @@ import AddProjectToCollection from './add-project-to-collection-pop';
 
 import styles from './project-embed.styl';
 
-const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, loading }) => {
-  const { value: members } = useProjectMembers(initialProject.id);
-  const project = { ...initialProject, ...members };
+const ProjectEmbed = ({ project, top, addProjectToCollection, loading }) => {
+  const { value: members } = useProjectMembers(project.id);
 
   const projectOptions = useProjectOptions(project, addProjectToCollection ? { addProjectToCollection } : {});
   const { currentUser } = useCurrentUser();
 
-  const isMember = userIsProjectMember({ members: project, user: currentUser });
+  const isMember = userIsProjectMember({ members, user: currentUser });
   const canBecomeMember = userIsProjectTeamMember({ project, user: currentUser });
 
   const [embedKey, setEmbedKey] = useState(0); // used to refresh project embed when users leave or join projects
@@ -34,7 +33,6 @@ const ProjectEmbed = ({ project: initialProject, top, addProjectToCollection, lo
   const refreshEmbed = () => {
     setEmbedKey(embedKey + 1);
   };
-  console.log(project.users, project.teams);
 
   const trackedLeaveProject = useTrackedFunc(projectOptions.leaveProject, 'Leave Project clicked');
   const trackedJoinProject = useTrackedFunc(projectOptions.joinTeamProject, 'Join Project clicked');
