@@ -27,7 +27,6 @@
   font-size: 14px
   padding: 8px 10px
   height: 41px
-  line-height: 25px
   width: 100%
   border-left: 1px solid #c3c3c3
   border-bottom-left-radius: 5px
@@ -35,9 +34,14 @@
 
 .embedAuthors
   flex: 1
+  li
+    margin-right: -7px
+  li:last-child
+    margin-right: 0
 
 .embedLeft
   display: flex
+  align-items: center
   flex: 1
   [data-module="Avatar"]
     height: 25px
@@ -48,10 +52,14 @@
     &:hover
       text-decoration: underline
     > *
-      margin: 0 5px
+      margin-right: 5px
+  ul
+    margin-left: 5px
 
 .embedDomainLink
-  font-weight: bold
+  align-self: center
+  margin: 0
+  font-weight: 600
   
 .addToCollectionWrap
   display: inline-block
