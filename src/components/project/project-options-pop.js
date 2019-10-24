@@ -86,26 +86,24 @@ const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover
   const onClickLeaveProject = isTeamProject({ currentUser, project }) ? trackedLeaveProjectDirect : leaveProjectPopover;
 
   return (
-    <>
-      <PopoverMenuItems>
-        {[
-          [
-            { onClick: projectOptions.featureProject, label: 'Feature', emoji: 'clapper' },
-            { onClick: projectOptions.addPin, label: 'Pin', emoji: 'pushpin' },
-            { onClick: projectOptions.removePin, label: 'Un-Pin', emoji: 'pushpin' },
-          ],
-          [{ onClick: projectOptions.displayNewNote, label: 'Add Note', emoji: 'spiralNotePad' }],
-          [{ onClick: projectOptions.addProjectToCollection && addToCollectionPopover, label: 'Add to Collection', emoji: 'framedPicture' }],
-          [{ onClick: projectOptions.joinTeamProject, label: 'Join Project', emoji: 'rainbow' }],
-          [{ onClick: leaveProjectDirect && onClickLeaveProject, label: 'Leave Project', emoji: 'wave' }],
-          [
-            { onClick: projectOptions.removeProjectFromTeam, label: 'Remove Project', emoji: 'thumbsDown', dangerZone: true },
-            { onClick: onClickDeleteProject, label: 'Delete Project', emoji: 'bomb', dangerZone: true },
-            { onClick: projectOptions.removeProjectFromCollection, label: 'Remove from Collection', emoji: 'thumbsDown', dangerZone: true },
-          ],
-        ]}
-      </PopoverMenuItems>
-    </>
+    <PopoverMenuItems>
+      {[
+        [
+          { onClick: projectOptions.featureProject, label: 'Feature', emoji: 'clapper' },
+          { onClick: projectOptions.addPin, label: 'Pin', emoji: 'pushpin' },
+          { onClick: projectOptions.removePin, label: 'Un-Pin', emoji: 'pushpin' },
+        ],
+        [{ onClick: projectOptions.displayNewNote, label: 'Add Note', emoji: 'spiralNotePad' }],
+        [{ onClick: projectOptions.addProjectToCollection && addToCollectionPopover, label: 'Add to Collection', emoji: 'framedPicture' }],
+        [{ onClick: projectOptions.joinTeamProject, label: 'Join Project', emoji: 'rainbow' }],
+        [{ onClick: leaveProjectDirect && onClickLeaveProject, label: 'Leave Project', emoji: 'wave' }],
+        [
+          { onClick: projectOptions.removeProjectFromTeam, label: 'Remove Project', emoji: 'thumbsDown', dangerZone: true },
+          { onClick: onClickDeleteProject, label: 'Delete Project', emoji: 'bomb', dangerZone: true },
+          { onClick: projectOptions.removeProjectFromCollection, label: 'Remove from Collection', emoji: 'thumbsDown', dangerZone: true },
+        ],
+      ]}
+    </PopoverMenuItems>
   );
 };
 
