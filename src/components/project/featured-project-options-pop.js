@@ -21,10 +21,8 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
   return (
     <Popover
       align="right"
-      renderLabel={({ onClick, forwardRef }) => (
-        <PopoverMenuButton onClick={onClick} ref={forwardRef} label="Featured Project Options">
-          <Icon icon="chevronDown" />
-        </PopoverMenuButton>
+      renderLabel={({ onClick, ref }) => (
+        <PopoverMenuButton onClick={onClick} ref={ref} label="Featured Project Options" />
       )}
     >
       {({ onClose }) => (
