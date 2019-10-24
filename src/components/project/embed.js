@@ -26,19 +26,19 @@ const browserSatisfiesRequirements = (() => {
   return false;
 })();
 
-const Embed = ({ domain, loading, hideCode }) => (
-  <div className={classnames(styles.embedContainer, hideCode && styles.embedContainerWithPadding)}>
+const Embed = ({ domain, loading, previewOnly }) => (
+  <div className={classnames(styles.embedContainer, previewOnly && styles.embedContainerWithPadding)}>
     {browserSatisfiesRequirements ? (
       // Embed iframe for app
       <iframe
-        className={classnames(styles.embedIframe, hideCode && styles.mimicGlitchEmbed)}
+        className={classnames(styles.embedIframe, previewOnly && styles.mimicGlitchEmbed)}
         title={`${domain} on Glitch`}
         allow="geolocation; microphone; camera; midi; encrypted-media"
         height="100%"
         width="100%"
         allowvr="yes"
         loading={loading}
-        src={hideCode ? `https://${domain}.glitch.me` : `${APP_URL}/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
+        src={previewOnly ? `https://${domain}.glitch.me` : `${APP_URL}/embed/#!/embed/${domain}?path=README.md&previewSize=100`}
       />
     ) : (
       // Error message if JS not supported
@@ -57,12 +57,12 @@ const Embed = ({ domain, loading, hideCode }) => (
 Embed.propTypes = {
   domain: PropTypes.string.isRequired,
   loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
-  hideCode: PropTypes.bool,
+  previewOnly: PropTypes.bool,
 };
 
 Embed.defaultProps = {
   loading: 'auto',
-  hideCode: false,
+  previewOnly: false,
 };
 
 export default Embed;

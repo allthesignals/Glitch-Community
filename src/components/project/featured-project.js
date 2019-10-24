@@ -108,7 +108,7 @@ const FeaturedProject = ({
             }
             project={featuredProject}
             addProjectToCollection={addProjectToCollection}
-            hideCode={isPlayer}
+            previewOnly={isPlayer}
           />
         )}
       </AnimationContainer>

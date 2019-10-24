@@ -29,7 +29,7 @@ const ProfileListWithData = ({ project }) => {
   return <ProfileList layout="row" users={users} size="small" />;
 };
 
-const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode }) => {
+const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOnly }) => {
   const projectOptions = useProjectOptions(project, addProjectToCollection ? { addProjectToCollection } : {});
   const { currentUser } = useCurrentUser();
   const isMember = currentUser.projects.some(({ id }) => id === project.id);
@@ -42,8 +42,8 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, hideCode 
     <section className={styles.projectEmbed}>
       {top}
       <div className={styles.embedWrap}>
-        <Embed domain={project.domain} loading={loading} hideCode={hideCode} />
-        {hideCode && (
+        <Embed domain={project.domain} loading={loading} previewOnly={previewOnly} />
+        {previewOnly && (
           <div className={styles.embedBottomBar}>
             <span className={styles.embedLeft}>
               <ProjectLink project={project}>
@@ -87,14 +87,14 @@ ProjectEmbed.propTypes = {
   addProjectToCollection: PropTypes.func,
   top: PropTypes.any,
   loading: PropTypes.oneOf(['lazy', 'eager', 'auto']),
-  hideCode: PropTypes.bool,
+  previewOnly: PropTypes.bool,
 };
 
 ProjectEmbed.defaultProps = {
   addProjectToCollection: null,
   top: null,
   loading: 'auto',
-  hideCode: false,
+  previewOnly: false,
 };
 
 export default ProjectEmbed;
