@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Actions, Button, Icon, Popover, UnstyledButton } from '@fogcreek/shared-components';
 
+import { PopoverMenuButton } from '../popovers'
+
 import styles from './featured-project.styl';
 import { emoji, popoverMenuButton } from '../global.styl';
 
