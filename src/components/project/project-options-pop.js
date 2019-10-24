@@ -19,33 +19,33 @@ const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'L
 /* eslint-disable react/no-array-index-key */
 const PopoverMenuItems = ({ children }) =>
   children.map(
-    (group, i) =>
+    (group) =>
       group.some((item) => item.onClick) &&
       (group.some((item) => item.dangerZone) ? (
-        <DangerZone key={i}>
+        <DangerZone>
           {group.map(
             (item) =>
               item.onClick && (
-                <>
+                <div key={item.label}>
                   <Button className={styles.noWrap} size="small" variant="warning" onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
-                </>
+                </div>
               ),
           )}
         </DangerZone>
       ) : (
-        <Actions key={i}>
+        <Actions>
           {group.map(
             (item) =>
               item.onClick && (
-                <>
+                <div key={item.label}>
                   <Button className={styles.noWrap} size="small" variant="secondary" onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
-                </>
+                </div>
               ),
           )}
         </Actions>
