@@ -23,6 +23,11 @@ import { emoji } from '../global.styl';
 const MEMBER_ACCESS_LEVEL = 20;
 const ADMIN_ACCESS_LEVEL = 30;
 
+const useProjects = createAPIHook(async (api, userID, team) => {
+  const userProjects = await getAllPages(api, `/v1/users/by/id/projects?id=${userID}&limit=100`);
+  return userProjects.filter((userProj) => team.projects.some((teamProj) => teamProj.id === userProj.id));
+});
+
 const ProjectsList = ({ options, value, onChange }) => (
   <div className={styles.projectsList}>
     {options.map((project) => (
@@ -58,7 +63,10 @@ const AdminBadge = () => (
 
 // Team User Remove 💣
 
-function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
+function TeamUserRemovePop({ user, team, onRemoveUser }) {
+  const userTeamProjectsResponse = useProjects(user.id, team);
+  const userTeamProjects = userTeamProjectsResponse.value || [];
+
   const [selectedProjectIDs, setSelectedProjects] = useState([]);
   function selectAllProjects() {
     setSelectedProjects(userTeamProjects.map((p) => p.id));
@@ -75,12 +83,12 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
     <PopoverDialog align="left" focusOnPopover>
       <MultiPopoverTitle>Remove {getDisplayName(user)}</MultiPopoverTitle>
 
-      {!userTeamProjects && (
+      {userTeamProjectsResponse.status !== 'ready' && (
         <PopoverActions>
           <Loader />
         </PopoverActions>
       )}
-      {userTeamProjects && userTeamProjects.length > 0 && (
+      {userTeamProjects.length > 0 && (
         <PopoverActions>
           <ActionDescription>Also remove them from these projects</ActionDescription>
           <ProjectsList options={userTeamProjects} value={selectedProjectIDs} onChange={setSelectedProjects} />
@@ -164,11 +172,6 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
     </PopoverDialog>
   );
 };
-
-const useProjects = createAPIHook(async (api, userID, team) => {
-  const userProjects = await getAllPages(api, `/v1/users/by/id/projects?id=${userID}&limit=100`);
-  return userProjects.filter((userProj) => team.projects.some((teamProj) => teamProj.id === userProj.id));
-});
 
 const adminStatusDisplay = (team, user) => {
   if (userIsTeamAdmin({ team, user })) {
