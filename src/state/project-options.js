@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { pickBy } from 'lodash';
+import { useDispatch } from 'react-redux';
 
-import { useCurrentUser } from 'State/current-user';
+import { useCurrentUser, actions as currentUserActions } from 'State/current-user';
 import { useAPIHandlers, useAPI } from 'State/api';
 import useErrorHandlers from 'State/error-handlers';
 import { userOrTeamIsAuthor, useCollectionReload } from 'State/collection';
@@ -20,8 +21,9 @@ const bind = (fn, ...args) => {
 const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
 
 const useDefaultProjectOptions = () => {
+  const dispatch = useDispatch();
   const { addProjectToCollection, joinTeamProject, removeUserFromProject, removeProjectFromCollection } = useAPIHandlers();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, update: updateCurrentUser } = useCurrentUser();
   const { handleError, handleCustomError } = useErrorHandlers();
   const reloadProjectMembers = useProjectReload();
   const reloadCollectionProjects = useCollectionReload();
@@ -40,6 +42,7 @@ const useDefaultProjectOptions = () => {
     leaveProject: withErrorHandler(async (project) => {
       await removeUserFromProject({ project, user: currentUser });
       reloadProjectMembers([project.id]);
+      dispatch(currentUserActions.leftProject(project));
     }, handleError),
     // toggleBookmark is defined here and on state/collection and are very similar. Their only differences are how they modify state.
     // we'll probably want to revisit condensing these when we have a centralized state object to work off of.
@@ -52,7 +55,8 @@ const useDefaultProjectOptions = () => {
       } else {
         if (setHasBookmarked) setHasBookmarked(true);
         if (!myStuffCollection) {
-          myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification, myStuffEnabled: true });
+          myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
+          updateCurrentUser({ collections: [myStuffCollection, ...currentUser.collections] });
         }
         await addProjectToCollection({ project, collection: myStuffCollection });
         reloadCollectionProjects([myStuffCollection]);

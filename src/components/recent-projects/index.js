@@ -59,7 +59,7 @@ const RecentProjects = () => {
           </div>
           <div className={styles.projectsWrap}>
             {fetched ? (
-              <ProjectsList layout="row" projects={currentUser.projects.slice(0, 3)} />
+              <ProjectsList layout="row" showEditButton projects={currentUser.projects.slice(0, 3)} />
             ) : (
               <Loader style={{ width: '25px' }} />
             )}

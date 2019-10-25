@@ -1,5 +1,5 @@
 const os = require('os');
-const { envs, tagline } = require('../shared/constants');
+const { envs, tagline, glitchTeamId } = require('../shared/constants');
 
 // in the backend, just switch between local, staging and production
 // the client supports RUNNING_ON = development
@@ -16,4 +16,5 @@ module.exports = {
   current,
   currentEnv,
   tagline,
+  glitchTeamId
 };

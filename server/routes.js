@@ -7,21 +7,16 @@ const util = require('util');
 const dayjs = require('dayjs');
 const punycode = require('punycode');
 
-const MarkdownIt = require('markdown-it');
-const md = new MarkdownIt();
-const cheerio = require('cheerio');
-
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
+const categories = require('../shared/categories');
+const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
-const { defaultProjectDescriptionPattern } = require('../shared/regex');
-const { getData, saveDataToFile } = require('./home');
-
-const DEFAULT_USER_DESCRIPTION = (login, name) => `See what ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
-const DEFAULT_TEAM_DESCRIPTION = (login, name) => `See what Team ${name} (@${login}) is up to on Glitch, the ${constants.tagline} `;
-const DEFAULT_PROJECT_DESCRIPTION = (domain) => `Check out ~${domain} on Glitch, the ${constants.tagline}`;
+const { getOptimizelyData } = require('./optimizely');
+const { getData, saveDataToFile } = require('./curated');
+const rootTeams = require('../shared/teams');
 
 module.exports = function(external) {
   const app = express.Router();
@@ -46,14 +41,13 @@ module.exports = function(external) {
   initWebpack(app);
   const buildTime = dayjs();
 
-  const ms = dayjs.convert(7, 'days', 'miliseconds');
+  const ms = dayjs.convert(7, 'days', 'milliseconds');
   app.use(express.static('public', { index: false }));
   app.use(express.static('build/client', { index: false, maxAge: ms }));
 
   const readFilePromise = util.promisify(fs.readFile);
-  const imageDefault = 'https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fsocial-card%402x.png';
 
-  async function render(req, res, { title, description, image = imageDefault, socialTitle, canonicalUrl = APP_URL, wistiaVideoId, cache = {} }, shouldRender = false) {
+  async function render(req, res, cache = {}, wistiaVideoId = null) {
     let built = true;
 
     let scripts = [];
@@ -81,55 +75,50 @@ module.exports = function(external) {
 
     const assignments = getAssignments(req, res);
     const signedIn = !!req.cookies.hasLogin;
-    const [zine, homeContent] = await Promise.all([getZine(), getData('home')]);
+    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
 
-    let ssr = { rendered: null, styleTags: '' };
-    if (shouldRender) {
-      try {
-        const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-        const { html, context, styleTags } = await renderPage(url, {
-          AB_TESTS: assignments,
-          API_CACHE: cache,
-          EXTERNAL_ROUTES: external,
-          HOME_CONTENT: homeContent,
-          SSR_SIGNED_IN: signedIn,
-          ZINE_POSTS: zine || [],
-        });
-        ssr = {
-          rendered: html,
-          styleTags,
-          ...context,
-        };
-      } catch (error) {
-        console.error(`Failed to server render ${req.url}: ${error.toString()}`);
-        captureException(error);
-      }
+    let ssr = { rendered: null, helmet: null, styleTags: '' };
+    try {
+      const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
+      const { html, context, helmet, styleTags } = await renderPage(url, {
+        AB_TESTS: assignments,
+        API_CACHE: cache,
+        EXTERNAL_ROUTES: external,
+        HOME_CONTENT: homeContent,
+        PUPDATES_CONTENT: pupdatesContent,
+        SSR_SIGNED_IN: signedIn,
+        ZINE_POSTS: zine || [],
+      });
+      ssr = {
+        rendered: html,
+        helmet,
+        styleTags,
+        ...context,
+      };
+    } catch (error) {
+      console.error(`Failed to server render ${req.url}: ${error.toString()}`);
+      captureException(error);
     }
 
     res.render('index.ejs', {
-      title,
-      socialTitle,
-      description,
-      image,
       scripts,
       styles,
-      canonicalUrl,
       BUILD_COMPLETE: built,
       BUILD_TIMESTAMP: buildTime.toISOString(),
       API_CACHE: cache,
       EXTERNAL_ROUTES: external,
       ZINE_POSTS: zine || [],
       HOME_CONTENT: homeContent,
+      PUPDATES_CONTENT: pupdatesContent,
       SSR_SIGNED_IN: signedIn,
       AB_TESTS: assignments,
+      OPTIMIZELY_DATA: await getOptimizelyData(),
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
       ENVIRONMENT: process.env.NODE_ENV || 'dev',
       RUNNING_ON: process.env.RUNNING_ON,
       ...ssr,
     });
   }
-
-  const { CDN_URL, APP_URL } = constants.current;
 
   app.use(
     helmet.contentSecurityPolicy({
@@ -141,41 +130,15 @@ module.exports = function(external) {
   );
 
   app.use(function(req, res, next) {
-    res.header('Cache-Control', 'public, max-age=1');
+    res.header('Cache-Control', 'no-cache');
     return next();
   });
 
   app.get('/~:domain', async (req, res) => {
     const { domain } = req.params;
-    const canonicalUrl = `${APP_URL}/~${domain}`;
     const project = await getProject(punycode.toASCII(domain));
-    
-    if (!project) {
-      await render(req, res, { title: domain, canonicalUrl, description: `We couldn't find ~${domain}` }, false);
-      return;
-    }
-  
-    // don't show the real avatar if the project has been suspended
-    const avatar = project.suspendedReason ? imageDefault : `${CDN_URL}/project-avatar/${project.id}.png`
-
-    const helloTemplateDescriptions = new Set([
-      'Your very own basic web page, ready for you to customize.',
-      'A simple Node app built on Express, instantly up and running.',
-      'A simple Node app with a SQLite database to hold app data.',
-    ]);
-
-    const usesDefaultDescription = helloTemplateDescriptions.has(project.description) || project.description.match(defaultProjectDescriptionPattern);
-
-    let description;
-    if (usesDefaultDescription || !project.description || project.suspendedReason) {
-      description = DEFAULT_PROJECT_DESCRIPTION(domain);
-    } else {
-      const textDescription = cheerio.load(md.render(project.description)).text();
-      description = `${textDescription} 🎏 Glitch is the ${constants.tagline}`;
-    }
-
-    const cache = { [`project:${domain}`]: project };
-    await render(req, res, { title: domain, canonicalUrl, description, image: avatar, cache }, true);
+    const cache = project && { [`project:${domain}`]: project };
+    await render(req, res, cache);
   });
 
   app.get('/~:domain/edit', async (req, res) => {
@@ -184,72 +147,50 @@ module.exports = function(external) {
 
     res.redirect(editorUrl);
   });
-  
+
   app.get('/~:domain/console', async (req, res) => {
     const { domain } = req.params;
     const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
 
     res.redirect(consoleUrl);
   });
-  
+
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
-    const canonicalUrl = `${APP_URL}/@${name}`;
     const team = await getTeam(name);
     if (team) {
-      // detect if team uses default description "an adjectivy team that does adjectivy things"
-      // if so, don't include it
-      const hasMaybeUpdatedDescription = team.createdAt !== team.updatedAt;
-      let description = DEFAULT_TEAM_DESCRIPTION(team.url, team.name);
-
-      if (team.description && hasMaybeUpdatedDescription) {
-        description += cheerio.load(md.render(team.description)).text();
-      }
-
-      const args = { title: team.name, description, canonicalUrl };
-
-      if (team.hasAvatarImage) {
-        args.image = `${CDN_URL}/team-avatar/${team.id}/large`;
-      } else {
-        // default team avatar (need to use PNG version, social cards don't support SVG)
-        args.image = `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fteam-avatar.png?1558031923766`;
-      }
-
-      await render(req, res, args);
+      const cache = { [`team-or-user:${name}`]: { team } };
+      await render(req, res, cache);
       return;
     }
     const user = await getUser(name);
     if (user) {
-      const description = DEFAULT_USER_DESCRIPTION(user.login, user.name) + cheerio.load(md.render(user.description)).text();
-
-      await render(req, res, {
-        title: user.name || `@${user.login}`,
-        canonicalUrl,
-        description,
-        image: user.avatarThumbnailUrl || `${CDN_URL}/76c73a5d-d54e-4c11-9161-ddec02bd7c67%2Fanon-user-avatar.png?1558646496932`,
-      });
+      const cache = { [`team-or-user:${name}`]: { user } };
+      await render(req, res, cache);
       return;
     }
-    await render(req, res, { title: `@${name}`, description: `We couldn't find @${name}`, canonicalUrl });
+    await render(req, res);
+  });
+  
+  categories.forEach((category) => {
+    app.get(`/${category.url}`, (req, res) => {
+      res.redirect(301, `/@glitch/${category.collectionName}`);
+    });
+  });
+  
+
+  // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
+  Object.keys(rootTeams).forEach((teamName) => {
+    app.get(`/${teamName}`, (req, res) => {
+      res.redirect(301, `/@${teamName}`);
+    });
   });
 
-  app.get('/@:name/:collection', async (req, res) => {
-    const { name, collection } = req.params;
-    const canonicalUrl = `${APP_URL}/@${name}/${collection}`;
-    const collectionObj = await getCollection(name, collection);
-    const author = name;
-
-    if (collectionObj) {
-      let { name, description } = collectionObj;
-      description = description ? cheerio.load(md.render(description)).text() : '';
-      description = description.trimEnd(); // trim trailing whitespace from description
-      description += ` 🎏 A collection of apps by @${author}`;
-      description = description.trimStart(); // if there was no description, trim space before the fish
-
-      await render(req, res, { title: name, description, canonicalUrl });
-      return;
-    }
-    await render(req, res, { title: collection, description: `We couldn't find @${name}/${collection}`, canonicalUrl });
+  app.get('/@:author/:url', async (req, res) => {
+    const { author, url } = req.params;
+    const collection = await getCollection(author, url);
+    const cache = collection && { [`collection:${author}/${url}`]: collection };
+    await render(req, res, cache);
   });
 
   app.get('/auth/:domain', async (req, res) => {
@@ -262,33 +203,21 @@ module.exports = function(external) {
     });
   });
 
-  app.get('/api/home', async (req, res) => {
-    const data = await getData('home');
+  app.get('/api/:page', async (req, res) => {
+    const { page } = req.params;
+    console.log(page);
+    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
+
+    const data = await getData(page);
     res.send(data);
   });
 
-  app.post('/api/home', async (req, res) => {
+  app.post('/api/:page', async (req, res) => {
+    const { page } = req.params;
+    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
+
     const persistentToken = req.headers.authorization;
     const data = req.body;
-    const page = 'home';
-    try {
-      await saveDataToFile({ page, persistentToken, data });
-      res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
-      res.sendStatus(403);
-    }
-  });
-
-  app.get('/api/pupdate', async (req, res) => {
-    const data = await getData('pupdates');
-    res.send(data);
-  });
-
-  app.post('/api/pupdate', async (req, res) => {
-    const persistentToken = req.headers.authorization;
-    const data = req.body;
-    const page = 'pupdates';
     try {
       await saveDataToFile({ page, persistentToken, data });
       res.sendStatus(200);
@@ -299,21 +228,14 @@ module.exports = function(external) {
   });
 
   app.get(['/', '/index.html'], async (req, res) => {
-    const socialTitle = 'Glitch: The friendly community where everyone builds the web';
-    const description = 'Simple, powerful, free tools to create and use millions of apps.';
-    const image = `${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781`;
-    await render(req, res, { title: 'Glitch', socialTitle, description, image, wistiaVideoId: 'z2ksbcs34d' }, true);
+    await render(req, res, {}, 'z2ksbcs34d');
   });
 
   app.get('/create', async (req, res) => {
-    const title = 'Glitch - Create';
-    const socialTitle = 'Get Started Creating on Glitch';
-    const description = 'Glitch is a collaborative programming environment that lives in your browser and deploys code as you type.';
-    const image = `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0/create-illustration.png?v=1562612212463`;
-    const canonicalUrl = `${APP_URL}/create`;
-    await render(req, res, { title, socialTitle, description, image, canonicalUrl, wistiaVideoId: '2vcr60pnx9' }, true);
+    await render(req, res, {}, '2vcr60pnx9');
   });
 
+<<<<<<< HEAD
   app.get(['/about', '/about/company', '/about/events', '/about/press', '/about/careers'], async (req, res) => {
     const title = 'About Glitch';
     const socialTitle = 'About Glitch';
@@ -328,12 +250,10 @@ module.exports = function(external) {
   });
   
 
+=======
+>>>>>>> 3e8b0a644ea273a1cf2c4a9807976c9b1e920da7
   app.get('*', async (req, res) => {
-    const title = 'Glitch';
-    const socialTitle = 'Glitch: The friendly community where everyone builds the web';
-    const description = 'Simple, powerful, free tools to create and use millions of apps.';
-    const image = `${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsocial-banner.png?v=1562683795781`;
-    await render(req, res, { title, description, image, socialTitle });
+    await render(req, res);
   });
 
   return app;

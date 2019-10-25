@@ -73,7 +73,7 @@ const AboutCompanyPage = withRouter(() => (
     </BlockSection>
 
     <BlockSection>
-      <Heading tagName="h2">
+      <Heading tagName="h2" className={aboutStyles.h2}>
         <Mark color="var(--mark-blue)">Leadership</Mark>
       </Heading>
       <Bio
@@ -97,6 +97,24 @@ const AboutCompanyPage = withRouter(() => (
         </p>
         <p>He advises non-profits including Eyebeam, a platform for artists to engage society's relationship with technology.</p>
       </Bio>
+      <Bio
+        imageUrl="https://cdn.glitch.com/f539f576-be95-4431-9027-55677b8800f5%2Falexa.png?v=1571321186784"
+        name="Alexa Scordato, VP of Marketing"
+      >
+        <p>
+        Alexa Scordato ls a seasoned marketing leader who loves to help startups scale. She previously built teams at Andela, Stack Overflow, and 2U.
+        </p>
+        <p>She has a passion for using technology to tell stories that matter.</p>
+      </Bio>
+      <Bio
+        imageUrl="https://cdn.glitch.com/f539f576-be95-4431-9027-55677b8800f5%2Fjames.png?v=1571321189981"
+        name="James Turnbull, VP of Engineering"
+      >
+        <p>
+          James is an experienced engineering leader who has previously worked at Microsoft, Kickstarter, Docker, Venmo, and Puppet.
+          He was one of the founders of the non-profit educational platform Empatico.
+        </p>
+        <p>He is also the author of a number of technical books and chair of the Velocity conference series.</p>
     </BlockSection>
     <section className={aboutStyles.backgroundSection}>
       <Heading tagName="h4" className={styles.leaderHeader}>Team leads</Heading>

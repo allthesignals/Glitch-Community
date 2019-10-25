@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import { Button, Icon, Loader, TextInput } from '@fogcreek/shared-components';
 
 import SignInButton from 'Components/buttons/sign-in-button';
-import TextInput from 'Components/inputs/text-input';
 import Link from 'Components/link';
 import Notification from 'Components/notification';
 import TwoFactorForm from 'Components/sign-in/two-factor-form';
@@ -49,6 +48,7 @@ const ForgotPasswordHandler = ({ align }) => {
   const isWorking = status === 'working';
   const isDone = status === 'done';
   const isEnabled = email.length > 0 && !isWorking;
+
   return (
     <PopoverDialog align={align}>
       <MultiPopoverTitle>Forgot Password</MultiPopoverTitle>
@@ -57,7 +57,7 @@ const ForgotPasswordHandler = ({ align }) => {
           <form onSubmit={onSubmit}>
             <TextInput
               type="email"
-              labelText="Email address"
+              label="Email address"
               value={email}
               onChange={setEmail}
               placeholder="your@email.com"
@@ -127,14 +127,15 @@ const EmailHandler = ({ align, showView }) => {
   return (
     <PopoverDialog align={align}>
       <MultiPopoverTitle>
-        Email Sign In&nbsp;<Icon className={emoji} icon="email" />
+        Email Sign In&nbsp;
+        <Icon className={emoji} icon="email" />
       </MultiPopoverTitle>
       <PopoverActions>
         {status === 'ready' && (
           <form onSubmit={onSubmit} style={{ marginBottom: 0 }}>
             <TextInput
               type="email"
-              labelText="Email address"
+              label="Email address"
               value={email}
               onChange={setEmail}
               onBlur={() => setIsFocused(false)}
@@ -211,7 +212,7 @@ const SignInWithCode = ({ align, showTwoFactor }) => {
               value={code}
               onChange={setCode}
               type="text"
-              labelText="sign in code"
+              label="sign in code"
               placeholder="cute-unique-cosmos"
               autoFocus
               testingId="sign-in-code"
@@ -248,6 +249,9 @@ const TwoFactorSignIn = ({ align, token }) => (
       Two factor auth <Icon className={emoji} icon="key" />
     </MultiPopoverTitle>
     <PopoverActions>
+      <Notification type="success" persistent>
+        Almost Done
+      </Notification>
       <TwoFactorForm initialToken={token} />
     </PopoverActions>
   </PopoverDialog>
@@ -294,7 +298,7 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
       <form data-cy="sign-in-form" onSubmit={handleSubmit}>
         <TextInput
           placeholder="your@email.com"
-          labelText="email"
+          label="email"
           value={emailAddress}
           error={emailValidationError}
           onChange={setEmail}
@@ -304,7 +308,7 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
         <TextInput
           placeholder="password"
           type="password"
-          labelText="password"
+          label="password"
           value={password}
           onChange={setPassword}
           disabled={working}

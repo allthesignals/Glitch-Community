@@ -12,24 +12,14 @@ import { useAPIHandlers } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { useCollectionContext, useCollectionProjects } from 'State/collection';
 import { getCollectionsWithMyStuff } from 'Models/collection';
-import useDevToggle from 'State/dev-toggles';
 
 import styles from './styles.styl';
-
-const CreateFirstCollection = () => (
-  <div className={styles.createFirstCollection}>
-    <img src="https://cdn.glitch.com/1afc1ac4-170b-48af-b596-78fe15838ad3%2Fpsst-pink.svg?1541086338934" alt="" />
-    <p className={styles.createFirstCollectionText}>Create collections to organize your favorite projects.</p>
-    <br />
-  </div>
-);
 
 /*
   - ensures my stuff is at the beginning of the list (even if it doesn't exist yet)
   - ensures we remove mystuff if the collection has no projects and the user is not authorized we need to remove it from the list
 */
 function MyStuffController({ children, collections, isAuthorized, maybeTeam }) {
-  const myStuffEnabled = useDevToggle('My Stuff');
   // put mystuff at beginning of list (and fake one if it's not there yet)
   const collectionsWithMyStuff = getCollectionsWithMyStuff({ collections });
 
@@ -40,7 +30,7 @@ function MyStuffController({ children, collections, isAuthorized, maybeTeam }) {
     return children([]);
   }
 
-  if (!myStuffEnabled || maybeTeam) {
+  if (maybeTeam) {
     return children(collections);
   }
 
@@ -66,7 +56,6 @@ function CollectionsList({
   const { deleteItem } = useAPIHandlers();
   const { currentUser } = useCurrentUser();
   const [deletedCollectionIds, setDeletedCollectionIds] = useState([]);
-  const myStuffEnabled = useDevToggle('My Stuff');
   const getCollectionProjects = useCollectionContext();
 
   function deleteCollection(collection) {
@@ -107,7 +96,6 @@ function CollectionsList({
                 {canMakeCollections && (
                   <>
                     <CreateCollectionButton team={maybeTeam} />
-                    {!hasCollections && !myStuffEnabled && <CreateFirstCollection />}
                   </>
                 )}
 
@@ -121,9 +109,9 @@ function CollectionsList({
                         fetchDataOptimistically={getCollectionProjects}
                       >
                         {(paginatedCollections, isExpanded) => (
-                          <Grid items={paginatedCollections}>
+                          <Grid items={paginatedCollections} className={styles.collectionsGrid}>
                             {(collection) =>
-                              myStuffEnabled && collection.isMyStuff ? (
+                              collection.isMyStuff ? (
                                 <MyStuffItem collection={collection} isAuthorized={isAuthorized} showLoader={isExpanded} />
                               ) : (
                                 <CollectionItem

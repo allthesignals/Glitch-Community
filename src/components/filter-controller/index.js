@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import Text from 'Components/text/text';
-import TextInput from 'Components/inputs/text-input';
+import { TextInput } from '@fogcreek/shared-components';
 
 import { Aquarium } from 'Components/errors/not-found';
 
 import styles from './styles.styl';
 
-function FilterController({ matchFn, enabled, placeholder, items, children, searchPrompt, label }) {
+function FilterController({ matchFn, enabled, placeholder, items, children, searchPrompt, label, debounceFunction }) {
   const [filter, setFilter] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   const [isDoneFiltering, setIsDoneFiltering] = useState(false);
 
   const validFilter = filter.length > 1;
+
+  // if debounceFunction was passed in, use that. Otherwise lodash
+  const debounceToUse = debounceFunction || debounce;
 
   function filterItems() {
     setIsDoneFiltering(false);
@@ -27,7 +30,7 @@ function FilterController({ matchFn, enabled, placeholder, items, children, sear
   }
 
   useEffect(() => filterItems(), [items]);
-  useEffect(() => debounce(filterItems, 400)(), [filter]);
+  useEffect(() => debounceToUse(filterItems, 400)(), [filter]);
 
   const filtering = validFilter && isDoneFiltering;
   const displayedItems = filtering ? filteredItems : items;
@@ -39,9 +42,9 @@ function FilterController({ matchFn, enabled, placeholder, items, children, sear
         className={styles.headerSearch}
         name="filter"
         onChange={setFilter}
-        opaque
+        variant="opaque"
         placeholder={searchPrompt}
-        labelText={label}
+        label={label}
         type="search"
         value={filter}
       />
@@ -69,10 +72,12 @@ FilterController.propTypes = {
   searchPrompt: PropTypes.string.isRequired,
   // label for assistive technology, e.g., "project search"
   label: PropTypes.string.isRequired,
+  debounceFunction: PropTypes.func,
 };
 
 FilterController.defaultProps = {
   enabled: false,
+  debounceFunction: undefined,
 };
 
 export default FilterController;

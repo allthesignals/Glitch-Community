@@ -1,14 +1,13 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
-import { Button, CheckboxButton, Icon, UnstyledButton } from '@fogcreek/shared-components';
+import { Button, CheckboxButton, Icon, UnstyledButton, Loader } from '@fogcreek/shared-components';
 
-import { getTeamLink } from 'Models/team';
 import { getUserAvatarThumbnailUrl } from 'Models/user';
 import Image from 'Components/images/image';
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
-import { UserLink } from 'Components/link';
+import { TeamLink, UserLink } from 'Components/link';
 import { MultiPopover, PopoverContainer, PopoverActions, PopoverInfo, PopoverDialog, PopoverTitle, InfoDescription } from 'Components/popover';
 import CreateTeamPop from 'Components/create-team-pop';
 import { useGlobals } from 'State/globals';
@@ -44,8 +43,8 @@ const TeamList = ({ teams, showCreateTeam }) => {
       {orderedTeams.map((team) => (
         <div className={styles.buttonWrap} key={team.id}>
           <Button
-            as="a"
-            href={getTeamLink(team)}
+            as={TeamLink}
+            team={team}
             size="small"
             variant="secondary"
           >
@@ -74,7 +73,7 @@ TeamList.propTypes = {
 
 const UserOptionsPop = ({ togglePopover, showCreateTeam, showAccountSettingsOverlay, showNewStuffOverlay }) => {
   const { currentUser: user, clear: signOut } = useCurrentUser();
-  const { superUserFeature, canBecomeSuperUser, toggleSuperUser } = useSuperUserHelpers();
+  const { superUserFeature, canBecomeSuperUser, toggleSuperUser, isLoading } = useSuperUserHelpers();
 
   const trackLogout = useTracker('Logout');
 
@@ -131,9 +130,12 @@ Are you sure you want to sign out?`)
       <PopoverInfo>
         {(canBecomeSuperUser || !!superUserFeature) && (
           <div className={styles.buttonWrap}>
-            <CheckboxButton className={styles.buttonWrap} size="small" value={!!superUserFeature} onChange={toggleSuperUser} variant="secondary">
-              Super User
-            </CheckboxButton>
+            {isLoading && <Loader style={{ width: '20px' }} />}
+            {!isLoading && (
+              <CheckboxButton className={styles.buttonWrap} size="small" value={!!superUserFeature} onChange={toggleSuperUser} variant="secondary">
+                Super User
+              </CheckboxButton>
+            )}
           </div>
         )}
         <div className={styles.buttonWrap}>

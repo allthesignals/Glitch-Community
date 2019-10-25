@@ -17,7 +17,6 @@ pop-shadow = 0px 2px 5px 0px rgba(0,0,0,0.27), 0px 1px 1px 0px rgba(0,0,0,0.15)
   position: fixed
   left: 50%
   transform: translateX(-50%)
-  top: 6.5%
   padding: 0
   margin: 0
   box-shadow: pop-shadow
@@ -37,6 +36,16 @@ pop-shadow = 0px 2px 5px 0px rgba(0,0,0,0.27), 0px 1px 1px 0px rgba(0,0,0,0.15)
   font-size: inherit
   font-weight: bold
   margin: 0
+
+.goBack
+  display: flex
+  align-items: center
+  div
+    padding: 3px 3px 0
+    border-radius: 3px
+    opacity: 0.7
+  &:hover div
+    background-color: section-line
 
 .overlayBackground
   overflow-x: auto

@@ -42,7 +42,7 @@ const AboutPressPage = withRouter(() => {
       <BlockSection className={styles.section}>
         <article>
           <Heading tagName="h2" className={aboutStyles.h2}>
-            Writing about glitch?{' '}
+            Writing about Glitch?{' '}
           </Heading>
           <p>Below are resources that might come in handy. If you have any questions or need any other materials, let us know! </p>
           <center>
@@ -67,13 +67,6 @@ const AboutPressPage = withRouter(() => {
             </Button>
           </center>
           <br />
-          <p>
-            Or check out the latest{' '}
-            <a href="http://latest-gtw.glitch.me/now" target="_new">
-              <i>Glitch This Week</i>
-            </a>{' '}
-            collection.
-          </p>
         </article>
         <article>
           <Heading tagName="h2" className={aboutStyles.h2}>
@@ -98,7 +91,7 @@ const AboutPressPage = withRouter(() => {
           <a href="https://en.wikipedia.org/wiki/Koinobori" target="_new">
             Koinobori <Icon alt="" icon="carpStreamer" />
           </a>
-          inspired our logo and has become the way our community references Glitch on social media.
+          {' '}inspired our logo and has become the way our community references Glitch on social media.
         </p>
         <div className={aboutStyles.descriptionText}>
           <ButtonGroup size="normal">

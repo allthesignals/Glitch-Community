@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import punycode from 'punycode';
 
-import categories from 'Curated/categories';
-import rootTeams from 'Curated/teams';
+import categories from 'Shared/categories';
+import rootTeams from 'Shared/teams';
 
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
@@ -16,8 +16,7 @@ import OauthSignIn from './signin';
 import JoinTeamPage from './join-team';
 import QuestionsPage from './questions';
 import ProjectPage from './project';
-import { TeamPage, UserPage, TeamOrUserPage } from './team-or-user';
-import CategoryPage from './category';
+import { UserPage, TeamOrUserPage } from './team-or-user';
 import CollectionPage from './collection';
 import CreatePage from './create';
 import { NotFoundPage } from './error';
@@ -136,7 +135,7 @@ const Router = () => {
 
         <Route path="/signin" exact render={({ location }) => <OauthSignIn key={location.key} />} />
 
-        <Route path="/join/@:teamUrl/:joinToken" exact render={({ match }) => <JoinTeamPage key={location.key} {...match.params} />} />
+        <Route path="/join/@:teamUrl/:joinToken" exact render={({ location, match }) => <JoinTeamPage key={location.key} {...match.params} />} />
 
         <Route path="/questions" exact render={({ location }) => <QuestionsPage key={location.key} />} />
 
@@ -144,7 +143,7 @@ const Router = () => {
 
         <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />
 
-        <Route path="/@:owner/:name" exact render={({ match }) => <CollectionPage owner={match.params.owner} name={match.params.name} />} />
+        <Route path="/@:owner/:name" exact render={({ location, match }) => <CollectionPage key={location.key} owner={match.params.owner} name={match.params.name} />} />
 
         <Route
           path="/user/:id(\d+)"
@@ -153,7 +152,7 @@ const Router = () => {
         />
 
         {Object.keys(rootTeams).map((name) => (
-          <Route key={name} path={`/${name}`} exact render={({ location }) => <TeamPage key={location.key} name={name} />} />
+          <Route key={name} path={`/${name}`} exact render={() => <Redirect to={`/@${name}`} />} />
         ))}
 
         <Route
@@ -172,7 +171,7 @@ const Router = () => {
             key={category.url}
             path={`/${category.url}`}
             exact
-            render={({ location }) => <CategoryPage key={location.key} category={category} />}
+            render={() => <Redirect to={`/@glitch/${category.collectionName}`} />}
           />
         ))}
 

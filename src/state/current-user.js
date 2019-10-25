@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { mapKeys, memoize } from 'lodash';
 import { createSlice } from 'redux-starter-kit';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,22 +16,23 @@ const getFromStorage = (key) => readFromStorage(getStorageMemo(), key);
 const setStorage = (key, value) => writeToStorage(getStorageMemo(), key, value);
 
 function identifyUser(user) {
-  document.cookie = `hasLogin=; expires=${new Date()}`;
   if (user) {
     addBreadcrumb({
       level: 'info',
       message: `Current user is ${JSON.stringify(user)}`,
     });
-    if (user.login) {
-      const expires = new Date();
-      expires.setFullYear(expires.getFullYear() + 1);
-      document.cookie = `hasLogin=true; expires=${expires}`;
-    }
   } else {
     addBreadcrumb({
       level: 'info',
       message: 'logged out',
     });
+  }
+  if (user && user.login) {
+    const expires = new Date();
+    expires.setFullYear(expires.getFullYear() + 1);
+    document.cookie = `hasLogin=true; path=/; expires=${expires}`;
+  } else {
+    document.cookie = `hasLogin=; path=/; expires=${new Date()}`;
   }
   try {
     if (window.analytics && user && user.login) {
@@ -188,6 +190,10 @@ export const { reducer, actions } = createSlice({
     }),
     // TODO: more granular actions for managing user's teams, collections etc
     updated: (state, { payload }) => ({ ...state, ...payload }),
+    // TODO: use the same action that's defined in the resource manager PR
+    leftProject: (state, { payload }) => {
+      state.projects = state.projects.filter((p) => p.id !== payload.id);
+    },
   },
 });
 
@@ -276,19 +282,21 @@ export const useCurrentUser = () => {
 };
 
 export const useSuperUserHelpers = () => {
-  const { currentUser: cachedUser } = useCurrentUser();
-  const superUserFeature = cachedUser && cachedUser.features && cachedUser.features.find((feature) => feature.name === 'super_user');
+  const { currentUser, fetched } = useCurrentUser();
+  const superUserFeature = fetched && currentUser && currentUser.features && currentUser.features.find((feature) => feature.name === 'super_user');
+  const [isLoading, setLoading] = useState(false);
 
   return {
     toggleSuperUser: async () => {
-      if (!cachedUser) return;
-      const api = getAPIForToken(cachedUser.persistentToken);
+      setLoading(true);
+      if (!currentUser) return;
+      const api = getAPIForToken(currentUser.persistentToken);
       await api.post(`https://support-toggle.glitch.me/support/${superUserFeature ? 'disable' : 'enable'}`);
       window.scrollTo(0, 0);
       window.location.reload();
     },
-    canBecomeSuperUser:
-      cachedUser && cachedUser.projects && cachedUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
+    canBecomeSuperUser: currentUser && currentUser.projects && currentUser.projects.some((p) => p.id === 'b9f7fbdd-ac07-45f9-84ea-d484533635ff'),
     superUserFeature,
+    isLoading,
   };
 };
