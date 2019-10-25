@@ -48,7 +48,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
   const onMyStuffPage = location.pathname.includes('my-stuff');
 
   const { value: members } = useProjectMembers(project.id, deferLoading);
-  const projectOptions = useProjectOptions(project, providedProjectOptions);
+  const projectOptions = useProjectOptions(project, providedProjectOptions, deferLoading);
   const hasProjectOptions = Object.keys(projectOptions).length > 0;
 
   const bookmarkAction = useTrackedFunc(
