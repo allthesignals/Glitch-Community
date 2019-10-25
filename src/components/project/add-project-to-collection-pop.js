@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { partition } from 'lodash';
+import useWindowSize from 'Hooks/use-window-size';
 import { Badge, Button, SegmentedButton } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
@@ -20,6 +21,8 @@ import { ProjectAvatar } from 'Components/images/avatar';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { AddProjectToCollectionMsg } from 'Components/notification';
+import { mediumSmallViewport } from 'Components/project/project-actions';
+
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
 import { useCurrentUser } from 'State/current-user';
@@ -193,35 +196,45 @@ AddProjectToCollectionBase.propTypes = {
   createCollectionPopover: PropTypes.func.isRequired,
 };
 
-const AddProjectToCollection = ({ project, addProjectToCollection }) => (
-  <PopoverWithButton buttonProps={{ size: 'small', emoji: 'framedPicture' }} buttonText="Add to Collection">
-    {({ togglePopover }) => (
-      <MultiPopover
-        views={{
-          createCollectionPopover: () => (
-            <CreateCollectionWithProject
-              addProjectToCollection={(...args) => {
-                addProjectToCollection(...args);
-                togglePopover();
-              }}
+const AddProjectToCollection = ({ project, addProjectToCollection }) => {
+  const [width] = useWindowSize();
+  let buttonText = null;
+  if (width && width < mediumSmallViewport) {
+    buttonText = 'Add'
+  }else{
+    buttonText = 'Add to Collection'
+  }
+
+  return(
+    <PopoverWithButton buttonProps={{ size: 'small', emoji: 'framedPicture' }} buttonText={buttonText}>
+      {({ togglePopover }) => (
+        <MultiPopover
+          views={{
+            createCollectionPopover: () => (
+              <CreateCollectionWithProject
+                addProjectToCollection={(...args) => {
+                  addProjectToCollection(...args);
+                  togglePopover();
+                }}
+                project={project}
+              />
+            ),
+          }}
+        >
+          {({ createCollectionPopover }) => (
+            <AddProjectToCollectionBase
+              addProjectToCollection={addProjectToCollection}
+              fromProject={false}
               project={project}
+              togglePopover={togglePopover}
+              createCollectionPopover={createCollectionPopover}
             />
-          ),
-        }}
-      >
-        {({ createCollectionPopover }) => (
-          <AddProjectToCollectionBase
-            addProjectToCollection={addProjectToCollection}
-            fromProject={false}
-            project={project}
-            togglePopover={togglePopover}
-            createCollectionPopover={createCollectionPopover}
-          />
-        )}
-      </MultiPopover>
-    )}
-  </PopoverWithButton>
-);
+          )}
+        </MultiPopover>
+      )}
+    </PopoverWithButton>
+  );
+};
 
 AddProjectToCollection.propTypes = {
   addProjectToCollection: PropTypes.func.isRequired,
