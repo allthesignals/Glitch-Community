@@ -92,7 +92,7 @@ Grid.defaultProps = {
   itemClassName: '',
   style: {},
   gap: undefined,
-  minWidth: '250px',
+  minWidth: undefined,
 };
 
 export default Grid;
