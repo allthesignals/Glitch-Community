@@ -113,7 +113,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                 <div className={styles.container} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                   <header className={styles.header}>
                     <div className={classnames(styles.userListContainer, { [styles.spaceForOptions]: hasProjectOptions })}>
-                      <ProfileListLoader project={project} />
+                      <ProfileList layout="row" glitchTeam={project.showAsGlitchTeam} {...members} />
                     </div>
                     {!isAnonymousUser && !onMyStuffPage && (
                       <div className={styles.bookmarkButtonContainer}>
