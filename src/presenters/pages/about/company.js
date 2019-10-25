@@ -115,7 +115,9 @@ const AboutCompanyPage = withRouter(() => (
           He was one of the founders of the non-profit educational platform Empatico.
         </p>
         <p>He is also the author of a number of technical books and chair of the Velocity conference series.</p>
+      </Bio>
     </BlockSection>
+    
     <section className={aboutStyles.backgroundSection}>
       <Heading tagName="h4" className={styles.leaderHeader}>Team leads</Heading>
       <div className={styles.leads}>

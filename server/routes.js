@@ -235,23 +235,6 @@ module.exports = function(external) {
     await render(req, res, {}, '2vcr60pnx9');
   });
 
-<<<<<<< HEAD
-  app.get(['/about', '/about/company', '/about/events', '/about/press', '/about/careers'], async (req, res) => {
-    const title = 'About Glitch';
-    const socialTitle = 'About Glitch';
-    const description = 'Glitch is a collaborative programming environment that lives in your browser and deploys code as you type.';
-    await render(req, res, { title, socialTitle, description }, true);
-  });
-
-  app.get('/secret', async (req, res) => {
-    const description = "It's a secret to everybody";
-    const title = `Glitch - ${description}`;
-    await render(req, res, { title, description }, true);
-  });
-  
-
-=======
->>>>>>> 3e8b0a644ea273a1cf2c4a9807976c9b1e920da7
   app.get('*', async (req, res) => {
     await render(req, res);
   });
