@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mapValues } from 'lodash';
-import { Actions, Button, DangerZone, Icon, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Popover, Title } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
+import { PopoverMenuButton } from 'Components/popover';
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
 import styles from './popover.styl';
-import { emoji, popoverMenuButton } from '../global.styl';
+import { emoji } from '../global.styl';
 
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
 const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
@@ -19,33 +20,33 @@ const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'L
 /* eslint-disable react/no-array-index-key */
 const PopoverMenuItems = ({ children }) =>
   children.map(
-    (group, i) =>
+    (group) =>
       group.some((item) => item.onClick) &&
       (group.some((item) => item.dangerZone) ? (
-        <DangerZone key={i}>
+        <DangerZone>
           {group.map(
             (item) =>
               item.onClick && (
-                <>
+                <div className={styles.stackedButtons} key={item.label}>
                   <Button className={styles.noWrap} size="small" variant="warning" onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
-                </>
+                </div>
               ),
           )}
         </DangerZone>
       ) : (
-        <Actions key={i}>
+        <Actions>
           {group.map(
             (item) =>
               item.onClick && (
-                <>
+                <div className={styles.stackedButtons} key={item.label}>
                   <Button className={styles.noWrap} size="small" variant="secondary" onClick={item.onClick}>
                     {item.label} <Icon className={emoji} icon={item.emoji} />
                   </Button>
                   <br />
-                </>
+                </div>
               ),
           )}
         </Actions>
@@ -87,26 +88,24 @@ const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover
   const onClickLeaveProject = isTeamProject({ currentUser, project }) ? trackedLeaveProjectDirect : leaveProjectPopover;
 
   return (
-    <>
-      <PopoverMenuItems>
-        {[
-          [
-            { onClick: projectOptions.featureProject, label: 'Feature', emoji: 'clapper' },
-            { onClick: projectOptions.addPin, label: 'Pin', emoji: 'pushpin' },
-            { onClick: projectOptions.removePin, label: 'Un-Pin', emoji: 'pushpin' },
-          ],
-          [{ onClick: projectOptions.displayNewNote, label: 'Add Note', emoji: 'spiralNotePad' }],
-          [{ onClick: projectOptions.addProjectToCollection && addToCollectionPopover, label: 'Add to Collection', emoji: 'framedPicture' }],
-          [{ onClick: projectOptions.joinTeamProject, label: 'Join Project', emoji: 'rainbow' }],
-          [{ onClick: leaveProjectDirect && onClickLeaveProject, label: 'Leave Project', emoji: 'wave' }],
-          [
-            { onClick: projectOptions.removeProjectFromTeam, label: 'Remove Project', emoji: 'thumbsDown', dangerZone: true },
-            { onClick: onClickDeleteProject, label: 'Delete Project', emoji: 'bomb', dangerZone: true },
-            { onClick: projectOptions.removeProjectFromCollection, label: 'Remove from Collection', emoji: 'thumbsDown', dangerZone: true },
-          ],
-        ]}
-      </PopoverMenuItems>
-    </>
+    <PopoverMenuItems>
+      {[
+        [
+          { onClick: projectOptions.featureProject, label: 'Feature', emoji: 'clapper' },
+          { onClick: projectOptions.addPin, label: 'Pin', emoji: 'pushpin' },
+          { onClick: projectOptions.removePin, label: 'Un-Pin', emoji: 'pushpin' },
+        ],
+        [{ onClick: projectOptions.displayNewNote, label: 'Add Note', emoji: 'spiralNotePad' }],
+        [{ onClick: projectOptions.addProjectToCollection && addToCollectionPopover, label: 'Add to Collection', emoji: 'framedPicture' }],
+        [{ onClick: projectOptions.joinTeamProject, label: 'Join Project', emoji: 'rainbow' }],
+        [{ onClick: leaveProjectDirect && onClickLeaveProject, label: 'Leave Project', emoji: 'wave' }],
+        [
+          { onClick: projectOptions.removeProjectFromTeam, label: 'Remove Project', emoji: 'thumbsDown', dangerZone: true },
+          { onClick: onClickDeleteProject, label: 'Delete Project', emoji: 'bomb', dangerZone: true },
+          { onClick: projectOptions.removeProjectFromCollection, label: 'Remove from Collection', emoji: 'thumbsDown', dangerZone: true },
+        ],
+      ]}
+    </PopoverMenuItems>
   );
 };
 
@@ -127,9 +126,7 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
     <Popover
       align="right"
       renderLabel={({ onClick, ref }) => (
-        <UnstyledButton className={popoverMenuButton} onClick={onClick} ref={ref} label="Project Options for {project.domain}">
-          <Icon icon="chevronDown" />
-        </UnstyledButton>
+        <PopoverMenuButton onClick={onClick} ref={ref} label="Project Options for {project.domain}" />
       )}
       views={{
         addToCollection: ({ onClose, onBack, setActiveView }) => (
