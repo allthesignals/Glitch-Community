@@ -72,6 +72,9 @@ CollectionPageContents.propTypes = {
 };
 
 const CollectionPage = ({ owner, name }) => {
+  React.useEffect(() => {
+    console.log("collection page remounts")
+  }, [])
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
 
   let isCategory = false;

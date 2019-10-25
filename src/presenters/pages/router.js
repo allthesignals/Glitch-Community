@@ -47,6 +47,7 @@ function track() {
   try {
     const { analytics } = window;
     if (analytics) {
+      console.log("something was tracked")
       analytics.page({}, { groupId: '0' });
     }
   } catch (ex) {
@@ -57,8 +58,11 @@ function track() {
 const PageChangeHandler = withRouter(({ location }) => {
   const { reload } = useCurrentUser();
   const isUpdate = useRef(false);
-
+  React.useEffect(() => {
+    console.log("page change handler remounts")
+  }, [])
   useEffect(() => {
+    console.log("location.key changed so we're inside the pagechange handler", location.key)
     if (isUpdate.current && (location.state && !location.state.preventScroll)) {
       window.scrollTo(0, 0);
       reload();
@@ -143,7 +147,7 @@ const Router = () => {
 
         <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />
 
-        <Route path="/@:owner/:name/(play)?/:projectId?" render={({ location, match }) => <CollectionPage key={location.key} owner={match.params.owner} name={match.params.name} />} />
+        <Route path="/@:owner/:name/(play)?/:projectId?" render={({ match }) => <CollectionPage owner={match.params.owner} name={match.params.name} />} />
 
         <Route
           path="/user/:id(\d+)"

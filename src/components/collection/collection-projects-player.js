@@ -28,6 +28,7 @@ const getCurrentProjectIndexFromUrl = (projectId, projects) => {
 };
 
 const wakeUpAllProjectsInACollection = (projects) => {
+  console.log("waking up all the projects in a collection")
   const chunkedProjects = chunk(projects, 10);
   chunkedProjects.map(async (projectsBatch) => {
     const promisedBatch = projectsBatch.map(async (project) => fetch(`https://${project.domain}.glitch.me`, { mode: 'no-cors' }));
