@@ -6,7 +6,7 @@ import PopoverSearch from './search';
 
 import styles from './styles.styl';
 
-const PopoverMenuButton = (props) => <UnstyledButton className={styles.popoverMenuButton} forwardRef={props.ref} {...props}><Icon icon="chevronDown" /></UnstyledButton>;
+const PopoverMenuButton = React.forwardRef((props, ref) => (<UnstyledButton className={styles.popoverMenuButton} ref={ref} {...props}><Icon icon="chevronDown" /></UnstyledButton>));
 
 export {
   PopoverContainer,
