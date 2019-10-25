@@ -45,7 +45,8 @@ const collectionTypeOptions = [
 
 const AddProjectPopoverTitle = ({ project }) => (
   <MultiPopoverTitle>
-    <ProjectAvatar project={project} tiny />&nbsp;Add {project.domain} to collection
+    <ProjectAvatar project={project} tiny />
+    &nbsp;Add {project.domain} to collection
   </MultiPopoverTitle>
 );
 AddProjectPopoverTitle.propTypes = {
@@ -102,10 +103,13 @@ function useCollectionSearch(query, project, collectionType) {
   const debouncedQuery = useDebouncedValue(query, 200);
   const filters = collectionType === 'user' ? { userIDs: [currentUser.id] } : { teamIDs: currentUser.teams.map((team) => team.id) };
 
-  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [collectionType]);
+  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [
+    collectionType,
+  ]);
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList = searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
+    const shouldPutMyStuffAtFrontOfList =
+      searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }
@@ -165,7 +169,11 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
         labelText="Filter collections"
         renderMessage={() => {
           if (collectionsWithProject.length) {
-            return <PopoverInfo><AlreadyInCollection project={project} collections={collectionsWithProject} /></PopoverInfo>;
+            return (
+              <PopoverInfo>
+                <AlreadyInCollection project={project} collections={collectionsWithProject} />
+              </PopoverInfo>
+            );
           }
           return null;
         }}
@@ -200,12 +208,12 @@ const AddProjectToCollection = ({ project, addProjectToCollection }) => {
   const [width] = useWindowSize();
   let buttonText = null;
   if (width && width < mediumSmallViewport) {
-    buttonText = 'Add'
-  }else{
-    buttonText = 'Add to Collection'
+    buttonText = 'Add';
+  } else {
+    buttonText = 'Add to Collection';
   }
 
-  return(
+  return (
     <PopoverWithButton buttonProps={{ size: 'small', emoji: 'framedPicture' }} buttonText={buttonText}>
       {({ togglePopover }) => (
         <MultiPopover
