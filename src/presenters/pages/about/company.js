@@ -117,7 +117,6 @@ const AboutCompanyPage = withRouter(() => (
         <p>He is also the author of a number of technical books and chair of the Velocity conference series.</p>
       </Bio>
     </BlockSection>
-    
     <section className={aboutStyles.backgroundSection}>
       <Heading tagName="h4" className={styles.leaderHeader}>Team leads</Heading>
       <div className={styles.leads}>

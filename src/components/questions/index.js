@@ -30,6 +30,7 @@ async function load(api, max) {
         const [colorInner, colorOuter] = pickRandomColors(2);
         return { colorInner, colorOuter, id: question.questionId, ...question };
       });
+
     return { kaomoji, questions };
   } catch (error) {
     console.error(error);

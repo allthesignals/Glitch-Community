@@ -210,7 +210,6 @@ const AboutCareersPage = withRouter(() => {
           </div>
         </article>
       </section>
-
       <section>
         <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-orange)">Glitch handbook</Mark>
