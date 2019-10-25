@@ -125,7 +125,7 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
     <Popover
       align="right"
       renderLabel={({ onClick, ref }) => (
-        <PopoverMenuButton onClick={onClick} forwardRef={ref} label="Project Options for {project.domain}" />
+        <PopoverMenuButton onClick={onClick} ref={ref} label="Project Options for {project.domain}" />
       )}
       views={{
         addToCollection: ({ onClose, onBack, setActiveView }) => (
