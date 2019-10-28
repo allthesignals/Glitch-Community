@@ -1,4 +1,4 @@
-const { envs, tagline } = require('Shared/constants');
+const { envs, glitchTeamId, tagline } = require('Shared/constants');
 
 // The current environment is based on the RUNNING_ON environment variable,
 // unless we're running under a staging/dev hostname, in which case we use the
@@ -23,7 +23,7 @@ const getNodeEnv = () => {
 
 export const isBrowser = typeof window !== 'undefined';
 export const currentEnv = isBrowser ? getBrowserEnv() : getNodeEnv();
-export { tagline };
+export { tagline, glitchTeamId };
 
 export const {
   APP_URL,
