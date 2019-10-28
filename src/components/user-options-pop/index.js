@@ -71,7 +71,7 @@ TeamList.propTypes = {
 
 // User Options 🧕
 
-const UserOptionsPop = ({ togglePopover, showCreateTeam, showAccountSettingsOverlay, showNewStuffOverlay }) => {
+const UserOptionsPop = ({ togglePopover, showCreateTeam, showNewStuffOverlay }) => {
   const { currentUser: user, clear: signOut } = useCurrentUser();
   const { superUserFeature, canBecomeSuperUser, toggleSuperUser, isLoading } = useSuperUserHelpers();
 
@@ -80,12 +80,6 @@ const UserOptionsPop = ({ togglePopover, showCreateTeam, showAccountSettingsOver
   const clickNewStuff = (event) => {
     togglePopover();
     showNewStuffOverlay();
-    event.stopPropagation();
-  };
-
-  const clickAccountSettings = (event) => {
-    togglePopover();
-    showAccountSettingsOverlay();
     event.stopPropagation();
   };
 
@@ -150,7 +144,7 @@ Are you sure you want to sign out?`)
         </div>
         {userPasswordEnabled && (
           <div className={styles.buttonWrap}>
-            <Button size="small" variant="secondary" onClick={clickAccountSettings}>
+            <Button as="a" size="small" variant="secondary" href="/settings">
               Account Settings <Icon className={emoji} icon="key" />
             </Button>
           </div>
@@ -166,7 +160,6 @@ Are you sure you want to sign out?`)
 UserOptionsPop.propTypes = {
   togglePopover: PropTypes.func.isRequired,
   showCreateTeam: PropTypes.func.isRequired,
-  showAccountSettingsOverlay: PropTypes.func.isRequired,
   showNewStuffOverlay: PropTypes.func.isRequired,
 };
 
@@ -177,7 +170,7 @@ function CheckForCreateTeamHash(props) {
 
 // Header button and init pop
 
-export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettingsOverlay, showNewStuffOverlay }) {
+export default function UserOptionsAndCreateTeamPopContainer({ showNewStuffOverlay }) {
   const { currentUser: user } = useCurrentUser();
   const avatarStyle = { backgroundColor: user.color };
   const buttonRef = useRef();
@@ -210,7 +203,6 @@ export default function UserOptionsAndCreateTeamPopContainer({ showAccountSettin
                   >
                     {({ createTeam }) => (
                       <UserOptionsPop
-                        showAccountSettingsOverlay={showAccountSettingsOverlay}
                         showNewStuffOverlay={showNewStuffOverlay}
                         togglePopover={togglePopover}
                         showCreateTeam={createTeam}
