@@ -27,8 +27,12 @@ const Settings = () => {
             <Button size="small" disabled onClick>Privacy & Notifications</Button>
           </div>
           <div className={styles.settingsContent}>
-            { userPasswordEnabled && <PasswordSettings /> }
-            { tfaEnabled && <TwoFactorSettings /> }
+            <div className={styles.contentSection}>
+              { userPasswordEnabled && <PasswordSettings /> }
+            </div>
+            <div className={styles.contentSection}>
+              { tfaEnabled && <TwoFactorSettings /> }
+            </div>
           </div>
         </div>
       </Layout>
