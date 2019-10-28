@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import Layout from 'Components/layout';
@@ -37,3 +38,13 @@ const Settings = () => {
 };
 
 export default Settings;
+
+
+/*
+const SettingsPage = () => {
+  if (userPasswordEnabled \\ tfaEnabled) {
+    return <Settings />;
+  }
+  return <Redirect to="/" />;
+};
+*/
