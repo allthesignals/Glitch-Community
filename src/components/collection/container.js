@@ -22,22 +22,6 @@ import CollectionProjectsPlayer from 'Components/collection/collection-projects-
 import styles from './container.styl';
 import { emoji } from '../global.styl';
 
-const togglePlay = ({ onPlayPage, match, history }) => {
-  const newLocation = {};
-  if (onPlayPage) {
-    newLocation.pathname = `/@${match.params.owner}/${match.params.name}`;
-    newLocation.state = {
-      preventScroll: true,
-    };
-  } else {
-    newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
-    newLocation.state = {
-      preventScroll: true,
-    };
-  }
-  history.push(newLocation);
-};
-
 const CollectionContainer = withRouter(({ history, match, collection, isAuthorized, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
 
@@ -68,6 +52,27 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
   );
 
   const onPlayPage = match.params[0] === 'play' && collection.projects.length > 0;
+
+  const togglePlay = useTrackedFunc(() => {
+    const newLocation = {};
+    if (onPlayPage) {
+      newLocation.pathname = `/@${match.params.owner}/${match.params.name}`;
+      newLocation.state = {
+        preventScroll: true,
+      };
+    } else {
+      newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
+      newLocation.state = {
+        preventScroll: true,
+      };
+    }
+    history.push(newLocation);
+  },
+  'Collection Play Toggle Clicked',
+  (inherited) => ({
+    ...inherited,
+    isPressingPlay: !onPlayPage,
+  }));
 
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark)}>
