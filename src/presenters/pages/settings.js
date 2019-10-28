@@ -23,8 +23,8 @@ const Settings = () => {
         <Heading tagName="h1">Settings <Icon className={emoji} icon="key" /></Heading>
         <div className={styles.settingsPage}>
           <div className={styles.settingsActions}>
-            <Button size="small" onClick>Account</Button>
-            <Button size="small" disabled onClick>Privacy & Notifications</Button>
+            <Button onClick>Account</Button>
+            <Button disabled onClick>Privacy & Notifications</Button>
           </div>
           <div className={styles.settingsContent}>
             <div className={styles.contentSection}>
