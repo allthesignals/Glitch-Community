@@ -20,9 +20,9 @@ const kaomojis = ['八(＾□＾*)', '(ノ^_^)ノ', 'ヽ(*ﾟｰﾟ*)ﾉ', '♪(
 async function load(api, max) {
   const kaomoji = sample(kaomojis);
   try {
-    const { data } = await api.get(`projects/questions?cache=${Date.now()}`);
+    const response = await api.get(`/v1/questions?cache=${Date.now()}`);
 
-    const questions = data
+    const questions = response.data.items
       .map((q) => JSON.parse(q.details))
       .filter((q) => !!q)
       .slice(0, max)

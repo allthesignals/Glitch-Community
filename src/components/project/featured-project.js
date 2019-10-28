@@ -78,12 +78,13 @@ const FeaturedProject = ({
 
   const isAnonymousUser = !currentUser.login;
 
-  const bookmarkAction = useTrackedFunc(toggleBookmark, `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`, (inherited) => ({
+  const bookmarkAction = useTrackedFunc(toggleBookmark, 'My Stuff Button Clicked', (inherited) => ({
     ...inherited,
     projectName: featuredProject.domain,
     baseProjectId: featuredProject.baseId || featuredProject.baseProject,
     userId: currentUser.id,
     origin: `${inherited.origin}-featured-project`,
+    isAddingToMyStuff: !hasBookmarked,
   }));
 
   return (

@@ -88,7 +88,8 @@ const AppsWeLove = ({ content }) => {
             <img src={getProjectAvatarUrl({ id })} alt="" className={styles.appAvatar} />
             <div className={styles.appContent}>
               <h4 className={styles.h4}>{title}</h4>
-              <p>{description}</p>
+              {/* eslint-disable-next-line react/no-danger */}
+              <span dangerouslySetInnerHTML={{ __html: description }} />
             </div>
           </Link>
         ))}
