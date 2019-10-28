@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import Layout from 'Components/layout';
@@ -16,30 +15,25 @@ const Settings = () => {
   const tagline = 'Account Settings';
   const userPasswordEnabled = useDevToggle('User Passwords');
   const tfaEnabled = useDevToggle('Two Factor Auth');
-  console.log('pw', userPasswordEnabled);
-  console.log('tfa', tfaEnabled);
 
-  //if (userPasswordEnabled || tfaEnabled) {
-    return (
-      <main>
-        <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
-        <Layout>
-          <Heading tagName="h1">Settings <Icon className={emoji} icon="key" /></Heading>
-          <div className={styles.settingsPage}>
-            <div className={styles.settingsActions}>
-              <Button onClick={() => {}}>Account</Button>
-              {/* <Button disabled onClick>Privacy & Notifications</Button> */}
-            </div>
-            <div className={styles.settingsContent}>
-              { userPasswordEnabled && <div className={styles.contentSection}><PasswordSettings /></div> }
-              { tfaEnabled && <div className={styles.contentSection}><TwoFactorSettings /></div> }
-            </div>
+  return (
+    <main>
+      <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
+      <Layout>
+        <Heading tagName="h1">Settings <Icon className={emoji} icon="key" /></Heading>
+        <div className={styles.settingsPage}>
+          <div className={styles.settingsActions}>
+            <Button onClick={() => {}}>Account</Button>
+            {/* <Button disabled onClick>Privacy & Notifications</Button> */}
           </div>
-        </Layout>
-      </main>
-    );
-  //}
-  //return <Redirect to="/" />;
+          <div className={styles.settingsContent}>
+            { userPasswordEnabled && <div className={styles.contentSection}><PasswordSettings /></div> }
+            { tfaEnabled && <div className={styles.contentSection}><TwoFactorSettings /></div> }
+          </div>
+        </div>
+      </Layout>
+    </main>
+  );
 };
 
 export default Settings;
