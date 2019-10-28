@@ -181,16 +181,14 @@ const Router = () => {
 
         <Route path="/secret" exact render={({ location }) => <SecretPage key={location.key} />} />
 
-        <Route path="/settings" exact render={
-          ({ location }) => { 
-              return (
-                <>
-                  { settingsPageEnabled ? <SettingsPage key={location.key} /> : <NotFoundPage key={location.key} />}
-                </>
-              )
-            }
-          }
-        />
+        <Route
+          path="/settings"
+          exact
+          render={({ location }) =>
+            <>
+              { settingsPageEnabled ? <SettingsPage key={location.key} /> : <NotFoundPage key={location.key} />}
+            </>
+          } />
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
 
