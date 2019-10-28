@@ -43,6 +43,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
   const trackRemix = useTracker('Click Remix', {
     baseProjectId: project.id,
     baseDomain: project.domain,
+    isOnCollectionPlayRoute: !!previewOnly,
   });
 
   const refreshEmbed = () => {
