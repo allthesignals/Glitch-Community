@@ -1,36 +1,22 @@
-import React, { useEffect } from 'react';
-import { Button, VisuallyHidden } from '@fogcreek/shared-components';
+import React from 'react';
 
+import Layout from 'Components/layout';
 import GlitchHelmet from 'Components/glitch-helmet';
-import Heading from 'Components/text/heading';
-import { useDevToggles } from 'State/dev-toggles';
-import useTest, { useTestAssignments, tests } from 'State/ab-tests';
+import { AccountSettingsOverlay } from 'Components/account-settings-overlay';
 
+const Settings = () => {
 
-
-const Secret = () => {
-  const { enabledToggles, toggleData, setEnabledToggles } = useDevToggles();
-
-  const isEnabled = (toggleName) => enabledToggles && enabledToggles.includes(toggleName);
-
-  const toggleTheToggle = (name) => {
-    let newToggles = null;
-    if (isEnabled(name)) {
-      newToggles = enabledToggles.filter((enabledToggleName) => enabledToggleName !== name);
-    } else {
-      newToggles = enabledToggles.concat([name]);
-    }
-    setEnabledToggles(newToggles);
-  };
-
-  const tagline = "It's a secret to everybody.";
+  const tagline = "Account Settings";
 
   return (
     <main>
       <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
-      <div>I am Settings!</div>
+      <Layout>
+        <div>I am Settings!</div>
+        <AccountSettingsOverlay />
+      </Layout> 
     </main>
   );
 };
 
-export default Secret;
+export default Settings;

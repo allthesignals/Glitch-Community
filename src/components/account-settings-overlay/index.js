@@ -13,7 +13,7 @@ import styles from './styles.styl';
 import { emoji } from '../global.styl';
 import MultiPage from '../layout/multi-page';
 
-const AccountSettingsOverlay = () => {
+export const AccountSettingsOverlay = () => {
   const { currentUser } = useCurrentUser();
   const twoFactorEnabled = useDevToggle('Two Factor Auth');
 
