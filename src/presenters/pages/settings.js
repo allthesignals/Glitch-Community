@@ -27,7 +27,7 @@ const Settings = () => {
           <Heading tagName="h1">Settings <Icon className={emoji} icon="key" /></Heading>
           <div className={styles.settingsPage}>
             <div className={styles.settingsActions}>
-              <Button onClick>Account</Button>
+              <Button onClick={() => {}}>Account</Button>
               {/* <Button disabled onClick>Privacy & Notifications</Button> */}
             </div>
             <div className={styles.settingsContent}>
