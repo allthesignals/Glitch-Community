@@ -6,9 +6,9 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import PasswordSettings from 'Components/account-settings-overlay/password-settings';
 import TwoFactorSettings from 'Components/account-settings-overlay/two-factor-settings';
-import MultiPage from 'Components/layout/multi-page';
 import useDevToggle from 'State/dev-toggles';
 
+import styles from './settings.styl';
 import { emoji } from '../../components/global.styl';
 
 const Settings = () => {
@@ -21,10 +21,16 @@ const Settings = () => {
       <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
       <Layout>
         <Heading tagName="h1">Settings <Icon className={emoji} icon="key" /></Heading>
-        <MultiPage>
-          { userPasswordEnabled && <PasswordSettings /> }
-          { tfaEnabled && <TwoFactorSettings /> }
-        </MultiPage>
+        <div className={styles.settingsPage}>
+          <div className={styles.settingsActions}>
+            <Button size="small" onClick>Account</Button>
+            <Button size="small" disabled onClick>Privacy & Notifications</Button>
+          </div>
+          <div className={styles.settingsContent}>
+            { userPasswordEnabled && <PasswordSettings /> }
+            { tfaEnabled && <TwoFactorSettings /> }
+          </div>
+        </div>
       </Layout>
     </main>
   );
