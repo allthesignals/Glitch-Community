@@ -89,7 +89,10 @@ const Router = () => {
   useAppMounted();
   const userPasswordEnabled = useDevToggle('User Passwords');
   const tfaEnabled = useDevToggle('Two Factor Auth');
-  const settingsPageEnabled = userPasswordEnabled || tfaEnabled;
+  const { currentUser } = useCurrentUser();
+  const { persistentToken, login } = currentUser;
+  const isSignedIn = persistentToken && login;
+  const settingsPageEnabled = isSignedIn && (userPasswordEnabled || tfaEnabled);
   return (
     <>
       <PageChangeHandler />
