@@ -11,10 +11,10 @@ import { currentEnv, isBrowser } from './constants';
 
 const SentryHelpers = require('Shared/sentryHelpers');
 
-let beforeSendFailed = false;
-let beforeBreadcrumbFailed = false;
-
 if (isBrowser) {
+  let beforeSendFailed = false;
+  let beforeBreadcrumbFailed = false;
+  let hasSentRateLimit = false;
   try {
     Sentry.init({
       dsn: 'https://4f1a68242b6944738df12eecc34d377c@sentry.io/1246508',
@@ -28,6 +28,7 @@ if (isBrowser) {
         if (ucBrowser) {
           return null;
         }
+        console.log(event);
         try {
           return SentryHelpers.beforeSend(window.PROJECT_DOMAIN, currentEnv, event);
         } catch (error) {
