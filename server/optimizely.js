@@ -29,9 +29,9 @@ const getOptimizelyData = async () => {
 };
 
 const getOptimizelyId = (request, response) => {
-  const id = request.cookies['optimizely'] || Math.random();
+  const id = request.cookies['optimizely-id'] || Math.random();
   const expires = dayjs().add(1, 'month').toDate();
-  response.cookie('optimizely', String(id), { expires });
+  response.cookie('optimizely-id', String(id), { expires });
   return id;
 };
 
