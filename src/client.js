@@ -71,7 +71,7 @@ window.bootstrap = async (container) => {
         ZINE_POSTS={window.ZINE_POSTS}
       >
         <TestsProvider AB_TESTS={window.AB_TESTS}>
-          <OptimizelyProvider optimizely={optimizelyClientInstance}>
+          <OptimizelyProvider optimizely={optimizelyClientInstance} optimizelyId={window.OPTIMIZELY_ID}>
             <App apiCache={window.API_CACHE} />
           </OptimizelyProvider>
         </TestsProvider>
