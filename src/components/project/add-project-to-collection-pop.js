@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { partition } from 'lodash';
-import useWindowSize from 'Hooks/use-window-size';
+import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 import { Badge, Button, SegmentedButton } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
@@ -21,7 +21,6 @@ import { ProjectAvatar } from 'Components/images/avatar';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { AddProjectToCollectionMsg } from 'Components/notification';
-import { mediumSmallViewport } from 'Components/project/project-actions';
 
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
