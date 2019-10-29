@@ -19,38 +19,36 @@ const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'L
 
 /* eslint-disable react/no-array-index-key */
 const PopoverMenuItems = ({ children }) =>
-  children.filter((.map(
-    (group, i) =>
-      group.some((item) => item.onClick) &&
-      (group.some((item) => item.dangerZone) ? (
-        <DangerZone key={i}>
-          {group.map(
-            (item) =>
-              item.onClick && (
-                <div className={styles.stackedButtons} key={item.label}>
-                  <Button className={styles.noWrap} size="small" variant="warning" onClick={item.onClick}>
-                    {item.label} <Icon className={emoji} icon={item.emoji} />
-                  </Button>
-                  <br />
-                </div>
-              ),
-          )}
-        </DangerZone>
-      ) : (
-        <Actions key={i}>
-          {group.map(
-            (item) =>
-              item.onClick && (
-                <div className={styles.stackedButtons} key={item.label}>
-                  <Button className={styles.noWrap} size="small" variant="secondary" onClick={item.onClick}>
-                    {item.label} <Icon className={emoji} icon={item.emoji} />
-                  </Button>
-                  <br />
-                </div>
-              ),
-          )}
-        </Actions>
-      )),
+  children.filter((group) => group.some((item) => item.onClick)).map((group, i) =>
+    (group.some((item) => item.dangerZone) ? (
+      <DangerZone key={i}>
+        {group.map(
+          (item) =>
+            item.onClick && (
+              <div className={styles.stackedButtons} key={item.label}>
+                <Button className={styles.noWrap} size="small" variant="warning" onClick={item.onClick}>
+                  {item.label} <Icon className={emoji} icon={item.emoji} />
+                </Button>
+                <br />
+              </div>
+            ),
+        )}
+      </DangerZone>
+    ) : (
+      <Actions key={i}>
+        {group.map(
+          (item) =>
+            item.onClick && (
+              <div className={styles.stackedButtons} key={item.label}>
+                <Button className={styles.noWrap} size="small" variant="secondary" onClick={item.onClick}>
+                  {item.label} <Icon className={emoji} icon={item.emoji} />
+                </Button>
+                <br />
+              </div>
+            ),
+        )}
+      </Actions>
+    )),
   );
 
 const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
