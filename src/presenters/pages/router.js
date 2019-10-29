@@ -91,7 +91,7 @@ const Router = () => {
   const tfaEnabled = useDevToggle('Two Factor Auth');
   const { currentUser } = useCurrentUser();
   const { persistentToken, login } = currentUser;
-  const isSignedIn = !!persistentToken && !!login;
+  const isSignedIn = persistentToken && login;
   const settingsPageEnabled = isSignedIn && (userPasswordEnabled || tfaEnabled);
   return (
     <>
