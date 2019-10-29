@@ -14,14 +14,14 @@ const SentryHelpers = require('Shared/sentryHelpers');
 if (isBrowser) {
   let beforeSendFailed = false;
   let beforeBreadcrumbFailed = false;
-  let hasSentRateLimit = false;
+  let lastRateLimitError = 0;
   try {
     Sentry.init({
       dsn: 'https://4f1a68242b6944738df12eecc34d377c@sentry.io/1246508',
       environment: window.ENVIRONMENT,
       release: `community@${window.BUILD_TIMESTAMP}`,
-      //ignoreErrors: SentryHelpers.ignoreErrors,
-      //whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/],
+      ignoreErrors: SentryHelpers.ignoreErrors,
+      whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/],
       beforeSend(event, { originalException }) {
         // do not send errors to sentry when user uses UC Browser
         const ucBrowser = window.navigator.userAgent.match(/^Mozilla\/5\.0 .+ Gecko\/$/);
@@ -29,8 +29,11 @@ if (isBrowser) {
           return null;
         }
         if (originalException.message.includes('status code 429')) {
-          
-          
+          const msSinceLastRateLimitError = Date.now() - lastRateLimitError;
+          lastRateLimitError = Date.now();
+          if (msSinceLastRateLimitError > 1000 * 60) {
+            return null; // don't send if a rate limit happened in the last minute
+          }
         }
         try {
           return SentryHelpers.beforeSend(window.PROJECT_DOMAIN, currentEnv, event);
