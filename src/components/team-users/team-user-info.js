@@ -176,7 +176,7 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser, sh
       )}
       {canCurrentUserRemoveUser && (
         <DangerZone>
-          <Button variant="warning" onClick={onShowOrRemoveUser}>
+          <Button size="small" variant="warning" onClick={onShowOrRemoveUser}>
             {isCurrentUser ? 'Leave Team' : 'Remove from Team'} <Icon className={emoji} icon="wave" />
           </Button>
         </DangerZone>
@@ -192,7 +192,7 @@ const adminStatusDisplay = (team, user) => {
   return '';
 };
 
-const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) => {
+const TeamUserPop = ({ team, user, removeUserFromTeam, onRemoveUser, updateUserPermissions }) => {
   const { createNotification } = useNotifications();
 
   const removeUser = useTrackedFunc(async (selectedProjects = []) => {
@@ -227,7 +227,8 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           team={team}
           onRemoveAdmin={() => { onClose(); onRemoveAdmin(); }}
           onMakeAdmin={() => { onClose(); onMakeAdmin(); }}
-          onRemoveUser={() => removeUser(setActiveView('remove'), onClose)}
+          onRemoveUser={() => { onClose(); onRemoveUser(); }}
+          showRemoveUser={setActiveView('remove')}
         />
       )}
     </Popover>
