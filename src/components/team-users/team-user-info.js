@@ -228,7 +228,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, onRemoveUser, updateUserP
           onRemoveAdmin={() => { onClose(); onRemoveAdmin(); }}
           onMakeAdmin={() => { onClose(); onMakeAdmin(); }}
           onRemoveUser={() => { onClose(); onRemoveUser(); }}
-          showRemoveUser={setActiveView('remove')}
+          showRemoveUser={() => { setActiveView('remove'); }}
         />
       )}
     </Popover>
