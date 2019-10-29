@@ -71,7 +71,7 @@ const useDefaultProjectOptions = () => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const useProjectOptions = (project, { user, team, collection, ...options } = {}) => {
+export const useProjectOptions = (project, { user, team, collection, ...options } = {}, deferLoading = false) => {
   const { currentUser } = useCurrentUser();
   const defaultProjectOptions = useDefaultProjectOptions();
   const projectOptions = { ...defaultProjectOptions, ...options };
@@ -79,10 +79,11 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
     if (user) return user.pinnedProjects.some(({ id }) => id === project.id);
     if (team) return team.pinnedProjects.some(({ id }) => id === project.id);
     return false;
-  }, [user, team, project]);
+  }, [user, team, project.id]);
 
   const isLoggedIn = !!currentUser.login;
-  const { value: members } = useProjectMembers(project.id);
+  const { value: members, status } = useProjectMembers(project.id, deferLoading);
+  const areMembersReady = status === 'ready';
   const isProjectMember = userIsProjectMember({ members, user: currentUser });
   const isProjectAdmin = userIsProjectAdmin({ project, user: currentUser });
   const isOnlyProjectAdmin = userIsOnlyProjectAdmin({ project, user: currentUser });
@@ -100,8 +101,8 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
     addPin: isLoggedIn && isProfileOwner && !isPinned && bind(projectOptions.addPin, project),
     removePin: isProfileOwner && isPinned && bind(projectOptions.removePin, project),
     displayNewNote: !project.note && !project.isAddingANewNote && canAddNote && bind(projectOptions.displayNewNote, project),
-    joinTeamProject: !isProjectMember && !!projectTeam && bind(projectOptions.joinTeamProject, project, projectTeam),
-    leaveProject: isProjectMember && !isOnlyProjectAdmin && bind(projectOptions.leaveProject, project),
+    joinTeamProject: areMembersReady && !isProjectMember && !!projectTeam && bind(projectOptions.joinTeamProject, project, projectTeam),
+    leaveProject: areMembersReady && isProjectMember && !isOnlyProjectAdmin && bind(projectOptions.leaveProject, project),
     removeProjectFromTeam: isTeamMember && bind(projectOptions.removeProjectFromTeam, project),
     deleteProject: isProjectAdmin && bind(projectOptions.deleteProject, project),
     removeProjectFromCollection: isCollectionOwner && bind(projectOptions.removeProjectFromCollection, project),
