@@ -174,11 +174,13 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
           )}
         </div>
       </div>
-      <AnalyticsContext properties={{
-        isOnCollectionPlayRoute: true,
-        hasNote: !!featuredProject.note,
-        placementOfProjectInCollection: `${currentProjectIndex + 1}/${projects.length}`
-      }}>
+      <AnalyticsContext
+        properties={{
+          isOnCollectionPlayRoute: true,
+          hasNote: !!featuredProject.note,
+          placementOfProjectInCollection: `${currentProjectIndex + 1}/${projects.length}`,
+        }}
+      >
         <FeaturedProject
           isAuthorized={isAuthorized}
           featuredProject={featuredProject}
