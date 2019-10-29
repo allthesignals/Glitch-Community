@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
+import { LiveMessage } from 'react-aria-live';
 import classnames from 'classnames';
 import { hexToRgbA, isDarkColor } from 'Utils/color';
 
@@ -38,10 +39,7 @@ const wakeUpAllProjectsInACollection = (projects) => {
 const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjectIndex, collection, push, params }) => {
   const { projects } = collection;
   const [selectedPopoverProjectId, setSelectedPopoverProjectId] = useState(featuredProject.id);
-
-  const onChange = (newId) => {
-    setSelectedPopoverProjectId(newId);
-  };
+  const [announcement, setAnnouncement] = useState('');
 
   const changeSelectedProject = (newIndex) => {
     const newLocation = {
@@ -51,7 +49,9 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
       },
     };
     push(newLocation);
+    setSelectedPopoverProjectId(projects[newIndex].id);
     setCurrentProjectIndex(newIndex);
+    setAnnouncement(`Showing project ${newIndex + 1} of ${projects.length}, ${projects[newIndex].domain}`);
   };
 
   const onClickOnProject = (project, onClose) => {
@@ -76,6 +76,7 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
 
   return (
     <>
+      {announcement && <LiveMessage message={announcement} aria-live="assertive" />}
       <Popover
         align="left"
         renderLabel={({ onClick, ref }) => (
@@ -92,7 +93,7 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
       >
         {({ onClose }) => (
           <div className={styles.resultListWrapper}>
-            <ResultsList value={selectedPopoverProjectId} onChange={onChange} options={projects}>
+            <ResultsList value={selectedPopoverProjectId} onChange={setSelectedPopoverProjectId} options={projects}>
               {({ item, buttonProps }) => (
                 <div className={styles.resultItemWrapper}>
                   <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
@@ -119,10 +120,10 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
       <div className={styles.buttonWrap}>
         <ButtonGroup variant="primary" size="normal">
           <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
-            <Icon icon="chevronLeft" alt={currentProjectIndex === 0 ? 'back' : `back to ${projects[currentProjectIndex - 1].domain}`} />
+            <Icon icon="chevronLeft" alt="back" />
           </ButtonSegment>
           <ButtonSegment onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
-            <Icon icon="chevronRight" alt={currentProjectIndex === projects.length - 1 ? 'next' : `next to ${projects[currentProjectIndex + 1].domain}`} />
+            <Icon icon="chevronRight" alt="next" />
           </ButtonSegment>
         </ButtonGroup>
       </div>

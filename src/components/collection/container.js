@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Pluralize from 'react-pluralize';
 import classnames from 'classnames';
+import { LiveMessage } from 'react-aria-live';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import { isDarkColor } from 'Utils/color';
@@ -24,6 +25,7 @@ import { emoji } from '../global.styl';
 
 const CollectionContainer = withRouter(({ history, match, collection, isAuthorized, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
+  const [announcement, setAnnouncement] = useState('');
 
   const canEditNameAndDescription = isAuthorized && !collection.isMyStuff;
 
@@ -60,11 +62,13 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
       newLocation.state = {
         preventScroll: true,
       };
+      setAnnouncement('Collection is in Play View');
     } else {
       newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
       newLocation.state = {
         preventScroll: true,
       };
+      setAnnouncement('Collection in Grid View');
     }
     history.push(newLocation);
   },
@@ -119,6 +123,7 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
 
         {collection.projects.length > 0 && (
           <div className={styles.playOrGridToggle}>
+            {announcement && <LiveMessage message={announcement} aria-live="assertive" />}
             <Button onClick={() => togglePlay({ onPlayPage, match, history })}>
               {onPlayPage ? (
                 <>
