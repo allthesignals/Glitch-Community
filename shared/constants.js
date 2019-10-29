@@ -44,7 +44,8 @@ const envs = {
 };
 
 const tagline = 'friendly community where everyone can discover & create the best apps on the web.';
+const glitchTeamId = 74;
 
 module.exports = {
-  envs, tagline
+  envs, tagline, glitchTeamId
 };

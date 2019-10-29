@@ -14,7 +14,7 @@ const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData } = require('./optimizely');
-const { getData, saveDataToFile } = require('./curated');
+const { readCuratedContent, writeCuratedContent } = require('./curated');
 const rootTeams = require('../shared/teams');
 
 module.exports = function(EXTERNAL_ROUTES) {
@@ -74,7 +74,7 @@ module.exports = function(EXTERNAL_ROUTES) {
 
     const AB_TESTS = getAssignments(req, res);
     const SSR_SIGNED_IN = !!req.cookies.hasLogin;
-    const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
+    const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), readCuratedContent('home'), readCuratedContent('pupdates')]);
 
     const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
     const context = {
@@ -155,13 +155,12 @@ module.exports = function(EXTERNAL_ROUTES) {
     }
     await render(req, res);
   });
-  
+
   categories.forEach((category) => {
     app.get(`/${category.url}`, (req, res) => {
       res.redirect(301, `/@glitch/${category.collectionName}`);
     });
   });
-  
 
   // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
   Object.keys(rootTeams).forEach((teamName) => {
@@ -189,10 +188,9 @@ module.exports = function(EXTERNAL_ROUTES) {
 
   app.get('/api/:page', async (req, res) => {
     const { page } = req.params;
-    console.log(page);
     if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
 
-    const data = await getData(page);
+    const data = await readCuratedContent(page);
     res.send(data);
   });
 
@@ -200,13 +198,10 @@ module.exports = function(EXTERNAL_ROUTES) {
     const { page } = req.params;
     if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
 
-    const persistentToken = req.headers.authorization;
-    const data = req.body;
-    try {
-      await saveDataToFile({ page, persistentToken, data });
+    if (res.headers.authorization === process.env.CMS_POST_SECRET) {
+      await writeCuratedContent({ page, data: req.body });
       res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
+    } else {
       res.sendStatus(403);
     }
   });

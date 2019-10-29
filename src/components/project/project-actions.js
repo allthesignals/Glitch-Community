@@ -1,36 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import { PopoverWithButton } from 'Components/popover';
 import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
+import useWindowSize from 'Hooks/use-window-size';
 import LeaveProjectPopover from './leave-project-pop';
 
 import { emoji } from '../global.styl';
 
 export const mediumSmallViewport = 592; // 592px is the cutoff for hiding some of the button text for mobile
-
-export const getWindowDimensions = () => {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-};
-
-export const useWindowDimensions = () => {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  return windowDimensions;
-};
 
 export const ShowButton = ({ name, size }) => (
   <Button as="a" href={getShowUrl(name)} size={size}>
@@ -60,9 +39,9 @@ EditButtonCta.defaultProps = {
 
 // the Edit Button that appears below the embed
 export const EditButton = ({ name, isMember, size }) => {
-  const { width } = useWindowDimensions();
+  const [width] = useWindowSize();
   let editButtonText = null;
-  if (width < mediumSmallViewport) {
+  if (width && width < mediumSmallViewport) {
     editButtonText = isMember ? 'Edit' : 'View';
   } else {
     editButtonText = isMember ? 'Edit Project' : 'View Source';
@@ -84,10 +63,10 @@ EditButton.defaultProps = {
 };
 
 export const RemixButton = ({ name, isMember }) => {
-  const { width } = useWindowDimensions();
+  const [width] = useWindowSize();
 
   let remixButtonText = 'Remix';
-  if (width > mediumSmallViewport) {
+  if (!width || width > mediumSmallViewport) {
     remixButtonText = isMember ? `${remixButtonText} This` : `${remixButtonText} Your Own`;
   }
 
@@ -108,12 +87,12 @@ RemixButton.defaultProps = {
 };
 
 export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject, refreshEmbed }) => {
-  const { width } = useWindowDimensions();
+  const [width] = useWindowSize();
 
   if (!isMember && joinProject) {
     let joinProjectBtnText = 'Join Team Project';
 
-    if (width < mediumSmallViewport) {
+    if (width && width < mediumSmallViewport) {
       joinProjectBtnText = 'Join';
     }
     return isTeamProject ? (
@@ -132,7 +111,7 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
   // let team members leave directly, warn non team members
   if (isTeamProject && leaveProject) {
     let leaveProjectBtnText = 'Leave Project';
-    if (width < mediumSmallViewport) {
+    if (width && width < mediumSmallViewport) {
       leaveProjectBtnText = 'Leave';
     }
 
