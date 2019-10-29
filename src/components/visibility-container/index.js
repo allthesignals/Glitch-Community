@@ -9,6 +9,7 @@ const useIntersectionObserver = ({ ratio }) => {
     if (!window.IntersectionObserver) {
       setIsVisible(true);
       setWasEverVisible(true);
+      return null;
     }
     const observer = new IntersectionObserver(([container]) => {
       if (container.intersectionRatio > ratio) {
