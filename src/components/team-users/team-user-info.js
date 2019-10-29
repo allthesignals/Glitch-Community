@@ -22,11 +22,6 @@ import { emoji } from '../global.styl';
 const MEMBER_ACCESS_LEVEL = 20;
 const ADMIN_ACCESS_LEVEL = 30;
 
-const useProjects = createAPIHook(async (api, userID, team) => {
-  const userProjects = await getAllPages(api, `/v1/users/by/id/projects?id=${userID}&limit=100`);
-  return userProjects.filter((userProj) => team.projects.some((teamProj) => teamProj.id === userProj.id));
-});
-
 const ProjectsList = ({ options, value, onChange }) => (
   <div className={styles.projectsList}>
     {options.map((project) => (
@@ -62,14 +57,12 @@ const AdminBadge = () => (
 
 // Team User Remove 💣
 
-function TeamUserRemovePop({ user, team, onRemoveUser }) {
-  const userTeamProjectsResponse = useProjects(user.id, team);
-  const userTeamProjects = userTeamProjectsResponse.value || [];
-
+function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
   const [selectedProjectIDs, setSelectedProjects] = useState([]);
   function selectAllProjects() {
     setSelectedProjects(userTeamProjects.map((p) => p.id));
   }
+
   function unselectAllProjects() {
     setSelectedProjects([]);
   }
@@ -117,7 +110,7 @@ function TeamUserRemovePop({ user, team, onRemoveUser }) {
 
 // Team User Info 😍
 
-const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser, showRemoveUser }) => {
+const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) => {
   const { currentUser } = useCurrentUser();
   const currentUserIsTeamAdmin = userIsTeamAdmin({ user: currentUser, team });
   const selectedUserIsTeamAdmin = userIsTeamAdmin({ user, team });
@@ -126,19 +119,6 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser, sh
   const isCurrentUser = currentUser && currentUser.id === user.id;
   const currentUserHasRemovePriveleges = currentUserIsTeamAdmin || isCurrentUser;
   const canCurrentUserRemoveUser = currentUserHasRemovePriveleges && !teamHasOnlyOneMember && !selectedUserIsOnlyAdmin;
-
-  const userTeamProjects = useProjects(user.id, team);
-  const trackRemoveClicked = useTracker('Remove from Team clicked');
-
-  // if user is a member of no projects, skip the confirm step
-  const onShowOrRemoveUser = () => {
-    if (userTeamProjects.status === 'ready' && userTeamProjects.value.length === 0) {
-      onRemoveUser();
-    } else {
-      trackRemoveClicked();
-      showRemoveUser();
-    }
-  };
 
   return (
     <>
@@ -184,6 +164,11 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser, sh
   );
 };
 
+const useProjects = createAPIHook(async (api, userID, team) => {
+  const userProjects = await getAllPages(api, `/v1/users/by/id/projects?id=${userID}&limit=100`);
+  return userProjects.filter((userProj) => team.projects.some((teamProj) => teamProj.id === userProj.id));
+});
+
 const adminStatusDisplay = (team, user) => {
   if (userIsTeamAdmin({ team, user })) {
     return ' (admin)';
@@ -193,11 +178,26 @@ const adminStatusDisplay = (team, user) => {
 
 const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) => {
   const { createNotification } = useNotifications();
+  const userTeamProjectsResponse = useProjects(user.id, team);
+  const userTeamProjects = userTeamProjectsResponse.status === 'ready' ? userTeamProjectsResponse.value : null;
 
   const removeUser = useTrackedFunc(async (selectedProjects = []) => {
     await removeUserFromTeam(user, selectedProjects);
     createNotification(`${getDisplayName(user)} removed from Team`);
   }, 'Remove from Team submitted');
+
+  const trackRemoveClicked = useTracker('Remove from Team clicked');
+
+  // if user is a member of no projects, skip the confirm step
+  const onOrShowRemoveUser = (showRemove, togglePopover) => {
+    if (userTeamProjects && userTeamProjects.length === 0) {
+      removeUser();
+      togglePopover();
+    } else {
+      trackRemoveClicked();
+      showRemove();
+    }
+  };
 
   const onRemoveAdmin = useTrackedFunc(() => updateUserPermissions(user, MEMBER_ACCESS_LEVEL), 'Remove Admin Status clicked');
   const onMakeAdmin = useTrackedFunc(() => updateUserPermissions(user, ADMIN_ACCESS_LEVEL), 'Make an Admin clicked');
