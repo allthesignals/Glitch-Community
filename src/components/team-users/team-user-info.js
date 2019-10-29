@@ -22,6 +22,11 @@ import { emoji } from '../global.styl';
 const MEMBER_ACCESS_LEVEL = 20;
 const ADMIN_ACCESS_LEVEL = 30;
 
+const useProjects = createAPIHook(async (api, userID, team) => {
+  const userProjects = await getAllPages(api, `/v1/users/by/id/projects?id=${userID}&limit=100`);
+  return userProjects.filter((userProj) => team.projects.some((teamProj) => teamProj.id === userProj.id));
+});
+
 const ProjectsList = ({ options, value, onChange }) => (
   <div className={styles.projectsList}>
     {options.map((project) => (
@@ -57,7 +62,10 @@ const AdminBadge = () => (
 
 // Team User Remove 💣
 
-function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
+function TeamUserRemovePop({ user, team, onRemoveUser }) {
+  const userTeamProjectsResponse = useProjects(user.id, team);
+  const userTeamProjects = userTeamProjectsResponse.value || [];
+
   const [selectedProjectIDs, setSelectedProjects] = useState([]);
   function selectAllProjects() {
     setSelectedProjects(userTeamProjects.map((p) => p.id));
@@ -74,12 +82,12 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
     <>
       <Title>Remove {getDisplayName(user)}</Title>
 
-      {!userTeamProjects && (
+      {userTeamProjectsResponse.status !== 'ready' && (
         <Actions>
           <Loader />
         </Actions>
       )}
-      {userTeamProjects && userTeamProjects.length > 0 && (
+      {userTeamProjects.length > 0 && (
         <Actions>
           <p>Also remove them from these projects</p>
           <ProjectsList options={userTeamProjects} value={selectedProjectIDs} onChange={setSelectedProjects} />
@@ -110,7 +118,7 @@ function TeamUserRemovePop({ user, onRemoveUser, userTeamProjects }) {
 
 // Team User Info 😍
 
-const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) => {
+const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser, showRemoveUser }) => {
   const { currentUser } = useCurrentUser();
   const currentUserIsTeamAdmin = userIsTeamAdmin({ user: currentUser, team });
   const selectedUserIsTeamAdmin = userIsTeamAdmin({ user, team });
@@ -119,6 +127,19 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
   const isCurrentUser = currentUser && currentUser.id === user.id;
   const currentUserHasRemovePriveleges = currentUserIsTeamAdmin || isCurrentUser;
   const canCurrentUserRemoveUser = currentUserHasRemovePriveleges && !teamHasOnlyOneMember && !selectedUserIsOnlyAdmin;
+
+  const userTeamProjects = useProjects(user.id, team);
+  const trackRemoveClicked = useTracker('Remove from Team clicked');
+
+  // if user is a member of no projects, skip the confirm step
+  const onShowOrRemoveUser = () => {
+    if (userTeamProjects.status === 'ready' && userTeamProjects.value.length === 0) {
+      onRemoveUser();
+    } else {
+      trackRemoveClicked();
+      showRemoveUser();
+    }
+  };
 
   return (
     <>
@@ -155,7 +176,7 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
       )}
       {canCurrentUserRemoveUser && (
         <DangerZone>
-          <Button variant="warning" onClick={onRemoveUser}>
+          <Button variant="warning" onClick={onShowOrRemoveUser}>
             {isCurrentUser ? 'Leave Team' : 'Remove from Team'} <Icon className={emoji} icon="wave" />
           </Button>
         </DangerZone>
@@ -163,11 +184,6 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser }) 
     </>
   );
 };
-
-const useProjects = createAPIHook(async (api, userID, team) => {
-  const userProjects = await getAllPages(api, `/v1/users/by/id/projects?id=${userID}&limit=100`);
-  return userProjects.filter((userProj) => team.projects.some((teamProj) => teamProj.id === userProj.id));
-});
 
 const adminStatusDisplay = (team, user) => {
   if (userIsTeamAdmin({ team, user })) {
@@ -178,26 +194,11 @@ const adminStatusDisplay = (team, user) => {
 
 const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) => {
   const { createNotification } = useNotifications();
-  const userTeamProjectsResponse = useProjects(user.id, team);
-  const userTeamProjects = userTeamProjectsResponse.status === 'ready' ? userTeamProjectsResponse.value : null;
 
   const removeUser = useTrackedFunc(async (selectedProjects = []) => {
     await removeUserFromTeam(user, selectedProjects);
     createNotification(`${getDisplayName(user)} removed from Team`);
   }, 'Remove from Team submitted');
-
-  const trackRemoveClicked = useTracker('Remove from Team clicked');
-
-  // if user is a member of no projects, skip the confirm step
-  const onOrShowRemoveUser = (showRemove, togglePopover) => {
-    if (userTeamProjects && userTeamProjects.length === 0) {
-      removeUser();
-      togglePopover();
-    } else {
-      trackRemoveClicked();
-      showRemove();
-    }
-  };
 
   const onRemoveAdmin = useTrackedFunc(() => updateUserPermissions(user, MEMBER_ACCESS_LEVEL), 'Remove Admin Status clicked');
   const onMakeAdmin = useTrackedFunc(() => updateUserPermissions(user, ADMIN_ACCESS_LEVEL), 'Make an Admin clicked');
@@ -214,7 +215,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
         remove: ({ onClose }) => (
           <TeamUserRemovePop
             user={user}
-            userTeamProjects={userTeamProjects}
+            team={team}
             onRemoveUser={() => { onClose(); removeUser(); }}
           />
         ),
@@ -226,7 +227,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           team={team}
           onRemoveAdmin={() => { onClose(); onRemoveAdmin(); }}
           onMakeAdmin={() => { onClose(); onMakeAdmin(); }}
-          onRemoveUser={() => onOrShowRemoveUser(setActiveView('remove'), onClose)}
+          onRemoveUser={() => removeUser(setActiveView('remove'), onClose)}
         />
       )}
     </Popover>
