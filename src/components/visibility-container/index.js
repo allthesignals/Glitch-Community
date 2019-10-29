@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const useIntersectionObserver = ({ ratio }) => {
   const ref = useRef();
   const [isVisible, setIsVisible] = useState(false);
-  const [wasEverVisible, setWasEverVisible] = useState(false);
+  const [wasEverVisible, setWasEverVisible] = useState(true);
   useEffect(() => {
     if (!window.IntersectionObserver) {
       setIsVisible(true);
