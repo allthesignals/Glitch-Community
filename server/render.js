@@ -21,7 +21,7 @@ const setup = () => {
 };
 const { directory, verb } = setup();
 
-const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', { html: null, helmet: null, styleTags: null, context: {} });
+const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', { html: null, helmet: null, styleTags: null });
 
 let isFirstTranspile = true;
 let needsTranspile = true;
