@@ -85,7 +85,7 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
                 <ProjectAvatar project={featuredProject} />
               </span>
               <Text>{featuredProject.domain}</Text>
-              <Icon icon="chevronDown" />
+              <Icon icon="chevronDown" alt="show project dropdown from collection" />
             </span>
           </UnstyledButton>
         )}
@@ -119,10 +119,10 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
       <div className={styles.buttonWrap}>
         <ButtonGroup variant="primary" size="normal">
           <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
-            <Icon icon="chevronLeft" alt="back" />
+            <Icon icon="chevronLeft" alt={currentProjectIndex === 0 ? 'back' : `back to ${projects[currentProjectIndex - 1].domain}`} />
           </ButtonSegment>
           <ButtonSegment onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
-            <Icon icon="chevronRight" alt="foward" />
+            <Icon icon="chevronRight" alt={currentProjectIndex === projects.length - 1 ? 'next' : `next to ${projects[currentProjectIndex + 1].domain}`} />
           </ButtonSegment>
         </ButtonGroup>
       </div>
