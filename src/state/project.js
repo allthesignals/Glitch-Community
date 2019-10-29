@@ -55,11 +55,13 @@ export const ProjectContextProvider = ({ children }) => {
   const [projectResponses, setProjectResponses] = useState({});
   const api = useAPI();
 
-  const getProjectMembers = useCallback((projectId) => {
+  const getProjectMembers = useCallback((projectId, deferLoading = false) => {
     if (projectResponses[projectId] && projectResponses[projectId].members) {
       return projectResponses[projectId].members;
     }
-    loadProjectMembers(api, [projectId], setProjectResponses);
+    if (!deferLoading) {
+      loadProjectMembers(api, [projectId], setProjectResponses);
+    }
     return loadingResponse;
   }, [projectResponses, api]);
 
@@ -76,9 +78,9 @@ export const ProjectContextProvider = ({ children }) => {
   );
 };
 
-export function useProjectMembers(projectId) {
+export function useProjectMembers(projectId, deferLoading) {
   const getProjectMembers = useContext(ProjectMemberContext);
-  return getProjectMembers(projectId);
+  return getProjectMembers(projectId, deferLoading);
 }
 
 export function useProjectReload() {
