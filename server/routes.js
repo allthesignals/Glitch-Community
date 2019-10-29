@@ -77,7 +77,7 @@ module.exports = function(EXTERNAL_ROUTES) {
     const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), readCuratedContent('home'), readCuratedContent('pupdates')]);
 
     const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-    const context = {
+    const currentContext = {
       AB_TESTS,
       API_CACHE,
       EXTERNAL_ROUTES,
@@ -88,12 +88,11 @@ module.exports = function(EXTERNAL_ROUTES) {
       ZINE_POSTS,
     };
 
-    const { context: renderedContext, ...rendered } = await renderPage(url, context);
+    const renderedContext = await renderPage(url, currentContext);
 
     res.render('index.ejs', {
-      ...context,
+      ...currentContext,
       ...renderedContext,
-      ...rendered,
       scripts,
       styles,
       BUILD_COMPLETE: built,

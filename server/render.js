@@ -64,7 +64,7 @@ setImmediate(() => {
   }
 });
 
-const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
+const render = async (url, context) => {
   const { Page, resetState } = requireClient();
   resetState();
   const sheet = new ServerStyleSheet();
@@ -72,25 +72,18 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
 
   // don't use <ReactSyntax /> so babel can stay scoped to the src directory
   const page = React.createElement(Page, {
+    ...context,
     origin: url.origin,
     route: url.pathname + url.search + url.hash,
     optimizely: await getOptimizelyClient(),
     helmetContext,
-    AB_TESTS,
-    API_CACHE,
-    EXTERNAL_ROUTES,
-    HOME_CONTENT,
-    PUPDATES_CONTENT,
-    SSR_SIGNED_IN,
-    ZINE_POSTS,
   });
 
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
   const OPTIMIZELY_DATA = await getOptimizelyData();
-  const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_DATA, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
-  return { html, helmet: helmetContext.helmet, styleTags, context };
+  return { ...context, OPTIMIZELY_DATA, html, helmet: helmetContext.helmet, styleTags };
 };
 
 module.exports = (url, context) => {
