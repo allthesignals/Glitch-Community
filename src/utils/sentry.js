@@ -20,15 +20,15 @@ if (isBrowser) {
       dsn: 'https://4f1a68242b6944738df12eecc34d377c@sentry.io/1246508',
       environment: window.ENVIRONMENT,
       release: `community@${window.BUILD_TIMESTAMP}`,
-      ignoreErrors: SentryHelpers.ignoreErrors,
-      whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/],
+      //ignoreErrors: SentryHelpers.ignoreErrors,
+      //whitelistUrls: [/glitch\.com/, /.*\.glitch\.me/, /localhost/],
       beforeSend(event) {
+        console.log('event', event);
         // do not send errors to sentry when user uses UC Browser
         const ucBrowser = window.navigator.userAgent.match(/^Mozilla\/5\.0 .+ Gecko\/$/);
         if (ucBrowser) {
           return null;
         }
-        console.log(event);
         try {
           return SentryHelpers.beforeSend(window.PROJECT_DOMAIN, currentEnv, event);
         } catch (error) {
