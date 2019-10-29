@@ -51,10 +51,13 @@ window.bootstrap = async (container) => {
     },
     errorHandler: {
       handleError: (error) => {
-        const ignoredErrors = ['Request error', 'localStorage'];
-        if (ignoredErrors.some((message) => error.message.includes(message)))
-        //captureException(error);
-        //console.error('Optimizely error: ', error);
+        const ignoredErrors = ['Request error', 'localStorage', 'getItem'];
+        if (ignoredErrors.some((message) => error.message.includes(message))) {
+          console.warn(error);
+        } else {
+          captureException(error);
+          console.error(error);
+        }
       },
     },
     logLevel: 'warn',
