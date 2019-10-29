@@ -15,6 +15,7 @@ import { ProjectLink } from 'Components/link';
 import Text from 'Components/text/text';
 
 import styles from './collection-projects-player.styl';
+import { AnalyticsContext } from '../../state/segment-analytics';
 
 const getCurrentProjectIndexFromUrl = (projectId, projects) => {
   let currentIndex = 0;
@@ -173,17 +174,23 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
           )}
         </div>
       </div>
-      <FeaturedProject
-        isAuthorized={isAuthorized}
-        featuredProject={featuredProject}
-        unfeatureProject={funcs.unfeatureProject}
-        addProjectToCollection={funcs.addProjectToCollection}
-        collection={collection}
-        displayNewNote={funcs.displayNewNote}
-        updateNote={funcs.updateNote}
-        hideNote={funcs.hideNote}
-        isPlayer
-      />
+      <AnalyticsContext properties={{
+        isOnCollectionPlayRoute: true,
+        hasNote: !!featuredProject.note,
+        placementOfProjectInCollection: `${currentProjectIndex + 1}/${projects.length}`
+      }}>
+        <FeaturedProject
+          isAuthorized={isAuthorized}
+          featuredProject={featuredProject}
+          unfeatureProject={funcs.unfeatureProject}
+          addProjectToCollection={funcs.addProjectToCollection}
+          collection={collection}
+          displayNewNote={funcs.displayNewNote}
+          updateNote={funcs.updateNote}
+          hideNote={funcs.hideNote}
+          isPlayer
+        />
+      </AnalyticsContext>
     </>
   );
 });
