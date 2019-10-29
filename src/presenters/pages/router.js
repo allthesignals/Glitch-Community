@@ -187,9 +187,7 @@ const Router = () => {
         <Route
           path="/settings"
           exact
-          render={({ location }) =>
-            <>{ settingsPageEnabled ? <SettingsPage key={location.key} /> : <NotFoundPage key={location.key} />}</>
-          }
+          render={({ location }) => settingsPageEnabled ? <SettingsPage key={location.key} /> : <NotFoundPage key={location.key} />}
         />
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
