@@ -22,12 +22,15 @@ if (isBrowser) {
       release: `community@${window.BUILD_TIMESTAMP}`,
       //ignoreErrors: SentryHelpers.ignoreErrors,
       //whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/],
-      beforeSend(event) {
-        console.log('event', event);
+      beforeSend(event, { originalException }) {
         // do not send errors to sentry when user uses UC Browser
         const ucBrowser = window.navigator.userAgent.match(/^Mozilla\/5\.0 .+ Gecko\/$/);
         if (ucBrowser) {
           return null;
+        }
+        if (originalException.message.includes('status code 429')) {
+          
+          
         }
         try {
           return SentryHelpers.beforeSend(window.PROJECT_DOMAIN, currentEnv, event);
