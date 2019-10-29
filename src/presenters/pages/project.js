@@ -229,7 +229,7 @@ const ProjectPage = ({ project: initialProject }) => {
           )}
           {users.length + teams.length > 0 && (
             <div>
-              <ProfileList hasLinks teams={teams} {...members} layout="block" />
+              <ProfileList hasLinks teams={teams} users={users} {...members} layout="block" />
             </div>
           )}
           <AuthDescription
