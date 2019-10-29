@@ -17,7 +17,7 @@ const Settings = () => {
   const tfaEnabled = useDevToggle('Two Factor Auth');
 
   return (
-    <main>
+    <main id="main">
       <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
       <Layout>
         <Heading tagName="h1">Settings <Icon className={emoji} icon="key" /></Heading>
