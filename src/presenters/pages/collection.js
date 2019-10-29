@@ -47,7 +47,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
         description={`${seoDescription} 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
         canonicalUrl={getCollectionLink(collection)}
       />
-      <main id="main">
+      <main id="main" aria-label="Glitch Collection Page">
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
         {currentUserIsAuthor && !collection.isMyStuff && (

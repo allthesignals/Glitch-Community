@@ -179,7 +179,7 @@ const ProjectPage = ({ project: initialProject }) => {
   }, [project.domain, project.description, project.suspendedReason, tagline]);
 
   return (
-    <main id="main">
+    <main id="main" aria-label="Glitch Project Page">
       <GlitchHelmet
         title={project.domain}
         description={seoDescription}
