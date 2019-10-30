@@ -1,3 +1,4 @@
+@require '../constants'
 .buttonContainer
   display: flex
   justify-content: space-between
@@ -13,6 +14,8 @@
 .embedWrap
   height: 500px
   position: relative
+  @media(min-width: largeViewport)
+    height: 650px
 
 .embedBottomBar
   position: absolute
