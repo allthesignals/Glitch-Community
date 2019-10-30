@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { enums } from '@optimizely/optimizely-sdk';
-import { useCurrentUser } from 'State/current-user';
 
 const Context = createContext();
 
@@ -38,14 +37,6 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => useOptimize
 );
 
 export const useFeatureEnabled = (whichToggle) => {
-  const { currentUser } = useCurrentUser();
   const { optimizelyId } = useOptimizely();
-  return useFeatureEnabledForEntity(whichToggle, currentUser.id || optimizelyId);
-};
-
-export const useSetRolloutUserId = (id) => {
-  const { setOptimizelyId } = useOptimizely();
-  useEffect(() => {
-    setOptimizelyId(id);
-  }, [id]);
+  return useFeatureEnabledForEntity(whichToggle, optimizelyId);
 };
