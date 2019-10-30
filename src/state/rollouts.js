@@ -42,3 +42,10 @@ export const useFeatureEnabled = (whichToggle) => {
   const { optimizelyId } = useOptimizely();
   return useFeatureEnabledForEntity(whichToggle, currentUser.id || optimizelyId);
 };
+
+export const useSetRolloutUserId = (id) => {
+  const { setOptimizelyId } = useOptimizely();
+  useEffect(() => {
+    setOptimizelyId(id);
+  }, [id]);
+};
