@@ -71,7 +71,7 @@ const useDefaultProjectOptions = () => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const useProjectOptions = (project, { user, team, collection, ...options } = {}) => {
+export const useProjectOptions = (project, { user, team, collection, ...options } = {}, deferLoading = false) => {
   const { currentUser } = useCurrentUser();
   const defaultProjectOptions = useDefaultProjectOptions();
   const projectOptions = { ...defaultProjectOptions, ...options };
@@ -82,7 +82,7 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
   }, [user, team, project.id]);
 
   const isLoggedIn = !!currentUser.login;
-  const { value: members, status } = useProjectMembers(project.id);
+  const { value: members, status } = useProjectMembers(project.id, deferLoading);
   const areMembersReady = status === 'ready';
   const isProjectMember = userIsProjectMember({ members, user: currentUser });
   const isProjectAdmin = userIsProjectAdmin({ project, user: currentUser });

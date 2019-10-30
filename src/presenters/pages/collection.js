@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, find } from 'lodash';
-import { Loader } from '@fogcreek/shared-components';
+import { Button, Icon, Loader, Popover } from '@fogcreek/shared-components';
 
 import { getCollectionLink, getCollectionOwnerName } from 'Models/collection';
-import { PopoverWithButton } from 'Components/popover';
 import NotFound from 'Components/errors/not-found';
 import CollectionContainer from 'Components/collection/container';
 import MoreCollectionsContainer from 'Components/collections-list/more-collections';
@@ -20,6 +19,8 @@ import useFocusFirst from 'Hooks/use-focus-first';
 import { renderText } from 'Utils/markdown';
 import allCategories from 'Shared/categories';
 import { CDN_URL } from 'Utils/constants';
+
+import { emoji, mediumPopover } from '../../components/global.styl';
 
 const CollectionPageContents = ({ collection: initialCollection }) => {
   const { currentUser } = useCurrentUser();
@@ -47,13 +48,13 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
         description={`${seoDescription} 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
         canonicalUrl={getCollectionLink(collection)}
       />
-      <main id="main">
+      <main id="main" aria-label="Glitch Collection Page">
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
         {currentUserIsAuthor && !collection.isMyStuff && (
-          <PopoverWithButton buttonProps={{ size: 'small', variant: 'warning', emoji: 'bomb' }} buttonText={`Delete ${collection.name}`}>
+          <Popover align="left" className={mediumPopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small" variant="warning">Delete {collection.name} <Icon className={emoji} icon="bomb" /></Button>}>
             {() => <DeleteCollection collection={collection} />}
-          </PopoverWithButton>
+          </Popover>
         )}
       </main>
       <MoreCollectionsContainer collection={collection} />
