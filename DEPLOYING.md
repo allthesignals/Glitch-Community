@@ -2,8 +2,6 @@
 
 Only employees of Glitch will be able to do this step, and here it is! 
 
-You should perform these steps immediately after clicking the "Merge pull request" button on your PR in Github. 
-
 ### Announce the Deployment
 
 Be present in our `#community-deploy` chat room and say that you're starting a deploy and what you're deploying.
@@ -18,17 +16,15 @@ In your local git repository:
 
 ```
   # Make sure we're in the right place and up to date.
-  git checkout master
-  git pull
+  git pull master
 
   # Pull in any live changes that aren't yet in Master:
   git pull live master
   
   # Merge if needed
-  # [ This is on you. 🐉 ]
   
   # Then push these changes back up to github
-  git push origin master
+  git push origin my-remix
   
 ``` 
 
