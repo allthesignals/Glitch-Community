@@ -42,7 +42,7 @@ export const useFeatureEnabled = (whichToggle) => {
   return useFeatureEnabledForEntity(whichToggle, optimizelyId);
 };
 
-export const RolloutsUserSync = (id) => {
+export const RolloutsUserSync = () => {
   const { currentUser } = useCurrentUser();
   const { setOptimizelyId } = useOptimizely();
   useEffect(() => {
