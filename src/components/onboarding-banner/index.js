@@ -12,7 +12,7 @@ import { useCurrentUser } from 'State/current-user';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
 import useTest from 'State/ab-tests';
-import useWindowSize from 'Hooks/use-window-size';
+import { useWindowSize } from 'Hooks/use-window-size';
 
 import Illustration from './illustration';
 import styles from './styles.styl';
