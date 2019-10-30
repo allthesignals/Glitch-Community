@@ -141,7 +141,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       </div>
                     </div>
                     <div className={styles.description}>
-                      {didFirstRender && <Markdown length={80}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>}
+                      <Markdown length={80} allowLinks={didFirstRender}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
                     </div>
                   </ProjectLink>
                   {showEditButton && (
