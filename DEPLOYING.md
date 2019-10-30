@@ -15,13 +15,11 @@ We need to make sure any live changes are merged and happy.  This is a Glitch si
 In your local git repository:
 
 ```
-  # Make sure we're in the right place and up to date.
+  # Make sure we're up to date, including any live changes.
   git pull master
-
-  # Pull in any live changes that aren't yet in Master:
   git pull live master
   
-  # Merge if needed
+  # Merge if needed, beware of 🐉
   
   # Then push these changes back up to github
   git push origin my-remix
@@ -29,6 +27,8 @@ In your local git repository:
 ``` 
 
 Or, run `./sh/merge.sh`.
+
+Once the tests pass, click the "Merge pull request" button on your PR in Github. 
 
 Ok, now the GitHub repository is updated and stable. 
 
