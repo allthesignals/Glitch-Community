@@ -356,7 +356,7 @@ export const SignInPopBase = withRouter(({ startOpen, location }) => {
       views={{
         email: ({ setActiveView, onBack }) => <EmailHandler onBack={onBack} showView={setActiveView} />,
         signInCode: ({ setActiveView, onBack }) => <SignInWithCode onBack={onBack} showTwoFactor={() => { setTfaToken(tfaToken); setActiveView('twoFactor'); }} />,
-        twoFactor: (onBack) => <TwoFactorSignIn onBack={onBack} token={tfaToken} />,
+        twoFactor: ({ onBack }) => <TwoFactorSignIn onBack={onBack} token={tfaToken} />,
         forgotPassword: ({ onBack }) => <ForgotPasswordHandler onBack={onBack} />,
       }}
     >
@@ -372,7 +372,7 @@ export const SignInPopBase = withRouter(({ startOpen, location }) => {
             </div>
           </Info>
           {userPasswordEnabled && (
-            <PasswordLoginSection showTwoFactor={() => { setTfaToken(tfaToken); setActiveView('twoFactor'); }} showForgotPassword={() => { setActiveView('forgotPassword'); }} />
+            <PasswordLoginSection showTwoFactor={(token) => { setTfaToken(token); setActiveView('twoFactor'); }} showForgotPassword={() => { setActiveView('forgotPassword'); }} />
           )}
           <Actions>
             <SignInButton companyName="facebook" onClick={onSignInClick} />
