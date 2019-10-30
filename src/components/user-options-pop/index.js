@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { orderBy } from 'lodash';
-
 import { Actions, Button, CheckboxButton, Icon, Info, Loader, Popover, Title, UnstyledButton } from '@fogcreek/shared-components';
-
 
 import { getUserAvatarThumbnailUrl } from 'Models/user';
 import Image from 'Components/images/image';
@@ -196,7 +194,6 @@ export default function UserOptionsAndCreateTeamPopContainer({ showNewStuffOverl
         >
           {({ onClose, setActiveView }) => (
             <UserOptionsPop
-              showAccountSettingsOverlay={showAccountSettingsOverlay}
               showNewStuffOverlay={showNewStuffOverlay}
               togglePopover={onClose}
               showCreateTeam={() => { setActiveView('createTeam'); }}
