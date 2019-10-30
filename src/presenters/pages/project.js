@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, DangerZone, Icon, Loader, Popover } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Markdown from 'Components/text/markdown';
@@ -16,7 +16,6 @@ import DataLoader from 'Components/data-loader';
 import Row from 'Components/containers/row';
 import RelatedProjects from 'Components/related-projects';
 import Expander from 'Components/containers/expander';
-import { PopoverWithButton, PopoverDialog, PopoverActions, ActionDescription } from 'Components/popover';
 import { ShowButton, EditButtonCta } from 'Components/project/project-actions';
 import AuthDescription from 'Components/fields/auth-description';
 import Layout from 'Components/layout';
@@ -99,13 +98,13 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
 
   return (
     <section>
-      <PopoverWithButton buttonProps={{ size: 'small', variant: 'warning', emoji: 'bomb' }} buttonText="Delete Project">
-        {({ togglePopover }) => (
-          <PopoverDialog align="left" wide>
-            <PopoverActions>
-              <ActionDescription>You can always undelete a project from your profile page.</ActionDescription>
-            </PopoverActions>
-            <PopoverActions type="dangerZone">
+      <Popover align="left" renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref}>Delete Project <Icon className={emoji} icon="bomb" /></Button>}>
+        {({ onClose }) => (
+          <>
+            <Actions>
+              <p>You can always undelete a project from your profile page.</p>
+            </Actions>
+            <DangerZone>
               {loading ? (
                 <Loader />
               ) : (
@@ -115,7 +114,7 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
                   onClick={() => {
                     setLoading(true);
                     deleteProject().then(() => {
-                      togglePopover();
+                      onClose();
                       setDone(true);
                     });
                   }}
@@ -123,10 +122,10 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
                   Delete {projectDomain} <Icon className={emoji} icon="bomb" />
                 </Button>
               )}
-            </PopoverActions>
-          </PopoverDialog>
+            </DangerZone>
+          </>
         )}
-      </PopoverWithButton>
+      </Popover>
     </section>
   );
 }
@@ -179,7 +178,7 @@ const ProjectPage = ({ project: initialProject }) => {
   }, [project.domain, project.description, project.suspendedReason, tagline]);
 
   return (
-    <main id="main">
+    <main id="main" aria-label="Glitch Project Page">
       <GlitchHelmet
         title={project.domain}
         description={seoDescription}
@@ -230,7 +229,7 @@ const ProjectPage = ({ project: initialProject }) => {
           )}
           {users.length + teams.length > 0 && (
             <div>
-              <ProfileList hasLinks teams={teams} {...members} layout="block" />
+              <ProfileList hasLinks teams={teams} users={users} {...members} layout="block" />
             </div>
           )}
           <AuthDescription

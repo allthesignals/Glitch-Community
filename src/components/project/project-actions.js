@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Button, Icon, Popover } from '@fogcreek/shared-components';
 
-import { PopoverWithButton } from 'Components/popover';
 import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
 import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 import LeaveProjectPopover from './leave-project-pop';
@@ -126,9 +125,11 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
     );
   }
   return (
-    <PopoverWithButton buttonProps={{ emoji: 'wave', size: 'small' }} buttonText="Leave Project">
-      {({ togglePopover }) => <LeaveProjectPopover project={project} leaveProject={leaveProject} togglePopover={togglePopover} align="left" />}
-    </PopoverWithButton>
+    <Popover align="left" renderLabel={({ onClick, ref }) => <Button size="small" onClick={onClick} ref={ref}>Leave Project <Icon icon="wave" className={emoji} /></Button>}>
+      {({ onClose }) => (
+        <LeaveProjectPopover project={project} leaveProject={leaveProject} togglePopover={onClose} />
+      )}
+    </Popover>
   );
 };
 

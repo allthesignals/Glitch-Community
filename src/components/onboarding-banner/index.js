@@ -27,13 +27,10 @@ function OnboardingBanner() {
 
   const [categoriesWidth, setCategoriesWidth] = useState(0);
   const [windowWidth] = useWindowSize();
-  useEffect(
-    () => {
-      const width = exploreEl.current ? exploreEl.current.offsetWidth : 0;
-      setCategoriesWidth(width);
-    },
-    [windowWidth],
-  );
+  useEffect(() => {
+    const width = exploreEl.current ? exploreEl.current.offsetWidth : 0;
+    setCategoriesWidth(width);
+  }, [windowWidth]);
 
   const isHomepage = location.pathname === '/';
   const actionsClassnames = cx({
