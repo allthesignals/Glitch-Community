@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, orderBy } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Button, Loader, TextInput } from '@fogcreek/shared-components';
+import { Actions, Button, Loader, Popover, TextInput, Title } from '@fogcreek/shared-components';
 
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import { AddProjectToCollectionMsg } from 'Components/notification';
-import { PopoverDialog, MultiPopoverTitle, PopoverActions, PopoverWithButton } from 'Components/popover';
 import { createCollection } from 'Models/collection';
 import { useTracker } from 'State/segment-analytics';
 import { useAPI, createAPIHook } from 'State/api';
@@ -16,6 +15,7 @@ import { useNotifications } from 'State/notifications';
 import { getAllPages } from 'Shared/api';
 
 import styles from './create-collection-pop.styl';
+import { widePopover } from '../global.styl';
 
 function Dropdown({ selection, options, onUpdate }) {
   const [reactSelect, setReactSelect] = useState(null);
@@ -75,7 +75,7 @@ const useCollections = createAPIHook((api, teamId, currentUser) => {
   return getAllPages(api, `/v1/users/by/id/collections?id=${currentUser.id}&limit=100`);
 });
 
-function CreateCollectionPopBase({ align, title, onSubmit, options }) {
+function CreateCollectionPopBase({ name, onBack, onSubmit, options }) {
   const api = useAPI();
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
@@ -116,10 +116,9 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
   }
 
   return (
-    <PopoverDialog wide align={align}>
-      {title}
-
-      <PopoverActions>
+    <>
+      {name && <Title onBack={onBack}>{`Add ${name} to a new collection`}</Title>}
+      <Actions>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputWrap}>
             <TextInput
@@ -145,12 +144,12 @@ function CreateCollectionPopBase({ align, title, onSubmit, options }) {
             </Button>
           )}
         </form>
-      </PopoverActions>
-    </PopoverDialog>
+      </Actions>
+    </>
   );
 }
 
-export function CreateCollectionWithProject({ project, addProjectToCollection }) {
+export function CreateCollectionWithProject({ project, addProjectToCollection, onClose, onBack }) {
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
   const options = getOptions(currentUser);
@@ -160,6 +159,7 @@ export function CreateCollectionWithProject({ project, addProjectToCollection })
   }));
   const onSubmit = async (collection) => {
     track();
+    onClose();
     if (!collection || !collection.id) return;
 
     try {
@@ -171,9 +171,8 @@ export function CreateCollectionWithProject({ project, addProjectToCollection })
       createNotification('Unable to add project to collection.', { type: 'error' });
     }
   };
-  const title = <MultiPopoverTitle>{`Add ${project.domain} to a new collection`}</MultiPopoverTitle>;
 
-  return <CreateCollectionPopBase align="right" title={title} options={options} onSubmit={onSubmit} />;
+  return <CreateCollectionPopBase align="right" name={project.domain} options={options} onSubmit={onSubmit} onBack={onBack} />;
 }
 
 CreateCollectionWithProject.propTypes = {
@@ -193,9 +192,17 @@ const CreateCollectionPop = withRouter(({ team, history }) => {
   };
 
   return (
-    <PopoverWithButton buttonText="Create Collection">
-      {() => <CreateCollectionPopBase align="left" options={options} onSubmit={onSubmit} />}
-    </PopoverWithButton>
+    <Popover
+      className={widePopover}
+      align="left"
+      renderLabel={({ onClick, ref }) => (
+        <Button onClick={onClick} ref={ref}>
+          Create Collection
+        </Button>
+      )}
+    >
+      {() => <CreateCollectionPopBase options={options} onSubmit={onSubmit} />}
+    </Popover>
   );
 });
 

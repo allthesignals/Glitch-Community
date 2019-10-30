@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Loader } from '@fogcreek/shared-components';
+import { Actions, Button, Info, Loader, Popover } from '@fogcreek/shared-components';
 
-import { PopoverWithButton, PopoverDialog, PopoverSection, PopoverActions } from 'Components/popover';
 import ResultsList from 'Components/containers/results-list';
 import { TrackedExternalLink } from 'Components/link';
 import { ProjectAvatar } from 'Components/images/avatar';
@@ -11,6 +10,8 @@ import { useTracker } from 'State/segment-analytics';
 import { createAPIHook } from 'State/api';
 
 import styles from './styles.styl';
+import { mediumPopover } from '../global.styl';
+
 
 const importGitRepo = () => {
   /* eslint-disable no-alert */
@@ -36,9 +37,9 @@ const NewProjectResultItem = ({ project }) => (
   </div>
 );
 
-const NewProjectPop = ({ projects, align }) => (
-  <PopoverDialog align={align}>
-    <PopoverSection>
+const NewProjectPop = ({ projects }) => (
+  <>
+    <Actions>
       {projects.length ? (
         <ResultsList items={projects}>
           {(project) => (
@@ -58,13 +59,13 @@ const NewProjectPop = ({ projects, align }) => (
       ) : (
         <Loader style={{ width: '25px' }} />
       )}
-    </PopoverSection>
-    <PopoverActions type="secondary">
+    </Actions>
+    <Info>
       <Button size="small" variant="secondary" onClick={importGitRepo} matchBackground>
         Clone from Git Repo
       </Button>
-    </PopoverActions>
-  </PopoverDialog>
+    </Info>
+  </>
 );
 NewProjectPop.propTypes = {
   projects: PropTypes.arrayOf(
@@ -92,26 +93,16 @@ const useNewProjectAPI = createAPIHook(async (api) => {
   return projectIds.map((id) => data[id]);
 });
 
-function NewProjectPopButton({ buttonText, buttonType, align }) {
+function NewProjectPopButton() {
   const { value } = useNewProjectAPI();
   const projects = value || [];
   const onOpen = useTracker('open new-project pop');
 
   return (
-    <PopoverWithButton onOpen={onOpen} buttonProps={{ size: 'small', variant: buttonType }} buttonText={buttonText}>
-      {() => <NewProjectPop projects={projects} align={align} />}
-    </PopoverWithButton>
+    <Popover className={mediumPopover} align="right" renderLabel={({ onClick, ref }) => <Button onClick={() => { onOpen(); onClick(); }} ref={ref} size="small">New Project</Button>}>
+      {() => <NewProjectPop projects={projects} />}
+    </Popover>
   );
 }
-
-NewProjectPopButton.propTypes = {
-  buttonText: PropTypes.string,
-  align: PropTypes.string,
-};
-
-NewProjectPopButton.defaultProps = {
-  buttonText: 'New Project',
-  align: 'right',
-};
 
 export default NewProjectPopButton;
