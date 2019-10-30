@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Loader, TextInput } from '@fogcreek/shared-components';
+import { Actions, Icon, Info, Loader, TextInput } from '@fogcreek/shared-components';
 
 import ResultsList from 'Components/containers/results-list';
-import { PopoverActions, PopoverInfo, PopoverSection, InfoDescription } from './base';
 
 import { emoji } from '../global.styl';
 
@@ -61,17 +60,15 @@ function useActiveIndex(items, onSelect) {
 }
 
 const PopoverLoader = () => (
-  <PopoverActions>
+  <Actions>
     <Loader style={{ width: '25px' }} />
-  </PopoverActions>
+  </Actions>
 );
 
 const NothingFound = () => (
-  <PopoverActions>
-    <InfoDescription>
-      Nothing found <Icon className={emoji} icon="sparkles" />
-    </InfoDescription>
-  </PopoverActions>
+  <Actions>
+    <p>Nothing found <Icon className={emoji} icon="sparkles" /></p>
+  </Actions>
 );
 
 function PopoverSearch({
@@ -93,7 +90,7 @@ function PopoverSearch({
   const { inputRef, activeIndex } = useActiveIndex(results, onSubmit);
   return (
     <>
-      <PopoverInfo>
+      <Info>
         <TextInput
           ref={inputRef}
           autoFocus
@@ -104,14 +101,14 @@ function PopoverSearch({
           placeholder={placeholder}
           type="search"
         />
-      </PopoverInfo>
+      </Info>
       {results.length > 0 && (
-        <PopoverSection>
+        <Actions>
           <ResultsList scroll items={results}>
             {(item, i) => renderItem({ item, onSubmit, active: i === activeIndex })}
           </ResultsList>
           {message}
-        </PopoverSection>
+        </Actions>
       )}
       {status === 'loading' && value.length > 0 && results.length === 0 && renderLoader()}
       {status === 'ready' && value.length > 0 && results.length === 0 && renderNoResults()}
