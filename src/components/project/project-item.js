@@ -117,8 +117,8 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <ProjectOptionsPop project={project} projectOptions={animatedProjectOptions} />
                     </div>
                   </header>
-                  <div className={getLinkBodyStyles(project, showEditButton)}>
-                    <ProjectLink className={styles.projectHeader} project={project}>
+                  <ProjectLink className={getLinkBodyStyles(project, showEditButton)} project={project}>
+                    <div className={styles.projectHeader}>
                       <div className={styles.avatarWrap}>
                         <ProfileAvatar project={project} />
                       </div>
@@ -134,11 +134,11 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                           </Button>
                         </div>
                       </div>
-                    </ProjectLink>
+                    </div>
                     <div className={styles.description}>
                       <Markdown length={80}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
                     </div>
-                  </div>
+                  </ProjectLink>
                   {showEditButton && (
                     <footer className={styles.footer}>
                       <Button variant="secondary" as="a" size="small" href={getEditorUrl(project.domain)}>Edit Project</Button>
