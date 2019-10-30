@@ -64,7 +64,7 @@ setImmediate(() => {
   }
 });
 
-const render = async (url, context) => {
+const render = async (url, { OPTIMIZELY_ID, ...context }) => {
   const { Page, resetState } = requireClient();
   resetState();
   const sheet = new ServerStyleSheet();
@@ -73,6 +73,7 @@ const render = async (url, context) => {
   // don't use <ReactSyntax /> so babel can stay scoped to the src directory
   const page = React.createElement(Page, {
     ...context,
+    OPTIMIZELY_ID,
     origin: url.origin,
     route: url.pathname + url.search + url.hash,
     optimizely: await getOptimizelyClient(),
@@ -82,7 +83,10 @@ const render = async (url, context) => {
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
-  const OPTIMIZELY_DATA = await getOptimizelyData(); // grab the latest optimizely again because we didn't use the one from context
+  // grab the latest optimizely again because we didn't use the one from context
+  const OPTIMIZELY_DATA = await getOptimizelyData();
+  // OPTIMIZELY_ID got extracted above, so it isn't in the result here
+  // if it was we would send the id of the user that first requested this page to everyone after
   return { ...context, OPTIMIZELY_DATA, html, helmet: helmetContext.helmet, styleTags };
 };
 
