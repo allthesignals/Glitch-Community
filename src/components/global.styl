@@ -59,6 +59,21 @@ section
   margin-left: 5px !important
   margin-bottom: 2px !important 
 
+
+div[data-module="Popover"]
+  [data-module="Popover"]
+    width: max-content
+    p
+      max-width: 180px
+  
+ 
+.widePopover div[data-module="Popover"]
+  width: 350px
+  
+.mediumPopover div[data-module="Popover"]
+  width: 250px
+
+
 // styles for index.ejs
 // There will always be a little special sauce here, since these styles have to work
 // in a no-react environment.
@@ -76,7 +91,7 @@ section
 
   @media(min-width: 700px)
     #fallback
-      main
+      section
         width: 700px
         margin: 0 auto
         display: flex

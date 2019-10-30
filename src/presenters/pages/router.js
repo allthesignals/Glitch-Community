@@ -8,6 +8,7 @@ import rootTeams from 'Shared/teams';
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
 import { useAppMounted } from 'State/app-mounted';
+import useDevToggle from 'State/dev-toggles';
 
 import LoginPage from './login';
 import ResetPasswordPage from './login/reset-password';
@@ -23,6 +24,7 @@ import { NotFoundPage } from './error';
 import PupdatesPreview from './pupdates-preview';
 import SearchPage from './search';
 import SecretPage from './secret';
+import SettingsPage from './settings';
 import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
 import AboutPage from './about';
@@ -85,6 +87,12 @@ const PageChangeHandler = withRouter(({ location }) => {
 const Router = () => {
   const { EXTERNAL_ROUTES } = useGlobals();
   useAppMounted();
+  const userPasswordEnabled = useDevToggle('User Passwords');
+  const tfaEnabled = useDevToggle('Two Factor Auth');
+  const { currentUser } = useCurrentUser();
+  const { persistentToken, login } = currentUser;
+  const isSignedIn = persistentToken && login;
+  const settingsPageEnabled = isSignedIn && (userPasswordEnabled || tfaEnabled);
   return (
     <>
       <PageChangeHandler />
@@ -143,7 +151,11 @@ const Router = () => {
 
         <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />
 
-        <Route path="/@:owner/:name" exact render={({ location, match }) => <CollectionPage key={location.key} owner={match.params.owner} name={match.params.name} />} />
+        <Route
+          path="/@:owner/:name"
+          exact
+          render={({ location, match }) => <CollectionPage key={location.key} owner={match.params.owner} name={match.params.name} />}
+        />
 
         <Route
           path="/user/:id(\d+)"
@@ -167,15 +179,12 @@ const Router = () => {
         <Route path="/create" exact render={({ location }) => <CreatePage key={location.key} />} />
 
         {categories.map((category) => (
-          <Route
-            key={category.url}
-            path={`/${category.url}`}
-            exact
-            render={() => <Redirect to={`/@glitch/${category.collectionName}`} />}
-          />
+          <Route key={category.url} path={`/${category.url}`} exact render={() => <Redirect to={`/@glitch/${category.collectionName}`} />} />
         ))}
 
         <Route path="/secret" exact render={({ location }) => <SecretPage key={location.key} />} />
+
+        {settingsPageEnabled && <Route path="/settings" exact render={({ location }) => <SettingsPage key={location.key} />} />}
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
 
