@@ -2,7 +2,7 @@
 
 Only employees of Glitch will be able to do this step, and here it is!
 
-We'll want to merge in all changes locally before completing the merge in GitHub, as we require CircleCI tests to pass before adding changes into master.
+We'll want to merge in all changes, including those from the live remote (the ~community project on Glitch), before completing the merge in GitHub, as we require CircleCI tests to pass before adding changes into master.
 
 ### Announce the Deployment
 
