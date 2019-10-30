@@ -39,7 +39,7 @@ const NewProjectResultItem = ({ project }) => (
 
 const NewProjectPop = ({ projects }) => (
   <>
-    <Actions>
+    <Actions className={styles.results}>
       {projects.length ? (
         <ResultsList items={projects}>
           {(project) => (
