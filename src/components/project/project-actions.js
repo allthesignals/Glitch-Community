@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { Button, Icon, Popover } from '@fogcreek/shared-components';
 
 import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
-import useWindowSize from 'Hooks/use-window-size';
+import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 import LeaveProjectPopover from './leave-project-pop';
 
 import { emoji } from '../global.styl';
-
-export const mediumSmallViewport = 592; // 592px is the cutoff for hiding some of the button text for mobile
 
 export const ShowButton = ({ name, size }) => (
   <Button as="a" href={getShowUrl(name)} size={size}>

@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { partition } from 'lodash';
+import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 import { Actions, Badge, Button, Icon, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
@@ -11,6 +12,7 @@ import { ProjectAvatar } from 'Components/images/avatar';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { AddProjectToCollectionMsg } from 'Components/notification';
+
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
 import { useCurrentUser } from 'State/current-user';
@@ -93,10 +95,13 @@ function useCollectionSearch(query, project, collectionType) {
   const debouncedQuery = useDebouncedValue(query, 200);
   const filters = collectionType === 'user' ? { userIDs: [currentUser.id] } : { teamIDs: currentUser.teams.map((team) => team.id) };
 
-  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [collectionType]);
+  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [
+    collectionType,
+  ]);
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList = searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
+    const shouldPutMyStuffAtFrontOfList =
+      searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }
@@ -191,43 +196,53 @@ AddProjectToCollectionBase.propTypes = {
   createCollectionPopover: PropTypes.func.isRequired,
 };
 
-const AddProjectToCollection = ({ project, addProjectToCollection }) => (
-  <Popover
-    className={widePopover}
-    align="right"
-    renderLabel={({ onClick, ref }) => (
-      <Button size="small" onClick={onClick} ref={ref}>
-        Add to Collection <Icon className={emoji} icon="framedPicture" />
-      </Button>
-    )}
-    views={{
-      createCollectionPopover: ({ onClick, onClose, onBack }) => (
-        <CreateCollectionWithProject
+const AddProjectToCollection = ({ project, addProjectToCollection }) => {
+  const [width] = useWindowSize();
+  let buttonText = null;
+  if (width && width < mediumSmallViewport) {
+    buttonText = 'Add';
+  } else {
+    buttonText = 'Add to Collection';
+  }
+
+  return (
+    <Popover
+      className={widePopover}
+      align="right"
+      renderLabel={({ onClick, ref }) => (
+        <Button size="small" onClick={onClick} ref={ref}>
+          {buttonText} <Icon className={emoji} icon="framedPicture" />
+        </Button>
+      )}
+      views={{
+        createCollectionPopover: ({ onClick, onClose, onBack }) => (
+          <CreateCollectionWithProject
+            onBack={onBack}
+            onClose={onClose}
+            addProjectToCollection={(...args) => {
+              addProjectToCollection(...args);
+              onClick();
+            }}
+            project={project}
+          />
+        ),
+      }}
+    >
+      {({ onClose, onBack, setActiveView }) => (
+        <AddProjectToCollectionBase
           onBack={onBack}
-          onClose={onClose}
-          addProjectToCollection={(...args) => {
-            addProjectToCollection(...args);
-            onClick();
-          }}
+          addProjectToCollection={addProjectToCollection}
+          fromProject={false}
           project={project}
+          togglePopover={onClose}
+          createCollectionPopover={() => {
+            setActiveView('createCollectionPopover');
+          }}
         />
-      ),
-    }}
-  >
-    {({ onClose, onBack, setActiveView }) => (
-      <AddProjectToCollectionBase
-        onBack={onBack}
-        addProjectToCollection={addProjectToCollection}
-        fromProject={false}
-        project={project}
-        togglePopover={onClose}
-        createCollectionPopover={() => {
-          setActiveView('createCollectionPopover');
-        }}
-      />
-    )}
-  </Popover>
-);
+      )}
+    </Popover>
+  );
+};
 
 AddProjectToCollection.propTypes = {
   addProjectToCollection: PropTypes.func.isRequired,
