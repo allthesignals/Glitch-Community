@@ -14,11 +14,11 @@ Keep a passive eye on the chat room while you work, in case anyone needs to talk
 
 We need to make sure any live changes are merged and happy.  This is a Glitch site, after all-- we're not forcing the PR workflow, especially for small changes.
 
-In your local git repository:
+In your local git repository, on your remix branch:
 
 ```
   # Make sure we're up to date, including any live changes.
-  git pull master
+  git pull origin master
   git pull live master
   
   # Merge if needed, beware of 🐉
