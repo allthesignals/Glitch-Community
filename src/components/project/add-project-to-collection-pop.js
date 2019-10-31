@@ -215,13 +215,12 @@ const AddProjectToCollection = ({ project, addProjectToCollection }) => {
         </Button>
       )}
       views={{
-        createCollectionPopover: ({ onClick, onClose, onBack }) => (
+        createCollectionPopover: ({ onClose, onBack }) => (
           <CreateCollectionWithProject
             onBack={onBack}
             onClose={onClose}
             addProjectToCollection={(...args) => {
               addProjectToCollection(...args);
-              onClick();
             }}
             project={project}
           />
