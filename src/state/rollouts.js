@@ -42,14 +42,6 @@ export const useFeatureEnabled = (whichToggle) => {
   return useFeatureEnabledForEntity(whichToggle, optimizelyId);
 };
 
-export const useEnabledFeatures = (whichToggle) => {
-  const { optimizelyId } = useOptimizely();
-  return useOptimizelyValue(
-    (optimizely) => optimizely.getEnabledFeatures(String(optimizelyId)),
-    [whichToggle, optimizelyId],
-  );
-};
-
 export const RolloutsUserSync = () => {
   const { currentUser } = useCurrentUser();
   const { setOptimizelyId } = useOptimizely();
@@ -59,4 +51,12 @@ export const RolloutsUserSync = () => {
     }
   }, [currentUser.id, currentUser.login]);
   return null;
+};
+
+export const useRolloutsDebug = () => {
+  const { optimizelyId } = useOptimizely();
+  return useOptimizelyValue((optimizely) => {
+    const data = optimizely.projectConfigManager.datafileManager.get();
+    return data;
+  }, [optimizelyId]);
 };

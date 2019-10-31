@@ -5,7 +5,7 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import { useDevToggles } from 'State/dev-toggles';
 import useTest, { useTestAssignments, tests } from 'State/ab-tests';
-import { useEnabledFeatures, useFeatureEnabled } from 'State/rollouts';
+import { useRolloutsDebug, useFeatureEnabled } from 'State/rollouts';
 
 import styles from './secret.styl';
 
@@ -51,15 +51,15 @@ const ABTests = () => {
 };
 
 const Rollouts = () => {
-  const features = useEnabledFeatures();
+  const debug = useRolloutsDebug();
   const testEnabled = useFeatureEnabled('test_feature');
   const text = testEnabled ? "you're in" : "you're out";
   return (
     <section className={styles.footerSection}>
       Enabled rollouts ({text}):
-      <ul className={styles.enabledFeatures}>
+      {/*<ul className={styles.enabledFeatures}>
         {features.map((feature) => <li key={feature} className={styles.enabledFeature}>{feature}</li>)}
-      </ul>
+      </ul>*/}
     </section>
   );
 };
