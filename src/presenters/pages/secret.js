@@ -55,8 +55,8 @@ const RolloutFeature = ({ feature, assignment }) => {
   return (
     <tr>
       <td>{feature}</td>
-      <td>{assignment && '✔'}</td>
       <td>{enabled && '✔'}</td>
+      <td>{assignment && '✔'}</td>
     </tr>
   );
 };
@@ -69,8 +69,8 @@ const Rollouts = () => {
         <thead>
           <tr>
             <th>Feature</th>
-            <th>Assignment</th>
             <th>Status</th>
+            <th>Assignment</th>
           </tr>
         </thead>
         <tbody>
