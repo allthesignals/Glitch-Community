@@ -4,7 +4,7 @@ import { useCurrentUser } from './current-user';
 
 const Context = createContext();
 
-export const OptimizelyProvider = ({ optimizely, initialOptimizelyId, children }) => {
+export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizelyId, children }) => {
   const [optimizelyId, setId] = useState(initialOptimizelyId);
   const setOptimizelyId = (id) => {
     const expires = new Date();
@@ -32,8 +32,6 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
-export const useOptimizelyId = () => useOptimizely().optimizelyId;
-
 export const useFeatureEnabledForEntity = (whichToggle, entityId) => useOptimizelyValue(
   (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
   [whichToggle, entityId],
@@ -45,7 +43,7 @@ export const useFeatureEnabled = (whichToggle) => {
 };
 
 export const useEnabledFeatures = (whichToggle) => {
-  const { optimizelyId } = useOptimizelyId();
+  const { optimizelyId } = useOptimizely();
   return useOptimizelyValue(
     (optimizely) => optimizely.getEnabledFeatures(String(optimizelyId)),
     [whichToggle, optimizelyId],
