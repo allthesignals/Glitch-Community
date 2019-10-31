@@ -1,29 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PopoverMenu, PopoverDialog, PopoverActions, PopoverMenuButton } from 'Components/popover';
+import { Actions, Button, Icon, Popover } from '@fogcreek/shared-components';
+
+import { PopoverMenuButton } from 'Components/popover';
+
+import styles from './featured-project.styl';
+import { emoji } from '../global.styl';
 
 export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote }) {
-  function toggleAndUnfeature(togglePopover) {
-    togglePopover();
+  function toggleAndUnfeature(onClose) {
+    onClose();
     unfeatureProject();
   }
 
-  function toggleAndCreateNote(togglePopover) {
-    togglePopover();
+  function toggleAndCreateNote(onClose) {
+    onClose();
     createNote();
   }
 
   return (
-    <PopoverMenu label="Featured Project Options">
-      {({ togglePopover }) => (
-        <PopoverDialog align="right" focusOnPopover>
-          <PopoverActions>
-            {!hasNote && createNote && <PopoverMenuButton onClick={() => toggleAndCreateNote(togglePopover)} label="Add note" emoji="spiralNotePad" />}
-            <PopoverMenuButton onClick={() => toggleAndUnfeature(togglePopover)} label="Un-feature" emoji="arrowDown" />
-          </PopoverActions>
-        </PopoverDialog>
+    <Popover
+      align="right"
+      renderLabel={({ onClick, ref }) => (
+        <PopoverMenuButton onClick={onClick} ref={ref} label="Featured Project Options" />
       )}
-    </PopoverMenu>
+    >
+      {({ onClose }) => (
+        <>
+          <Actions>
+            {!hasNote && createNote && (
+              <>
+                <Button className={styles.stackedButtons} onClick={() => toggleAndCreateNote(onClose)}>
+                  Add note <Icon icon="spiralNotePad" className={emoji} />
+                </Button>
+                <br />
+              </>
+            )}
+            <Button onClick={() => toggleAndUnfeature(onClose)}>
+              Un-feature <Icon icon="arrowDown" className={emoji} />
+            </Button>
+          </Actions>
+        </>
+      )}
+    </Popover>
   );
 }
 

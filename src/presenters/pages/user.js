@@ -115,7 +115,7 @@ const UserPage = ({ user: initialUser }) => {
   const renderedDescription = React.useMemo(() => renderText(user.description), [user.description]);
 
   return (
-    <main id="main" className={styles.container}>
+    <main id="main" className={styles.container} aria-label="Glitch User Page">
       <GlitchHelmet
         title={user.name || (user.login && `@${user.login}`) || `User ${user.id}`}
         description={`See what ${user.name} (@${user.login}) is up to on Glitch, the ${tagline} ${renderedDescription}`}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
-const useWindowSize = () => {
+export const mediumSmallViewport = 592; // 592px is the cutoff for hiding some of the button text for mobile
+
+export const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState([0, 0]);
   useEffect(() => {
     const handleResize = () => setWindowSize([window.innerWidth, window.innerHeight]);
@@ -12,5 +14,3 @@ const useWindowSize = () => {
   }, []);
   return windowSize;
 };
-
-export default useWindowSize;

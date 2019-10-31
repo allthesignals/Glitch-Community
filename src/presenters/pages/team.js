@@ -128,7 +128,7 @@ function TeamPage({ team: initialTeam }) {
   }, [team.name, team.url, team.description, team.updatedAt, team.createdAt, tagline]);
 
   return (
-    <main className={styles.container} id="main">
+    <main className={styles.container} id="main" aria-label="Glitch Team Page">
       <section>
         <GlitchHelmet
           title={team.name}
