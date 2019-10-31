@@ -44,47 +44,42 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
     avatar = <CollectionAvatar collection={collection} />;
   }
 
-  const setPrivate = useTrackedFunc(
-    () => funcs.updatePrivacy(!collection.private),
-    'Collection Privacy Changed',
-    (inherited) => ({
-      ...inherited,
-      isSettingToPrivate: !collection.private,
-    }),
-  );
+  const setPrivate = useTrackedFunc(() => funcs.updatePrivacy(!collection.private), 'Collection Privacy Changed', (inherited) => ({
+    ...inherited,
+    isSettingToPrivate: !collection.private,
+  }));
 
   const onPlayPage = match.params[0] === 'play' && collection.projects.length > 0;
 
-  const togglePlay = useTrackedFunc(() => {
-    const newLocation = {};
-    if (onPlayPage) {
-      newLocation.pathname = `/@${match.params.owner}/${match.params.name}`;
-      newLocation.state = {
-        preventScroll: true,
-      };
-      setAnnouncement('Collection is in Play View');
-    } else {
-      newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
-      newLocation.state = {
-        preventScroll: true,
-      };
-      setAnnouncement('Collection in Grid View');
-    }
-    history.push(newLocation);
-  },
-  'Collection Play Toggle Clicked',
-  (inherited) => ({
-    ...inherited,
-    isPressingPlay: !onPlayPage,
-  }));
+  const togglePlay = useTrackedFunc(
+    () => {
+      const newLocation = {};
+      if (onPlayPage) {
+        newLocation.pathname = `/@${match.params.owner}/${match.params.name}`;
+        newLocation.state = {
+          preventScroll: true,
+        };
+        setAnnouncement('Collection is in Play View');
+      } else {
+        newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
+        newLocation.state = {
+          preventScroll: true,
+        };
+        setAnnouncement('Collection in Grid View');
+      }
+      history.push(newLocation);
+    },
+    'Collection Play Toggle Clicked',
+    (inherited) => ({
+      ...inherited,
+      isPressingPlay: !onPlayPage,
+    }),
+  );
 
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark)}>
       <header className={styles.collectionHeader} style={{ backgroundColor: collection.coverColor }}>
         <div className={styles.collectionHeaderNameDescription}>
-          <span className={styles.colorBtnContainer}>
-            {isAuthorized && funcs.updateColor && <EditCollectionColor update={funcs.updateColor} initialColor={collection.coverColor} />}
-          </span>
           <div className={styles.imageContainer}>{avatar}</div>
           <div className={styles.nameContainer}>
             <h1 className={styles.name}>{collectionName}</h1>
@@ -118,6 +113,9 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
                 <Pluralize count={collection.projects.length} singular="Project" />
               </Text>
             </div>
+            <span className={styles.colorBtnContainer}>
+              {isAuthorized && funcs.updateColor && <EditCollectionColor update={funcs.updateColor} initialColor={collection.coverColor} />}
+            </span>
           </div>
         </div>
 

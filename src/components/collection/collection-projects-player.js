@@ -165,12 +165,12 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
               params={match.params}
             />
           ) : (
-            <ProjectLink project={featuredProject} className={styles.popoverButton}>
+            <div className={styles.popoverButton}>
               <span className={styles.projectAvatar}>
                 <ProjectAvatar project={featuredProject} />
               </span>
               <Text>{featuredProject.domain}</Text>
-            </ProjectLink>
+            </div>
           )}
         </div>
       </div>
