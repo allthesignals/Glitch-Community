@@ -32,6 +32,8 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
+export const useOptimizelyId = () => useOptimizely().optimizelyId;
+
 export const useFeatureEnabledForEntity = (whichToggle, entityId) => useOptimizelyValue(
   (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
   [whichToggle, entityId],
@@ -43,8 +45,11 @@ export const useFeatureEnabled = (whichToggle) => {
 };
 
 export const useEnabledFeatures = (whichToggle) => {
-  const { optimizelyId } = useOptimizely();
-  return useOptimizelyValue((optimizely) => optimizely.getEnabledFeatures(String(optimizelyId)), [whichToggle, optimizelyId]);
+  const { optimizelyId } = useOptimizelyId();
+  return useOptimizelyValue(
+    (optimizely) => optimizely.getEnabledFeatures(String(optimizelyId)),
+    [whichToggle, optimizelyId],
+  );
 };
 
 export const RolloutsUserSync = () => {
