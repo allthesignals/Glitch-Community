@@ -51,8 +51,13 @@ window.bootstrap = async (container) => {
     },
     errorHandler: {
       handleError: (error) => {
-        captureException(error);
-        console.error(error);
+        const ignoredErrors = ['Request error', 'localStorage', 'getItem'];
+        if (ignoredErrors.some((ignored) => error.message.includes(ignored))) {
+          console.warn(error);
+        } else {
+          captureException(error);
+          console.error(error);
+        }
       },
     },
     logLevel: 'warn',
