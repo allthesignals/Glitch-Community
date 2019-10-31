@@ -42,7 +42,7 @@ window.bootstrap = async (container) => {
   });
 
   // Now initalize the Optimizely sdk
-  const optimizelyClientInstance = createInstance({
+  const optimizely = window.optimizelyClientInstance = createInstance({
     sdkKey: process.env.OPTIMIZELY_KEY || OPTIMIZELY_KEY,
     datafile: window.OPTIMIZELY_DATA,
     datafileOptions: {
@@ -58,7 +58,7 @@ window.bootstrap = async (container) => {
     logLevel: 'warn',
   });
   // This will happen immediately because we provided a datafile
-  await optimizelyClientInstance.onReady();
+  await optimizely.onReady();
 
   const element = (
     <BrowserRouter>
@@ -71,7 +71,7 @@ window.bootstrap = async (container) => {
         ZINE_POSTS={window.ZINE_POSTS}
       >
         <TestsProvider AB_TESTS={window.AB_TESTS}>
-          <OptimizelyProvider optimizely={optimizelyClientInstance} optimizelyId={window.OPTIMIZELY_ID}>
+          <OptimizelyProvider optimizely={optimizely} optimizelyId={window.OPTIMIZELY_ID}>
             <App apiCache={window.API_CACHE} />
           </OptimizelyProvider>
         </TestsProvider>
