@@ -11,7 +11,6 @@ import { Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledButton, But
 import Markdown from 'Components/text/markdown';
 import FeaturedProject from 'Components/project/featured-project';
 import { ProjectAvatar } from 'Components/images/avatar';
-import { ProjectLink } from 'Components/link';
 import Text from 'Components/text/text';
 
 import styles from './collection-projects-player.styl';
@@ -165,12 +164,12 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
               params={match.params}
             />
           ) : (
-            <ProjectLink project={featuredProject} className={styles.popoverButton}>
+            <div className={styles.popoverButton}>
               <span className={styles.projectAvatar}>
                 <ProjectAvatar project={featuredProject} />
               </span>
               <Text>{featuredProject.domain}</Text>
-            </ProjectLink>
+            </div>
           )}
         </div>
       </div>
@@ -181,17 +180,19 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
           placementOfProjectInCollection: `${currentProjectIndex + 1}/${projects.length}`,
         }}
       >
-        <FeaturedProject
-          isAuthorized={isAuthorized}
-          featuredProject={featuredProject}
-          unfeatureProject={funcs.unfeatureProject}
-          addProjectToCollection={funcs.addProjectToCollection}
-          collection={collection}
-          displayNewNote={funcs.displayNewNote}
-          updateNote={funcs.updateNote}
-          hideNote={funcs.hideNote}
-          isPlayer
-        />
+        <div className={styles.featuredProjectWrap}>
+          <FeaturedProject
+            isAuthorized={isAuthorized}
+            featuredProject={featuredProject}
+            unfeatureProject={funcs.unfeatureProject}
+            addProjectToCollection={funcs.addProjectToCollection}
+            collection={collection}
+            displayNewNote={funcs.displayNewNote}
+            updateNote={funcs.updateNote}
+            hideNote={funcs.hideNote}
+            isPlayer
+          />
+        </div>
       </AnalyticsContext>
     </>
   );
