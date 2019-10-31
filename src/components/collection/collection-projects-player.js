@@ -181,17 +181,19 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
           placementOfProjectInCollection: `${currentProjectIndex + 1}/${projects.length}`,
         }}
       >
-        <FeaturedProject
-          isAuthorized={isAuthorized}
-          featuredProject={featuredProject}
-          unfeatureProject={funcs.unfeatureProject}
-          addProjectToCollection={funcs.addProjectToCollection}
-          collection={collection}
-          displayNewNote={funcs.displayNewNote}
-          updateNote={funcs.updateNote}
-          hideNote={funcs.hideNote}
-          isPlayer
-        />
+        <div className={styles.featuredProjectWrap}>
+          <FeaturedProject
+            isAuthorized={isAuthorized}
+            featuredProject={featuredProject}
+            unfeatureProject={funcs.unfeatureProject}
+            addProjectToCollection={funcs.addProjectToCollection}
+            collection={collection}
+            displayNewNote={funcs.displayNewNote}
+            updateNote={funcs.updateNote}
+            hideNote={funcs.hideNote}
+            isPlayer
+          />
+        </div>
       </AnalyticsContext>
     </>
   );

@@ -88,7 +88,7 @@ const FeaturedProject = ({
   }));
 
   return (
-    <div data-cy="featured-project">
+    <div data-cy="featured-project" className={styles.featuredProject}>
       <AnimationContainer animation={slideDown} onAnimationEnd={unfeatureProject}>
         {(animateAndUnfeatureProject) => (
           <ProjectEmbed

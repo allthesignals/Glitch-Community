@@ -3,7 +3,7 @@
   display: flex
   justify-content: space-between
   flex-wrap: nowrap
-  margin-top: 5px
+  margin: 5px 0
   position: relative
   > div
     display: inline-flex
@@ -11,25 +11,22 @@
 .buttonWrap:not(:last-child)
   margin-right: 5px
     
-.embedWrap
+iframe
   height: 500px
-  position: relative
-  @media(min-width: largeViewport)
-    height: 620px
 
 .embedBottomBar
-  position: absolute
-  bottom: 5px
   z-index: 1
   background-color: #f5f5f5
   display: flex
   font-size: 14px
   padding: 8px 10px
-  height: 41px
+  height: 40px
   width: 100%
+  margin-bottom: 10px
   border-left: 1px solid #c3c3c3
   border-bottom-left-radius: 5px
   border-bottom-right-radius: 5px
+  box-shadow: 4px 4px #c3c3c3
 
 .embedLeft
   display: flex
