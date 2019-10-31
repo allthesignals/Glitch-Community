@@ -11,7 +11,6 @@ import { Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledButton, But
 import Markdown from 'Components/text/markdown';
 import FeaturedProject from 'Components/project/featured-project';
 import { ProjectAvatar } from 'Components/images/avatar';
-import { ProjectLink } from 'Components/link';
 import Text from 'Components/text/text';
 
 import styles from './collection-projects-player.styl';
