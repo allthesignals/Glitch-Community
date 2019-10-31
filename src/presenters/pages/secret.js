@@ -51,15 +51,17 @@ const ABTests = () => {
 };
 
 const Rollouts = () => {
-  const debug = useRolloutsDebug();
+  const { id, features } = useRolloutsDebug();
   const testEnabled = useFeatureEnabled('test_feature');
   const text = testEnabled ? "you're in" : "you're out";
   return (
     <section className={styles.footerSection}>
-      Enabled rollouts ({text}):
-      {/*<ul className={styles.enabledFeatures}>
-        {features.map((feature) => <li key={feature} className={styles.enabledFeature}>{feature}</li>)}
-      </ul>*/}
+      Enabled rollouts for user {id} ({text}):
+      {<ul className={styles.enabledFeatures}>
+        {features.map(({ key, enabled }) => (
+          <li key={key} className={styles.enabledFeature}>{key} {enabled ? '✓' : 'disabled'}</li>
+        ))}
+      </ul>}
     </section>
   );
 };

@@ -56,7 +56,11 @@ export const RolloutsUserSync = () => {
 export const useRolloutsDebug = () => {
   const { optimizelyId } = useOptimizely();
   return useOptimizelyValue((optimizely) => {
-    const data = optimizely.projectConfigManager.datafileManager.get();
-    return data;
+    const config = optimizely.projectConfigManager.getConfig();
+    const features = config.featureFlags.map(({ key }) => {
+      const enabled = optimizely.isFeatureEnabled(key, String(optimizelyId));
+      return { key, enabled };
+    });
+    return { id: optimizelyId, features };
   }, [optimizelyId]);
 };
