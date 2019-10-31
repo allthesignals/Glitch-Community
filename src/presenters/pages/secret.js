@@ -51,15 +51,17 @@ const ABTests = () => {
 };
 
 const Rollouts = () => {
-  const { id, features } = useRolloutsDebug();
+  const { features } = useRolloutsDebug();
   return (
     <section className={styles.footerSection}>
       <table className={styles.features}>
-        <tbody>
+        <thead>
           <tr>
             <th>Feature</th>
             <th>Status</th>
           </tr>
+        </thead>
+        <tbody>
           {features.map(({ key, enabled }) => (
             <tr key={key}>
               <td>{key}</td>

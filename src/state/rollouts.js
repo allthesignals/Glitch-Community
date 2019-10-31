@@ -61,6 +61,6 @@ export const useRolloutsDebug = () => {
       const enabled = optimizely.isFeatureEnabled(key, String(optimizelyId));
       return { key, enabled };
     });
-    return { id: optimizelyId, features };
+    return { features };
   }, [optimizelyId]);
 };
