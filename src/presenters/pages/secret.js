@@ -54,12 +54,20 @@ const Rollouts = () => {
   const { id, features } = useRolloutsDebug();
   return (
     <section className={styles.footerSection}>
-      Rollouts for user {id}:
-      <ul className={styles.features}>
+      <table>
+        <tr>
+          <th>Feature</th>
+          <th>User {id}</th>
+          <th>Override</th>
+        </tr>
         {features.map(({ key, enabled }) => (
-          <li key={key} className={styles.feature}>{key} {enabled ? '☑' : '☐'}</li>
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{enabled && '✔'}</td>
+            <td><input type="checkbox" disabled /></td>
+          </tr>
         ))}
-      </ul>
+      </table>
     </section>
   );
 };
