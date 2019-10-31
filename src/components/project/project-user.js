@@ -14,7 +14,7 @@ import styles from './project-user.styl';
 
 const AdminBadge = () => (
   <div>
-    <TooltipContainer type="info" target={<span>Project Owner</span>} tooltip="Can delete project" />
+    <TooltipContainer type="info" target={<span className={styles.projectOwner}>Project Owner</span>} tooltip="Can delete project" />
   </div>
 );
 
@@ -30,9 +30,9 @@ const PermissionsPopover = ({ user, project, reassignAdmin }) => {
         <UserLink user={user}>
           <UserAvatar user={user} hideTooltip />
         </UserLink>
-        <div>
-          <div>{user.name || 'Anonymous'}</div>
-          {user.login && <div>@{user.login}</div>}
+        <div className={styles.userInfo}>
+          <div className={styles.userName}>{user.name || 'Anonymous'}</div>
+          {user.login && <div className={styles.userLogin}>@{user.login}</div>}
           {userIsAdmin && <AdminBadge />}
         </div>
       </Info>
@@ -41,7 +41,7 @@ const PermissionsPopover = ({ user, project, reassignAdmin }) => {
           <p>The project owner can delete this project</p>
           <p>Each project has a single owner, so you will lose the ability to delete this project if you are no longer the project owner</p>
           <Button size="small" variant="secondary" onClick={() => reassignAdmin({ user, currentUser })}>
-            Make Admin <Icon className={emoji} icon="fastUp" alt="" />
+            Make Project Owner <Icon className={emoji} icon="fastUp" alt="" />
           </Button>
         </Actions>
       )}

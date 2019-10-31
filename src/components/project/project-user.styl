@@ -1,6 +1,28 @@
+@import '../constants.styl';
+
 .permissionsPopover
 	width: 255px
 	section[data-module="Info"]
 		display: flex
-		a
-			margin-right: 10px
+		min-height: 75px
+	section[data-module="Actions"]
+		padding: 15px
+		p
+			line-height: 16px
+.userInfo
+	padding-left: 8px
+.userName
+	font-weight: bold
+.userLogin
+	font-weight: bold
+	color: text-on-secondary-background
+	padding-top: 4px
+.projectOwner
+	padding-top: 2px
+	padding-bottom: 0px
+	border-radius: 5px
+	padding-left: 5px
+	padding-right: 5px
+	display: inline-block
+	margin-top: 2px
+	background-color: input-border-focused
