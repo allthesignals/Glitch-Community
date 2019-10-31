@@ -5,7 +5,7 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import { useDevToggles } from 'State/dev-toggles';
 import useTest, { useTestAssignments, tests } from 'State/ab-tests';
-import { useRolloutsDebug } from 'State/rollouts';
+import { useFeatureEnabled, useRolloutsDebug } from 'State/rollouts';
 
 import styles from './secret.styl';
 
@@ -50,6 +50,17 @@ const ABTests = () => {
   );
 };
 
+const RolloutFeature = ({ feature, assignment }) => {
+  const enabled = useFeatureEnabled(feature);
+  return (
+    <tr>
+      <td>{feature}</td>
+      <td>{assignment && '✔'}</td>
+      <td>{enabled && '✔'}</td>
+    </tr>
+  );
+};
+
 const Rollouts = () => {
   const { features } = useRolloutsDebug();
   return (
@@ -58,15 +69,13 @@ const Rollouts = () => {
         <thead>
           <tr>
             <th>Feature</th>
+            <th>Assignment</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {features.map(({ key, enabled }) => (
-            <tr key={key}>
-              <td>{key}</td>
-              <td>{enabled && '✔'}</td>
-            </tr>
+            <RolloutFeature key={key} feature={key} assignment={enabled} />
           ))}
         </tbody>
       </table>
