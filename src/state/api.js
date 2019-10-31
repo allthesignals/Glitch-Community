@@ -184,6 +184,7 @@ export const useAPIHandlers = () => {
         userId: user.id,
         accessLevel,
       }),
+
       // teams
       joinTeam: ({ team }) => api.post(`/teams/${team.id}/join`),
       inviteEmailToTeam: ({ team }, emailAddress) => api.post(`/teams/${team.id}/sendJoinTeamEmail`, { emailAddress }),

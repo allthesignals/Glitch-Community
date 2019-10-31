@@ -2,9 +2,8 @@ import React from 'react';
 import { Popover, UnstyledButton, Info, Actions, Button, Icon } from '@fogcreek/shared-components';
 
 import { useCurrentUser } from 'State/current-user';
-import { useAPIHandlers } from 'State/api';
 
-import { userIsProjectAdmin, MEMBER_ACCESS_LEVEL, ADMIN_ACCESS_LEVEL } from 'Models/project';
+import { userIsProjectAdmin } from 'Models/project';
 
 import { UserAvatar } from 'Components/images/avatar';
 import { UserLink } from 'Components/link';
@@ -20,45 +19,38 @@ const AdminBadge = () => (
 );
 
 // the exanded popover where permissions change
-const PermissionsPopover = ({ user, project }) => {
+const PermissionsPopover = ({ user, project, reassignAdmin }) => {
   const userIsAdmin = userIsProjectAdmin({ project, user });
   const { currentUser } = useCurrentUser();
   const currentUserIsAdmin = userIsProjectAdmin({ project, user: currentUser });
-  const { updateProjectMemberAccessLevel } = useAPIHandlers();
-  const onMakeAdmin = async () => {
-    await updateProjectMemberAccessLevel({ project, user, accessLevel: ADMIN_ACCESS_LEVEL });
-    await updateProjectMemberAccessLevel({ project, user: currentUser, accessLevel: MEMBER_ACCESS_LEVEL });
-  };
 
   return (
-    <>
+    <div className={styles.permissionsPopover}>
       <Info>
-        <div className={styles.permissionsPopover}>
-          <UserLink user={user}>
-            <UserAvatar user={user} hideTooltip />
-          </UserLink>
-          <div>
-            <div>{user.name || 'Anonymous'}</div>
-            {user.login && <div>@{user.login}</div>}
-            {userIsAdmin && <AdminBadge />}
-          </div>
+        <UserLink user={user}>
+          <UserAvatar user={user} hideTooltip />
+        </UserLink>
+        <div>
+          <div>{user.name || 'Anonymous'}</div>
+          {user.login && <div>@{user.login}</div>}
+          {userIsAdmin && <AdminBadge />}
         </div>
       </Info>
       {currentUserIsAdmin && !userIsAdmin && (
         <Actions>
           <p>The project owner can delete this project</p>
           <p>Each project has a single owner, so you will lose the ability to delete this project if you are no longer the project owner</p>
-          <Button size="small" variant="secondary" onClick={onMakeAdmin}>
-            Make Admin <Icon className={emoji} icon="fastUp" />
+          <Button size="small" variant="secondary" onClick={() => reassignAdmin({ user, currentUser })}>
+            Make Admin <Icon className={emoji} icon="fastUp" alt="" />
           </Button>
         </Actions>
       )}
-    </>
+    </div>
   );
 };
 
 // the button
-const ProjectUserPop = ({ user, project }) => (
+const ProjectUserPop = ({ user, project, reassignAdmin }) => (
   <Popover
     align="left"
     renderLabel={({ onClick, ref }) => (
@@ -66,18 +58,23 @@ const ProjectUserPop = ({ user, project }) => (
         <UserAvatar user={user} />
       </UnstyledButton>
     )}
-    views={{ /* nameOfNestedPop: ({ onClose }) => <div>nested view example</div> */}}
+    views={
+      {
+        /* nameOfNestedPop: ({ onClose }) => <div>nested view example</div> */
+      }
+    }
   >
-    {({ onClose, setActiveView }) => <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} />}
+    {({ onClose, setActiveView }) => (
+      <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
+    )}
   </Popover>
 );
 
-
 // the list
-const ProjectUsers = ({ users, project }) => (
+const ProjectUsers = ({ users, project, reassignAdmin }) => (
   <div>
     {users.map((user) => (
-      <ProjectUserPop user={user} key={user.id} project={project} />
+      <ProjectUserPop user={user} key={user.id} project={project} reassignAdmin={reassignAdmin} />
     ))}
   </div>
 );

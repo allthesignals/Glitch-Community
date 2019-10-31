@@ -134,7 +134,7 @@ DeleteProjectPopover.propTypes = {
 };
 
 const ProjectPage = ({ project: initialProject }) => {
-  const [project, { updateDomain, updateDescription, updatePrivate, deleteProject, uploadAvatar }] = useProjectEditor(initialProject);
+  const [project, { updateDomain, updateDescription, updatePrivate, deleteProject, uploadAvatar, reassignAdmin }] = useProjectEditor(initialProject);
   useFocusFirst();
   const { currentUser } = useCurrentUser();
   const [hasBookmarked, toggleBookmark, setHasBookmarked] = useToggleBookmark(project);
@@ -228,7 +228,7 @@ const ProjectPage = ({ project: initialProject }) => {
           )}
           {users.length + teams.length > 0 && (
             <div>
-              <ProjectUsers users={users} project={project} />
+              <ProjectUsers users={users} project={project} reassignAdmin={reassignAdmin} />
             </div>
           )}
           <AuthDescription
