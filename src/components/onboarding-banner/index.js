@@ -12,7 +12,7 @@ import { useCurrentUser } from 'State/current-user';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
 import useTest from 'State/ab-tests';
-import useWindowSize from 'Hooks/use-window-size';
+import { useWindowSize } from 'Hooks/use-window-size';
 
 import Illustration from './illustration';
 import styles from './styles.styl';
@@ -27,13 +27,10 @@ function OnboardingBanner() {
 
   const [categoriesWidth, setCategoriesWidth] = useState(0);
   const [windowWidth] = useWindowSize();
-  useEffect(
-    () => {
-      const width = exploreEl.current ? exploreEl.current.offsetWidth : 0;
-      setCategoriesWidth(width);
-    },
-    [windowWidth],
-  );
+  useEffect(() => {
+    const width = exploreEl.current ? exploreEl.current.offsetWidth : 0;
+    setCategoriesWidth(width);
+  }, [windowWidth]);
 
   const isHomepage = location.pathname === '/';
   const actionsClassnames = cx({

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import useWindowSize from 'Hooks/use-window-size';
+import { useWindowSize } from 'Hooks/use-window-size';
 
 function Video({ sources, track, autoPlay, ...props }) {
   const [windowWidth] = useWindowSize();

@@ -192,7 +192,7 @@ const adminStatusDisplay = (team, user) => {
   return '';
 };
 
-const TeamUserPop = ({ team, user, removeUserFromTeam, onRemoveUser, updateUserPermissions }) => {
+const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) => {
   const { createNotification } = useNotifications();
 
   const removeUser = useTrackedFunc(async (selectedProjects = []) => {
@@ -227,7 +227,7 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, onRemoveUser, updateUserP
           team={team}
           onRemoveAdmin={() => { onClose(); onRemoveAdmin(); }}
           onMakeAdmin={() => { onClose(); onMakeAdmin(); }}
-          onRemoveUser={() => { onClose(); onRemoveUser(); }}
+          onRemoveUser={() => { onClose(); removeUser(); }}
           showRemoveUser={() => { setActiveView('remove'); }}
         />
       )}
