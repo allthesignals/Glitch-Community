@@ -7,6 +7,8 @@ import Heading from 'Components/text/heading';
 import PasswordSettings from 'Components/account-settings-overlay/password-settings';
 import TwoFactorSettings from 'Components/account-settings-overlay/two-factor-settings';
 import useDevToggle from 'State/dev-toggles';
+import { useCurrentUser } from 'State/current-user';
+import { NotFoundPage } from './error';
 
 import styles from './settings.styl';
 import { emoji } from '../../components/global.styl';
@@ -15,6 +17,14 @@ const Settings = () => {
   const tagline = 'Account Settings';
   const userPasswordEnabled = useDevToggle('User Passwords');
   const tfaEnabled = useDevToggle('Two Factor Auth');
+  const { currentUser } = useCurrentUser();
+  const { persistentToken, login } = currentUser;
+  const isSignedIn = persistentToken && login;
+  const settingsPageEnabled = isSignedIn && (userPasswordEnabled || tfaEnabled);
+
+  if (!settingsPageEnabled) {
+    return <NotFoundPage />;
+  }
 
   return (
     <main id="main">

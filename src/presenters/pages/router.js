@@ -8,7 +8,6 @@ import rootTeams from 'Shared/teams';
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
 import { useAppMounted } from 'State/app-mounted';
-import useDevToggle from 'State/dev-toggles';
 
 import LoginPage from './login';
 import ResetPasswordPage from './login/reset-password';
@@ -87,12 +86,7 @@ const PageChangeHandler = withRouter(({ location }) => {
 const Router = () => {
   const { EXTERNAL_ROUTES } = useGlobals();
   useAppMounted();
-  const userPasswordEnabled = useDevToggle('User Passwords');
-  const tfaEnabled = useDevToggle('Two Factor Auth');
-  const { currentUser } = useCurrentUser();
-  const { persistentToken, login } = currentUser;
-  const isSignedIn = persistentToken && login;
-  const settingsPageEnabled = isSignedIn && (userPasswordEnabled || tfaEnabled);
+
   return (
     <>
       <PageChangeHandler />
@@ -184,7 +178,7 @@ const Router = () => {
 
         <Route path="/secret" exact render={({ location }) => <SecretPage key={location.key} />} />
 
-        {settingsPageEnabled && <Route path="/settings" exact render={({ location }) => <SettingsPage key={location.key} />} />}
+        <Route path="/settings" exact render={({ location }) => <SettingsPage key={location.key} />} />
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
 
