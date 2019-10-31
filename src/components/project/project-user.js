@@ -72,6 +72,7 @@ const ProjectUserPop = ({ user, project }) => (
   </Popover>
 );
 
+
 // the list
 const ProjectUsers = ({ users, project }) => (
   <div>
