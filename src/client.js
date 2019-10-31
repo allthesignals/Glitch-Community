@@ -42,7 +42,7 @@ window.bootstrap = async (container) => {
   });
 
   // Now initalize the Optimizely sdk
-  const optimizely = window.optimizelyClientInstance = createInstance({
+  const optimizely = createInstance({
     sdkKey: process.env.OPTIMIZELY_KEY || OPTIMIZELY_KEY,
     datafile: window.OPTIMIZELY_DATA,
     datafileOptions: {
@@ -57,6 +57,7 @@ window.bootstrap = async (container) => {
     },
     logLevel: 'warn',
   });
+  window.optimizelyClientInstance = optimizely;
   // This will happen immediately because we provided a datafile
   await optimizely.onReady();
 
