@@ -54,7 +54,7 @@ const Rollouts = () => {
   const { id, features } = useRolloutsDebug();
   return (
     <section className={styles.footerSection}>
-      <table>
+      <table className={styles.features}>
         <tr>
           <th>Feature</th>
           <th>User {id}</th>
