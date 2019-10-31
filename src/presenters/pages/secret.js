@@ -5,7 +5,7 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import { useDevToggles } from 'State/dev-toggles';
 import useTest, { useTestAssignments, tests } from 'State/ab-tests';
-import { useEnabledFeatures } from 'State/rollouts';
+import { useEnabledFeatures, useFeatureEnabled } from 'State/rollouts';
 
 import styles from './secret.styl';
 
@@ -32,7 +32,7 @@ const ABTests = () => {
   const text = useTest('Just-A-Test');
   const [assignments, reassign] = useTestAssignments();
   return (
-    <section className={styles.abTestSection}>
+    <section className={styles.footerSection}>
       Your A/B test groups ({text}):
       <ul className={styles.abTests}>
         {Object.keys(assignments).map((test) => (
@@ -52,11 +52,13 @@ const ABTests = () => {
 
 const Rollouts = () => {
   const features = useEnabledFeatures();
+  const testEnabled = useFeatureEnabled('test_feature');
+  const text = testEnabled ? "you're in" : "you're out";
   return (
-    <section>
-      
-      <ul>
-        {features.map((feature) => <li key={feature}>{feature}</li>)}
+    <section className={styles.footerSection}>
+      Enabled rollouts ({text}):
+      <ul className={styles.enabledFeatures}>
+        {features.map((feature) => <li key={feature} className={styles.enabledFeature}>{feature}</li>)}
       </ul>
     </section>
   );
@@ -94,6 +96,7 @@ const Secret = () => {
           </li>
         ))}
       </ul>
+      <Rollouts />
       <ABTests />
     </main>
   );
