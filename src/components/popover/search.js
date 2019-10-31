@@ -4,6 +4,8 @@ import { Actions, Icon, Info, Loader, TextInput } from '@fogcreek/shared-compone
 
 import ResultsList from 'Components/containers/results-list';
 
+import styles from './styles.styl';
+
 import { emoji } from '../global.styl';
 
 function useActiveIndex(items, onSelect) {
@@ -103,7 +105,7 @@ function PopoverSearch({
         />
       </Info>
       {results.length > 0 && (
-        <Actions>
+        <Actions className={styles.results}>
           <ResultsList scroll items={results}>
             {(item, i) => renderItem({ item, onSubmit, active: i === activeIndex })}
           </ResultsList>

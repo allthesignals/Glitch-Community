@@ -199,7 +199,7 @@ module.exports = function(EXTERNAL_ROUTES) {
     const { page } = req.params;
     if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
 
-    if (res.headers.authorization === process.env.CMS_POST_SECRET) {
+    if (req.headers.authorization === process.env.CMS_POST_SECRET) {
       await writeCuratedContent({ page, data: req.body });
       res.sendStatus(200);
     } else {

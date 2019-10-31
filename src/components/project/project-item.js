@@ -33,6 +33,11 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
   const { currentUser } = useCurrentUser();
   const isAnonymousUser = !currentUser.login;
 
+  const [didFirstRender, setDidFirstRender] = useState(false);
+  useEffect(() => {
+    setDidFirstRender(true);
+  }, []);
+
   const [hasBookmarked, setHasBookmarked] = useState(project.authUserHasBookmarked);
   useEffect(() => {
     setHasBookmarked(project.authUserHasBookmarked);
@@ -136,7 +141,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       </div>
                     </div>
                     <div className={styles.description}>
-                      <Markdown length={80}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
+                      <Markdown length={80} allowLinks={didFirstRender}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
                     </div>
                   </ProjectLink>
                   {showEditButton && (
