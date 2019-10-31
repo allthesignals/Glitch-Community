@@ -57,11 +57,11 @@ const Rollouts = () => {
   return (
     <section className={styles.footerSection}>
       Enabled rollouts for user {id} ({text}):
-      {<ul className={styles.enabledFeatures}>
+      <ul className={styles.features}>
         {features.map(({ key, enabled }) => (
-          <li key={key} className={styles.enabledFeature}>{key} {enabled ? '✓' : 'disabled'}</li>
+          <li key={key} className={styles.feature}>{key} {enabled ? '☑' : '☐'}</li>
         ))}
-      </ul>}
+      </ul>
     </section>
   );
 };
