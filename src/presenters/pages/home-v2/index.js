@@ -33,14 +33,17 @@ const calloutGraphics = {
   apps: {
     component: Discover,
     color: 'yellow',
+    background: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-background.svg?v=1560082756096',
   },
   create: {
     component: Dreams,
     color: 'pink',
+    background: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-background.svg?v=1560082755569',
   },
   teams: {
     component: Teams,
     color: 'aquamarine',
+    background: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fteams-background.svg?v=1560082756546',
   },
 };
 
@@ -49,10 +52,10 @@ const HomeSection = ({ className = '', ...props }) => <section className={classn
 const FeatureCallouts = ({ content }) => (
   <HomeSection id="feature-callouts" className={styles.featureCalloutsContainer}>
     <Row items={content} className={styles.featureCalloutsRow} minWidth="175px">
-      {({ label, description, backgroundSrc, href, id }) => (
+      {({ label, description, href, id }) => (
         <>
           <Link to={href} className={classnames(styles.plainLink, styles.featureCalloutsHeader)}>
-            <div className={styles.featureCalloutsImage} style={{ backgroundImage: `url('${backgroundSrc}')` }}>
+            <div className={styles.featureCalloutsImage} style={{ backgroundImage: `url('${calloutGraphics[id].background}')` }}>
               {React.createElement(calloutGraphics[id].component)}
             </div>
             <h2 className={styles.featureCalloutsTitle}>
