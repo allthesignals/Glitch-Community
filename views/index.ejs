@@ -25,7 +25,7 @@
     <!-- styles from styled-components -->
     <%- styleTags %>
     
-    <% if (!rendered) { %>
+    <% if (!html) { %>
     <noscript><style>#fallback, #fallback-noscript { display: inline-block !important } #fallback-img { display: block !important }</style></noscript>
     <% } %>
   </head>
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <div id="react-root"><%- rendered %></div>
+    <div id="react-root"><%- html %></div>
 
     <% for (let i = 0; i < scripts.length; ++i) { %>
     <script src="<%= scripts[i] %>"></script>
