@@ -13,11 +13,7 @@ import { NotFoundPage } from './error';
 import styles from './settings.styl';
 import { emoji } from '../../components/global.styl';
 
-const DeleteSettings = () => {
-  return (
-    <Button onClick={() => console.log("I'm a button!")}>Delete Account <Icon className={emoji} icon="coffin" /></Button>
-  );
-}
+const DeleteSettings = () => <Button onClick={() => console.log("I'm a button!")}>Delete Account <Icon className={emoji} icon="coffin" /></Button>;
 
 const Settings = () => {
   const tagline = 'Account Settings';
