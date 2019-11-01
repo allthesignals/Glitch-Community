@@ -55,14 +55,9 @@ const ProjectUserPop = ({ user, project, reassignAdmin }) => (
     align="left"
     renderLabel={({ onClick, ref }) => (
       <UnstyledButton onClick={onClick} ref={ref}>
-        <UserAvatar user={user} />
+        <UserAvatar user={user} hideTooltip />
       </UnstyledButton>
     )}
-    views={
-      {
-        /* nameOfNestedPop: ({ onClose }) => <div>nested view example</div> */
-      }
-    }
   >
     {({ onClose, setActiveView }) => (
       <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
@@ -72,7 +67,7 @@ const ProjectUserPop = ({ user, project, reassignAdmin }) => (
 
 // the list
 const ProjectUsers = ({ users, project, reassignAdmin }) => (
-  <div>
+  <div className={styles.projectUsers}>
     {users.map((user) => (
       <ProjectUserPop user={user} key={user.id} project={project} reassignAdmin={reassignAdmin} />
     ))}

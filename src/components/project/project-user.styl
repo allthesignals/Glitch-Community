@@ -1,5 +1,10 @@
 @import '../constants.styl';
 
+.projectUsers
+	div[data-module="Popover"]
+		div
+			overflow: inherit // ensures tooltip is on top of popover
+
 .permissionsPopover
 	width: 255px
 	section[data-module="Info"]
