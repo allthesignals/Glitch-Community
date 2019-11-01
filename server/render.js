@@ -80,7 +80,7 @@ const render = async (url, { OPTIMIZELY_ID, ...context }) => {
     helmetContext,
   });
 
-  const html = null; // ReactDOMServer.renderToString(sheet.collectStyles(page));
+  const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
   // grab the latest optimizely again because we didn't use the one from context
