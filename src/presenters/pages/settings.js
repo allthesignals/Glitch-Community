@@ -13,10 +13,17 @@ import { NotFoundPage } from './error';
 import styles from './settings.styl';
 import { emoji } from '../../components/global.styl';
 
+const DeleteSettings = () => {
+  return (
+    <Button onClick={() => console.log("I'm a button!")}>Delete Account <Icon className={emoji} icon="coffin" /></Button>
+  );
+}
+
 const Settings = () => {
   const tagline = 'Account Settings';
   const userPasswordEnabled = useDevToggle('User Passwords');
   const tfaEnabled = useDevToggle('Two Factor Auth');
+  const deleteEnabled = useDevToggle('Account Deletion');
   const { currentUser } = useCurrentUser();
   const { persistentToken, login } = currentUser;
   const isSignedIn = persistentToken && login;
@@ -39,6 +46,7 @@ const Settings = () => {
           <div className={styles.settingsContent}>
             { userPasswordEnabled && <div className={styles.contentSection}><PasswordSettings /></div> }
             { tfaEnabled && <div className={styles.contentSection}><TwoFactorSettings /></div> }
+            { deleteEnabled && <div className={styles.contentSection}><DeleteSettings /></div> }
           </div>
         </div>
       </Layout>
