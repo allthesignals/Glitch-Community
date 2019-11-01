@@ -31,7 +31,8 @@ describe('Server Side Rendering', function() {
   });
   it('project page', function() {
     const users = [makeTestUser()];
-    const project = makeTestProject({ domain: 'test-project', users });
+    const teams = [makeTestTeam()];
+    const project = makeTestProject({ domain: 'test-project', teams, users });
     const apiCache = { 'project:test-project': project };
     renderToString(<Page {...makeDefaultProps()} route="/~test-project" API_CACHE={apiCache} />);
   });
@@ -41,5 +42,12 @@ describe('Server Side Rendering', function() {
     const team = makeTestTeam({ url: 'test-team', projects, users })
     const apiCache = { 'team-or-user:test-team': { team } };
     renderToString(<Page {...makeDefaultProps()} route="/@test-team" API_CACHE={apiCache} />);
+  });
+  it('user page', function() {
+    const projects = [makeTestProject()];
+    const teams = [makeTestTeam()];
+    const user = makeTestUser({ login: 'glitch-user', projects, teams })
+    const apiCache = { 'team-or-user:glitch-user': { user } };
+    renderToString(<Page {...makeDefaultProps()} route="/@glitch-user" API_CACHE={apiCache} />);
   });
 });
