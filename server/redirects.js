@@ -1,4 +1,5 @@
 module.exports = function(app) {
+  redirect(app, '/people', 'https://jobs.lever.co/glitch/042d31a3-72dd-46e4-af25-a7bb6b7fe32e');
   redirect(app, '/partners*', '/teams/');
   redirect(app, '/foryourapi*', '/teams/');
   redirect(app, '/forteams*', '/teams/');

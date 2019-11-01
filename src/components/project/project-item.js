@@ -28,23 +28,15 @@ const getLinkBodyStyles = (project, showEditButton) =>
     [styles.hasFooter]: showEditButton,
   });
 
-const ProfileListWithData = ({ project }) => {
-  const { value: members } = useProjectMembers(project.id);
-  return <ProfileList layout="row" glitchTeam={project.showAsGlitchTeam} {...members} />;
-};
-
-const ProfileListLoader = ({ project }) => (
-  <VisibilityContainer>
-    {({ wasEverVisible }) =>
-      wasEverVisible ? <ProfileListWithData project={project} /> : <ProfileList layout="row" glitchTeam={project.showAsGlitchTeam} />
-    }
-  </VisibilityContainer>
-);
-
-const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions, showEditButton }) => {
+const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions, showEditButton, deferLoading }) => {
   const { location } = useGlobals();
   const { currentUser } = useCurrentUser();
   const isAnonymousUser = !currentUser.login;
+
+  const [didFirstRender, setDidFirstRender] = useState(false);
+  useEffect(() => {
+    setDidFirstRender(true);
+  }, []);
 
   const [hasBookmarked, setHasBookmarked] = useState(project.authUserHasBookmarked);
   useEffect(() => {
@@ -60,7 +52,8 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
   };
   const onMyStuffPage = location.pathname.includes('my-stuff');
 
-  const projectOptions = useProjectOptions(project, providedProjectOptions);
+  const { value: members } = useProjectMembers(project.id, deferLoading);
+  const projectOptions = useProjectOptions(project, providedProjectOptions, deferLoading);
   const hasProjectOptions = Object.keys(projectOptions).length > 0;
 
   const bookmarkAction = useTrackedFunc(
@@ -113,7 +106,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                 <div className={styles.container} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                   <header className={styles.header}>
                     <div className={classnames(styles.userListContainer, { [styles.spaceForOptions]: hasProjectOptions })}>
-                      <ProfileListLoader project={project} />
+                      <ProfileList layout="row" glitchTeam={project.showAsGlitchTeam} {...members} />
                     </div>
                     {!isAnonymousUser && !onMyStuffPage && (
                       <div className={styles.bookmarkButtonContainer}>
@@ -148,7 +141,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       </div>
                     </div>
                     <div className={styles.description}>
-                      <Markdown length={80}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
+                      <Markdown length={80} allowLinks={didFirstRender}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
                     </div>
                   </ProjectLink>
                   {showEditButton && (
@@ -186,4 +179,8 @@ ProjectItem.defaultProps = {
   showEditButton: false,
 };
 
-export default ProjectItem;
+export default (props) => (
+  <VisibilityContainer>
+    {({ wasEverVisible }) => <ProjectItem {...props} deferLoading={!wasEverVisible} />}
+  </VisibilityContainer>
+);

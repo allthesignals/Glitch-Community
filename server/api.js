@@ -9,7 +9,7 @@ const { getCollection, getProject, getTeam, getUser } = require('Shared/api-load
 
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 1000,
+  timeout: 3000,
 });
 
 // group similar requests made in a small period of time
@@ -69,7 +69,7 @@ async function getCultureZinePosts() {
 }
 
 const [getFromCache] = createCache(dayjs.convert(1, 'hour', 'ms'), 'load');
-const [getFromZineCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'load');
+const [getFromZineCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'load', []);
 
 module.exports = {
   getProject: (domain) => getFromCache(`project ${domain}`, getProjectFromApi, domain),

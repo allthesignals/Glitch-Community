@@ -39,7 +39,7 @@ const AboutLayout = ({ children, mainClassName, currentPage }) => (
         </Link>
         <HeaderLinks currentPage={currentPage} />
       </header>
-      <main id="main" className={classNames(styles.main, mainClassName)}>
+      <main id="main" className={classNames(styles.main, mainClassName)} aria-label="About Glitch">
         {children}
       </main>
       <aside className={styles.madeOnGlitch}>

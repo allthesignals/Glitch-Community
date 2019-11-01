@@ -8,11 +8,18 @@ import { getAllPages } from 'Shared/api';
 
 async function getMembers(api, projectId, withCacheBust) {
   const cacheBust = withCacheBust ? `&cacheBust=${Date.now()}` : '';
-  const [users, teams] = await Promise.all([
-    getAllPages(api, `/v1/projects/by/id/users?id=${projectId}${cacheBust}`),
-    getAllPages(api, `/v1/projects/by/id/teams?id=${projectId}${cacheBust}`),
-  ]);
-  return { users, teams };
+  try {
+    const [users, teams] = await Promise.all([
+      getAllPages(api, `/v1/projects/by/id/users?id=${projectId}${cacheBust}`),
+      getAllPages(api, `/v1/projects/by/id/teams?id=${projectId}${cacheBust}`),
+    ]);
+    return { users, teams };
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      return { users: [], teams: [] };
+    }
+    throw error;
+  }
 }
 
 const loadingResponse = { status: 'loading' };
@@ -48,11 +55,13 @@ export const ProjectContextProvider = ({ children }) => {
   const [projectResponses, setProjectResponses] = useState({});
   const api = useAPI();
 
-  const getProjectMembers = useCallback((projectId) => {
+  const getProjectMembers = useCallback((projectId, deferLoading = false) => {
     if (projectResponses[projectId] && projectResponses[projectId].members) {
       return projectResponses[projectId].members;
     }
-    loadProjectMembers(api, [projectId], setProjectResponses);
+    if (!deferLoading) {
+      loadProjectMembers(api, [projectId], setProjectResponses);
+    }
     return loadingResponse;
   }, [projectResponses, api]);
 
@@ -69,9 +78,9 @@ export const ProjectContextProvider = ({ children }) => {
   );
 };
 
-export function useProjectMembers(projectId) {
+export function useProjectMembers(projectId, deferLoading) {
   const getProjectMembers = useContext(ProjectMemberContext);
-  return getProjectMembers(projectId);
+  return getProjectMembers(projectId, deferLoading);
 }
 
 export function useProjectReload() {
