@@ -1,8 +1,10 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+
 import HOME_CONTENT from 'Curated/home.json';
 import PUPDATES_CONTENT from 'Curated/pupdates.json';
 import { tests } from 'Shared/ab-tests';
+
 import { Page, resetState } from '../../src/server';
 import { makeTestCollection, makeTestProject, makeTestTeam, makeTestUser } from '../helpers/models';
 
@@ -13,7 +15,7 @@ function renderPage(route, props) {
     ...assignments,
     [name]: Object.keys(tests[name])[0],
   }), {});
-  renderToString(
+  const result = renderToString(
     <Page
       helmetContext={{}}
       optimizely={optimizely}
@@ -30,6 +32,8 @@ function renderPage(route, props) {
     />
   );
   resetState();
+  if (result.includes("We didn't find")) console.log('oh no');
+  return result;
 }
 
 describe('Server Side Rendering', function() {
