@@ -30,6 +30,16 @@ describe('Server Side Rendering', function() {
     renderToString(<Page {...makeDefaultProps()} route="/" SSR_SIGNED_IN={true} />);
   });
   it('project page', function() {
-    const project = makeTestProject({ users: [makeTestUser()] });
+    const users = [makeTestUser()];
+    const project = makeTestProject({ domain: 'test-project', users });
+    const apiCache = { 'project:test-project': project };
+    renderToString(<Page {...makeDefaultProps()} route="/~test-project" API_CACHE={apiCache} />);
+  });
+  it('team page', function() {
+    const projects = [makeTestProject()];
+    const users = [makeTestUser()];
+    const team = makeTestTeam({ url: 'test-team', projects, users })
+    const apiCache = { 'team-or-user:test-team': { team } };
+    renderToString(<Page {...makeDefaultProps()} route="/@test-team" API_CACHE={apiCache} />);
   });
 });
