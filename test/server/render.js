@@ -37,16 +37,18 @@ describe('Server Side Rendering', function() {
     renderToString(<Page {...makeDefaultProps()} route="/~test-project" API_CACHE={apiCache} />);
   });
   it('team page', function() {
+    const collections = [makeTestCollection()];
     const projects = [makeTestProject()];
     const users = [makeTestUser()];
-    const team = makeTestTeam({ url: 'test-team', projects, users })
+    const team = makeTestTeam({ url: 'test-team', collections, projects, users })
     const apiCache = { 'team-or-user:test-team': { team } };
     renderToString(<Page {...makeDefaultProps()} route="/@test-team" API_CACHE={apiCache} />);
   });
   it('user page', function() {
+    const collections = [makeTestCollection()];
     const projects = [makeTestProject()];
     const teams = [makeTestTeam()];
-    const user = makeTestUser({ login: 'glitch-user', projects, teams })
+    const user = makeTestUser({ login: 'glitch-user', collections, projects, teams })
     const apiCache = { 'team-or-user:glitch-user': { user } };
     renderToString(<Page {...makeDefaultProps()} route="/@glitch-user" API_CACHE={apiCache} />);
   });
