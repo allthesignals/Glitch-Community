@@ -13,21 +13,22 @@ function renderPage(route, props) {
     ...assignments,
     [name]: Object.keys(tests[name])[0],
   }), {});
-  const page = <Page
-    helmetContext={{}}
-    optimizely={optimizely}
-    origin="https://glitch.com"
-    route={route}
-    AB_TESTS={abTests}
-    API_CACHE={{}}
-    EXTERNAL_ROUTES={[]}
-    HOME_CONTENT={HOME_CONTENT}
-    PUPDATES_CONTENT={PUPDATES_CONTENT}
-    SSR_SIGNED_IN={false}
-    ZINE_POSTS={[]}
-    {...props}
-  />
-  renderToString(page);
+  renderToString(
+    <Page
+      helmetContext={{}}
+      optimizely={optimizely}
+      origin="https://glitch.com"
+      route={route}
+      AB_TESTS={abTests}
+      API_CACHE={{}}
+      EXTERNAL_ROUTES={[]}
+      HOME_CONTENT={HOME_CONTENT}
+      PUPDATES_CONTENT={PUPDATES_CONTENT}
+      SSR_SIGNED_IN={false}
+      ZINE_POSTS={[]}
+      {...props}
+    />
+  );
   resetState();
 }
 
