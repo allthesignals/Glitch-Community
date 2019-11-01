@@ -98,6 +98,5 @@ module.exports = async (url, context) => {
     ...optimizelyClient.getEnabledFeatures(String(context.OPTIMIZELY_ID)),
     url,
   ];
-  console.log(key.join(' '));
   return getFromCache(key.join(' '), render, url, context);
 };
