@@ -20,14 +20,21 @@ const makeDefaultProps = () => ({
 });
 
 describe('Server Side Rendering', function() {
-  it('create page', function() {
-    renderToString(<Page {...makeDefaultProps()} route="/create" />);
-  });
   it('signed out home page', function() {
     renderToString(<Page {...makeDefaultProps()} route="/" SSR_SIGNED_IN={false} />);
   });
   it('signed in home page', function() {
     renderToString(<Page {...makeDefaultProps()} route="/" SSR_SIGNED_IN={true} />);
+  });
+  it('create page', function() {
+    renderToString(<Page {...makeDefaultProps()} route="/create" />);
+  });
+  it('collection page', function() {
+    const projects = [makeTestProject()];
+    const user = makeTestUser();
+    const collection = makeTestCollection({ projects, user });
+    const apiCache = { 'collection:test-user-1/test-collection': collection };
+    renderToString(<Page {...makeDefaultProps()} route="/@test-user-1/test-collection" API_CACHE={apiCache} />);
   });
   it('project page', function() {
     const users = [makeTestUser()];
