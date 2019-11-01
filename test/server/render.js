@@ -8,8 +8,8 @@ import { makeTestCollection, makeTestProject, makeTestTeam, makeTestUser } from 
 chai.should();
 
 const makeDefaultProps = () => ({
-  helmer
-  optimizely: 
+  helmetContext: {},
+  optimizely: { isFeatureEnabled: () => false },
   origin: 'https://glitch.com',
   AB_TESTS: {},
   API_CACHE: {},
@@ -22,6 +22,6 @@ const makeDefaultProps = () => ({
 
 describe('Server Side Rendering', function() {
   it('should render the create page', function() {
-    const component = <PrivateToggle align={['left']} type={'userCollection'} isPrivate={true} setPrivate={() => {}} />;
+    const component = <Page align={['left']} type={'userCollection'} isPrivate={true} setPrivate={() => {}} />;
   });
 });
