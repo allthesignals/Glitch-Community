@@ -1,16 +1,27 @@
 import React from 'react';
-import { configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import chai from 'chai';
+import HOME_CONTENT from 'Curated/home.json';
+import PUPDATES_CONTENT from 'Curated/pupdates.json';
 import { Page, resetState } from '../../src/server';
-
 import { makeTestCollection, makeTestProject, makeTestTeam, makeTestUser } from '../helpers/models';
 
 chai.should();
-configure({ adapter: new Adapter() });
 
-describe('PrivateBadge', function() {
-  it('should have no a11y errors', function() {
+const makeDefaultProps = () => ({
+  helmer
+  optimizely: 
+  origin: 'https://glitch.com',
+  AB_TESTS: {},
+  API_CACHE: {},
+  EXTERNAL_ROUTES: [],
+  HOME_CONTENT,
+  PUPDATES_CONTENT,
+  SSR_SIGNED_IN: false,
+  ZINE_POSTS: [],
+});
+
+describe('Server Side Rendering', function() {
+  it('should render the create page', function() {
     const component = <PrivateToggle align={['left']} type={'userCollection'} isPrivate={true} setPrivate={() => {}} />;
   });
 });
