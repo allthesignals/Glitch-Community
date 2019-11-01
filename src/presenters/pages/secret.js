@@ -50,13 +50,12 @@ const ABTests = () => {
   );
 };
 
-const RolloutFeature = ({ feature, assignment }) => {
+const RolloutFeature = ({ feature }) => {
   const enabled = useFeatureEnabled(feature);
   return (
     <tr>
       <td>{feature}</td>
       <td>{enabled && '✔'}</td>
-      <td>{assignment && '✔'}</td>
     </tr>
   );
 };
@@ -70,12 +69,11 @@ const Rollouts = () => {
           <tr>
             <th>Feature</th>
             <th>Status</th>
-            <th>Assignment</th>
           </tr>
         </thead>
         <tbody>
-          {features.map(({ key, enabled }) => (
-            <RolloutFeature key={key} feature={key} assignment={enabled} />
+          {features.map(({ key }) => (
+            <RolloutFeature key={key} feature={key} />
           ))}
         </tbody>
       </table>
