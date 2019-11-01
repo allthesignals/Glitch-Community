@@ -80,14 +80,14 @@ const render = async (url, { OPTIMIZELY_ID, ...context }) => {
     helmetContext,
   });
 
-  const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
+  const html = null; // ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
   // grab the latest optimizely again because we didn't use the one from context
   const OPTIMIZELY_DATA = await getOptimizelyData();
   // OPTIMIZELY_ID got extracted above, so it isn't in the result here
   // if it was we would send the id of the user that first requested this page to everyone after
-  return { ...context, OPTIMIZELY_DATA, html: null, helmet: helmetContext.helmet, styleTags };
+  return { ...context, OPTIMIZELY_DATA, html, helmet: helmetContext.helmet, styleTags };
 };
 
 module.exports = async (url, context) => {
