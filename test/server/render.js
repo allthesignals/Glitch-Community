@@ -32,7 +32,7 @@ function renderPage(route, props) {
     />
   );
   resetState();
-  if (/we\sdidn.t\sfind/.test(result)) throw new Error('Rendered a not found page');
+  if (/We couldn[^\s<>]+t find/.test(result)) throw new Error('Rendered a not found page');
   return result;
 }
 
