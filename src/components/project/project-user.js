@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Popover, UnstyledButton, Info, Actions, Button, Icon } from '@fogcreek/shared-components';
 
 import { useCurrentUser } from 'State/current-user';
@@ -12,14 +13,8 @@ import { emoji } from 'Components/global.styl';
 
 import styles from './project-user.styl';
 
-const AdminBadge = () => (
-  <div>
-    <TooltipContainer type="info" target={<span className={styles.projectOwner}>Project Owner</span>} tooltip="Can delete project" />
-  </div>
-);
-
 // the exanded popover where permissions change
-const PermissionsPopover = ({ user, project, reassignAdmin }) => {
+export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
   const userIsAdmin = userIsProjectAdmin({ project, user });
   const { currentUser } = useCurrentUser();
   const currentUserIsAdmin = userIsProjectAdmin({ project, user: currentUser });
@@ -33,7 +28,11 @@ const PermissionsPopover = ({ user, project, reassignAdmin }) => {
         <div className={styles.userInfo}>
           <div className={styles.userName}>{user.name || 'Anonymous'}</div>
           {user.login && <div className={styles.userLogin}>@{user.login}</div>}
-          {userIsAdmin && <AdminBadge />}
+          {userIsAdmin && (
+            <div>
+              <TooltipContainer type="info" target={<span className={styles.projectOwner}>Project Owner</span>} tooltip="Can delete project" />
+            </div>
+          )}
         </div>
       </Info>
       {currentUserIsAdmin && !userIsAdmin && (
@@ -48,30 +47,43 @@ const PermissionsPopover = ({ user, project, reassignAdmin }) => {
     </div>
   );
 };
+PermissionsPopover.propTypes = {
+  user: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
+  reassignAdmin: PropTypes.func.isRequired,
+};
 
-// the button
-const ProjectUserPop = ({ user, project, reassignAdmin }) => (
-  <Popover
-    align="left"
-    renderLabel={({ onClick, ref }) => (
-      <UnstyledButton onClick={onClick} ref={ref}>
-        <UserAvatar user={user} hideTooltip />
-      </UnstyledButton>
-    )}
-  >
-    {({ onClose, setActiveView }) => (
-      <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
-    )}
-  </Popover>
-);
-
-// the list
+// list of users
 const ProjectUsers = ({ users, project, reassignAdmin }) => (
   <div className={styles.projectUsers}>
     {users.map((user) => (
-      <ProjectUserPop user={user} key={user.id} project={project} reassignAdmin={reassignAdmin} />
+      <Popover
+        key={user.id}
+        align="left"
+        renderLabel={({ onClick, ref }) => (
+          <UnstyledButton onClick={onClick} ref={ref}>
+            <UserAvatar user={user} hideTooltip />
+          </UnstyledButton>
+        )}
+      >
+        {({ onClose, setActiveView }) => (
+          <PermissionsPopover 
+            onClose={onClose} 
+            setActiveView={setActiveView} 
+            user={user} 
+            project={project} 
+            reassignAdmin={reassignAdmin} 
+          />
+        )}
+      </Popover>
     ))}
   </div>
 );
+
+ProjectUsers.propTypes = {
+  users: PropTypes.array.isRequired,
+  project: PropTypes.object.isRequired,
+  reassignAdmin: PropTypes.func.isRequired,
+};
 
 export default ProjectUsers;
