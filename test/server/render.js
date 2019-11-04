@@ -38,7 +38,7 @@ function renderPage(route, props) {
 function renderPageAndEnsureItHasContent(route, props) {
   const emptyPage = renderPage(route, { ...props, API_CACHE: {} });
   const page = renderPage(route, props);
-  if (page === emptyPage) throw new Error('The page is empty')
+  if (page === emptyPage) throw new Error('the api cache was not used')
 }
 
 describe('Server Side Rendering', function() {
@@ -63,7 +63,6 @@ describe('Server Side Rendering', function() {
     const teams = [makeTestTeam()];
     const project = makeTestProject({ domain: 'test-project', teams, users });
     const API_CACHE = { 'project:test-project': project };
-    console.log(window.location.href);
     renderPageAndEnsureItHasContent('/~test-project', { API_CACHE });
   });
   it('team page', function() {
