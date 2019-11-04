@@ -174,7 +174,7 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
           <h3 className={styles.h3}>{dek}</h3>
           {/* eslint-disable-next-line react/no-danger */}
           <span dangerouslySetInnerHTML={{ __html: summary }} />
-          <Button as="a" href={href}>
+          <Button as={Link} to={href}>
             {cta} <Icon icon="arrowRight" />
           </Button>
         </div>

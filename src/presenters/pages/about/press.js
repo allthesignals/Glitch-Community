@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Icon, Button, Mark, ButtonGroup, ButtonSegment, SegmentedButton } from '@fogcreek/shared-components';
 import { BlockSection } from 'Components/about';
+import { Link } from 'Components/link';
 import Heading from 'Components/text/heading';
 import { CDN_URL } from 'Utils/constants';
 
@@ -140,7 +141,7 @@ const AboutPressPage = withRouter(() => {
         <p className={styles.embedAttribution}>
           <small>
             Remixed from <a href="https://glitch.com/edit/#!/image-gallery/">image-gallery</a>, created by Glitch community member{' '}
-            <a href="https://glitch.com/@stefan">@stefan</a>.
+            <Link to="/@stefan">@stefan</Link>.
           </small>
         </p>
       </section>

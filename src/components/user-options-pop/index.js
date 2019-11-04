@@ -7,7 +7,7 @@ import { getUserAvatarThumbnailUrl } from 'Models/user';
 import Image from 'Components/images/image';
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
-import { TeamLink, UserLink } from 'Components/link';
+import { Link, TeamLink, UserLink } from 'Components/link';
 import CreateTeamPop from 'Components/create-team-pop';
 import { useGlobals } from 'State/globals';
 import { useCurrentUser, useSuperUserHelpers } from 'State/current-user';
@@ -132,13 +132,13 @@ Are you sure you want to sign out?`)
           </Button>
         </div>
         <div className={styles.buttonWrap}>
-          <Button as="a" variant="secondary" size="small" href="https://glitch.com/help/">
+          <Button as={Link} variant="secondary" size="small" to="https://glitch.com/help/">
             Help Center <Icon className={emoji} icon="ambulance" />
           </Button>
         </div>
         {userPasswordEnabled && (
           <div className={styles.buttonWrap}>
-            <Button as="a" size="small" variant="secondary" href="/settings">
+            <Button as={Link} size="small" variant="secondary" to="/settings">
               Account Settings <Icon className={emoji} icon="key" />
             </Button>
           </div>
