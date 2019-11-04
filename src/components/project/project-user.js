@@ -67,13 +67,7 @@ const ProjectUsers = ({ users, project, reassignAdmin }) => (
         )}
       >
         {({ onClose, setActiveView }) => (
-          <PermissionsPopover 
-            onClose={onClose} 
-            setActiveView={setActiveView} 
-            user={user} 
-            project={project} 
-            reassignAdmin={reassignAdmin} 
-          />
+          <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
         )}
       </Popover>
     ))}

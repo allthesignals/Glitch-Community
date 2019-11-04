@@ -50,18 +50,18 @@ describe('PermissionsPopover', function() {
           <PermissionsPopover {...props} />
         </MockContext>,
       );
-    })
+    });
     it('does not render a login', () => {
       expect(this.wrapper.find(`.${styles.userLogin}`)).to.have.lengthOf(0);
-    })
+    });
     it('renders the word anonymous', () => {
       expect(this.wrapper.find(`.${styles.userName}`).text()).to.equal('Anonymous');
-    })
-  })
+    });
+  });
   context('when the user in the popover has a login and name', () => {
     beforeEach(() => {
       const props = {
-        user: { id: 1, login: 'glitchWitch', name: "Glinda the Witch" },
+        user: { id: 1, login: 'glitchWitch', name: 'Glinda the Witch' },
         project: { permissions: [] },
         reassignAdmin: () => {},
       };
@@ -70,23 +70,25 @@ describe('PermissionsPopover', function() {
           <PermissionsPopover {...props} />
         </MockContext>,
       );
-    })
+    });
     it('renders the @login', () => {
       expect(this.wrapper.find(`.${styles.userLogin}`).text()).to.equal('@glitchWitch');
     });
     it('renders the name of the user', () => {
       expect(this.wrapper.find(`.${styles.userName}`).text()).to.equal('Glinda the Witch');
-    })
-  })
+    });
+  });
   context('when the user in the popover is the admin', () => {
     it('renders an admin badge', () => {
       const props = {
-        user: { id: 1, login: 'glitchWitch', name: "Glinda the Witch" },
-        project: { 
-          permissions: [{
-            userId: 1,
-            accessLevel: 30,
-          }],
+        user: { id: 1, login: 'glitchWitch', name: 'Glinda the Witch' },
+        project: {
+          permissions: [
+            {
+              userId: 1,
+              accessLevel: 30,
+            },
+          ],
         },
         reassignAdmin: () => {},
       };
@@ -97,17 +99,19 @@ describe('PermissionsPopover', function() {
       );
 
       expect(wrapper.find(`.${styles.projectOwner}`)).to.have.lengthOf(1);
-    })
-  })
+    });
+  });
   context('when the current user is an admin and the user in the popover is not', () => {
     beforeEach(() => {
       this.props = {
-        user: { id: 2, login: 'glitchWitch', name: "Glinda the Witch" },
-        project: { 
-          permissions: [{
-            userId: 1,
-            accessLevel: 30,
-          }],
+        user: { id: 2, login: 'glitchWitch', name: 'Glinda the Witch' },
+        project: {
+          permissions: [
+            {
+              userId: 1,
+              accessLevel: 30,
+            },
+          ],
         },
         reassignAdmin: sinon.spy(),
       };
@@ -116,17 +120,17 @@ describe('PermissionsPopover', function() {
           <PermissionsPopover {...this.props} />
         </MockContext>,
       );
-    })
+    });
 
     it('renders a button to make the user in the popover the admin', () => {
       expect(this.wrapper.find(Button)).to.have.lengthOf(1);
     });
 
     context('and when the logged in user clicks that button', () => {
-      it('calls reassign admin', () =>{
+      it('calls reassign admin', () => {
         this.wrapper.find(Button).simulate('click');
         expect(this.props.reassignAdmin.called);
-      })
-    })
+      });
+    });
   });
 });
