@@ -32,7 +32,7 @@ function renderPage(route, props) {
     />
   );
   resetState();
-  if (result.includes("We didn't find")) console.log('oh no');
+  if (/we\sdidn.t\sfind/.test(result)) throw new Error('Rendered a not found page');
   return result;
 }
 
@@ -57,7 +57,7 @@ describe('Server Side Rendering', function() {
     const users = [makeTestUser()];
     const teams = [makeTestTeam()];
     const project = makeTestProject({ domain: 'test-project', teams, users });
-    const API_CACHE = { 'project:test-project': project };
+    const API_CACHE = { 'aproject:test-project': project };
     renderPage('/~test-project', { API_CACHE });
   });
   it('team page', function() {
