@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Icon, Button, Mark, ButtonGroup, ButtonSegment, SegmentedButton } from '@fogcreek/shared-components';
 import { BlockSection } from 'Components/about';
-import { Link } from 'Components/link';
+import Link from 'Components/link';
 import Heading from 'Components/text/heading';
 import { CDN_URL } from 'Utils/constants';
 

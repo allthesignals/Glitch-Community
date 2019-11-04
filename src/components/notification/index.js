@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { LiveMessage } from 'react-aria-live';
 import { Button } from '@fogcreek/shared-components';
 
-import { Link } from 'Components/link';
+import Link from 'Components/link';
 import Text from 'Components/text/text';
 import classNames from 'classnames/bind';
 import styles from './styles.styl';

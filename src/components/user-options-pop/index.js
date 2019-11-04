@@ -7,7 +7,7 @@ import { getUserAvatarThumbnailUrl } from 'Models/user';
 import Image from 'Components/images/image';
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
-import { Link, TeamLink, UserLink } from 'Components/link';
+import Link, { TeamLink, UserLink } from 'Components/link';
 import CreateTeamPop from 'Components/create-team-pop';
 import { useGlobals } from 'State/globals';
 import { useCurrentUser, useSuperUserHelpers } from 'State/current-user';
