@@ -1,7 +1,7 @@
 const jsdom = require('mocha-jsdom');
 
-jsdom({
+/*jsdom({
   url: 'https://glitch.com/',
-});
+});*/
 
 var ENVIRONMENT = "testing"; 

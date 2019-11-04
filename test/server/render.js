@@ -63,7 +63,7 @@ describe('Server Side Rendering', function() {
     const teams = [makeTestTeam()];
     const project = makeTestProject({ domain: 'test-project', teams, users });
     const API_CACHE = { 'project:test-project': project };
-    console.log(window.origin);
+    console.log(window.location.href);
     renderPageAndEnsureItHasContent('/~test-project', { API_CACHE });
   });
   it('team page', function() {
