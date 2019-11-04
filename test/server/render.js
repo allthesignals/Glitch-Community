@@ -32,8 +32,13 @@ function renderPage(route, props) {
     />
   );
   resetState();
-  if (/We couldn[^\s<>]+t find/.test(result)) throw new Error('Rendered a not found page');
   return result;
+}
+
+function renderPageAndEnsureItHasContent(route, props) {
+  const emptyPage = renderPage(route, { ...props, API_CACHE: {} });
+  const page = renderPage(route, props);
+  if (page === emptyPage) throw new Error('The page is empty')
 }
 
 describe('Server Side Rendering', function() {
@@ -51,14 +56,15 @@ describe('Server Side Rendering', function() {
     const user = makeTestUser();
     const collection = makeTestCollection({ projects, user });
     const API_CACHE = { 'collection:test-user-1/test-collection': collection };
-    renderPage('/@test-user-1/test-collection', { API_CACHE });
+    renderPageAndEnsureItHasContent('/@test-user-1/test-collection', { API_CACHE });
   });
   it('project page', function() {
     const users = [makeTestUser()];
     const teams = [makeTestTeam()];
     const project = makeTestProject({ domain: 'test-project', teams, users });
-    const API_CACHE = { 'aproject:test-project': project };
-    renderPage('/~test-project', { API_CACHE });
+    const API_CACHE = { 'project:test-project': project };
+    console.log(window.origin);
+    renderPageAndEnsureItHasContent('/~test-project', { API_CACHE });
   });
   it('team page', function() {
     const collections = [makeTestCollection()];
@@ -66,7 +72,7 @@ describe('Server Side Rendering', function() {
     const users = [makeTestUser()];
     const team = makeTestTeam({ url: 'test-team', collections, projects, users })
     const API_CACHE = { 'team-or-user:test-team': { team } };
-    renderPage('/@test-team', { API_CACHE });
+    renderPageAndEnsureItHasContent('/@test-team', { API_CACHE });
   });
   it('user page', function() {
     const collections = [makeTestCollection()];
@@ -74,6 +80,6 @@ describe('Server Side Rendering', function() {
     const teams = [makeTestTeam()];
     const user = makeTestUser({ login: 'glitch-user', collections, projects, teams })
     const API_CACHE = { 'team-or-user:glitch-user': { user } };
-    renderPage('/@glitch-user', { API_CACHE });
+    renderPageAndEnsureItHasContent('/@glitch-user', { API_CACHE });
   });
 });
