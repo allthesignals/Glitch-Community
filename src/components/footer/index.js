@@ -31,6 +31,10 @@ const Footer = ({ containerClass }) => (
       About Glitch
       <Icon className={emoji} icon="crystalBall" />
     </FooterLink>
+    <FooterLink href="/about/careers" track="careers">
+      We're Hiring
+      <Icon className={emoji} icon="fishingPole" />
+    </FooterLink>
     <FooterLink href="/culture" track="blog">
       Blog
       <Icon className={emoji} icon="newspaper" />
