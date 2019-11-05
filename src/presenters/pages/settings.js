@@ -29,11 +29,11 @@ const DeleteSettings = () => {
             </Actions>
             <Info>
               <p>You can export any of your projects but only <b>before</b> you delete your account.</p>
-              <Button onClick={() => console.log('Learning more')} size="small" variant="secondary">Learn about exporting <Icon className={emoji} icon="arrowRight" /></Button>
+              <Button onClick={() => console.log('Learning more')} className={styles.modalButton} size="small" variant="secondary">Learn about exporting <Icon className={emoji} icon="arrowRight" /></Button>
             </Info>
             <DangerZone>
               <p>For security purposes, you must confirm via email before we delete your account.</p>
-              <Button ref={last} onClick={() => console.log("I'm a scary button!")} size="small" variant="warning">Continue to Delete Account</Button>
+              <Button ref={last} onClick={() => console.log("I'm a scary button!")} className={styles.modalButton} size="small" variant="warning">Continue to Delete Account</Button>
             </DangerZone>
           </>
         )}
