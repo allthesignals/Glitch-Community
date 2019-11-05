@@ -1,4 +1,3 @@
-const { captureException } = require('@sentry/node');
 const express = require('express');
 const helmet = require('helmet');
 const enforce = require('express-sslify');
@@ -18,7 +17,7 @@ const { getOptimizelyData } = require('./optimizely');
 const { readCuratedContent, writeCuratedContent } = require('./curated');
 const rootTeams = require('../shared/teams');
 
-module.exports = function(external) {
+module.exports = function(EXTERNAL_ROUTES) {
   const app = express.Router();
 
   // don't enforce HTTPS if building the site locally, not on glitch.com
@@ -47,7 +46,7 @@ module.exports = function(external) {
 
   const readFilePromise = util.promisify(fs.readFile);
 
-  async function render(req, res, cache = {}, wistiaVideoId = null) {
+  async function render(req, res, API_CACHE = {}, wistiaVideoId = null) {
     let built = true;
 
     let scripts = [];
@@ -73,50 +72,34 @@ module.exports = function(external) {
       built = false;
     }
 
-    const assignments = getAssignments(req, res);
-    const signedIn = !!req.cookies.hasLogin;
-    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), readCuratedContent('home'), readCuratedContent('pupdates')]);
+    const AB_TESTS = getAssignments(req, res);
+    const SSR_SIGNED_IN = !!req.cookies.hasLogin;
+    const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), readCuratedContent('home'), readCuratedContent('pupdates')]);
 
-    let ssr = { rendered: null, helmet: null, styleTags: '' };
-    try {
-      const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-      const { html, context, helmet, styleTags } = await renderPage(url, {
-        AB_TESTS: assignments,
-        API_CACHE: cache,
-        EXTERNAL_ROUTES: external,
-        HOME_CONTENT: homeContent,
-        PUPDATES_CONTENT: pupdatesContent,
-        SSR_SIGNED_IN: signedIn,
-        ZINE_POSTS: zine || [],
-      });
-      ssr = {
-        rendered: html,
-        helmet,
-        styleTags,
-        ...context,
-      };
-    } catch (error) {
-      console.error(`Failed to server render ${req.url}: ${error.toString()}`);
-      captureException(error);
-    }
+    const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
+    const currentContext = {
+      AB_TESTS,
+      API_CACHE,
+      EXTERNAL_ROUTES,
+      HOME_CONTENT,
+      OPTIMIZELY_DATA: await getOptimizelyData(),
+      PUPDATES_CONTENT,
+      SSR_SIGNED_IN,
+      ZINE_POSTS,
+    };
+
+    const renderedContext = await renderPage(url, currentContext);
 
     res.render('index.ejs', {
+      ...currentContext,
+      ...renderedContext,
       scripts,
       styles,
       BUILD_COMPLETE: built,
       BUILD_TIMESTAMP: buildTime.toISOString(),
-      API_CACHE: cache,
-      EXTERNAL_ROUTES: external,
-      ZINE_POSTS: zine || [],
-      HOME_CONTENT: homeContent,
-      PUPDATES_CONTENT: pupdatesContent,
-      SSR_SIGNED_IN: signedIn,
-      AB_TESTS: assignments,
-      OPTIMIZELY_DATA: await getOptimizelyData(),
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
       ENVIRONMENT: process.env.NODE_ENV || 'dev',
       RUNNING_ON: process.env.RUNNING_ON,
-      ...ssr,
     });
   }
 
