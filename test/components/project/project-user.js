@@ -9,29 +9,35 @@ import MockContext from '../../helpers/mockContext';
 import styles from '../../../src/components/project/project-user.styl';
 
 describe('ProjectUser', function() {
-  it('renders a popover button for each user', () => {
-    const props = {
-      users: [{ id: 1 }, { id: 2 }],
-      project: {},
+  beforeEach(() => {
+    this.props = {
+      users: [
+        { id: 1, permission: { accessLevel: 20 } },
+        { id: 2, permission: { accessLevel: 30 } },
+      ],
+      project: {
+        permissions: [
+          { userId: 1, permission: { accessLevel: 20 } },
+          { userId: 2, permission: { accessLevel: 30 } },
+        ]
+      },
       reassignAdmin: () => {},
     };
-    const wrapper = shallow(<ProjectUser {...props} />);
+  });
+
+  it('renders a popover button for each user', () => {
+    const wrapper = shallow(<ProjectUser {...this.props} />);
     expect(wrapper.find(Popover)).to.have.lengthOf(2);
   });
 
   context('when the popover button is clicked', () => {
     it('renders a permissions popover', () => {
-      const props = {
-        users: [{ id: 1 }],
-        project: { permissions: [] },
-        reassignAdmin: () => {},
-      };
       const wrapper = mount(
         <MockContext currentUser={{ id: 1 }} location={'~projectPage'}>
-          <ProjectUser {...props} />
+          <ProjectUser {...this.props} />
         </MockContext>,
       );
-      wrapper.find(UnstyledButton).simulate('click');
+      wrapper.find(UnstyledButton).first().simulate('click');
       expect(wrapper.find(PermissionsPopover)).to.have.lengthOf(1);
     });
   });

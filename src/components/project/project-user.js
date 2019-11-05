@@ -1,4 +1,5 @@
 import React from 'react';
+import { orderBy } from 'lodash';
 import PropTypes from 'prop-types';
 import { Popover, UnstyledButton, Info, Actions, Button, Icon } from '@fogcreek/shared-components';
 
@@ -71,26 +72,30 @@ PermissionsPopover.propTypes = {
 };
 
 // list of users
-const ProjectUsers = ({ users, project, reassignAdmin }) => (
-  <div className={styles.projectUsers}>
-    {users.map((user) => (
-      <Popover
-        className={styles.projectUsersPopover}
-        key={user.id}
-        align="left"
-        renderLabel={({ onClick, ref }) => (
-          <UnstyledButton onClick={onClick} ref={ref}>
-            <UserAvatar user={user} hideTooltip />
-          </UnstyledButton>
-        )}
-      >
-        {({ onClose, setActiveView }) => (
-          <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
-        )}
-      </Popover>
-    ))}
-  </div>
-);
+const ProjectUsers = ({ users, project, reassignAdmin }) => {
+  const orderedUsers = orderBy(users, (user) => user.permission.accessLevel, 'desc');
+
+  return (
+    <div className={styles.projectUsers}>
+      {orderedUsers.map((user) => (
+        <Popover
+          className={styles.projectUsersPopover}
+          key={user.id}
+          align="left"
+          renderLabel={({ onClick, ref }) => (
+            <UnstyledButton onClick={onClick} ref={ref}>
+              <UserAvatar user={user} hideTooltip />
+            </UnstyledButton>
+          )}
+        >
+          {({ onClose, setActiveView }) => (
+            <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
+          )}
+        </Popover>
+      ))}
+    </div>
+  );
+};
 
 ProjectUsers.propTypes = {
   users: PropTypes.array.isRequired,
