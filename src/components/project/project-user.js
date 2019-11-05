@@ -28,7 +28,7 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
       try {
         await reassignAdmin({ user, currentUser });
         createNotification(`${user.name} is now the project owner`, { type: 'success' });
-      } catch(error) {
+      } catch (error) {
         captureException(error);
         createNotification(`Sorry, we were unable to make ${user.name} the new project owner, try again later`, { type: 'error' });
       }
