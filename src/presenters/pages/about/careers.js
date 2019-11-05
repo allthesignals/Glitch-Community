@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Mark } from '@fogcreek/shared-components';
 import { Helmet } from 'react-helmet-async';
 import Heading from 'Components/text/heading';
-import { BlockSection } from 'Components/about';
+import { BlockSection, BoardSection } from 'Components/about';
 import AboutLayout from './about-layout';
 import styles from './careers.styl';
 import aboutStyles from './about.styl';
@@ -35,6 +35,7 @@ const AboutCareersPage = withRouter(() => {
         <Mark color="var(--mark-pink)">Open positions</Mark>
       </Heading>
       <section id="lever-jobs-container" className={aboutStyles.backgroundSection} />
+      <BoardSection markColor="purple" />
       <BlockSection>
         <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-blue)">Things you won’t find at most other companies</Mark>
