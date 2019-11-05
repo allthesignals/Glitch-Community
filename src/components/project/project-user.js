@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { Popover, UnstyledButton, Info, Actions, Button, Icon } from '@fogcreek/shared-components';
 
 import { useCurrentUser } from 'State/current-user';
+import { useNotifications } from 'State/notifications';
+import { useTrackedFunc } from 'State/segment-analytics';
+
+import { captureException } from 'Utils/sentry';
 
 import { userIsProjectAdmin } from 'Models/project';
 
@@ -18,7 +22,20 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
   const userIsAdmin = userIsProjectAdmin({ project, user });
   const { currentUser } = useCurrentUser();
   const currentUserIsAdmin = userIsProjectAdmin({ project, user: currentUser });
-
+  const { createNotification } = useNotifications();
+  const onReassignAdmin = useTrackedFunc(
+    async () => {
+      try {
+        await reassignAdmin({ user, currentUser });
+        createNotification(`${user.name} is now the project owner`, { type: 'success' });
+      } catch(error) {
+        captureException(error);
+        createNotification(`Sorry, we were unable to make ${user.name} the new project owner, try again later`, { type: 'error' });
+      }
+    },
+    'Project Added to Collection',
+    { origin: 'Add Project collection' },
+  );
   return (
     <div className={styles.permissionsPopover}>
       <Info className={styles.permissionsPopoverInfo}>
@@ -39,7 +56,7 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
         <Actions className={styles.permissionsPopoverActions}>
           <p>The project owner can delete this project</p>
           <p>Each project has a single owner, so you will lose the ability to delete this project if you are no longer the project owner</p>
-          <Button size="small" variant="secondary" onClick={() => reassignAdmin({ user, currentUser })}>
+          <Button size="small" variant="secondary" onClick={onReassignAdmin}>
             Make Project Owner <Icon className={emoji} icon="fastUp" alt="" />
           </Button>
         </Actions>
