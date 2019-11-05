@@ -21,7 +21,7 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
 
   return (
     <div className={styles.permissionsPopover}>
-      <Info>
+      <Info className={styles.permissionsPopoverInfo}>
         <UserLink user={user}>
           <UserAvatar user={user} hideTooltip />
         </UserLink>
@@ -36,7 +36,7 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
         </div>
       </Info>
       {currentUserIsAdmin && !userIsAdmin && (
-        <Actions>
+        <Actions className={styles.permissionsPopoverActions}>
           <p>The project owner can delete this project</p>
           <p>Each project has a single owner, so you will lose the ability to delete this project if you are no longer the project owner</p>
           <Button size="small" variant="secondary" onClick={() => reassignAdmin({ user, currentUser })}>
@@ -58,6 +58,7 @@ const ProjectUsers = ({ users, project, reassignAdmin }) => (
   <div className={styles.projectUsers}>
     {users.map((user) => (
       <Popover
+        className={styles.projectUsersPopover}
         key={user.id}
         align="left"
         renderLabel={({ onClick, ref }) => (

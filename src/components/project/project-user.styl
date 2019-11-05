@@ -1,22 +1,21 @@
 @import '../constants.styl'
 
-.projectUsers
-  div[data-module='Popover']
-    div
-      overflow: inherit // ensures tooltip is on top of popover
+.projectUsersPopover
+  div
+    overflow: inherit // ensures tooltip is on top of popover
 
 .permissionsPopover
   width: 255px
 
-  section[data-module='Info']
-    display: flex
-    min-height: 75px
+.permissionsPopoverInfo
+  display: flex
+  min-height: 75px
 
-  section[data-module='Actions']
-    padding: 15px
+.permissionsPopoverActions
+  padding: 15px
 
-    p
-      line-height: 16px
+  p
+    line-height: 16px
 
 .userInfo
   padding-left: 8px
