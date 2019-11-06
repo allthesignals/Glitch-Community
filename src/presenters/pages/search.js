@@ -25,7 +25,7 @@ const RandomProjectButton = () => {
     <>
       {collection && (
         <ProjectLink project={collection.projects[Math.floor(Math.random() * collection.projects.length)]}>
-          <Button>
+          <Button variant="primary">
             Surprise Me <Icon icon="diamondSmall" />
           </Button>
         </ProjectLink>
