@@ -7,9 +7,9 @@ dependencies:
   '@babel/preset-env': 7.7.1
   '@babel/preset-react': 7.7.0
   '@babel/register': 7.5.5
-  '@babel/runtime': 7.7.1
-  '@babel/runtime-corejs3': 7.7.1
-  '@fogcreek/shared-components': 0.13.2
+  '@babel/runtime': 7.6.3
+  '@babel/runtime-corejs3': 7.6.3
+  '@fogcreek/shared-components': 0.13.4
   '@jedmao/location': 2.0.4
   '@optimizely/optimizely-sdk': 3.3.1
   '@percy/cypress': 1.0.9
@@ -902,8 +902,14 @@ packages:
       regenerator-runtime: 0.13.3
     dev: false
     resolution:
+      integrity: sha512-kq6anf9JGjW8Nt5rYfEuGRaEAaH1mkv3Bbu6rYvLOpPh/RusSJXuKPEAoZ7L7gybZkchE8+NV5g9vKF4AGAtsA==
+  /@babel/runtime/7.7.1:
+    dependencies:
+      regenerator-runtime: 0.13.3
+    dev: false
+    resolution:
       integrity: sha512-SQ0sS7KUJDvgCI2cpZG0nJygO6002oTbhgSuw4WcocsnbxLwL5Q8I3fqbJdyBAc3uFrWZiR2JomseuxSuci3SQ==
-  /@babel/template/7.7.0:
+  /@babel/template/7.6.0:
     dependencies:
       '@babel/code-frame': 7.5.5
       '@babel/parser': 7.7.0
@@ -1007,7 +1013,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
-  /@fogcreek/shared-components/0.13.2:
+  /@fogcreek/shared-components/0.13.4:
     dependencies:
       prop-types: 15.7.2
       react-textarea-autosize: 7.1.2
@@ -1018,7 +1024,7 @@ packages:
       react: ^16.8.0
       styled-components: ^4.3.0
     resolution:
-      integrity: sha512-x7RckMDvP8p8zNrqgXahy1mI1z5fQUckq9hEFyLhDjO9xPqgRKnVNvFTSiz4rW6tdugK+/VEk+PG5dmAsF6AUA==
+      integrity: sha512-E8WA2gKGcJ88W4taN/Eizuz6I0ermnzJUaNfDF3kFxM0YKuiKz1LK6P9E1aDrjPu4V7iAu4eUxQ4zDvuYWJlCg==
   /@hapi/address/2.1.2:
     dev: false
     resolution:
@@ -8879,6 +8885,15 @@ packages:
     peerDependencies:
       react: '>=0.14.0 <17.0.0'
     resolution:
+      integrity: sha512-c2FlR/fP0qbxmlrW96SdrbgP/v0XZMTupqB90zybvmDVDutytUgPl7beU35klwcTeMepUIQEpQUn3P3bdshGPg==
+  /react-textarea-autosize/7.1.2:
+    dependencies:
+      '@babel/runtime': 7.7.1
+      prop-types: 15.7.2
+    dev: false
+    peerDependencies:
+      react: '>=0.14.0 <17.0.0'
+    resolution:
       integrity: sha512-uH3ORCsCa3C6LHxExExhF4jHoXYCQwE5oECmrRsunlspaDAbS4mGKNlWZqjLfInWtFQcf0o1n1jC/NGXFdUBCg==
   /react-transition-group/2.9.0:
     dependencies:
@@ -11037,7 +11052,7 @@ specifiers:
   '@babel/register': 7.5.5
   '@babel/runtime': ^7.5.4
   '@babel/runtime-corejs3': ^7.5.5
-  '@fogcreek/shared-components': ^0.13.2
+  '@fogcreek/shared-components': ^0.13.4
   '@jedmao/location': ^2.0.4
   '@optimizely/optimizely-sdk': ^3.2.2
   '@percy/cypress': ^1.0.9
