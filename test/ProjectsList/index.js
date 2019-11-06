@@ -26,9 +26,11 @@ configure({ adapter: new Adapter() });
 const FakeVisibilityContainer = ({children}) => (<div>{children({ isVisible: true, wasEverVisible: true })}</div>);
 
 describe('ProjectsList', function() {
+  a11yHelper.setup();
+
   describe('a11y testing', function() {
     it('should have no errors when there are no projects', function() {
-      a11yHelper.testEnzymeComponent(<ProjectsList layout="row" projects={[]} enableFiltering />, {}, function(results) {
+      a11yHelper.testEnzymeComponent(<ProjectsList layout="row" projects={[]} enableFiltering debounceFunction={(arg) => arg} />, {}, function(results) {
         results.violations.length.should.equal(0);
       });
     });

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { kebabCase, debounce } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { Button, Icon, Loader, TextInput } from '@fogcreek/shared-components';
+import { Actions, Button, Icon, Info, Loader, TextInput, Title } from '@fogcreek/shared-components';
 
-import { MultiPopoverTitle, PopoverDialog, PopoverInfo, PopoverActions, InfoDescription } from 'Components/popover';
 import { getPredicates, getTeamPair } from 'Models/words';
 import { getTeamLink } from 'Models/team';
 import { useAPI } from 'State/api';
@@ -14,7 +13,7 @@ import { emoji } from '../global.styl';
 
 // Create Team 🌿
 
-const CreateTeamPop = withRouter(({ history }) => {
+const CreateTeamPop = withRouter(({ onBack, history }) => {
   const api = useAPI();
   const trackSubmit = useTracker('Create Team submitted');
   const [state, replaceState] = useState({
@@ -117,16 +116,16 @@ const CreateTeamPop = withRouter(({ history }) => {
   const placeholder = 'Your Team Name';
 
   return (
-    <PopoverDialog align="right" className={styles.createTeamPop}>
-      <MultiPopoverTitle>
-        Create Team <Icon className={emoji} icon="herb" inTitle />
-      </MultiPopoverTitle>
+    <>
+      <Title onBack={onBack}>
+        Create Team <Icon className={emoji} icon="herb" />
+      </Title>
 
-      <PopoverInfo>
-        <InfoDescription>Showcase your projects in one place, manage collaborators, and view analytics</InfoDescription>
-      </PopoverInfo>
+      <Info>
+        <p>Showcase your projects in one place, manage collaborators, and view analytics</p>
+      </Info>
 
-      <PopoverActions>
+      <Actions>
         <form onSubmit={handleSubmit}>
           <TextInput autoFocus label={placeholder} value={state.teamName} onChange={handleChange} error={state.error} />
           <div className={styles.teamUrlPreview}>/@{kebabCase(state.teamName || placeholder)}</div>
@@ -140,11 +139,11 @@ const CreateTeamPop = withRouter(({ history }) => {
             </Button>
           )}
         </form>
-      </PopoverActions>
-      <PopoverInfo>
-        <InfoDescription>You can change this later</InfoDescription>
-      </PopoverInfo>
-    </PopoverDialog>
+      </Actions>
+      <Info>
+        <p>You can change this later</p>
+      </Info>
+    </>
   );
 });
 

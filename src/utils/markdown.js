@@ -23,6 +23,11 @@ export const renderMarkdown = (content, { allowImages, linkifyHeadings } = {}) =
   return mdIt.render(content);
 };
 
+export const stripLinks = (html) => {
+  const regex = /<\/?a\b[^>]*>?/gi;
+  return html ? html.replace(regex, '').trim() : '';
+};
+
 export const stripHtml = (html) => {
   const regex = /<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi;
   return html ? html.replace(regex, '').trim() : '';

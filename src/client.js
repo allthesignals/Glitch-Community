@@ -47,12 +47,17 @@ window.bootstrap = async (container) => {
     datafile: window.OPTIMIZELY_DATA,
     datafileOptions: {
       autoUpdate: true,
-      updateInterval: 60 * 1000, // check once per minute
+      updateInterval: dayjs.convert(1, 'hour', 'milliseconds'),
     },
     errorHandler: {
       handleError: (error) => {
-        captureException(error);
-        console.error(error);
+        const ignoredErrors = ['Request error', 'localStorage', 'getItem'];
+        if (ignoredErrors.some((ignored) => error.message.includes(ignored))) {
+          console.warn(error);
+        } else {
+          captureException(error);
+          console.error(error);
+        }
       },
     },
     logLevel: 'warn',

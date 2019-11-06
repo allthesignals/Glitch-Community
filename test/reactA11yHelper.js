@@ -3,8 +3,16 @@ import React from 'react';
 import { render } from 'react-dom';
 import { mount } from 'enzyme';
 import axeCore from 'axe-core';
+import jsdom from 'mocha-jsdom';
 
 export const a11yHelper = {};
+
+/**
+ * Init ally helper test hooks
+ */
+a11yHelper.setup = function() {
+  jsdom({ url: 'https://glitch.com/' });
+}
 
 /**
  * Test a component with React's Test Utils.
