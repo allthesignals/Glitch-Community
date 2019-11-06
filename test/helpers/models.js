@@ -88,6 +88,7 @@ export const makeTestTeam = (options) => {
     authUserIsTeamMember: false,
     teamPermissions: [],
     teamPermission: {},
+    pinnedProjects: [],
     ...options,
   };
 };
