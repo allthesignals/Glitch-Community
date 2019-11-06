@@ -78,11 +78,8 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
       <div className={styles.buttonContainer}>
         <div>
           <div className={styles.buttonWrap}>
-            {isMember ? (
-              <EditButton name={project.id} isMember={isMember} size="small" />
-            ) : (
-              <ReportButton reportedType="project" reportedModel={project} />
-            )}
+            {isMember && <EditButton name={project.id} isMember={isMember} size="small" />}
+            {!isMember && !previewOnly && <ReportButton reportedType="project" reportedModel={project} />}
           </div>
           {(projectOptions.leaveProject || projectOptions.joinTeamProject) && (
             <div className={styles.buttonWrap}>
