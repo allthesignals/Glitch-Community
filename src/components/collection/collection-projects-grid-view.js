@@ -70,7 +70,7 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, collection }) => {
 
       {enableSorting && (
         <div className={styles.enableSortingHint}>
-          <Icon className={emoji} icon="new" />
+          <Icon className={emoji} icon="new" alt="new" />
           <Text> You can reorder your projects</Text>
           {!displayHint && (
             <Button variant="secondary" size="small" onClick={() => setDisplayHint(true)}>

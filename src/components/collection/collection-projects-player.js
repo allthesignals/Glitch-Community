@@ -8,13 +8,13 @@ import { hexToRgbA, isDarkColor } from 'Utils/color';
 
 import { chunk, findIndex } from 'lodash';
 import { Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledButton, ButtonGroup, ButtonSegment } from '@fogcreek/shared-components';
+import { AnalyticsContext } from 'State/segment-analytics';
 import Markdown from 'Components/text/markdown';
 import FeaturedProject from 'Components/project/featured-project';
 import { ProjectAvatar } from 'Components/images/avatar';
 import Text from 'Components/text/text';
 
 import styles from './collection-projects-player.styl';
-import { AnalyticsContext } from '../../state/segment-analytics';
 
 const getCurrentProjectIndexFromUrl = (projectId, projects) => {
   let currentIndex = 0;
@@ -80,13 +80,13 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
       <Popover
         align="left"
         renderLabel={({ onClick, ref }) => (
-          <UnstyledButton ref={ref} onClick={onClick}>
+          <UnstyledButton ref={ref} onClick={onClick} aria-label={`Now Showing ${featuredProject.domain}, select another project to view"`}>
             <span className={classnames(styles.popoverButton, isDarkColor(collection.coverColor) && styles.dark)}>
               <span className={styles.projectAvatar}>
                 <ProjectAvatar project={featuredProject} />
               </span>
               <Text>{featuredProject.domain}</Text>
-              <Icon icon="chevronDown" alt="show project dropdown from collection" />
+              <Icon icon="chevronDown" />
             </span>
           </UnstyledButton>
         )}
@@ -120,7 +120,7 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
       <div className={styles.buttonWrap}>
         <ButtonGroup variant="primary" size="normal">
           <ButtonSegment onClick={back} disabled={currentProjectIndex === 0}>
-            <Icon icon="chevronLeft" alt="back" />
+            <Icon icon="chevronLeft" alt="previous" />
           </ButtonSegment>
           <ButtonSegment onClick={forward} disabled={currentProjectIndex === projects.length - 1}>
             <Icon icon="chevronRight" alt="next" />

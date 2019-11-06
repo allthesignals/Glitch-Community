@@ -70,7 +70,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
               </span>
             </span>
             <Button as="a" href={`https://${project.domain}.glitch.me`} variant="secondary" target="_blank">
-              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" alt={`launch project fullscreen: ${project.domain} `} />
+              <Image src={fullscreenImageURL} className={styles.fullscreenImg} height="auto" alt={`open project ${project.domain} in a new tab`} />
             </Button>
           </div>
         )}
