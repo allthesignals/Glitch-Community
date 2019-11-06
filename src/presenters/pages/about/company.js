@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Mark, Icon } from '@fogcreek/shared-components';
-import { BlockSection, Bio } from 'Components/about';
+import { BlockSection, Bio, BoardSection } from 'Components/about';
 import Heading from 'Components/text/heading';
 import AboutLayout from './about-layout';
 import styles from './company.styl';
@@ -217,6 +217,7 @@ const AboutCompanyPage = withRouter(() => (
         <p>Cooper has helped humanize technology through his groundbreaking work in the field of user experience (UX) and interaction design.</p>
       </Bio>
     </BlockSection>
+    <BoardSection markColor="blue" useDefaultHeadingSize />
     <section>
       <Heading tagName="h2">
         <Mark color="var(--mark-purple)">Staff diversity report</Mark>
