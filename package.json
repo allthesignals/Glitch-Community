@@ -20,7 +20,7 @@
   "scripts": {
     "build": "npm run build:webpack && npm run build:babel",
     "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
-    "build:webpack": "NODE_OPTIONS='--max-old-space-size=4096' npx webpack",
+    "build:webpack": "npx webpack",
     "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
     "cy:open": "npx cypress open",
     "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
