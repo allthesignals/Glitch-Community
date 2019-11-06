@@ -146,7 +146,16 @@ export function useProjectEditor(initialProject) {
         }
         return { ...permission };
       });
-      setProject((prev) => ({ ...prev, permissions: newPermissions }));
+      const newUsers = [...project.users].map((oldUser) => {
+        if (oldUser.id === user.id) {
+          return { ...oldUser, permission: { ...oldUser.permission, accessLevel: ADMIN_ACCESS_LEVEL } };
+        }
+        if (oldUser.id === currentUser.id) {
+          return { ...oldUser, permission: { ...oldUser.permission, accessLevel: MEMBER_ACCESS_LEVEL } };
+        }
+        return { ...oldUser };
+      });
+      setProject((prev) => ({ ...prev, permissions: newPermissions, users: newUsers }));
     },
   };
 

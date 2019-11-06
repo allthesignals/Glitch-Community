@@ -55,8 +55,8 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
       </Info>
       {currentUserIsAdmin && !userIsAdmin && (
         <Actions className={styles.permissionsPopoverActions}>
-          <p>The project owner can delete this project</p>
-          <p>Each project has a single owner, so you will lose the ability to delete this project if you are no longer the project owner</p>
+          <p>The project owner can delete this project.</p>
+          <p>Each project has a single owner. You will lose the ability to delete this project if you transfer ownership.</p>
           <Button size="small" variant="secondary" onClick={onReassignAdmin}>
             Make Project Owner <Icon className={emoji} icon="fastUp" alt="" />
           </Button>
@@ -73,8 +73,9 @@ PermissionsPopover.propTypes = {
 
 // list of users
 const ProjectUsers = ({ users, project, reassignAdmin }) => {
+  console.log('rerender', users);
   const orderedUsers = orderBy(users, (user) => user.permission.accessLevel, 'desc');
-
+  console.log('orderedusers', orderedUsers);
   return (
     <div className={styles.projectUsers}>
       {orderedUsers.map((user) => (
@@ -83,9 +84,11 @@ const ProjectUsers = ({ users, project, reassignAdmin }) => {
           key={user.id}
           align="left"
           renderLabel={({ onClick, ref }) => (
-            <UnstyledButton onClick={onClick} ref={ref}>
-              <UserAvatar user={user} hideTooltip />
-            </UnstyledButton>
+            <span className={styles.popoverButton}>
+              <UnstyledButton onClick={onClick} ref={ref}>
+                <UserAvatar user={user} hideTooltip />
+              </UnstyledButton>
+            </span>
           )}
         >
           {({ onClose, setActiveView }) => (
