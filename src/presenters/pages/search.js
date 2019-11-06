@@ -25,7 +25,7 @@ const RandomProjectButton = () => {
     <>
       {collection && (
         <ProjectLink project={collection.projects[Math.floor(Math.random() * collection.projects.length)]}>
-          <Button variant="primary">
+          <Button as="span">
             Surprise Me <Icon icon="diamondSmall" />
           </Button>
         </ProjectLink>
@@ -41,8 +41,8 @@ const SearchPage = withRouter(({ query, activeFilter, history }) => {
   };
 
   return (
-    <AnalyticsContext properties={{ origin: 'search', query }}>
-      <Layout searchQuery={query}>
+    <Layout searchQuery={query}>
+      <AnalyticsContext properties={{ origin: 'search', query }}>
         {!!query && <Helmet title={`Search for ${query}`} />}
         {query ? (
           <SearchResults query={query} searchResults={searchResults} activeFilter={activeFilter || 'all'} setActiveFilter={setActiveFilter} />
@@ -56,8 +56,8 @@ const SearchPage = withRouter(({ query, activeFilter, history }) => {
           </>
         )}
         <MoreIdeas />
-      </Layout>
-    </AnalyticsContext>
+      </AnalyticsContext>
+    </Layout>
   );
 });
 
