@@ -106,7 +106,7 @@ const ProjectUsers = ({ users, project, reassignAdmin }) => {
     <div className={styles.projectUsers}>
       {orderedUsers.map((user) => (
         <UserLink key={user.id} user={user}>
-          <UserAvatar user={user} hideTooltip />
+          <UserAvatar user={user} />
         </UserLink>
       ))}
     </div>
