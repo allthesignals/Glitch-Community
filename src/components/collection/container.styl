@@ -16,9 +16,6 @@
   position: relative
   display: flex
   flex-direction: row
-    
-.preview .collectionHeader
-  padding: 12px
 
 .dark .collectionHeader
   color: white
@@ -50,7 +47,9 @@
 
 .nameContainer
   flex: 1
-  max-width: 200px
+  max-width: 145px
+  @media(min-width: smallViewport)
+    max-width: 200px
   @media (min-width: mediumSmallViewport)
     max-width: 300px
   @media (min-width: mediumLargeViewport)
@@ -62,10 +61,10 @@
   svg
     width: 100%
     max-height: 100%
- 
-.preview .imageContainer
-  width: 85px
-  height: 75px
+  @media(max-width: smallViewport)
+    div
+      width: 75px
+      height: 75px
 
 .playOrGridToggle
   background: overlay-background
@@ -82,9 +81,6 @@
   margin: 0
   a
     color: inherit
-    
-.preview .name
-  font-size: 18px
 
 .owner
   margin: 12px 0
