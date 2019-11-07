@@ -7,15 +7,21 @@ dependencies:
   '@babel/preset-env': 7.7.1
   '@babel/preset-react': 7.7.0
   '@babel/register': 7.5.5
+<<<<<<< HEAD
+  '@babel/runtime': 7.6.3
+  '@babel/runtime-corejs3': 7.6.3
+  '@fogcreek/shared-components': 0.10.0
+=======
   '@babel/runtime': 7.7.1
   '@babel/runtime-corejs3': 7.7.1
   '@fogcreek/shared-components': 0.13.4
+>>>>>>> master
   '@jedmao/location': 2.0.4
   '@optimizely/optimizely-sdk': 3.3.1
   '@percy/cypress': 1.0.9
-  '@sentry/browser': 5.7.1
-  '@sentry/minimal': 5.7.1
-  '@sentry/node': 5.7.1
+  '@sentry/browser': 5.7.0
+  '@sentry/minimal': 5.7.0
+  '@sentry/node': 5.7.0
   algoliasearch: 3.35.1
   autoprefixer-stylus: 0.14.0
   axios: 0.19.0
@@ -80,9 +86,15 @@ dependencies:
   react: 16.11.0
   react-aria-live: 2.0.5
   react-axe: 2.1.9
+<<<<<<< HEAD
+  react-dom: 16.10.2
+  react-helmet-async: 1.0.3
+  react-is: 16.10.2
+=======
   react-dom: 16.11.0
   react-helmet-async: 1.0.4
   react-is: 16.11.0
+>>>>>>> master
   react-konami: 0.6.2
   react-onclickoutside: 6.9.0
   react-pluralize: 1.6.3
@@ -95,7 +107,7 @@ dependencies:
   redux: 4.0.4
   redux-starter-kit: 0.6.3
   speed-measure-webpack-plugin: 1.3.1
-  start-server-and-test: 1.10.6
+  start-server-and-test: 1.10.5
   stats-webpack-plugin: 0.7.0
   styled-components: 4.4.1
   stylus: 0.54.7
@@ -104,8 +116,13 @@ dependencies:
   url-join: 4.0.1
   url-search-params-polyfill: 7.0.0
   wcag-contrast: 2.1.1
+<<<<<<< HEAD
+  webpack: 4.41.1
+  webpack-cli: 3.3.9
+=======
   webpack: 4.41.2
   webpack-cli: 3.3.10
+>>>>>>> master
   webpack-dev-middleware: 3.7.2
   winston: 3.2.1
 devDependencies:
@@ -896,8 +913,19 @@ packages:
       regenerator-runtime: 0.13.3
     dev: false
     resolution:
+<<<<<<< HEAD
+      integrity: sha512-933SXHQr7apa95F+3IqkBne8mqOnu1kDh6dnSddC07aW/R51WsOVD7MSczJ6DRpq/L8KLll7TFDxmt30pft44w==
+  /@babel/runtime/7.3.4:
+    dependencies:
+      regenerator-runtime: 0.12.1
+    dev: false
+    resolution:
+      integrity: sha512-IvfvnMdSaLBateu0jfsYIpZTxAc2cKEXEMiezGGN75QcBcecDUKd3PgLAncT0oOgxKy8dd8hrJKj9MfzgfZd6g==
+  /@babel/runtime/7.6.3:
+=======
       integrity: sha512-AryML1eITnHKOTUNMR0xG53kQl7Jc+KwySDTcKeGu/7M2G/9fBvoVXGgZGwGRN+9C5UNNyoH+9XRkOMXt+nHVw==
   /@babel/runtime/7.7.1:
+>>>>>>> master
     dependencies:
       regenerator-runtime: 0.13.3
     dev: false
@@ -1007,7 +1035,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
+<<<<<<< HEAD
+  /@fogcreek/shared-components/0.10.0:
+=======
   /@fogcreek/shared-components/0.13.4:
+>>>>>>> master
     dependencies:
       prop-types: 15.7.2
       react-textarea-autosize: 7.1.2
@@ -1018,7 +1050,11 @@ packages:
       react: ^16.8.0
       styled-components: ^4.3.0
     resolution:
+<<<<<<< HEAD
+      integrity: sha512-t16Mkf3fOJGhodBpRIFbEElkRhYSF6EnrpX4H53xLXl5dQjqh2foFrpLMe8DK5mSHtnv+6ZNpK1+UXmSWustkg==
+=======
       integrity: sha512-E8WA2gKGcJ88W4taN/Eizuz6I0ermnzJUaNfDF3kFxM0YKuiKz1LK6P9E1aDrjPu4V7iAu4eUxQ4zDvuYWJlCg==
+>>>>>>> master
   /@hapi/address/2.1.2:
     dev: false
     resolution:
@@ -1027,22 +1063,37 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1dVNHT76Uu5N3eJNTYcvxee+jzX4Z9lfciqRRHCU27ihbUcYi+iSc2iml5Ke1LXe1SyJCLA0+14Jh4tXJgOppA==
+<<<<<<< HEAD
+  /@hapi/hoek/8.3.0:
+    dev: false
+    resolution:
+      integrity: sha512-C0QL9bmgUXTSuf8nDeGrpMjtJG7tPUr8wG6/wxPbP62tGwCwQtdMSJYfESowmY4P3Hn593f+8OzNY5bckcu/LQ==
+=======
   /@hapi/hoek/8.5.0:
     dev: false
     resolution:
       integrity: sha512-7XYT10CZfPsH7j9F1Jmg1+d0ezOux2oM2GfArAzLwWe4mE2Dr3hVjsAL6+TFY49RRJlCdJDMw3nJsLFroTc8Kw==
+>>>>>>> master
   /@hapi/joi/15.1.1:
     dependencies:
       '@hapi/address': 2.1.2
       '@hapi/bourne': 1.3.2
+<<<<<<< HEAD
+      '@hapi/hoek': 8.3.0
+=======
       '@hapi/hoek': 8.5.0
+>>>>>>> master
       '@hapi/topo': 3.1.6
     dev: false
     resolution:
       integrity: sha512-entf8ZMOK8sc+8YfeOlM8pCfg3b5+WZIKBfUaaJT8UsjAAPjartzxIYm3TIbjvA4u+u++KbcXD38k682nVHDAQ==
   /@hapi/topo/3.1.6:
     dependencies:
+<<<<<<< HEAD
+      '@hapi/hoek': 8.3.0
+=======
       '@hapi/hoek': 8.5.0
+>>>>>>> master
     dev: false
     resolution:
       integrity: sha512-tAag0jEcjwH+P2quUfipd7liWCNX2F8NvYjQp2wtInsZxnMlypdw0FtAOLxtvvkO+GSRRbmNi8m/5y42PQJYCQ==
@@ -1267,55 +1318,55 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-4noVg0CyrbnE6bL24JM202aAxUCjMSLKVLAZzonIKRsDjhpMc1F8vBS6xX4YdjSQoTx9R4oNyIfKiRcbjjdhQw==
-  /@sentry/browser/5.7.1:
+  /@sentry/browser/5.7.0:
     dependencies:
-      '@sentry/core': 5.7.1
-      '@sentry/types': 5.7.1
-      '@sentry/utils': 5.7.1
+      '@sentry/core': 5.7.0
+      '@sentry/types': 5.7.0
+      '@sentry/utils': 5.7.0
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-K0x1XhsHS8PPdtlVOLrKZyYvi5Vexs9WApdd214bO6KaGF296gJvH1mG8XOY0+7aA5i2A7T3ttcaJNDYS49lzw==
-  /@sentry/core/5.7.1:
+      integrity: sha512-hbybYP5onstb8PfqjCubMuXkoXQBjZ3RCaxrOFLOIqpIxajrQ2zmbnaCzfBPWWwKeHa9P+i625OT973OhhHFMA==
+  /@sentry/core/5.7.0:
     dependencies:
-      '@sentry/hub': 5.7.1
-      '@sentry/minimal': 5.7.1
-      '@sentry/types': 5.7.1
-      '@sentry/utils': 5.7.1
+      '@sentry/hub': 5.7.0
+      '@sentry/minimal': 5.7.0
+      '@sentry/types': 5.7.0
+      '@sentry/utils': 5.7.0
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-AOn3k3uVWh2VyajcHbV9Ta4ieDIeLckfo7UMLM+CTk2kt7C89SayDGayJMSsIrsZlL4qxBoLB9QY4W2FgAGJrg==
-  /@sentry/hub/5.7.1:
+      integrity: sha512-gQel0d7LBSWJGHc7gfZllYAu+RRGD9GcYGmkRfemurmDyDGQDf/sfjiBi8f9QxUc2iFTHnvIR5nMTyf0U3yl3Q==
+  /@sentry/hub/5.7.0:
     dependencies:
-      '@sentry/types': 5.7.1
-      '@sentry/utils': 5.7.1
+      '@sentry/types': 5.7.0
+      '@sentry/utils': 5.7.0
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-evGh323WR073WSBCg/RkhlUmCQyzU0xzBzCZPscvcoy5hd4SsLE6t9Zin+WACHB9JFsRQIDwNDn+D+pj3yKsig==
-  /@sentry/minimal/5.7.1:
+      integrity: sha512-qNdYheJ6j4P9Sk0eqIINpJohImmu/+trCwFb4F8BGLQth5iGMVQD6D0YUrgjf4ZaQwfhw9tv4W6VEfF5tyASoA==
+  /@sentry/minimal/5.7.0:
     dependencies:
-      '@sentry/hub': 5.7.1
-      '@sentry/types': 5.7.1
+      '@sentry/hub': 5.7.0
+      '@sentry/types': 5.7.0
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-nS/Dg+jWAZtcxQW8wKbkkw4dYvF6uyY/vDiz/jFCaux0LX0uhgXAC9gMOJmgJ/tYBLJ64l0ca5LzpZa7BMJQ0g==
-  /@sentry/node/5.7.1:
+      integrity: sha512-0sizE2prS9nmfLyVUKmVzFFFqRNr9iorSCCejwnlRe3crqKqjf84tuRSzm6NkZjIyYj9djuuo9l9XN12NLQ/4A==
+  /@sentry/node/5.7.0:
     dependencies:
-      '@sentry/core': 5.7.1
-      '@sentry/hub': 5.7.1
-      '@sentry/types': 5.7.1
-      '@sentry/utils': 5.7.1
+      '@sentry/core': 5.7.0
+      '@sentry/hub': 5.7.0
+      '@sentry/types': 5.7.0
+      '@sentry/utils': 5.7.0
       cookie: 0.3.1
       https-proxy-agent: 3.0.1
       lru_map: 0.3.3
@@ -1324,22 +1375,22 @@ packages:
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-hVM10asFStrOhYZzMqFM7V1lrHkr1ydc2n/SFG0ZmIQxfTjCVElyXV/BJASIdqadM1fFIvvtD/EfgkTcZmub1g==
-  /@sentry/types/5.7.1:
+      integrity: sha512-iqQbGAJDBlpQkp1rl9RkDCIfnukr4cOtHPgJPmLY19m/KXIHD2cdKhvbqoCvIPBTIAeSGQIvDT9jD5zT46eoqQ==
+  /@sentry/types/5.7.0:
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-tbUnTYlSliXvnou5D4C8Zr+7/wJrHLbpYX1YkLXuIJRU0NSi81bHMroAuHWILcQKWhVjaV/HZzr7Y/hhWtbXVQ==
-  /@sentry/utils/5.7.1:
+      integrity: sha512-bFRVortg713dE2yJXNFgNe6sNBVVSkpoELLkGPatdVQi0dYc6OggIIX4UZZvkynFx72GwYqO1NOrtUcJY2gmMg==
+  /@sentry/utils/5.7.0:
     dependencies:
-      '@sentry/types': 5.7.1
+      '@sentry/types': 5.7.0
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-nhirUKj/qFLsR1i9kJ5BRvNyzdx/E2vorIsukuDrbo8e3iZ11JMgCOVrmC8Eq9YkHBqgwX4UnrPumjFyvGMZ2Q==
+      integrity: sha512-XmwQpLqea9mj8x1N7P/l4JvnEb0Rn5Py5OtBgl0ctk090W+GB1uM8rl9mkMf6698o1s1Z8T/tI/QY0yFA5uZXg==
   /@sinonjs/commons/1.6.0:
     dependencies:
       type-detect: 4.0.8
@@ -1382,7 +1433,15 @@ packages:
   /@types/minimatch/3.0.3:
     resolution:
       integrity: sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
+<<<<<<< HEAD
+  /@types/node/12.11.1:
+    dev: true
+    resolution:
+      integrity: sha512-TJtwsqZ39pqcljJpajeoofYRfeZ7/I/OMUQ5pR4q5wOKf2ocrUvBAZUMhWsOvKx3dVc/aaV5GluBivt0sWqA5A==
+  /@types/node/12.7.12:
+=======
   /@types/node/12.12.6:
+>>>>>>> master
     resolution:
       integrity: sha512-FjsYUPzEJdGXjwKqSpE0/9QEh6kzhTAeObA54rn6j3rR4C/mzpI9L0KNfoeASSPMMdxIsoJuCLDWcM/rVjIsSA==
   /@types/source-list-map/0.1.2:
@@ -2208,19 +2267,19 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==
-  /bluebird-retry/0.11.0/bluebird@3.7.1:
+  /bluebird-retry/0.11.0/bluebird@3.7.0:
     dependencies:
-      bluebird: 3.7.1
+      bluebird: 3.7.0
     dev: false
     id: registry.npmjs.org/bluebird-retry/0.11.0
     peerDependencies:
       bluebird: '>=2.3.10'
     resolution:
       integrity: sha1-EomrIsu8OgJYe6rTVZU1HdDBwEc=
-  /bluebird/3.7.1:
+  /bluebird/3.7.0:
     dev: false
     resolution:
-      integrity: sha512-DdmyoGCleJnkbp3nkbxTLJ18rjDsE4yCggEwKNXkeV123sPNfOCYeDoeuOY+F2FrSjO1YXcTU+dsy96KMy+gcg==
+      integrity: sha512-aBQ1FxIa7kSWCcmKHlcHFlT2jt6J/l4FzC7KcPELkOJOsPOb/bccdhmIrKDfXhwFrmc7vDoDrrepFvGqjyXGJg==
   /bn.js/4.11.8:
     dev: false
     resolution:
@@ -2464,7 +2523,7 @@ packages:
       integrity: sha512-+051dE9Bqaz3NHJvl7sprWSofd2jE4TSHbSRBURTHXRhj0f/75Qj33XhmIW7JklSeM1T3dO0n00p4HPReRZ1qg==
   /cacache/12.0.3:
     dependencies:
-      bluebird: 3.7.1
+      bluebird: 3.7.0
       chownr: 1.1.3
       figgy-pudding: 3.5.1
       glob: 7.1.5
@@ -2505,7 +2564,7 @@ packages:
       loader-utils: 1.2.3
       mkdirp: 0.5.1
       neo-async: 2.6.1
-      schema-utils: 2.5.0
+      schema-utils: 2.4.1
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -2686,14 +2745,22 @@ packages:
       is-glob: 4.0.1
       normalize-path: 3.0.0
       readdirp: 3.1.3
+<<<<<<< HEAD
+    dev: false
+=======
     dev: true
+>>>>>>> master
     engines:
       node: '>= 8'
     optionalDependencies:
       fsevents: 2.1.1
     resolution:
       integrity: sha512-/j5PPkb5Feyps9e+jo07jUZGvkB5Aj953NrI4s8xSVScrAo/RHeILrtdb4uzR7N6aaFFxxJ+gt8mA8HfNpw76w==
+<<<<<<< HEAD
+  /chokidar/3.2.2:
+=======
   /chokidar/3.3.0:
+>>>>>>> master
     dependencies:
       anymatch: 3.1.1
       braces: 3.0.2
@@ -2702,6 +2769,15 @@ packages:
       is-glob: 4.0.1
       normalize-path: 3.0.0
       readdirp: 3.2.0
+<<<<<<< HEAD
+    dev: true
+    engines:
+      node: '>= 8'
+    optionalDependencies:
+      fsevents: 2.1.1
+    resolution:
+      integrity: sha512-bw3pm7kZ2Wa6+jQWYP/c7bAZy3i4GwiIiMO2EeRjrE48l8vBqC/WvFhSF0xyM8fQiPEGvwMY/5bqDG7sSEOuhg==
+=======
     dev: false
     engines:
       node: '>= 8.10.0'
@@ -2709,6 +2785,7 @@ packages:
       fsevents: 2.1.1
     resolution:
       integrity: sha512-dGmKLDdT3Gdl7fBUe8XK+gAtGmzy5Fn0XkkWQuYxGIgWVPPse2CxFA5mtrlD0TOHaHjEUqkWNyP1XdHoJES/4A==
+>>>>>>> master
   /chownr/1.1.3:
     dev: false
     resolution:
@@ -3237,7 +3314,7 @@ packages:
       postcss-modules-scope: 2.1.0
       postcss-modules-values: 3.0.0
       postcss-value-parser: 4.0.2
-      schema-utils: 2.5.0
+      schema-utils: 2.4.1
     dev: false
     engines:
       node: '>= 8.9.0'
@@ -7332,8 +7409,12 @@ packages:
     dependencies:
       babel-runtime: 6.26.0
       chalk: 2.4.2
+<<<<<<< HEAD
+      chokidar: 3.2.2
+=======
       chokidar: 3.2.1
       gitbook-plugin-github: 2.0.0
+>>>>>>> master
       glob-parent: 5.1.0
       globby: 10.0.1
       hoek: 6.1.3
@@ -8024,7 +8105,11 @@ packages:
       integrity: sha1-bVuTSkVpk7I9N/QKOC1vFmao5cY=
   /parse5/3.0.3:
     dependencies:
+<<<<<<< HEAD
+      '@types/node': 12.11.1
+=======
       '@types/node': 12.12.6
+>>>>>>> master
     dev: true
     resolution:
       integrity: sha512-rgO9Zg5LLLkfJF9E6CCmXlSE4UVceloys8JrFqCcHloC3usd/kJCyPDwH2SOlzix2j3xaP9sUX3e8+kvkuleAA==
@@ -8162,9 +8247,15 @@ packages:
   /percy-client/3.2.2:
     dependencies:
       base64-js: 1.3.1
+<<<<<<< HEAD
+      bluebird: 3.7.0
+      bluebird-retry: /bluebird-retry/0.11.0/bluebird@3.7.0
+      dotenv: 8.1.0
+=======
       bluebird: 3.7.1
       bluebird-retry: /bluebird-retry/0.11.0/bluebird@3.7.1
       dotenv: 8.2.0
+>>>>>>> master
       es6-promise-pool: 2.5.0
       jssha: 2.3.1
       regenerator-runtime: 0.13.3
@@ -8769,9 +8860,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
-  /react-helmet-async/1.0.4:
+  /react-helmet-async/1.0.3:
     dependencies:
+<<<<<<< HEAD
+      '@babel/runtime': 7.3.4
+=======
       '@babel/runtime': 7.7.1
+>>>>>>> master
       invariant: 2.2.4
       prop-types: 15.7.2
       react-fast-compare: 2.0.4
@@ -8781,7 +8876,7 @@ packages:
       react: ^16.6.0
       react-dom: ^16.6.0
     resolution:
-      integrity: sha512-KTGHE9sz8N7+fCkZ2a3vzXH9eIkiTNhL2NhKR7XzzQl3WsGlCHh76arauJUIiGdfhjeMp7DY7PkASAmYFXeJYg==
+      integrity: sha512-hthnzAPasSX0ZU0adR1YW51xtMhwQuMwxtyjb/OeS2Gu2bzqFnCtt2h93nENE0+97NPeUS0+YHOriEMX8j/W0w==
   /react-input-autosize/2.2.2:
     dependencies:
       prop-types: 15.7.2
@@ -8999,16 +9094,26 @@ packages:
       integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==
   /readdirp/3.1.3:
     dependencies:
+<<<<<<< HEAD
+      picomatch: 2.0.7
+    dev: false
+=======
       picomatch: 2.1.0
     dev: true
+>>>>>>> master
     engines:
       node: '>= 8'
     resolution:
       integrity: sha512-ZOsfTGkjO2kqeR5Mzr5RYDbTGYneSkdNKX2fOX2P5jF7vMrd/GNnIAUtDldeHHumHUCQ3V05YfWUdxMPAsRu9Q==
   /readdirp/3.2.0:
     dependencies:
+<<<<<<< HEAD
+      picomatch: 2.0.7
+    dev: true
+=======
       picomatch: 2.1.0
     dev: false
+>>>>>>> master
     engines:
       node: '>= 8'
     resolution:
@@ -9098,6 +9203,10 @@ packages:
   /regenerator-runtime/0.11.1:
     resolution:
       integrity: sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
+  /regenerator-runtime/0.12.1:
+    dev: false
+    resolution:
+      integrity: sha512-odxIc1/vDlo4iZcfXqRYFj0vpXFNoGdKMAUieAlFYO6m/nl5e9KR/beGf41z4a1FI+aQgtjhuaSlDxQ0hmkrHg==
   /regenerator-runtime/0.13.3:
     dev: false
     resolution:
@@ -9240,7 +9349,7 @@ packages:
       integrity: sha512-dapwLGqkHtwL5AEbfenuzjTYg35Jd6KPytsC2/TLkVMz8rm+tNt72MGUWT1RP/aYawMpN6HqbNGBQaRcBtjQMQ==
   /request-promise/4.2.5/request@2.88.0:
     dependencies:
-      bluebird: 3.7.1
+      bluebird: 3.7.0
       request: 2.88.0
       request-promise-core: /request-promise-core/1.1.3/request@2.88.0
       stealthy-require: 1.1.1
@@ -9488,7 +9597,7 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha512-i27Mic4KovM/lnGsy8whRCHhc7VicJajAjTrYg11K9zfZXnYIt4k5F+kZkwjnrhKzLic/HLU4j11mjsz2G/75g==
-  /schema-utils/2.5.0:
+  /schema-utils/2.4.1:
     dependencies:
       ajv: 6.10.2
       ajv-keywords: /ajv-keywords/3.4.1/ajv@6.10.2
@@ -9496,7 +9605,7 @@ packages:
     engines:
       node: '>= 8.9.0'
     resolution:
-      integrity: sha512-32ISrwW2scPXHUSusP8qMg5dLUawKkyV+/qIEV9JdXKx+rsM6mi8vZY8khg2M69Qom16rtroWXD3Ybtiws38gQ==
+      integrity: sha512-RqYLpkPZX5Oc3fw/kHHHyP56fg5Y+XBpIpV8nCg0znIALfq3OH+Ea9Hfeac9BAMwG5IICltiZ0vxFvJQONfA5w==
   /seekout/1.0.2:
     dev: false
     engines:
@@ -9845,9 +9954,9 @@ packages:
     dev: false
     resolution:
       integrity: sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=
-  /start-server-and-test/1.10.6:
+  /start-server-and-test/1.10.5:
     dependencies:
-      bluebird: 3.7.1
+      bluebird: 3.7.0
       check-more-types: 2.24.0
       debug: 4.1.1
       execa: 2.1.0
@@ -9859,7 +9968,7 @@ packages:
       node: '>=6'
     hasBin: true
     resolution:
-      integrity: sha512-Gr/TDePT4JczaoBiKZLZRIWmYgRcoGcFQePtPEHEvZFUuxbdUqTZozx8dqrlKl/67+pipg5OOtBH21U1oJXJIQ==
+      integrity: sha512-3cErmnxyzLaMy460btq0ohGDJcq8G7o16Ijnmgw5Tu59aTa2pkfGR5I8M6p584kDFTxmGvV1OsmV3eWMFC6Obw==
   /static-extend/0.1.2:
     dependencies:
       define-property: 0.2.5
@@ -10193,7 +10302,7 @@ packages:
       schema-utils: 1.0.0
       serialize-javascript: 1.9.1
       source-map: 0.6.1
-      terser: 4.3.9
+      terser: 4.3.8
       webpack-sources: 1.4.3
       worker-farm: 1.7.0
     dev: false
@@ -10203,7 +10312,7 @@ packages:
       webpack: ^4.0.0
     resolution:
       integrity: sha512-ZXmmfiwtCLfz8WKZyYUuuHf3dMYEjg8NrjHMb0JqHVHVOSkzp3cW2/XG1fP3tRhqEqSzMwzzRQGtAPbs4Cncxg==
-  /terser/4.3.9:
+  /terser/4.3.8:
     dependencies:
       commander: 2.20.3
       source-map: 0.6.1
@@ -10213,7 +10322,7 @@ packages:
       node: '>=6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-NFGMpHjlzmyOtPL+fDw3G7+6Ueh/sz4mkaUYa4lJCxOPTNzd0Uj0aZJOmsDYoSQyfuVoWDMSWTPU3huyOm2zdA==
+      integrity: sha512-otmIRlRVmLChAWsnSFNO0Bfk6YySuBp6G9qrHiJwlLDd4mxe2ta4sjI7TzIR+W1nBMjilzrMcPOz9pSusgx3hQ==
   /text-hex/1.0.0:
     dev: false
     resolution:
@@ -10765,7 +10874,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==
-  /webpack/4.41.2:
+  /webpack/4.41.1:
     dependencies:
       '@webassemblyjs/ast': 1.8.5
       '@webassemblyjs/helper-module-context': 1.8.5
@@ -10795,7 +10904,7 @@ packages:
       node: '>=6.11.5'
     hasBin: true
     resolution:
-      integrity: sha512-Zhw69edTGfbz9/8JJoyRQ/pq8FYUoY0diOXqW0T6yhgdhCv6wr0hra5DwwWexNRns2Z2+gsnrNcbe9hbGBgk/A==
+      integrity: sha512-ak7u4tUu/U63sCVxA571IuPZO/Q0pZ9cEXKg+R/woxkDzVovq57uB6L2Hlg/pC8LCU+TWpvtcYwsstivQwMJmw==
   /whatwg-encoding/1.0.5:
     dependencies:
       iconv-lite: 0.4.24
@@ -11100,7 +11209,11 @@ specifiers:
   '@babel/register': 7.5.5
   '@babel/runtime': ^7.5.4
   '@babel/runtime-corejs3': ^7.5.5
+<<<<<<< HEAD
+  '@fogcreek/shared-components': ^0.10.0
+=======
   '@fogcreek/shared-components': ^0.13.4
+>>>>>>> master
   '@jedmao/location': ^2.0.4
   '@optimizely/optimizely-sdk': ^3.2.2
   '@percy/cypress': ^1.0.9

@@ -47,7 +47,11 @@
     "@babel/register": "7.5.5",
     "@babel/runtime": "^7.5.4",
     "@babel/runtime-corejs3": "^7.5.5",
+<<<<<<< HEAD
+    "@fogcreek/shared-components": "^0.10.0",
+=======
     "@fogcreek/shared-components": "^0.13.4",
+>>>>>>> master
     "@jedmao/location": "^2.0.4",
     "@optimizely/optimizely-sdk": "^3.2.2",
     "@percy/cypress": "^1.0.9",
