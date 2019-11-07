@@ -50,10 +50,12 @@ const ExternalRedirect = ({ to }) => {
     window.location.replace(to);
   }, []);
   return (
-    <Route render={({ staticContext }) => {
-      if (staticContext) staticContext.url = to;
-      return null;
-    }} />
+    <Route
+      render={({ staticContext }) => {
+        if (staticContext) staticContext.url = to;
+        return null;
+      }}
+    />
   );
 };
 
@@ -201,15 +203,24 @@ const Router = () => {
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
 
-        <Route path="/about/company" render={({ location }) => <AboutCompanyPage key={location.key} />} />
-        <Route path="/about/careers" render={({ location }) => <AboutCareersPage key={location.key} />} />
-        <Route path="/about/events" render={({ location }) => <AboutEventsPage key={location.key} />} />
-        <Route path="/about/press" render={({ location }) => <AboutPressPage key={location.key} />} />
-        <Route path="/about" render={({ location }) => <AboutPage key={location.key} />} />
-        
-        <Route path="/vscode" render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
-        <Route path="/vscode" render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
-        <Route path="/support" render={({ location }) => <ExternalRedirect to="https://support.glitch.com" key={location.key} />} />
+        <Route path="/about/company" exact render={({ location }) => <AboutCompanyPage key={location.key} />} />
+        <Route path="/about/careers" exact render={({ location }) => <AboutCareersPage key={location.key} />} />
+        <Route path="/about/events" exact render={({ location }) => <AboutEventsPage key={location.key} />} />
+        <Route path="/about/press" exact render={({ location }) => <AboutPressPage key={location.key} />} />
+        <Route path="/about" exact render={({ location }) => <AboutPage key={location.key} />} />
+
+        <Route path="/you-got-this/2" render={({ location }) => <Redirect to="/culture/react-starter-kit/" key={location.key} />} />
+        <Route path="/you-got-this/2" render={({ location }) => <Redirect to="/culture/you-got-this-zine-2/" key={location.key} />} />
+        <Route path="/you-got-this" render={({ location }) => <Redirect to="/culture/you-got-this-zine/" key={location.key} />} />
+        <Route path="/function" render={({ location }) => <Redirect to="/culture/function/" key={location.key} />} />
+        <Route path="/revisionpath" render={({ location }) => <Redirect to="/culture/revisionpath/" key={location.key} />} />
+        <Route path="/open-world" render={({ location }) => <Redirect to="/culture/open-world/" key={location.key} />} />
+        <Route path="/careers" render={({ location }) => <Redirect to="/about/careers/" key={location.key} />} />
+        <Route path="/mythbustersjr" render={({ location }) => <Redirect to="/culture/mythbusters-jr/" key={location.key} />} />
+        <Route path="/mythbusters" render={({ location }) => <Redirect to="/culture/mythbusters-jr/" key={location.key} />} />
+        <Route path="/saastr" exact render={({ location }) => <ExternalRedirect to="https://saastr.glitch.me/" key={location.key} />} />
+        <Route path="/vscode" exact render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
+        <Route path="/support" exact render={({ location }) => <ExternalRedirect to="https://support.glitch.com" key={location.key} />} />
 
         {EXTERNAL_ROUTES.map((route) => (
           <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />
