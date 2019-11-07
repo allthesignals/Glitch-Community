@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Mark } from '@fogcreek/shared-components';
 import { Helmet } from 'react-helmet-async';
 import Heading from 'Components/text/heading';
-import { BlockSection } from 'Components/about';
+import { BlockSection, BoardSection } from 'Components/about';
 import AboutLayout from './about-layout';
 import styles from './careers.styl';
 import aboutStyles from './about.styl';
@@ -14,8 +14,12 @@ const pageTitle = 'About Glitch - Careers';
 
 const AboutCareersPage = withRouter(() => {
   useEffect(() => {
-    import('../../../utils/lever/lever.js');
     window.leverJobsOptions = { accountName: 'glitch', includeCss: true };
+    if (window.loadLeverJobs) {
+      window.loadLeverJobs(window.leverJobsOptions);
+    } else {
+      import('Utils/lever/lever.js');
+    }
   }, []);
 
   return (
@@ -35,6 +39,7 @@ const AboutCareersPage = withRouter(() => {
         <Mark color="var(--mark-pink)">Open positions</Mark>
       </Heading>
       <section id="lever-jobs-container" className={aboutStyles.backgroundSection} />
+      <BoardSection markColor="purple" />
       <BlockSection>
         <Heading tagName="h2" className={aboutStyles.h2}>
           <Mark color="var(--mark-blue)">Things you won’t find at most other companies</Mark>
@@ -126,18 +131,24 @@ const AboutCareersPage = withRouter(() => {
       </BlockSection>
       <section className={aboutStyles.backgroundSection}>
         <article className={styles.photoSection}>
-          <img
-            src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2F993109ed1c7580173f8e602f3d6e881d-xlarge.jpg?1559307581786"
-            alt="Glitch staff working"
-          />
-          <img
-            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fbaf5e6e3eb8c3c9274bb56e3105ed452-large.jpg"
-            alt="Glitch staff walking"
-          />
-          <img
-            src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2F0b1613403bacaeaf9e4f28db84bc5e75-xlarge.jpg?1559307583178"
-            alt="Glitch staff playing video games"
-          />
+          <div>
+            <img
+              src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2F993109ed1c7580173f8e602f3d6e881d-xlarge.jpg?1559307581786"
+              alt="Glitch staff working"
+            />
+          </div>
+          <div>
+            <img
+              src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fbaf5e6e3eb8c3c9274bb56e3105ed452-large.jpg"
+              alt="Glitch staff walking"
+            />
+          </div>
+          <div>
+            <img
+              src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2F0b1613403bacaeaf9e4f28db84bc5e75-xlarge.jpg?1559307583178"
+              alt="Glitch staff playing video games"
+            />
+          </div>
         </article>
       </section>
       <BlockSection>
@@ -184,18 +195,24 @@ const AboutCareersPage = withRouter(() => {
       </BlockSection>
       <section className={aboutStyles.backgroundSection}>
         <article className={styles.photoSection}>
-          <img
-            src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2Fd92f352ab54cfd9be0457776317e0ec6-xlarge.jpg?1559307599792"
-            alt="Glitch staff talking"
-          />
-          <img
-            src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2F7f2b4dd2435996315bb77787f0c38d0b-xlarge.jpg?1559307600387"
-            alt="Looky What We Made zine"
-          />
-          <img
-            src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2F1e196309fd17fa4af027de3c345fc12f-xlarge.jpg?1559307839260"
-            alt="Glitch staff talking"
-          />
+          <div>
+            <img
+              src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2Fd92f352ab54cfd9be0457776317e0ec6-xlarge.jpg?1559307599792"
+              alt="Glitch staff talking"
+            />
+          </div>
+          <div>
+            <img
+              src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2F7f2b4dd2435996315bb77787f0c38d0b-xlarge.jpg?1559307600387"
+              alt="Looky What We Made zine"
+            />
+          </div>
+          <div>
+            <img
+              src="https://cdn.glitch.com/b205c719-a61d-400a-9e80-8784c201e1d2%2F1e196309fd17fa4af027de3c345fc12f-xlarge.jpg?1559307839260"
+              alt="Glitch staff talking"
+            />
+          </div>
         </article>
       </section>
       <section>

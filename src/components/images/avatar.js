@@ -16,8 +16,8 @@ import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
 import styles from './avatar.styl';
 
 // UserAvatar
-export const AvatarBase = ({ name, src, color, srcFallback, variant, type, tiny, hideTooltip, withinButton }) => {
-  const className = classNames(styles.avatar, styles[type], { [styles.tiny]: tiny });
+export const AvatarBase = ({ name, src, color, srcFallback, variant, tiny, hideTooltip, withinButton }) => {
+  const className = classNames(styles.avatar, styles[variant], { [styles.tiny]: tiny });
   const style = color && { backgroundColor: color };
   const contents = <Avatar src={src} defaultSrc={srcFallback} alt={name} style={style} variant={variant} className={className} />;
 
@@ -32,7 +32,6 @@ AvatarBase.propTypes = {
   src: PropTypes.string.isRequired,
   srcFallback: PropTypes.string,
   variant: PropTypes.string,
-  type: PropTypes.string.isRequired,
   color: PropTypes.string,
   hideTooltip: PropTypes.bool,
   withinButton: PropTypes.bool,
@@ -48,7 +47,7 @@ AvatarBase.defaultProps = {
 };
 
 export const TeamAvatar = ({ team, size, hideTooltip, tiny }) => (
-  <AvatarBase name={team.name} src={getTeamAvatarUrl({ ...team, size })} srcFallback={DEFAULT_TEAM_AVATAR} variant="roundrect" type="team" hideTooltip={hideTooltip} tiny={tiny} />
+  <AvatarBase name={team.name} src={getTeamAvatarUrl({ ...team, size })} srcFallback={DEFAULT_TEAM_AVATAR} variant="roundrect" hideTooltip={hideTooltip} tiny={tiny} />
 );
 TeamAvatar.propTypes = {
   team: PropTypes.shape({
@@ -70,7 +69,6 @@ export const UserAvatar = ({ user, suffix = '', hideTooltip, withinButton, tiny 
     src={getUserAvatarThumbnailUrl(user)}
     color={user.color}
     srcFallback={ANON_AVATAR_URL}
-    type="user"
     hideTooltip={hideTooltip}
     withinButton={withinButton}
     tiny={tiny}
@@ -96,7 +94,7 @@ UserAvatar.defaultProps = {
 };
 
 export const ProjectAvatar = ({ project, hasAlt, tiny }) => (
-  <AvatarBase name={hasAlt ? project.domain : ''} src={getProjectAvatarUrl(project)} srcFallback={FALLBACK_AVATAR_URL} variant="roundrect" type="project" hideTooltip tiny={tiny} />
+  <AvatarBase name={hasAlt ? project.domain : ''} src={getProjectAvatarUrl(project)} srcFallback={FALLBACK_AVATAR_URL} variant="roundrect" hideTooltip tiny={tiny} />
 );
 
 ProjectAvatar.propTypes = {

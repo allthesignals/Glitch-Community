@@ -16,22 +16,23 @@ const getFromStorage = (key) => readFromStorage(getStorageMemo(), key);
 const setStorage = (key, value) => writeToStorage(getStorageMemo(), key, value);
 
 function identifyUser(user) {
-  document.cookie = `hasLogin=; expires=${new Date()}`;
   if (user) {
     addBreadcrumb({
       level: 'info',
       message: `Current user is ${JSON.stringify(user)}`,
     });
-    if (user.login) {
-      const expires = new Date();
-      expires.setFullYear(expires.getFullYear() + 1);
-      document.cookie = `hasLogin=true; expires=${expires}`;
-    }
   } else {
     addBreadcrumb({
       level: 'info',
       message: 'logged out',
     });
+  }
+  if (user && user.login) {
+    const expires = new Date();
+    expires.setFullYear(expires.getFullYear() + 1);
+    document.cookie = `hasLogin=true; path=/; expires=${expires}`;
+  } else {
+    document.cookie = `hasLogin=; path=/; expires=${new Date()}`;
   }
   try {
     if (window.analytics && user && user.login) {

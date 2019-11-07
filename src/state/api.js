@@ -77,7 +77,6 @@ export function APIContextProvider({ children }) {
       ));
     }
   }, [api, pendingRequests]);
-
   return <Context.Provider value={api}>{children}</Context.Provider>;
 }
 

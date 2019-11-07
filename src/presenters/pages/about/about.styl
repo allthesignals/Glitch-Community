@@ -208,10 +208,13 @@ body[data-grey]
 .imageRow
   margin-top: 1rem;
   display: flex;
-.imageRow img
-  max-width: calc(33% - 24px)
-  margin: 12px;
-  border-radius: 5px;
+  div
+    flex: 1;
+    margin: 12px;
+  img
+    width: 100%;
+    display: block;
+    border-radius: 5px;
 
 .thirdSectionButton 
   flex: 0 1 auto;
@@ -245,4 +248,3 @@ body[data-grey]
     height: 100%
     width: 100%
     border: 0
-

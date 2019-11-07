@@ -23,8 +23,10 @@ import { NotFoundPage } from './error';
 import PupdatesPreview from './pupdates-preview';
 import SearchPage from './search';
 import SecretPage from './secret';
+import SettingsPage from './settings';
 import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
+import TwoFactorCodePage from './login/two-factor-code';
 import AboutPage from './about';
 import AboutCompanyPage from './about/company';
 import AboutCareersPage from './about/careers';
@@ -85,6 +87,7 @@ const PageChangeHandler = withRouter(({ location }) => {
 const Router = () => {
   const { EXTERNAL_ROUTES } = useGlobals();
   useAppMounted();
+
   return (
     <>
       <PageChangeHandler />
@@ -122,6 +125,11 @@ const Router = () => {
           render={({ location }) => <EmailTokenLoginPage key={location.key} token={parse(location.search, 'token')} />}
         />
         <Route
+          path="/login/two-factor"
+          exact
+          render={({ location }) => <TwoFactorCodePage key={location.key} initialToken={parse(location.search, 'token')} />}
+        />
+        <Route
           path="/login/reset-password"
           exact
           render={({ location }) => (
@@ -135,7 +143,7 @@ const Router = () => {
 
         <Route path="/signin" exact render={({ location }) => <OauthSignIn key={location.key} />} />
 
-        <Route path="/join/@:teamUrl/:joinToken" exact render={({ match }) => <JoinTeamPage key={location.key} {...match.params} />} />
+        <Route path="/join/@:teamUrl/:joinToken" exact render={({ location, match }) => <JoinTeamPage key={location.key} {...match.params} />} />
 
         <Route path="/questions" exact render={({ location }) => <QuestionsPage key={location.key} />} />
 
@@ -143,7 +151,11 @@ const Router = () => {
 
         <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />
 
-        <Route path="/@:owner/:name" exact render={({ location, match }) => <CollectionPage key={location.key} owner={match.params.owner} name={match.params.name} />} />
+        <Route
+          path="/@:owner/:name"
+          exact
+          render={({ location, match }) => <CollectionPage key={location.key} owner={match.params.owner} name={match.params.name} />}
+        />
 
         <Route
           path="/user/:id(\d+)"
@@ -167,15 +179,12 @@ const Router = () => {
         <Route path="/create" exact render={({ location }) => <CreatePage key={location.key} />} />
 
         {categories.map((category) => (
-          <Route
-            key={category.url}
-            path={`/${category.url}`}
-            exact
-            render={() => <Redirect to={`/@glitch/${category.collectionName}`} />}
-          />
+          <Route key={category.url} path={`/${category.url}`} exact render={() => <Redirect to={`/@glitch/${category.collectionName}`} />} />
         ))}
 
         <Route path="/secret" exact render={({ location }) => <SecretPage key={location.key} />} />
+
+        <Route path="/settings" exact render={({ location }) => <SettingsPage key={location.key} />} />
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
 
