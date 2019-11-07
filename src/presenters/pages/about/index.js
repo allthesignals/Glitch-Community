@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { CDN_URL } from 'Utils/constants';
+import Link from 'Components/link';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
@@ -85,7 +86,7 @@ function FirstSection() {
           </p>
         </div>
       </div>
-      <Button className={styles.centeredButton} as="a" href="https://glitch.com/create">
+      <Button className={styles.centeredButton} as={Link} to="/create">
         Explore What You Can Do with Glitch <span aria-hidden="true">→</span>{' '}
       </Button>
     </section>
