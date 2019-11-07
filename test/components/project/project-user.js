@@ -1,10 +1,11 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { Popover, UnstyledButton, Button } from '@fogcreek/shared-components';
 import ProjectUser, { PermissionsPopover } from 'Components/project/project-user';
+import { UserLink } from 'Components/link';
 import MockContext from '../../helpers/mockContext';
 import styles from '../../../src/components/project/project-user.styl';
 
@@ -25,9 +26,27 @@ describe('ProjectUser', function() {
     };
   });
 
-  it('renders a popover button for each user', () => {
-    const wrapper = shallow(<ProjectUser {...this.props} />);
-    expect(wrapper.find(Popover)).to.have.lengthOf(2);
+  context("if the current user is a member of the project", () => {
+    it('renders a popover button for each user', () => {
+      const wrapper = mount(
+        <MockContext currentUser={{ id: 1 }} location={'~projectPage'}>
+          <ProjectUser {...this.props} />
+        </MockContext>,
+      );
+      expect(wrapper.find(Popover)).to.have.lengthOf(2);
+    });
+  });
+
+  context("if the current user is NOT a member of the project", () => {
+    it('renders a link for each user', () => {
+      const wrapper = mount(
+        <MockContext currentUser={{ id: "some other id" }} location={'~projectPage'}>
+          <ProjectUser {...this.props} />
+        </MockContext>,
+      );
+      expect(wrapper.find(Popover)).to.have.lengthOf(0);
+      expect(wrapper.find(UserLink)).to.have.lengthOf(2);
+    });
   });
 
   context('when the popover button is clicked', () => {
