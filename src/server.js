@@ -19,8 +19,9 @@ const Page = ({
   ZINE_POSTS,
   optimizely,
   helmetContext,
+  routerContext,
 }) => (
-  <StaticRouter location={route}>
+  <StaticRouter location={route} context={routerContext}>
     <GlobalsProvider
       origin={origin}
       EXTERNAL_ROUTES={EXTERNAL_ROUTES}

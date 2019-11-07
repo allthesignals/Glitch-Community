@@ -9,13 +9,11 @@ const punycode = require('punycode');
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const webpackExpressMiddleware = require('./webpack');
 const constants = require('./constants');
-const categories = require('../shared/categories');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData } = require('./optimizely');
 const { readCuratedContent, writeCuratedContent } = require('./curated');
-const rootTeams = require('../shared/teams');
 
 module.exports = function(EXTERNAL_ROUTES) {
   const app = express.Router();
@@ -157,19 +155,6 @@ module.exports = function(EXTERNAL_ROUTES) {
     }
     await render(req, res);
   });
-
-  categories.forEach((category) => {
-    app.get(`/${category.url}`, (req, res) => {
-      res.redirect(301, `/@glitch/${category.collectionName}`);
-    });
-  });
-
-  // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
-  /*Object.keys(rootTeams).forEach((teamName) => {
-    app.get(`/${teamName}`, (req, res) => {
-      res.redirect(301, `/@${teamName}`);
-    });
-  });*/
 
   app.get('/@:author/:url', async (req, res) => {
     const { author, url } = req.params;

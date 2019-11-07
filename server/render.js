@@ -69,6 +69,7 @@ const render = async (url, context) => {
   resetState();
   const sheet = new ServerStyleSheet();
   const helmetContext = {};
+  const routerContext = {};
 
   // don't use <ReactSyntax /> so babel can stay scoped to the src directory
   const page = React.createElement(Page, {
@@ -77,13 +78,14 @@ const render = async (url, context) => {
     route: url.pathname + url.search + url.hash,
     optimizely: await getOptimizelyClient(),
     helmetContext,
+    routerContext,
   });
 
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
   const OPTIMIZELY_DATA = await getOptimizelyData(); // grab the latest optimizely again because we didn't use the one from context
-  return { ...context, OPTIMIZELY_DATA, html, helmet: helmetContext.helmet, styleTags };
+  return { ...context, OPTIMIZELY_DATA, html, styleTags, helmet: helmetContext.helmet, };
 };
 
 module.exports = (url, context) => {
