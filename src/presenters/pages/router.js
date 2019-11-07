@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
 import punycode from 'punycode';
 
 import categories from 'Shared/categories';
@@ -56,7 +56,8 @@ function track() {
   }
 }
 
-const PageChangeHandler = withRouter(({ location }) => {
+const PageChangeHandler = () => {
+  const location = useLocation();
   const { reload } = useCurrentUser();
   const isUpdate = useRef(false);
 
@@ -82,7 +83,7 @@ const PageChangeHandler = withRouter(({ location }) => {
     }
   });
   return null;
-});
+};
 
 const Router = () => {
   const { EXTERNAL_ROUTES } = useGlobals();
