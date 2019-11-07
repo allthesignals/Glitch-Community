@@ -115,15 +115,13 @@ const Idea = ({ project }) => {
 
 const Ideas = ({ count }) => {
   // when this goes live, use collection id 13044 (@glitch/ideas)
-  const { value: ideas } = useCollectionProjects({ id: 13045 });
+  // to test, use collection id 13045 or another you control
+  const { value: ideas } = useCollectionProjects({ id: 13044 });
   const [ideasArr, setIdeasArr] = useState([]);
 
-  useEffect(
-    () => {
-      setIdeasArr(ideas);
-    },
-    [ideas],
-  );
+  useEffect(() => {
+    setIdeasArr(ideas);
+  }, [ideas]);
 
   const onClickMoreIdeas = () => {
     const els = ideasArr.splice(0, count);
