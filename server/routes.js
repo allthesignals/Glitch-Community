@@ -90,18 +90,22 @@ module.exports = function(EXTERNAL_ROUTES) {
     };
 
     const renderedContext = await renderPage(url, currentContext);
-
-    res.render('index.ejs', {
-      ...currentContext,
-      ...renderedContext,
-      scripts,
-      styles,
-      BUILD_COMPLETE: built,
-      BUILD_TIMESTAMP: buildTime.toISOString(),
-      PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
-      ENVIRONMENT: process.env.NODE_ENV || 'dev',
-      RUNNING_ON: process.env.RUNNING_ON,
-    });
+    
+    if (renderedContext.router.url) {
+      res.redirect(renderedContext.router.url);
+    } else {
+      res.render('index.ejs', {
+        ...currentContext,
+        ...renderedContext,
+        scripts,
+        styles,
+        BUILD_COMPLETE: built,
+        BUILD_TIMESTAMP: buildTime.toISOString(),
+        PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
+        ENVIRONMENT: process.env.NODE_ENV || 'dev',
+        RUNNING_ON: process.env.RUNNING_ON,
+      });
+    }
   }
 
   app.use(
