@@ -7,7 +7,7 @@ const dayjs = require('dayjs');
 const punycode = require('punycode');
 
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
-const initWebpack = require('./webpack');
+const webpackExpressMiddleware = require('./webpack');
 const constants = require('./constants');
 const categories = require('../shared/categories');
 const { APP_URL } = constants.current;
@@ -37,7 +37,10 @@ module.exports = function(EXTERNAL_ROUTES) {
     return next();
   });
 
-  initWebpack(app);
+  // Use webpack middleware for dev/staging/etc.
+  if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
+    app.use(webpackExpressMiddleware());
+  }
   const buildTime = dayjs();
 
   const ms = dayjs.convert(7, 'days', 'milliseconds');
@@ -162,11 +165,11 @@ module.exports = function(EXTERNAL_ROUTES) {
   });
 
   // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
-  Object.keys(rootTeams).forEach((teamName) => {
+  /*Object.keys(rootTeams).forEach((teamName) => {
     app.get(`/${teamName}`, (req, res) => {
       res.redirect(301, `/@${teamName}`);
     });
-  });
+  });*/
 
   app.get('/@:author/:url', async (req, res) => {
     const { author, url } = req.params;
