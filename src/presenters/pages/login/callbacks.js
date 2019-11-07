@@ -2,15 +2,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import { captureException } from 'Utils/sentry';
 import { APP_URL } from 'Utils/constants';
 
-import useLocalStorage from 'State/local-storage';
 import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import TwoFactorCodePage from './two-factor-code';
 import { EmailErrorPage, OauthErrorPage } from '../error';
+import RedirectToDestination from './redirect-to-destination';
 
 // The Editor may embed /login/* endpoints in an iframe in order to share code.
 // NotifyParent allows the editor to receive messages from this page.
@@ -30,20 +29,6 @@ function notifyParent(message = {}) {
 
   window.parent.postMessage(message, APP_URL);
 }
-
-export const RedirectToDestination = () => {
-  const [destination, setDestination] = useLocalStorage('destinationAfterAuth', null);
-
-  React.useEffect(() => {
-    setDestination(undefined);
-  }, []);
-
-  if (destination && destination.expires > new Date().toISOString()) {
-    return <Redirect to={destination.to} />;
-  }
-
-  return <Redirect to="/" />;
-};
 
 const LoginPage = ({ provider, url }) => {
   const api = useAPI();

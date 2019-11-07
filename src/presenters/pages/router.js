@@ -26,6 +26,7 @@ import SecretPage from './secret';
 import SettingsPage from './settings';
 import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
+import TwoFactorCodePage from './login/two-factor-code';
 import AboutPage from './about';
 import AboutCompanyPage from './about/company';
 import AboutCareersPage from './about/careers';
@@ -122,6 +123,11 @@ const Router = () => {
           path="/login/email"
           exact
           render={({ location }) => <EmailTokenLoginPage key={location.key} token={parse(location.search, 'token')} />}
+        />
+        <Route
+          path="/login/two-factor"
+          exact
+          render={({ location }) => <TwoFactorCodePage key={location.key} initialToken={parse(location.search, 'token')} />}
         />
         <Route
           path="/login/reset-password"

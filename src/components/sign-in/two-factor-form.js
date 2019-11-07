@@ -52,9 +52,6 @@ const TwoFactorSignIn = ({ initialToken, onSuccess }) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <Notification type="success" persistent>
-        Almost Done
-      </Notification>
       <Text>Enter your two factor auth code to finish signing in</Text>
       <TextInput
         value={code}
@@ -65,7 +62,7 @@ const TwoFactorSignIn = ({ initialToken, onSuccess }) => {
         disabled={status.working}
       />
       <div className={styles.submitWrap}>
-        <Button size="small" disabled={status.working || code.length < 6} onClick={onSubmit}>
+        <Button size="small" disabled={status.working || code.length < 6} onClick={onSubmit} type="submit">
           Sign in
         </Button>
       </div>

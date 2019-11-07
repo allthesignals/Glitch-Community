@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import dayjs from 'dayjs';
 import { Actions, Button, Icon, Info, Loader, Popover, TextInput, Title } from '@fogcreek/shared-components';
-
 import SignInButton from 'Components/buttons/sign-in-button';
 import Link from 'Components/link';
 import Notification from 'Components/notification';
 import TwoFactorForm from 'Components/sign-in/two-factor-form';
 import useEmail from 'Hooks/use-email';
-import useLocalStorage from 'State/local-storage';
+import useDestinationAfterAuth from 'Hooks/use-destination-after-auth';
 import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
@@ -189,7 +187,6 @@ const SignInWithCode = ({ onBack, showTwoFactor }) => {
         showTwoFactor(data.tfaToken);
       } else {
         login(data);
-        setStatus('done');
       }
     } catch (error) {
       if (error && error.response && error.response.status !== 401) {
@@ -313,7 +310,7 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
           testingId="sign-in-password"
         />
         <div className={styles.submitWrap}>
-          <Button size="small" disabled={!emailAddress || !password || emailValidationError || working} onClick={handleSubmit}>
+          <Button size="small" disabled={!emailAddress || !password || emailValidationError || working} onClick={handleSubmit} type="submit">
             Sign in
           </Button>
         </div>
@@ -329,19 +326,8 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
 
 export const SignInPopBase = withRouter(({ startOpen, location }) => {
   const userPasswordEnabled = useDevToggle('User Passwords');
-  const [, setDestination] = useLocalStorage('destinationAfterAuth');
+  const [, setDestination] = useDestinationAfterAuth(location.pathname, location.search);
   const [tfaToken, setTfaToken] = React.useState('');
-
-  const onSignInClick = () =>
-    setDestination({
-      expires: dayjs()
-        .add(10, 'minutes')
-        .toISOString(),
-      to: {
-        pathname: location.pathname,
-        search: location.search,
-      },
-    });
 
   return (
     <Popover
@@ -375,14 +361,25 @@ export const SignInPopBase = withRouter(({ startOpen, location }) => {
             <PasswordLoginSection showTwoFactor={(token) => { setTfaToken(token); setActiveView('twoFactor'); }} showForgotPassword={() => { setActiveView('forgotPassword'); }} />
           )}
           <Actions>
-            <SignInButton companyName="facebook" onClick={onSignInClick} />
-            <SignInButton companyName="github" onClick={onSignInClick} />
-            <SignInButton companyName="google" onClick={onSignInClick} />
-            <Button size="small" onClick={() => { onSignInClick(); setActiveView('email'); }}>
+            <SignInButton companyName="facebook" onClick={() => setDestination()} />
+            <SignInButton companyName="github" onClick={() => setDestination()} />
+            <SignInButton companyName="google" onClick={() => setDestination()} />
+            <Button
+              size="small"
+              onClick={() => {
+                setDestination();
+                setActiveView('email');
+              }}
+            >
               Sign in with Email <Icon className={emoji} icon="email" />
             </Button>
           </Actions>
-          <SignInCodeSection onClick={() => { onSignInClick(); setActiveView('signInCode'); }} />
+          <SignInCodeSection
+            onClick={() => {
+              setDestination();
+              setActiveView('signInCode');
+            }}
+          />
         </>
       )}
     </Popover>
