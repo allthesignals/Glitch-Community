@@ -55,11 +55,11 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
       </Info>
       {currentUserIsAdmin && !userIsAdmin && (
         <Actions className={styles.permissionsPopoverActions}>
-          <p>The project owner can delete this project.</p>
-          <p>Each project has a single owner. You will lose the ability to delete this project if you transfer ownership.</p>
           <Button size="small" variant="secondary" onClick={onReassignAdmin}>
             Make Project Owner <Icon className={emoji} icon="fastUp" alt="" />
           </Button>
+          <p className={styles.info}>Each project has a single owner.</p>
+          <p className={styles.danger}>You will lose the ability to delete this project if you transfer ownership.</p>
         </Actions>
       )}
     </div>
