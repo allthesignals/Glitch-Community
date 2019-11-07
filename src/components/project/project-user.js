@@ -9,7 +9,7 @@ import { useTrackedFunc } from 'State/segment-analytics';
 
 import { captureException } from 'Utils/sentry';
 
-import { userIsProjectAdmin } from 'Models/project';
+import { userIsProjectAdmin, userIsProjectMember } from 'Models/project';
 
 import { UserAvatar } from 'Components/images/avatar';
 import { UserLink } from 'Components/link';
@@ -73,28 +73,41 @@ PermissionsPopover.propTypes = {
 
 // list of users
 const ProjectUsers = ({ users, project, reassignAdmin }) => {
-  console.log('rerender', users);
+  const { currentUser } = useCurrentUser();
+  const currentUserIsMember = userIsProjectMember({ members: { users }, user: currentUser });
   const orderedUsers = orderBy(users, (user) => user.permission.accessLevel, 'desc');
-  console.log('orderedusers', orderedUsers);
+
+  if (currentUserIsMember) {
+    return (
+      <div className={styles.projectUsers}>
+        {orderedUsers.map((user) => (
+          <Popover
+            className={styles.projectUsersPopover}
+            key={user.id}
+            align="left"
+            renderLabel={({ onClick, ref }) => (
+              <span className={styles.popoverButton}>
+                <UnstyledButton onClick={onClick} ref={ref}>
+                  <UserAvatar user={user} hideTooltip />
+                </UnstyledButton>
+              </span>
+            )}
+          >
+            {({ onClose, setActiveView }) => (
+              <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
+            )}
+          </Popover>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className={styles.projectUsers}>
       {orderedUsers.map((user) => (
-        <Popover
-          className={styles.projectUsersPopover}
-          key={user.id}
-          align="left"
-          renderLabel={({ onClick, ref }) => (
-            <span className={styles.popoverButton}>
-              <UnstyledButton onClick={onClick} ref={ref}>
-                <UserAvatar user={user} hideTooltip />
-              </UnstyledButton>
-            </span>
-          )}
-        >
-          {({ onClose, setActiveView }) => (
-            <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
-          )}
-        </Popover>
+        <UserLink key={user.id} user={user}>
+          <UserAvatar user={user} hideTooltip />
+        </UserLink>
       ))}
     </div>
   );
