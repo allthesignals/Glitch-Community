@@ -13,7 +13,7 @@ import Markdown from 'Components/text/markdown';
 import FeaturedProject from 'Components/project/featured-project';
 import { ProjectAvatar } from 'Components/images/avatar';
 import Text from 'Components/text/text';
-
+import { PrivateBadge } from 'Components/private-badge';
 import styles from './collection-projects-player.styl';
 
 const getCurrentProjectIndexFromUrl = (projectId, projects) => {
@@ -81,10 +81,17 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
         align="left"
         renderLabel={({ onClick, ref }) => (
           <UnstyledButton ref={ref} onClick={onClick} aria-label={`Now Showing ${featuredProject.domain}, select another project to view"`}>
-            <span className={classnames(styles.popoverButton, isDarkColor(collection.coverColor) && styles.dark)}>
+            <span
+              className={classnames(
+                styles.popoverButton,
+                isDarkColor(collection.coverColor) && styles.dark,
+                featuredProject.private && styles.private,
+              )}
+            >
               <span className={styles.projectAvatar}>
                 <ProjectAvatar project={featuredProject} />
               </span>
+              {featuredProject.private && <PrivateBadge />}
               <Text>{featuredProject.domain}</Text>
               <Icon icon="chevronDown" />
             </span>
@@ -95,7 +102,7 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
           <div className={styles.resultListWrapper}>
             <ResultsList value={selectedPopoverProjectId} onChange={setSelectedPopoverProjectId} options={projects}>
               {({ item, buttonProps }) => (
-                <div className={styles.resultItemWrapper}>
+                <div className={classnames(item.private && styles.private)}>
                   <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
                     <div className={styles.popoverItem}>
                       <ProjectAvatar project={item} />
