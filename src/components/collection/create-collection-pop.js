@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, orderBy } from 'lodash';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Actions, Button, Loader, Popover, TextInput, Title } from '@fogcreek/shared-components';
 
 import { UserAvatar, TeamAvatar } from 'Components/images/avatar';
@@ -180,7 +180,8 @@ CreateCollectionWithProject.propTypes = {
   addProjectToCollection: PropTypes.func.isRequired,
 };
 
-const CreateCollectionPop = withRouter(({ team, history }) => {
+const CreateCollectionPop = ({ team }) => {
+  const history = useHistory();
   const { currentUser } = useCurrentUser();
   const options = team ? [getTeamOption(team)] : [getUserOption(currentUser)];
   const track = useTracker('Create Collection clicked');
@@ -204,7 +205,7 @@ const CreateCollectionPop = withRouter(({ team, history }) => {
       {() => <CreateCollectionPopBase options={options} onSubmit={onSubmit} />}
     </Popover>
   );
-});
+};
 
 CreateCollectionPop.propTypes = {
   team: PropTypes.object,

@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { mapValues, flatMap } from 'lodash';
 import { TextInput } from '@fogcreek/shared-components';
 
@@ -98,7 +98,8 @@ const { actions, reducer } = createSlice({
   }),
 });
 
-const AlgoliaSearchController = withRouter(({ history, visible, openPopover, defaultValue }) => {
+const AlgoliaSearchController = ({ visible, openPopover, defaultValue }) => {
+  const history = useHistory();
   const initialState = {
     selectedResult: null,
     query: defaultValue,
@@ -163,7 +164,7 @@ const AlgoliaSearchController = withRouter(({ history, visible, openPopover, def
       )}
     </form>
   );
-});
+};
 
 function SearchForm({ defaultValue }) {
   return (

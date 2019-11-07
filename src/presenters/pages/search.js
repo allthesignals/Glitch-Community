@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import SearchResults from 'Components/search-results';
 import NotFound from 'Components/errors/not-found';
@@ -10,7 +10,8 @@ import Layout from 'Components/layout';
 import { useAlgoliaSearch } from 'State/search';
 import { AnalyticsContext } from 'State/segment-analytics';
 
-const SearchPage = withRouter(({ query, activeFilter, history }) => {
+const SearchPage = ({ query, activeFilter }) => {
+  const history = useHistory();
   const searchResults = useAlgoliaSearch(query);
   const setActiveFilter = (filter) => {
     history.push(`/search?q=${encodeURIComponent(query)}&activeFilter=${filter}`);
@@ -29,7 +30,7 @@ const SearchPage = withRouter(({ query, activeFilter, history }) => {
       </Layout>
     </AnalyticsContext>
   );
-});
+};
 
 SearchPage.propTypes = {
   query: PropTypes.string,

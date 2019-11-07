@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom';
 
 export const Context = createContext({});
 
-export const GlobalsProvider = withRouter(({ children, history, location, origin, ...globals }) => {
+export const GlobalsProvider = withRouter(({ children, location, origin, ...globals }) => {
   const value = useMemo(() => {
     const pathname = location.pathname.replace(/^\/+$/g, '/'); // new URL('//', '...') throws an error
     const url = new URL(pathname + location.search + location.hash, origin);
-    return { history, location: url, origin, ...globals };
-  }, [history, location.key, origin, ...Object.values(globals)]);
+    return { location: url, origin, ...globals };
+  }, [location.key, origin, ...Object.values(globals)]);
   return <Context.Provider value={value}>{children}</Context.Provider>;
 });
 

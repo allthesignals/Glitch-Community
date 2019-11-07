@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { kebabCase, debounce } from 'lodash';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Actions, Button, Icon, Info, Loader, TextInput, Title } from '@fogcreek/shared-components';
 
 import { getPredicates, getTeamPair } from 'Models/words';
@@ -13,7 +13,8 @@ import { emoji } from '../global.styl';
 
 // Create Team 🌿
 
-const CreateTeamPop = withRouter(({ onBack, history }) => {
+const CreateTeamPop = ({ onBack }) => {
+  const history = useHistory();
   const api = useAPI();
   const trackSubmit = useTracker('Create Team submitted');
   const [state, replaceState] = useState({
@@ -145,6 +146,6 @@ const CreateTeamPop = withRouter(({ onBack, history }) => {
       </Info>
     </>
   );
-});
+};
 
 export default CreateTeamPop;
