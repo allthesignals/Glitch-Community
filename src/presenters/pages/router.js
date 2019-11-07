@@ -38,12 +38,24 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-function ExternalPageReloader() {
+const ExternalPageReloader = () => {
   useEffect(() => {
     window.location.reload();
   }, []);
   return null;
-}
+};
+
+const ExternalRedirect = ({ to }) => {
+  useEffect(() => {
+    window.location.replace(to);
+  }, []);
+  return (
+    <Route render={({ staticContext }) => {
+      if (staticContext) staticContext.url = to;
+      return null;
+    }} />
+  );
+};
 
 function track() {
   try {
@@ -194,6 +206,10 @@ const Router = () => {
         <Route path="/about/events" render={({ location }) => <AboutEventsPage key={location.key} />} />
         <Route path="/about/press" render={({ location }) => <AboutPressPage key={location.key} />} />
         <Route path="/about" render={({ location }) => <AboutPage key={location.key} />} />
+        
+        <Route path="/vscode" render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
+        <Route path="/vscode" render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
+        <Route path="/support" render={({ location }) => <ExternalRedirect to="https://support.glitch.com" key={location.key} />} />
 
         {EXTERNAL_ROUTES.map((route) => (
           <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />
