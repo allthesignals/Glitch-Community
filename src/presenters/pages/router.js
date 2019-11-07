@@ -223,6 +223,7 @@ const Router = () => {
         <Route path="/saastr" exact render={({ location }) => <ExternalRedirect to="https://saastr.glitch.me/" key={location.key} />} />
         <Route path="/vscode" exact render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
         <Route path="/support" exact render={({ location }) => <ExternalRedirect to="https://support.glitch.com" key={location.key} />} />
+        <Route path="/featured" render={({ location, match }) => <Redirect to={`/culture${location.pathname.slice(match.url.length)}`} key={location.key} />} />
 
         {EXTERNAL_ROUTES.map((route) => (
           <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />

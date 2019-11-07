@@ -80,9 +80,6 @@ app.get('/edit', function(req, res) {
   res.send('Sorry, no editor for remixes!');
 });
 
-const redirects = require('./redirects');
-redirects(app);
-
 const proxy = require('./proxy');
 const proxied = proxy(app);
 

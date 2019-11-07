@@ -91,8 +91,8 @@ module.exports = function(EXTERNAL_ROUTES) {
 
     const renderedContext = await renderPage(url, currentContext);
     
-    if (renderedContext.router.url) {
-      res.redirect(renderedContext.router.url);
+    if (renderedContext.redirect) {
+      res.redirect(301, renderedContext.redirect);
     } else {
       res.render('index.ejs', {
         ...currentContext,
