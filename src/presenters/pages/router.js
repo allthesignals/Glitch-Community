@@ -209,15 +209,17 @@ const Router = () => {
         <Route path="/about/press" exact render={({ location }) => <AboutPressPage key={location.key} />} />
         <Route path="/about" exact render={({ location }) => <AboutPage key={location.key} />} />
 
-        <Route path="/you-got-this/2" render={({ location }) => <Redirect to="/culture/react-starter-kit/" key={location.key} />} />
+        <Route path="/people" exact render={({ location }) => <ExternalRedirect to="https://jobs.lever.co/glitch/042d31a3-72dd-46e4-af25-a7bb6b7fe32e" key={location.key} />} />
+        <Route path={['/partners', '/foryourapi', '/forteams']} exact render={({ location }) => <Redirect to="/teams/" key={location.key} />} />
+        <Route path="/website-starter-kit" exact render={({ location }) => <Redirect to="/culture/website-starter-kit/" key={location.key} />} />
+        <Route path="/react-starter-kit" exact render={({ location }) => <Redirect to="/culture/react-starter-kit/" key={location.key} />} />
         <Route path="/you-got-this/2" render={({ location }) => <Redirect to="/culture/you-got-this-zine-2/" key={location.key} />} />
         <Route path="/you-got-this" render={({ location }) => <Redirect to="/culture/you-got-this-zine/" key={location.key} />} />
         <Route path="/function" render={({ location }) => <Redirect to="/culture/function/" key={location.key} />} />
         <Route path="/revisionpath" render={({ location }) => <Redirect to="/culture/revisionpath/" key={location.key} />} />
         <Route path="/open-world" render={({ location }) => <Redirect to="/culture/open-world/" key={location.key} />} />
         <Route path="/careers" render={({ location }) => <Redirect to="/about/careers/" key={location.key} />} />
-        <Route path="/mythbustersjr" render={({ location }) => <Redirect to="/culture/mythbusters-jr/" key={location.key} />} />
-        <Route path="/mythbusters" render={({ location }) => <Redirect to="/culture/mythbusters-jr/" key={location.key} />} />
+        <Route path={['/mythbustersjr', '/mythbusters']} render={({ location }) => <Redirect to="/culture/mythbusters-jr/" key={location.key} />} />
         <Route path="/saastr" exact render={({ location }) => <ExternalRedirect to="https://saastr.glitch.me/" key={location.key} />} />
         <Route path="/vscode" exact render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
         <Route path="/support" exact render={({ location }) => <ExternalRedirect to="https://support.glitch.com" key={location.key} />} />

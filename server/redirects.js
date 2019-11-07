@@ -1,29 +1,6 @@
 module.exports = function(app) {
-  redirect(app, '/people', 'https://jobs.lever.co/glitch/042d31a3-72dd-46e4-af25-a7bb6b7fe32e');
-  redirect(app, '/partners*', '/teams/');
-  redirect(app, '/foryourapi*', '/teams/');
-  redirect(app, '/forteams*', '/teams/');
-  redirect(app, '/website-starter-kit*', '/culture/website-starter-kit/');
-  redirect(app, '/react-starter-kit*', '/culture/react-starter-kit/');
-  //redirect(app, '/you-got-this/2*', '/culture/you-got-this-zine-2/');
-  //redirect(app, '/you-got-this*', '/culture/you-got-this-zine/');
-  //redirect(app, '/function*', '/culture/function/');
-  //redirect(app, '/revisionpath*', '/culture/revisionpath/');
-  //redirect(app, '/open-world*', '/culture/open-world/');
-  //redirect(app, '/careers*', '/about/careers/');
-  //redirect(app, '/mythbustersjr*', '/culture/mythbusters-jr/');
-  //redirect(app, '/mythbusters*', '/culture/mythbusters-jr/');
-  //redirect(app, '/saastr', 'https://saastr.glitch.me/');
-  //redirect(app, '/vscode', 'https://marketplace.visualstudio.com/items?itemName=glitch.glitch');  
-  //redirect(app, '/support', 'https://support.glitch.com');
   redirectPath(app, '/featured*', '/culture/');
 };
-
-function redirect(app, route, target) {
-  app.get(route, (req, res) => {
-    return res.redirect(301, target);
-  });
-}
 
 function redirectPath(app, route, target) {
   app.get(route, (req, res) => {
