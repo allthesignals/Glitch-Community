@@ -57,6 +57,9 @@
     width: 22px
     height: 22px
 
+.resultItemWrapper 
+  margin-bottom: 5px
+
 .resultListWrapper
   max-height: 400px
   overflow-x: hidden
@@ -65,6 +68,10 @@
     &:hover, &:focus
       background-color: general-link
       color: #fff
+  li
+    &:last-of-type
+      .resultItemWrapper 
+        margin-bottom: 0
       
 .private
   background-color: private
