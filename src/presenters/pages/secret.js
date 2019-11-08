@@ -50,12 +50,24 @@ const ABTests = () => {
   );
 };
 
-const RolloutFeature = ({ feature }) => {
+const RolloutFeature = ({ feature, forced, setForced }) => {
   const enabled = useFeatureEnabled(feature);
+  const onChange = (event) => {
+    if (value === 'enable') {
+      setForced(true);
+    }
+  };
   return (
     <tr>
       <td>{feature}</td>
       <td>{enabled && '✔'}</td>
+      <td>
+        <select onChange={onChange}>
+          <option value="none">None</option>
+          <option value="enable">Enable</option>
+          <option value="disable">Disable</option>
+        </select>
+      </td>
     </tr>
   );
 };
@@ -69,11 +81,12 @@ const Rollouts = () => {
           <tr>
             <th>Feature</th>
             <th>Status</th>
+            <th>Override</th>
           </tr>
         </thead>
         <tbody>
-          {features.map(({ key }) => (
-            <RolloutFeature key={key} feature={key} />
+          {features.map(({ key, forced, setForced }) => (
+            <RolloutFeature key={key} feature={key} forced={forced} setForced={setForced} />
           ))}
         </tbody>
       </table>

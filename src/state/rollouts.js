@@ -18,7 +18,7 @@ export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizely
 };
 
 const useOptimizely = () => useContext(Context);
-const useOverrides = () => useUserPref('optimizely-overrides', {});
+const useOverrides = () => useUserPref('optimizelyOverrides', {});
 
 const useOptimizelyValue = (getValue, dependencies) => {
   const { optimizely } = useOptimizely();
@@ -66,7 +66,9 @@ export const useRolloutsDebug = () => {
     const config = optimizely.projectConfigManager.getConfig();
     const features = config.featureFlags.map(({ key }) => {
       const enabled = optimizely.isFeatureEnabled(key, String(optimizelyId));
-      return { key, enabled };
+      const forced = overrides[key];
+      const setForced = (value) => setOverrides({ ...overrides, [key]: value });
+      return { key, enabled, forced, setForced };
     });
     return { features };
   }, [optimizelyId]);
