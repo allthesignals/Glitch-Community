@@ -116,4 +116,3 @@ const CollectionPage = ({ owner, name }) => {
 };
 
 export default CollectionPage;
-e;
