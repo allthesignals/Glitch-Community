@@ -64,10 +64,10 @@ const RolloutFeature = ({ feature, raw, forced, setForced }) => {
   return (
     <tr>
       <td>{feature}</td>
-      <td>{enabled && '✔'}</td>
+      <td>{forced !== undefined ? (forced ? '☑' : '☐') : (enabled && '✔')}</td>
       <td>
         <select onChange={onChange} value={String(forced)}>
-          <option value="undefined">{forced !== undefined ? `Default ${raw ? '☑' : '☐'}` : ''}</option>
+          <option value="undefined">Default</option>
           <option value="true">Enable</option>
           <option value="false">Disable</option>
         </select>
