@@ -5,6 +5,8 @@ import { partition } from 'lodash';
 import classnames from 'classnames';
 import { Button, Icon } from '@fogcreek/shared-components';
 
+import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
+
 import { isDarkColor } from 'Utils/color';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
@@ -51,7 +53,8 @@ const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, pr
     collectionName = <CollectionLink collection={collection}>{collection.name}</CollectionLink>;
   }
 
-  const enableSorting = isAuthorized && projects.length > 1;
+  const [width] = useWindowSize();
+  const enableSorting = (isAuthorized && projects.length > 1) && width > mediumSmallViewport;
 
   let avatar = null;
   const defaultAvatarName = 'collection-avatar'; // this was the old name for the default picture frame collection avatar
