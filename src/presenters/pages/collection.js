@@ -50,9 +50,17 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
       />
       <main id="main" aria-label="Glitch Collection Page">
         <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
- di       {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
+        {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
         {currentUserIsAuthor && !collection.isMyStuff && (
-          <Popover align="left" className={mediumPopover} renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref} size="small" variant="warning">Delete {collection.name} <Icon className={emoji} icon="bomb" /></Button>}>
+          <Popover
+            align="left"
+            className={mediumPopover}
+            renderLabel={({ onClick, ref }) => (
+              <Button onClick={onClick} ref={ref} size="small" variant="warning">
+                Delete {collection.name} <Icon className={emoji} icon="bomb" />
+              </Button>
+            )}
+          >
             {() => <DeleteCollection collection={collection} />}
           </Popover>
         )}
@@ -108,4 +116,4 @@ const CollectionPage = ({ owner, name }) => {
 };
 
 export default CollectionPage;
-e
+e;
