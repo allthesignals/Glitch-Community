@@ -9,7 +9,6 @@ const punycode = require('punycode');
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const webpackExpressMiddleware = require('./webpack');
 const constants = require('./constants');
-const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData } = require('./optimizely');
@@ -127,20 +126,6 @@ module.exports = function(EXTERNAL_ROUTES) {
     const project = await getProject(punycode.toASCII(domain));
     const cache = project && { [`project:${domain}`]: project };
     await render(req, res, cache);
-  });
-
-  app.get('/~:domain/edit', async (req, res) => {
-    const { domain } = req.params;
-    const editorUrl = `${APP_URL}/edit/#!/${domain}`;
-
-    res.redirect(editorUrl);
-  });
-
-  app.get('/~:domain/console', async (req, res) => {
-    const { domain } = req.params;
-    const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
-
-    res.redirect(consoleUrl);
   });
 
   app.get('/@:name', async (req, res) => {
