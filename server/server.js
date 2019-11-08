@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 });
 app.use(compression());
 
-app.get('/edit', function(req, res) {
+app.get('/edit(/*)?', function(req, res) {
   res.status(500);
   res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.send('Sorry, no editor for remixes!');
