@@ -57,17 +57,23 @@
     width: 22px
     height: 22px
 
-.resultItemWrapper 
-  margin-bottom: 5px
-
 .resultListWrapper
   max-height: 400px
   overflow-x: hidden
   overflow-y: auto
   button
+    padding: 0
+    margin: 5px 0
     &:hover, &:focus
+      background-color: #fff
+      .popoverItem
+        background-color: general-link
+        color: #fff
+    &:hover
+      background-color: #fff
+    &:focus
       background-color: general-link
-      color: #fff
+
   li
     &:last-of-type
       .resultItemWrapper 
@@ -81,6 +87,8 @@
 .popoverItem
   display: flex
   min-width: 200px
+  padding: 5px
+  margin-top: 5px
   span 
     align-self: center
   img

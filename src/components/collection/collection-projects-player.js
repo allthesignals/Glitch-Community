@@ -102,9 +102,9 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
           <div className={styles.resultListWrapper}>
             <ResultsList value={selectedPopoverProjectId} onChange={setSelectedPopoverProjectId} options={projects}>
               {({ item, buttonProps }) => (
-                <div className={classnames(styles.resultItemWrapper, item.private && styles.private)}>
+                <div className={classnames(styles.resultItemWrapper)}>
                   <ResultItem onClick={() => onClickOnProject(item, onClose)} {...buttonProps}>
-                    <div className={styles.popoverItem}>
+                    <div className={classnames(styles.popoverItem, item.private && styles.private)}>
                       <ProjectAvatar project={item} />
                       <ResultName>{item.domain}</ResultName>
                     </div>
