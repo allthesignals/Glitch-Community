@@ -71,5 +71,5 @@ export const useRolloutsDebug = () => {
       return { key, enabled, forced, setForced };
     });
     return { features };
-  }, [optimizelyId]);
+  }, [optimizelyId, overrides, setOverrides]);
 };
