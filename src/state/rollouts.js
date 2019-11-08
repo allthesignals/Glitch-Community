@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { enums } from '@optimizely/optimizely-sdk';
 import { useCurrentUser } from './current-user';
+import useUserPref from './user-prefs';
 
 const Context = createContext();
 
@@ -17,6 +18,7 @@ export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizely
 };
 
 const useOptimizely = () => useContext(Context);
+const useOverrides = () => useUserPref('optimizely-overrides', {});
 
 const useOptimizelyValue = (getValue, dependencies) => {
   const { optimizely } = useOptimizely();
@@ -32,10 +34,14 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
-export const useFeatureEnabledForEntity = (whichToggle, entityId) => useOptimizelyValue(
-  (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
-  [whichToggle, entityId],
-);
+export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
+  const [overrides] = useOverrides();
+  const raw = useOptimizelyValue(
+    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
+    [whichToggle, entityId],
+  );
+  return whichToggle in overrides ? !!overrides[whichToggle] : raw;
+};
 
 export const useFeatureEnabled = (whichToggle) => {
   const { optimizelyId } = useOptimizely();
@@ -55,6 +61,7 @@ export const RolloutsUserSync = () => {
 
 export const useRolloutsDebug = () => {
   const { optimizelyId } = useOptimizely();
+  const [overrides, setOverrides] = useOverrides();
   return useOptimizelyValue((optimizely) => {
     const config = optimizely.projectConfigManager.getConfig();
     const features = config.featureFlags.map(({ key }) => {
