@@ -40,7 +40,7 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
     (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
     [whichToggle, entityId],
   );
-  return whichToggle in overrides ? !!overrides[whichToggle] : raw;
+  return overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
 };
 
 export const useFeatureEnabled = (whichToggle) => {

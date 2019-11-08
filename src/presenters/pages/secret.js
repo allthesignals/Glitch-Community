@@ -50,7 +50,8 @@ const ABTests = () => {
   );
 };
 
-const RolloutFeature = ({ feature, enabled, forced, setForced }) => {
+const RolloutFeature = ({ feature, raw, forced, setForced }) => {
+  const enabled = useFeatureEnabled(feature);
   const onChange = (event) => {
     if (event.target.value === 'true') {
       setForced(true);
@@ -63,11 +64,12 @@ const RolloutFeature = ({ feature, enabled, forced, setForced }) => {
   return (
     <tr>
       <td>{feature}</td>
+      <td>{enabled && '✔'}</td>
       <td>
         <select onChange={onChange} value={String(forced)}>
-          <option value="undefined">{enabled ? '✔' : '&nbsp;'} Default</option>
-          <option value="true">✔ Enable</option>
-          <option value="false">&nbsp; Disable</option>
+          <option value="undefined">None {raw ? '☑' : '☐'}</option>
+          <option value="true">Enable</option>
+          <option value="false">Disable</option>
         </select>
       </td>
     </tr>
@@ -83,11 +85,12 @@ const Rollouts = () => {
           <tr>
             <th>Feature</th>
             <th>Status</th>
+            <th>Override</th>
           </tr>
         </thead>
         <tbody>
           {features.map(({ key, enabled, forced, setForced }) => (
-            <RolloutFeature key={key} feature={key} enabled={enabled} forced={forced} setForced={setForced} />
+            <RolloutFeature key={key} feature={key} raw={enabled} forced={forced} setForced={setForced} />
           ))}
         </tbody>
       </table>
