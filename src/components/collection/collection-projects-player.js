@@ -93,7 +93,7 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
               </span>
               {featuredProject.private && <PrivateBadge />}
               <Text>{featuredProject.domain}</Text>
-              <Icon icon="chevronDown" />
+              <Icon icon="chevronDown" className={styles.down} alt="down" />
             </span>
           </UnstyledButton>
         )}
