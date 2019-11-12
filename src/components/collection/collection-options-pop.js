@@ -13,7 +13,7 @@ export default function CollectionOptions({ collection, deleteCollection }) {
       align="right"
       className={mediumPopover}
       renderLabel={({ onClick, ref }) => (
-        <PopoverMenuButton onClick={onClick} ref={ref} label={`Collection options for ${collection.name}`} />
+        <PopoverMenuButton onClick={onClick} ref={ref} aria-label={`Collection options for ${collection.name}`} />
       )}
     >
       {() => <DeleteCollection collection={collection} deleteCollection={deleteCollection} />}

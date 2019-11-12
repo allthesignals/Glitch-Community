@@ -22,7 +22,7 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
     <Popover
       align="right"
       renderLabel={({ onClick, ref }) => (
-        <PopoverMenuButton onClick={onClick} ref={ref} label="Featured Project Options" />
+        <PopoverMenuButton onClick={onClick} ref={ref} aria-label="Featured Project Options" />
       )}
     >
       {({ onClose }) => (
