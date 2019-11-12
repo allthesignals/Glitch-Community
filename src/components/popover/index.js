@@ -10,7 +10,7 @@ import styles from './styles.styl';
 const PopoverMenuButton = React.forwardRef((props, ref) => (<UnstyledButton className={styles.popoverMenuButton} ref={ref} {...props}><Icon icon="chevronDown" /></UnstyledButton>));
 
 PopoverMenuButton.propTypes = {
-  ['aria-label']: PropTypes.string.isRequired, 
+  'aria-label': PropTypes.string.isRequired,
 };
 
 export {
