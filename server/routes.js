@@ -9,11 +9,12 @@ const punycode = require('punycode');
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
+const { allByKeys } = require('../shared/api');
 const categories = require('../shared/categories');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
-const { getOptimizelyData } = require('./optimizely');
+const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
 const { readCuratedContent, writeCuratedContent } = require('./curated');
 const rootTeams = require('../shared/teams');
 
@@ -72,21 +73,18 @@ module.exports = function(EXTERNAL_ROUTES) {
       built = false;
     }
 
-    const AB_TESTS = getAssignments(req, res);
-    const SSR_SIGNED_IN = !!req.cookies.hasLogin;
-    const [ZINE_POSTS, HOME_CONTENT, PUPDATES_CONTENT] = await Promise.all([getZine(), readCuratedContent('home'), readCuratedContent('pupdates')]);
-
     const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-    const currentContext = {
-      AB_TESTS,
+    const currentContext = await allByKeys({
+      AB_TESTS: getAssignments(req, res),
       API_CACHE,
       EXTERNAL_ROUTES,
-      HOME_CONTENT,
-      OPTIMIZELY_DATA: await getOptimizelyData(),
-      PUPDATES_CONTENT,
-      SSR_SIGNED_IN,
-      ZINE_POSTS,
-    };
+      HOME_CONTENT: readCuratedContent('home'),
+      OPTIMIZELY_DATA: getOptimizelyData(),
+      OPTIMIZELY_ID: getOptimizelyId(req, res),
+      PUPDATES_CONTENT: readCuratedContent('pupdates'),
+      SSR_SIGNED_IN: !!req.cookies.hasLogin,
+      ZINE_POSTS: getZine(),
+    });
 
     const renderedContext = await renderPage(url, currentContext);
 
