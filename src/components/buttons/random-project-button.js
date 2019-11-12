@@ -16,7 +16,7 @@ const RandomProjectButton = () => {
         <div className={styles.randomProjectButtonWrapper}>
           <ProjectLink project={collection.projects[Math.floor(Math.random() * collection.projects.length)]}>
             <Button as="span">
-              Surprise Me <Icon icon="diamondSmall" />
+              Surprise Me <Icon icon="diamondSmall" alt=""/>
             </Button>
           </ProjectLink>
         </div>
