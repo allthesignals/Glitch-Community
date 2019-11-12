@@ -137,9 +137,7 @@ const CuratedCollections = ({ content }) => (
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
           <div className={styles.curatedCollectionButtonWrap}>
-            <Button as="span">
-              {title}
-            </Button>
+            <Button as="span">{title}</Button>
           </div>
           {/* eslint-disable-next-line react/no-danger */}
           <span dangerouslySetInnerHTML={{ __html: description }} />

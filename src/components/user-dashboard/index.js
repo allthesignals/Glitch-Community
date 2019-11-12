@@ -162,7 +162,7 @@ const Stamp = ({ labelImage, label, icon }) => (
     <Heading tagName="h2" className={styles.stampLabel}>
       {label}
     </Heading>
-    <Image src={labelImage} alt="" />
+    <Image src={labelImage} width="auto" alt="" />
     <span className={styles.stampIcon}>
       <Icon icon={icon} />
     </span>
@@ -205,16 +205,17 @@ const Postcards = ({ marketingContent }) => (
     </Postcard>
 
     <Postcard
-      heading="Notifications"
-      stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-notifications.svg"
-      stampIcon="telephone"
-      outerBorderColor="#FFA6BC"
-      innerBorderColor="#FFE7EC"
-      buttonText="View All"
-      buttonProps={{ onClick: () => {} }}
-      waveStyles={{ filter: 'hue-rotate(90deg) saturate(.95)' }}
+      heading="Remix This"
+      subheading="Remix This"
+      stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg?v=1569853255984"
+      stampIcon="shuffle"
+      outerBorderColor="#75d1f8"
+      innerBorderColor="#cdeffc"
+      buttonText="View starter-chartjs"
+      buttonProps={{ as: 'a', href: 'https://glitch.com/~starter-chartjs' }}
+      thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
     >
-      <em>Coming soon</em>
+      Create interactive charts and graphs in the browser using Chart.js.
     </Postcard>
   </div>
 );
