@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Icon, UnstyledButton } from '@fogcreek/shared-components';
 
 import PopoverContainer from './container';
