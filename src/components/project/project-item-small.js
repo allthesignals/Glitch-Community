@@ -2,10 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Icon } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
 import Text from 'Components/text/text';
+import { PrivateBadge } from 'Components/private-badge';
 import { FALLBACK_AVATAR_URL, getProjectAvatarUrl } from 'Models/project';
 import { ProjectLink } from 'Components/link';
 
@@ -26,7 +26,9 @@ const ProjectItemSmall = ({ project }) => (
           <span className={styles.projectName}>{project.domain}</span>{' '}
         </Text>
         {project.private && (
-          <span className={styles.privateIcon}><Icon icon="private" alt="private" /></span>
+          <span className={styles.projectItemSmallPrivateIcon}>
+            <PrivateBadge />
+          </span>
         )}
       </div>
     </ProjectLink>

@@ -1,0 +1,112 @@
+@import "../constants.styl"
+
+// CollectionProjectsPlayer
+.playerContainer
+  border-bottom: 1px solid
+  width: calc(100% + 40px)
+  margin: -20px -20px 20px -20px
+  &.dark
+    color: white
+
+.playerHeader
+  padding: 12px 20px
+  display: flex
+
+// PlayerControls
+.popoverButton
+  padding: 0 12px
+  border-radius: 5px
+  display: flex
+  > *
+    align-self: center
+  background-color: overlay-background
+  p 
+    padding: 5px
+    font-weight: 600
+    color: black
+  &.dark
+    background-color: tertiary
+    p
+      color: white
+  
+.playerDescription
+  font-size: 14px
+  margin-top: -0.2rem
+  flex-grow: 2
+  margin-left: 20px
+  font-family: monospace
+  &.dark
+    color: white
+  @media(max-width: mediumViewport)
+    display: none
+
+.projectCounter
+  font-size: 14px
+  color: tertiary
+  align-self: flex-start
+  padding: 8px 0 0
+  flex-grow: 1
+  margin: 0 10px
+  text-align: right
+  &.dark
+    color: white
+
+.projectAvatar
+  margin-right: 5px
+  img
+    width: 22px
+    height: 22px
+
+.resultListWrapper
+  max-height: 400px
+  overflow-x: hidden
+  overflow-y: auto
+  button
+    padding: 0
+    margin: 5px 0
+    &:hover, &:focus
+      background-color: #fff
+      .popoverItem
+        background-color: general-link
+        color: #fff
+    &:hover
+      background-color: #fff
+    &:focus
+      background-color: general-link
+      
+.private
+  background-color: private
+  button
+    background-color: private
+
+.popoverItem
+  display: flex
+  width: 100%
+  min-width: 200px
+  padding: 5px
+  margin-top: 5px
+  span 
+    align-self: center
+  img
+    width: 22px
+    height: 22px
+    margin-right: 5px
+
+.buttonWrap
+  margin-left: auto
+
+.featuredProjectWrap
+  width: 100%
+  height: 100%
+  // eliminate bottom radius of iframe - accounted for from embedBottomBar
+  iframe
+    border-radius: 5px 5px 0px 0px
+    border-bottom: none
+    // the following is needed for iphone safari for some reason
+    max-height: 100%
+    max-width: 100%
+    min-height: 100%
+    min-width: 100%
+    width: 0 
+.down
+  min-width: .8em
