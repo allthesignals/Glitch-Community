@@ -19,6 +19,10 @@ const toggleData = [
     name: 'Two Factor Auth',
     description: 'Allow users to enable two factor authentication',
   },
+  {
+    name: 'Account Deletion',
+    description: 'Enable users to delete their account without Glitch staff intervention',
+  },
 ].slice(0, 4); // <-- Yeah really, only 3...or rather 4.  If you need more, clean up one first.
 
 // Usage:

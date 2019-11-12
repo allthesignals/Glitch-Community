@@ -4,6 +4,8 @@ import { partition } from 'lodash';
 
 import { Button, Icon } from '@fogcreek/shared-components';
 
+import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
+
 import ProjectsList from 'Components/containers/projects-list';
 import AddCollectionProject from 'Components/collection/add-collection-project-pop';
 import Image from 'Components/images/image';
@@ -24,7 +26,9 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, collection }) => {
   if (collection.featuredProjectId) {
     [[featuredProject], projects] = partition(collection.projects, (p) => p.id === collection.featuredProjectId);
   }
-  const enableSorting = isAuthorized && projects.length > 1;
+
+  const [width] = useWindowSize();
+  const enableSorting = (isAuthorized && projects.length > 1) && width > mediumSmallViewport;
 
   return (
     <>
