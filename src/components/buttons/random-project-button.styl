@@ -1,0 +1,36 @@
+.randomProjectButtonWrapper
+    margin-top: 2em
+    animation: wiggle ease-in 2.5s infinite
+    width: fit-content
+
+    // the span is the button itself
+    span
+        animation: bgColorChange ease-in 2.5s infinite
+
+@keyframes wiggle 
+    0% 
+        transform: rotate(0deg)
+    5%
+        transform: rotate(0deg)
+    10%
+        transform: rotate(-1.5deg)
+    20%
+        transform: rotate(1.5deg)
+    25% 
+        transform: rotate(0deg)
+    100%
+        transform: rotate(0deg)
+
+@keyframes bgColorChange
+    0% 
+        background-color: white
+    5%
+        background-color: white
+    10%
+        background-color: #cee6f0
+    20%
+        background-color: #cee6f0
+    25% 
+        background-color: white
+    100%
+        background-color: white

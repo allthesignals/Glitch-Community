@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon, Button } from '@fogcreek/shared-components';
 import { ProjectLink } from 'Components/link';
 import { useCachedCollection } from 'State/api-cache';
+import styles from './random-project-button.styl';
 
 const RandomProjectButton = () => {
   // use community picks Glitch collection
@@ -12,11 +13,13 @@ const RandomProjectButton = () => {
   return (
     <>
       {collection && (
-        <ProjectLink project={collection.projects[Math.floor(Math.random() * collection.projects.length)]}>
-          <Button as="span">
-            Surprise Me <Icon icon="diamondSmall" />
-          </Button>
-        </ProjectLink>
+        <div className={styles.randomProjectButtonWrapper}>
+          <ProjectLink project={collection.projects[Math.floor(Math.random() * collection.projects.length)]}>
+            <Button as="span">
+              Surprise Me <Icon icon="diamondSmall" />
+            </Button>
+          </ProjectLink>
+        </div>
       )}
     </>
   );
