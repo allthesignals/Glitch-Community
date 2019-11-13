@@ -201,7 +201,7 @@ const nodeConfig = {
             test: /\.js$/,
             loader: 'babel-loader',
             options: {
-              configFile: path.resolve(__dirname, './.babelrc.node.js'),
+              configFile: path.resolve(__dirname, './.babelrc.node.json'),
             },
           },
           {
@@ -226,7 +226,6 @@ const nodeConfig = {
   externals: [
     NodeExternals(),
     (context, request, callback) => /^Shared[\\/]/.test(request) ? callback(null, `commonjs ${request}`) : callback(),
-    (context, request, callback) => '@sentry/browser' === request ? callback(null, `commonjs ${request}`) : callback(),
   ],
 };
 

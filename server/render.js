@@ -10,9 +10,16 @@ const setup = () => {
   const build = path.join(__dirname, '../build');
   if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
     // transpile on render to ensure we always use the latest code
+    const stylus = require('stylus');
     require('@babel/register')({
       only: [(location) => location.startsWith(src)],
       configFile: path.join(__dirname, '../.babelrc.node.js'),
+      plugins: [
+        ['css-modules-transform', {
+          preprocessCss: (data, filename) => stylus.render(data, { filename }),
+          extensions: ['.styl'],
+        }],
+      ],
     });
     return { watch: src, entry: path.join(src, './server.js'), verb: 'transpile' };
   }

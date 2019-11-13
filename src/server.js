@@ -40,7 +40,6 @@ const Page = ({
 );
 
 const resetState = () => {
-  console.log('hi');
   resetIdCounter();
   resetUniqueId();
 };
