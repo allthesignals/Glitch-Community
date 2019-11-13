@@ -11,10 +11,6 @@ module.exports = {
     ['module-resolver', {
       alias: { '@sentry/browser': '@sentry/node' },
     }],
-    ['css-modules-transform', {
-      preprocessCss: (data, filename) => stylus.render(data, { filename }),
-      extensions: ['.styl'],
-    }],
   ],
   babelrc: false,
 };

@@ -201,6 +201,15 @@ const nodeConfig = {
               configFile: path.resolve(__dirname, './.babelrc.node.js'),
             },
           },
+          {
+            test: /\.styl/,
+            loader: 'css-loader?modules',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]___[hash:base64:5]',
+              },
+            },
+          },
         ],
       },
     ],
