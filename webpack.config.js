@@ -220,7 +220,7 @@ const nodeConfig = {
       },
     ],
   },
-  externals: [NodeExternals(), /^Shared[\\/]/],
+  externals: [NodeExternals(), (context, request, callback) => /^Shared[\\/]/.test(request) ? callback(null, `commonjs ${request}`) : callback()],
 };
 
 const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
