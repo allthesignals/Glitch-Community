@@ -7,20 +7,28 @@ import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
 import { captureException } from 'Utils/sentry';
+import useDestinationAfterAuth from 'Hooks/use-destination-after-auth';
 
 const JoinTeamPage = withRouter(({ history, teamUrl, joinToken }) => {
   const api = useAPI();
   const { login: replaceCurrentUser } = useCurrentUser();
   const { createNotification } = useNotifications();
+  const notificationOnSuccess = 'Invitation accepted';
+  const [, setDestination] = useDestinationAfterAuth(getTeamLink({ url: teamUrl }), null, notificationOnSuccess);
 
   useEffect(() => {
     (async () => {
       try {
-        const { data: user } = await api.post(`/teams/join/${joinToken}`);
-        if (user) {
-          replaceCurrentUser(user);
+        const { data } = await api.post(`/teams/join/${joinToken}`);
+        if (data.tfaToken) {
+          setDestination();
+          history.push(`/login/two-factor?token=${data.tfaToken}`);
+          return;
         }
-        createNotification('Invitation accepted');
+        if (data.user) {
+          replaceCurrentUser(data.user);
+        }
+        createNotification(notificationOnSuccess);
       } catch (error) {
         // The team is real but the token didn't work
         // Maybe it's been used already or expired?

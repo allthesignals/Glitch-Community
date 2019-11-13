@@ -69,12 +69,12 @@ async function getCultureZinePosts() {
 }
 
 const [getFromCache] = createCache(dayjs.convert(1, 'hour', 'ms'), 'load');
-const [getFromZineCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'load');
+const [getFromZineCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'load', []);
 
 module.exports = {
-  getProject: (domain) => getFromCache(`project ${domain}`, getProjectFromApi, domain),
-  getTeam: (url) => getFromCache(`team ${url}`, getTeamFromApi, url),
-  getUser: (login) => getFromCache(`user ${login}`, getUserFromApi, login),
-  getCollection: (login, collection) => getFromCache(`collection ${login}/${collection}`, getCollectionFromApi, login, collection),
+  getProject: (domain) => null && getFromCache(`project ${domain}`, getProjectFromApi, domain),
+  getTeam: (url) => null && getFromCache(`team ${url}`, getTeamFromApi, url),
+  getUser: (login) => null && getFromCache(`user ${login}`, getUserFromApi, login),
+  getCollection: (login, collection) => null && getFromCache(`collection ${login}/${collection}`, getCollectionFromApi, login, collection),
   getZine: () => getFromZineCache('culture zine', getCultureZinePosts),
 };

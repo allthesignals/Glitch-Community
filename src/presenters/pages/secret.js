@@ -5,6 +5,7 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import { useDevToggles } from 'State/dev-toggles';
 import useTest, { useTestAssignments, tests } from 'State/ab-tests';
+import { useFeatureEnabled, useRolloutsDebug } from 'State/rollouts';
 
 import styles from './secret.styl';
 
@@ -31,7 +32,7 @@ const ABTests = () => {
   const text = useTest('Just-A-Test');
   const [assignments, reassign] = useTestAssignments();
   return (
-    <section className={styles.abTestSection}>
+    <section className={styles.footerSection}>
       Your A/B test groups ({text}):
       <ul className={styles.abTests}>
         {Object.keys(assignments).map((test) => (
@@ -45,6 +46,37 @@ const ABTests = () => {
           </li>
         ))}
       </ul>
+    </section>
+  );
+};
+
+const RolloutFeature = ({ feature }) => {
+  const enabled = useFeatureEnabled(feature);
+  return (
+    <tr>
+      <td>{feature}</td>
+      <td>{enabled && '✔'}</td>
+    </tr>
+  );
+};
+
+const Rollouts = () => {
+  const { features } = useRolloutsDebug();
+  return (
+    <section className={styles.footerSection}>
+      <table className={styles.features}>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {features.map(({ key }) => (
+            <RolloutFeature key={key} feature={key} />
+          ))}
+        </tbody>
+      </table>
     </section>
   );
 };
@@ -81,6 +113,7 @@ const Secret = () => {
           </li>
         ))}
       </ul>
+      <Rollouts />
       <ABTests />
     </main>
   );

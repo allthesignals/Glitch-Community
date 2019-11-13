@@ -21,7 +21,7 @@ const setup = () => {
 };
 const { directory, verb } = setup();
 
-const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', {});
+const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', { html: null, helmet: null, styleTags: null });
 
 let isFirstTranspile = true;
 let needsTranspile = true;
@@ -57,14 +57,14 @@ setImmediate(() => {
     requireClient();
   } catch (error) {
     // try importing right away so we don't have to wait
-    // but if this fails not it might just be because the first time build isn't ready
+    // but if it fails now it's probably because there are no past builds to use
     console.warn('Failed to load client code for ssr. This either means the initial build is not finished or there is a bug in the code');
     console.error(error.toString());
     captureException(error);
   }
 });
 
-const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS }) => {
+const render = async (url, { OPTIMIZELY_ID, ...context }) => {
   const { Page, resetState } = requireClient();
   resetState();
   const sheet = new ServerStyleSheet();
@@ -72,31 +72,30 @@ const render = async (url, { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT,
 
   // don't use <ReactSyntax /> so babel can stay scoped to the src directory
   const page = React.createElement(Page, {
+    ...context,
+    OPTIMIZELY_ID,
     origin: url.origin,
     route: url.pathname + url.search + url.hash,
     optimizely: await getOptimizelyClient(),
     helmetContext,
-    AB_TESTS,
-    API_CACHE,
-    ZINE_POSTS,
-    HOME_CONTENT,
-    PUPDATES_CONTENT,
-    SSR_SIGNED_IN,
-    EXTERNAL_ROUTES,
   });
 
   const html = ReactDOMServer.renderToString(sheet.collectStyles(page));
   const styleTags = sheet.getStyleTags();
   sheet.seal();
+  // grab the latest optimizely again because we didn't use the one from context
   const OPTIMIZELY_DATA = await getOptimizelyData();
-  const context = { AB_TESTS, API_CACHE, EXTERNAL_ROUTES, HOME_CONTENT, OPTIMIZELY_DATA, PUPDATES_CONTENT, SSR_SIGNED_IN, ZINE_POSTS };
-  return { html, helmet: helmetContext.helmet, context, styleTags };
+  // OPTIMIZELY_ID got extracted above, so it isn't in the result here
+  // if it was we would send the id of the user that first requested this page to everyone after
+  return { ...context, OPTIMIZELY_DATA, html, helmet: helmetContext.helmet, styleTags };
 };
 
-module.exports = (url, context) => {
+module.exports = async (url, context) => {
+  const optimizelyClient = await getOptimizelyClient();
   const key = [
     context.SSR_SIGNED_IN ? 'signed-in' : 'signed-out',
     ...Object.entries(context.AB_TESTS).map(([test, assignment]) => `${test}=${assignment}`),
+    ...optimizelyClient.getEnabledFeatures(String(context.OPTIMIZELY_ID)),
     url,
   ];
   return getFromCache(key.join(' '), render, url, context);

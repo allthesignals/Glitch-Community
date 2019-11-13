@@ -17,6 +17,8 @@ const mockStore = configureStore(middlewares);
 configure({ adapter: new Adapter() });
 
 describe('PrivateBadge', function() {
+  a11yHelper.setup();
+
   it('should have no a11y errors', function() {
     const component = <PrivateToggle align={['left']} type={'userCollection'} isPrivate={true} setPrivate={() => {}} />;
     a11yHelper.testEnzymeComponent(component, {}, function(results) {

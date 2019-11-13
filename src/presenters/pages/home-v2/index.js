@@ -33,14 +33,17 @@ const calloutGraphics = {
   apps: {
     component: Discover,
     color: 'yellow',
+    background: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fdiscover-background.svg?v=1560082756096',
   },
   create: {
     component: Dreams,
     color: 'pink',
+    background: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fcreators-background.svg?v=1560082755569',
   },
   teams: {
     component: Teams,
     color: 'aquamarine',
+    background: 'https://cdn.glitch.com/fea4026e-9552-4533-a838-40d5a5b6b175%2Fteams-background.svg?v=1560082756546',
   },
 };
 
@@ -49,10 +52,10 @@ const HomeSection = ({ className = '', ...props }) => <section className={classn
 const FeatureCallouts = ({ content }) => (
   <HomeSection id="feature-callouts" className={styles.featureCalloutsContainer}>
     <Row items={content} className={styles.featureCalloutsRow} minWidth="175px">
-      {({ label, description, backgroundSrc, href, id }) => (
+      {({ label, description, href, id }) => (
         <>
           <Link to={href} className={classnames(styles.plainLink, styles.featureCalloutsHeader)}>
-            <div className={styles.featureCalloutsImage} style={{ backgroundImage: `url('${backgroundSrc}')` }}>
+            <div className={styles.featureCalloutsImage} style={{ backgroundImage: `url('${calloutGraphics[id].background}')` }}>
               {React.createElement(calloutGraphics[id].component)}
             </div>
             <h2 className={styles.featureCalloutsTitle}>
@@ -87,7 +90,7 @@ const AppsWeLove = ({ content }) => {
           <Link key={id} to={`/~${domain}`} className={classnames(styles.plainLink, styles.appItemMini)}>
             <img src={getProjectAvatarUrl({ id })} alt="" className={styles.appAvatar} />
             <div className={styles.appContent}>
-              <h4 className={styles.h4}>{title}</h4>
+              <h3 className={styles.h4}>{title}</h3>
               {/* eslint-disable-next-line react/no-danger */}
               <span dangerouslySetInnerHTML={{ __html: description }} />
             </div>
@@ -106,7 +109,7 @@ const AppsWeLove = ({ content }) => {
               </div>
               <div className={classnames(styles.appItem, i === currentTab && styles.active)}>
                 <div className={styles.appContent}>
-                  <h4 className={styles.h4}>{title}</h4>
+                  <h3 className={styles.h4}>{title}</h3>
                   {/* eslint-disable-next-line react/no-danger */}
                   <span dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
@@ -171,7 +174,7 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
           <h3 className={styles.h3}>{dek}</h3>
           {/* eslint-disable-next-line react/no-danger */}
           <span dangerouslySetInnerHTML={{ __html: summary }} />
-          <Button as="a" href={href}>
+          <Button as={Link} to={href}>
             {cta} <Icon icon="arrowRight" />
           </Button>
         </div>
@@ -201,7 +204,7 @@ const CultureZine = ({ content }) => (
   <VisibilityContainer>
     {({ wasEverVisible }) => (
       <HomeSection id="culture-zine" className={styles.cultureZine}>
-        <div className={styles.cultureZineContainer}>
+        <div>
           <h2 className={styles.h2}>
             <Mark color="#CBC3FF">Where tech meets culture</Mark>
           </h2>
@@ -218,7 +221,7 @@ const CultureZine = ({ content }) => (
                           <MaskImage src={img} />
                         </div>
                         <div className={styles.cultureZineText}>
-                          <h4 className={styles.h4}>{title}</h4>
+                          <h3 className={styles.h4}>{title}</h3>
                           {source && <p>{source.name}</p>}
                         </div>
                       </Link>
@@ -276,7 +279,7 @@ const MadeInGlitch = () => (
 // loggedIn and hasProjects are passed as props instead of pulled from context
 // because we want the preview to show what an anonymous user would see
 export const Home = ({ data, loggedIn, hasProjects }) => (
-  <main id="main" className={styles.homeContainer}>
+  <main id="main" className={styles.homeContainer} aria-label="Glitch">
     {!loggedIn && <Banner />}
     {!loggedIn && <FeatureCallouts content={data.featureCallouts} />}
     {hasProjects && <RecentProjects />}

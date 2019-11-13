@@ -3,23 +3,16 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { partition } from 'lodash';
-import { Badge, Button, SegmentedButton } from '@fogcreek/shared-components';
+import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
+import { Actions, Badge, Button, Icon, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
-import {
-  PopoverWithButton,
-  MultiPopover,
-  MultiPopoverTitle,
-  PopoverDialog,
-  InfoDescription,
-  PopoverInfo,
-  PopoverActions,
-  PopoverSearch,
-} from 'Components/popover';
+import { PopoverSearch } from 'Components/popover';
 import { ProjectAvatar } from 'Components/images/avatar';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { AddProjectToCollectionMsg } from 'Components/notification';
+
 import { useTrackedFunc } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
 import { useCurrentUser } from 'State/current-user';
@@ -27,7 +20,9 @@ import { useNotifications } from 'State/notifications';
 import { useAPI } from 'State/api';
 import { getCollectionsWithMyStuff, createCollection } from 'Models/collection';
 import useDebouncedValue from '../../hooks/use-debounced-value';
+
 import styles from './popover.styl';
+import { emoji, widePopover } from '../global.styl';
 
 const collectionTypeOptions = [
   {
@@ -40,10 +35,11 @@ const collectionTypeOptions = [
   },
 ];
 
-const AddProjectPopoverTitle = ({ project }) => (
-  <MultiPopoverTitle>
-    <ProjectAvatar project={project} tiny />&nbsp;Add {project.domain} to collection
-  </MultiPopoverTitle>
+const AddProjectPopoverTitle = ({ project, onBack }) => (
+  <Title onBack={onBack}>
+    <ProjectAvatar project={project} tiny />
+    &nbsp;Add {project.domain} to collection
+  </Title>
 );
 AddProjectPopoverTitle.propTypes = {
   project: PropTypes.object.isRequired,
@@ -62,7 +58,7 @@ const AddProjectToCollectionResultItem = ({ onClick, collection, active }) => {
 };
 
 const AlreadyInCollection = ({ project, collections }) => (
-  <InfoDescription>
+  <>
     <strong>{project.domain}</strong> is already in <Pluralize count={collections.length} showCount={false} singular="collection" />{' '}
     {collections
       .slice(0, 3)
@@ -81,7 +77,7 @@ const AlreadyInCollection = ({ project, collections }) => (
         <Pluralize count={collections.length - 3} singular="other" showCount={false} />
       </>
     )}
-  </InfoDescription>
+  </>
 );
 
 const NoResults = ({ project, collectionsWithProject, query }) => {
@@ -89,9 +85,9 @@ const NoResults = ({ project, collectionsWithProject, query }) => {
     return <AlreadyInCollection project={project} collections={collectionsWithProject} />;
   }
   if (query.length > 0) {
-    return <InfoDescription>No matching collections found – add to a new one?</InfoDescription>;
+    return <>No matching collections found – add to a new one?</>;
   }
-  return <InfoDescription>Create collections to organize your favorite projects.</InfoDescription>;
+  return <>Create collections to organize your favorite projects.</>;
 };
 
 function useCollectionSearch(query, project, collectionType) {
@@ -99,10 +95,13 @@ function useCollectionSearch(query, project, collectionType) {
   const debouncedQuery = useDebouncedValue(query, 200);
   const filters = collectionType === 'user' ? { userIDs: [currentUser.id] } : { teamIDs: currentUser.teams.map((team) => team.id) };
 
-  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [collectionType]);
+  const searchResults = useAlgoliaSearch(debouncedQuery, { ...filters, filterTypes: ['collection'], allowEmptyQuery: true, isMyStuff: true }, [
+    collectionType,
+  ]);
 
   const searchResultsWithMyStuff = useMemo(() => {
-    const shouldPutMyStuffAtFrontOfList = searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
+    const shouldPutMyStuffAtFrontOfList =
+      searchResults.collection && collectionType === 'user' && query.length === 0 && searchResults.status === 'ready';
     if (shouldPutMyStuffAtFrontOfList) {
       return getCollectionsWithMyStuff({ collections: searchResults.collection });
     }
@@ -117,7 +116,7 @@ function useCollectionSearch(query, project, collectionType) {
   return { status: searchResults.status, collections, collectionsWithProject };
 }
 
-export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToCollection, togglePopover, createCollectionPopover }) => {
+export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToCollection, togglePopover, onBack, createCollectionPopover }) => {
   const [collectionType, setCollectionType] = useState('user');
   const [query, setQuery] = useState('');
   const { status, collections, collectionsWithProject } = useCollectionSearch(query, project, collectionType);
@@ -142,14 +141,14 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
   };
 
   return (
-    <PopoverDialog wide align="right">
+    <div style={{ width: '350px' }}>
       {/* Only show this nested popover title from project-options */}
-      {fromProject && <AddProjectPopoverTitle project={project} />}
+      {fromProject && <AddProjectPopoverTitle project={project} onBack={onBack} />}
 
       {currentUser.teams.length > 0 && (
-        <PopoverActions>
+        <Actions>
           <SegmentedButton value={collectionType} options={collectionTypeOptions} onChange={setCollectionType} />
-        </PopoverActions>
+        </Actions>
       )}
 
       <PopoverSearch
@@ -162,7 +161,11 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
         labelText="Filter collections"
         renderMessage={() => {
           if (collectionsWithProject.length) {
-            return <PopoverInfo><AlreadyInCollection project={project} collections={collectionsWithProject} /></PopoverInfo>;
+            return (
+              <Info>
+                <AlreadyInCollection project={project} collections={collectionsWithProject} />
+              </Info>
+            );
           }
           return null;
         }}
@@ -170,18 +173,18 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
           <AddProjectToCollectionResultItem active={active} onClick={() => addProjectTo(collection)} collection={collection} />
         )}
         renderNoResults={() => (
-          <PopoverInfo>
+          <Info>
             <NoResults project={project} collectionsWithProject={collectionsWithProject} query={query} />
-          </PopoverInfo>
+          </Info>
         )}
       />
 
-      <PopoverActions>
+      <Actions>
         <Button size="small" variant="secondary" onClick={createCollectionPopover}>
           Add to a new collection
         </Button>
-      </PopoverActions>
-    </PopoverDialog>
+      </Actions>
+    </div>
   );
 };
 
@@ -193,35 +196,52 @@ AddProjectToCollectionBase.propTypes = {
   createCollectionPopover: PropTypes.func.isRequired,
 };
 
-const AddProjectToCollection = ({ project, addProjectToCollection }) => (
-  <PopoverWithButton buttonProps={{ size: 'small', emoji: 'framedPicture' }} buttonText="Add to Collection">
-    {({ togglePopover }) => (
-      <MultiPopover
-        views={{
-          createCollectionPopover: () => (
-            <CreateCollectionWithProject
-              addProjectToCollection={(...args) => {
-                addProjectToCollection(...args);
-                togglePopover();
-              }}
-              project={project}
-            />
-          ),
-        }}
-      >
-        {({ createCollectionPopover }) => (
-          <AddProjectToCollectionBase
-            addProjectToCollection={addProjectToCollection}
-            fromProject={false}
+const AddProjectToCollection = ({ project, addProjectToCollection }) => {
+  const [width] = useWindowSize();
+  let buttonText = null;
+  if (width && width < mediumSmallViewport) {
+    buttonText = 'Add';
+  } else {
+    buttonText = 'Add to Collection';
+  }
+
+  return (
+    <Popover
+      className={widePopover}
+      align="right"
+      renderLabel={({ onClick, ref }) => (
+        <Button size="small" onClick={onClick} ref={ref}>
+          {buttonText} <Icon className={emoji} icon="framedPicture" />
+        </Button>
+      )}
+      views={{
+        createCollectionPopover: ({ onClose, onBack }) => (
+          <CreateCollectionWithProject
+            onBack={onBack}
+            onClose={onClose}
+            addProjectToCollection={(...args) => {
+              addProjectToCollection(...args);
+            }}
             project={project}
-            togglePopover={togglePopover}
-            createCollectionPopover={createCollectionPopover}
           />
-        )}
-      </MultiPopover>
-    )}
-  </PopoverWithButton>
-);
+        ),
+      }}
+    >
+      {({ onClose, onBack, setActiveView }) => (
+        <AddProjectToCollectionBase
+          onBack={onBack}
+          addProjectToCollection={addProjectToCollection}
+          fromProject={false}
+          project={project}
+          togglePopover={onClose}
+          createCollectionPopover={() => {
+            setActiveView('createCollectionPopover');
+          }}
+        />
+      )}
+    </Popover>
+  );
+};
 
 AddProjectToCollection.propTypes = {
   addProjectToCollection: PropTypes.func.isRequired,

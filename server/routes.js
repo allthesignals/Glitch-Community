@@ -1,4 +1,3 @@
-const { captureException } = require('@sentry/node');
 const express = require('express');
 const helmet = require('helmet');
 const enforce = require('express-sslify');
@@ -10,15 +9,16 @@ const punycode = require('punycode');
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
 const initWebpack = require('./webpack');
 const constants = require('./constants');
+const { allByKeys } = require('../shared/api');
 const categories = require('../shared/categories');
 const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
-const { getOptimizelyData } = require('./optimizely');
-const { getData, saveDataToFile } = require('./curated');
+const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
+const { readCuratedContent, writeCuratedContent } = require('./curated');
 const rootTeams = require('../shared/teams');
 
-module.exports = function(external) {
+module.exports = function(EXTERNAL_ROUTES) {
   const app = express.Router();
 
   // don't enforce HTTPS if building the site locally, not on glitch.com
@@ -47,7 +47,7 @@ module.exports = function(external) {
 
   const readFilePromise = util.promisify(fs.readFile);
 
-  async function render(req, res, cache = {}, wistiaVideoId = null) {
+  async function render(req, res, API_CACHE = {}, wistiaVideoId = null) {
     let built = true;
 
     let scripts = [];
@@ -73,50 +73,31 @@ module.exports = function(external) {
       built = false;
     }
 
-    const assignments = getAssignments(req, res);
-    const signedIn = !!req.cookies.hasLogin;
-    const [zine, homeContent, pupdatesContent] = await Promise.all([getZine(), getData('home'), getData('pupdates')]);
+    const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
+    const currentContext = await allByKeys({
+      AB_TESTS: getAssignments(req, res),
+      API_CACHE,
+      EXTERNAL_ROUTES,
+      HOME_CONTENT: readCuratedContent('home'),
+      OPTIMIZELY_DATA: getOptimizelyData(),
+      OPTIMIZELY_ID: getOptimizelyId(req, res),
+      PUPDATES_CONTENT: readCuratedContent('pupdates'),
+      SSR_SIGNED_IN: !!req.cookies.hasLogin,
+      ZINE_POSTS: getZine(),
+    });
 
-    let ssr = { rendered: null, helmet: null, styleTags: '' };
-    try {
-      const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
-      const { html, context, helmet, styleTags } = await renderPage(url, {
-        AB_TESTS: assignments,
-        API_CACHE: cache,
-        EXTERNAL_ROUTES: external,
-        HOME_CONTENT: homeContent,
-        PUPDATES_CONTENT: pupdatesContent,
-        SSR_SIGNED_IN: signedIn,
-        ZINE_POSTS: zine || [],
-      });
-      ssr = {
-        rendered: html,
-        helmet,
-        styleTags,
-        ...context,
-      };
-    } catch (error) {
-      console.error(`Failed to server render ${req.url}: ${error.toString()}`);
-      captureException(error);
-    }
+    const renderedContext = await renderPage(url, currentContext);
 
     res.render('index.ejs', {
+      ...currentContext,
+      ...renderedContext,
       scripts,
       styles,
       BUILD_COMPLETE: built,
       BUILD_TIMESTAMP: buildTime.toISOString(),
-      API_CACHE: cache,
-      EXTERNAL_ROUTES: external,
-      ZINE_POSTS: zine || [],
-      HOME_CONTENT: homeContent,
-      PUPDATES_CONTENT: pupdatesContent,
-      SSR_SIGNED_IN: signedIn,
-      AB_TESTS: assignments,
-      OPTIMIZELY_DATA: await getOptimizelyData(),
       PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
       ENVIRONMENT: process.env.NODE_ENV || 'dev',
       RUNNING_ON: process.env.RUNNING_ON,
-      ...ssr,
     });
   }
 
@@ -171,13 +152,12 @@ module.exports = function(external) {
     }
     await render(req, res);
   });
-  
+
   categories.forEach((category) => {
     app.get(`/${category.url}`, (req, res) => {
       res.redirect(301, `/@glitch/${category.collectionName}`);
     });
   });
-  
 
   // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
   Object.keys(rootTeams).forEach((teamName) => {
@@ -205,10 +185,9 @@ module.exports = function(external) {
 
   app.get('/api/:page', async (req, res) => {
     const { page } = req.params;
-    console.log(page);
     if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
 
-    const data = await getData(page);
+    const data = await readCuratedContent(page);
     res.send(data);
   });
 
@@ -216,13 +195,10 @@ module.exports = function(external) {
     const { page } = req.params;
     if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
 
-    const persistentToken = req.headers.authorization;
-    const data = req.body;
-    try {
-      await saveDataToFile({ page, persistentToken, data });
+    if (req.headers.authorization === process.env.CMS_POST_SECRET) {
+      await writeCuratedContent({ page, data: req.body });
       res.sendStatus(200);
-    } catch (e) {
-      console.warn(e);
+    } else {
       res.sendStatus(403);
     }
   });

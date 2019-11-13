@@ -26,10 +26,14 @@ const PlatformsIcon = () => (
 );
 
 const Footer = ({ containerClass }) => (
-  <footer className={classnames(styles.container, containerClass)} role="contentinfo">
+  <footer className={classnames(styles.container, containerClass)} role="contentinfo" aria-label="Glitch Footer Links">
     <FooterLink href="/about" track="about">
       About Glitch
       <Icon className={emoji} icon="crystalBall" />
+    </FooterLink>
+    <FooterLink href="/about/careers" track="careers">
+      We're Hiring
+      <Icon className={emoji} icon="fishingPole" />
     </FooterLink>
     <FooterLink href="/culture" track="blog">
       Blog

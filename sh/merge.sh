@@ -12,7 +12,6 @@ curl https://community.glitch.me/api/home > src/curated/home.json
 git add src/curated/home.json
 git commit -m "update home page content"
 
-git checkout master
-git pull
+git pull origin master
 git pull live master
-git push origin master
+git push origin $1

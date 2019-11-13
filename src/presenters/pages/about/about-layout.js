@@ -14,11 +14,11 @@ import styles from './about.styl';
 function HeaderLinks({ currentPage }) {
   return (
     <nav className={styles.headerActions}>
-      <a href="/about" className={currentPage === 'about' ? styles.currentPage : undefined}>About</a>
-      <a href="/about/company" className={currentPage === 'company' ? styles.currentPage : undefined}>Company</a>
-      <a href="/about/careers" className={currentPage === 'careers' ? styles.currentPage : undefined}>Careers</a>
-      <a href="/about/press" className={currentPage === 'press' ? styles.currentPage : undefined}>Press</a>
-      <a href="/about/events" className={currentPage === 'events' ? styles.currentPage : undefined}>Events</a>
+      <Link to="/about" className={currentPage === 'about' ? styles.currentPage : undefined}>About</Link>
+      <Link to="/about/company" className={currentPage === 'company' ? styles.currentPage : undefined}>Company</Link>
+      <Link to="/about/careers" className={currentPage === 'careers' ? styles.currentPage : undefined}>Careers</Link>
+      <Link to="/about/press" className={currentPage === 'press' ? styles.currentPage : undefined}>Press</Link>
+      <Link to="/about/events" className={currentPage === 'events' ? styles.currentPage : undefined}>Events</Link>
     </nav>
   );
 }
@@ -26,7 +26,7 @@ function HeaderLinks({ currentPage }) {
 const AboutLayout = ({ children, mainClassName, currentPage }) => (
   <div style={{ maxWidth: '100vw', overflow: 'hidden', background: '#f5f5f5' }}>
     <div className={styles.content}>
-      <Helmet title="About Glitch">
+      <Helmet>
         <body data-grey="true" />
       </Helmet>
       <GlitchHelmet title="About Glitch" description="Glitch is a collaborative programming environment that lives in your browser and deploys code as you type." />
@@ -39,7 +39,7 @@ const AboutLayout = ({ children, mainClassName, currentPage }) => (
         </Link>
         <HeaderLinks currentPage={currentPage} />
       </header>
-      <main id="main" className={classNames(styles.main, mainClassName)}>
+      <main id="main" className={classNames(styles.main, mainClassName)} aria-label="About Glitch">
         {children}
       </main>
       <aside className={styles.madeOnGlitch}>

@@ -17,15 +17,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <!-- fonts -->
     <link rel="stylesheet" href="https://cloud.webtype.com/css/3a8e55c6-b1f3-4659-99eb-125ae72bd084.css">
+    
+    <!-- styles from styled-components -->
+    <%- styleTags %>
+
+    <!-- app styles -->
     <% for (let i = 0; i < styles.length; ++i) { %>
     <link rel="stylesheet" type="text/css" href="<%= styles[i] %>">
     <% } %>
     
-    <!-- styles from styled-components -->
-    <%- styleTags %>
+
     
-    <% if (!rendered) { %>
+    <% if (!html) { %>
     <noscript><style>#fallback, #fallback-noscript { display: inline-block !important } #fallback-img { display: block !important }</style></noscript>
     <% } %>
   </head>
@@ -42,17 +47,18 @@
       var SSR_SIGNED_IN = <%- SSR_SIGNED_IN %>;
       var AB_TESTS = <%- JSON.stringify(AB_TESTS) %>;
       var OPTIMIZELY_DATA = <%- JSON.stringify(OPTIMIZELY_DATA) %>;
+      var OPTIMIZELY_ID = <%- JSON.stringify(OPTIMIZELY_ID) %>;
       var BUILD_COMPLETE = <%- BUILD_COMPLETE %>;
       var BUILD_TIMESTAMP = '<%= BUILD_TIMESTAMP %>';
     </script>
     <div id="fallback" style="display: none">
       <div class="content">
-        <header>
+        <h1>
           <a href="/">
             <img class="logo" src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg" width="70" alt="Glitch">
           </a>
-        </header>
-          <main>
+        </h1>
+          <section>
             <img id="fallback-img" alt="" style="display: none" src="https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2Fbonsai.svg?v=157142334"/>
             <div class="error-msg" id="fallback-noscript" style="display: none">
               <h1>The web browser that you're using does not support Javascript</h1>
@@ -72,11 +78,11 @@
               <h1>Unfortunately, Glitch does not support Google translate at this time</h1>
               <p>redirecting to glitch.com in English...</p>
             </div>
-          </main>
+          </section>
       </div>
     </div>
 
-    <div id="react-root"><%- rendered %></div>
+    <div id="react-root"><%- html %></div>
 
     <% for (let i = 0; i < scripts.length; ++i) { %>
     <script src="<%= scripts[i] %>"></script>
