@@ -29,7 +29,7 @@ let needsTranspile = true;
 
 // clear client code from the require cache whenever it gets changed
 // it'll get loaded off the disk again when the render calls require
-require('chokidar').watch(watch).on('change', () => {
+require('chokidar').watch(watch).on('all', () => {
   needsTranspile = true;
   clearCache(); // clear the server rendering cache
 });
