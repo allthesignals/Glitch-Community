@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 
 console.log(`Starting Webpack in ${mode} mode.`);
 
-let prevBuildAssets = ['**/*'];
+let prevBuildAssets = ['**/*', '!server.js'];
 try {
   const prevBuildStats = JSON.parse(fs.readFileSync(path.resolve(BUILD, 'stats.json')));
   prevBuildAssets = [...prevBuildAssets, '!stats.json', ...prevBuildStats.assets.map((asset) => `!${asset.name}`)];
@@ -185,9 +185,10 @@ const nodeConfig = {
     filename: '[name].js',
     path: BUILD,
   },
+  optimization: { noEmitOnErrors: true },
   context: path.resolve(__dirname),
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.styl'],
     alias: aliases.client,
   },
   module: {
