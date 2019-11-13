@@ -6,6 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AutoprefixerStylus = require('autoprefixer-stylus');
 const StatsPlugin = require('stats-webpack-plugin');
+const NodeExternals = require('webpack-node-externals');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { EnvironmentPlugin } = require('webpack');
@@ -192,32 +193,19 @@ const nodeConfig = {
   module: {
     rules: [
       {
-        enforce: 'pre',
-        test: /\.js$/,
-        include: SRC,
-        loader: 'eslint-loader',
-        options: {
-          fix: false, //mode === 'development', // Only change source files in development
-          cache: false, // Keep this off, it can use a lot of space.  Let Webpack --watch do the heavy lifting for us.
-          emitError: false,
-          emitWarning: true,
-          failOnError: false,
-          ignorePattern: 'src/curated/**',
-        },
-      },
-      {
         oneOf: [
           {
             test: /\.js$/,
             loader: 'babel-loader',
-            include: [SRC, SHARED, /[\\/]node_modules[\\/]@fogcreek[\\/]/],
             options: {
-              compact: mode === 'development' ? true : false,
-              // we can't rely on babel's auto config loading for stuff in node_modules
-              configFile: path.resolve(__dirname, './.babelrc.client.json'),
+              configFile: path.resolve(__dirname, './.babelrc.node.js'),
             },
           },
         ],
+      },
+    ],
+  },
+  externals: [NodeExternals(), /^Shared[\\/]/],
 };
 
 const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
