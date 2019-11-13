@@ -23,32 +23,19 @@ const TYPES = {
   },
 };
 
-export const PrivateBadge = ({ type }) => {
-  if (type) {
-    return (
-      <TooltipContainer
-        type="info"
-        tooltip={TYPES[type].privateText}
-        target={
-          <span aria-label="private" className={classnames(styles.privateIcon, styles.privateBadge, styles.private)}>
-            <Icon icon="private" alt="private" />
-          </span>
-        }
-      />
-    );
-  }
-
-  return (
-    <span aria-label="private" className={classnames(styles.privateIcon, styles.private)}>
-      <Icon icon="private" alt="private" />
-    </span>
-  );
-};
+export const PrivateBadge = ({ type }) => (
+  <TooltipContainer
+    type="info"
+    tooltip={TYPES[type].privateText}
+    target={
+      <span aria-label="private" className={classnames(styles.privateIcon, styles.privateBadge, styles.private)}>
+        <Icon icon="private" alt="private" />
+      </span>
+    }
+  />
+);
 PrivateBadge.propTypes = {
-  type: PropTypes.oneOf(Object.keys(TYPES)),
-};
-PrivateBadge.defaultProps = {
-  type: undefined,
+  type: PropTypes.oneOf(Object.keys(TYPES)).isRequired,
 };
 
 export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => {
@@ -61,11 +48,7 @@ export const PrivateToggle = ({ isPrivate, setPrivate, type, align }) => {
       tooltip={isPrivate ? TYPES[type].privateText : TYPES[type].publicText}
       target={
         <HiddenCheckbox value={isPrivate} onChange={setPrivate} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}>
-          <span
-            role="img"
-            aria-label="Mark as private"
-            className={classnames(styles.privateIcon, styles.privateButton, isPrivate ? styles.private : styles.public, isFocused && styles.focused)}
-          >
+          <span role="img" aria-label="Mark as private" className={classnames(styles.privateIcon, styles.privateButton, isPrivate ? styles.private : styles.public, isFocused && styles.focused)}>
             {isPrivate ? <Icon icon="private" alt="private" /> : <Icon icon="public" alt="public" />}
           </span>
         </HiddenCheckbox>

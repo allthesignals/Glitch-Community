@@ -49,7 +49,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
         canonicalUrl={getCollectionLink(collection)}
       />
       <main id="main" aria-label="Glitch Collection Page">
-        <CollectionContainer collection={collection} isAuthorized={currentUserIsAuthor} funcs={funcs} />
+        <CollectionContainer collection={collection} showFeaturedProject isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
         {currentUserIsAuthor && !collection.isMyStuff && (
           <Popover

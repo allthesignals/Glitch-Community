@@ -7,9 +7,9 @@ import { PopoverMenuButton } from 'Components/popover';
 import styles from './featured-project.styl';
 import { emoji } from '../global.styl';
 
-export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote, isPlayer }) {
-  function toggleAndUnfeature(togglePopover) {
-    togglePopover();
+export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote }) {
+  function toggleAndUnfeature(onClose) {
+    onClose();
     unfeatureProject();
   }
 
@@ -36,11 +36,9 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
                 <br />
               </>
             )}
-            {!isPlayer && (
-              <Button onClick={() => toggleAndUnfeature(onClose)}>
-                Un-feature <Icon icon="arrowDown" className={emoji} />
-              </Button>
-            )}
+            <Button onClick={() => toggleAndUnfeature(onClose)}>
+              Un-feature <Icon icon="arrowDown" className={emoji} />
+            </Button>
           </Actions>
         </>
       )}
@@ -52,11 +50,9 @@ FeaturedProjectOptionsPop.propTypes = {
   unfeatureProject: PropTypes.func.isRequired,
   createNote: PropTypes.func,
   hasNote: PropTypes.bool,
-  isPlayer: PropTypes.bool,
 };
 
 FeaturedProjectOptionsPop.defaultProps = {
   createNote: null,
   hasNote: false,
-  isPlayer: false,
 };
