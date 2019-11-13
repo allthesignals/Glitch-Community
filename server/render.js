@@ -13,7 +13,7 @@ const setup = () => {
     const stylus = require('stylus');
     require('@babel/register')({
       only: [(location) => location.startsWith(src)],
-      configFile: path.join(__dirname, '../.babelrc.node.js'),
+      configFile: path.join(__dirname, '../.babelrc.node.json'),
       plugins: [
         ['css-modules-transform', {
           preprocessCss: (data, filename) => stylus.render(data, { filename }),
