@@ -20,8 +20,6 @@ if (process.env.NODE_ENV === 'production') {
   mode = 'production';
 }
 
-const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
-
 console.log(`Starting Webpack in ${mode} mode.`);
 
 let prevBuildAssets = ['**/*'];
@@ -32,7 +30,7 @@ try {
   // Don't worry about it, there's probably just no stats.json
 }
 
-module.exports = smp.wrap({
+const browserConfig = {
   mode,
   entry: {
     client: `${SRC}/client.js`,
@@ -174,4 +172,53 @@ module.exports = smp.wrap({
   stats: {
     children: false,
   },
-});
+};
+
+const nodeConfig = {
+  mode,
+  target: 'node',
+  entry: {
+    server: `${SRC}/server.js`,
+  },
+  output: {
+    filename: '[name].js',
+    path: BUILD,
+  },
+  context: path.resolve(__dirname),
+  resolve: {
+    extensions: ['.js'],
+    alias: aliases.client,
+  },
+  module: {
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        include: SRC,
+        loader: 'eslint-loader',
+        options: {
+          fix: false, //mode === 'development', // Only change source files in development
+          cache: false, // Keep this off, it can use a lot of space.  Let Webpack --watch do the heavy lifting for us.
+          emitError: false,
+          emitWarning: true,
+          failOnError: false,
+          ignorePattern: 'src/curated/**',
+        },
+      },
+      {
+        oneOf: [
+          {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            include: [SRC, SHARED, /[\\/]node_modules[\\/]@fogcreek[\\/]/],
+            options: {
+              compact: mode === 'development' ? true : false,
+              // we can't rely on babel's auto config loading for stuff in node_modules
+              configFile: path.resolve(__dirname, './.babelrc.client.json'),
+            },
+          },
+        ],
+};
+
+const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
+module.exports = smp.wrap([browserConfig, nodeConfig]);
