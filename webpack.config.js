@@ -208,11 +208,12 @@ const nodeConfig = {
             test: /\.styl/,
             use: [
               {
-                loader: 'css-loader?modules',
+                loader: 'css-loader',
                 options: {
                   modules: {
                     localIdentName: '[name]__[local]___[hash:base64:5]',
                   },
+                  onlyLocals: true,
                 },
               },
               'stylus-loader',
