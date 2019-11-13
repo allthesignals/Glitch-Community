@@ -187,7 +187,10 @@ const nodeConfig = {
     libraryTarget: 'commonjs2',
   },
   devtool: mode === 'production' ? 'source-map' : 'eval-source-map',
-  optimization: { noEmitOnErrors: true },
+  optimization: {
+    minimize: false,
+    noEmitOnErrors: true,
+  },
   context: path.resolve(__dirname),
   resolve: {
     extensions: ['.js', '.styl'],
