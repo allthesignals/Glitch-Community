@@ -8,9 +8,6 @@ module.exports = {
   plugins: [
     'styled-components',
     '@babel/syntax-dynamic-import',
-    ['module-resolver', {
-      alias: { '@sentry/browser': '@sentry/node' },
-    }],
   ],
   babelrc: false,
 };

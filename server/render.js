@@ -65,9 +65,7 @@ setImmediate(() => {
 });
 
 const render = async (url, { OPTIMIZELY_ID, ...context }) => {
-  const required = requireClient();
-  console.log(required);
-  const { Page, resetState } = required;
+  const { Page, resetState } = requireClient();
   resetState();
   const sheet = new ServerStyleSheet();
   const helmetContext = {};

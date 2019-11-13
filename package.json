@@ -19,7 +19,6 @@
   ],
   "scripts": {
     "build": "npm run build:webpack",
-    "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
     "build:webpack": "npx webpack",
     "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
     "cy:open": "npx cypress open",
@@ -29,15 +28,13 @@
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
     "prestart": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:webpack & \n fi",
-    "start": "NODE_OPTIONS='--max-old-space-size=3072' forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
+    "start": "NODE_OPTIONS='--max-old-space-size=3072' forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --watch build/server.js --exitcrash' ./server/server.js",
     "test": "mochapack",
-    "watch:babel": "npm run build:babel -- --watch",
     "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
     "watch:webpack": "npm run build:webpack -- --watch --info-verbosity verbose",
     "test:debug:watch": "node --inspect --inspect-brk node_modules/.bin/mochapack --watch \"test/**/*\""
   },
   "dependencies": {
-    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -59,7 +56,6 @@
     "axios": "^0.19.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
-    "babel-plugin-css-modules-transform": "^1.6.2",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-styled-components": "^1.10.6",

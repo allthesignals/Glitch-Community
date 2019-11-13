@@ -223,7 +223,11 @@ const nodeConfig = {
       },
     ],
   },
-  externals: [NodeExternals(), (context, request, callback) => /^Shared[\\/]/.test(request) ? callback(null, `commonjs ${request}`) : callback()],
+  externals: [
+    NodeExternals(),
+    (context, request, callback) => /^Shared[\\/]/.test(request) ? callback(null, `commonjs ${request}`) : callback(),
+    { { '@sentry/browser': '@sentry/node' }
+  ],
 };
 
 const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
