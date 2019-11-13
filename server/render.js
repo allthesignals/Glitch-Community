@@ -41,7 +41,7 @@ const requireClient = () => {
     });
   }
   const startTime = performance.now();
-  const required = require(path.join(directory, './server'));
+  const required = require(path.join(__dirname, '../build/client/server'));
   const endTime = performance.now();
   if (needsTranspile) console.log(`SSR ${isFirstTranspile ? '' : 're'}${verb} took ${Math.round(endTime - startTime)}ms`);
   isFirstTranspile = false;
