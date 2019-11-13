@@ -59,7 +59,7 @@ EditButton.defaultProps = {
   isMember: false,
 };
 
-export const RemixButton = ({ name, isMember, onClick }) => {
+export const RemixButton = ({ name, isMember }) => {
   const [width] = useWindowSize();
 
   let remixButtonText = 'Remix';
@@ -68,7 +68,7 @@ export const RemixButton = ({ name, isMember, onClick }) => {
   }
 
   return (
-    <Button as="a" href={getRemixUrl(name)} size="small" onClick={onClick}>
+    <Button as="a" href={getRemixUrl(name)} size="small">
       {remixButtonText} <Icon className={emoji} icon="microphone" />
     </Button>
   );
@@ -77,12 +77,10 @@ export const RemixButton = ({ name, isMember, onClick }) => {
 RemixButton.propTypes = {
   name: PropTypes.string.isRequired,
   isMember: PropTypes.bool,
-  onClick: PropTypes.func, // used for analytics events
 };
 
 RemixButton.defaultProps = {
   isMember: false,
-  onClick: undefined,
 };
 
 export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject, refreshEmbed }) => {

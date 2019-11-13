@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { AnimationContainer, slideDown, slideUp, Button } from '@fogcreek/shared-components';
+import { AnimationContainer, slideDown, slideUp, Button, Icon } from '@fogcreek/shared-components';
 
 import Markdown from 'Components/text/markdown';
 import BookmarkButton from 'Components/buttons/bookmark-button';
@@ -10,7 +10,6 @@ import ProfileList from 'Components/profile-list';
 import { ProjectLink } from 'Components/link';
 import VisibilityContainer from 'Components/visibility-container';
 import Note from 'Components/collection/note';
-import { PrivateBadge } from 'Components/private-badge';
 import { FALLBACK_AVATAR_URL, getProjectAvatarUrl, getEditorUrl } from 'Models/project';
 import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
@@ -135,7 +134,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                             disabled={!!project.suspendedReason}
                             imagePosition="left"
                           >
-                            {project.private && <PrivateBadge />}
+                            {project.private && (<span className={styles.privateIcon}><Icon icon="private" alt="private" /></span>)}
                             <span className={styles.projectDomain}>{project.suspendedReason ? 'suspended project' : project.domain}</span>
                           </Button>
                         </div>

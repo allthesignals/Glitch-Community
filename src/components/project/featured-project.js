@@ -26,16 +26,13 @@ const Top = ({
   isAnonymousUser,
   bookmarkAction,
   hasBookmarked,
-  isPlayer,
 }) => (
   <div className={styles.top}>
     <div className={styles.left}>
-      {!isPlayer && (
-        <Heading tagName="h2">
-          Featured Project
-          <Icon className={emoji} icon="clapper" inTitle />
-        </Heading>
-      )}
+      <Heading tagName="h2">
+        Featured Project
+        <Icon className={emoji} icon="clapper" inTitle />
+      </Heading>
       {collection && (
         <div className={styles.note}>
           <Note project={featuredProject} collection={collection} updateNote={updateNote} hideNote={hideNote} isAuthorized={isAuthorized} />
@@ -48,14 +45,9 @@ const Top = ({
           <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={featuredProject.domain} />
         </div>
       )}
-      {isAuthorized && !(isPlayer && !!featuredProject.note) && (
+      {isAuthorized && (
         <div className={styles.unfeatureBtn}>
-          <FeaturedProjectOptionsPop
-            unfeatureProject={unfeatureProject}
-            createNote={createNote}
-            hasNote={!!featuredProject.note}
-            isPlayer={isPlayer}
-          />
+          <FeaturedProjectOptionsPop unfeatureProject={unfeatureProject} createNote={createNote} hasNote={!!featuredProject.note} />
         </div>
       )}
     </div>
@@ -71,7 +63,6 @@ const FeaturedProject = ({
   isAuthorized,
   updateNote,
   unfeatureProject,
-  isPlayer,
 }) => {
   const { currentUser } = useCurrentUser();
   const [hasBookmarked, toggleBookmark] = useToggleBookmark(featuredProject);
@@ -88,7 +79,7 @@ const FeaturedProject = ({
   }));
 
   return (
-    <div data-cy="featured-project" className={styles.featuredProject}>
+    <div data-cy="featured-project">
       <AnimationContainer animation={slideDown} onAnimationEnd={unfeatureProject}>
         {(animateAndUnfeatureProject) => (
           <ProjectEmbed
@@ -104,12 +95,10 @@ const FeaturedProject = ({
                 isAnonymousUser={isAnonymousUser}
                 bookmarkAction={bookmarkAction}
                 hasBookmarked={hasBookmarked}
-                isPlayer={isPlayer}
               />
             }
             project={featuredProject}
             addProjectToCollection={addProjectToCollection}
-            previewOnly={isPlayer}
           />
         )}
       </AnimationContainer>
@@ -126,7 +115,6 @@ FeaturedProject.propTypes = {
   displayNewNote: PropTypes.func,
   hideNote: PropTypes.func,
   updateNote: PropTypes.func,
-  isPlayer: PropTypes.bool,
 };
 
 FeaturedProject.defaultProps = {
@@ -135,7 +123,6 @@ FeaturedProject.defaultProps = {
   displayNewNote: () => {},
   hideNote: () => {},
   updateNote: () => {},
-  isPlayer: false,
 };
 
 export default FeaturedProject;

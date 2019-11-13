@@ -1,159 +1,195 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import Pluralize from 'react-pluralize';
+import { partition } from 'lodash';
 import classnames from 'classnames';
-import { LiveMessage } from 'react-aria-live';
 import { Button, Icon } from '@fogcreek/shared-components';
+
+import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 
 import { isDarkColor } from 'Utils/color';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
+
+import FeaturedProject from 'Components/project/featured-project';
 import { ProfileItem } from 'Components/profile-list';
+import ProjectsList from 'Components/containers/projects-list';
 import CollectionNameInput from 'Components/fields/collection-name-input';
+import AddCollectionProject from 'Components/collection/add-collection-project-pop';
 import EditCollectionColor from 'Components/collection/edit-collection-color-pop';
 import AuthDescription from 'Components/fields/auth-description';
 import { BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
+import { CollectionLink } from 'Components/link';
 import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
+import useSample from 'Hooks/use-sample';
 import { useTrackedFunc } from 'State/segment-analytics';
-import CollectionProjectsGridView from 'Components/collection/collection-projects-grid-view';
-import CollectionProjectsPlayer from 'Components/collection/collection-projects-player';
+
 import styles from './container.styl';
 import { emoji } from '../global.styl';
 
-const CollectionContainer = withRouter(({ history, match, collection, isAuthorized, funcs }) => {
+const CollectionContainer = ({ collection, showFeaturedProject, isAuthorized, preview, funcs }) => {
   const { value: curator } = useCollectionCurator(collection);
-  const [announcement, setAnnouncement] = useState('');
+  const previewProjects = useSample(collection.projects, 3);
+  const [displayHint, setDisplayHint] = useState(false);
+
+  const collectionHasProjects = collection.projects.length > 0;
+  let featuredProject = null;
+  let { projects } = collection;
+  if (preview) {
+    projects = previewProjects;
+  }
+  if (showFeaturedProject && collection.featuredProjectId) {
+    [[featuredProject], projects] = partition(collection.projects, (p) => p.id === collection.featuredProjectId);
+  }
 
   const canEditNameAndDescription = isAuthorized && !collection.isMyStuff;
 
   let collectionName = collection.name;
   if (canEditNameAndDescription) {
     collectionName = <CollectionNameInput name={collection.name} onChange={funcs.onNameChange} />;
+  } else if (preview) {
+    collectionName = <CollectionLink collection={collection}>{collection.name}</CollectionLink>;
   }
+
+  const [width] = useWindowSize();
+  const enableSorting = (isAuthorized && projects.length > 1) && width > mediumSmallViewport;
 
   let avatar = null;
   const defaultAvatarName = 'collection-avatar'; // this was the old name for the default picture frame collection avatar
   if (collection.isMyStuff) {
-    avatar = <BookmarkAvatar height="auto" />;
+    avatar = <BookmarkAvatar width="50%" />;
   } else if (collection.avatarUrl && !collection.avatarUrl.includes(defaultAvatarName)) {
     avatar = <Image src={collection.avatarUrl} alt="" />;
   } else if (collection.projects.length > 0) {
     avatar = <CollectionAvatar collection={collection} />;
   }
 
-  const setPrivate = useTrackedFunc(() => funcs.updatePrivacy(!collection.private), 'Collection Privacy Changed', (inherited) => ({
-    ...inherited,
-    isSettingToPrivate: !collection.private,
-  }));
-
-  const onPlayPage = match.params[0] === 'play' && collection.projects.length > 0;
-
-  const togglePlay = useTrackedFunc(
-    () => {
-      const newLocation = {};
-      if (onPlayPage) {
-        newLocation.pathname = `/@${match.params.owner}/${match.params.name}`;
-        newLocation.state = {
-          preventScroll: true,
-        };
-        setAnnouncement('Collection is in Play View');
-      } else {
-        newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
-        newLocation.state = {
-          preventScroll: true,
-        };
-        setAnnouncement('Collection in Grid View');
-      }
-      history.push(newLocation);
-    },
-    'Collection Play Toggle Clicked',
+  const setPrivate = useTrackedFunc(
+    () => funcs.updatePrivacy(!collection.private),
+    'Collection Privacy Changed',
     (inherited) => ({
       ...inherited,
-      isPressingPlay: !onPlayPage,
+      isSettingToPrivate: !collection.private,
     }),
   );
 
   return (
-    <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark)}>
+    <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark, preview && styles.preview)}>
       <header className={styles.collectionHeader} style={{ backgroundColor: collection.coverColor }}>
-        <div className={styles.collectionHeaderNameDescription}>
-          <div className={styles.imageContainer}>{avatar}</div>
-          <div className={styles.nameContainer}>
-            <h1 className={styles.name}>{collectionName}</h1>
+        <div className={styles.imageContainer}>{avatar}</div>
+        <div>
+          <h1 className={styles.name}>{collectionName}</h1>
 
-            {isAuthorized && (
-              <div className={styles.privacyToggle}>
-                <PrivateToggle
-                  align={['left']}
-                  type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'}
-                  isPrivate={!!collection.private}
-                  setPrivate={setPrivate}
-                />
-              </div>
-            )}
-
-            <div className={styles.owner}>
-              <ProfileItem hasLink {...curator} glitchTeam={collection.glitchTeam} />
-            </div>
-
-            <div className={styles.description}>
-              <AuthDescription
-                authorized={canEditNameAndDescription}
-                description={collection.description}
-                update={funcs.updateDescription}
-                placeholder="Tell us about your collection"
+          {isAuthorized && (
+            <div className={styles.privacyToggle}>
+              <PrivateToggle
+                align={['left']}
+                type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'}
+                isPrivate={!!collection.private}
+                setPrivate={setPrivate}
               />
             </div>
+          )}
 
+          <div className={styles.owner}>
+            <ProfileItem hasLink {...curator} glitchTeam={collection.glitchTeam} />
+          </div>
+
+          <div className={styles.description}>
+            <AuthDescription
+              authorized={canEditNameAndDescription}
+              description={collection.description}
+              update={funcs.updateDescription}
+              placeholder="Tell us about your collection"
+            />
+          </div>
+
+          {!preview && (
             <div className={styles.projectCount}>
               <Text weight="600">
                 <Pluralize count={collection.projects.length} singular="Project" />
               </Text>
             </div>
-            <span className={styles.colorBtnContainer}>
-              {isAuthorized && funcs.updateColor && <EditCollectionColor update={funcs.updateColor} initialColor={collection.coverColor} />}
-            </span>
-          </div>
-        </div>
+          )}
 
-        {collection.projects.length > 0 && (
-          <div className={styles.playOrGridToggle}>
-            {announcement && <LiveMessage message={announcement} aria-live="assertive" />}
-            <Button onClick={() => togglePlay({ onPlayPage, match, history })}>
-              {onPlayPage ? (
-                <>
-                  <Image
-                    className={styles.gridIcon}
-                    src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fgrid.svg?v=1570468906458"
-                    alt="grid view"
-                    width=""
-                    height=""
-                  />
-                  Show All
-                </>
-              ) : (
-                <>
-                  <Icon className={emoji} icon="playButton" /> Play
-                </>
+          {isAuthorized && funcs.updateColor && <EditCollectionColor update={funcs.updateColor} initialColor={collection.coverColor} />}
+
+          {enableSorting && (
+            <div className={classnames(styles.hint, isDarkColor(collection.coverColor) && styles.dark)}>
+              <Icon className={emoji} icon="new" />
+              <Text> You can reorder your projects</Text>
+              {!displayHint && (
+                <Button variant="secondary" size="small" onClick={() => setDisplayHint(true)}>
+                  Learn More
+                </Button>
               )}
-            </Button>
-          </div>
-        )}
+              {displayHint && (
+                <div className={styles.hintBody}>
+                  <Text>
+                    <Icon className={emoji} icon="mouse" /> Click and drag to reorder
+                  </Text>
+                  <Text>
+                    <Icon className={emoji} icon="keyboard" /> Focus on a project and press space to select. Move it with the arrow keys, and press
+                    space again to save.
+                  </Text>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </header>
 
       <div className={styles.collectionContents}>
-        {onPlayPage ? (
-          <CollectionProjectsPlayer isAuthorized={isAuthorized} funcs={funcs} collection={collection} />
-        ) : (
-          <CollectionProjectsGridView isAuthorized={isAuthorized} funcs={funcs} collection={collection} />
+        <div className={styles.collectionProjectContainerHeader}>
+          {isAuthorized && funcs.addProjectToCollection && (
+            <AddCollectionProject addProjectToCollection={funcs.addProjectToCollection} collection={collection} />
+          )}
+        </div>
+        {!collectionHasProjects && isAuthorized && (
+          <div className={styles.emptyCollectionHint}>
+            <Image src="https://cdn.glitch.com/1afc1ac4-170b-48af-b596-78fe15838ad3%2Fpsst-pink.svg?1541086338934" alt="psst" width="" height="" />
+            <Text className={isDarkColor(collection.coverColor) && styles.dark}>You can add any project, created by any user</Text>
+          </div>
+        )}
+        {!collectionHasProjects && !isAuthorized && <div className={styles.emptyCollectionHint}>No projects to see in this collection just yet.</div>}
+        {featuredProject && (
+          <FeaturedProject
+            isAuthorized={isAuthorized}
+            featuredProject={featuredProject}
+            unfeatureProject={funcs.unfeatureProject}
+            addProjectToCollection={funcs.addProjectToCollection}
+            collection={collection}
+            displayNewNote={funcs.displayNewNote}
+            updateNote={funcs.updateNote}
+            hideNote={funcs.hideNote}
+          />
+        )}
+        {collectionHasProjects && (
+          <ProjectsList
+            layout={preview ? 'row' : 'gridCompact'}
+            projects={projects}
+            collection={collection}
+            enableSorting={enableSorting}
+            onReorder={funcs.updateProjectOrder}
+            noteOptions={{
+              hideNote: funcs.hideNote,
+              updateNote: funcs.updateNote,
+              isAuthorized,
+            }}
+            projectOptions={{ ...funcs, collection }}
+          />
+        )}
+        {preview && (
+          <CollectionLink collection={collection} className={styles.viewAll}>
+            View all <Pluralize count={collection.projects.length} singular="project" /> <Icon className={styles.arrow} icon="arrowRight" />
+          </CollectionLink>
         )}
       </div>
     </article>
   );
-});
+};
 
 CollectionContainer.propTypes = {
   collection: PropTypes.shape({
@@ -163,11 +199,15 @@ CollectionContainer.propTypes = {
     description: PropTypes.string,
     featuredProjectId: PropTypes.string,
   }).isRequired,
+  showFeaturedProject: PropTypes.bool,
   isAuthorized: PropTypes.bool,
+  preview: PropTypes.bool,
   funcs: PropTypes.object,
 };
 CollectionContainer.defaultProps = {
+  showFeaturedProject: false,
   isAuthorized: false,
+  preview: false,
   funcs: {},
 };
 
