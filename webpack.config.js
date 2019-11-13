@@ -184,6 +184,7 @@ const nodeConfig = {
   output: {
     filename: '[name].js',
     path: BUILD,
+    libraryTarget: 'commonjs2',
   },
   optimization: { noEmitOnErrors: true },
   context: path.resolve(__dirname),
