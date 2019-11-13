@@ -12,7 +12,6 @@ import { createAPIHook } from 'State/api';
 import styles from './styles.styl';
 import { mediumPopover } from '../global.styl';
 
-
 const importGitRepo = () => {
   /* eslint-disable no-alert */
   const repoUrl = window.prompt('Paste the full URL of your repository', 'https://github.com/orgname/reponame.git');
@@ -77,11 +76,7 @@ NewProjectPop.propTypes = {
 };
 
 const useNewProjectAPI = createAPIHook(async (api) => {
-  const projectDomains = [
-    'hello-webpage', 
-    'hello-express', 
-    'hello-sqlite', 
-  ];
+  const projectDomains = ['hello-webpage', 'hello-express', 'hello-sqlite'];
   const domainString = projectDomains.map((domain) => `domain=${domain}`).join('&');
   // always request against the production API, with no token
   // (this is necessary for it to work on glitch.development)
@@ -99,7 +94,22 @@ function NewProjectPopButton() {
   const onOpen = useTracker('open new-project pop');
 
   return (
-    <Popover className={mediumPopover} align="right" renderLabel={({ onClick, ref }) => <Button onClick={() => { onOpen(); onClick(); }} ref={ref} size="small">New Project</Button>}>
+    <Popover
+      className={mediumPopover}
+      align="right"
+      renderLabel={({ onClick, ref }) => (
+        <Button
+          onClick={() => {
+            onOpen();
+            onClick();
+          }}
+          ref={ref}
+          size="small"
+        >
+          New Project
+        </Button>
+      )}
+    >
       {() => <NewProjectPop projects={projects} />}
     </Popover>
   );
