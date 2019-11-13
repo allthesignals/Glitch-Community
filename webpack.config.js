@@ -12,7 +12,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { EnvironmentPlugin } = require('webpack');
 const aliases = require('./aliases');
 
-const BUILD = path.resolve(__dirname, 'build/client');
+const BUILD = path.resolve(__dirname, 'build');
 const SRC = path.resolve(__dirname, 'src');
 const SHARED = path.resolve(__dirname, 'shared');
 
@@ -94,7 +94,7 @@ const browserConfig = {
   context: path.resolve(__dirname),
   resolve: {
     extensions: ['.js'],
-    alias: aliases.client,
+    alias: aliases,
   },
   module: {
     rules: [
@@ -191,7 +191,7 @@ const nodeConfig = {
   context: path.resolve(__dirname),
   resolve: {
     extensions: ['.js', '.styl'],
-    alias: aliases.client,
+    alias: aliases,
   },
   module: {
     rules: [
@@ -226,7 +226,7 @@ const nodeConfig = {
   externals: [
     NodeExternals(),
     (context, request, callback) => /^Shared[\\/]/.test(request) ? callback(null, `commonjs ${request}`) : callback(),
-    { { '@sentry/browser': '@sentry/node' }
+    (context, request, callback) => '@sentry/browser' === request ? callback(null, `commonjs ${request}`) : callback(),
   ],
 };
 

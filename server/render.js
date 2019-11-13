@@ -7,19 +7,20 @@ const { getOptimizelyClient, getOptimizelyData } = require('./optimizely');
 
 const setup = () => {
   const src = path.join(__dirname, '../src');
-  const build = path.join(__dirname, '../build/node/');
+  const build = path.join(__dirname, '../build');
   if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
     // transpile on render to ensure we always use the latest code
     require('@babel/register')({
       only: [(location) => location.startsWith(src)],
       configFile: path.join(__dirname, '../.babelrc.node.js'),
     });
-    return { directory: src, verb: 'transpile' };
+    return { watch: src, entry: path.join(src, './server.js'), verb: 'transpile' };
   }
   // use the build created either statically or by a watcher
-  return { directory: build, verb: 'load' };
+  const code = path.join(build, './server.js');
+  return { watch: code, entry: code, verb: 'load' };
 };
-const { directory, verb } = setup();
+const { watch, entry, verb } = setup();
 
 const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', { html: null, helmet: null, styleTags: null });
 
@@ -28,7 +29,7 @@ let needsTranspile = true;
 
 // clear client code from the require cache whenever it gets changed
 // it'll get loaded off the disk again when the render calls require
-require('chokidar').watch(directory).on('change', () => {
+require('chokidar').watch(watch).on('change', () => {
   needsTranspile = true;
   clearCache(); // clear the server rendering cache
 });
@@ -37,11 +38,11 @@ const requireClient = () => {
   if (needsTranspile) {
     // remove everything in the src directory
     Object.keys(require.cache).forEach((location) => {
-      if (location.startsWith(directory)) delete require.cache[location];
+      if (location.startsWith(watch)) delete require.cache[location];
     });
   }
   const startTime = performance.now();
-  const required = require(path.join(__dirname, '../build/client/server'));
+  const required = require(entry);
   const endTime = performance.now();
   if (needsTranspile) console.log(`SSR ${isFirstTranspile ? '' : 're'}${verb} took ${Math.round(endTime - startTime)}ms`);
   isFirstTranspile = false;
