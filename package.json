@@ -18,7 +18,7 @@
     "./src/utils/lever/lever.styl"
   ],
   "scripts": {
-    "build:old": "npm run build:webpack && npm run build:babel",
+    "build": "npm run build:webpack && npm run build:babel",
     "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
     "build:webpack": "npx webpack",
     "build:webpack:prod": "NODE_ENV=production npx webpack && npm run build:babel",
@@ -29,7 +29,7 @@
     "lint": "npm run lint:server && npm run lint:src",
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
-    "prestart:old": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:babel & npm run watch:webpack & \n fi",
+    "prestart": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:babel & npm run watch:webpack & \n fi",
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "test": "mochapack",
     "watch:babel": "npm run build:babel -- --watch",
