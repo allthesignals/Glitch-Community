@@ -18,7 +18,7 @@
     "./src/utils/lever/lever.styl"
   ],
   "scripts": {
-    "build": "npm run build:webpack && npm run build:babel",
+    "build:old": "npm run build:webpack && npm run build:babel",
     "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
     "build:webpack": "npx webpack",
     "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
@@ -149,7 +149,7 @@
     "pm2": "^3.5.1"
   },
   "engines": {
-    "node": "10.x"
+    "node": "12.13.x"
   },
   "devDependencies": {
     "axe-core": "^3.3.2",
