@@ -11671,8 +11671,8 @@ specifiers:
   url-join: ^4.0.1
   url-search-params-polyfill: ^7.0.0
   wcag-contrast: ^2.1.1
-  webpack: ^4.35.0
-  webpack-cli: ^3.3.5
+  webpack: ^4.41.2
+  webpack-cli: ^3.3.10
   webpack-dev-middleware: ^3.7.0
   webpack-node-externals: ^1.7.2
   winston: ^3.2.1
