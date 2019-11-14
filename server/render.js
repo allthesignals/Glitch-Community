@@ -46,10 +46,10 @@ const watchs = (location) => {
   };
 };
 
-let requireClient = () => require('../build/server');
+//let requireClient = () => require('../build/server');
 
 if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
-  watchs(path.join(__dirname, '../src'));
+  //watchs(path.join(__dirname, '../src'));
 }
 
 const requireClient = () => {
