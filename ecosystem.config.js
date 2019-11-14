@@ -4,6 +4,8 @@ module.exports = {
       script: "./server/server.js",
       instances : "1",
       max_memory_restart: "1G",
+      instances : "max",
+      exec_mode : "cluster",
       env: {
         NODE_ENV: "development",
       },
