@@ -149,7 +149,7 @@
     "pm2": "^3.5.1"
   },
   "engines": {
-    "node": "12.13.x"
+    "node": "10.x"
   },
   "devDependencies": {
     "axe-core": "^3.3.2",
