@@ -61,7 +61,7 @@ if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
   watch(SRC, path.join(SRC, './server'), (ms) => console.log(`SSR transpile took ${ms}ms`));
 } else if (process.env.BUILD_TYPE === 'watcher') {
   const BUILD = path.join(__dirname, '../build');
-  watch(path.join(BUILD, './server*'), path.join(BUILD, './server'), (ms) => console.log(`SSR load took ${ms}ms`));
+  watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), (ms) => console.log(`SSR load took ${ms}ms`));
 }
 
 const React = require('react');
