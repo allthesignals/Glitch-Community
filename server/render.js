@@ -19,9 +19,7 @@ const watch = (location, entry, log) => {
     needsReload = false;
     return required;
   };
-  // clear client code from the require cache whenever it gets changed
-  // it'll get loaded off the disk again when the render calls require
-  require('chokidar').watch(location).on('all', () => {
+  const forceReload = () => {
     needsReload = true;
     // clear changed files from the require cache
     Object.keys(require.cache).forEach((file) => {
@@ -29,12 +27,17 @@ const watch = (location, entry, log) => {
     });
     // clear the server rendering cache
     clearCache();
-  }).on('ready', () => {
+  };
+  // clear client code from the require cache whenever it gets changed
+  // it'll get loaded off the disk again when the render calls require
+  const watcher = require('chokidar').watch(location).on('ready', () => {
+    watcher.on('all', forceReload);
+    forceReload();
+    // try importing right away so we don't have to wait
+    // but if it fails now it's probably because there are no past builds to use
     try {
       requireClient();
     } catch (error) {
-      // try importing right away so we don't have to wait
-      // but if it fails now it's probably because there are no past builds to use
       console.warn('Failed to load client code for ssr. This either means the initial build is not finished or there is a bug in the code');
       console.error(error.toString());
       captureException(error);
