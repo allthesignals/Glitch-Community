@@ -34,39 +34,52 @@ const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'
 let isFirstTranspile = true;
 let needsTranspile = true;
 
-const watchs = (location) => {
+const watch = (location) => {
   // clear client code from the require cache whenever it gets changed
   // it'll get loaded off the disk again when the render calls require
   require('chokidar').watch(location).on('all', () => {
-    needsTranspile = true;
-    clearCache(); // clear the server rendering cache
+    // clear changed files from the require cache
+    Object.keys(require.cache).forEach((file) => {
+      if (file.startsWith(location)) delete require.cache[file];
+    });
+    // clear the server rendering cache
+    clearCache();
   });
-  return () => {
-    
-  };
 };
 
-//let requireClient = () => require('../build/server');
+let requireClient = () => require('../build/server');
 
 if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
-  //watchs(path.join(__dirname, '../src'));
-}
+  const stylus = require('stylus');
+  require('@babel/register')({
+    only: [(location) => location.startsWith(src)],
+    configFile: path.join(__dirname, '../.babelrc.node.json'),
+    plugins: [
+      ['css-modules-transform', {
+        preprocessCss: (data, filename) => stylus.render(data, { filename }),
+        extensions: ['.styl'],
+      }],
+    ],
+  });
 
-const requireClient = () => {
-  if (needsTranspile) {
-    // remove everything in the src directory
-    Object.keys(require.cache).forEach((location) => {
-      if (location.startsWith(watch)) delete require.cache[location];
-    });
+  let needsTranspile = true;
+  requireClient = () => {
+    const startTime = performance.now();
+    const required = require(entry);
+    const endTime = performance.now();
+    if (needsTranspile) console.log(`SSR transpile took ${Math.round(endTime - startTime)}ms`);
+    isFirstTranspile = false;
+    needsTranspile = false;
+    return required;
+  };
+
+  watch(path.join(__dirname, '../src'));
+} else if (process.env.BUILD_TYPE === 'watcher') {
+  let needsReload = true;
+  requireClient = () => {
+    if (needsReload) console.log('Loading SSR bundle')
   }
-  const startTime = performance.now();
-  const required = require(entry);
-  const endTime = performance.now();
-  if (needsTranspile) console.log(`SSR ${isFirstTranspile ? '' : 're'}${verb} took ${Math.round(endTime - startTime)}ms`);
-  isFirstTranspile = false;
-  needsTranspile = false;
-  return required;
-};
+}
 
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
