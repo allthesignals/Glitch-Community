@@ -5,34 +5,7 @@ const { captureException } = require('@sentry/node');
 const createCache = require('./cache');
 const { getOptimizelyClient, getOptimizelyData } = require('./optimizely');
 
-const setup = () => {
-  const src = path.join(__dirname, '../src');
-  const build = path.join(__dirname, '../build');
-  if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
-    // transpile on render to ensure we always use the latest code
-    const stylus = require('stylus');
-    require('@babel/register')({
-      only: [(location) => location.startsWith(src)],
-      configFile: path.join(__dirname, '../.babelrc.node.json'),
-      plugins: [
-        ['css-modules-transform', {
-          preprocessCss: (data, filename) => stylus.render(data, { filename }),
-          extensions: ['.styl'],
-        }],
-      ],
-    });
-    return { watch: src, entry: path.join(src, './server.js'), verb: 'transpile' };
-  }
-  // use the build created either statically or by a watcher
-  const code = path.join(build, './server.js');
-  return { watch: code, entry: code, verb: 'load' };
-};
-const { watch, entry, verb } = setup();
-
 const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', { html: null, helmet: null, styleTags: null });
-
-let isFirstTranspile = true;
-let needsTranspile = true;
 
 const watch = (location) => {
   // clear client code from the require cache whenever it gets changed
@@ -50,9 +23,11 @@ const watch = (location) => {
 let requireClient = () => require('../build/server');
 
 if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
+  const SRC = path.join(__dirname, '../src');
+
   const stylus = require('stylus');
   require('@babel/register')({
-    only: [(location) => location.startsWith(src)],
+    only: [(location) => location.startsWith(SRC)],
     configFile: path.join(__dirname, '../.babelrc.node.json'),
     plugins: [
       ['css-modules-transform', {
@@ -61,24 +36,26 @@ if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
       }],
     ],
   });
+  watch(SRC);
 
   let needsTranspile = true;
   requireClient = () => {
     const startTime = performance.now();
-    const required = require(entry);
+    const required = require('../src/server');
     const endTime = performance.now();
     if (needsTranspile) console.log(`SSR transpile took ${Math.round(endTime - startTime)}ms`);
-    isFirstTranspile = false;
     needsTranspile = false;
     return required;
   };
-
-  watch(path.join(__dirname, '../src'));
 } else if (process.env.BUILD_TYPE === 'watcher') {
   let needsReload = true;
   requireClient = () => {
-    if (needsReload) console.log('Loading SSR bundle')
-  }
+    if (needsReload) console.log('Loading SSR bundle');
+    const required = require('../build/server');
+    needsReload = false;
+    return required;
+  };
+  watch(path.join(__dirname, '../build/server*'));
 }
 
 const React = require('react');
