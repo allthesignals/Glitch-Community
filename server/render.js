@@ -34,12 +34,23 @@ const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'
 let isFirstTranspile = true;
 let needsTranspile = true;
 
-// clear client code from the require cache whenever it gets changed
-// it'll get loaded off the disk again when the render calls require
-require('chokidar').watch(watch).on('all', () => {
-  needsTranspile = true;
-  clearCache(); // clear the server rendering cache
-});
+const watchs = (location) => {
+  // clear client code from the require cache whenever it gets changed
+  // it'll get loaded off the disk again when the render calls require
+  require('chokidar').watch(location).on('all', () => {
+    needsTranspile = true;
+    clearCache(); // clear the server rendering cache
+  });
+  return () => {
+    
+  };
+};
+
+let requireClient = () => require('../build/server');
+
+if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
+  watchs(path.join(__dirname, '../src'));
+}
 
 const requireClient = () => {
   if (needsTranspile) {
