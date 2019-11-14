@@ -7,10 +7,12 @@ const { getOptimizelyClient, getOptimizelyData } = require('./optimizely');
 
 const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', { html: null, helmet: null, styleTags: null });
 
-const watch = (location) => {
+const watch = (location, entry, log) => {
+  let needsReload = true;
   // clear client code from the require cache whenever it gets changed
   // it'll get loaded off the disk again when the render calls require
   require('chokidar').watch(location).on('all', () => {
+    needsReload = true;
     // clear changed files from the require cache
     Object.keys(require.cache).forEach((file) => {
       if (file.startsWith(location)) delete require.cache[file];
@@ -18,6 +20,14 @@ const watch = (location) => {
     // clear the server rendering cache
     clearCache();
   });
+  return () => {
+    const startTime = performance.now();
+    const required = require(entry);
+    const endTime = performance.now();
+    if (needsReload) log(Math.round(endTime - startTime));
+    needsReload = false;
+    return required;
+  };
 };
 
 let requireClient = () => require('../build/server');
