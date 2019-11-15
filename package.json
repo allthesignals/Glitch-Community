@@ -18,8 +18,7 @@
     "./src/utils/lever/lever.styl"
   ],
   "scripts": {
-    "build": "npm run build:webpack",
-    "build:webpack": "npx webpack",
+    "build": "npx webpack",
     "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
     "cy:open": "npx cypress open",
     "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
@@ -31,7 +30,7 @@
     "start": "NODE_OPTIONS='--max-old-space-size=4096' forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
     "test": "mochapack",
     "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
-    "watch:webpack": "npm run build:webpack -- --watch --info-verbosity verbose",
+    "watch:webpack": "npx webpack --watch --info-verbosity verbose",
     "test:debug:watch": "node --inspect --inspect-brk node_modules/.bin/mochapack --watch \"test/**/*\""
   },
   "dependencies": {
