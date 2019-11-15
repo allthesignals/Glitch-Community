@@ -9,13 +9,13 @@ const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'
 
 let requireClient = () => require('../build/server');
 
-const watch = (location, entry, log) => {
+const watch = (location, entry, verb) => {
   let needsReload = true;
   requireClient = () => {
     const startTime = performance.now();
     const required = require(entry);
     const endTime = performance.now();
-    if (needsReload) log(Math.round(endTime - startTime));
+    if (needsReload) console.log(`SSR ${verb} took ${Math.round(endTime - startTime)}ms`);
     needsReload = false;
     return required;
   };
@@ -58,10 +58,10 @@ if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
       }],
     ],
   });
-  watch(SRC, path.join(SRC, './server'), (ms) => console.log(`SSR transpile took ${ms}ms`));
+  watch(SRC, path.join(SRC, './server'), 'transpile');
 } else if (process.env.BUILD_TYPE === 'watcher') {
   const BUILD = path.join(__dirname, '../build');
-  watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), (ms) => console.log(`SSR load took ${ms}ms`));
+  watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), 'reload');
 } else if (process.env.BUILD_TYPE === 'static') {
   // don't actually do anything, leave requireClient as a plain call to require
 }
