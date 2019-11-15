@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { mount } from 'enzyme';
 import axeCore from 'axe-core';
 import jsdom from 'jsdom-global';
+import { performance } from 'perf_hooks';
 
 export const a11yHelper = {};
 
@@ -12,8 +13,11 @@ export const a11yHelper = {};
  */
 a11yHelper.setup = function() {
   let cleanup;
-  before(() => {
+  before(function() {
+    this.timeout(100);
+    console.log(performance.now());
     cleanup = jsdom({ url: 'https://glitch.com/' });
+    console.log(performance.now());
   });
   after(() => {
     cleanup();
