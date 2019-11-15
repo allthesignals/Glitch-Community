@@ -45,23 +45,30 @@ const watch = (location, entry, log) => {
   });
 };
 
-if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
-  const SRC = path.join(__dirname, '../src');
-  const stylus = require('stylus');
-  require('@babel/register')({
-    only: [(location) => location.startsWith(SRC)],
-    configFile: path.join(__dirname, '../.babelrc.node.json'),
-    plugins: [
-      ['css-modules-transform', {
-        preprocessCss: (data, filename) => stylus.render(data, { filename }),
-        extensions: ['.styl'],
-      }],
-    ],
-  });
-  watch(SRC, path.join(SRC, './server'), (ms) => console.log(`SSR transpile took ${ms}ms`));
-} else if (process.env.BUILD_TYPE === 'watcher') {
-  const BUILD = path.join(__dirname, '../build');
-  watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), (ms) => console.log(`SSR load took ${ms}ms`));
+switch (process.env.BUILD_TYPE) {
+  default:
+  case 'memory':
+    const SRC = path.join(__dirname, '../src');
+    const stylus = require('stylus');
+    require('@babel/register')({
+      only: [(location) => location.startsWith(SRC)],
+      configFile: path.join(__dirname, '../.babelrc.node.json'),
+      plugins: [
+        ['css-modules-transform', {
+          preprocessCss: (data, filename) => stylus.render(data, { filename }),
+          extensions: ['.styl'],
+        }],
+      ],
+    });
+    watch(SRC, path.join(SRC, './server'), (ms) => console.log(`SSR transpile took ${ms}ms`));
+    break;
+  case 'watcher':
+    const BUILD = path.join(__dirname, '../build');
+    watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), (ms) => console.log(`SSR load took ${ms}ms`));
+    break;
+  case 'static':
+    // leave requireClient as a direct call to require()
+    break;
 }
 
 const React = require('react');
