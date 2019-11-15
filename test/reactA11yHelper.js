@@ -14,10 +14,8 @@ export const a11yHelper = {};
 a11yHelper.setup = function() {
   let cleanup;
   before(function() {
-    this.timeout(100);
-    console.log(performance.now());
+    this.timeout(500000); // jsdom sometimes takes too long to init
     cleanup = jsdom({ url: 'https://glitch.com/' });
-    console.log(performance.now());
   });
   after(() => {
     cleanup();
