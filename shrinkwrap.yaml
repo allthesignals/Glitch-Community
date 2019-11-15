@@ -114,6 +114,7 @@ devDependencies:
   enzyme: 3.10.0
   enzyme-adapter-react-16: 1.15.1
   jsdom: 15.2.1
+  jsdom-global: 3.0.2
   mocha: 6.2.2
   mocha-jsdom: 2.0.0
   mochapack: 1.1.6
@@ -6341,6 +6342,12 @@ packages:
   /jsbn/0.1.1:
     resolution:
       integrity: sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
+  /jsdom-global/3.0.2:
+    dev: true
+    peerDependencies:
+      jsdom: '>=10.0.0'
+    resolution:
+      integrity: sha1-a9KZwTsMRiay2iwDk81DhdYGrLk=
   /jsdom/11.12.0:
     dependencies:
       abab: 2.0.2
@@ -11158,6 +11165,7 @@ specifiers:
   if-env: ^1.0.4
   intersection-observer: ^0.7.0
   jsdom: ^15.1.1
+  jsdom-global: ^3.0.2
   lodash: ^4.17.15
   lodash-webpack-plugin: ^0.11.5
   markdown-it: ^9.0.1
