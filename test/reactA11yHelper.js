@@ -4,8 +4,6 @@ import { render } from 'react-dom';
 import { mount } from 'enzyme';
 import axeCore from 'axe-core';
 import jsdom from 'jsdom-global';
-import 'jsdom'; // jsdom-global doesn't import it until you first call it, which causes timeouts in the test
-import { performance } from 'perf_hooks';
 
 export const a11yHelper = {};
 
@@ -15,9 +13,7 @@ export const a11yHelper = {};
 a11yHelper.setup = function() {
   let cleanup;
   before(() => {
-    console.log(performance.now());
     cleanup = jsdom({ url: 'https://glitch.com/' });
-    console.log(performance.now());
   });
   after(() => {
     cleanup();
