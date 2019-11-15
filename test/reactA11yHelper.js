@@ -14,7 +14,7 @@ export const a11yHelper = {};
 a11yHelper.setup = function() {
   let cleanup;
   before(function() {
-    this.timeout(5000);
+    this.timeout(0);
     console.log(performance.now());
     cleanup = jsdom({ url: 'https://glitch.com/' });
     console.log(performance.now());
