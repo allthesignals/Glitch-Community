@@ -29,7 +29,7 @@
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
     "prestart": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:babel & npm run watch:webpack & \n fi",
-    "start": "NODE_OPTIONS='--max-old-space-size=4096' forever --minUptime 5000 --spinSleepTime 1000 --killSignal=SIGTERM -c 'nodemon --watch server --watch shared --watch views --exitcrash' ./server/server.js",
+    "start": "pm2-runtime start ecosystem.config.js",
     "test": "mochapack",
     "watch:babel": "npm run build:babel -- --watch",
     "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
@@ -142,10 +142,11 @@
     "url-join": "^4.0.1",
     "url-search-params-polyfill": "^7.0.0",
     "wcag-contrast": "^2.1.1",
-    "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.5",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-middleware": "^3.7.0",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "pm2": "^3.5.1"
   },
   "engines": {
     "node": "10.x"
