@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
@@ -140,20 +140,11 @@ PlayerControls.propTypes = {
   params: PropTypes.object.isRequired,
 };
 
-const wakeUpNextBatchOfProjects = (projects) => {
-  projects.map(async (project) => fetch(`https://${project.domain}.glitch.me`, { mode: 'no-cors' }));
-};
 
 const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, funcs, collection }) => {
   const { projects } = collection;
   const [currentProjectIndex, setCurrentProjectIndex] = useState(getCurrentProjectIndexFromUrl(match.params.projectId, projects));
-  useEffect(() => {
-    // as we tab through the projects, every 5th project we wake up the next batch of 6
-    // this makes the play experience feel snappier without having to wake up every project in the collection
-    if (currentProjectIndex % 5 === 0) {
-      wakeUpNextBatchOfProjects(projects.slice(currentProjectIndex + 1, currentProjectIndex + 6));
-    }
-  }, [currentProjectIndex]);
+
   const featuredProject = projects[currentProjectIndex];
 
   return (
