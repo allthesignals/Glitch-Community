@@ -12,7 +12,6 @@ import { createAPIHook } from 'State/api';
 import styles from './styles.styl';
 import { mediumPopover } from '../global.styl';
 
-
 const importGitRepo = () => {
   /* eslint-disable no-alert */
   const repoUrl = window.prompt('Paste the full URL of your repository', 'https://github.com/orgname/reponame.git');
@@ -77,20 +76,16 @@ NewProjectPop.propTypes = {
 };
 
 const useNewProjectAPI = createAPIHook(async (api) => {
-  const projectIds = [
-    '929980a8-32fc-4ae7-a66f-dddb3ae4912c', // 'hello-webpage'
-    'a0fcd798-9ddf-42e5-8205-17158d4bf5bb', // 'hello-express'
-    'cb519589-591c-474f-8986-a513f22dbf88', // 'hello-sqlite'
-  ];
-  const idString = projectIds.map((id) => `id=${id}`).join('&');
+  const projectDomains = ['hello-webpage', 'hello-express', 'hello-sqlite'];
+  const domainString = projectDomains.map((domain) => `domain=${domain}`).join('&');
   // always request against the production API, with no token
   // (this is necessary for it to work on glitch.development)
-  const { data } = await api.get(`https://api.glitch.com/v1/projects/by/id?${idString}`, {
+  const { data } = await api.get(`https://api.glitch.com/v1/projects/by/domain?${domainString}`, {
     headers: {
       Authorization: '',
     },
   });
-  return projectIds.map((id) => data[id]);
+  return projectDomains.map((domain) => data[domain]);
 });
 
 function NewProjectPopButton() {
@@ -99,7 +94,22 @@ function NewProjectPopButton() {
   const onOpen = useTracker('open new-project pop');
 
   return (
-    <Popover className={mediumPopover} align="right" renderLabel={({ onClick, ref }) => <Button onClick={() => { onOpen(); onClick(); }} ref={ref} size="small">New Project</Button>}>
+    <Popover
+      className={mediumPopover}
+      align="right"
+      renderLabel={({ onClick, ref }) => (
+        <Button
+          onClick={() => {
+            onOpen();
+            onClick();
+          }}
+          ref={ref}
+          size="small"
+        >
+          New Project
+        </Button>
+      )}
+    >
       {() => <NewProjectPop projects={projects} />}
     </Popover>
   );

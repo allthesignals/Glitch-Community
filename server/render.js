@@ -45,7 +45,7 @@ const watch = (location, entry, verb) => {
   });
 };
 
-if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
+if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.env.NODE_ENV !== 'production') {
   const SRC = path.join(__dirname, '../src');
   const stylus = require('stylus');
   require('@babel/register')({
