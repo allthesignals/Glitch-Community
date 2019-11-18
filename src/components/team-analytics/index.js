@@ -9,7 +9,7 @@ import Text from 'Components/text/text';
 import { createAPIHook } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
-import { useFeatureEnabled } from 'State/rollouts';
+import { useFeatureEnabledForEntity } from 'State/rollouts';
 import TeamAnalyticsTimePop from './team-analytics-time-pop';
 import TeamAnalyticsProjectPop from './team-analytics-project-pop';
 import SummaryItem from './team-analytics-summary';
@@ -60,14 +60,14 @@ const useAnalyticsData = createAPIHook(async (api, { id, projects, fromDate, cur
 });
 
 function useAnalytics(props) {
-  const featureEnabled = useFeatureEnabled('analytics', String(props.id));
+  const featureEnabled = useFeatureEnabledForEntity('analytics', props.id);
   // make an object with a stable identity so it can be used as single argument to api hook
   const memoProps = useMemo(() => ({ ...props, featureEnabled }), [featureEnabled, ...Object.values(props)]);
   return useAnalyticsData(memoProps);
 }
 
 function BannerMessage({ id, projects }) {
-  const featureEnabled = useFeatureEnabled('analytics', String(id));
+  const featureEnabled = useFeatureEnabledForEntity('analytics', id);
   if (!featureEnabled) {
     return (
       <aside className={styles.inlineBanner}>
@@ -92,7 +92,7 @@ function TeamAnalytics({ id, projects }) {
 
   const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
 
-  const placeholder = !useFeatureEnabled('analytics', String(id)) || projects.length === 0;
+  const placeholder = !useFeatureEnabledForEntity('analytics', id) || projects.length === 0;
 
   const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
 

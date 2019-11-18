@@ -14,6 +14,7 @@ const Page = ({
   API_CACHE,
   EXTERNAL_ROUTES,
   HOME_CONTENT,
+  OPTIMIZELY_ID,
   PUPDATES_CONTENT,
   SSR_SIGNED_IN,
   ZINE_POSTS,
@@ -31,7 +32,7 @@ const Page = ({
       ZINE_POSTS={ZINE_POSTS}
     >
       <TestsProvider AB_TESTS={AB_TESTS}>
-        <OptimizelyProvider optimizely={optimizely}>
+        <OptimizelyProvider optimizely={optimizely} optimizelyId={OPTIMIZELY_ID}>
           <App apiCache={API_CACHE} helmetContext={helmetContext} />
         </OptimizelyProvider>
       </TestsProvider>
