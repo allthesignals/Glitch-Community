@@ -30,7 +30,7 @@ const ValidToken = () => {
       <p>We'll miss you on Glitch.</p>
       <p>If you'd like to share any feedback, feel free to leave us a note.</p>
       <div className={styles.textArea}>
-        <TextArea value={reasonForLeaving} onChange={setReason} label="I decided to leave Glitch because..." variant="opaque" />
+        <TextArea value={reasonForLeaving} onChange={setReason} label="I decided to leave Glitch because..." variant="opaque" maxLength="500"/>
       </div>
       <div className={styles.feedbackWrap}>
         <Button onClick={submitFeedback}>Share Feedback</Button>
