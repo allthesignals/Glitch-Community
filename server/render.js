@@ -9,7 +9,7 @@ const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'
 
 const watch = (location, entry, verb) => {
   let logTiming = true;
-  const requireClient = () => {
+  const loadClient = () => {
     const startTime = performance.now();
     const required = require(entry);
     const endTime = performance.now();
@@ -19,36 +19,34 @@ const watch = (location, entry, verb) => {
     }
     return required;
   };
-  const forceReload = () => {
+  const dumpClient = () => {
     // clear changed files from the require cache
     Object.keys(require.cache).forEach((file) => {
       if (file.startsWith(location)) delete require.cache[file];
     });
     // clear the server rendering cache
     clearCache();
-    // print out some perf info next time we call require
+    // we're reloading off the disc, so print out the perf info again
     logTiming = true;
   };
-  // clear client code from the require cache whenever it gets changed
-  // it'll get loaded off the disk again when the render calls require
   const watcher = require('chokidar').watch(location).on('ready', () => {
-    watcher.on('all', forceReload);
-    forceReload();
-    // try importing right away so we don't have to wait
-    // but if it fails now it's probably because there are no past builds to use
+    // dump the client and ssr cache whenever the code changes, it'll reload on the next ssr render
+    watcher.on('all', dumpClient);
+    dumpClient(); // dump the client now, in case something changed during startup
     try {
-      requireClient();
+      // try importing right away so we don't have to wait
+      // but if it fails now it's probably because there are no past builds to use
+      loadClient();
     } catch (error) {
       console.warn('Failed to load client code for ssr. This either means the initial build is not finished or there is a bug in the code');
       console.error(error.toString());
       captureException(error);
     }
   });
-  return requireClient;
+  return loadClient;
 };
 
 let tempRequireClient = () => require('../src/server');
-
 if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.env.NODE_ENV !== 'production') {
   const SRC = path.join(__dirname, '../src');
   const stylus = require('stylus');
@@ -62,13 +60,14 @@ if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.
       }],
     ],
   });
-  requireClient = watch(SRC, path.join(SRC, './server'), 'transpile');
+  tempRequireClient = watch(SRC, path.join(SRC, './server'), 'transpile');
 } else if (process.env.BUILD_TYPE === 'watcher') {
   const BUILD = path.join(__dirname, '../build');
-  requireClient = watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), 'reload');
+  tempRequireClient = watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), 'reload');
 } else if (process.env.BUILD_TYPE === 'static') {
   // use the default requireClient and load the built file with no extra logic
 }
+const requireClient = tempRequireClient;
 
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
