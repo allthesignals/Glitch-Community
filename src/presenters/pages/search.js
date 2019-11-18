@@ -7,7 +7,6 @@ import SearchForm from 'Components/search-form';
 import SearchResults from 'Components/search-results';
 import MoreIdeas from 'Components/more-ideas';
 import Layout from 'Components/layout';
-import RandomProjectButton from 'Components/buttons/random-project-button';
 import Heading from 'Components/text/heading';
 import { useAlgoliaSearch } from 'State/search';
 import { AnalyticsContext } from 'State/segment-analytics';
@@ -31,7 +30,6 @@ const SearchPage = withRouter(({ query, activeFilter, history }) => {
             <Heading tagName="h1">Search millions of apps</Heading>
             <div className={styles.content}>
               <SearchForm />
-              <RandomProjectButton />
             </div>
           </div>
         )}

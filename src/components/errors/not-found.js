@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Text from 'Components/text/text';
-import RandomProjectButton from 'Components/buttons/random-project-button';
 import styles from './not-found.styl';
 
 export const Aquarium = ({ className }) => (
@@ -79,7 +78,6 @@ const NotFound = ({ name }) => (
     <div className={styles.errorImage}>
       <Aquarium />
     </div>
-    <RandomProjectButton />
   </section>
 );
 
