@@ -8,7 +8,7 @@ const { getOptimizelyClient, getOptimizelyData } = require('./optimizely');
 const setup = () => {
   const src = path.join(__dirname, '../src');
   const build = path.join(__dirname, '../build/node/');
-  if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
+  if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.env.NODE_ENV !== 'production') {
     // transpile on render to ensure we always use the latest code
     require('@babel/register')({
       only: [(location) => location.startsWith(src)],
