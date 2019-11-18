@@ -7,26 +7,27 @@ const { getOptimizelyClient, getOptimizelyData } = require('./optimizely');
 
 const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'), 'render', { html: null, helmet: null, styleTags: null });
 
-let requireClient = () => require('../build/server');
-
 const watch = (location, entry, verb) => {
-  let needsReload = true;
-  requireClient = () => {
+  let logTiming = true;
+  const requireClient = () => {
     const startTime = performance.now();
     const required = require(entry);
     const endTime = performance.now();
-    if (needsReload) console.log(`SSR ${verb} took ${Math.round(endTime - startTime)}ms`);
-    needsReload = false;
+    if (logTiming) {
+      console.log(`SSR ${verb} took ${Math.round(endTime - startTime)}ms`);
+      logTiming = false;
+    }
     return required;
   };
   const forceReload = () => {
-    needsReload = true;
     // clear changed files from the require cache
     Object.keys(require.cache).forEach((file) => {
       if (file.startsWith(location)) delete require.cache[file];
     });
     // clear the server rendering cache
     clearCache();
+    // print out some perf info next time we call require
+    logTiming = true;
   };
   // clear client code from the require cache whenever it gets changed
   // it'll get loaded off the disk again when the render calls require
@@ -43,7 +44,10 @@ const watch = (location, entry, verb) => {
       captureException(error);
     }
   });
+  return requireClient;
 };
+
+let tempRequireClient = () => require('../src/server');
 
 if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.env.NODE_ENV !== 'production') {
   const SRC = path.join(__dirname, '../src');
@@ -58,12 +62,12 @@ if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.
       }],
     ],
   });
-  watch(SRC, path.join(SRC, './server'), 'transpile');
+  requireClient = watch(SRC, path.join(SRC, './server'), 'transpile');
 } else if (process.env.BUILD_TYPE === 'watcher') {
   const BUILD = path.join(__dirname, '../build');
-  watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), 'reload');
+  requireClient = watch(path.join(BUILD, './server.js'), path.join(BUILD, './server'), 'reload');
 } else if (process.env.BUILD_TYPE === 'static') {
-  // don't actually do anything, leave requireClient as a plain call to require
+  // use the default requireClient and load the built file with no extra logic
 }
 
 const React = require('react');
