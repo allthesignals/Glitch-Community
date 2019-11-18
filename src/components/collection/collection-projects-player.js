@@ -6,7 +6,7 @@ import { LiveMessage } from 'react-aria-live';
 import classnames from 'classnames';
 import { hexToRgbA, isDarkColor } from 'Utils/color';
 
-import { chunk, findIndex } from 'lodash';
+import { findIndex } from 'lodash';
 import { Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledButton, ButtonGroup, ButtonSegment } from '@fogcreek/shared-components';
 import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 
@@ -27,14 +27,6 @@ const getCurrentProjectIndexFromUrl = (projectId, projects) => {
     });
   }
   return currentIndex;
-};
-
-const wakeUpAllProjectsInACollection = (projects) => {
-  const chunkedProjects = chunk(projects, 10);
-  chunkedProjects.map(async (projectsBatch) => {
-    const promisedBatch = projectsBatch.map(async (project) => fetch(`https://${project.domain}.glitch.me`, { mode: 'no-cors' }));
-    await Promise.all(promisedBatch);
-  });
 };
 
 const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjectIndex, collection, push, params }) => {
@@ -148,11 +140,20 @@ PlayerControls.propTypes = {
   params: PropTypes.object.isRequired,
 };
 
+const wakeUpNextBatchOfProjects = (projects) => {
+  projects.map(async (project) => fetch(`https://${project.domain}.glitch.me`, { mode: 'no-cors' }));
+};
+
 const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, funcs, collection }) => {
   const { projects } = collection;
   const [currentProjectIndex, setCurrentProjectIndex] = useState(getCurrentProjectIndexFromUrl(match.params.projectId, projects));
-  useEffect(() => wakeUpAllProjectsInACollection(projects), []);
-
+  useEffect(() => {
+    // as we tab through the projects, every 5th project we wake up the next batch of 6
+    // this makes the play experience feel snappier without having to wake up every project in the collection
+    if (currentProjectIndex % 5 === 0) {
+      wakeUpNextBatchOfProjects(projects.slice(currentProjectIndex + 1, currentProjectIndex + 6));
+    }
+  }, [currentProjectIndex]);
   const featuredProject = projects[currentProjectIndex];
 
   return (
