@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import OptimisticTextInput from './optimistic-text-input';
-import styles from './user-login-input.styl'
+import styles from './user-login-input.styl';
 
 const UserLoginInput = ({ login, onChange }) => (
   <OptimisticTextInput
@@ -15,7 +15,6 @@ const UserLoginInput = ({ login, onChange }) => (
     style={{ fontWeight: 'bold' }}
   />
 );
-
 
 UserLoginInput.propTypes = {
   login: PropTypes.string.isRequired,
