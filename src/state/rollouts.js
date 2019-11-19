@@ -17,8 +17,9 @@ export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizely
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
+const defaultOverrides = {};
 const useOptimizely = () => useContext(Context);
-const useOverrides = () => useUserPref('optimizelyOverrides', useMemo(() => ({}), []));
+const useOverrides = () => useUserPref('optimizelyOverrides', defaultOverrides);
 
 const useOptimizelyValue = (getValue, dependencies) => {
   const { optimizely } = useOptimizely();
