@@ -98,7 +98,14 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
 
   return (
     <section>
-      <Popover align="left" renderLabel={({ onClick, ref }) => <Button size="small" variant="secondary" onClick={onClick} ref={ref}>Delete Project <Icon className={emoji} icon="bomb" /></Button>}>
+      <Popover
+        align="left"
+        renderLabel={({ onClick, ref }) => (
+          <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
+            Delete Project <Icon className={emoji} icon="bomb" />
+          </Button>
+        )}
+      >
         {({ onClose }) => (
           <>
             <Actions>
@@ -134,8 +141,27 @@ DeleteProjectPopover.propTypes = {
   deleteProject: PropTypes.func.isRequired,
 };
 
+const ProjectName = ({ initialName, updateBackend, updateParentState }) => {
+  const [headingState, setHeadingState] = useState(initialName);
+  const onChange = async (newName) => {
+    await updateBackend(newName);
+    setHeadingState(newName);
+  };
+  const onBlur = () => {
+    updateParentState(headingState);
+    syncPageToDomain(headingState);
+  };
+  return (
+    <Heading tagName="h1">
+      <OptimisticTextInput label="Project Domain" value={headingState} onChange={onChange} onBlur={onBlur} placeholder="Name your project" />
+    </Heading>
+  );
+};
+
 const ProjectPage = ({ project: initialProject }) => {
-  const [project, { updateDomain, updateDescription, updatePrivate, deleteProject, uploadAvatar }] = useProjectEditor(initialProject);
+  const [project, { updateDescription, updatePrivate, deleteProject, uploadAvatar, updateDomainBackend, updateDomainState }] = useProjectEditor(
+    initialProject,
+  );
   useFocusFirst();
   const { currentUser } = useCurrentUser();
   const [hasBookmarked, toggleBookmark, setHasBookmarked] = useToggleBookmark(project);
@@ -144,7 +170,6 @@ const ProjectPage = ({ project: initialProject }) => {
   const isAuthorized = userIsProjectMember({ members, user: currentUser });
   const isAdmin = userIsProjectAdmin({ project, user: currentUser });
   const { domain, users, teams, suspendedReason } = project;
-  const updateDomainAndSync = (newDomain) => updateDomain(newDomain).then(() => syncPageToDomain(newDomain));
 
   const { addProjectToCollection } = useAPIHandlers();
 
@@ -197,9 +222,7 @@ const ProjectPage = ({ project: initialProject }) => {
           {isAuthorized ? (
             <>
               <div className={styles.headingWrap}>
-                <Heading tagName="h1">
-                  <OptimisticTextInput label="Project Domain" value={project.domain} onChange={updateDomainAndSync} placeholder="Name your project" />
-                </Heading>
+                <ProjectName initialName={project.domain} updateBackend={updateDomainBackend} updateParentState={updateDomainState} />
                 {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
                     <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
