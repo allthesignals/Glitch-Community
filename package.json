@@ -141,6 +141,7 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-middleware": "^3.7.0",
+    "webpack-node-externals": "^1.7.2",
     "winston": "^3.2.1",
     "pm2": "^3.5.1"
   },
@@ -153,11 +154,10 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jsdom": "^15.1.1",
+    "jsdom-global": "^3.0.2",
     "mocha": "^6.2.0",
     "mochapack": "^1.1.5",
-    "mocha-jsdom": "^2.0.0",
     "redux-mock-store": "^1.5.3",
-    "sinon": "^7.5.0",
-    "webpack-node-externals": "^1.7.2"
+    "sinon": "^7.5.0"
   }
 }
