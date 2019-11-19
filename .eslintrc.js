@@ -6,7 +6,7 @@ const aliases = require('./aliases');
 module.exports = {
   settings: {
     'import/resolver': {
-      alias: Object.entries(aliases.client),
+      alias: Object.entries(aliases),
     },
   },
 };
