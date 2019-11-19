@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { createAction } from 'redux-starter-kit';
+import { createAction } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
 export const appMounted = createAction('appMounted');
