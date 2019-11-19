@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import dayjs from 'dayjs';
 import { Button } from '@fogcreek/shared-components';
 
 import { useAPI } from 'State/api';
-import useLocalStorage from 'State/local-storage';
+import useDestinationAfterAuth from 'Hooks/use-destination-after-auth';
 
 import Notification from 'Components/notification';
 import Text from 'Components/text/text';
@@ -17,17 +16,9 @@ import NewPasswordInput from 'Components/new-password-input';
 import styles from './styles.styl';
 
 const RedirectToLogin = ({ resetPasswordToken, loginToken }) => {
-  const [, setDestination, ready] = useLocalStorage('destinationAfterAuth');
+  const [, setDestination, , ready] = useDestinationAfterAuth('/login/reset-password', `resetPasswordToken=${resetPasswordToken}`);
   React.useEffect(() => {
-    setDestination({
-      expires: dayjs()
-        .add(10, 'minutes')
-        .toISOString(),
-      to: {
-        pathname: '/login/reset-password',
-        search: `resetPasswordToken=${resetPasswordToken}`,
-      },
-    });
+    setDestination();
   }, [ready]);
   return ready ? <Redirect to={`/login/email?token=${loginToken}`} /> : null;
 };

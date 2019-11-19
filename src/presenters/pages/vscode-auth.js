@@ -3,12 +3,12 @@
  */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
+import { useLocation } from 'react-router-dom';
 
 import SignInLayout from 'Components/layout/sign-in-layout';
 
 import { useCurrentUser } from 'State/current-user';
-import useLocalStorage from 'State/local-storage';
+import useDestinationAfterAuth from 'Hooks/use-destination-after-auth';
 
 const KNOWN_DISTRIBUTION_SCHEMES = new Set(['vscode', 'vscode-insiders', 'vscodium']);
 
@@ -20,7 +20,8 @@ const VSCodeAuth = ({ scheme }) => {
 
   const redirectMessage = "You are being redirected. (If you aren't sent back to your editor, try signing in with an email code.)";
 
-  const [, setDestination] = useLocalStorage('destinationAfterAuth');
+  const { pathname, search } = useLocation();
+  const [, setDestination] = useDestinationAfterAuth(pathname, search);
 
   useEffect(() => {
     if (!isValidApp) return;
@@ -30,15 +31,7 @@ const VSCodeAuth = ({ scheme }) => {
         window.location.assign(redirectUrl);
       }, 3000);
     } else {
-      setDestination({
-        expires: dayjs()
-          .add(10, 'minutes')
-          .toISOString(),
-        to: {
-          pathname: location.pathname,
-          search: location.search,
-        },
-      });
+      setDestination();
     }
   }, [isSignedIn, isValidApp]);
 

@@ -14,8 +14,12 @@ const pageTitle = 'About Glitch - Careers';
 
 const AboutCareersPage = withRouter(() => {
   useEffect(() => {
-    import('../../../utils/lever/lever.js');
     window.leverJobsOptions = { accountName: 'glitch', includeCss: true };
+    if (window.loadLeverJobs) {
+      window.loadLeverJobs(window.leverJobsOptions);
+    } else {
+      import('Utils/lever/lever.js');
+    }
   }, []);
 
   return (
