@@ -102,7 +102,8 @@ jobs:
   # new for comunity infra  #
   ###########################
   deploy:
-    working_directory: ~/cori/Glitch-Community
+    working_directory: /home/circleci/project
+    shell: /bin/bash --login
 
     environment:
       # empty set
@@ -111,10 +112,9 @@ jobs:
       - image: circleci/node:10-browsers  # same as the other community jobs
 
     steps:
-      - checkout
       - run:
           name: deploy-to-hosts
-          command:  ./ci/deploy.sh
+          command:  /home/circleci/project/ci/deploy.sh
 
 workflows:
   version: 2.1
