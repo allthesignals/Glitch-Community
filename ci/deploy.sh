@@ -48,7 +48,7 @@ fi
 ####
 #   in run-on-deployable-hosts we
 #   1   get the list of hosts to update
-#   2   parallelly ssh to each of those hosts
+#   2   parallelly ssh to each of those hosts - we probably don't want or need parallelism right now
 #   3   run the above listed scripts, with retry
 #       3a  both scripts are already being run by the normal bootstrap, so we shouldn't need them again
 #       3b  puppet-local gets the repo, decrypts it, and runs the puppet-apply script
@@ -64,6 +64,10 @@ fi
 # ssh -q deploy@worker.${BASE_DOMAIN_DEPLOY} << EOF &> /dev/null
 #   curl -sf -X POST localhost:8085/deploy/unmark &> /dev/null
 # EOF
+
+# hard-coded push deploy
+scp /home/circleci/build.tar.gz deploy@community-0A5C26:/opt/Glitch-Community
+# ssh -q -o "StrictHostKeyChecking no" $i.production "${CMD}"
 
 if [ $code -ne 0 ]; then
   echo "Deploy failed"

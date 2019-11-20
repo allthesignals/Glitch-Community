@@ -111,9 +111,6 @@ jobs:
       - image: circleci/node:10-browsers  # same as the other community jobs
 
     steps:
-      - checkout
-      - restore_cache:
-          key: build-{{ .Revision }} # this _seems_ reasonable on the surface
       - run:
           name: deploy-to-hosts
           command:  ./ci/deploy.sh
