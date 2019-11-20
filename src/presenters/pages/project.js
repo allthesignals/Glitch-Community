@@ -58,6 +58,7 @@ const IncludedInCollections = ({ projectId }) => (
   </DataLoader>
 );
 
+const getReadme = (api, domain) => api.get(`projects/${domain}/readme`);
 const ReadmeError = (error) =>
   error && error.response && error.response.status === 404 ? (
     <>
@@ -67,7 +68,7 @@ const ReadmeError = (error) =>
     <>We couldn't load the readme. Try refreshing?</>
   );
 const ReadmeLoader = withRouter(({ domain, location }) => (
-  <DataLoader get={(api, url) => api.get(url)} args={`projects/${domain}/readme`} renderError={ReadmeError}>
+  <DataLoader get={getReadme} args={domain} renderError={ReadmeError}>
     {({ data }) =>
       location.hash ? (
         <Markdown linkifyHeadings>{data.toString()}</Markdown>
