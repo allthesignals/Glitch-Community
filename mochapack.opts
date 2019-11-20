@@ -1,4 +1,5 @@
 --timeout 3000
 --webpack-config ./webpack.test.config.js
 --include test/reactA11yHelper.js
+--include test/setup.js
 test/**/*.js
