@@ -3,6 +3,9 @@
 # Note: Version 2.1 is required in order to use orbs.
 
 version: 2.1
+# the Glitch project sets up an orb for communicating with Slack here. Might be useful.
+# orbs:
+#   slack: circleci/slack@3.3.0
 jobs:
   lint_and_build:
     docker:
@@ -10,21 +13,30 @@ jobs:
     steps:
       - checkout
       - run:
+          name: setup-ssh
+          command: cp ./ci/ssh.config ~/.ssh/config
+      - run:
           name: update-pnpm
           command: "sudo npm install -g pnpm@3.x"
       - restore_cache:
           keys:
+            # in Glitch we key on .Branch, but this is probably just as good
+            # diff branches will probably have different checksums
             - deps-{{ checksum "shrinkwrap.yaml" }}
       - run:
           name: pnpm-install
           command: pnpm install
       - save_cache:
+          # Glitch save a bunch of other stuff here, but I don't think we need it
           paths:
             - node_modules
           key: deps-{{ checksum "shrinkwrap.yaml" }}
       - run:
+          # note to self - i wonder why this is right here? It's _after_ the cache save both here and in Glitch - 
+          # are we linting stuff that gets stored in / restored from the cache? should we lint _before_ we save the cache then?
           name: eslint
           command: pnpm run lint
+      # do we care about the artifacts?
       - run:
           name: build
           command: pnpm run build
@@ -32,6 +44,7 @@ jobs:
           paths:
             - build
           key: build-{{ .Revision }}
+  # not being run as of 2019-11-19
   integration_tests:
     docker:
       - image: circleci/node:10-browsers
@@ -52,6 +65,7 @@ jobs:
       - run:
           name: cypress
           command: pnpm run cy:ci
+  # should we be storing these reports anywhere? Maybe mocha generates its own?
   unit_tests:
     docker:
       - image: circleci/node:10-browsers
@@ -72,6 +86,27 @@ jobs:
       - run:
           name: mocha
           command: pnpm run test
+
+  ###########################
+  # new for comunity infra  #
+  ###########################
+  deploy:
+    working_directory: ~/cori/Glitch-Community
+
+    environment:
+      # empty set
+    
+    docker:
+      - image: circleci/node:10-browsers  # same as the other community jobs
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: build-{{ .Revision }} # this _seems_ reasonable on the surface
+      - run:
+          name: deploy-to-hosts
+          command:  ./ci/deploy.sh
+
 workflows:
   version: 2.1
   regular-workflow:
@@ -80,3 +115,10 @@ workflows:
       - unit_tests:
           requires:
             - lint_and_build
+      - deploy:
+          requires:
+            - unit_tests
+          filters:
+            branches:
+              only:
+                staging
