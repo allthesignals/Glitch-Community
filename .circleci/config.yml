@@ -103,7 +103,7 @@ jobs:
   ###########################
   deploy:
     working_directory: /home/circleci/project
-    shell: /bin/bash --login
+    shell: /bin/bash --login -euo pipefail
 
     environment:
       # empty set
@@ -112,6 +112,9 @@ jobs:
       - image: circleci/node:10-browsers  # same as the other community jobs
 
     steps:
+      - run:
+          name: where-am-i
+          command: pwd && ls -la
       - run:
           name: deploy-to-hosts
           command:  ./ci/deploy.sh
