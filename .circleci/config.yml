@@ -8,10 +8,15 @@ version: 2.1
 #   slack: circleci/slack@3.3.0
 jobs:
   lint_and_build:
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
     docker:
       - image: circleci/node:10-browsers
     steps:
       - checkout
+      - run: 
+          name: prep-for-artifacts
+          command: mkdir -p $CIRCLE_ARTIFACTS
       - run:
           name: setup-ssh
           command: cp ./ci/ssh.config ~/.ssh/config
@@ -44,6 +49,8 @@ jobs:
           paths:
             - build
           key: build-{{ .Revision }}
+      - store_artifacts:
+          path: $CIRCLE_ARTIFACTS
   # not being run as of 2019-11-19
   integration_tests:
     docker:
