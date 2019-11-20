@@ -2,8 +2,7 @@ import jsdom from 'jsdom-global';
 
 const url = 'https://glitch.com/';
 
-let cleanup = jsdom({ url });
-cleanup(); // immediately boot up because the first run takes a long time and times out tests
+let cleanup;
 
 before(() => {
   cleanup = jsdom({ url });
