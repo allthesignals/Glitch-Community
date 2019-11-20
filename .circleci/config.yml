@@ -51,9 +51,9 @@ jobs:
           key: build-{{ .Revision }}
       - run:
           name: compress-artifacts
-          command: tar -czf $CIRCLE_SHA1.tar.gz /home/circleci/project/*
+          command: tar -czf /home/circleci/${CIRCLE_SHA1}.tar.gz /home/circleci/project/*
       - store_artifacts:
-          path: /home/circleci/$CIRCLE_SHA1.tar.gz # can't seem to use the env var above here - trying by hard-coding
+          path: /home/circleci/${CIRCLE_SHA1}.tar.gz # can't seem to use the env var above here - trying by hard-coding
   # not being run as of 2019-11-19
   integration_tests:
     docker:
