@@ -67,7 +67,7 @@ const ReadmeError = (error) =>
     <>We couldn't load the readme. Try refreshing?</>
   );
 const ReadmeLoader = withRouter(({ domain, location }) => (
-  <DataLoader get={(api) => api.get(`projects/${domain}/readme`)} renderError={ReadmeError}>
+  <DataLoader get={(api, url) => api.get(url)} args={`projects/${domain}/readme`} renderError={ReadmeError}>
     {({ data }) =>
       location.hash ? (
         <Markdown linkifyHeadings>{data.toString()}</Markdown>
