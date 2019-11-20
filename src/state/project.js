@@ -5,7 +5,6 @@ import { useAPI, useAPIHandlers } from 'State/api';
 import useErrorHandlers from 'State/error-handlers';
 import * as assets from 'Utils/assets';
 import { getAllPages } from 'Shared/api';
-import { MEMBER_ACCESS_LEVEL, ADMIN_ACCESS_LEVEL } from 'Models/project';
 
 async function getMembers(api, projectId, withCacheBust) {
   const cacheBust = withCacheBust ? `&cacheBust=${Date.now()}` : '';
@@ -56,29 +55,25 @@ export const ProjectContextProvider = ({ children }) => {
   const [projectResponses, setProjectResponses] = useState({});
   const api = useAPI();
 
-  const getProjectMembers = useCallback(
-    (projectId, deferLoading = false) => {
-      if (projectResponses[projectId] && projectResponses[projectId].members) {
-        return projectResponses[projectId].members;
-      }
-      if (!deferLoading) {
-        loadProjectMembers(api, [projectId], setProjectResponses);
-      }
-      return loadingResponse;
-    },
-    [projectResponses, api],
-  );
+  const getProjectMembers = useCallback((projectId, deferLoading = false) => {
+    if (projectResponses[projectId] && projectResponses[projectId].members) {
+      return projectResponses[projectId].members;
+    }
+    if (!deferLoading) {
+      loadProjectMembers(api, [projectId], setProjectResponses);
+    }
+    return loadingResponse;
+  }, [projectResponses, api]);
 
-  const reloadProjectMembers = useCallback(
-    (projectIds) => {
-      loadProjectMembers(api, projectIds, setProjectResponses, true);
-    },
-    [api],
-  );
+  const reloadProjectMembers = useCallback((projectIds) => {
+    loadProjectMembers(api, projectIds, setProjectResponses, true);
+  }, [api]);
 
   return (
     <ProjectMemberContext.Provider value={getProjectMembers}>
-      <ProjectReloadContext.Provider value={reloadProjectMembers}>{children}</ProjectReloadContext.Provider>
+      <ProjectReloadContext.Provider value={reloadProjectMembers}>
+        {children}
+      </ProjectReloadContext.Provider>
     </ProjectMemberContext.Provider>
   );
 };
@@ -97,7 +92,7 @@ export function useProjectEditor(initialProject) {
   const { uploadAsset } = useUploader();
   const { handleError, handleErrorForInput, handleImageUploadError } = useErrorHandlers();
   const { getAvatarImagePolicy } = assets.useAssetPolicy();
-  const { updateItem, deleteItem, updateProjectDomain, updateProjectMemberAccessLevel } = useAPIHandlers();
+  const { updateItem, deleteItem, updateProjectDomain } = useAPIHandlers();
   useEffect(() => setProject(initialProject), [initialProject]);
 
   async function updateFields(changes) {
@@ -134,30 +129,6 @@ export function useProjectEditor(initialProject) {
           }));
         }, handleImageUploadError),
       ),
-    reassignAdmin: async ({ currentUser, user }) => {
-      await updateProjectMemberAccessLevel({ project, user, accessLevel: ADMIN_ACCESS_LEVEL });
-      await updateProjectMemberAccessLevel({ project, user: currentUser, accessLevel: MEMBER_ACCESS_LEVEL });
-      const newPermissions = [...project.permissions].map((permission) => {
-        if (permission.userId === user.id) {
-          return { ...permission, accessLevel: ADMIN_ACCESS_LEVEL };
-        }
-        if (permission.userId === currentUser.id) {
-          return { ...permission, accessLevel: MEMBER_ACCESS_LEVEL };
-        }
-        return { ...permission };
-      });
-      const newUsers = [...project.users].map((oldUser) => {
-        if (oldUser.id === user.id) {
-          return { ...oldUser, permission: { ...oldUser.permission, accessLevel: ADMIN_ACCESS_LEVEL } };
-        }
-        if (oldUser.id === currentUser.id) {
-          return { ...oldUser, permission: { ...oldUser.permission, accessLevel: MEMBER_ACCESS_LEVEL } };
-        }
-        return { ...oldUser };
-      });
-      setProject((prev) => ({ ...prev, permissions: newPermissions, users: newUsers }));
-    },
   };
-
   return [project, funcs];
 }
