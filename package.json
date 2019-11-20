@@ -18,9 +18,7 @@
     "./src/utils/lever/lever.styl"
   ],
   "scripts": {
-    "build": "npm run build:webpack && npm run build:babel",
-    "build:babel": "npx babel ./src --config-file ./.babelrc.node.js --copy-files -d ./build/node",
-    "build:webpack": "npx webpack",
+    "build": "npx webpack",
     "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
     "cy:open": "npx cypress open",
     "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
@@ -28,16 +26,14 @@
     "lint": "npm run lint:server && npm run lint:src",
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
-    "prestart": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:babel & npm run watch:webpack & \n fi",
+    "prestart": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:webpack & \n fi",
     "start": "pm2-runtime start ecosystem.config.js",
     "test": "mochapack",
-    "watch:babel": "npm run build:babel -- --watch",
     "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
-    "watch:webpack": "npm run build:webpack -- --watch --info-verbosity verbose",
+    "watch:webpack": "npx webpack --watch --info-verbosity verbose",
     "test:debug:watch": "node --inspect --inspect-brk node_modules/.bin/mochapack --watch \"test/**/*\""
   },
   "dependencies": {
-    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -145,6 +141,7 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-middleware": "^3.7.0",
+    "webpack-node-externals": "^1.7.2",
     "winston": "^3.2.1",
     "pm2": "^3.5.1"
   },
@@ -157,11 +154,10 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jsdom": "^15.1.1",
+    "jsdom-global": "^3.0.2",
     "mocha": "^6.2.0",
     "mochapack": "^1.1.5",
-    "mocha-jsdom": "^2.0.0",
     "redux-mock-store": "^1.5.3",
-    "sinon": "^7.5.0",
-    "webpack-node-externals": "^1.7.2"
+    "sinon": "^7.5.0"
   }
 }

@@ -11,7 +11,6 @@ import { lightColors } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
 import { AnalyticsContext } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
-import useTest from 'State/ab-tests';
 import { useWindowSize } from 'Hooks/use-window-size';
 
 import Illustration from './illustration';
@@ -21,7 +20,6 @@ const cx = classNames.bind(styles);
 
 function OnboardingBanner() {
   const { currentUser } = useCurrentUser();
-  const userIsInOnboardingTestGroup = useTest('Onboarding');
   const { location, SSR_SIGNED_IN } = useGlobals();
   const exploreEl = useRef();
 
@@ -47,7 +45,7 @@ function OnboardingBanner() {
 
   const fakeSignedIn = !currentUser.id && SSR_SIGNED_IN;
 
-  if (userIsInOnboardingTestGroup && !fakeSignedIn) {
+  if (!fakeSignedIn) {
     return (
       <AnalyticsContext properties={{ origin: `${isHomepage ? 'homepage' : 'profile'} onboarding banner` }}>
         <div className={styles.banner} style={backgroundStyles}>

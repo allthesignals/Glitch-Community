@@ -81,4 +81,22 @@ describe('Server Side Rendering', function() {
     const API_CACHE = { 'team-or-user:glitch-user': { user } };
     renderPageAndEnsureItHasContent('/@glitch-user', { API_CACHE });
   });
+  it('about page', function() {
+    renderPage('/about');
+  });
+  it('about company page', function() {
+    renderPage('/about/company');
+  });
+  it('about careers page', function() {
+    renderPage('/about/careers');
+  });
+  it('about press page', function() {
+    renderPage('/about/press');
+  });
+  it('about events page', function() {
+    renderPage('/about/events');
+  });
+  it('vscode auth page', function() {
+    renderPage('/vscode-auth');
+  });
 });
