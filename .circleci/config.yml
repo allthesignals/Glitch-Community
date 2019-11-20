@@ -10,6 +10,7 @@ jobs:
   lint_and_build:
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      BUILD_TYPE: static
     docker:
       - image: circleci/node:10-browsers
     steps:
@@ -51,7 +52,7 @@ jobs:
           key: build-{{ .Revision }}
       - run:
           name: compress-artifacts
-          command: tar -C /home/circleci/project -czf /home/circleci/build.tar.gz /home/circleci/project/*
+          command: cd /home/circleci/project && tar -czf /home/circleci/build.tar.gz .
       - store_artifacts:
           path: /home/circleci/build.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
   # not being run as of 2019-11-19
