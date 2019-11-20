@@ -1,0 +1,54 @@
+@import '../constants.styl'
+
+.projectUsers
+  a
+    display: inline-block
+    margin-right: -7px
+
+.projectUsersPopover
+  div
+    overflow: inherit // ensures tooltip is on top of popover
+
+.permissionsPopover
+  width: 255px
+
+.permissionsPopoverInfo
+  display: flex
+
+.permissionsPopoverActions
+  padding: 15px
+  p
+    line-height: 16px
+  p.info
+    margin: 12px 0
+
+.userInfo
+  padding-left: 8px
+
+.userName
+  font-weight: bold
+
+.userLogin
+  font-weight: bold
+  color: text-on-secondary-background
+  padding-top: 4px
+
+.projectOwner
+  padding-top: 2px
+  padding-bottom: 0px
+  border-radius: 5px
+  padding-left: 5px
+  padding-right: 5px
+  display: inline-block
+  margin-top: 2px
+  font-weight: 600
+  font-size: 12px
+  background-color: general-label-background
+
+.popoverButton
+  margin-right: -7px
+
+.danger
+  background-color: warning
+  padding: 5px
+  border-radius: 5px
