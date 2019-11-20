@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://friendly-words.glitch.me/',
+  timeout: 1000,
 });
 
 const getData = async (name) => {
