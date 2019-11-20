@@ -66,7 +66,7 @@ fi
 # EOF
 
 # hard-coded push deploy
-scp /home/circleci/build.tar.gz deploy@community-0A5C26:/opt/Glitch-Community
+scp /home/circleci/build.tar.gz deploy@community-0A5C26.staging:/opt/Glitch-Community; code=$?
 # ssh -q -o "StrictHostKeyChecking no" $i.production "${CMD}"
 
 if [ $code -ne 0 ]; then
