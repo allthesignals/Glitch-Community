@@ -67,7 +67,7 @@ set -euo pipefail
 # EOF
 
 # hard-coded push deploy
-scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /home/circleci/build.tar.gz deploy@community-0A5C26.staging:/opt/glitch-community; code=$?
+scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/build.tar.gz deploy@community-0A5C26.staging:/opt/glitch-community; code=$?
 # ssh -q -o "StrictHostKeyChecking no" $i.production "${CMD}"
 
 if [ $code -ne 0 ]; then
