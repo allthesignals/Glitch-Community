@@ -50,7 +50,7 @@ jobs:
             - build
           key: build-{{ .Revision }}
       - store_artifacts:
-          path: /tmp/circleci-artifacts # can't seem to use the env var above here - trying by hard-coding
+          path: /home/circleci/project # can't seem to use the env var above here - trying by hard-coding
   # not being run as of 2019-11-19
   integration_tests:
     docker:
