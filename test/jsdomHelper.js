@@ -8,7 +8,6 @@ cleanup(); // immediately boot up because the first run takes a long time and ti
 before(() => {
   cleanup = jsdom({ url });
 });
-
 after(() => {
   cleanup();
 });
