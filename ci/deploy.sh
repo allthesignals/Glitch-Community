@@ -5,10 +5,10 @@ set -euo pipefail
 #   if we need some env-specific info or tasks then we'll need to add them here or in a subscript
 
 #   this env variable is set in the env setup in Glitch. 
-#   I don't know if community needs this so I'm leaving it here temporarily
-if [ "${NO_DEPLOY}" ]; then
-  exit
-fi
+#   I don't know if community needs this so I'm leaving it here temporarily but commented out
+# if [ "${NO_DEPLOY}" ]; then
+#   exit
+# fi
 
 #   do we need to prevent overlapping deploys?
 #   probably a good idea, but we'll need to find somewhere to do it
