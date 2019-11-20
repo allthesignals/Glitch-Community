@@ -111,6 +111,7 @@ jobs:
       - image: circleci/node:10-browsers  # same as the other community jobs
 
     steps:
+      - checkout
       - run:
           name: where-am-i
           command: pwd && ls -la
