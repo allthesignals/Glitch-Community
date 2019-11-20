@@ -57,11 +57,11 @@ const SignInLayout = () => {
                 <OverlaySection type="actions">
                   <SignInButtons />
                   <div className={styles.signInWithGlitchButtons}>
-                    <Button size={"small"} onClick={() => setPage('getCode')}>
+                    <Button size={'small'} onClick={() => setPage('getCode')}>
                       Email Magic Link <Icon className={emoji} icon="loveLetter" />
                     </Button>
                     {userPasswordsEnabled && (
-                      <Button size={"small"} onClick={() => setPage('usePassword')}>
+                      <Button size={'small'} onClick={() => setPage('usePassword')}>
                         Password <Icon className={emoji} icon="key" />
                       </Button>
                     )}
@@ -80,7 +80,7 @@ const SignInLayout = () => {
                 <OverlaySection type="actions">
                   <Text className={styles.helpText}>Almost there! How do you want to sign up?</Text>
                   <SignInButtons />
-                  <Button size={"small"} onClick={() => setPage('getCode')}>
+                  <Button size={'small'} onClick={() => setPage('getCode')}>
                     Email Magic Link <Icon className={emoji} icon="loveLetter" />
                   </Button>
                   <div className={styles.footer}>
