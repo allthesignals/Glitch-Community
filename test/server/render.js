@@ -62,9 +62,10 @@ describe('Server Side Rendering', function() {
     renderPageAndEnsureItHasContent('/@test-user-1/test-collection', { API_CACHE });
   });
   it('project page', function() {
-    const users = [makeTestUser()];
-    const teams = [makeTestTeam()];
-    const project = makeTestProject({ domain: 'test-project', teams, users });
+    const user = makeTestUser();
+    const team = makeTestTeam();
+    const project = makeTestProject({ domain: 'test-project', teams: [team], users: [user] });
+    user.permission = { userId: user.id, projectId: project.id, accessLevel: 30 };
     const API_CACHE = { 'project:test-project': project };
     renderPageAndEnsureItHasContent('/~test-project', { API_CACHE });
   });
