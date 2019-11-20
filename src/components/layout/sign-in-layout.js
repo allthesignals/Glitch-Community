@@ -52,16 +52,16 @@ const SignInLayout = () => {
             {page === 'signIn' && (
               <>
                 <OverlaySection type="info">
-                  <OverlayTitle>Sign In</OverlayTitle>
+                  <OverlayTitle>Sign In to Glitch</OverlayTitle>
                 </OverlaySection>
                 <OverlaySection type="actions">
                   <SignInButtons />
                   <div className={styles.signInWithGlitchButtons}>
-                    <Button onClick={() => setPage('getCode')}>
+                    <Button size={"small"} onClick={() => setPage('getCode')}>
                       Email Magic Link <Icon className={emoji} icon="loveLetter" />
                     </Button>
                     {userPasswordsEnabled && (
-                      <Button onClick={() => setPage('usePassword')}>
+                      <Button size={"small"} onClick={() => setPage('usePassword')}>
                         Password <Icon className={emoji} icon="key" />
                       </Button>
                     )}
@@ -80,7 +80,7 @@ const SignInLayout = () => {
                 <OverlaySection type="actions">
                   <Text className={styles.helpText}>Almost there! How do you want to sign up?</Text>
                   <SignInButtons />
-                  <Button onClick={() => setPage('getCode')}>
+                  <Button size={"small"} onClick={() => setPage('getCode')}>
                     Email Magic Link <Icon className={emoji} icon="loveLetter" />
                   </Button>
                   <div className={styles.footer}>
