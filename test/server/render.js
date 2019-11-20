@@ -7,6 +7,7 @@ import { tests } from 'Shared/ab-tests';
 
 import { Page, resetState } from '../../src/server';
 import { makeTestCollection, makeTestProject, makeTestTeam, makeTestUser } from '../helpers/models';
+import { disableJsdom } from '../jsdomHelper';
 
 function renderPage(route, props) {
   resetState();
@@ -42,6 +43,8 @@ function renderPageAndEnsureItHasContent(route, props) {
 }
 
 describe('Server Side Rendering', function() {
+  disableJsdom();
+
   it('signed out home page', function() {
     renderPage('/', { SSR_SIGNED_IN: false });
   });
