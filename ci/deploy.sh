@@ -85,7 +85,7 @@ set -euo pipefail
 scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/build.tar.gz deploy@community-0A5C26.staging:/opt/glitch-community; code=$?
 
 # do the local deploy stuff
-ssh -q community-0A5C26.staging "cd /opt/glitch-community && ci/local-deploy.sh"
+ssh -q community-0A5C26.staging "bash --login -c 'cd /opt/glitch-community && ci/local-deploy.sh'"
 
 if [ $code -ne 0 ]; then
   echo "Deploy failed"
