@@ -11,7 +11,7 @@ rm build.tar.gz
 rm package-lock.json && npm i   #   this is a hack, and probably not a good one.
 
 #   per GregW
-BUILD_TYPE=static
+export BUILD_TYPE=static
 
 npm run stop && wait
 npm run start
