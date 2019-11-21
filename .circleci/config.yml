@@ -103,6 +103,7 @@ jobs:
   ###########################
   deploy:
     working_directory: /home/circleci/project
+    shell: /bin/bash --login
 
     environment:
       # empty set

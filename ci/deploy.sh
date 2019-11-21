@@ -46,25 +46,25 @@ set -euo pipefail
 #   ci/run-on-deployable-hosts ${BASE_DOMAIN_DEPLOY} ci/backend-local; code=$?
 # fi
 
-####
-#   in run-on-deployable-hosts we
-#   1   get the list of hosts to update
-#   2   parallelly ssh to each of those hosts - we probably don't want or need parallelism right now
-#   3   run the above listed scripts, with retry
-#       3a  both scripts are already being run by the normal bootstrap, so we shouldn't need them again
-#       3b  puppet-local gets the repo, decrypts it, and runs the puppet-apply script
-#       3c  backewnd-local switches on role and runs the approproate script
-#       3d  for docker-workers this is basicall migrations, compiles, and restarts
-#   4   for our purposes, we really just want to push the build artefact to the devices as is - they should already be compiled
-#       4a  then restart the node process
-#           this will complicate bootstrap, since we need to get the correct artefacts when spinning up a new host.
-#           this probably means storing them in s3, which complicates things - future step
-
 #   if we're not doing the shared marking then we don't need the shared unmarking
 # echo -n "Marking deploy finished... "
 # ssh -q deploy@worker.${BASE_DOMAIN_DEPLOY} << EOF &> /dev/null
 #   curl -sf -X POST localhost:8085/deploy/unmark &> /dev/null
 # EOF
+
+####
+#   in run-on-deployable-hosts we
+#   1   get the list of hosts to update
+#   2   parallelly ssh to each of those hosts - we probably don't want or need parallelism right now
+#   3   run the above listed scripts, with retry
+#       3a  both scripts are already being run by the normal bootstrap, so we shouldn't need them again for the non-community work they're doing
+#       3b  puppet-local gets the repo, decrypts it, and runs the puppet-apply script
+#       3c  backend-local switches on role and runs the approproate script
+#       3d  for docker-workers this is basically migrations, compiles, and restarts
+#   4   for our purposes, we really just want to push the build artefact to the devices as is - they should already be compiled
+#       4a  then restart the node process
+#           this will complicate bootstrap, since we need to get the correct artefacts when spinning up a new host.
+#           this probably means storing them in s3, which complicates things - future step
 
 # hard-coded push deploy
 scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/build.tar.gz deploy@community-0A5C26.staging:/opt/glitch-community; code=$?
