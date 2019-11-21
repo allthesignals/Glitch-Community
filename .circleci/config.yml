@@ -46,13 +46,14 @@ jobs:
       - run:
           name: build
           command: pnpm run build
+      - run:
+          name: compress-artifacts
+          command: cd /home/circleci/project && tar -czf /home/circleci/build.tar.gz .
+# we'll save the compressed build here for now, although there's probably a better way to do this
       - save_cache:
           paths:
             - build
           key: build-{{ .Revision }}
-      - run:
-          name: compress-artifacts
-          command: cd /home/circleci/project && tar -czf /home/circleci/build.tar.gz .
       - store_artifacts:
           path: /home/circleci/build.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
   # not being run as of 2019-11-19
@@ -112,11 +113,12 @@ jobs:
       - image: circleci/node:10-browsers  # same as the other community jobs
 
     steps:
-      - checkout
+      # maybe if we restore the cache we don't need to keep checking out?
+      # - checkout
+      - restore_cache:
+          keys:
+            - build-{{ .Revision }}
       - run: cp ./ci/ssh.config ~/.ssh/config
-      - run:
-          name: where-am-i
-          command: pwd && ls -la
       - run:
           name: deploy-to-hosts
           command:  ./ci/deploy.sh
