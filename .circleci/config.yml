@@ -56,8 +56,9 @@ jobs:
           command: cd /home/circleci/project && tar -czf /home/circleci/build.tar.gz .
 # this should make the compresed build available for the deploy
       - persist_to_workspace:
+          root: /home/circleci
           paths:
-            - /home/circleci/build.tar.gz
+            - build.tar.gz
 # we may not need this at all in fact
       - store_artifacts:
           path: /home/circleci/build.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
