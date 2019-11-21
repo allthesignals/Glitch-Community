@@ -33,7 +33,7 @@ const TermsAndConditions = () => (
 );
 
 const MagicHatImage = () => (
-  <Image width={92} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fmagic-link.svg?v=1568658265397" alt="" />
+  <Image width={70} src="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fmagic-link.svg?v=1568658265397" alt="" />
 );
 const ThumbprintImage = () => <Image width={92} src="https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2F2fa.svg?v=1568309705782" alt="" />;
 const CreateAccountImage = () => (
