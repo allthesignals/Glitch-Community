@@ -120,6 +120,11 @@ jobs:
 
     steps:
       - checkout
+      - attach_workspace:
+          at: /home/circleci
+      # - run:
+      #     name: where-am-i
+      #     command: pwd && ls -la
       - run: cp ./ci/ssh.config ~/.ssh/config
       - run:
           name: deploy-to-hosts
