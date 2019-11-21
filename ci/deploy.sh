@@ -66,6 +66,21 @@ set -euo pipefail
 #           this will complicate bootstrap, since we need to get the correct artefacts when spinning up a new host.
 #           this probably means storing them in s3, which complicates things - future step
 
+#   if we're not doing the shared marking then we don't need the shared unmarking
+# echo -n "Marking deploy finished... "
+# ssh -q deploy@worker.${BASE_DOMAIN_DEPLOY} << EOF &> /dev/null
+#   curl -sf -X POST localhost:8085/deploy/unmark &> /dev/null
+# EOF
+
+####
+# maybe changing tack a little here - in order to address the bootstrap portion can we move to uploading the asset to s3 instead?
+# to do so we'll need a way to upload them from circleci (both tar and sha1, i think)
+# and then a way to get them from there and into the instance
+# both of which require AWS secrets
+# those are already present on the community boxes (although using those will complicate getting those secrets off the hosts)
+# need to figure out getting them to ci, where we won't have the glitch repo available
+
+
 # hard-coded push deploy
 scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/build.tar.gz deploy@community-0A5C26.staging:/opt/glitch-community; code=$?
 # ssh -q -o "StrictHostKeyChecking no" $i.production "${CMD}"

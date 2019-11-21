@@ -1,0 +1,2 @@
+# Encrypt everything that you put in any folder named secrets
+**/secrets/** filter=git-crypt diff=git-crypt
