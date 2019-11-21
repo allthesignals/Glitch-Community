@@ -9,7 +9,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
 import { useAppMounted } from 'State/app-mounted';
 
-import LoginPage from './login';
+import LoginPage from './signin';
 import ResetPasswordPage from './login/reset-password';
 import { FacebookLoginPage, GitHubLoginPage, GoogleLoginPage, EmailTokenLoginPage } from './login/callbacks';
 import OauthSignIn from './signin';
