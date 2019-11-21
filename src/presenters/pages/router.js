@@ -18,7 +18,7 @@ import QuestionsPage from './questions';
 import ProjectPage from './project';
 import { UserPage, TeamOrUserPage } from './team-or-user';
 import CollectionPage from './collection';
-import { HomeRoute, CreateRoute } from './home-or-create';
+import { IndexRoute, CreateRoute } from './home-or-create';
 import { NotFoundPage } from './error';
 import PupdatesPreview from './pupdates-preview';
 import SearchPage from './search';
@@ -92,8 +92,8 @@ const Router = () => {
     <>
       <PageChangeHandler />
       <Switch>
-        <Route path="/" exact render={({ location }) => <HomeRoute key={location.key} />} />
-        <Route path="/index.html" exact render={({ location }) => <HomeRoute key={location.key} />} />
+        <Route path="/" exact render={({ location }) => <IndexRoute key={location.key} />} />
+        <Route path="/index.html" exact render={({ location }) => <IndexRoute key={location.key} />} />
         <Route path="/index/preview" exact render={({ location }) => <NewHomePagePreview key={location.key} />} />
         <Route path="/pupdates/preview" exact render={({ location }) => <PupdatesPreview key={location.key} />} />
 
