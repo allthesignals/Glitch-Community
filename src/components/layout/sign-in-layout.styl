@@ -1,15 +1,18 @@
 @import '../constants.styl'
 
 .overlay
+  position: initial
   max-width: 320px
+  transform: inherit
+  margin: 0 auto
 
 .signInButtons
-  display: flex
-  flex-wrap: wrap
+  display: inline
   a
     margin-right: 0.5rem
 
 .signInWithGlitchButtons
+  margin: 2em 0 0
   button
     display: block
     margin-top: 0.5rem
@@ -25,7 +28,14 @@
   font-size: 11px
   color: tertiary
   padding: 0.5em 0
-  margin: 1em 0 2em
+  margin: 1em 0 0
 
 .helpText
-  margin: 0 0 0.5em 0
+  margin: 0 0 1em 0
+
+.extra
+    background: secondary-background
+    margin: 1em 0.75em 0 0.75em
+    padding: 1em 1em
+    border-radius: 5px
+    border: 2px solid secondary-background-active
