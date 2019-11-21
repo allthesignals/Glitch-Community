@@ -18,13 +18,13 @@ import QuestionsPage from './questions';
 import ProjectPage from './project';
 import { UserPage, TeamOrUserPage } from './team-or-user';
 import CollectionPage from './collection';
-import CreatePage from './create';
+import { HomeRoute, CreateRoute } from './home-or-create';
 import { NotFoundPage } from './error';
 import PupdatesPreview from './pupdates-preview';
 import SearchPage from './search';
 import SecretPage from './secret';
 import SettingsPage from './settings';
-import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
+import { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
 import TwoFactorCodePage from './login/two-factor-code';
 import AboutPage from './about';
@@ -92,8 +92,8 @@ const Router = () => {
     <>
       <PageChangeHandler />
       <Switch>
-        <Route path="/" exact render={({ location }) => <NewHomePage key={location.key} />} />
-        <Route path="/index.html" exact render={({ location }) => <NewHomePage key={location.key} />} />
+        <Route path="/" exact render={({ location }) => <HomeRoute key={location.key} />} />
+        <Route path="/index.html" exact render={({ location }) => <HomeRoute key={location.key} />} />
         <Route path="/index/preview" exact render={({ location }) => <NewHomePagePreview key={location.key} />} />
         <Route path="/pupdates/preview" exact render={({ location }) => <PupdatesPreview key={location.key} />} />
 
@@ -176,7 +176,7 @@ const Router = () => {
           }}
         />
 
-        <Route path="/create" exact render={({ location }) => <CreatePage key={location.key} />} />
+        <Route path="/create" exact render={({ location }) => <CreateRoute key={location.key} />} />
 
         {categories.map((category) => (
           <Route key={category.url} path={`/${category.url}`} exact render={() => <Redirect to={`/@glitch/${category.collectionName}`} />} />
