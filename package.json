@@ -27,7 +27,7 @@
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
     "prestart": "npm run watch:lint:server & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:webpack & \n fi",
-    "start": "pm2 start ecosystem.config.js &",
+    "start": "pm2 start ecosystem.config.js",
     "stop": "pm2 stop ecosystem.config.js",
     "test": "mochapack",
     "watch:lint:server": "nodemon --watch server --watch shared --exec 'npm run --silent lint:server'",
