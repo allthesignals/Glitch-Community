@@ -5,9 +5,13 @@
   position: fixed
   width: 100%
   height: 100%
-  background-image: url('https://cdn.glitch.com/5c298496-6ed2-40c9-acf6-8be0fdb07b44%2Fpattern-2.svg?v=1574363816360')
+  background-image: url('https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsign-in-pattern.svg?v=1574364848746')
   background-repeat: repeat
   background-size: 400px
+  @media(prefers-reduced-motion: reduce){
+    // static background SVG that doesn't contain animation
+    background-image: url('https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsign-in-pattern-static.svg?v=1574364997266')
+  }
 
 .overlay
   position: initial
