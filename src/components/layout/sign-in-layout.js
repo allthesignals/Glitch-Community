@@ -45,146 +45,148 @@ const SignInLayout = () => {
   const userPasswordsEnabled = useDevToggle('User Passwords');
 
   return (
-    <AuthLayout>
-      <MultiPage defaultPage="signIn">
-        {({ page, setPage, goBack }) => (
-          <>
-            <Overlay className={styles.overlay}>
-              {page === 'signIn' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle>Sign In to Glitch</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <SignInButtons />
-                    <div className={styles.signInWithGlitchButtons}>
-                      <Button size="small" onClick={() => setPage('getCode')}>
-                        Email Magic Link <Icon className={emoji} icon="loveLetter" />
-                      </Button>
-                      {userPasswordsEnabled && (
-                        <Button size="small" onClick={() => setPage('usePassword')}>
-                          Password <Icon className={emoji} icon="key" />
-                        </Button>
-                      )}
-                    </div>
-                    <TermsAndConditions />
-                  </OverlaySection>
-                </>
-              )}
-              {page === 'createAccount' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Create an Account</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <Text className={styles.helpText}>Almost there! How do you want to sign up?</Text>
-                    <SignInButtons />
-                    <Button size="small" onClick={() => setPage('getCode')}>
-                      Email Magic Link <Icon className={emoji} icon="loveLetter" />
-                    </Button>
-                    <div className={styles.footer}>
-                      <TermsAndConditions />
-                      <CreateAccountImage />
-                    </div>
-                  </OverlaySection>
-                </>
-              )}
-              {page === 'getCode' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <GetMagicCode
-                      onCodeSent={({ emailAddress }) => {
-                        setState({ ...state, emailAddress });
-                        setPage('useCode');
-                      }}
-                    />
-                    <div className={styles.footer}>
-                      <MagicHatImage />
-                    </div>
-                  </OverlaySection>
-                </>
-              )}
-              {page === 'useCode' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <UseMagicCode
-                      emailAddress={state.emailAddress}
-                      showTwoFactorPage={(initialToken) => {
-                        setState({ ...state, initialToken });
-                        setPage('2fa');
-                      }}
-                    />
-                    <div className={styles.footer}>
-                      <TermsAndConditions />
-                      <MagicHatImage />
-                    </div>
-                  </OverlaySection>
-                </>
-              )}
-              {page === '2fa' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Two Factor Authentication</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <TwoFactorForm initialToken={state.initialToken} />
-                    <div className={styles.footer}>
-                      <TermsAndConditions />
-                      <ThumbprintImage />
-                    </div>
-                  </OverlaySection>
-                </>
-              )}
-              {page === 'usePassword' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Sign in With Password</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <SignInWithPassword showForgotPasswordPage={() => setPage('forgotPassword')} />
-                    <div className={styles.footer}>
-                      <TermsAndConditions />
-                    </div>
-                  </OverlaySection>
-                </>
-              )}
-              {page === 'forgotPassword' && (
-                <>
-                  <OverlaySection type="info">
-                    <OverlayTitle goBack={goBack}>Forgot Password</OverlayTitle>
-                  </OverlaySection>
-                  <OverlaySection type="actions">
-                    <ForgotPassword showMainPage={() => setPage('signIn')} />
-                  </OverlaySection>
-                </>
-              )}
-            </Overlay>
-            {(page === 'signIn' || page === 'createAccount') && (
-              <div className={styles.extra}>
+    <div className={styles.signInBackground}>
+      <AuthLayout>
+        <MultiPage defaultPage="signIn">
+          {({ page, setPage, goBack }) => (
+            <>
+              <Overlay className={styles.overlay}>
                 {page === 'signIn' && (
                   <>
-                    <Text className={styles.helpText}>Don't have an account?</Text>
-                    <Button onClick={() => setPage('createAccount')}>Create an account</Button>
+                    <OverlaySection type="info">
+                      <OverlayTitle>Sign In to Glitch</OverlayTitle>
+                    </OverlaySection>
+                    <OverlaySection type="actions">
+                      <SignInButtons />
+                      <div className={styles.signInWithGlitchButtons}>
+                        <Button size="small" onClick={() => setPage('getCode')}>
+                          Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                        </Button>
+                        {userPasswordsEnabled && (
+                          <Button size="small" onClick={() => setPage('usePassword')}>
+                            Password <Icon className={emoji} icon="key" />
+                          </Button>
+                        )}
+                      </div>
+                      <TermsAndConditions />
+                    </OverlaySection>
                   </>
                 )}
                 {page === 'createAccount' && (
                   <>
-                    <Text className={styles.helpText}>Already have an account?</Text>
-                    <Button onClick={() => setPage('signIn')}>Sign In</Button>
+                    <OverlaySection type="info">
+                      <OverlayTitle goBack={goBack}>Create an Account</OverlayTitle>
+                    </OverlaySection>
+                    <OverlaySection type="actions">
+                      <Text className={styles.helpText}>Almost there! How do you want to sign up?</Text>
+                      <SignInButtons />
+                      <Button size="small" onClick={() => setPage('getCode')}>
+                        Email Magic Link <Icon className={emoji} icon="loveLetter" />
+                      </Button>
+                      <div className={styles.footer}>
+                        <TermsAndConditions />
+                        <CreateAccountImage />
+                      </div>
+                    </OverlaySection>
                   </>
                 )}
-              </div>
-            )}
-          </>
-        )}
-      </MultiPage>
-    </AuthLayout>
+                {page === 'getCode' && (
+                  <>
+                    <OverlaySection type="info">
+                      <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
+                    </OverlaySection>
+                    <OverlaySection type="actions">
+                      <GetMagicCode
+                        onCodeSent={({ emailAddress }) => {
+                          setState({ ...state, emailAddress });
+                          setPage('useCode');
+                        }}
+                      />
+                      <div className={styles.footer}>
+                        <MagicHatImage />
+                      </div>
+                    </OverlaySection>
+                  </>
+                )}
+                {page === 'useCode' && (
+                  <>
+                    <OverlaySection type="info">
+                      <OverlayTitle goBack={goBack}>Magic Code</OverlayTitle>
+                    </OverlaySection>
+                    <OverlaySection type="actions">
+                      <UseMagicCode
+                        emailAddress={state.emailAddress}
+                        showTwoFactorPage={(initialToken) => {
+                          setState({ ...state, initialToken });
+                          setPage('2fa');
+                        }}
+                      />
+                      <div className={styles.footer}>
+                        <TermsAndConditions />
+                        <MagicHatImage />
+                      </div>
+                    </OverlaySection>
+                  </>
+                )}
+                {page === '2fa' && (
+                  <>
+                    <OverlaySection type="info">
+                      <OverlayTitle goBack={goBack}>Two Factor Authentication</OverlayTitle>
+                    </OverlaySection>
+                    <OverlaySection type="actions">
+                      <TwoFactorForm initialToken={state.initialToken} />
+                      <div className={styles.footer}>
+                        <TermsAndConditions />
+                        <ThumbprintImage />
+                      </div>
+                    </OverlaySection>
+                  </>
+                )}
+                {page === 'usePassword' && (
+                  <>
+                    <OverlaySection type="info">
+                      <OverlayTitle goBack={goBack}>Sign in With Password</OverlayTitle>
+                    </OverlaySection>
+                    <OverlaySection type="actions">
+                      <SignInWithPassword showForgotPasswordPage={() => setPage('forgotPassword')} />
+                      <div className={styles.footer}>
+                        <TermsAndConditions />
+                      </div>
+                    </OverlaySection>
+                  </>
+                )}
+                {page === 'forgotPassword' && (
+                  <>
+                    <OverlaySection type="info">
+                      <OverlayTitle goBack={goBack}>Forgot Password</OverlayTitle>
+                    </OverlaySection>
+                    <OverlaySection type="actions">
+                      <ForgotPassword showMainPage={() => setPage('signIn')} />
+                    </OverlaySection>
+                  </>
+                )}
+              </Overlay>
+              {(page === 'signIn' || page === 'createAccount') && (
+                <div className={styles.extra}>
+                  {page === 'signIn' && (
+                    <>
+                      <Text className={styles.helpText}>Don't have an account?</Text>
+                      <Button onClick={() => setPage('createAccount')}>Create an account</Button>
+                    </>
+                  )}
+                  {page === 'createAccount' && (
+                    <>
+                      <Text className={styles.helpText}>Already have an account?</Text>
+                      <Button onClick={() => setPage('signIn')}>Sign In</Button>
+                    </>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </MultiPage>
+      </AuthLayout>
+    </div>
   );
 };
 

@@ -1,5 +1,13 @@
 @import '../constants.styl'
 
+.signInBackground
+  position: fixed
+  width: 100%
+  height: 100%
+  background-image: url('https://cdn.glitch.com/5c298496-6ed2-40c9-acf6-8be0fdb07b44%2Fpattern-2.svg?v=1574356781068')
+  background-repeat: repeat
+  background-size: 450px
+
 .overlay
   position: initial
   max-width: 320px
@@ -39,3 +47,9 @@
     padding: 1em 1em
     border-radius: 5px
     border: 2px solid secondary-background-active
+
+.squiggle
+  animation-name: wiggle
+  animation-timing-function: ease-in
+  animation-duration: 5s
+  animation-iteration-count: infinite
