@@ -55,7 +55,7 @@ jobs:
           name: compress-artifacts
           command: cd /home/circleci/project && tar -czf /home/circleci/build.tar.gz .
 # this should make the compresed build available for the deploy
-      - persist-to-workspace:
+      - persist_to_workspace:
           paths:
             - /home/circleci/build.tar.gz
 # we may not need this at all in fact
