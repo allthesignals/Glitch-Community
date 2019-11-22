@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import Layout from 'Components/layout';
 import { TextArea, Button, Icon } from '@fogcreek/shared-components';
 import Notification from 'Components/notification';
-import { useTracker } from 'State/segment-analytics';
+import { useTracker, useIsAnalyticsInitialized } from 'State/segment-analytics';
 import useDevToggle from 'State/dev-toggles';
 
 import { emoji } from 'Components/global.styl';
@@ -17,6 +17,7 @@ const ValidToken = () => {
     ...inherited,
     reasonForLeaving,
   }));
+  const isInitialized = useIsAnalyticsInitialized();
 
   const submitFeedback = () => {
     setShowNotification(true);
@@ -28,17 +29,29 @@ const ValidToken = () => {
     <div>
       <h1>Your account has been deleted</h1>
       <p>We'll miss you on Glitch.</p>
-      <p>If you'd like to share any feedback, feel free to leave us a note.</p>
-      <div className={styles.textArea}>
-        <TextArea value={reasonForLeaving} onChange={setReason} label="I decided to leave Glitch because..." variant="opaque" maxLength="500" />
-      </div>
-      <div className={styles.feedbackWrap}>
-        <Button onClick={submitFeedback}>Share Feedback</Button>
-      </div>
-      {showNotification && (
-        <Notification type="success" persistent>
-          Thanks for sharing your thoughts!
-        </Notification>
+      {isInitialized ? (
+        <>
+          <p>If you'd like to share any feedback, feel free to leave us a note.</p>
+          <div className={styles.textArea}>
+            <TextArea value={reasonForLeaving} onChange={setReason} label="I decided to leave Glitch because..." variant="opaque" maxLength="500" />
+          </div>
+          <div className={styles.feedbackWrap}>
+            <Button onClick={submitFeedback}>Share Feedback</Button>
+          </div>
+          {showNotification && (
+            <Notification type="success" persistent>
+              Thanks for sharing your thoughts!
+            </Notification>
+          )}
+        </>
+      ) : (
+        <p>
+          If you'd like to share any feedback, feel free to leave us a note at{' '}
+          <Button as="a" href="mailto:support@glitch.com">
+            <img src="https://cdn.glitch.com/99defeae-ef08-4bb7-ba01-385a81949100%2FemailBlack.svg?1537835934697" alt="" width="18" />{' '}
+            support@glitch.com
+          </Button>
+        </p>
       )}
       <Button as="a" href="/">
         Back to Glitch <Icon className={emoji} icon="carpStreamer" />
