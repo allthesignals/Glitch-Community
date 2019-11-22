@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { withRouter } from 'react-router-dom';
 
+import SearchForm from 'Components/search-form';
 import SearchResults from 'Components/search-results';
-import NotFound from 'Components/errors/not-found';
 import MoreIdeas from 'Components/more-ideas';
 import Layout from 'Components/layout';
+import Heading from 'Components/text/heading';
 import { useAlgoliaSearch } from 'State/search';
 import { AnalyticsContext } from 'State/segment-analytics';
+
+import styles from './search.styl';
 
 const SearchPage = withRouter(({ query, activeFilter, history }) => {
   const searchResults = useAlgoliaSearch(query);
@@ -17,17 +20,22 @@ const SearchPage = withRouter(({ query, activeFilter, history }) => {
   };
 
   return (
-    <AnalyticsContext properties={{ origin: 'search', query }}>
-      <Layout searchQuery={query}>
+    <Layout searchQuery={query}>
+      <AnalyticsContext properties={{ origin: 'search', query }}>
         {!!query && <Helmet title={`Search for ${query}`} />}
         {query ? (
           <SearchResults query={query} searchResults={searchResults} activeFilter={activeFilter || 'all'} setActiveFilter={setActiveFilter} />
         ) : (
-          <NotFound name="anything" />
+          <div className={styles.emptySearchWrapper}>
+            <Heading tagName="h1">Search millions of apps</Heading>
+            <div className={styles.content}>
+              <SearchForm />
+            </div>
+          </div>
         )}
         <MoreIdeas />
-      </Layout>
-    </AnalyticsContext>
+      </AnalyticsContext>
+    </Layout>
   );
 });
 
