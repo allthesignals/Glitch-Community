@@ -32,8 +32,12 @@ function InvitedUser({ user, team, onRevokeInvite }) {
       await inviteUserToTeam({ team, user });
       createNotification(`Resent invite to ${user.name}!`, { type: 'success' });
     } catch (error) {
-      captureException(error);
-      createNotification('Invite not sent, try again later', { type: 'error' });
+      if (error.response && error.response.status === 429) {
+        createNotification(`Couldn't resend invite to ${getDisplayName(user)} due to rate limiting, try again in a few minutes`, { type: 'error' });
+      } else {
+        captureException(error);
+        createNotification(`Couldn't resend invite to ${getDisplayName(user)}, Try again later`, { type: 'error' });
+      }
     }
   };
 
@@ -209,14 +213,18 @@ const TeamUserContainer = ({ team, removeUserFromTeam, updateUserPermissions, up
   const members = uniq([...team.users, ...invitees].map((user) => user.id));
 
   const onInviteUser = async (user) => {
-    addInvitee(user);
     try {
       await inviteUser(user);
+      addInvitee(user);
       createNotification(`Invited ${getDisplayName(user)}!`, { type: 'success' });
     } catch (error) {
       reloadInvitees();
-      captureException(error);
-      createNotification(`Couldn't invite ${getDisplayName(user)}, Try again later`, { type: 'error' });
+      if (error.response && error.response.status === 429) {
+        createNotification(`Couldn't invite ${getDisplayName(user)} due to rate limiting, try again in a few minutes`, { type: 'error' });
+      } else {
+        captureException(error);
+        createNotification(`Couldn't invite ${getDisplayName(user)}, Try again later`, { type: 'error' });
+      }
     }
   };
 
@@ -228,8 +236,12 @@ const TeamUserContainer = ({ team, removeUserFromTeam, updateUserPermissions, up
       reloadInvitees();
     } catch (error) {
       reloadInvitees();
-      captureException(error);
-      createNotification(`Couldn't invite ${email}, Try again later`, { type: 'error' });
+      if (error.response && error.response.status === 429) {
+        createNotification(`Couldn't invite ${email} due to rate limiting, try again in a few minutes`, { type: 'error' });
+      } else {
+        captureException(error);
+        createNotification(`Couldn't invite ${email}, Try again later`, { type: 'error' });
+      }
     }
   };
 
