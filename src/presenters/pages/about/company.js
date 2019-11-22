@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { Button, Mark, Icon } from '@fogcreek/shared-components';
 import { BlockSection, Bio, BoardSection } from 'Components/about';
 import Heading from 'Components/text/heading';
@@ -7,7 +6,7 @@ import AboutLayout from './about-layout';
 import styles from './company.styl';
 import aboutStyles from './about.styl';
 
-const AboutCompanyPage = withRouter(() => (
+const AboutCompanyPage = () => (
   <AboutLayout mainClassName={aboutStyles.main} currentPage="company">
     <BlockSection>
       <Heading tagName="h1">
@@ -253,6 +252,6 @@ const AboutCompanyPage = withRouter(() => (
       </Button>
     </section>
   </AboutLayout>
-));
+);
 
 export default AboutCompanyPage;

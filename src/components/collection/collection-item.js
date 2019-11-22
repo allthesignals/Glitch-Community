@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { AnimationContainer, slideDown, Button, Icon, Loader } from '@fogcreek/shared-components';
 
@@ -108,7 +108,8 @@ export const CollectionCuratorLoader = ({ collection }) => (
 );
 
 // when users don't have a my stuff collection yet, we mimic it on their user page and create it once they click on it
-const CreateMyStuffOnClickComponent = withRouter(({ history, children, className, style }) => {
+const CreateMyStuffOnClickComponent = ({ children, className, style }) => {
+  const history = useHistory();
   const api = useAPI();
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
@@ -125,7 +126,7 @@ const CreateMyStuffOnClickComponent = withRouter(({ history, children, className
       <div className={className}>{children}</div>
     </button>
   );
-});
+};
 
 export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
   const CollectionLinkComponent = collection.fullUrl ? CollectionLink : CreateMyStuffOnClickComponent;
