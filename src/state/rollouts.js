@@ -49,7 +49,12 @@ export const useFeatureEnabled = (whichToggle) => {
   const { optimizelyId } = useOptimizely();
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN } = useGlobals();
-  const attributes = useMemo(() => ({ hasLogin: !!currentUser.login || SSR_SIGNED_IN }), [currentUser.login, SSR_SIGNED_IN]);
+
+  const attributes = useMemo(() => {
+    const fakeSignedIn = !currentUser.id && SSR_SIGNED_IN;
+    return { hasLogin: !!(currentUser.login || fakeSignedIn) };
+  }, [currentUser.id, currentUser.login, SSR_SIGNED_IN]);
+
   return useFeatureEnabledForEntity(whichToggle, optimizelyId, attributes);
 };
 

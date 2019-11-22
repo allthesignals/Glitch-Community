@@ -104,7 +104,7 @@ module.exports = async (url, context) => {
   const key = [
     context.SSR_SIGNED_IN ? 'signed-in' : 'signed-out',
     ...Object.entries(context.AB_TESTS).map(([test, assignment]) => `${test}=${assignment}`),
-    ...optimizelyClient.getEnabledFeatures(String(context.OPTIMIZELY_ID)),
+    ...optimizelyClient.getEnabledFeatures(String(context.OPTIMIZELY_ID), { hasLogin: context.SSR_SIGNED_IN }),
     url,
   ];
   return getFromCache(key.join(' '), render, url, context);
