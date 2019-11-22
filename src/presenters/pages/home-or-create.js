@@ -5,12 +5,9 @@ import { useFeatureEnabled } from 'State/rollouts';
 import HomePage from './home-v2';
 import CreatePage from './create';
 
-export const IndexRoute = () => {
-  const swap = useFeatureEnabled('swap_index_create');
-  return swap ? <CreatePage /> : <HomePage />;
+const HomeOrCreate = () => {
+  const useCreatePage = useFeatureEnabled('swap_index_create');
+  return useCreatePage ? <CreatePage /> : <HomePage />;
 };
 
-export const CreateRoute = () => {
-  const swap = useFeatureEnabled('swap_index_create');
-  return swap ? <HomePage /> : <CreatePage />;
-};
+export default HomeOrCreate;

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { enums } from '@optimizely/optimizely-sdk';
 import { useCurrentUser } from './current-user';
+import { useGlobals } from './globals';
 import useUserPref from './user-prefs';
 
 const Context = createContext();
@@ -35,18 +36,21 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
-export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
+export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) => {
   const [overrides] = useOverrides();
   const raw = useOptimizelyValue(
-    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
-    [whichToggle, entityId],
+    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId), attributes),
+    [whichToggle, entityId, attributes],
   );
   return overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
 };
 
 export const useFeatureEnabled = (whichToggle) => {
   const { optimizelyId } = useOptimizely();
-  return useFeatureEnabledForEntity(whichToggle, optimizelyId);
+  const { currentUser } = useCurrentUser();
+  const { SSR_SIGNED_IN } = useGlobals();
+  const attributes = useMemo(() => ({ hasLogin: !!currentUser.login || SSR_SIGNED_IN }), [currentUser.login, SSR_SIGNED_IN]);
+  return useFeatureEnabledForEntity(whichToggle, optimizelyId, attributes);
 };
 
 export const RolloutsUserSync = () => {
