@@ -5808,6 +5808,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-0XsbTXxgiaCDYDIWFcwkmerZPSwywfUqYmwT4jzewKTQSWoE6FCMoUVOeBJWK3E/CrWbxRG3m5GzY4lnIwGRBA==
+  /hoist-non-react-statics/3.3.1:
+    dependencies:
+      react-is: 16.12.0
+    dev: false
+    resolution:
+      integrity: sha512-wbg3bpgA/ZqWrZuMOeJi8+SKMhr7X9TesL/rXMjTzh0p0JUBo3II8DHboYbuIXWRlttrUFxwcu/5kygrCw8fJw==
   /homedir-polyfill/1.0.3:
     dependencies:
       parse-passwd: 1.0.0
@@ -9181,6 +9187,10 @@ packages:
   /react-is/16.11.0:
     resolution:
       integrity: sha512-gbBVYR2p8mnriqAwWx9LbuUrShnAuSCNnuPGyc7GJrMVQtPDAh8iLpv7FRuMPFb56KkaVZIYSz1PrjI9q0QPCw==
+  /react-is/16.12.0:
+    dev: false
+    resolution:
+      integrity: sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
   /react-konami/0.6.2:
     dev: false
     peerDependencies:
@@ -9237,12 +9247,12 @@ packages:
     dependencies:
       '@babel/runtime': 7.7.1
       history: 4.10.1
-      hoist-non-react-statics: 3.3.0
+      hoist-non-react-statics: 3.3.1
       loose-envify: 1.4.0
       mini-create-react-context: /mini-create-react-context/0.3.2/prop-types@15.7.2
       path-to-regexp: 1.7.0
       prop-types: 15.7.2
-      react-is: 16.11.0
+      react-is: 16.12.0
       tiny-invariant: 1.0.6
       tiny-warning: 1.0.3
     dev: false
@@ -11697,7 +11707,7 @@ specifiers:
   react-onclickoutside: ^6.8.0
   react-pluralize: ^1.6.3
   react-redux: ^7.1.1
-  react-router-dom: ^5.0.0
+  react-router-dom: ^5.1.2
   react-select: ^3.0.3
   react-sortable-hoc: ^1.9.1
   react-tabs: ^3.0.0

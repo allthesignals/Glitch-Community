@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Actions, Button, DangerZone, Icon, Loader, Popover } from '@fogcreek/shared-components';
 
@@ -67,19 +67,22 @@ const ReadmeError = (error) =>
   ) : (
     <>We couldn't load the readme. Try refreshing?</>
   );
-const ReadmeLoader = withRouter(({ domain, location }) => (
-  <DataLoader get={getReadme} args={domain} renderError={ReadmeError}>
-    {({ data }) =>
-      location.hash ? (
-        <Markdown linkifyHeadings>{data.toString()}</Markdown>
-      ) : (
-        <Expander height={location.hash ? Infinity : 250}>
+const ReadmeLoader = ({ domain }) => {
+  const location = useLocation();
+  return (
+    <DataLoader get={getReadme} args={domain} renderError={ReadmeError}>
+      {({ data }) =>
+        location.hash ? (
           <Markdown linkifyHeadings>{data.toString()}</Markdown>
-        </Expander>
-      )
-    }
-  </DataLoader>
-));
+        ) : (
+          <Expander height={location.hash ? Infinity : 250}>
+            <Markdown linkifyHeadings>{data.toString()}</Markdown>
+          </Expander>
+        )
+      }
+    </DataLoader>
+  );
+};
 
 ReadmeLoader.propTypes = {
   domain: PropTypes.string.isRequired,
