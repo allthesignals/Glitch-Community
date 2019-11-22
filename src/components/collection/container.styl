@@ -4,20 +4,18 @@
   display: flex
   flex-direction: column
   width: 100%
-  @media (min-width: largeViewport)
-    flex-direction: row
     
 .collectionHeader
+  display: flex
   flex: 0 0 auto
-  padding: 20px
   border-radius: 5px 5px 0 0
   flex-direction: column
-  @media (min-width: largeViewport)
-    flex: 0 0 300px
-    border-radius: 5px 0 0 5px
-    
-.preview .collectionHeader
-  padding: 12px
+
+.collectionHeaderNameDescription
+  padding: 20px 20px 0 20px
+  position: relative
+  display: flex
+  flex-direction: row
 
 .dark .collectionHeader
   color: white
@@ -27,39 +25,62 @@
     color: #D2FEFF
   code
     background: #252525
+  .privacyToggle
+    color: black
     
 .collectionContents
   flex: 1 1 auto
   padding: 20px
   background-color: secondary-background
   border-radius: 0 0 5px 5px
-  @media (min-width: largeViewport)
-    border-radius: 0 5px 5px 0
     
   article
-    margin: 0;
+    margin: 0
   p
-    margin-bottom: 0;
-  
+    margin-bottom: 0
+
+.colorBtnContainer
+  padding: 0 25px
+  position: absolute
+  right: 0
+  top: 20px
+
+.nameContainer
+  flex: 1
+  max-width: 145px
+  @media(min-width: smallViewport)
+    max-width: 200px
+  @media (min-width: mediumSmallViewport)
+    max-width: 300px
+  @media (min-width: mediumLargeViewport)
+    max-width: 500px  
+
 .imageContainer
   margin-bottom: 15px
   margin-right: 15px
-  max-width: 175px
   svg
     width: 100%
     max-height: 100%
-    
-.preview .imageContainer
-  width: 85px
-  height: 75px
+  @media(max-width: smallViewport)
+    div
+      width: 75px
+      height: 75px
+
+.playOrGridToggle
+  background: overlay-background
+  padding: 12px 22px
+
+.gridIcon
+  height: 1em
+  width: 1em
+  vertical-align: sub
+  margin-right: 5px
+  margin-bottom: 2px
 
 .name
-  margin-bottom: 0
+  margin: 0
   a
     color: inherit
-    
-.preview .name
-  font-size: 18px
 
 .owner
   margin: 12px 0
@@ -71,35 +92,9 @@
     margin: 0 !important
 
 .projectCount
-  margin: 25px 0px 25px
+  margin: 25px 0
   font-size: 14px
   font-weight: 600
-  
-.collectionProjectContainerHeader
-  margin-bottom: 1rem
-  &:empty
-    margin-bottom: 0
-
-.emptyCollectionHint
-  margin: 25px 16px
-  display: flex
-  > * + *
-    margin-left: 10px
-
-.hint
-  padding: 12px
-  background: overlay-background
-  border-radius: 5px
-  margin: 1em 0
-  line-height: 35px
-  &.dark
-    background:  rgba(109, 109, 109, 0.8)
-  p:first-of-type
-    display: inline
-    margin: 0.5em
-
-.hintBody
-  margin: 1em 0
 
 .viewAll
   display: block
@@ -112,6 +107,5 @@
 
 .privacyToggle
   margin-top: 1rem
-  
-svg.arrow
-  vertical-align: middle
+
+
