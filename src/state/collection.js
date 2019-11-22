@@ -118,6 +118,7 @@ export const useToggleBookmark = (project) => {
         setHasBookmarked(true);
         if (!myStuffCollection) {
           myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
+          if (!myStuffCollection) return; // createCollection error'd out and notified user, return early
           updateCurrentUser({ collections: [myStuffCollection, ...currentUser.collections] });
         }
         await addProjectToCollection({ project, collection: myStuffCollection });
@@ -329,6 +330,7 @@ export function useCollectionEditor(initialCollection) {
       } else {
         if (!myStuffCollection) {
           myStuffCollection = await createCollection({ api, name: 'My Stuff', createNotification });
+          if (!myStuffCollection) return; // createCollection error'd out and notified user, return early
           updateCurrentUser({ collections: [myStuffCollection, ...currentUser.collections] });
         }
         await funcs.addProjectToCollection(project, myStuffCollection);

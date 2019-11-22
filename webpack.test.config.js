@@ -1,7 +1,7 @@
 /**
  * Webpack config for running the tests via mocha.
  */
-const sharedConfig = require('./webpack.config');
+const [sharedConfig] = require('./webpack.config');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 

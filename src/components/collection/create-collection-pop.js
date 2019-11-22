@@ -110,6 +110,7 @@ function CreateCollectionPopBase({ name, onBack, onSubmit, options }) {
       teamId: selection.value,
       createNotification,
     });
+    if (!collection) return; // createCollection error'd out and notified user, return early
     const team = currentUser.teams.find((t) => t.id === selection.value);
     collection.fullUrl = `${team ? team.url : currentUser.login}/${collection.url}`;
     onSubmit(collection);

@@ -6,12 +6,13 @@ const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AutoprefixerStylus = require('autoprefixer-stylus');
 const StatsPlugin = require('stats-webpack-plugin');
+const NodeExternals = require('webpack-node-externals');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { EnvironmentPlugin } = require('webpack');
 const aliases = require('./aliases');
 
-const BUILD = path.resolve(__dirname, 'build/client');
+const BUILD = path.resolve(__dirname, 'build');
 const SRC = path.resolve(__dirname, 'src');
 const SHARED = path.resolve(__dirname, 'shared');
 
@@ -20,11 +21,9 @@ if (process.env.NODE_ENV === 'production') {
   mode = 'production';
 }
 
-const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
-
 console.log(`Starting Webpack in ${mode} mode.`);
 
-let prevBuildAssets = ['**/*'];
+let prevBuildAssets = ['**/*', '!server.js'];
 try {
   const prevBuildStats = JSON.parse(fs.readFileSync(path.resolve(BUILD, 'stats.json')));
   prevBuildAssets = [...prevBuildAssets, '!stats.json', ...prevBuildStats.assets.map((asset) => `!${asset.name}`)];
@@ -32,7 +31,7 @@ try {
   // Don't worry about it, there's probably just no stats.json
 }
 
-module.exports = smp.wrap({
+const browserConfig = {
   mode,
   entry: {
     client: `${SRC}/client.js`,
@@ -95,7 +94,7 @@ module.exports = smp.wrap({
   context: path.resolve(__dirname),
   resolve: {
     extensions: ['.js'],
-    alias: aliases.client,
+    alias: aliases,
   },
   module: {
     rules: [
@@ -174,4 +173,64 @@ module.exports = smp.wrap({
   stats: {
     children: false,
   },
-});
+};
+
+const nodeConfig = {
+  mode,
+  target: 'node',
+  entry: {
+    server: `${SRC}/server.js`,
+  },
+  output: {
+    filename: '[name].js',
+    path: BUILD,
+    libraryTarget: 'commonjs2',
+  },
+  devtool: mode === 'production' ? 'source-map' : 'eval-source-map',
+  optimization: {
+    minimize: false,
+    noEmitOnErrors: true,
+  },
+  context: path.resolve(__dirname),
+  resolve: {
+    extensions: ['.js', '.styl'],
+    alias: aliases,
+  },
+  module: {
+    rules: [
+      {
+        oneOf: [
+          {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            options: {
+              configFile: path.resolve(__dirname, './.babelrc.node.json'),
+            },
+          },
+          {
+            test: /\.styl/,
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: {
+                    localIdentName: '[name]__[local]___[hash:base64:5]',
+                  },
+                  onlyLocals: true,
+                },
+              },
+              'stylus-loader',
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  externals: [
+    NodeExternals(),
+    (context, request, callback) => /^Shared[\\/]/.test(request) ? callback(null, `commonjs ${request}`) : callback(),
+  ],
+};
+
+const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
+module.exports = smp.wrap([browserConfig, nodeConfig]);

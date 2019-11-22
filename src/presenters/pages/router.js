@@ -74,9 +74,8 @@ const PageChangeHandler = () => {
   const location = useLocation();
   const { reload } = useCurrentUser();
   const isUpdate = useRef(false);
-
   useEffect(() => {
-    if (isUpdate.current) {
+    if (isUpdate.current && (location.state && !location.state.preventScroll)) {
       window.scrollTo(0, 0);
       reload();
     }
@@ -168,11 +167,7 @@ const Router = () => {
 
         <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />
 
-        <Route
-          path="/@:owner/:name"
-          exact
-          render={({ location, match }) => <CollectionPage key={location.key} owner={match.params.owner} name={match.params.name} />}
-        />
+        <Route path="/@:owner/:name/(play)?/:projectId?" render={({ match }) => <CollectionPage owner={match.params.owner} name={match.params.name} />} />
 
         <Route
           path="/user/:id(\d+)"

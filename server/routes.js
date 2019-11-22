@@ -43,7 +43,7 @@ module.exports = function(EXTERNAL_ROUTES) {
 
   const ms = dayjs.convert(7, 'days', 'milliseconds');
   app.use(express.static('public', { index: false }));
-  app.use(express.static('build/client', { index: false, maxAge: ms }));
+  app.use(express.static('build', { index: false, maxAge: ms }));
 
   const readFilePromise = util.promisify(fs.readFile);
 
@@ -59,7 +59,7 @@ module.exports = function(EXTERNAL_ROUTES) {
     }
 
     try {
-      const stats = JSON.parse(await readFilePromise('build/client/stats.json'));
+      const stats = JSON.parse(await readFilePromise('build/stats.json'));
       for (const file of stats.entrypoints.client.assets) {
         if (file.match(/\.js(\?|$)/)) {
           scripts.push(`${stats.publicPath}${file}`);

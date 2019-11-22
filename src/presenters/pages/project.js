@@ -9,7 +9,6 @@ import NotFound from 'Components/errors/not-found';
 import GlitchHelmet from 'Components/glitch-helmet';
 import CollectionItem from 'Components/collection/collection-item';
 import ProjectEmbed from 'Components/project/project-embed';
-import ProfileList from 'Components/profile-list';
 import OptimisticTextInput from 'Components/fields/optimistic-text-input';
 import { ProjectProfileContainer } from 'Components/containers/profile';
 import DataLoader from 'Components/data-loader';
@@ -34,7 +33,7 @@ import { useCachedProject } from 'State/api-cache';
 import { tagline } from 'Utils/constants';
 import { renderText } from 'Utils/markdown';
 import { addBreadcrumb } from 'Utils/sentry';
-
+import ProjectUsers from 'Components/project/project-user';
 import styles from './project.styl';
 import { emoji } from '../../components/global.styl';
 
@@ -59,6 +58,7 @@ const IncludedInCollections = ({ projectId }) => (
   </DataLoader>
 );
 
+const getReadme = (api, domain) => api.get(`projects/${domain}/readme`);
 const ReadmeError = (error) =>
   error && error.response && error.response.status === 404 ? (
     <>
@@ -70,7 +70,7 @@ const ReadmeError = (error) =>
 const ReadmeLoader = ({ domain }) => {
   const location = useLocation();
   return (
-    <DataLoader get={(api) => api.get(`projects/${domain}/readme`)} renderError={ReadmeError}>
+    <DataLoader get={getReadme} args={domain} renderError={ReadmeError}>
       {({ data }) =>
         location.hash ? (
           <Markdown linkifyHeadings>{data.toString()}</Markdown>
@@ -138,7 +138,7 @@ DeleteProjectPopover.propTypes = {
 };
 
 const ProjectPage = ({ project: initialProject }) => {
-  const [project, { updateDomain, updateDescription, updatePrivate, deleteProject, uploadAvatar }] = useProjectEditor(initialProject);
+  const [project, { updateDomain, updateDescription, updatePrivate, deleteProject, uploadAvatar, reassignAdmin }] = useProjectEditor(initialProject);
   useFocusFirst();
   const { currentUser } = useCurrentUser();
   const [hasBookmarked, toggleBookmark, setHasBookmarked] = useToggleBookmark(project);
@@ -232,7 +232,7 @@ const ProjectPage = ({ project: initialProject }) => {
           )}
           {users.length + teams.length > 0 && (
             <div>
-              <ProfileList hasLinks teams={teams} users={users} {...members} layout="block" />
+              <ProjectUsers users={users} project={project} reassignAdmin={reassignAdmin} />
             </div>
           )}
           <AuthDescription

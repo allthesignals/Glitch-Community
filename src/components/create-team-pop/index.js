@@ -117,7 +117,7 @@ const CreateTeamPop = ({ onBack }) => {
   const placeholder = 'Your Team Name';
 
   return (
-    <>
+    <div className={styles.createTeamPop}>
       <Title onBack={onBack}>
         Create Team <Icon className={emoji} icon="herb" />
       </Title>
@@ -144,7 +144,7 @@ const CreateTeamPop = ({ onBack }) => {
       <Info>
         <p>You can change this later</p>
       </Info>
-    </>
+    </div>
   );
 };
 
