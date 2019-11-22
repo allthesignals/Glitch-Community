@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
@@ -140,12 +140,42 @@ PlayerControls.propTypes = {
   params: PropTypes.object.isRequired,
 };
 
+const wakeUpNextBatchOfProjects = (projects) => {
+  projects.map(async (project) => fetch(`https://${project.domain}.glitch.me`, { mode: 'no-cors' }));
+};
 
 const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, funcs, collection }) => {
   const { projects } = collection;
   const [currentProjectIndex, setCurrentProjectIndex] = useState(getCurrentProjectIndexFromUrl(match.params.projectId, projects));
-
+  const [wokeProjects, setWokeProjects] = useState({});
   const featuredProject = projects[currentProjectIndex];
+
+  /* 
+    as we tab through the projects, on every 5th project we wake up the next batch of 6.
+    this makes the play experience feel snappier without having to wake up every project in the collection.
+    we keep an lightweight cache in state to see if we've already woken up a project, this prevents us from
+    pinging the same projects over and over again if a user is clicking the left and right arrows repeatedly.
+    
+    note: users who tab from the last project backwards or who navigate to a project directly 
+    will have limited to no benefits from this useEffect, unfortunately.
+  */
+  useEffect(() => {
+    if (currentProjectIndex % 5 === 0) {
+      const nextBatch = [];
+      projects.slice(currentProjectIndex + 1, currentProjectIndex + 6).forEach(p => {
+        const alreadyWoke = wokeProjects[p.id]
+        console.log(wokeProjects, p.id, p)
+        if (!alreadyWoke) {
+          setWokeProjects((prev) => ({ 
+            ...prev,
+            [p.id]: p
+          }));
+          nextBatch.push(p);
+        }
+      });
+      wakeUpNextBatchOfProjects(nextBatch);
+    }
+  }, [currentProjectIndex]);
 
   return (
     <AnalyticsContext
