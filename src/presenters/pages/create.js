@@ -78,7 +78,7 @@ function Banner() {
           <Text>Whether you’re new to code or an experienced developer, simply pick a starter app to remix.</Text>
           <div className={styles.bannerRemixBtn}>
             <RemixButton app={{ id: '929980a8-32fc-4ae7-a66f-dddb3ae4912c', domain: 'hello-webpage' }} type="cta">
-              Start Remixing
+              Start Coding
             </RemixButton>
           </div>
         </div>
