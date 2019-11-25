@@ -67,8 +67,8 @@ const LocalStorageProvider = ({ children }) => {
       if (event.storageArea === storageRef.current) {
         if (event.key) {
           setCache((oldCache) => {
-            // segment (and maybe other things) could update localstorage, no need to update cache
-            if (!oldCache.has(event.key)) return oldCache;
+            // segment updates localstorage but that doesn't need to affect our cache
+            if (event.key.includes("segment")) return oldCache;
 
             const newCache = new Map(oldCache);
             newCache.delete(event.key);
