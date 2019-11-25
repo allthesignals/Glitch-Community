@@ -13,7 +13,7 @@ const { allByKeys } = require('../shared/api');
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
-const { readCuratedContent, writeCuratedContent } = require('./curated');
+const { getHomeData, reloadHomeData, getPupdates, reloadPupdates } = require('./curated');
 
 module.exports = function(EXTERNAL_ROUTES) {
   const app = express.Router();
@@ -78,10 +78,10 @@ module.exports = function(EXTERNAL_ROUTES) {
       AB_TESTS: getAssignments(req, res),
       API_CACHE,
       EXTERNAL_ROUTES,
-      HOME_CONTENT: readCuratedContent('home'),
+      HOME_CONTENT: getHomeData(),
       OPTIMIZELY_DATA: getOptimizelyData(),
       OPTIMIZELY_ID: getOptimizelyId(req, res),
-      PUPDATES_CONTENT: readCuratedContent('pupdates'),
+      PUPDATES_CONTENT: getPupdates(),
       SSR_SIGNED_IN: !!req.cookies.hasLogin,
       ZINE_POSTS: getZine(),
     });
@@ -162,21 +162,27 @@ module.exports = function(EXTERNAL_ROUTES) {
 
   app.get('/api/:page', async (req, res) => {
     const { page } = req.params;
-    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
-
-    const data = await readCuratedContent(page);
-    res.send(data);
+    if (page === 'home') {
+      res.send(await getHomeData());
+    } else if (page === 'pupdates') {
+      res.send(await getPupdates());
+    } else {
+      res.sendStatus(400);
+    }
   });
 
   app.post('/api/:page', async (req, res) => {
     const { page } = req.params;
-    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
-
-    if (req.headers.authorization === process.env.CMS_POST_SECRET) {
-      await writeCuratedContent({ page, data: req.body });
+    if (req.headers.authorization !== process.env.CMS_POST_SECRET) {
+      res.sendStatus(403);
+    } else if (page === 'home') {
+      reloadHomeData();
+      res.sendStatus(200);
+    } else if (page === 'pupdates') {
+      reloadPupdates();
       res.sendStatus(200);
     } else {
-      res.sendStatus(403);
+      res.sendStatus(400);
     }
   });
 
