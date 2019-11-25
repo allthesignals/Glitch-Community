@@ -87,7 +87,7 @@ HOSTNAMES=( $(ssh -q worker.staging "bash --login -c 'cd /opt/glitch && ci/hostn
 for host in $HOSTNAMES[*]
 do
   # hard-coded push deploy
-  scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "/home/circleci/build.tar.gz deploy@$name.staging:/opt/glitch-community; code=$?"
+  scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "/home/circleci/build.tar.gz deploy@$host.staging:/opt/glitch-community; code=$?"
 
   # do the local deploy stuff
   ssh -q "$host.staging" "bash --login -c 'cd /opt/glitch-community && ci/local-deploy.sh'"
