@@ -6,14 +6,14 @@ const util = require('util');
 const dayjs = require('dayjs');
 const punycode = require('punycode');
 
-const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
+const { getProject, getTeam, getUser, getCollection } = require('./api');
 const webpackExpressMiddleware = require('./webpack');
 const constants = require('./constants');
 const { allByKeys } = require('../shared/api');
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
-const { getHomeData, reloadHomeData, getPupdates, reloadPupdates } = require('./curated');
+const { getHomeData, reloadHomeData, getPupdates, reloadPupdates, getZine, reloadZine } = require('./curated');
 
 module.exports = function(EXTERNAL_ROUTES) {
   const app = express.Router();
@@ -166,6 +166,8 @@ module.exports = function(EXTERNAL_ROUTES) {
       res.send(await getHomeData());
     } else if (page === 'pupdates') {
       res.send(await getPupdates());
+    } else if (page === 'zine') {
+      res.send(await getZine());
     } else {
       res.sendStatus(400);
     }
@@ -180,6 +182,9 @@ module.exports = function(EXTERNAL_ROUTES) {
       res.sendStatus(200);
     } else if (page === 'pupdates') {
       reloadPupdates();
+      res.sendStatus(200);
+    } else if (page === 'zine') {
+      reloadZine();
       res.sendStatus(200);
     } else {
       res.sendStatus(400);

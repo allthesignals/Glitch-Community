@@ -21,21 +21,21 @@ async function getCultureZinePosts() {
 }
 
 function createCuratedUpdater(label, get) {
-  const safeGet = () => {
-    
-  }
-  let promise = new Promise((resolve, reject) => get().then(resolve, reject));
-  const reload = async () => {
+  let promise = get();
+  setInterval(async () => {
     try {
-      const value = get();
-      promise = Promise.resolve(value);
+      const value = await get();
+      promise = promise.resolve(value);
     } catch (error) {
       captureException(error);
       console.warn(`Failed to load ${label}: ${error.toString()}`);
     }
+  }, dayjs.convert(5, 'minutes', 'ms'));
+  const getValue = () => promise;
+  const reload = () => {
+    promise = get();
   }
-  setInterval(reload, dayjs.convert(5, 'minutes', 'ms'));
-  return [() => promise, reload];
+  return [getValue, reload];
 }
 
 const [getHomeData, reloadHomeData] = createCuratedUpdater('home data', () => getCuratedFile('home'));
