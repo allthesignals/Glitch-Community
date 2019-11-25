@@ -81,11 +81,17 @@ set -euo pipefail
 # need to figure out getting them to ci, where we won't have the glitch repo available
 
 
-# hard-coded push deploy
-scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/build.tar.gz deploy@community-0A5C26.staging:/opt/glitch-community; code=$?
+# first get the list of hostnames
+HOSTNAMES=( $(ssh -q worker.staging "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community staging'") )
 
-# do the local deploy stuff
-ssh -q community-0A5C26.staging "bash --login -c 'cd /opt/glitch-community && ci/local-deploy.sh'"
+for host in $HOSTNAMES[*]
+do
+  # hard-coded push deploy
+  scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "/home/circleci/build.tar.gz deploy@$name.staging:/opt/glitch-community; code=$?"
+
+  # do the local deploy stuff
+  ssh -q "$host.staging" "bash --login -c 'cd /opt/glitch-community && ci/local-deploy.sh'"
+done
 
 if [ $code -ne 0 ]; then
   echo "Deploy failed"
