@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Mark } from '@fogcreek/shared-components';
 import { Helmet } from 'react-helmet-async';
 import Heading from 'Components/text/heading';
@@ -12,7 +11,7 @@ import '../../../utils/lever/lever.styl';
 const pageDescription = 'Glitch is where you’ll do your best work. Here’s why.';
 const pageTitle = 'About Glitch - Careers';
 
-const AboutCareersPage = withRouter(() => {
+const AboutCareersPage = () => {
   useEffect(() => {
     window.leverJobsOptions = { accountName: 'glitch', includeCss: true };
     if (window.loadLeverJobs) {
@@ -239,6 +238,6 @@ const AboutCareersPage = withRouter(() => {
       </section>
     </AboutLayout>
   );
-});
+};
 
 export default AboutCareersPage;

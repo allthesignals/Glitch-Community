@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { withRouter } from 'react-router-dom';
 import { CDN_URL } from 'Utils/constants';
 import Link from 'Components/link';
 import Heading from 'Components/text/heading';
@@ -171,13 +170,13 @@ function ThirdSection() {
   );
 }
 
-const AboutPage = withRouter(() => (
+const AboutPage = () => (
   <AboutLayout currentPage="about">
     <Banner />
     <FirstSection />
     <SecondSection />
     <ThirdSection />
   </AboutLayout>
-));
+);
 
 export default AboutPage;

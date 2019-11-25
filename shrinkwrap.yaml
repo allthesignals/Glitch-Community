@@ -12,9 +12,9 @@ dependencies:
   '@jedmao/location': 2.0.4
   '@optimizely/optimizely-sdk': 3.3.1
   '@percy/cypress': 1.0.9
-  '@sentry/browser': 5.7.1
-  '@sentry/minimal': 5.7.1
-  '@sentry/node': 5.7.1
+  '@sentry/browser': 5.9.1
+  '@sentry/minimal': 5.8.0
+  '@sentry/node': 5.9.0
   algoliasearch: 3.35.1
   autoprefixer-stylus: 0.14.0
   axios: 0.19.0
@@ -1337,55 +1337,55 @@ packages:
       node: '>=4.0'
     resolution:
       integrity: sha512-CvAbpIB7ObOuwvqhDBB/E4Z4ANRx2dBk08zYpGPNg+1fDj14FJg2e7DWA8bblSGNC8QarIXPaqPDJBL1e8cRQw==
-  /@sentry/browser/5.7.1:
+  /@sentry/browser/5.9.1:
     dependencies:
-      '@sentry/core': 5.7.1
+      '@sentry/core': 5.8.0
       '@sentry/types': 5.7.1
-      '@sentry/utils': 5.7.1
+      '@sentry/utils': 5.8.0
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-K0x1XhsHS8PPdtlVOLrKZyYvi5Vexs9WApdd214bO6KaGF296gJvH1mG8XOY0+7aA5i2A7T3ttcaJNDYS49lzw==
-  /@sentry/core/5.7.1:
+      integrity: sha512-7AOabwp9yAH9h6Xe6TfDwlLxHbUSWs+SPWHI7bPlht2yDSAqkXYGSzRr5X0XQJX9oBQdx2cEPMqHyJrbNaP/og==
+  /@sentry/core/5.8.0:
     dependencies:
-      '@sentry/hub': 5.7.1
-      '@sentry/minimal': 5.7.1
+      '@sentry/hub': 5.8.0
+      '@sentry/minimal': 5.8.0
       '@sentry/types': 5.7.1
-      '@sentry/utils': 5.7.1
+      '@sentry/utils': 5.8.0
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-AOn3k3uVWh2VyajcHbV9Ta4ieDIeLckfo7UMLM+CTk2kt7C89SayDGayJMSsIrsZlL4qxBoLB9QY4W2FgAGJrg==
-  /@sentry/hub/5.7.1:
+      integrity: sha512-aAh2KLidIXJVGrxmHSVq2eVKbu7tZiYn5ylW6yzJXFetS5z4MA+JYaSBaG2inVYDEEqqMIkb17TyWxxziUDieg==
+  /@sentry/hub/5.8.0:
     dependencies:
       '@sentry/types': 5.7.1
-      '@sentry/utils': 5.7.1
+      '@sentry/utils': 5.8.0
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-evGh323WR073WSBCg/RkhlUmCQyzU0xzBzCZPscvcoy5hd4SsLE6t9Zin+WACHB9JFsRQIDwNDn+D+pj3yKsig==
-  /@sentry/minimal/5.7.1:
+      integrity: sha512-VdApn1ZCNwH1wwQwoO6pu53PM/qgHG+DQege0hbByluImpLBhAj9w50nXnF/8KzV4UoMIVbzCb6jXzMRmqqp9A==
+  /@sentry/minimal/5.8.0:
     dependencies:
-      '@sentry/hub': 5.7.1
+      '@sentry/hub': 5.8.0
       '@sentry/types': 5.7.1
       tslib: 1.10.0
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-nS/Dg+jWAZtcxQW8wKbkkw4dYvF6uyY/vDiz/jFCaux0LX0uhgXAC9gMOJmgJ/tYBLJ64l0ca5LzpZa7BMJQ0g==
-  /@sentry/node/5.7.1:
+      integrity: sha512-MIlFOgd+JvAUrBBmq7vr9ovRH1HvckhnwzHdoUPpKRBN+rQgTyZy1o6+kA2fASCbrRqFCP+Zk7EHMACKg8DpIw==
+  /@sentry/node/5.9.0:
     dependencies:
-      '@sentry/core': 5.7.1
-      '@sentry/hub': 5.7.1
+      '@sentry/core': 5.8.0
+      '@sentry/hub': 5.8.0
       '@sentry/types': 5.7.1
-      '@sentry/utils': 5.7.1
+      '@sentry/utils': 5.8.0
       cookie: 0.3.1
       https-proxy-agent: 3.0.1
       lru_map: 0.3.3
@@ -1394,14 +1394,14 @@ packages:
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-hVM10asFStrOhYZzMqFM7V1lrHkr1ydc2n/SFG0ZmIQxfTjCVElyXV/BJASIdqadM1fFIvvtD/EfgkTcZmub1g==
+      integrity: sha512-1CWwSGhRfMr4Bvt1i0vIms+BBZd4dBzlDyWpyCboodCXF1rTJRci9roQ+Wh9XWwFEWvgDD2PzuKzfvu638v2Wg==
   /@sentry/types/5.7.1:
     dev: false
     engines:
       node: '>=6'
     resolution:
       integrity: sha512-tbUnTYlSliXvnou5D4C8Zr+7/wJrHLbpYX1YkLXuIJRU0NSi81bHMroAuHWILcQKWhVjaV/HZzr7Y/hhWtbXVQ==
-  /@sentry/utils/5.7.1:
+  /@sentry/utils/5.8.0:
     dependencies:
       '@sentry/types': 5.7.1
       tslib: 1.10.0
@@ -1409,7 +1409,7 @@ packages:
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-nhirUKj/qFLsR1i9kJ5BRvNyzdx/E2vorIsukuDrbo8e3iZ11JMgCOVrmC8Eq9YkHBqgwX4UnrPumjFyvGMZ2Q==
+      integrity: sha512-KDxUvBSYi0/dHMdunbxAxD3389pcQioLtcO6CI6zt/nJXeVFolix66cRraeQvqupdLhvOk/el649W4fCPayTHw==
   /@sinonjs/commons/1.6.0:
     dependencies:
       type-detect: 4.0.8
@@ -5808,6 +5808,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-0XsbTXxgiaCDYDIWFcwkmerZPSwywfUqYmwT4jzewKTQSWoE6FCMoUVOeBJWK3E/CrWbxRG3m5GzY4lnIwGRBA==
+  /hoist-non-react-statics/3.3.1:
+    dependencies:
+      react-is: 16.12.0
+    dev: false
+    resolution:
+      integrity: sha512-wbg3bpgA/ZqWrZuMOeJi8+SKMhr7X9TesL/rXMjTzh0p0JUBo3II8DHboYbuIXWRlttrUFxwcu/5kygrCw8fJw==
   /homedir-polyfill/1.0.3:
     dependencies:
       parse-passwd: 1.0.0
@@ -9181,6 +9187,10 @@ packages:
   /react-is/16.11.0:
     resolution:
       integrity: sha512-gbBVYR2p8mnriqAwWx9LbuUrShnAuSCNnuPGyc7GJrMVQtPDAh8iLpv7FRuMPFb56KkaVZIYSz1PrjI9q0QPCw==
+  /react-is/16.12.0:
+    dev: false
+    resolution:
+      integrity: sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
   /react-konami/0.6.2:
     dev: false
     peerDependencies:
@@ -9237,12 +9247,12 @@ packages:
     dependencies:
       '@babel/runtime': 7.7.1
       history: 4.10.1
-      hoist-non-react-statics: 3.3.0
+      hoist-non-react-statics: 3.3.1
       loose-envify: 1.4.0
       mini-create-react-context: /mini-create-react-context/0.3.2/prop-types@15.7.2
       path-to-regexp: 1.7.0
       prop-types: 15.7.2
-      react-is: 16.11.0
+      react-is: 16.12.0
       tiny-invariant: 1.0.6
       tiny-warning: 1.0.3
     dev: false
@@ -11614,9 +11624,9 @@ specifiers:
   '@jedmao/location': ^2.0.4
   '@optimizely/optimizely-sdk': ^3.3.0
   '@percy/cypress': ^1.0.9
-  '@sentry/browser': ^5.6.3
-  '@sentry/minimal': ^5.6.1
-  '@sentry/node': ^5.6.2
+  '@sentry/browser': ^5.9.1
+  '@sentry/minimal': ^5.8.0
+  '@sentry/node': ^5.9.0
   algoliasearch: ^3.33.0
   autoprefixer-stylus: ^0.14.0
   axe-core: ^3.3.2
@@ -11697,7 +11707,7 @@ specifiers:
   react-onclickoutside: ^6.8.0
   react-pluralize: ^1.6.3
   react-redux: ^7.1.1
-  react-router-dom: ^5.0.0
+  react-router-dom: ^5.1.2
   react-select: ^3.0.3
   react-sortable-hoc: ^1.9.1
   react-tabs: ^3.0.0

@@ -29,7 +29,7 @@ if (isBrowser) {
           return null;
         }
         // don't send a rate limit if another one happened within the last minute
-        if (originalException.message.includes('status code 429')) {
+        if (originalException && originalException.message && originalException.message.includes('status code 429')) {
           const msSinceLastRateLimitError = Date.now() - lastRateLimitError;
           lastRateLimitError = Date.now();
           if (msSinceLastRateLimitError < 1000 * 60) {

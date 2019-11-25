@@ -3,22 +3,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { mount } from 'enzyme';
 import axeCore from 'axe-core';
-import jsdom from 'jsdom-global';
 
 export const a11yHelper = {};
-
-/**
- * Init ally helper test hooks
- */
-a11yHelper.setup = function() {
-  let cleanup;
-  before(() => {
-    cleanup = jsdom({ url: 'https://glitch.com/' });
-  });
-  after(() => {
-    cleanup();
-  });
-};
 
 /**
  * Test a component with React's Test Utils.

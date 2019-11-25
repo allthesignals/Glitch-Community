@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Actions, Button, DangerZone, Icon, Loader, Title } from '@fogcreek/shared-components';
 
 import { getCollectionOwnerLink, getCollectionLink } from 'Models/collection';
@@ -10,7 +10,9 @@ import { useNotifications } from 'State/notifications';
 
 import { emoji } from '../global.styl';
 
-const DeleteCollectionPop = withRouter(({ location, history, collection, animateAndDeleteCollection }) => {
+const DeleteCollectionPop = ({ collection, animateAndDeleteCollection }) => {
+  const history = useHistory();
+  const location = useLocation();
   const [coll, baseFuncs] = useCollectionEditor(collection);
   const { createNotification } = useNotifications();
   const [collectionIsDeleting, setCollectionIsDeleting] = useState(false);
@@ -47,7 +49,7 @@ const DeleteCollectionPop = withRouter(({ location, history, collection, animate
       </DangerZone>
     </>
   );
-});
+};
 
 const DeleteCollection = ({ collection, deleteCollection }) => (
   <DeleteCollectionPop collection={collection} animateAndDeleteCollection={deleteCollection} />

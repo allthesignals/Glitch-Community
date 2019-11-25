@@ -21,7 +21,7 @@ const TeamNameInput = ({ name, onChange, verified }) => (
 );
 
 const TeamUrlInput = ({ url, onChange }) => (
-  <OptimisticTextInput label="Team URL" prefix="@" value={url} onChange={onChange} placeholder="Short url?" style={{ fontWeight: 'bold' }} />
+  <OptimisticTextInput className={styles.teamUrlInput} label="Team URL" prefix="@" value={url} onChange={onChange} placeholder="Short url?" style={{ fontWeight: 'bold' }} />
 );
 
 const TeamFields = ({ team, updateName, updateUrl }) => {

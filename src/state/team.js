@@ -97,8 +97,8 @@ export function useTeamEditor(initialTeam) {
         updateCurrentUser({ teams: [...teams, team] });
       }
     }, handleError),
-    inviteEmail: (email) => inviteEmailToTeam({ team }, email).catch(handleError),
-    inviteUser: (user) => inviteUserToTeam({ user, team }).catch(handleError),
+    inviteEmail: (email) => inviteEmailToTeam({ team }, email),
+    inviteUser: (user) => inviteUserToTeam({ user, team }),
     removeUserFromTeam: withErrorHandler(async (user, projects) => {
       // Kick them out of every project at once, and wait until it's all done
       await Promise.all(projects.map((project) => removeUserFromProject({ project, user })));
