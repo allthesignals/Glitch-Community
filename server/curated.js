@@ -25,7 +25,7 @@ function createCuratedUpdater(label, get) {
   setInterval(async () => {
     try {
       const value = await get();
-      promise = promise.resolve(value);
+      promise = Promise.resolve(value);
     } catch (error) {
       captureException(error);
       console.warn(`Failed to load ${label}: ${error.toString()}`);
