@@ -83,22 +83,26 @@ const LocalStorageProvider = ({ children }) => {
     };
   }, []);
 
-  const getValue = (name) => {
-    if (!cache.has(name)) {
-      const value = readFromStorage(storageRef.current, name);
-      setCache((oldCache) => new Map([...oldCache, [name, value]]));
-      return value;
-    }
-    return cache.get(name);
-  };
+  const context = React.useMemo(() => {
+    const getValue = (name) => {
+      if (!cache.has(name)) {
+        const value = readFromStorage(storageRef.current, name);
+        setCache((oldCache) => new Map([...oldCache, [name, value]]));
+        return value;
+      }
+      return cache.get(name);
+    };
 
-  const setValue = (name, value) => {
-    writeToStorage(storageRef.current, name, value);
-    setCache((oldCache) => new Map([...oldCache, [name, value]]));
-  };
+    const setValue = (name, value) => {
+      writeToStorage(storageRef.current, name, value);
+      setCache((oldCache) => new Map([...oldCache, [name, value]]));
+    };
+
+    return [getValue, setValue, ready];
+  }, [cache, ready]);
 
   return (
-    <Context.Provider value={[getValue, setValue, ready]}>
+    <Context.Provider value={context}>
       {children}
     </Context.Provider>
   );
@@ -109,7 +113,7 @@ const useLocalStorage = (name, defaultValue) => {
   const rawValue = getRawValue(name);
 
   const value = rawValue !== undefined ? rawValue : defaultValue;
-  const setValue = (newValue) => setRawValue(name, newValue);
+  const setValue = React.useCallback((newValue) => setRawValue(name, newValue), [setRawValue, name]);
 
   return [value, setValue, ready];
 };
