@@ -51,7 +51,7 @@ const Settings = () => {
   const { persistentToken, login } = currentUser;
   const isSignedIn = persistentToken && login;
   const settingsPageEnabled = isSignedIn && (userPasswordEnabled || tfaEnabled);
-  console.log("rerendering")
+
   if (!settingsPageEnabled) {
     return <NotFoundPage />;
   }
