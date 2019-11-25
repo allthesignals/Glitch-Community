@@ -30,7 +30,7 @@ function InvitedUser({ user, team, onRevokeInvite }) {
   const resendInvite = async () => {
     try {
       await inviteUserToTeam({ team, user });
-      createNotification(`Resent invite to ${user.name}!`, { type: 'success' });
+      createNotification(`Resent invite to ${getDisplayName(user.name)}!`, { type: 'success' });
     } catch (error) {
       if (error.response && error.response.status === 429) {
         createNotification(`Couldn't resend invite to ${getDisplayName(user)} due to rate limiting, try again in a few minutes`, { type: 'error' });
