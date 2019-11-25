@@ -16,7 +16,7 @@ import TeamFields from 'Components/fields/team-fields';
 import ReportButton from 'Components/report-abuse-pop';
 import DeleteTeam from 'Components/team/delete-team-pop';
 import AddTeamProject from 'Components/team/add-team-project-pop';
-import TeamUsers from 'Components/team-users';
+import TeamUserContainer from 'Components/team-users';
 import TeamAnalytics from 'Components/team-analytics';
 import AuthDescription from 'Components/fields/auth-description';
 import ErrorBoundary from 'Components/error-boundary';
@@ -149,7 +149,7 @@ function TeamPage({ team: initialTeam }) {
         >
           <TeamFields team={team} updateName={funcs.updateName} updateUrl={updateUrl} />
           <div className={styles.usersInformation}>
-            <TeamUsers
+            <TeamUserContainer
               team={team}
               removeUserFromTeam={funcs.removeUserFromTeam}
               updateUserPermissions={funcs.updateUserPermissions}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Actions, Button, DangerZone, Icon, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
@@ -12,7 +12,8 @@ import { emoji } from '../global.styl';
 
 const illustration = 'https://cdn.glitch.com/c53fd895-ee00-4295-b111-7e024967a033%2Fdelete-team.svg?1531267699621';
 
-const DeleteTeamPop = withRouter(({ history, team }) => {
+const DeleteTeamPop = ({ team }) => {
+  const history = useHistory();
   const { deleteItem } = useAPIHandlers();
   const { createNotification } = useNotifications();
   const [teamIsDeleting, setTeamIsDeleting] = useState(false);
@@ -53,7 +54,7 @@ const DeleteTeamPop = withRouter(({ history, team }) => {
       */}
     </>
   );
-});
+};
 
 DeleteTeamPop.propTypes = {
   team: PropTypes.object.isRequired,

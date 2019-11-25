@@ -128,6 +128,7 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
     const shouldCreateMyStuffCollection = collection.isMyStuff && collection.id === 'nullMyStuff';
     if (shouldCreateMyStuffCollection) {
       collection = await createCollection({ api, name: 'My Stuff', createNotification });
+      if (!collection) return; // create collection error'd out and notified the user, return early
       collection.fullUrl = collection.fullUrl || `${currentUser.login}/${collection.url}`;
     }
 

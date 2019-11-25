@@ -9,7 +9,7 @@ import { CDN_URL } from 'Utils/constants';
 import styles from './more-ideas.styl';
 
 const MoreIdeas = () => (
-  <aside className={styles.container}>
+  <aside className={styles.moreIdeasWrapper}>
     <Heading tagName="h2">More Ideas</Heading>
     <Grid items={categories} className={styles.grid}>
       {(category) => (
