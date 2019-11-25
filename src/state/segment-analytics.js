@@ -56,6 +56,8 @@ export const useTracker = (name, properties, context) => {
   };
 };
 
+export const useIsAnalyticsInitialized = () => analytics.initialized;
+
 export const useTrackedFunc = (func, name, properties, context) => {
   const track = useTracker(name, properties, context);
   if (!func) return func;

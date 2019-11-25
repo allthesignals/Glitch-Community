@@ -27,6 +27,7 @@ import SettingsPage from './settings';
 import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
 import TwoFactorCodePage from './login/two-factor-code';
+import DeleteTokenPage from './delete';
 import AboutPage from './about';
 import AboutCompanyPage from './about/company';
 import AboutCareersPage from './about/careers';
@@ -155,6 +156,11 @@ const Router = () => {
           )}
         />
 
+        <Route
+          path="/delete"
+          exact
+          render={({ location }) => <DeleteTokenPage token={parse(location.search, 'token')} />}
+        />
         <Route path="/signin" exact render={({ location }) => <OauthSignIn key={location.key} />} />
 
         <Route path="/join/@:teamUrl/:joinToken" exact render={({ location, match }) => <JoinTeamPage key={location.key} {...match.params} />} />
