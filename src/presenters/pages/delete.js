@@ -48,7 +48,7 @@ const ValidToken = () => {
         <p>
           If you'd like to share any feedback, feel free to leave us a note at{' '}
           <Button as="a" href="mailto:support@glitch.com">
-            <img src="https://cdn.glitch.com/99defeae-ef08-4bb7-ba01-385a81949100%2FemailBlack.svg?1537835934697" alt="" width="18" />{' '}
+            <Icon className={styles.emailIcon} icon="loveLetter" />
             support@glitch.com
           </Button>
         </p>
@@ -62,7 +62,7 @@ const ValidToken = () => {
 
 const InvalidToken = () => (
   <div>
-    <h1>Sorry, we were unable to delete your account.</h1>
+    <h1>Sorry, we were unable to delete your account</h1>
     <p>The link you used to delete your account has expired. Please try again.</p>
   </div>
 );
