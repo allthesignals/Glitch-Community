@@ -19,13 +19,12 @@ export const makeTestProject = (options) => {
     lastAccess: '2019-05-17T20:21:03.134Z',
     authUserIsMember: false,
     authUserIsTeamMember: false,
-    permission: {
+    permissions: [{
       userId: 1,
       projectId: 'test-project',
       accessLevel: 30,
       userLastAccess: '2019-05-17T20:21:03.134Z',
-    },
-    permissions: [],
+    }],
     features: [],
     teamIds: [],
     teams: [],

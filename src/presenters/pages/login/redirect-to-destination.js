@@ -7,7 +7,7 @@ const RedirectToDestination = () => {
   const [destination, , clearDestination] = useDestinationAfterAuth();
   const { createNotification } = useNotifications();
   React.useEffect(() => {
-    if (destination.notificationMessage) {
+    if (destination && destination.notificationMessage) {
       createNotification(destination.notificationMessage);
     }
 
