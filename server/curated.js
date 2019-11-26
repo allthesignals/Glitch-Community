@@ -16,6 +16,8 @@ async function getCultureZinePosts() {
   const client = 'client_id=ghost-frontend&client_secret=c9a97f14ced8';
   const params = 'filter=featured:true&limit=4&fields=id,title,url,feature_image,primary_tag&include=tags';
   const url = `https://culture-zine.glitch.me/culture/ghost/api/v0.1/posts/?${client}&${params}`;
+  await new Promise(resolve => setTimeout(resolve, 4000));
+  throw new Error('oh no!');
   const response = await api.get(url);
   return response.data.posts;
 }
