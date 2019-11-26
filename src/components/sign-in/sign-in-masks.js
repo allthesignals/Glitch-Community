@@ -21,14 +21,14 @@ const randomPosition = (shapeType) => {
     x = getRandomValue(60, 80);
     y = getRandomValue(50, 100);
   }
-  return `[${x}%, ${y}%]`;
+  return [x, y];
 };
 
 export const DotsImg = () => {
   const position = randomPosition('dots');
   const style = {
-    left: `${position[0]}`,
-    top: `${position[1]}`,
+    left: `${position[0]}%`,
+    top: `${position[1]}%`,
   };
   return <img src={DotsSrc} className={styles.dots} style={style} alt="" />;
 };
@@ -36,8 +36,8 @@ export const DotsImg = () => {
 export const PillsImg = () => {
   const position = randomPosition('pills');
   const style = {
-    left: `${position[0]}`,
-    top: `${position[1]}`,
+    left: `${position[0]}%`,
+    top: `${position[1]}%`,
   };
   return <img src={PillsSrc} className={styles.pills} style={style} alt="" />;
 };
