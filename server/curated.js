@@ -22,7 +22,8 @@ async function getCultureZinePosts() {
 
 function createCuratedUpdater(label, get) {
   let promise = get();
-  const getValue = () => promise;
+  // call get() again, but only update the promise once it has already succeeded
+  // don't make things wait for fresh data, and never replace good data with an error
   const lazyReload = async () => {
     try {
       const value = await get();
@@ -32,12 +33,14 @@ function createCuratedUpdater(label, get) {
       captureException(error);
     }
   };
+  // get the latest promise, assuming the initial request on startup goes through this will never be an error
+  const getValue = () => promise;
 
   const cycle = async () => {
     await lazyReload();
     setTimeout(cycle, dayjs.convert(5, 'minutes', 'ms'));
   };
-  cycle();
+  setTimeout(cycle, dayjs.convert(15, 'minutes', 'ms'));
 
   return [getValue, lazyReload];
 }
