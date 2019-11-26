@@ -149,10 +149,10 @@ const ProjectName = ({ initialName, updateBackend, updateParentState }) => {
   const onChange = async (newName) => {
     await updateBackend(newName);
     setHeadingState(newName);
+    syncPageToDomain(newName);
   };
   const onBlur = () => {
     updateParentState(headingState);
-    syncPageToDomain(headingState);
   };
   return (
     <Heading tagName="h1">
