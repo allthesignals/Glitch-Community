@@ -94,7 +94,7 @@ do
   scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/build.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
 
   # do the local deploy stuff
-  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c 'cd /opt/glitch-community && ci/local-deploy.sh'"
+  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh\""
 done
 
 if [ $code -ne 0 ]; then
