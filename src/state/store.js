@@ -1,5 +1,5 @@
 import React from 'react';
-import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { isBrowser } from 'Utils/constants';
 import createHandlerMiddleware from './handler-middleware';
