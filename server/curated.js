@@ -35,10 +35,11 @@ async function writeLocalCache(key, data) {
   await writeFilePromise(`.data/curated/${key}.json`, json, 'utf8');
 }
 
-function createCuratedUpdater(key, get) {
-  let promise = null; // readLocalCache(key);
+function createCuratedUpdater(key, get, interval) {
+  let promise = readLocalCache(key);
+  promise.catch(() => console.warn(`No cached ${key} data`));
 
-  // call get() again, but only store the promise once the data is actually ready
+  // call get(), but only store the result once the data is actually ready
   // don't block requests for fresh data, and never replace good data with an error
   const lazyReload = async () => {
     try {
@@ -56,15 +57,15 @@ function createCuratedUpdater(key, get) {
   // reload on a regular interval, but wait until the last request finishes before starting the timer for the next request
   const cycle = async () => {
     await lazyReload();
-    setTimeout(cycle, dayjs.convert(5, 'minutes', 'ms'));
+    setTimeout(cycle, interval);
   };
   cycle();
 
   return [getData, lazyReload];
 }
 
-const [getHomeData, reloadHomeData] = createCuratedUpdater('home', () => getCuratedFile('home'));
-const [getPupdates, reloadPupdates] = createCuratedUpdater('pupdates', () => getCuratedFile('pupdates'));
-const [getZine, reloadZine] = createCuratedUpdater('zine', () => getCultureZinePosts());
+const [getHomeData, reloadHomeData] = createCuratedUpdater('home', () => getCuratedFile('home'), dayjs.convert(1, 'hour', 'ms'));
+const [getPupdates, reloadPupdates] = createCuratedUpdater('pupdates', () => getCuratedFile('pupdates'), dayjs.convert(1, 'hour', 'ms'));
+const [getZine, reloadZine] = createCuratedUpdater('zine', () => getCultureZinePosts(), dayjs.convert(15, 'minutes', 'ms'));
 
 module.exports = { getHomeData, reloadHomeData, getPupdates, reloadPupdates, getZine, reloadZine };
