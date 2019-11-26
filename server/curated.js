@@ -1,6 +1,7 @@
 const axios = require('axios');
 const dayjs = require('dayjs');
 const fs = require('fs');
+const util = require('util');
 const { captureException } = require('@sentry/node');
 
 const api = axios.create({
@@ -17,28 +18,40 @@ async function getCultureZinePosts() {
   const client = 'client_id=ghost-frontend&client_secret=c9a97f14ced8';
   const params = 'filter=featured:true&limit=4&fields=id,title,url,feature_image,primary_tag&include=tags';
   const url = `https://culture-zine.glitch.me/culture/ghost/api/v0.1/posts/?${client}&${params}`;
-  await new Promise((resolve) => setTimeout(resolve, 4000));
-  throw new Error('oh no!');/*
+  // await new Promise((resolve) => setTimeout(resolve, 4000));
+  // throw new Error('oh no!');
   const response = await api.get(url);
-  return response.data.posts;*/
+  return response.data.posts;
+}
+
+const readFilePromise = util.promisify(fs.readFile);
+const writeFilePromise = util.promisify(fs.writeFile);
+async function readLocalCache(key) {
+  const json = await readFilePromise(`.data/curated/${key}.json`, 'utf8');
+  return JSON.parse(json);
+}
+async function writeLocalCache(key, data) {
+  const json = JSON.stringify(data);
+  await writeFilePromise(`.data/curated/${key}.json`, json, 'utf8');
 }
 
 function createCuratedUpdater(key, get) {
-  let promise = ;
+  let promise = readLocalCache(key);
 
   // call get() again, but only store the promise once the data is actually ready
   // don't block requests for fresh data, and never replace good data with an error
   const lazyReload = async () => {
     try {
-      const value = await get();
-      promise = Promise.resolve(value);
+      const data = await get();
+      await writeLocalCache(key, data);
+      promise = Promise.resolve(data);
     } catch (error) {
       console.warn(`Failed to load ${key}: ${error.toString()}`);
       captureException(error);
     }
   };
   // get the latest promise, assuming the initial request on startup goes through this will never be an error
-  const getValue = () => promise;
+  const getData = () => promise;
 
   // reload on a regular interval, but wait until the last request finishes before starting the timer for the next request
   const cycle = async () => {
@@ -47,7 +60,7 @@ function createCuratedUpdater(key, get) {
   };
   cycle();
 
-  return [getValue, lazyReload];
+  return [getData, lazyReload];
 }
 
 const [getHomeData, reloadHomeData] = createCuratedUpdater('home', () => getCuratedFile('home'));
