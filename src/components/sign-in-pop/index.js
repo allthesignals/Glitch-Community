@@ -335,8 +335,8 @@ export const SignInPopBase = ({ startOpen }) => {
       startOpen={startOpen}
       align="right"
       className={mediumPopover}
-      renderLabel={({ onClick, ref }) => (
-        <Button onClick={onClick} ref={ref} size="small">
+      renderLabel={(labelProps) => (
+        <Button size="small" {...labelProps}>
           Sign in
         </Button>
       )}

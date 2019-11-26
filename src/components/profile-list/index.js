@@ -9,21 +9,27 @@ import { getDisplayName } from 'Models/user';
 
 import styles from './profile-list.styl';
 
-const UserItem = ({ user }) => {
-  const tooltipTarget = (
-    <UserLink user={user} draggable={false}>
-      <UserAvatar user={user} hideTooltip />
-    </UserLink>
-  );
+const UserItem = ({ user, asLinks }) => {
+  const avatar = <UserAvatar user={user} hideTooltip />;
+  let tooltipTarget;
+  if (asLinks) {
+    tooltipTarget = <UserLink user={user} draggable={false}>{avatar}</UserLink>;
+  } else {
+    tooltipTarget = avatar;
+  }
+
   return <TooltipContainer type="info" tooltip={getDisplayName(user)} target={tooltipTarget} />;
 };
 
-const TeamItem = ({ team }) => {
-  const tooltipTarget = (
-    <TeamLink team={team} draggable={false}>
-      <TeamAvatar team={team} hideTooltip />
-    </TeamLink>
-  );
+const TeamItem = ({ team, asLinks }) => {
+  const avatar = <TeamAvatar team={team} hideTooltip />;
+  let tooltipTarget;
+  if (asLinks) {
+    tooltipTarget = <TeamLink team={team} draggable={false}>{avatar}</TeamLink>;
+  } else {
+    tooltipTarget = avatar;
+  }
+
   return <TooltipContainer type="info" tooltip={team.name} target={tooltipTarget} />;
 };
 
@@ -80,7 +86,7 @@ const parametersForSize = {
   },
 };
 
-const RowContainer = ({ size, users, teams }) => {
+const RowContainer = ({ size, users, teams, asLinks }) => {
   const { ref, width } = useResizeObserver();
   const { avatarWidth, userOffset, teamOffset } = parametersForSize[size];
   const maxTeams = Math.floor(width / (avatarWidth + teamOffset));
@@ -91,25 +97,25 @@ const RowContainer = ({ size, users, teams }) => {
     <ul ref={ref} className={classnames(styles.container, styles.row, styles[size])}>
       {teams.slice(0, maxTeams).map((team) => (
         <li key={`team-${team.id}`} className={styles.teamItem}>
-          <TeamItem team={team} />
+          <TeamItem team={team} asLinks={asLinks} />
         </li>
       ))}
       {users.slice(0, maxUsers).map((user) => (
         <li key={`user-${user.id}`} className={styles.userItem}>
-          <UserItem user={user} />
+          <UserItem user={user} asLinks={asLinks} />
         </li>
       ))}
     </ul>
   );
 };
 
-const BlockContainer = ({ size, users, teams }) => (
+const BlockContainer = ({ size, users, teams, asLinks }) => (
   <>
     {teams.length > 0 && (
       <ul className={classnames(styles.container, styles[size])}>
         {teams.map((team) => (
           <li key={`team-${team.id}`} className={styles.teamItem}>
-            <TeamItem team={team} />
+            <TeamItem team={team} asLinks={asLinks} />
           </li>
         ))}
       </ul>
@@ -118,7 +124,7 @@ const BlockContainer = ({ size, users, teams }) => (
       <ul className={classnames(styles.container, styles[size])}>
         {users.map((user) => (
           <li key={`user-${user.id}`} className={styles.userItem}>
-            <UserItem user={user} />
+            <UserItem user={user} asLinks={asLinks} />
           </li>
         ))}
       </ul>
@@ -129,8 +135,14 @@ const BlockContainer = ({ size, users, teams }) => (
 const GLITCH_TEAM_AVATAR = 'https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fglitch-team-avatar.svg?1489266029267';
 const GLITCH_TEAM_URL = 'glitch';
 
-const GlitchTeamList = ({ size }) => {
-  const tooltipTarget = <TeamLink team={{ url: GLITCH_TEAM_URL }} draggable={false}><AvatarBase name="Glitch Team" src={GLITCH_TEAM_AVATAR} color="#74ecfc" variant="roundrect" hideTooltip /></TeamLink>;
+const GlitchTeamList = ({ size, asLinks }) => {
+  const avatar = <AvatarBase name="Glitch Team" src={GLITCH_TEAM_AVATAR} color="#74ecfc" variant="roundrect" hideTooltip />;
+  let tooltipTarget;
+  if (asLinks) {
+    tooltipTarget = <TeamLink team={{ url: GLITCH_TEAM_URL }} draggable={false}>{avatar}</TeamLink>;
+  } else {
+    tooltipTarget = avatar;
+  }
   return (
     <ul className={classnames(styles.container, styles[size])}>
       <li className={styles.teamItem}>
@@ -150,24 +162,24 @@ const PlaceholderList = ({ size }) => (
 
 const maybeList = (item) => (item ? [item] : []);
 
-export const ProfileItem = ({ user, team, glitchTeam, size }) => (
-  <ProfileList layout="block" users={maybeList(user)} teams={maybeList(team)} glitchTeam={glitchTeam} size={size} />
+export const ProfileItem = ({ user, team, glitchTeam, size, asLinks }) => (
+  <ProfileList layout="block" users={maybeList(user)} teams={maybeList(team)} glitchTeam={glitchTeam} size={size} asLinks={asLinks} />
 );
 
-const ProfileList = React.memo(({ size, users, teams, layout, glitchTeam }) => {
+const ProfileList = React.memo(({ size, users, teams, layout, glitchTeam, asLinks }) => {
   if (glitchTeam) {
-    return <GlitchTeamList size={size} />;
+    return <GlitchTeamList size={size} asLinks={asLinks} />;
   }
 
   if (!users.length && !teams.length) {
-    return <PlaceholderList size={size} />;
+    return <PlaceholderList size={size} asLinks={asLinks} />;
   }
 
   if (layout === 'row') {
-    return <RowContainer size={size} users={users} teams={teams} />;
+    return <RowContainer size={size} users={users} teams={teams} asLinks={asLinks} />;
   }
 
-  return <BlockContainer size={size} users={users} teams={teams} />;
+  return <BlockContainer size={size} users={users} teams={teams} asLinks={asLinks} />;
 });
 
 ProfileList.propTypes = {
@@ -176,6 +188,7 @@ ProfileList.propTypes = {
   users: PropTypes.array,
   teams: PropTypes.array,
   glitchTeam: PropTypes.bool,
+  asLinks: PropTypes.bool,
 };
 
 ProfileList.defaultProps = {
@@ -183,6 +196,7 @@ ProfileList.defaultProps = {
   users: [],
   teams: [],
   glitchTeam: false,
+  asLinks: true,
 };
 
 export default ProfileList;
