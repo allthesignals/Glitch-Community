@@ -178,13 +178,13 @@ module.exports = function(EXTERNAL_ROUTES) {
     if (req.headers.authorization !== process.env.CMS_POST_SECRET) {
       res.sendStatus(403);
     } else if (page === 'home') {
-      reloadHomeData();
+      await reloadHomeData();
       res.sendStatus(200);
     } else if (page === 'pupdates') {
-      reloadPupdates();
+      await reloadPupdates();
       res.sendStatus(200);
     } else if (page === 'zine') {
-      reloadZine();
+      await reloadZine();
       res.sendStatus(200);
     } else {
       res.sendStatus(400);
