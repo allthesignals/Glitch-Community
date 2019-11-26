@@ -4,13 +4,15 @@ const fs = require('fs');
 const util = require('util');
 const { captureException } = require('@sentry/node');
 
+const readFilePromise = util.promisify(fs.readFile);
+
 const api = axios.create({
   baseURL: 'https://cms.glitch.me',
   timeout: 15000, // nice long timeout
 });
 
-function createUpdater(key, get, getInitial, interval) {
-  let promise = getInitial();
+function createUpdater(key, get, initial, interval) {
+  let promise = initial;
 
   // call get(), but only store the result once the data is actually ready
   // don't block requests for fresh data, and never replace good data with an error
@@ -45,19 +47,18 @@ async function getCultureZinePosts() {
   const response = await api.get(url);
   return response.data.posts;
 }
-const [getZine, reloadZine] = createUpdater('zine', getCultureZinePosts, () => [], dayjs.convert(15, 'minutes', 'ms'));
+const [getZine, reloadZine] = createUpdater('zine', getCultureZinePosts, [], dayjs.convert(15, 'minutes', 'ms'));
 
-async function getCuratedFile(name) {
-  const response = await api.get(`/${name}.json`);
-  return response.data;
-}
-const readFilePromise = util.promisify(fs.readFile);
-async function readLocalCache(key) {
-  const json = await readFilePromise(`src/curated/${key}.json`, 'utf8');
-  return JSON.parse(json);
-}
 function createCuratedUpdater(key, interval) {
-  return createUpdater(key, () => getCuratedFile(key), () => readLocalCache(key), interval);
+  const getCuratedFile = async () => {
+    const response = await api.get(`/${key}.json`);
+    return response.data;
+  }
+  const readLocalCache = async () => {
+    const json = await readFilePromise(`src/curated/${key}.json`, 'utf8');
+    return JSON.parse(json);
+  }
+  return createUpdater(key, getCuratedFile, readLocalCache(), interval);
 }
 const [getHomeData, reloadHomeData] = createCuratedUpdater('home', dayjs.convert(1, 'hour', 'ms'));
 const [getPupdates, reloadPupdates] = createCuratedUpdater('pupdates', dayjs.convert(1, 'hour', 'ms'));
