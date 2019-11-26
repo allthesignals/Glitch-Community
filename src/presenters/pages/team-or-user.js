@@ -17,8 +17,10 @@ const mustExist = (value) => {
   return value;
 };
 
+const getUserById = (api, id) => getUser(api, id, 'id').then(mustExist);
+
 const UserPageLoader = ({ id, name, ...props }) => (
-  <DataLoader get={(api) => getUser(api, id, 'id').then(mustExist)} renderError={() => <NotFound name={name} />}>
+  <DataLoader get={getUserById} args={id} renderError={() => <NotFound name={name} />}>
     {(user) => <UserPage user={user} {...props} />}
   </DataLoader>
 );

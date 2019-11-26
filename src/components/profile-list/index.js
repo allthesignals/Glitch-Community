@@ -73,6 +73,11 @@ const parametersForSize = {
     userOffset: -5,
     teamOffset: 2,
   },
+  medium: {
+    avatarWidth: 25,
+    userOffset: -5,
+    teamOffset: 2,
+  },
 };
 
 const RowContainer = ({ size, users, teams }) => {
@@ -167,7 +172,7 @@ const ProfileList = React.memo(({ size, users, teams, layout, glitchTeam }) => {
 
 ProfileList.propTypes = {
   layout: PropTypes.oneOf(['row', 'block']).isRequired,
-  size: PropTypes.oneOf(['small', 'large']),
+  size: PropTypes.oneOf(Object.keys(parametersForSize)),
   users: PropTypes.array,
   teams: PropTypes.array,
   glitchTeam: PropTypes.bool,

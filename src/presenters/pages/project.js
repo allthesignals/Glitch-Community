@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Actions, Button, DangerZone, Icon, Loader, Popover } from '@fogcreek/shared-components';
 
@@ -9,7 +9,6 @@ import NotFound from 'Components/errors/not-found';
 import GlitchHelmet from 'Components/glitch-helmet';
 import CollectionItem from 'Components/collection/collection-item';
 import ProjectEmbed from 'Components/project/project-embed';
-import ProfileList from 'Components/profile-list';
 import OptimisticTextInput from 'Components/fields/optimistic-text-input';
 import { ProjectProfileContainer } from 'Components/containers/profile';
 import DataLoader from 'Components/data-loader';
@@ -34,7 +33,7 @@ import { useCachedProject } from 'State/api-cache';
 import { tagline } from 'Utils/constants';
 import { renderText } from 'Utils/markdown';
 import { addBreadcrumb } from 'Utils/sentry';
-
+import ProjectUsers from 'Components/project/project-user';
 import styles from './project.styl';
 import { emoji } from '../../components/global.styl';
 
@@ -59,6 +58,7 @@ const IncludedInCollections = ({ projectId }) => (
   </DataLoader>
 );
 
+const getReadme = (api, domain) => api.get(`projects/${domain}/readme`);
 const ReadmeError = (error) =>
   error && error.response && error.response.status === 404 ? (
     <>
@@ -67,19 +67,22 @@ const ReadmeError = (error) =>
   ) : (
     <>We couldn't load the readme. Try refreshing?</>
   );
-const ReadmeLoader = withRouter(({ domain, location }) => (
-  <DataLoader get={(api) => api.get(`projects/${domain}/readme`)} renderError={ReadmeError}>
-    {({ data }) =>
-      location.hash ? (
-        <Markdown linkifyHeadings>{data.toString()}</Markdown>
-      ) : (
-        <Expander height={location.hash ? Infinity : 250}>
+const ReadmeLoader = ({ domain }) => {
+  const location = useLocation();
+  return (
+    <DataLoader get={getReadme} args={domain} renderError={ReadmeError}>
+      {({ data }) =>
+        location.hash ? (
           <Markdown linkifyHeadings>{data.toString()}</Markdown>
-        </Expander>
-      )
-    }
-  </DataLoader>
-));
+        ) : (
+          <Expander height={location.hash ? Infinity : 250}>
+            <Markdown linkifyHeadings>{data.toString()}</Markdown>
+          </Expander>
+        )
+      }
+    </DataLoader>
+  );
+};
 
 ReadmeLoader.propTypes = {
   domain: PropTypes.string.isRequired,
@@ -159,7 +162,7 @@ const ProjectName = ({ initialName, updateBackend, updateParentState }) => {
 };
 
 const ProjectPage = ({ project: initialProject }) => {
-  const [project, { updateDescription, updatePrivate, deleteProject, uploadAvatar, updateDomainBackend, updateDomainState }] = useProjectEditor(
+  const [project, { updateDescription, updatePrivate, deleteProject, uploadAvatar, updateDomainBackend, updateDomainState, reassignAdmin }] = useProjectEditor(
     initialProject,
   );
   useFocusFirst();
@@ -252,7 +255,7 @@ const ProjectPage = ({ project: initialProject }) => {
           )}
           {users.length + teams.length > 0 && (
             <div>
-              <ProfileList hasLinks teams={teams} users={users} {...members} layout="block" />
+              <ProjectUsers users={users} project={project} reassignAdmin={reassignAdmin} />
             </div>
           )}
           <AuthDescription

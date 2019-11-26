@@ -48,7 +48,6 @@ const NewProjectPop = ({ projects }) => (
               name="New Project Clicked"
               properties={{
                 baseDomain: project.domain,
-                origin: 'community new project pop',
               }}
             >
               <NewProjectResultItem project={project} />

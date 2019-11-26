@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Button, Mark, SegmentedButton } from '@fogcreek/shared-components';
 import Heading from 'Components/text/heading';
 import AboutLayout from './about-layout';
 import aboutStyles from './about.styl';
 
-const AboutEventsPage = withRouter(() => {
+const AboutEventsPage = () => {
   useEffect(() => {
     const id = 'typef_orm_share';
     if (!document.getElementById.call(document, id)) {
@@ -78,6 +77,6 @@ const AboutEventsPage = withRouter(() => {
       </section>
     </AboutLayout>
   );
-});
+};
 
 export default AboutEventsPage;

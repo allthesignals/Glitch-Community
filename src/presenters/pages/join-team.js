@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { getTeamLink } from 'Models/team';
 import { useAPI } from 'State/api';
@@ -9,7 +9,8 @@ import { useNotifications } from 'State/notifications';
 import { captureException } from 'Utils/sentry';
 import useDestinationAfterAuth from 'Hooks/use-destination-after-auth';
 
-const JoinTeamPage = withRouter(({ history, teamUrl, joinToken }) => {
+const JoinTeamPage = ({ teamUrl, joinToken }) => {
+  const history = useHistory();
   const api = useAPI();
   const { login: replaceCurrentUser } = useCurrentUser();
   const { createNotification } = useNotifications();
@@ -43,7 +44,7 @@ const JoinTeamPage = withRouter(({ history, teamUrl, joinToken }) => {
   }, []);
 
   return null;
-});
+};
 
 JoinTeamPage.propTypes = {
   teamUrl: PropTypes.string.isRequired,

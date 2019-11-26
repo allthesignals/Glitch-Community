@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import styles from './wrapping-link.styl';
 
@@ -9,7 +9,8 @@ import styles from './wrapping-link.styl';
 // so we will replace the outer tags with a special on click <div> tag
 // which will act like a link (or as close as I can get via nice code)
 
-const WrappingLink = withRouter(({ href, children, className, style, history }) => {
+const WrappingLink = ({ href, children, className, style }) => {
+  const history = useHistory();
   const handler = (evt) => {
     // Real links and interactive elements take priority
     if (evt.target.closest('a[href], button, input')) return;
@@ -23,13 +24,18 @@ const WrappingLink = withRouter(({ href, children, className, style, history }) 
       {children}
     </div>
   );
-});
+};
 
 WrappingLink.propTypes = {
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   style: PropTypes.object,
+};
+
+WrappingLink.defaultProps = {
+  className: null,
+  style: null,
 };
 
 export default WrappingLink;
