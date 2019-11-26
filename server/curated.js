@@ -27,12 +27,12 @@ async function getCultureZinePosts() {
 const readFilePromise = util.promisify(fs.readFile);
 const writeFilePromise = util.promisify(fs.writeFile);
 async function readLocalCache(key) {
-  const json = await readFilePromise(`.data/curated/${key}.json`, 'utf8');
+  const json = await readFilePromise(`./.data/curated/${key}.json`, 'utf8');
   return JSON.parse(json);
 }
 async function writeLocalCache(key, data) {
   const json = JSON.stringify(data);
-  await writeFilePromise(`.data/curated/${key}.json`, json, 'utf8');
+  await writeFilePromise(`./.data/curated/${key}.json`, json, 'utf8');
 }
 
 function createCuratedUpdater(key, get, interval) {
