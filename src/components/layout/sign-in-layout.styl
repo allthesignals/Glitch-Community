@@ -1,16 +1,19 @@
 @import '../constants.styl'
 
 .signInBackground
-  background-color: #51498b
   position: fixed
   width: 100%
   height: 100%
-  background-image: url('https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsign-in-pattern.svg?v=1574364848746')
-  background-repeat: repeat
-  background-size: 400px
+  background-image: url('https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fshapes-pattern.svg?v=1574798905086')
+  background-size: 100%
+  background-repeat: no-repeat
+  background-position: top
+  @media(min-width: hugeViewport){
+    background-size: 1000px
+  }
   @media(prefers-reduced-motion: reduce){
     // static background SVG that doesn't contain animation
-    background-image: url('https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fsign-in-pattern-static.svg?v=1574364997266')
+    background-image: url('https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fshapes-pattern-static.svg?v=1574799069834')
   }
 
 .overlay
@@ -18,6 +21,7 @@
   max-width: 320px
   transform: inherit
   margin: 0 auto
+  box-shadow: none
 
 .signInButtons
   display: inline
