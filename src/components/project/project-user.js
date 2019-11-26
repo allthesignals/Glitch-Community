@@ -82,7 +82,7 @@ const ProjectUsers = ({ users, project, reassignAdmin }) => {
   if (currentUserIsMember) {
     return (
       <div>
-        {project.teams.length && (
+        {project.teams && project.teams.length && (
           <ProfileList teams={project.teams} users={[]} layout="block" size="large" />
         )}
         <div className={styles.projectUsers}>
