@@ -18,4 +18,7 @@ rm build.tar.gz
 #   install the deps, run the app
 npm i
 
+#   temporarily adding a pause here to test how the lb / asg react when deploys take a while
+sleep 3.5m
+
 npm run start
