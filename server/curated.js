@@ -36,7 +36,7 @@ async function writeLocalCache(key, data) {
 }
 
 function createCuratedUpdater(key, get) {
-  let promise = readLocalCache(key);
+  let promise = null; // readLocalCache(key);
 
   // call get() again, but only store the promise once the data is actually ready
   // don't block requests for fresh data, and never replace good data with an error
