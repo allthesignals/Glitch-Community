@@ -24,7 +24,7 @@ function createCuratedUpdater(label, get) {
   let promise = get();
   promise.then(() => console.log(`Loaded ${label}`));
 
-  // call get() again, but only publish the promise once it has already succeeded
+  // call get() again, but only store the promise once the data is actually ready
   // don't block requests for fresh data, and never replace good data with an error
   const lazyReload = async () => {
     try {
