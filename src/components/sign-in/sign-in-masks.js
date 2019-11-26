@@ -15,7 +15,7 @@ const randomPosition = (shapeType) => {
     x = getRandomValue(0, 40);
     y = getRandomValue(0, 50);
   } else {
-    // dots should stay on right side of screen
+    // pills should stay on right side of screen
     x = getRandomValue(60, 80);
     y = getRandomValue(50, 100);
   }
