@@ -84,13 +84,15 @@ set -euo pipefail
 # first get the list of hostnames
 HOSTNAMES=( $(ssh -q worker.staging "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community staging'") )
 
-for name in $HOSTNAMES[*]
+for name in ${HOSTNAMES[*]}
 do
+
+  echo $name
   # hard-coded push deploy
   scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/build.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
 
   # do the local deploy stuff
-  ssh -q "$name.staging" "bash --login -c 'cd /opt/glitch-community && ci/local-deploy.sh'"
+  ssh -q -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c 'cd /opt/glitch-community && ci/local-deploy.sh'"
 done
 
 if [ $code -ne 0 ]; then
