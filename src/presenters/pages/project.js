@@ -162,9 +162,8 @@ const ProjectName = ({ initialName, updateBackend, updateParentState }) => {
 };
 
 const ProjectPage = ({ project: initialProject }) => {
-  const [project, { updateDescription, updatePrivate, deleteProject, uploadAvatar, updateDomainBackend, updateDomainState, reassignAdmin }] = useProjectEditor(
-    initialProject,
-  );
+  const [project, funcs] = useProjectEditor(initialProject);
+  const { updateDescription, updatePrivate, deleteProject, uploadAvatar, updateDomainBackend, updateDomainState, reassignAdmin } = funcs;
   useFocusFirst();
   const { currentUser } = useCurrentUser();
   const [hasBookmarked, toggleBookmark, setHasBookmarked] = useToggleBookmark(project);
