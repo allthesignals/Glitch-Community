@@ -19,7 +19,7 @@ function createUpdater(key, get, fallback, interval) {
   });
 
   // call get(), but only store the result once the data is actually ready
-  // don't block requests for fresh data, and never replace good data with an error
+  // don't make requests wait for fresh data, and never replace good data with an error
   const lazyReload = async () => {
     try {
       const data = await get();
