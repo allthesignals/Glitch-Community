@@ -22,20 +22,24 @@ async function getCultureZinePosts() {
 
 function createCuratedUpdater(label, get) {
   let promise = get();
-  setInterval(async () => {
+  const getValue = () => promise;
+  const lazyReload = async () => {
     try {
       const value = await get();
       promise = Promise.resolve(value);
     } catch (error) {
-      captureException(error);
       console.warn(`Failed to load ${label}: ${error.toString()}`);
+      captureException(error);
     }
-  }, dayjs.convert(5, 'minutes', 'ms'));
-  const getValue = () => promise;
-  const reload = () => {
-    promise = get();
-  }
-  return [getValue, reload];
+  };
+
+  const cycle = async () => {
+    await lazyReload();
+    setTimeout(cycle, dayjs.convert(5, 'minutes', 'ms'));
+  };
+  cycle();
+
+  return [getValue, lazyReload];
 }
 
 const [getHomeData, reloadHomeData] = createCuratedUpdater('home data', () => getCuratedFile('home'));
