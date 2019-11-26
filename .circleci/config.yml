@@ -53,7 +53,7 @@ jobs:
           key: build-{{ .Revision }}
       - run:
           name: compress-artifacts
-          command: cd /home/circleci/project && tar --exclude=./.git -czf /home/circleci/build.tar.gz .
+          command: cd /home/circleci/project && tar --exclude=./.git --exclude=package-lock.json --exclude=shrinkwrap.yaml -czf /home/circleci/build.tar.gz .
 # this should make the compresed build available for the deploy
       - persist_to_workspace:
           root: /home/circleci

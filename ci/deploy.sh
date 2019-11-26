@@ -84,6 +84,8 @@ set -euo pipefail
 # first get the list of hostnames
 HOSTNAMES=( $(ssh -q worker.staging "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community staging'") )
 
+echo "${HOSTNAMES[@]}"
+
 for name in ${HOSTNAMES[*]}
 do
 
