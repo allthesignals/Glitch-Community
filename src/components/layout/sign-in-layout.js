@@ -17,6 +17,7 @@ import useDevToggle from 'State/dev-toggles';
 import MultiPage from './multi-page';
 import styles from './sign-in-layout.styl';
 import { emoji } from '../global.styl';
+import { DotsImg, PillsImg } from 'Components/sign-in/sign-in-masks';
 
 const SignInButtons = () => (
   <div className={styles.signInButtons}>
@@ -46,6 +47,10 @@ const SignInLayout = () => {
 
   return (
     <div className={styles.signInBackground}>
+      {/* Background Image Masks */}
+      <DotsImg />
+      <PillsImg />
+
       <AuthLayout>
         <MultiPage defaultPage="signIn">
           {({ page, setPage, goBack }) => (
