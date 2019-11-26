@@ -11,8 +11,12 @@ const api = axios.create({
   timeout: 15000, // nice long timeout
 });
 
-function createUpdater(key, get, initial, interval) {
-  let promise = Promise.resolve(initial;
+function createUpdater(key, get, fallback, interval) {
+  let promise = get().catch((error) => {
+    console.warn(`Initial load of ${key} failed, using fallback: ${error.toString()}`);
+    captureException(error);
+    return fallback;
+  });
 
   // call get(), but only store the result once the data is actually ready
   // don't block requests for fresh data, and never replace good data with an error
@@ -40,7 +44,7 @@ async function getCultureZinePosts() {
   const response = await api.get(url);
   return response.data.posts;
 }
-const [getZine, reloadZine] = createUpdater('zine', getCultureZinePosts, [], dayjs.convert(15, 'minutes', 'ms'));
+const [getZinePosts, reloadZinePosts] = createUpdater('zine', getCultureZinePosts, [], dayjs.convert(15, 'minutes', 'ms'));
 
 function createCuratedUpdater(key, interval) {
   const getCuratedFile = async () => {
@@ -53,4 +57,4 @@ function createCuratedUpdater(key, interval) {
 const [getHomeData, reloadHomeData] = createCuratedUpdater('home', dayjs.convert(1, 'hour', 'ms'));
 const [getPupdates, reloadPupdates] = createCuratedUpdater('pupdates', dayjs.convert(1, 'hour', 'ms'));
 
-module.exports = { getHomeData, reloadHomeData, getPupdates, reloadPupdates, getZine, reloadZine };
+module.exports = { getHomeData, reloadHomeData, getPupdates, reloadPupdates, getZinePosts, reloadZinePosts };
