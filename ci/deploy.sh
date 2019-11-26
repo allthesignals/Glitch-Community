@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -xeuo pipefail
 
 #   we're treating all the environments (master / prod, staging) the same here aside from which hosts we'll deploy to
 #   if we need some env-specific info or tasks then we'll need to add them here or in a subscript
