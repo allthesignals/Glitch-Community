@@ -9,7 +9,9 @@ const getRandomValue = (min, max) => {
 };
 
 const randomPosition = (shapeType) => {
-  let x, y; // the x coordinate the shape will randomly appear at
+  let x; // the x coordinate the shape will randomly appear at
+  let y;
+  
   if (shapeType === 'dots') {
     // dots should stay on left side of screen
     x = getRandomValue(0, 40);
@@ -19,7 +21,7 @@ const randomPosition = (shapeType) => {
     x = getRandomValue(60, 80);
     y = getRandomValue(50, 100);
   }
-  return [x + '%', y + '%'];
+  return `[${x}%, ${y}%]`;
 };
 
 export const DotsImg = () => {
@@ -28,7 +30,7 @@ export const DotsImg = () => {
     left: `${position[0]}`,
     top: `${position[1]}`,
   };
-  return <img src={DotsSrc} className={styles.dots} style={style} />;
+  return <img src={DotsSrc} className={styles.dots} style={style} alt="" />;
 };
 
 export const PillsImg = () => {
@@ -37,5 +39,5 @@ export const PillsImg = () => {
     left: `${position[0]}`,
     top: `${position[1]}`,
   };
-  return <img src={PillsSrc} className={styles.pills} style={style} />;
+  return <img src={PillsSrc} className={styles.pills} style={style} alt="" />;
 };

@@ -1,4 +1,4 @@
--inimport React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
@@ -12,12 +12,12 @@ import GetMagicCode from 'Components/sign-in/get-magic-code';
 import AuthLayout from 'Components/layout/auth-layout';
 import SignInWithPassword from 'Components/sign-in/sign-in-with-password';
 import ForgotPassword from 'Components/sign-in/forgot-password';
+import { DotsImg, PillsImg } from 'Components/sign-in/sign-in-masks';
 import useDevToggle from 'State/dev-toggles';
 
 import MultiPage from './multi-page';
 import styles from './sign-in-layout.styl';
 import { emoji } from '../global.styl';
-import { DotsImg, PillsImg } from 'Components/sign-in/sign-in-masks';
 
 const SignInButtons = () => (
   <div className={styles.signInButtons}>
