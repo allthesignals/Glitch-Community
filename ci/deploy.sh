@@ -1,85 +1,17 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
-#   we're treating all the environments (master / prod, staging) the same here aside from which hosts we'll deploy to
-#   if we need some env-specific info or tasks then we'll need to add them here or in a subscript
 
-#   this env variable is set in the env setup in Glitch. 
-#   I don't know if community needs this so I'm leaving it here temporarily but commented out
-# if [ "${NO_DEPLOY}" ]; then
-#   exit
-# fi
-
-#   do we need to prevent overlapping deploys?
-#   probably a good idea, but we'll need to find somewhere to do it
-#   I suppose we could do so on the hosts but that wouldn't provide us the early escape that this does
-#   in any case this is unhelpful
-# echo "Mark deploy and wait for current host cleanup..."
-
-# ssh -q worker.${BASE_DOMAIN_DEPLOY} << EOF &> cleanup.out
-#   set -e
-#   echo -n "Marking deploy... "
-#   curl -sf -X POST localhost:8085/deploy/mark &> /dev/null
-#   echo "done"
-#   echo -n "Waiting current cleanup to finish... "
-#   curl -sf -X POST localhost:8085/project_hosts/cleanup &> /dev/null
-#   echo "done"
-# EOF
-# if [ $? -ne 0 ]; then
-#   cat cleanup.out
-#   echo ""
-#   echo ""
-#   echo "Error while marking the deploy: perhaps another deploy was in progress?"
-#   exit 1
-# fi
-# echo "Done waiting for current cleanup."
-
-#   we don't need this _maybe_, it's all the bootstrap stuff from the cf template
-#   although there's some AWS stuff generally that I think we may need to hook into somewhere
-# ci/asg-bootstrap-deploy; code=$?
-
-#   we don't need to do _this_ work, just some other, similar work
-# if [ $code -eq 0 ]; then
-#   ci/run-on-deployable-hosts ${BASE_DOMAIN_DEPLOY} ci/puppet-local ${ENVIRONMENT} ${REF}; code=$?
-# fi
-# if [ $code -eq 0 ]; then
-#   ci/run-on-deployable-hosts ${BASE_DOMAIN_DEPLOY} ci/backend-local; code=$?
-# fi
-
-#   if we're not doing the shared marking then we don't need the shared unmarking
-# echo -n "Marking deploy finished... "
-# ssh -q deploy@worker.${BASE_DOMAIN_DEPLOY} << EOF &> /dev/null
-#   curl -sf -X POST localhost:8085/deploy/unmark &> /dev/null
-# EOF
-
-####
-#   in run-on-deployable-hosts we
-#   1   get the list of hosts to update
-#   2   parallelly ssh to each of those hosts - we probably don't want or need parallelism right now
-#   3   run the above listed scripts, with retry
-#       3a  both scripts are already being run by the normal bootstrap, so we shouldn't need them again for the non-community work they're doing
-#       3b  puppet-local gets the repo, decrypts it, and runs the puppet-apply script
-#       3c  backend-local switches on role and runs the approproate script
-#       3d  for docker-workers this is basically migrations, compiles, and restarts
-#   4   for our purposes, we really just want to push the build artefact to the devices as is - they should already be compiled
-#       4a  then restart the node process
-#           this will complicate bootstrap, since we need to get the correct artefacts when spinning up a new host.
-#           this probably means storing them in s3, which complicates things - future step
-
-#   if we're not doing the shared marking then we don't need the shared unmarking
-# echo -n "Marking deploy finished... "
-# ssh -q deploy@worker.${BASE_DOMAIN_DEPLOY} << EOF &> /dev/null
-#   curl -sf -X POST localhost:8085/deploy/unmark &> /dev/null
-# EOF
-
-####
-# maybe changing tack a little here - in order to address the bootstrap portion can we move to uploading the asset to s3 instead?
-# to do so we'll need a way to upload them from circleci (both tar and sha1, i think)
-# and then a way to get them from there and into the instance
-# both of which require AWS secrets
-# those are already present on the community boxes (although using those will complicate getting those secrets off the hosts)
-# need to figure out getting them to ci, where we won't have the glitch repo available
-
+# TODO
+#   * does bootstrap need to be cleaned up to make it more idempotent / reliable?
+#       if so then we might be able to store the current artifact in s3, 
+#       but would need to do that from one of the hosts and not from ci 
+#       to avoid needing secrets (we can use the ones from the Glitch repo)
+#   * prevent overlapping deploys?
+#       I think circleci might do this well enough for us, but should test quickly
+#   * do we need a no-deploy flag?
+#   * what's the appropriate user for these scripts to run as?
+#   * connect env and branch to remove hard-coded vals
 
 # first get the list of hostnames
 HOSTNAMES=( $(ssh -q worker.staging "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community staging'") )
