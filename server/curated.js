@@ -12,7 +12,7 @@ const api = axios.create({
 });
 
 function createUpdater(key, get, initial, interval) {
-  let promise = initial;
+  let promise = Promise.resolve(initial;
 
   // call get(), but only store the result once the data is actually ready
   // don't block requests for fresh data, and never replace good data with an error
@@ -25,15 +25,10 @@ function createUpdater(key, get, initial, interval) {
       captureException(error);
     }
   };
-  // get the latest promise, assuming the initial request on startup goes through this will never be an error
-  const getData = () => promise;
+  setInterval(lazyReload, interval);
 
-  // reload on a regular interval, but wait until the last request finishes before starting the timer for the next request
-  const cycle = async () => {
-    await lazyReload();
-    setTimeout(cycle, interval);
-  };
-  cycle();
+  // get the latest promise, assuming the initial load succeeds this will always be valid
+  const getData = () => promise;
 
   return [getData, lazyReload];
 }
@@ -42,8 +37,6 @@ async function getCultureZinePosts() {
   const client = 'client_id=ghost-frontend&client_secret=c9a97f14ced8';
   const params = 'filter=featured:true&limit=4&fields=id,title,url,feature_image,primary_tag&include=tags';
   const url = `https://culture-zine.glitch.me/culture/ghost/api/v0.1/posts/?${client}&${params}`;
-  // await new Promise((resolve) => setTimeout(resolve, 4000));
-  // throw new Error('oh no!');
   const response = await api.get(url);
   return response.data.posts;
 }
@@ -54,11 +47,8 @@ function createCuratedUpdater(key, interval) {
     const response = await api.get(`/${key}.json`);
     return response.data;
   }
-  const readLocalCache = async () => {
-    const json = await readFilePromise(`src/curated/${key}.json`, 'utf8');
-    return JSON.parse(json);
-  }
-  return createUpdater(key, getCuratedFile, readLocalCache(), interval);
+  const localCache = readFilePromise(`src/curated/${key}.json`, 'utf8').then((json) => JSON.parse(json));
+  return createUpdater(key, getCuratedFile, localCache, interval);
 }
 const [getHomeData, reloadHomeData] = createCuratedUpdater('home', dayjs.convert(1, 'hour', 'ms'));
 const [getPupdates, reloadPupdates] = createCuratedUpdater('pupdates', dayjs.convert(1, 'hour', 'ms'));
