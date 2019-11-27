@@ -50,6 +50,14 @@ export const useFeatureEnabled = (whichToggle) => {
   const enabled = useFeatureEnabledForEntity(whichToggle, optimizelyId);
   const track = useTracker('Experiment Viewed');
   useEffect(() => {
+    const config = optimizely.projectConfigManager.getConfig();
+    track({
+      experiment_id: config.featureKeyMap[whichToggle].id,
+      experiment_name: whichToggle,
+      experiment_group: enabled ? 'variant' : 'control',
+      variant_type: enabled,
+      variant_description: null,
+    });
   }, [optimizely, whichToggle, optimizelyId, enabled]);
   return enabled;
 };

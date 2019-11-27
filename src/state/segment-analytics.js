@@ -40,9 +40,9 @@ AnalyticsContext.defaultProps = {
 
 export const useTracker = (name, properties, context) => {
   const inherited = React.useContext(Context);
-  return () => {
+  return (callProperties) => {
     try {
-      analytics.track(name, resolveProperties(properties, inherited.properties), resolveProperties(context, inherited.context));
+      analytics.track(name, resolveProperties(callProperties, resolveProperties(properties, inherited.properties)), resolveProperties(context, inherited.context));
     } catch (error) {
       /*
       From Segment: "We currently return a 200 response for all API requests so debugging should be done in the Segment Debugger.
