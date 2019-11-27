@@ -19,6 +19,6 @@ rm build.tar.gz
 npm i
 
 #   temporarily adding a pause here to test how the lb / asg react when deploys take a while
-sleep 3.5m
+sleep $(($(date +%s) % 500))s
 
 npm run start
