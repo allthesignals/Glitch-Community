@@ -43,16 +43,13 @@ function AddTeamProjectPop({ teamProjects, addProject }) {
       <PopoverSearch
         value={query}
         onChange={setQuery}
-        onSubmit={addProject}
         results={filteredProjects}
         labelText="Project name"
         placeholder="Filter my projects"
         status="ready"
-        renderItem={
-          ({ item: project, active }) => (
-            <ProjectResultItem active={active} onClick={() => addProject(project)} project={project} />
-          )
-        }
+        renderItem={({ item: project, buttonProps }) => (
+          <ProjectResultItem project={project} onClick={() => addProject(project)} buttonProps={buttonProps} profileListAsLinks={false} />
+        )}
       />
       {filteredProjects.length === 0 && query.length === 0 && (
         <Info>
@@ -64,7 +61,15 @@ function AddTeamProjectPop({ teamProjects, addProject }) {
 }
 
 const AddTeamProject = ({ addProject, teamProjects }) => (
-  <Popover className={widePopover} align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project <Icon className={emoji} icon="bentoBox" /></Button>}>
+  <Popover
+    className={widePopover}
+    align="left"
+    renderLabel={({ onClick, ref }) => (
+      <Button onClick={onClick} ref={ref}>
+        Add Project <Icon className={emoji} icon="bentoBox" />
+      </Button>
+    )}
+  >
     {({ onClose }) => (
       <AddTeamProjectPop
         addProject={(project) => {

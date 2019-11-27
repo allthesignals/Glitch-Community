@@ -1,65 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Actions, Icon, Info, Loader, TextInput } from '@fogcreek/shared-components';
-
-import ResultsList from 'Components/containers/results-list';
+import {
+  Actions,
+  Icon,
+  Info,
+  Loader,
+  TextInput,
+  ResultsList,
+} from '@fogcreek/shared-components';
 
 import styles from './styles.styl';
 
 import { emoji } from '../global.styl';
-
-function useActiveIndex(items, onSelect) {
-  const inputRef = useRef();
-  const [activeIndex, setActiveIndex] = useState(-1);
-
-  // reset activeIndex & focus when items change
-  useEffect(() => {
-    setActiveIndex(-1);
-    inputRef.current.focus();
-  }, [items]);
-
-  // focus input when there's no active index
-  useEffect(() => {
-    if (activeIndex === -1) {
-      inputRef.current.focus();
-    }
-  }, [activeIndex]);
-
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setActiveIndex((prev) => {
-          if (prev < 0) {
-            return items.length - 1;
-          }
-          return prev - 1;
-        });
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setActiveIndex((prev) => {
-          if (prev === items.length - 1) {
-            return -1;
-          }
-          return prev + 1;
-        });
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (items[activeIndex]) {
-          onSelect(items[activeIndex]);
-        }
-      }
-    };
-
-    // TODO: should these be bound to a container instead of the window?
-    window.addEventListener('keydown', onKeyDown);
-    return () => {
-      window.removeEventListener('keydown', onKeyDown);
-    };
-  }, [items, activeIndex]);
-
-  return { inputRef, activeIndex };
-}
 
 const PopoverLoader = () => (
   <Actions>
@@ -69,7 +21,9 @@ const PopoverLoader = () => (
 
 const NothingFound = () => (
   <Actions>
-    <p>Nothing found <Icon className={emoji} icon="sparkles" /></p>
+    <p>
+      Nothing found <Icon className={emoji} icon="sparkles" />
+    </p>
   </Actions>
 );
 
@@ -78,7 +32,7 @@ function PopoverSearch({
   onChange,
   results,
   status,
-  onSubmit,
+  initialFocused,
   renderItem,
   renderNoResults,
   renderMessage,
@@ -88,26 +42,21 @@ function PopoverSearch({
   placeholder,
 }) {
   const message = renderMessage();
+  const [focusedResult, setFocused] = useState(initialFocused);
 
-  const { inputRef, activeIndex } = useActiveIndex(results, onSubmit);
+  useEffect(() => {
+    setFocused(null);
+  }, [results]);
+
   return (
     <>
       <Info>
-        <TextInput
-          ref={inputRef}
-          autoFocus
-          label={labelText}
-          value={value}
-          onChange={onChange}
-          variant="opaque"
-          placeholder={placeholder}
-          type="search"
-        />
+        <TextInput autoFocus label={labelText} value={value} onChange={onChange} variant="opaque" placeholder={placeholder} type="search" />
       </Info>
       {results.length > 0 && (
         <Actions className={styles.results}>
-          <ResultsList scroll items={results}>
-            {(item, i) => renderItem({ item, onSubmit, active: i === activeIndex })}
+          <ResultsList className={styles.resultsList} tabIndex="-1" value={focusedResult} onChange={(id) => setFocused(id)} options={results}>
+            {({ item, buttonProps }) => renderItem({ item, buttonProps })}
           </ResultsList>
           {message}
         </Actions>
@@ -124,7 +73,6 @@ PopoverSearch.propTypes = {
   onChange: PropTypes.func.isRequired,
   results: PropTypes.array.isRequired,
   status: PropTypes.oneOf(['init', 'loading', 'ready', 'error']).isRequired,
-  onSubmit: PropTypes.func.isRequired,
   renderItem: PropTypes.func.isRequired,
   renderNoResults: PropTypes.func,
   renderMessage: PropTypes.func,
@@ -132,6 +80,7 @@ PopoverSearch.propTypes = {
   renderError: PropTypes.func,
   labelText: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
+  initialFocused: PropTypes.number,
 };
 
 PopoverSearch.defaultProps = {
@@ -140,6 +89,7 @@ PopoverSearch.defaultProps = {
   renderMessage: () => null,
   renderError: () => null,
   placeholder: null,
+  initialFocused: null,
 };
 
 export default PopoverSearch;

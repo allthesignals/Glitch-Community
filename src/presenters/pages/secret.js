@@ -35,12 +35,12 @@ const ABTests = () => {
     <section className={styles.footerSection}>
       Your A/B test groups ({text}):
       <ul className={styles.abTests}>
-        {Object.keys(assignments).map((test) => (
+        {Object.entries(tests).map(([test, groups]) => (
           <li key={test} className={styles.abTest}>
             <label>
               {test}:&nbsp;
               <select value={assignments[test]} onChange={(event) => reassign(test, event.target.value)}>
-                {Object.keys(tests[test]).map((group) => <option value={group} key={group}>{group}</option>)}
+                {Object.keys(groups).map((group) => <option value={group} key={group}>{group}</option>)}
               </select>
             </label>
           </li>
