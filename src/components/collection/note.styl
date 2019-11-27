@@ -1,0 +1,47 @@
+.note
+  display: flex
+  
+.descriptionContainer
+  flex-grow: 1
+  margin-right: 25px
+  position: relative
+  display: inline-block
+  padding: 0px 10px 20px
+  border-radius: 5px
+  font-size: 14px
+  word-break: break-word
+  &:after
+    top: 9px
+    right: -10px
+    content: " "
+    height: 0
+    width: 0
+    position: absolute
+    pointer-events: none
+    border: solid transparent
+    border-width: 5px
+    border-left-color: inherit
+  textarea
+    margin: 7px 0
+  p 
+    margin: 8px 3px
+    line-height: 20px
+    word-break: break-word
+
+.user
+  top: 0
+  right: 0
+  float: right
+
+.dark
+  color: white
+  textarea::placeholder
+    opacity: 1
+  a
+    color: white
+    text-decoration: underline
+  
+  pre
+    code
+      background-color: inherit
+      color: black

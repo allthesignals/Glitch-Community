@@ -1,0 +1,65 @@
+@import '../../components/constants.styl';
+
+.banner
+  display: flex
+  flex-direction: column
+  margin: u2 0 u3 0
+  padding: u2
+  border-radius: u1
+  background-color: secondary-background
+  @media (min-width: mediumViewport)
+    align-items: flex-start
+    flex-direction: row
+    padding: u3 24px u3 u1
+  @media (min-width: hugeViewport)
+    align-items: center
+
+.illustration
+  width: 250px
+  margin: 0 auto
+  @media (min-width: mediumViewport)
+    margin-left: -20px
+  
+.actions
+  display: inline-flex
+  flex-direction: column
+  flex: 1
+  align-items: center
+  border-radius: u1
+  padding: u2
+  &.isHomepage
+    background: rgba(255, 255, 255, .875)
+  @media (min-width: mediumViewport)
+    margin-left: -30px
+  @media (min-width: hugeViewport)
+    flex-direction: row
+    padding: u3 24px u3 u3
+  
+.create
+  width: 100%
+  padding: u3
+  border-radius: u1
+  background: #cbe9ff
+  h2
+    margin-top: 0
+    font-size: 15px
+  @media (min-width: hugeViewport)
+    width: 250px
+    margin: 0 24px 0 0
+
+.createCta
+  margin-bottom: 0
+    
+.explore
+  flex: 1
+  width: 100%
+
+.categoriesGrid
+  grid-template-columns: repeat(2, 1fr)
+  @media (min-width: mediumLargeViewport)
+    grid-template-columns: repeat(3, 1fr)
+  @media (min-width: hugeViewport)
+    grid-template-columns: repeat(6, 1fr)
+    
+.emoji
+  height: 1em

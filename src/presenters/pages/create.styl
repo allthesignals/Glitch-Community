@@ -1,0 +1,433 @@
+@import '../../components/constants.styl';
+
+.main
+  max-width: 1100px
+  margin: auto
+.section + .section
+  margin-top: 60px
+  &.remix
+    margin-top: 100px
+
+// shared
+.h2
+  font-size: 23px
+.h3
+  font-size: 20px
+.unmarked
+  position: relative
+  z-index: 1
+.sectionDescription
+  margin-left: 40px
+  @media (max-width: largeViewport)
+    margin-left: 30px
+.blobContainer
+  position: absolute
+  right: -10px
+  bottom: -10px
+  width: 100px
+  height: 100px
+  @media (min-width: mediumLargeViewport)
+    width: 170px
+    height: 170px
+    right: -50px
+    bottom: -50px
+.blob
+.blobImage
+  position: absolute
+  right: 0
+  bottom: 0
+  z-index: 1
+.blobImage
+  z-index: 2
+  right: 15px
+
+// banner
+.banner
+  display: flex
+  flex-wrap: wrap
+  @media (min-width: mediumLargeViewport)
+    flex-wrap: nowrap
+  @media (min-width: largeViewport)
+    padding: 0 u4
+.bannerShape
+  position: relative
+  flex: 100%
+  background-repeat: no-repeat
+  background-size: contain
+  width: 100%
+  max-width: 410px
+  height: 350px
+  margin-left: -2rem
+  margin-right: -1rem
+  @media (min-width: 420px)
+    margin: auto
+  @media (min-width: mediumSmallViewport)
+    height: 360px
+  @media (min-width: mediumViewport)
+    flex: 2
+  @media (min-width: mediumLargeViewport)
+    flex: 1.5
+  @media (min-width: hugeViewport)
+    flex: 2.2
+.bannerText
+  position: absolute
+  left: 75px
+  top: 15px
+  max-width: 275px
+  p
+    margin-left: 2rem
+    @media (min-width: mediumViewport)
+      margin-left: 0
+      font-size: inherit
+  @media (min-width: smallViewport)
+    left: 95px
+    top: 15px
+  @media (min-width: mediumViewport)
+    left: 105px
+  @media (min-width: largeViewport)
+    left: 110px
+    top: 20px
+    
+.bannerTagline
+  font-size: 32px
+  transform: rotate(-5deg)
+.bannerIllustration
+  flex: 100%
+  order: -1
+  text-align: center
+  z-index: 1
+  margin-bottom: -40px
+  @media (min-width: mediumSmallViewport)
+    img
+      max-width: 90%
+  @media (min-width: mediumViewport)
+    flex: 1.5
+    order: 0
+    margin-bottom: 0
+    img
+      max-width: 100%
+      padding: 0 u3
+  @media (min-width: mediumLargeViewport)
+    img
+      padding: 0 u4
+  @media (min-width: hugeViewport)
+    flex: 3
+    img
+      max-width: 95%
+      padding: 0 u5
+.bannerRemixBtn
+  width: 100%
+  margin: 25px 0 0 95px
+  a:focus,
+  button:focus
+    outline: none
+    box-shadow: 0 0 1px 4px focusYellow
+
+// what is glitch
+.whatIsGlitch
+  display: flex
+  @media (max-width: mediumViewport)
+    flex-wrap: wrap
+.whatIsGlitchDescription
+  max-width: 470px
+  margin: 60px 40px
+  padding-right: 20px
+  @media (max-width: largeViewport)
+    margin: 20px 0 0 30px
+    max-width: 500px
+.whatIsGlitchVideoContainer
+  width: 100%
+  height: 100%
+  position: relative
+  border-radius: u1
+  background-image: url(https://cdn.glitch.com/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fcreate-video-card.jpg?v=1562619988444)
+  background-size: cover
+  @media (max-width: mediumViewport)
+    margin: auto
+    order: -1
+.whatIsGlitchVideoButton
+  position: absolute
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  text-align: center
+
+// starter apps
+.startersSection
+  min-height: 250px
+.startersGrid
+  display: grid
+  grid-template-columns: 1fr
+  grid-gap: u3
+  max-width: 260px
+  margin: u5 auto
+  @media (min-width: mediumSmallViewport)
+    grid-template-columns: 1fr 1fr
+    max-width: initial
+    margin-left: 40px
+  @media (min-width: mediumLargeViewport)
+    grid-template-columns: 1fr 1fr 1fr
+    margin-left: initial
+  @media (min-width: hugeViewport)
+    grid-template-columns: 1fr 1fr 1fr 1fr
+.startersInfo
+  grid-row: 1 / span 2
+  background-repeat: no-repeat
+  background-size: contain
+  width: 300px
+  min-height: 250px
+  margin-bottom: -50px
+  padding: 50px 40px
+  @media (min-width: mediumSmallViewport)
+    margin-left: -40px
+    width: 270px
+  @media (min-width: mediumLargeViewport)
+    width: 250px
+    padding: 40px
+    grid-row: 1 / span 3
+    margin-left: initial
+  p
+    max-width: 200px
+  h3
+    max-width: 200px
+.startersHeading
+  margin: 0 0 u2 0
+.startersDescription
+  max-width: 500px
+  margin-top: 0
+.frameworkStarter
+  display: flex
+  align-items: center
+  list-style: none
+  margin-bottom: u2
+  h4
+    font-size: 16px
+    line-height: 1
+    margin: 0 0 u2 0
+.frameworkLogo
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  width: 75px
+  height: 75px
+  margin-right: u2
+  background: var(--color)
+  border-radius: 50%
+  vertical-align: middle
+  img
+    width: 45px
+    height: auto
+.platformStartersGrid
+  @media (max-width: mediumSmallViewport)
+    max-width: 300px
+.platformStarter
+  display: flex
+  flex-wrap: nowrap
+  padding: u2
+  border-radius: u05
+.platformLogo
+  margin-right: u2
+  img
+    width: 45px
+    height: 45px
+    border-radius: 0
+.platformLink
+  margin-bottom: u2
+  
+// collaborate + your app is live
+.screencapDescription
+  max-width: 570px
+.screencapContainer
+  position: relative
+  margin: u3 auto
+  @media (min-width: mediumViewport)
+    margin: u4 40px u2 40px
+  video
+    max-width: 100%
+    border-radius: u1
+.screencapBlob
+  display: none
+.screencapBlobImage
+  width: 75%
+  left: 50%
+  bottom: 5px
+  transform: translateX(-50%)
+  &.live
+    width: 60%
+    @media (min-width: mediumLargeViewport)
+      bottom: 10px
+.screencap
+  border-radius: u1
+  box-shadow: 4px 4px #c3c3c3
+.bigScreencap
+  display: none
+.smallScreencap
+  &.small1
+    width: 80%
+  &.small2
+    position: relative
+    width: 65%
+    z-index: 1
+  + .smallScreencap
+    transform: translate(50%, -40%)
+    z-index: 0
+    margin-bottom: -30%
+@media (min-width: mediumViewport)
+  .screencapBlob
+    display: block
+  .smallScreencap
+    display: none
+  .bigScreencap
+    display: block
+    video
+      display: block
+.screencapHighlights
+  display: flex
+  flex-wrap: wrap
+  max-width: 80%
+  @media (min-width: mediumViewport)
+    margin: 0 40px
+.screencapHighlight
+  margin-bottom: u2
+  margin-right: u4
+  font-size: 14px
+  height: 0%
+  flex-shrink: 0
+  max-width: 100%
+  color: tertiary
+  + .screencapHighlight
+    margin-top: 0
+  @media (min-width: largeViewport)
+    flex-wrap: nowrap
+    max-width: 500px
+    
+.vscodeSectionDescription
+  max-width: 500px
+  
+// help
+.helpLinks
+  display: flex
+  flex-wrap: wrap
+  position: relative
+  margin-top: u4
+  hr
+    display: none
+    margin: u4 0
+    background: secondary-background-hover
+    width: 60%
+  h3
+    margin-top: 0
+    font-weight: 600
+  @media (min-width: mediumSmallViewport)
+    hr
+      display: block
+    .helpLinkSection
+      flex: 100%
+      margin-right: u4
+      max-width: 70%
+      margin-right: 30px
+  @media (min-width: largeViewport)
+    max-width: 100%
+    flex-wrap: nowrap
+    margin-left: 40px
+    hr
+      display: none
+    .helpLinkSection
+      flex: initial
+      max-width: 40%
+    h3
+      margin-top: initial
+.helpImage
+  position: relative
+  margin: u4 auto
+  width: 140px
+  @media (min-width: mediumSmallViewport)
+    position: absolute
+    top: 50%
+    right: 0
+    transform: translateY(-50%)
+    width: 160px
+    margin: 0
+  @media (min-width: largeViewport)
+    top: initial
+    bottom: 0
+    right: 0
+    transform: none
+.ambulance
+  bottom: 30px
+  width: 90px
+  @media (min-width: mediumViewport)
+    width: 100px
+  
+// remix
+.remix
+  text-align: center
+.remixAppTabs
+  display: flex
+  margin-top: u4
+  overflow-x: auto
+  padding: 0
+.remixAppTab
+  display: inline-flex
+  align-items: center
+  list-style: none
+  background: secondary-background-hover
+  border-radius: u05
+  padding: u1 u2
+  cursor: pointer
+  height: 0%
+  flex-shrink: 0
+  @media (min-width: hugeViewport)
+    flex: 1
+  &:not(:last-child)
+    margin-right: u3
+  img
+    margin-right: u2
+    height: 25px
+    width: auto
+  &[aria-selected="true"]
+    background: #2C4772
+    color: #fff
+.remixAppTabPanel
+  position: relative
+  &[hidden]
+    z-index: -1
+.embedContainer
+  iframe
+    min-height: 500px
+    @media (min-width: largeViewport)
+      height: 600px
+.embedRemixBtn
+  margin-top: u2
+  text-align: center
+
+// categories
+.categories
+  text-align: center
+
+.categoriesGrid
+  grid-template-columns: repeat(2, 1fr)
+  @media (min-width: mediumViewport)
+    grid-template-columns: repeat(4, 1fr)
+  @media (min-width: largeViewport)    
+    grid-template-columns: repeat(8, 1fr)
+
+ // wistia embeds
+.whatIsGlitchVideoContainer :global
+  .wistia_responsive_padding
+    padding: 56.25% 0 0 0
+    position: relative
+  .wistia_responsive_wrapper
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+  .wistia_embed
+    width: 100%
+    height: 100%
+    border-radius: u1
+    overflow: hidden
+    .w-focus-outline
+      box-shadow: 0px 0px 2px 5px #fff25c inset !important

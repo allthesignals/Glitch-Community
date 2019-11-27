@@ -1,0 +1,205 @@
+@require '../constants'
+
+tooltip-background = rgba(0,0,0,0.95)
+
+.touch .tooltip
+  display: none
+    
+.tooltipContainer
+  position: relative
+  box-sizing: border-box
+  display: inline-block
+
+.tooltip
+  border: none
+  box-sizing: inherit
+  display: inline-block
+  position: absolute
+  z-index: 9
+  transform: translateX(50%)
+  right: 50%
+  top: 100%
+  width: auto
+  padding: 6px 8px
+  margin-top: 5px
+  font-style: normal
+  font-weight: normal
+  text-align: center
+  text-decoration: none
+  text-shadow: none
+  text-transform: none
+  background: tooltip-background
+  border-radius: 5px
+  font-family: sansserif
+  font-size: 12px
+  color: primary-background
+  white-space: pre
+  word-wrap: break-word
+  cursor: text
+  user-select: text;
+
+.tooltip::before
+  position: absolute
+  content: ''
+  display: block
+  height: 0
+  left: 50%
+  transform: translateX(-50%) translateY(-100%)
+  margin-top: -6px;
+  box-sizing: border-box
+  border: 5px solid transparent
+  border-bottom-color: tooltip-background
+  
+.tooltip.top
+  top: 0
+  transform: translateX(50%) translateY(-100%)
+  margin-top: -6px
+  
+.tooltip.top::before
+  border-top-color: tooltip-background
+  border-bottom-color: transparent
+  margin-top: -6px
+  transform: translateX(-50%) translateY(100%)
+  
+.tooltip.left,
+.tooltip.left::before
+  left: 0
+  right: initial
+  transform: translateX(0)
+  
+.tooltip.left::before
+  left: 10px
+  transform: translateX(0) translateY(-100%)
+  
+.tooltip.right,
+.tooltip.right::before
+  left: initial
+  right: 0
+  transform: translateX(0)
+
+.tooltip.right::before
+  right: 10px
+  transform: translateX(0) translateY(-100%)
+
+.tooltip.top.right,
+.tooltip.top.left
+  transform: translateX(0) translateY(-100%)
+  &::before
+    transform: translateX(0) translateY(100%)
+  
+// custom tooltips
+.tooltip.newStuff
+  background-color: notification
+  right: 32px
+  font-weight: bold
+
+.tooltip.newStuff::before
+  border-top-color: notification
+  border-bottom-color: transparent
+  top: 85%
+  
+// fallback
+.fallback.tooltip::before,
+.fallback.tooltip::after
+  opacity: 0
+
+.tooltipContainer:hover,
+.tooltipContainer-button:hover
+  .fallback.tooltip::before,
+  .fallback.tooltip::after
+    opacity: 1
+    
+.fallback.tooltip::after
+  content: attr(data-tooltip)
+  border: none
+  box-sizing: inherit
+  display: inline-block
+  pointer-events: none
+  position: absolute
+  z-index: 9
+  transform: translateX(50%)
+  right: 50%
+  top: 100%
+  width: auto
+  padding: 6px 8px
+  margin-top: 5px
+  font-style: normal
+  font-weight: normal
+  text-align: center
+  text-decoration: none
+  text-shadow: none
+  text-transform: none
+  background: tooltip-background
+  border-radius: 5px
+  font-family: sansserif
+  font-size: 12px
+  color: primary-background
+  white-space: pre
+  word-wrap: break-word
+
+.fallback.tooltip::before
+  content: ''
+  position: absolute
+  display: block
+  height: 100%
+  left: 50%
+  transform: translateX(-50%) translateY(0%)
+  margin-top: 6px;
+  box-sizing: border-box
+  border: 5px solid transparent
+  border-top-color: transparent
+  border-bottom-color: tooltip-background
+
+.fallback.tooltip.top
+  &::after
+    margin-top: -12px
+    transform: translateX(50%) translateY(-200%)
+  &::before
+    margin-top: -6px
+    border-top-color: tooltip-background
+    border-bottom-color: transparent
+  
+.fallback.tooltip.left::after,
+.fallback.tooltip.left::before
+  left: 0
+  right: initial
+  transform: translateX(0)
+  
+.fallback.tooltip.left::before
+  left: 10px
+  
+.fallback.tooltip.right::after,
+.fallback.tooltip.right::before
+  left: initial
+  right: 0
+  transform: translateX(0)
+
+.fallback.tooltip.right::before
+  right: 10px
+
+.fallback.tooltip.top.right::after,
+.fallback.tooltip.top.left::after
+  transform: translateX(0) translateY(-200%)
+
+.fallback.tooltip.top.right::before
+  transform: translateX(0) translateY(100%)
+
+.fallback.tooltip.persistent::after
+  font-weight: bold
+  
+.invisibleHoverTarget
+  position: absolute
+  left: 0
+  display: block
+  width: 100%
+  height: 100%
+  opacity: 0
+  // don't show pointer
+  cursor: default
+  &.top
+    top: 0px
+  &.persistent
+    display: none
+
+.hideTooltipNode
+  display: none

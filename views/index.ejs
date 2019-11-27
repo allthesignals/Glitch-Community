@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <% if (helmet) { %>
+    <%- helmet.title.toString() %>
+    <%- helmet.meta.toString() %>
+    <%- helmet.link.toString() %>
+    <% } else { %>
+    <title>Glitch</title>
+    <% } %>
+    <script>
+      var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";}
+    </script> 
+    <link id="favicon" rel="icon" href="https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Ffavicon.ico" type="image/x-icon">
+    <link id="apple-touch-icon" rel="apple-touch-icon" sizes="180x180" href="https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fapple-touch-icon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- fonts -->
+    <link rel="stylesheet" href="https://cloud.webtype.com/css/3a8e55c6-b1f3-4659-99eb-125ae72bd084.css">
+    
+    <!-- styles from styled-components -->
+    <%- styleTags %>
+
+    <!-- app styles -->
+    <% for (let i = 0; i < styles.length; ++i) { %>
+    <link rel="stylesheet" type="text/css" href="<%= styles[i] %>">
+    <% } %>
+    
+
+    
+    <% if (!html) { %>
+    <noscript><style>#fallback, #fallback-noscript { display: inline-block !important } #fallback-img { display: block !important }</style></noscript>
+    <% } %>
+  </head>
+  <body <%- helmet ? helmet.bodyAttributes.toString() : null %>>
+    <script>
+      var RUNNING_ON = '<%= RUNNING_ON %>';
+      var ENVIRONMENT = '<%= ENVIRONMENT %>';
+      var EXTERNAL_ROUTES = <%- JSON.stringify(EXTERNAL_ROUTES) %>;
+      var PROJECT_DOMAIN = '<%= PROJECT_DOMAIN %>';
+      var ZINE_POSTS = <%- JSON.stringify(ZINE_POSTS) %>;
+      var HOME_CONTENT = <%- JSON.stringify(HOME_CONTENT) %>;
+      var PUPDATES_CONTENT = <%- JSON.stringify(PUPDATES_CONTENT) %>;
+      var API_CACHE = <%- JSON.stringify(API_CACHE) %>;
+      var SSR_SIGNED_IN = <%- SSR_SIGNED_IN %>;
+      var AB_TESTS = <%- JSON.stringify(AB_TESTS) %>;
+      var OPTIMIZELY_DATA = <%- JSON.stringify(OPTIMIZELY_DATA) %>;
+      var OPTIMIZELY_ID = <%- JSON.stringify(OPTIMIZELY_ID) %>;
+      var BUILD_COMPLETE = <%- BUILD_COMPLETE %>;
+      var BUILD_TIMESTAMP = '<%= BUILD_TIMESTAMP %>';
+    </script>
+    <div id="fallback" style="display: none">
+      <div class="content">
+        <h1>
+          <a href="/">
+            <img class="logo" src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg" width="70" alt="Glitch">
+          </a>
+        </h1>
+          <section>
+            <img id="fallback-img" alt="" style="display: none" src="https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2Fbonsai.svg?v=157142334"/>
+            <div class="error-msg" id="fallback-noscript" style="display: none">
+              <h1>The web browser that you're using does not support Javascript</h1>
+              <p>Since Glitch requires Javascript to run, please try using Glitch in a different web browser.</p>
+            </div>
+              <div class="error-msg" id="fallback-notbuilt" style="display: none">
+              <h1>The site isn&apos;t quite ready yet</h1>
+              <p>Try refreshing in a few moments.</p>
+            </div>
+            <div class="error-msg" id="fallback-ie" style="display: none">
+              <h1>Glitch doesn't support Internet Explorer yet</h1>
+              <p>Please upgrade to a web browser that can support Glitch features. Please use 
+                <a href="https://www.mozilla.org/en-US/firefox/">Firefox</a>, <a href="https://www.google.com/chrome/">Chrome</a> or <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">Edge</a>.
+              </p>
+            </div>
+            <div class="error-msg" id="fallback-translate" style="display: none">
+              <h1>Unfortunately, Glitch does not support Google translate at this time</h1>
+              <p>redirecting to glitch.com in English...</p>
+            </div>
+          </section>
+      </div>
+    </div>
+
+    <div id="react-root"><%- html %></div>
+
+    <% for (let i = 0; i < scripts.length; ++i) { %>
+    <script src="<%= scripts[i] %>"></script>
+    <% } %>
+    <script>
+      var container = document.getElementById('react-root');
+      function showFallback(name) {
+        document.getElementById('fallback').removeAttribute('style');
+        document.getElementById('fallback-img').removeAttribute('style');
+        document.getElementById('fallback-' + name).removeAttribute('style');
+        container.style.display = 'none';
+      }
+      
+      var isIe = /Trident\/[7]{1}/i.test(navigator.userAgent);
+      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com"; 
+      
+      if (isIe) {
+        // ie doesn't support our css
+        showFallback('ie');
+      } else if (isCodeRunningInsideGoogleTranslateIframe) {
+        // only translate server rendered pages
+        if (!container.hasChildNodes()) {
+          showFallback('translate');
+          setTimeout(function() {
+            window.location.href = "https://glitch.com";      
+          }, 3000);
+        }
+      } else if (window.bootstrap) {
+        window.bootstrap(container);
+      } else if (!BUILD_COMPLETE) {
+        // we can't show the server rendered page if the css is still building
+        showFallback('notbuilt');
+      } else {
+        // js failed to parse, odds are the css would be broken too
+        showFallback('noscript');
+      }
+      analytics.load("ZE6VsqXhz5izMM2cqRrVEDIrJWUKntoX");
+    </script>
+  </body>
+</html>

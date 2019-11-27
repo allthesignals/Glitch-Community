@@ -1,0 +1,12 @@
+.hand
+  animation: wave cubic-bezier(0.24, 0.45, 1, 1) 2s infinite forwards
+  transform-origin: 90px 100px
+
+@keyframes wave
+  33%
+    transform: rotate(-5deg);
+    
+@media(prefers-reduced-motion: reduce)
+  .hand
+    animation: none !important
+    -webkit-animation: none !important

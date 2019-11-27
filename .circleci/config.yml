@@ -1,0 +1,82 @@
+# Glitch-Community CircleCI Config
+#
+# Note: Version 2.1 is required in order to use orbs.
+
+version: 2.1
+jobs:
+  lint_and_build:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - checkout
+      - run:
+          name: update-pnpm
+          command: "sudo npm install -g pnpm@3.x"
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "shrinkwrap.yaml" }}
+      - run:
+          name: pnpm-install
+          command: pnpm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: deps-{{ checksum "shrinkwrap.yaml" }}
+      - run:
+          name: eslint
+          command: pnpm run lint
+      - run:
+          name: build
+          command: pnpm run build
+      - save_cache:
+          paths:
+            - build
+          key: build-{{ .Revision }}
+  integration_tests:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "shrinkwrap.yaml" }}
+      - restore_cache:
+          keys:
+            - build-{{ .Revision }}
+      - run:
+          name: update-pnpm
+          command: "sudo npm install -g pnpm@3.x"
+      - run:
+          name: pnpm-install
+          command: pnpm install
+      - run:
+          name: cypress
+          command: pnpm run cy:ci
+  unit_tests:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - deps-{{ checksum "shrinkwrap.yaml" }}
+      - restore_cache:
+          keys:
+            - build-{{ .Revision }}
+      - run:
+          name: update-pnpm
+          command: "sudo npm install -g pnpm@3.x"
+      - run:
+          name: pnpm-install
+          command: pnpm install
+      - run:
+          name: mocha
+          command: pnpm run test
+workflows:
+  version: 2.1
+  regular-workflow:
+    jobs:
+      - lint_and_build
+      - unit_tests:
+          requires:
+            - lint_and_build

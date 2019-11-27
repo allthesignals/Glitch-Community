@@ -1,0 +1,276 @@
+@require '../constants'
+
+.header
+  flex: 0 0 32px
+  display: flex
+  margin-bottom: 0.5rem
+  align-items: center
+  
+.curator
+  flex: 1 0 auto
+  
+.collectionItem
+  display: flex
+  flex-direction: column
+  height: 100%
+  position: relative
+  margin-top: 0px
+  font-size: 0.9rem
+  border-radius: 5px
+  min-width: 100%
+  transition: 0.1s all
+
+  a
+    text-decoration: none
+    color: primary
+  
+  .collectionItemBody
+    width: 100%
+    height: inherit
+    border-color: var(--border-color)
+    position: relative
+    display: flex
+    flex-direction: column
+
+    > *
+      z-index: 1
+
+    &::before
+      background:white
+      border-width: 1px
+      border-style: solid
+      border-color: secondary
+      display: inline
+      content: ''
+      transform: translate(9px,11px)
+      position: absolute
+      width: inherit
+      height: inherit
+      z-index: 0
+      border-radius: 5px
+    &::after
+      background: white
+      display: inline
+      content: ''
+      transform: translate(3px,5px)
+      position: absolute
+      width: inherit
+      height: inherit
+      z-index: 0
+      border-radius: 5px
+      border-width: 1px
+      border-style: solid
+      border-color: secondary
+        
+.linkBody
+  flex: 0 1 110px
+  display: flex
+  padding: 12px
+  border-top-right-radius: 5px
+  border-top-left-radius: 5px
+  word-break: break-word
+  text-decoration: none
+  font-weight: normal
+  cursor: pointer
+  @media (max-width: smallViewport)
+    min-height: unset
+    flex: 0 1
+  &.showCurator:after
+    top: -14px
+    left: 8.5px
+    border: solid transparent
+    content: " "
+    height: 0
+    width: 0
+    position: absolute
+    pointer-events: none
+    border-bottom-color: inherit
+    border-width: 7px    
+  .avatarContainer
+    flex: 0 0 55px
+    margin-right: 1rem
+    svg
+      width: 100%
+      height: auto
+    img
+      width: 100%
+      height: auto
+  &:hover
+    .itemButtonWrap
+      display: inline-block 
+      width: auto // edge doesn't support width: fit-content, using display: inline-block and width auto helps recreate that
+      box-shadow: 2px 2px 0 primary
+      border-radius: 5px
+
+      
+.projectsContainer
+  flex: 1 0 auto
+  padding: 10px
+  background-color: secondary-background
+  &.empty
+    padding: 18px 18px 12px
+    border-bottom-right-radius: 5px
+    border-bottom-left-radius: 5px
+    
+.emptyCollectionText
+  margin: 0
+  
+.projectsList
+  --min-width: 180px    
+  
+.footerLink
+  flex: 0 0 auto
+  display: block
+  padding: 0 12px 12px
+  font-weight: 600
+  font-size: 13px
+  background-color: secondary-background
+  border-bottom-right-radius: 5px
+  border-bottom-left-radius: 5px
+  &:hover
+    text-decoration: underline
+
+.smallContainer
+  display: flex
+  flex-direction: column
+  height: 100%
+  .curator
+    margin-bottom: 10px
+    
+.smallCollectionLink
+  width: 100%
+  height: 100%
+  position: relative
+  color: inherit
+  text-decoration: none
+  display: flex
+  flex-direction: column
+  flex: 1 1 100%
+  border-color: var(--border-color) // set in collection-item-small.js based on collection coverColor
+  &:hover
+    text-decoration: none
+  &::before
+    position: absolute
+    width: inherit
+    height: inherit
+    background:white
+    border-width: 1px
+    border-style: solid
+    border-color: secondary
+    display: inline
+    content: ''
+    transform: translate(9px,11px)
+    z-index: 0
+    border-radius: 5px
+  &::after
+    position: absolute
+    width: inherit
+    height: inherit
+    background: white
+    display: inline
+    content: ''
+    transform: translate(3px,5px)
+    z-index: 0
+    border-radius: 5px
+    border-width: 1px
+    border-style: solid
+    border-color: secondary
+    
+.bubbleContainer
+  flex: 1 0 auto
+  position: relative
+  border-radius: 5px 5px 0 0
+  word-break: break-word
+  padding: 1rem 1rem  
+  max-height: 140px
+  z-index: 1
+  border-color: var(--border-color) // set in collection-item-small.js based on collection coverColor
+  &:hover
+    .itemButtonWrap
+      width: fit-content
+      height: fit-content
+      box-shadow: 2px 2px 0 primary
+      border-radius: 5px
+  &.showCurator:after
+    content: ""
+    position: absolute
+    width: 0
+    height: 0
+    left: 8px
+    bottom: 100%
+    border-color: inherit
+    border-bottom-width: 6px
+    border-bottom-style solid
+    border-left: 6px solid transparent
+    border-right: 6px solid transparent
+  
+.nameArea
+  display: flex
+  align-items: flex-start
+  
+.collectionNameWrap
+  padding-top: 4px
+  
+.description
+  font-size: 14px
+  p
+    margin-bottom: 0
+    word-break: break-word
+    &:empty
+      margin-top: 0
+    a
+      color: link
+  &.dark
+    color: white
+    a
+      color: #D2FEFF
+    code
+      background: #252525
+  
+.collectionAvatarContainer
+  flex: 0 0 40px
+  margin-right: 0.5rem
+  svg
+    width: 100%
+    height: auto
+    
+.smallProjectCount
+  flex: 0 0 auto
+  background-color: secondary-background
+  padding: 0.5rem 1rem
+  font-size: 14px
+  font-weight: 600
+  border-radius: 0 0 5px 5px
+  z-index: 1
+  
+a:hover .smallProjectCount
+  text-decoration: underline
+  
+.bookmarkContainer
+  width: 50px
+  height: 50px
+  margin-right: 1rem
+
+
+.placeholder
+  display: inline-block
+  width: 30%
+.placeholderText
+  display: inline-block
+  width: 50%
+  vertical-align: top
+  margin: 20px
+  
+svg.arrow
+  vertical-align: text-top
+
+.onClickMyStuffButton
+  flex: 0 1 110px
+  border-top-right-radius: 5px
+  border-top-left-radius: 5px
+  text-align: left
+  .linkBody
+    top: 0
+    left: 0
+    position: absolute
+    z-index: 1

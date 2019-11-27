@@ -1,0 +1,385 @@
+@import '../constants.styl';
+analytics-app-views-color = #7460E1
+analytics-remix-color = #23d5e7
+
+.container
+  position: relative
+  
+.section
+  margin-left: 1
+
+.section + .section
+  margin-top: 1rem
+  
+.content
+  margin-left: 15px
+  
+.explanation p
+  max-width: 600px
+  font-size: 14px
+  color: tertiary
+  
+.placeholderMask
+  position: absolute
+  top: 25px
+  left: 0
+  right: 0
+  bottom: 0
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2), white)
+  pointer-events: none
+  
+.inlineBanner
+  background-color: section-line
+  max-width: 325px
+  border-radius: 5px
+  padding: 12px
+  font-size: medium
+  font-weight: normal
+  display: inline
+  margin-left: 10px
+  padding: 5px 10px
+  border-radius: 3px
+
+.segmentedButtonsWrap
+  margin-bottom: 1rem
+  
+.options
+  margin-left: 15px
+  display: flex
+  & > *
+    margin-right: 8px
+    
+.allProjects
+  padding: 12px 6px
+
+.bentoBox
+  width: 32px
+  height: 32px
+  margin-left: 2px
+
+.projectDetails
+  font-size: 14px
+
+.projectDetailsTitle
+  margin-bottom: 1rem
+  
+.projectDetailsTable
+  border-collapse: collapse
+  margin-top: 0.5rem
+  th
+    text-align: left
+    font-weight: normal
+    padding-bottom: 3px
+    padding-left: 0
+    padding-right: 10px
+  td
+    padding-bottom: 3px
+
+.baseProjectAvatar img
+  width: 16px
+  height: 16px
+  margin-right: 3px
+  vertical-align: text-bottom
+
+.referrersContent
+  display: flex
+  @media (max-width: smallViewport)
+    display: block
+    
+.referrersColumn
+  width: calc(50% - 20px) // change to 33% when new col added
+  margin: 0
+  margin-right: 20px
+  progress
+    display: block
+    width: 100%
+    margin-top: 2px
+    margin-bottom: 0.5rem
+    height: 5px
+  &.requests    
+    progress
+      &::-webkit-progress-value
+        background-color: analytics-app-views-color
+      &::-moz-progress-bar
+        background-color: analytics-app-views-color
+  &.remixes
+    progress
+      &::-webkit-progress-value
+        background-color: analytics-remix-color
+      &::-moz-progress-bar
+        background-color: analytics-remix-color
+  @media (max-width: smallViewport)
+    width: 100%
+
+.referrersList
+  padding: 0
+  margin: 1rem
+  list-style-type: none
+  font-size: 14px
+    
+.summaryItem .total
+  border-radius: 3px
+  padding: 3px 5px
+  color: primary-background
+  &.requests    
+    background-color: analytics-app-views-color
+  &.remixes
+    background-color: analytics-remix-color
+
+.analyticsTable
+  margin-top: 10px
+
+.analyticsRow
+  th, td
+    padding: 5px
+  .bigRightPadding
+    padding-right: 30px
+  .centerText 
+    text-align: center
+  .leftText
+    text-align: left
+    
+.timeFramePopWrap   
+  position: relative
+  & > *
+    padding: 0 !important
+
+.timeFrameSelect
+  appearance: none
+  border: none
+  border-radius: 0
+  cursor: pointer
+  height: 14px
+  line-height: 14px
+  margin: 0
+  font-family: inherit
+  font-size: inherit
+  color: inherit
+  background: none
+  font-weight: inherit
+  
+.downArrow
+  position: absolute
+  top: 7px
+  right: 8px
+
+.dropDownArrow
+  opacity: 0.4
+
+:global
+  /*-- All of the c3 style overrides --*/
+
+  /*-- Chart --*/
+  .c3
+    margin: 0
+    
+  .c3 svg
+    font-size: 10px
+    color: secondary
+    -webkit-tap-highlight-color: transparent
+
+  .c3 path, .c3 line
+    fill: none
+    stroke: #000
+
+  .c3 text
+    -webkit-user-select: none
+    -moz-user-select: none
+    user-select: none
+
+  .c3-legend-item-tile,
+  .c3-xgrid-focus,
+  .c3-ygrid,
+  .c3-event-rect,
+  .c3-bars path
+    shape-rendering: crispEdges
+
+  .c3-chart-arc path
+    stroke: #fff
+
+  .c3-chart-arc rect
+    stroke: white
+    stroke-width: 1
+
+  .c3-chart-arc text
+    fill: #fff
+    font-size: 13px
+
+  /*-- Axis --*/
+  /*-- Grid --*/
+  .c3-grid line
+    stroke: #aaa
+
+  .c3-grid text
+    fill: #aaa
+
+  .c3-xgrid, .c3-ygrid
+    stroke-dasharray: 3 3
+
+  /*-- Text on Chart --*/
+  .c3-text.c3-empty
+    fill: #808080
+    font-size: 2em
+
+  /*-- Line --*/
+  .c3-line
+    stroke-width: 1px
+
+  /*-- Point --*/
+  .c3-circle._expanded_
+    stroke-width: 1px
+    stroke: white
+    r: 3.5
+
+  .c3-selected-circle
+    fill: white
+    stroke-width: 2px
+
+  /*-- Bar --*/
+  .c3-bar
+    stroke-width: 0
+
+  .c3-bar._expanded_
+    fill-opacity: 1
+    fill-opacity: 0.75
+
+  /*-- Focus --*/
+  .c3-target.c3-focused
+    opacity: 1
+
+  .c3-target.c3-focused path.c3-line, .c3-target.c3-focused path.c3-step
+    stroke-width: 2px
+
+  .c3-target.c3-defocused
+    opacity: 0.3 !important
+
+  /*-- Region --*/
+  .c3-region
+    fill: steelblue
+    fill-opacity: .1
+
+  /*-- Brush --*/
+  .c3-brush .extent
+    fill-opacity: .1
+
+  /*-- Select - Drag --*/
+  /*-- Legend --*/
+  .c3-legend-item
+    font-size: 12px
+
+  .c3-legend-item-hidden
+    opacity: 0.15
+
+  .c3-legend-background
+    opacity: 0.75
+    fill: white
+    stroke: lightgray
+    stroke-width: 1
+
+  /*-- Title --*/
+  .c3-title
+    font: 14px sans-serif
+
+  /*-- Tooltip --*/
+  .c3-tooltip-container
+    z-index: 10
+    border: 1px solid secondary
+    border-radius: 3px
+
+  .c3-tooltip
+    border-collapse: collapse
+    border-spacing: 0
+    background-color: #fff
+    empty-cells: show
+    -webkit-box-shadow: 7px 7px 12px -9px #777777
+    -moz-box-shadow: 7px 7px 12px -9px #777777
+    box-shadow: 7px 7px 12px -9px #777777
+    opacity: 0.95
+
+  .c3-tooltip tr
+    &:first
+      border-top-right-radius: 3px
+      border-top-left-radius: 3px
+    &:last
+      border-bottom-right-radius: 3px
+      border-bottom-left-radius: 3px
+    
+
+  .c3-tooltip th
+    background: secondary-background-active
+    border-bottom: 1px solid secondary
+    color: primary
+    font-size: 14px
+    padding: 5px
+
+    text-align: left
+
+  .c3-tooltip td
+    font-size: 13px
+    padding: 5px
+    background-color: #fff
+
+  .c3-tooltip td > span
+    display: inline-block
+    width: 10px
+    height: 10px
+    margin-right: 6px
+    
+  .c3-tooltip td.name
+    display: none
+
+  .c3-tooltip td.value
+    text-align: left
+    background: none
+
+  /*-- Area --*/
+  .c3-area
+    stroke-width: 0
+    opacity: 0.2
+
+  /*-- Arc --*/
+  .c3-chart-arcs-title
+    dominant-baseline: middle
+    font-size: 1.3em
+
+  .c3-chart-arcs .c3-chart-arcs-background
+    fill: #e0e0e0
+    stroke: #FFF
+
+  .c3-chart-arcs .c3-chart-arcs-gauge-unit
+    fill: #000
+    font-size: 16px
+
+  .c3-chart-arcs .c3-chart-arcs-gauge-max
+    fill: #777
+
+  .c3-chart-arcs .c3-chart-arcs-gauge-min
+    fill: #777
+
+  .c3-chart-arc .c3-gauge-value
+    fill: #000
+    /*  font-size: 28px !important*/
+
+  .c3-chart-arc.c3-target g path
+    opacity: 1
+
+  .c3-chart-arc.c3-target.c3-focused g path
+    opacity: 1
+
+  /*-- Custom Styling for Glitch Analytics --*/
+  .c3-line-Total-App-Views
+    stroke: analytics-app-views-color !important
+    stroke-width: 2px
+
+
+  .c3-circles-Total-App-Views circle
+    fill: analytics-app-views-color !important
+
+
+  .c3-line-Remixes
+    stroke: analytics-remix-color !important
+    stroke-width: 2px
+
+
+  .c3-circles-Remixes circle
+    fill: analytics-remix-color !important

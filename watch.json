@@ -1,0 +1,23 @@
+{
+  "install": {
+    "include": [
+      "^package\\.json$",
+      "^\\.env$"
+    ]
+  },
+  "restart": {
+    "exclude": [
+      "server/",
+      "shared/",
+      "src/",
+      "build/"
+    ],
+    "include": [
+      "\\.babelrc",
+      "\\.eslintrc",
+      "webpack\\.config",
+      "aliases.js"
+    ]
+  },
+  "throttle": 100
+}

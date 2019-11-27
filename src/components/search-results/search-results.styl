@@ -1,0 +1,38 @@
+.page
+  margin-top: 1rem
+  :global .no-results
+    margin-bottom: 2rem
+    p
+      margin: 0
+      
+.showAllButton
+  margin-top: 10px    
+    
+.groupContainer
+  padding-bottom: 3rem
+
+.resultsContainer
+  --min-width: 250px 
+  --row-gap: 25px
+  --column-gap: 20px
+
+.starterKitResultsContainer
+  --min-width: 350px
+  
+.starterKitResultsContainer + .resultsContainer
+  margin-top: 16px
+
+.topResults
+  border-bottom: 1px solid #ccc
+  padding-bottom: 2rem
+  margin-bottom: 2rem
+  .resultsContainer
+    align-items: type
+    &.includesProject
+      .resultWrap
+        margin-top: 40px
+        &.project
+          margin-top: 0
+    
+span[data-module="Badge"]
+  margin-left: 5px

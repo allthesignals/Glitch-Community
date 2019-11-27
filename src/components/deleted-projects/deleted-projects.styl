@@ -1,0 +1,33 @@
+@import '../constants.styl'
+
+deleted-project-avatar-size = 32px
+
+.deletedProjectsContainer
+  margin: 0 0 1rem
+  --min-width: 225px
+    
+.deletedProject
+  background-color: section-line !important
+  border-radius: 5px
+  padding: 12px
+
+// ugh
+.buttonWrap > *
+  margin-bottom: 0 !important
+
+.avatar
+  border-radius: 5px
+  width: deleted-project-avatar-size
+  height: deleted-project-avatar-size
+  margin-right: 12px
+  float: left
+
+.projectName
+  min-height: deleted-project-avatar-size
+  margin-bottom: 6px
+  font-family: sansserif
+  font-weight: 600
+  font-size: 14px
+  display: flex
+  flex-direction: column
+  justify-content: center  

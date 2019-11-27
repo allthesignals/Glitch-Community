@@ -1,0 +1,71 @@
+@import '../constants'
+
+.container
+  list-style-type: none
+  padding: 0
+  // TODO: fix margin in tooltip, remove -5px offset
+  margin: 0 0 -5px
+
+.container.large
+  min-height: 37px
+.container.small
+  min-height: 27px
+  
+.container + .container
+  padding-top: 5px
+  
+.userItem,
+.teamItem
+  display: inline-block
+
+.large 
+  .userItem img,
+  .teamItem img,
+  .placeholder
+    width: 32px
+    height: 32px
+  .userItem
+    margin-right: -7px
+  .teamItem
+    margin-right: 7px
+  
+.small 
+  .userItem img,
+  .teamItem img,
+  .placeholder
+    width: 22px
+    height: 22px
+  .userItem
+    margin-right: -5px
+  .teamItem
+    margin-right: 2px
+  
+.userItem:last-child,
+.teamItem:last-child
+  margin-right: 0
+  
+.row
+  white-space: nowrap
+  overflow: hidden
+  @media (min-width: mediumViewport)
+    // like overflow:hidden but with an L shape
+    // it extends below the rect and to the right
+    // cut off avatars but let tooltips keep rendering
+    overflow: visible
+    clip-path: polygon(-100% 0%, 100% 0%, 100% 100%, 200% 100%, 200% 200%, -100% 200%)
+
+.placeholder
+  border-radius: 50%
+  background: linear-gradient(to right, secondary-background-hover 8%, input-border 20%, secondary-background-hover 35%);
+  background-size: 800px 104px;
+  animation: loadingGradient 1.8s cubic-bezier(0.4, 0, 1, 1) infinite;
+
+
+@keyframes loadingGradient{
+  0%{
+      background-position: 50% 0
+  }
+  100%{
+      background-position: -50% 0
+  }
+}

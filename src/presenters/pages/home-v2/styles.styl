@@ -1,0 +1,411 @@
+@import '../../../components/constants.styl'
+
+.h2
+  font-size: t5
+  margin: 0 0 u3
+  
+.h3
+  font-size: t4
+  margin: 0 0 u3
+  font-weight: 600
+  
+.h4
+  font-size: t3
+  font-weight: 600
+
+.homeSection + .homeSection
+  margin-top: 3em
+  margin-bottom: 3em
+    
+.subtitle
+  margin-left: u3
+  margin-bottom: u2
+  position: relative
+  @media(min-width: mediumViewport)
+    margin-bottom: 2.5em
+    
+.plainLink
+  color: inherit
+  text-decoration: none
+  &:hover
+    text-decoration: none
+
+.featureCalloutsContainer
+  margin-top: 1em
+    
+.featureCalloutsRow
+  --gap: u4
+    
+.featureCalloutsImage
+  height: 70px
+  background-size: contain
+  background-repeat: no-repeat
+  background-position: center
+  display: flex
+  svg
+    height: 100%
+    max-width: 100%
+  @media(min-width: mediumViewport)
+    height: 145px
+    padding: u3
+    width: 100%
+    svg
+      height: 100px
+      margin: u2 auto 0
+    
+    
+.featureCalloutsHeader
+  display: flex
+  flex-direction: row
+  align-items: center
+  @media(min-width: mediumViewport)
+    flex-direction: column
+    
+.featureCalloutsTitle
+  font-size: t3
+  font-weight: 600
+  margin-left: t2
+  @media(min-width: mediumViewport)
+    margin-top: "-%s" % u3
+    margin-bottom: u2
+    margin-left: 0
+    align-self: flex-start
+
+.unifiedStories
+  position: relative
+  margin-top: u2
+  background: #F5F5F5
+  transform: skewY(-2deg)
+  width: 100vw
+  position: relative
+  content: ''
+  left: 50%
+  right: 50%
+  margin-left: -50vw
+  margin-right: -50vw
+  overflow: hidden
+
+.unifiedStoriesContentWrap
+  transform: skewY(2deg)
+  
+.unifiedStoriesContainer
+  display: flex
+  flex-direction: column
+  max-width: 1207px
+  margin: 0 auto
+  padding: 0
+  
+.unifiedStoriesFeatureLabel
+  display: inline-block
+  padding: u05 u05 0
+  border-radius: u05
+  text-transform: uppercase
+  background-color: #FFE100
+  font-weight: bold
+  font-size: t1
+  margin-bottom: u4
+  
+.unifiedStoriesHeadline
+  background-color: #bdbdbd
+  background-image: url('https://cdn.glitch.com/c258d08b-9412-4115-816c-30444c24e1eb%2Funified-headline-background.svg?v=1561647625197')
+  background-size: cover
+  background-repeat: no-repeat
+  padding: u4 u3
+  h2
+    font-size: t5
+    margin: 0
+  h2 + h2
+    margin-top: u4
+  img
+    width: 100%
+    max-width: 450px
+    margin: u4 0
+  
+.unifiedStoriesPreview
+  padding: u4
+  margin-right: u4
+  p
+    line-height: 1.4
+
+.unifiedStoriesRelatedContent
+  padding: u4
+  margin-top: u3
+  ul
+    margin: 0
+    padding: 0
+    list-style-type: none
+    li
+      margin: u3 0
+  h3
+    text-transform: uppercase
+    font-size: t1
+    margin-bottom: u3
+  h4
+    margin: 0
+  p
+    margin: 0 0 u1
+    font-size: t2
+    
+@media (min-width: mediumViewport)
+  .unifiedStoriesContainer
+    flex-direction: row
+    align-items: flex-start
+    flex-wrap: wrap
+  .unifiedStoriesHeadline
+    flex: 0 0 100%
+  .unifiedStoriesPreview
+    flex: 1 1 300px
+  .unifiedStoriesRelatedContent
+    flex: 0 0 215px
+
+@media (min-width: largeViewport)
+  .unifiedStoriesHeadline
+    flex: 0 0 350px
+  .unifiedStoriesPreview
+    flex: 1 1 100px
+
+.appsWeLoveContainer
+  margin-top: 2em
+  h4
+    margin: u1 0 u05
+    font-size: t3
+  p
+    margin: 0
+    color: fg1
+    
+.appItemMini
+  display: flex
+  padding: u2
+  border-radius: u1
+  background-color: bg1
+.appItemMini + .appItemMini
+  margin-top: u2
+  
+.appsWeLoveSmallLayout
+  display: block
+.appsWeLoveBigLayout
+  display: none
+@media (min-width: mediumViewport)
+  .appsWeLoveSmallLayout
+    display: none
+  .appsWeLoveBigLayout
+    display: flex
+
+.appsWeLoveList
+  margin: 0
+  padding: 0
+  list-style-type: none
+  flex: 1 1 auto
+
+.appsWeLoveListItem
+  margin-top: u2
+  
+.appItem
+  display: flex
+  border-radius: u1
+  position: relative
+  padding: u3 u2 u2
+  background-color: bg1
+  margin-right: u3
+  @media (min-width: largeViewport)
+    margin-right: u5
+  &:before
+    z-index: -1
+    content: ''
+    position: absolute
+    top: 0
+    left: 50%
+    height: 100%
+    width: 100%
+  &.active
+    background-color: #DCFDFF
+    &:before
+      background-color: #DCFDFF
+  &:hover
+    background-color: bg2
+    &:before
+      background-color: bg2
+    
+    
+    
+.appAvatar
+  width: 32px
+  height: 32px
+  flex: 0 0 auto
+  border-radius: u1
+    
+.appContent
+  flex: 1 1 auto
+  margin-left: u2
+    
+.appsWeLoveEmbed
+  min-height: 500px
+  flex: 0 0 66%
+  position: relative
+  z-index: 1
+  
+.profileListPlaceholder
+  height: 36px
+  display: block
+  
+.appsWeLoveProfileWrap
+  position: relative
+  z-index: 1
+  padding-left: u3
+  margin-bottom: "-%s" % (u2 + u2)
+  
+.curatedCollectionRow
+  --gap: u3
+
+.curatedCollectionsContainer
+  margin-top: 2em
+
+.curatedCollectionContainer
+  position: relative
+  border-radius: u1
+  padding: u3
+  overflow: hidden
+  display: flex
+  height: 100%
+  &:hover, &:focus
+    .curatedCollectionButtonWrap
+        box-shadow: 2px 2px 0 #222
+        border-radius: 5px
+        width: fit-content
+        height: fit-content
+  .collectionLink
+    margin-top: auto
+    font-size: 14px
+    font-weight: 600
+    color: primary
+    &:hover
+      text-decoration: underline
+  
+.curatedCollectionButtonWrap
+  white-space: nowrap
+  
+.curatedCollectionTexture
+  position: absolute
+  transform: rotate(12deg)
+  height: 120%
+  right: u4
+  top: -20px
+  
+.curatedCollectionText
+  z-index: 1
+  flex: 1 1 100%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  margin-right: 20px
+  a
+    white-space: nowrap
+  h4
+    margin: 0 0 u3
+  p
+    font-size: t2
+    flex: 1 0 auto
+
+.curatedCollectionUsers
+  flex: 1 0 40%
+  position: relative
+  @media(max-width: mediumViewport)
+    max-width: 200px
+    max-height: 150px
+  @media (min-width: mediumViewport)
+    flex: 1 0 30%
+    max-height: 150px
+  
+.userMask
+  height: 100%
+  max-height: 200px
+  position: relative
+  @media(max-width: mediumViewport)
+    width: 90%
+  @media(min-width: largeViewport)
+    height: 250%
+.userMaskBubbleWrap
+  position: absolute
+.userMaskBubble
+  min-width: 45px
+  min-height: 45px
+  border-radius: 50%
+  background-size: cover
+  padding-bottom: 100%
+  
+.fourBlock
+  --gap: u1
+  --min-width: 200px
+
+.cultureZine
+  position: relative
+  padding: u2 0 u3
+  &:before
+    position: absolute
+    z-index: 0
+    content: ''
+    top: 0
+    width: 100vw
+    height: 100%
+    transform: skewY(2deg)
+    left: 50%
+    right: 50%
+    margin-left: -50vw
+    margin-right: -50vw
+    background-color: #F5F5F5
+    background-image: url('https://cdn.glitch.com/c258d08b-9412-4115-816c-30444c24e1eb%2Fculture-zine-pattern.svg?v=1561587572773')
+    background-size: cover
+    background-repeat: no-repeat
+  
+.cultureZineRow
+  --min-width: 180px
+  position: relative
+  
+.cultureZineImageWrap
+  padding: 0 0 53%
+  height: 0    
+  
+.cultureZineText
+  margin-top: -10%
+  padding: 12px
+  padding-top: 20%
+  width: 90%
+  margin-left: auto
+  margin-right: auto  
+  border-radius: u1
+
+  h4
+    margin: u1 0
+  p
+    margin: 0  
+    color: tertiary
+
+.readMoreLink
+  padding: u3 0 0
+  text-align: right
+    
+.buildingOnGlitchRow
+  display: flex
+  flex-direction: column
+  margin: "-%s" % u1
+  .startBuildingImageWrap
+    height: 120px
+  a
+    display: block
+    margin: u1
+    margin-bottom: u4
+  h3
+    margin-top: 0
+    font-size: t4
+
+@media (min-width: mediumViewport)
+  .buildingOnGlitchRow
+    flex-direction: row
+    a
+      width: 50%
+
+      
+.madeInGlitch
+  padding-top: 1rem
+  border-top: 1px solid #e5e5e5
+

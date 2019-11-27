@@ -1,0 +1,73 @@
+@require '../constants'
+
+.container
+  font-size: 13px
+  border: 1px solid secondary
+  background-color: white
+  text-align: left
+  
+  ul
+    margin: 0
+    padding: 0
+    list-style-type: none
+  a
+    color: inherit
+    text-decoration: none
+  
+.resultGroupHeader
+  background-color: secondary-background
+  font-weight: 600
+  border-bottom: 1px solid secondary
+  padding: 4px 10px 0
+  margin: 0 auto
+  
+.resultItem
+  border-bottom: 1px solid secondary
+    
+.seeAllResults
+  display: block
+  font-weight: 600
+  padding: 6px 12px
+
+.resultItem .resultContainer:hover,
+.resultItem .resultContainer:focus,
+.resultItem.selected .resultContainer,
+.seeAllResults:hover,
+.seeAllResults:focus,
+.seeAllResults.selected
+  background-color: general-link
+  color: white
+
+.resultContainer
+  display: flex
+  flex-direction: row
+  align-items: center
+  padding: 6px 12px
+
+.avatarContainer
+  flex: 0 0 40px
+  min-width: 0
+  img, svg
+    display: block
+    max-width: 100%
+    height: auto
+
+.infoContainer
+  flex: 1 1 auto
+  overflow: hidden
+  padding-left: 6px
+
+.infoPrimary
+  font-weight: 600
+  
+.infoSecondary
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+.memberContainer
+  flex: 0 0 100px
+  padding-left: 4px
+
+svg.arrow
+  vertical-align: text-top

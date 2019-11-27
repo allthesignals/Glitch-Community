@@ -1,0 +1,146 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Icon } from '@fogcreek/shared-components';
+
+import Heading from 'Components/text/heading';
+import PaginationController from 'Components/pagination-controller';
+import FilterController from 'Components/filter-controller';
+import ProjectItem from 'Components/project/project-item';
+import Grid from 'Components/containers/grid';
+import Row from 'Components/containers/row';
+import classNames from 'classnames/bind';
+import SkipSectionButtons from 'Components/containers/skip-section-buttons';
+
+import styles from './projects-list.styl';
+import { emoji } from '../global.styl';
+
+const containers = {
+  row: (props) => <Row className={styles.projectsRow} {...props} />,
+  grid: (props) => <Grid className={styles.projectsGrid} {...props} />,
+  gridCompact: (props) => <Grid className={styles.projectsGridCompact} {...props} />,
+};
+
+const ProjectsUL = ({ collection, projects, sortable, onReorder, noteOptions, layout, projectOptions, showEditButton }) => {
+  const Container = containers[layout];
+  return (
+    <Container itemClassName={styles.projectsItem} items={projects} sortable={sortable} onReorder={onReorder}>
+      {(project) => (
+        <ProjectItem
+          key={project.id}
+          project={project}
+          projectOptions={projectOptions}
+          collection={collection}
+          noteOptions={noteOptions}
+          showEditButton={showEditButton}
+        />
+      )}
+    </Container>
+  );
+};
+
+function ProjectsList({
+  projects,
+  layout,
+  title,
+  titleEmoji,
+  placeholder,
+  enableFiltering,
+  enablePagination,
+  enableSorting,
+  onReorder,
+  projectsPerPage,
+  collection,
+  noteOptions,
+  projectOptions,
+  showEditButton,
+  dataCy,
+  debounceFunction,
+}) {
+  const matchFn = (project, filter) => project.domain.includes(filter) || project.description.toLowerCase().includes(filter);
+
+  const makeTitle = () => {
+    if (!titleEmoji) {
+      return title;
+    }
+    return (
+      <>
+        {title} <Icon className={emoji} icon={titleEmoji} />
+      </>
+    );
+  };
+
+  return (
+    <FilterController
+      matchFn={matchFn}
+      enabled={enableFiltering}
+      placeholder={placeholder}
+      searchPrompt="find a project"
+      label="find a project"
+      items={projects}
+      debounceFunction={debounceFunction}
+    >
+      {({ filterInput, filterHeaderStyles, renderItems }) => (
+        <article className={classNames(styles.projectsContainer)} data-cy={dataCy}>
+          <div className={filterHeaderStyles}>
+            {title && <Heading tagName="h2">{makeTitle()}</Heading>}
+            {filterInput}
+          </div>
+          <SkipSectionButtons sectionName={title}>
+            {renderItems((filteredProjects) => (
+              <PaginationController enabled={enablePagination} items={filteredProjects} itemsPerPage={projectsPerPage}>
+                {(paginatedProjects) => (
+                  <ProjectsUL
+                    projects={paginatedProjects}
+                    collection={collection}
+                    noteOptions={noteOptions}
+                    layout={layout}
+                    sortable={enableSorting && paginatedProjects.length === projects.length}
+                    onReorder={onReorder}
+                    projectOptions={projectOptions}
+                    showEditButton={showEditButton}
+                  />
+                )}
+              </PaginationController>
+            ))}
+          </SkipSectionButtons>
+        </article>
+      )}
+    </FilterController>
+  );
+}
+
+ProjectsList.propTypes = {
+  projects: PropTypes.array.isRequired,
+  layout: PropTypes.oneOf(['row', 'grid', 'gridCompact']).isRequired,
+  title: PropTypes.string,
+  titleEmoji: PropTypes.string,
+  placeholder: PropTypes.node,
+  enableFiltering: PropTypes.bool,
+  enablePagination: PropTypes.bool,
+  enableSorting: (props) => props.enableSorting && props.layout === 'row' && new Error('Sortable rows are not supported'),
+  projectsPerPage: PropTypes.number,
+  collection: PropTypes.object,
+  noteOptions: PropTypes.object,
+  showEditButton: PropTypes.bool,
+  projectOptions: PropTypes.object,
+  dataCy: PropTypes.string,
+  debounceFunction: PropTypes.func,
+};
+
+ProjectsList.defaultProps = {
+  title: undefined,
+  titleEmoji: undefined,
+  placeholder: null,
+  enableFiltering: false,
+  enablePagination: false,
+  enableSorting: false,
+  projectsPerPage: 6,
+  collection: null,
+  noteOptions: {},
+  showEditButton: false,
+  projectOptions: {},
+  dataCy: null,
+  debounceFunction: undefined,
+};
+
+export default ProjectsList;

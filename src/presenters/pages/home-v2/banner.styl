@@ -1,0 +1,138 @@
+@import '../../../components/constants.styl'
+
+maxBannerWidth = 500px
+
+.unmarked
+  position: relative
+  z-index: 1
+  
+.banner
+  display: flex
+  flex-direction: column
+  align-items: center
+  color: white  
+  border-radius: u2
+  padding: u4 0 0
+  svg, video
+    width: 100%
+    display: block
+    margin: 0
+  @media(min-width: largeViewport)
+    flex-direction: row
+    padding: u4 0px
+    justify-content: flex-start
+    
+.bannerCopyContainer
+  width: 100%
+  max-width: 440px
+  padding-top: 11%
+  padding-left: 14%
+  padding-bottom: u3
+  background-position: top center
+  background-repeat: no-repeat
+  background-size: contain
+  background-image: url('https://cdn.glitch.com/2aa144c0-3b44-4c7a-ba20-0de53e442ea7%2Fbanner-small.svg?v=1560449705287')
+  h1
+    font-size: 6vw
+    margin: 0
+    transform: rotate(-5deg)
+  p
+    font-size: 3.4vw
+    line-height: 1.2
+    text-shadow: 1px 1px #6356C7
+
+  @media(min-width: maxBannerWidth)
+    margin-bottom: "-%s" % u4
+    min-height: 400px
+    padding-top: 45px
+    padding-left: 50px
+    h1
+      font-size: t6
+    p
+      font-size: t3
+  @media(min-width: largeViewport)
+    flex: 0 0 440px
+    background-image: url('https://cdn.glitch.com/2aa144c0-3b44-4c7a-ba20-0de53e442ea7%2Fbanner-large.svg?v=1560449704812')
+    
+.bannerCopyAndButtons
+  position: relative
+  margin: u3 25% u3 30%
+  @media(min-width: largeViewport)
+    left: -10px
+    margin: u3 auto
+    width: 180px
+  button:focus,
+  a:focus
+    outline: none
+    box-shadow: 0 0 1px 4px focusYellow
+    
+.watchVideoBtnWrap
+  display: block
+  margin: u3 0
+  @media(min-width: largeViewport)
+    display: none
+
+.bannerVideoWrap
+  flex: 1 1 auto
+  z-index: 1
+  border-radius: 7px
+  display: none
+  box-shadow: 4px 4px secondary
+  border: 1px solid secondary
+  @media(min-width: largeViewport)
+    display: block
+  img
+    border-radius: 0 0 u1 u1
+  
+.bannerVideo
+  position: relative
+  overflow: hidden
+  border-radius: 0 0 u1 u1
+  cursor: pointer
+  
+.bannerVideoPoster
+  display: block
+  background-color: white
+  background-image: url(https://cdn.glitch.com/616994fe-f0e3-4501-89a7-295079b3cb8c%2Ftablet_scene_30.jpg?v=1561660860795)
+  background-size: cover
+  background-repeat: no-repeat
+  padding-bottom: 56.25%
+  
+.bannerVideoButton
+  pointer-events: none
+  position: absolute
+  display: flex
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  align-items: center
+  justify-content: center
+  button
+    pointer-events: initial
+    &:focus
+      outline: none
+      box-shadow: 0 0 1px 4px focusYellow
+  
+.overlayVideoWrap :global,
+.bannerVideo :global
+  .wistia_responsive_padding
+    padding: 56.25% 0 0 0
+    position: relative
+
+  .wistia_responsive_wrapper
+    height: 100%
+    left: 0
+    position: absolute
+    top: 0
+    width: 100%
+
+  .wistia_embed
+    height: 100%
+    width: 100%
+    
+.bannerButtonWrap
+  white-space: nowrap
+  svg
+    display: inline
+    width: auto
