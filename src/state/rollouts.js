@@ -4,6 +4,24 @@ import { useTracker } from './segment-analytics';
 import { useCurrentUser } from './current-user';
 import useUserPref from './user-prefs';
 
+const ROLLOUT_DESCRIPTIONS = {
+  analytics: {
+    true: ['enabled', 'analytics are shown on team pages'],
+    false: ['disabled', 'team analytics are not shown'],
+  },
+  test_feature: {
+    true: ['yep', 'this is in fact a test'],
+    false: ['nope', 'but it is still a test'],
+  },
+  swap_index_create: {
+    true: ['swapped', 'create is shown at the index'],
+    false: ['control', 'see the existing homepage'],
+  },
+};
+const DEFAULT_DESCRIPTION = {
+  true: ['variant', '']
+};
+
 const Context = createContext();
 
 export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizelyId, children }) => {
@@ -50,19 +68,14 @@ export const useFeatureEnabled = (whichToggle) => {
   const enabled = useFeatureEnabledForEntity(whichToggle, optimizelyId);
   const track = useTracker('Experiment Viewed');
   useEffect(() => {
+    const [variant, description] = descriptions[whichToggle][enabled];
     const config = optimizely.projectConfigManager.getConfig();
-    const descriptions = {
-      analytics: {
-        true: ['analytics visible', 'analytics are shown on team pages'],
-        false: ['analytics hi']
-      }
-    };
     track({
       experiment_id: config.featureKeyMap[whichToggle].id,
       experiment_name: whichToggle,
       experiment_group: enabled ? 'variant' : 'control',
-      variant_type: enabled,
-      variant_description: null,
+      variant_type: variant,
+      variant_description: description,
     });
   }, [optimizely, whichToggle, optimizelyId, enabled]);
   return enabled;
