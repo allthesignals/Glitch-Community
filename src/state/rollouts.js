@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { enums } from '@optimizely/optimizely-sdk';
+import { useTracker } from './segment-analytics';
 import { useCurrentUser } from './current-user';
 import useUserPref from './user-prefs';
 
@@ -47,9 +48,9 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
 export const useFeatureEnabled = (whichToggle) => {
   const { optimizely, optimizelyId } = useOptimizely();
   const enabled = useFeatureEnabledForEntity(whichToggle, optimizelyId);
+  const track = useTracker('Experiment Viewed');
   useEffect(() => {
-    
-  }, [optimizelyId, whichToggle, enabled]);
+  }, [optimizely, whichToggle, optimizelyId, enabled]);
   return enabled;
 };
 

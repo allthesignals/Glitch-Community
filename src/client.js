@@ -3,7 +3,7 @@ import './polyfills';
 // Init our dayjs plugins
 import dayjs from 'dayjs';
 import relativeTimePlugin from 'dayjs/plugin/relativeTime';
-import { createInstance, enums } from '@optimizely/optimizely-sdk';
+import { createInstance } from '@optimizely/optimizely-sdk';
 
 import React from 'react';
 import ReactDOM, { hydrate, render } from 'react-dom';
@@ -61,9 +61,6 @@ window.bootstrap = async (container) => {
       },
     },
     logLevel: 'warn',
-  });
-  optimizely.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.DECISION, (event) => {
-    console.log(event.decisionInfo);
   });
   window.optimizelyClientInstance = optimizely;
   // This will happen immediately because we provided a datafile
