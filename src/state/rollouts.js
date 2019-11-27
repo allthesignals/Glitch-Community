@@ -51,6 +51,12 @@ export const useFeatureEnabled = (whichToggle) => {
   const track = useTracker('Experiment Viewed');
   useEffect(() => {
     const config = optimizely.projectConfigManager.getConfig();
+    const descriptions = {
+      analytics: {
+        true: ['analytics visible', 'analytics are shown on team pages'],
+        false: ['analytics hi']
+      }
+    };
     track({
       experiment_id: config.featureKeyMap[whichToggle].id,
       experiment_name: whichToggle,
