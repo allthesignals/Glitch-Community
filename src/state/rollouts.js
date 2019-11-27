@@ -70,7 +70,6 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
     [whichToggle],
   );
   useEffect(() => {
-    console.log(id, whichToggle, enabled);
     const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
     track({
       experiment_id: id,
