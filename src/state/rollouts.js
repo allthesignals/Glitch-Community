@@ -19,7 +19,8 @@ const ROLLOUT_DESCRIPTIONS = {
   },
 };
 const DEFAULT_DESCRIPTION = {
-  true: ['variant', '']
+  true: ['variant', 'showing the new form'],
+  false: ['control', 'showing the original form'],
 };
 
 const Context = createContext();
@@ -68,8 +69,8 @@ export const useFeatureEnabled = (whichToggle) => {
   const enabled = useFeatureEnabledForEntity(whichToggle, optimizelyId);
   const track = useTracker('Experiment Viewed');
   useEffect(() => {
-    const [variant, description] = descriptions[whichToggle][enabled];
     const config = optimizely.projectConfigManager.getConfig();
+    const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
     track({
       experiment_id: config.featureKeyMap[whichToggle].id,
       experiment_name: whichToggle,
