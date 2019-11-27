@@ -62,8 +62,8 @@ window.bootstrap = async (container) => {
     },
     logLevel: 'warn',
   });
-  optimizely.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.ACTIVATE, (event) => {
-    console.log(event);
+  optimizely.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.DECISION, (event) => {
+    console.log(event.decisionInfo);
   });
   window.optimizelyClientInstance = optimizely;
   // This will happen immediately because we provided a datafile

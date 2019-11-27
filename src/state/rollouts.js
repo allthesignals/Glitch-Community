@@ -46,7 +46,11 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
 
 export const useFeatureEnabled = (whichToggle) => {
   const { optimizelyId } = useOptimizely();
-  return useFeatureEnabledForEntity(whichToggle, optimizelyId);
+  const enabled = useFeatureEnabledForEntity(whichToggle, optimizelyId);
+  useEffect(() => {
+    
+  }, [optimizelyId, whichToggle, enabled]);
+  return enabled;
 };
 
 export const RolloutsUserSync = () => {
