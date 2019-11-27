@@ -45,7 +45,7 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
 };
 
 export const useFeatureEnabled = (whichToggle) => {
-  const { optimizelyId } = useOptimizely();
+  const { optimizely, optimizelyId } = useOptimizely();
   const enabled = useFeatureEnabledForEntity(whichToggle, optimizelyId);
   useEffect(() => {
     
