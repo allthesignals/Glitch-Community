@@ -60,7 +60,7 @@ export function APIContextProvider({ children }) {
 
   if (!api.persistentToken) {
     // stall requests until we have a persistentToken
-    ['get', 'post'].forEach((method) => {
+    ['get', 'post', 'put', 'patch', 'delete'].forEach((method) => {
       api[method] = async (...args) => {
         const apiWithToken = await new Promise((resolve) => {
           setPendingRequests((latestPendingRequests) => [...latestPendingRequests, resolve]);
