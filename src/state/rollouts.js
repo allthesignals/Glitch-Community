@@ -62,25 +62,30 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
     (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
     [whichToggle, entityId],
   );
-  return overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
-};
+  const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
 
-export const useFeatureEnabled = (whichToggle) => {
-  const { optimizely, optimizelyId } = useOptimizely();
-  const enabled = useFeatureEnabledForEntity(whichToggle, optimizelyId);
   const track = useTracker('Experiment Viewed');
+  const feature = useOptimizelyValue(
+    (optimizely) => optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle],
+    [whichToggle],
+  );
   useEffect(() => {
-    const config = optimizely.projectConfigManager.getConfig();
-    const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
+    const [variant, description] = (ROLLOUT_DESCRIPTIONS[feature.key] || DEFAULT_DESCRIPTION)[enabled];
     track({
-      experiment_id: config.featureKeyMap[whichToggle].id,
-      experiment_name: whichToggle,
+      experiment_id: feature.id,
+      experiment_name: feature.key,
       experiment_group: enabled ? 'variant' : 'control',
       variant_type: variant,
       variant_description: description,
     });
-  }, [optimizely, whichToggle, optimizelyId, enabled]);
+  }, [feature, enabled]);
+
   return enabled;
+};
+
+export const useFeatureEnabled = (whichToggle) => {
+  const { optimizelyId } = useOptimizely();
+  return useFeatureEnabledForEntity(whichToggle, optimizelyId);
 };
 
 export const RolloutsUserSync = () => {
