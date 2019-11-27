@@ -4,6 +4,11 @@ import { useTracker } from './segment-analytics';
 import { useCurrentUser } from './current-user';
 import useUserPref from './user-prefs';
 
+// human readable rollout state to include in analytics
+const DEFAULT_DESCRIPTION = {
+  true: ['variant', 'showing the new form'],
+  false: ['control', 'showing the original form'],
+};
 const ROLLOUT_DESCRIPTIONS = {
   analytics: {
     true: ['enabled', 'analytics are shown on team pages'],
@@ -17,10 +22,6 @@ const ROLLOUT_DESCRIPTIONS = {
     true: ['swapped', 'create is shown at the index'],
     false: ['control', 'see the existing homepage'],
   },
-};
-const DEFAULT_DESCRIPTION = {
-  true: ['variant', 'showing the new form'],
-  false: ['control', 'showing the original form'],
 };
 
 const Context = createContext();
