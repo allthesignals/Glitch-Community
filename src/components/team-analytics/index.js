@@ -19,7 +19,6 @@ import TeamAnalyticsProjectDetails from './team-analytics-project-details';
 
 import styles from './styles.styl';
 
-
 const dateFromTime = (newTime) => {
   const timeMap = {
     'Last 4 Weeks': dayjs()
@@ -71,15 +70,12 @@ function BannerMessage({ id, projects }) {
   if (!featureEnabled) {
     return (
       <aside className={styles.inlineBanner}>
-        Analytics are currently unavailable.
-        Have questions? Email us at <strong>support@glitch.com</strong>
+        Analytics are currently unavailable. Have questions? Email us at <strong>support@glitch.com</strong>
       </aside>
     );
   }
   if (projects.length === 0) {
-    return (
-      <aside className={styles.inlineBanner}>Add projects to see their stats</aside>
-    );
+    return <aside className={styles.inlineBanner}>Add projects to see their stats</aside>;
   }
   return null;
 }
@@ -90,11 +86,11 @@ function TeamAnalytics({ id, projects }) {
   const [currentTimeFrame, setCurrentTimeFrame] = useState('Last 2 Weeks');
   const fromDate = useMemo(() => dateFromTime(currentTimeFrame), [currentTimeFrame]);
 
-  const [currentProjectDomain, setCurrentProjectDomain] = useState(''); // empty string means all projects
+  const [currentProject, setCurrentProject] = useState({ id: 'all-projects', domain: '' }); // empty string means all projects
 
   const placeholder = !useFeatureEnabledForEntity('analytics', id) || projects.length === 0;
 
-  const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain });
+  const { value: analytics } = useAnalytics({ id, projects, fromDate, currentProjectDomain: currentProject.domain });
 
   const buckets = analytics ? analytics.buckets : [];
   const { totalAppViews, totalRemixes } = useMemo(
@@ -106,7 +102,10 @@ function TeamAnalytics({ id, projects }) {
   );
 
   // segmented button filters
-  const buttons = [{ id: 'views', label: 'App Views' }, { id: 'remixes', label: 'Remixes' }];
+  const buttons = [
+    { id: 'views', label: 'App Views' },
+    { id: 'remixes', label: 'Remixes' },
+  ];
 
   if (!analytics) {
     return (
@@ -129,7 +128,7 @@ function TeamAnalytics({ id, projects }) {
             <SegmentedButton value={activeFilter} options={buttons} onChange={setActiveFilter} />
           </div>
           <div className={styles.options}>
-            <TeamAnalyticsProjectPop updateProjectDomain={setCurrentProjectDomain} currentProjectDomain={currentProjectDomain} projects={projects} />
+            <TeamAnalyticsProjectPop updateProject={setCurrentProject} currentProject={currentProject} projects={projects} />
             <TeamAnalyticsTimePop updateTimeFrame={setCurrentTimeFrame} currentTimeFrame={currentTimeFrame} />
           </div>
         </section>
@@ -152,18 +151,18 @@ function TeamAnalytics({ id, projects }) {
           {activeFilter === 'remixes' && <Referrers name="remixes" total={totalRemixes} referrers={analytics.remixReferrers} label="remixes" />}
         </section>
 
-        {currentProjectDomain && (
+        {currentProject.domain && (
           <section className={styles.section}>
             <h3>Project Details</h3>
-            <TeamAnalyticsProjectDetails currentProjectDomain={currentProjectDomain} id={id} activeFilter={activeFilter} />
+            <TeamAnalyticsProjectDetails currentProjectDomain={currentProject.domain} id={id} activeFilter={activeFilter} />
           </section>
         )}
 
         <section className={styles.section}>
           <div className={styles.explanation}>
             <Text>
-              Because Glitch doesn't inject code or cookies into your projects, we don't collect the data required for unique app views.
-              You can get uniques by adding Google Analytics to your project.
+              Because Glitch doesn't inject code or cookies into your projects, we don't collect the data required for unique app views. You can get
+              uniques by adding Google Analytics to your project.
             </Text>
           </div>
         </section>

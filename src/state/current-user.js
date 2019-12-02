@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { mapKeys, memoize } from 'lodash';
-import { createSlice } from 'redux-starter-kit';
+import { createSlice } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getSingleItem, getAllPages, allByKeys } from 'Shared/api';
@@ -158,7 +158,7 @@ const defaultUser = {
 };
 
 export const { reducer, actions } = createSlice({
-  slice: 'currentUser',
+  name: 'currentUser',
   initialState: {
     ...defaultUser,
     status: 'loading',
