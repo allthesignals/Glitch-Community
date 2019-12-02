@@ -6,7 +6,7 @@ export BUILD_TYPE=static
 
 #   stop serving the project first
 #   this should make the host fail health checks until restarted
-npm run stop && wait
+npm run stop && wait 15s
 
 cd /opt/glitch-community
 #   avoid cruft like deleted files from hanging around
