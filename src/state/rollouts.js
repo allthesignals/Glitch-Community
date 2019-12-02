@@ -88,14 +88,15 @@ export const useFeatureEnabled = (whichToggle) => {
   const { optimizelyId } = useOptimizely();
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN, SSR_HAS_PROJECTS } = useGlobals();
+  console.log(SSR_SIGNED_IN, SSR_HAS_PROJECTS);
 
   const attributes = useMemo(() => {
-    const ssrState = { hasLogin: SSR_SIGNED_IN, hasProjects: SSR_HAS_PROJECTS };
     const hasLogin = !!currentUser.login;
     const hasProjects = currentUser.projects.length > 0;
     const userState = { hasLogin, hasProjects };
+    const ssrState = { hasLogin: SSR_SIGNED_IN, hasProjects: SSR_HAS_PROJECTS };
     return currentUser.id ? userState : ssrState;
-  }, [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN]);
+  }, [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS]);
 
   return useFeatureEnabledForEntity(whichToggle, optimizelyId, attributes);
 };
