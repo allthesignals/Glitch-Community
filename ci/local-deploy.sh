@@ -6,7 +6,7 @@ export BUILD_TYPE=static
 
 #   stop serving the project first
 #   this should make the host fail health checks until restarted
-npm run stop && wait 15s
+npm run stop && wait
 
 cd /opt/glitch-community
 #   avoid cruft like deleted files from hanging around
@@ -24,7 +24,7 @@ echo "NODE_ENV=staging" >> .env
 echo "RUNNING_ON=staging" >> .env
 
 #   install the deps, run the app
-npm i
+npm i && wait
 
 #   temporarily adding a pause here to test how the lb and asg react when deploys take a while
 sleep $(($(date +%s) % 500))s
