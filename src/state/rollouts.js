@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import { enums } from '@optimizely/optimizely-sdk';
 import { useTracker } from './segment-analytics';
 import { useCurrentUser } from './current-user';
+import { useGlobals } from './globals';
 import useUserPref from './user-prefs';
 
 // human readable rollout state to include in analytics
@@ -56,11 +57,11 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
-export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
+export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) => {
   const [overrides] = useOverrides();
   const raw = useOptimizelyValue(
-    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
-    [whichToggle, entityId],
+    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId), attributes),
+    [whichToggle, entityId, attributes],
   );
   const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
 
@@ -85,7 +86,18 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
 
 export const useFeatureEnabled = (whichToggle) => {
   const { optimizelyId } = useOptimizely();
-  return useFeatureEnabledForEntity(whichToggle, optimizelyId);
+  const { currentUser } = useCurrentUser();
+  const { SSR_SIGNED_IN } = useGlobals();
+
+  const attributes = useMemo(() => {
+    const ssrState = { hasLogin: SSR_SIGNED_IN, hasProjects: false };
+    const hasLogin = !!currentUser.login;
+    const hasProjects = currentUser.projects.length > 0;
+    const userState = { hasLogin, hasProjects };
+    return currentUser.id ? userState : ssrState;
+  }, [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN]);
+
+  return useFeatureEnabledForEntity(whichToggle, optimizelyId, attributes);
 };
 
 export const RolloutsUserSync = () => {
