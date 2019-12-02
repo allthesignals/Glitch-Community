@@ -1,0 +1,50 @@
+.dots, .pills{
+    z-index: -1
+    position: absolute
+}
+
+.dots{
+  -webkit-animation: dots 25s linear infinite forwards
+  animation: dots 25s linear infinite forwards
+}
+
+.pills{
+  -webkit-animation: pills 25s linear infinite forward
+  animation: pills 25s linear infinite forwards
+}
+
+@keyframes dots{
+  0%{
+    transform: translate(-50%, -25%)
+  }
+  25%{
+    transform: translate(-20%, 25%)
+  } 
+  50%{
+    transform: translate(10%, 100%)
+  }
+  75%{
+    transform: translate(-20%, 25%)
+  }
+  100%{
+    transform: translate(-50%, -25%)
+  }
+}
+
+@keyframes pills{
+    0%{
+        transform: translate(50%, -150%)
+    }
+    25%{
+        transform: translate(30%, -100%)
+    } 
+    50%{
+        transform: translate(10%, 0%)
+    }
+    75%{
+        transform: translate(30%, -100%)
+    }
+    100%{
+        transform: translate(50%, -150%)
+    }
+}

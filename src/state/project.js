@@ -112,11 +112,17 @@ export function useProjectEditor(initialProject) {
 
   const funcs = {
     deleteProject: () => deleteItem({ project }).catch(handleError),
-    updateDomain: withErrorHandler(async (domain) => {
-      await updateFields({ domain });
+    updateDomainBackend: withErrorHandler(async (domain) => {
+      await updateItem({ project }, { domain });
       // don't await this because the project domain has already changed and I don't want to delay other things updating
       updateProjectDomain({ project });
     }, handleErrorForInput),
+    updateDomainState: (domain) => {
+      setProject((prev) => ({
+        ...prev,
+        domain,
+      }));
+    },
     updateDescription: (description) => updateFields({ description }).catch(handleErrorForInput),
     updatePrivate: (isPrivate) => updateFields({ private: isPrivate }).catch(handleError),
     uploadAvatar: () =>

@@ -1,41 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { VisuallyHidden } from '@fogcreek/shared-components';
+import { ResultItem, ResultInfo, ResultName, ResultDescription, VisuallyHidden } from '@fogcreek/shared-components';
 
 import Markdown from 'Components/text/markdown';
 import { ProfileItem } from 'Components/profile-list';
-import { ResultItem, ResultInfo, ResultName, ResultDescription } from 'Components/containers/results-list';
 import VisibilityContainer from 'Components/visibility-container';
 import { useCollectionCurator } from 'State/collection';
 import { BookmarkAvatar } from 'Components/images/avatar';
 
 import styles from './collection-result-item.styl';
 
-const ProfileItemWithData = ({ collection }) => {
+const ProfileItemWithData = ({ collection, asLinks }) => {
   const { value: curator } = useCollectionCurator(collection);
   return (
     <>
       {curator ? <VisuallyHidden>by</VisuallyHidden> : null}
-      <ProfileItem {...curator} size="small" />
+      <ProfileItem {...curator} size="small" asLinks={asLinks} />
     </>
   );
 };
 
-const ProfileItemWrap = ({ collection }) => (
+const ProfileItemWrap = ({ collection, asLinks }) => (
   <div className={styles.profileItemWrap}>
     <VisibilityContainer>
-      {({ wasEverVisible }) => (wasEverVisible ? <ProfileItemWithData collection={collection} /> : <ProfileItem size="small" />)}
+      {({ wasEverVisible }) => (wasEverVisible ? <ProfileItemWithData collection={collection} asLinks={asLinks} /> : <ProfileItem size="small" asLinks={asLinks} />)}
     </VisibilityContainer>
   </div>
 );
 
-const CollectionResultItem = ({ onClick, collection, active }) => {
+const CollectionResultItem = ({ onClick, collection, buttonProps }) => {
   const collectionIsMyStuff = collection.isMyStuff;
 
   return (
     <div className={classnames(collection.private && styles.private)}>
-      <ResultItem active={active} onClick={onClick} href={`/@${collection.fullUrl}`}>
+      <ResultItem {...buttonProps} onClick={onClick} href={`/@${collection.fullUrl}`}>
         {collectionIsMyStuff && (
           <div className={styles.avatarWrap}>
             <BookmarkAvatar />
@@ -50,7 +49,7 @@ const CollectionResultItem = ({ onClick, collection, active }) => {
               <Markdown renderAsPlaintext>{collection.description}</Markdown>
             </ResultDescription>
           )}
-          {collection.teamId && collection.teamId !== -1 && <ProfileItemWrap collection={collection} />}
+          {collection.teamId && collection.teamId !== -1 && <ProfileItemWrap collection={collection} asLinks={false} />}
         </ResultInfo>
       </ResultItem>
 
@@ -61,11 +60,9 @@ const CollectionResultItem = ({ onClick, collection, active }) => {
 CollectionResultItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   collection: PropTypes.object.isRequired,
-  active: PropTypes.bool,
 };
 
 CollectionResultItem.defaultProps = {
-  active: false,
 };
 
 export default CollectionResultItem;

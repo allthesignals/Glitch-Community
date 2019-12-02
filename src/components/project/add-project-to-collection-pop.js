@@ -45,7 +45,7 @@ AddProjectPopoverTitle.propTypes = {
   project: PropTypes.object.isRequired,
 };
 
-const AddProjectToCollectionResultItem = ({ onClick, collection, active }) => {
+const AddProjectToCollectionResultItem = ({ onClick, collection, buttonProps }) => {
   const onClickTracked = useTrackedFunc(
     onClick,
     'Project Added to Collection',
@@ -54,7 +54,7 @@ const AddProjectToCollectionResultItem = ({ onClick, collection, active }) => {
       groupId: collection.team ? collection.team.id : 0,
     },
   );
-  return <CollectionResultItem onClick={onClickTracked} collection={collection} active={active} />;
+  return <CollectionResultItem onClick={onClickTracked} collection={collection} buttonProps={buttonProps} />;
 };
 
 const AlreadyInCollection = ({ project, collections }) => (
@@ -157,7 +157,6 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
         onChange={setQuery}
         status={status}
         results={collections}
-        onSubmit={addProjectTo}
         placeholder="Filter collections"
         labelText="Filter collections"
         renderMessage={() => {
@@ -170,8 +169,8 @@ export const AddProjectToCollectionBase = ({ project, fromProject, addProjectToC
           }
           return null;
         }}
-        renderItem={({ item: collection, active }) => (
-          <AddProjectToCollectionResultItem active={active} onClick={() => addProjectTo(collection)} collection={collection} />
+        renderItem={({ item: collection, buttonProps }) => (
+          <AddProjectToCollectionResultItem onClick={() => addProjectTo(collection)} collection={collection} buttonProps={buttonProps} />
         )}
         renderNoResults={() => (
           <Info>

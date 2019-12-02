@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { parseOneAddress } from 'email-addresses';
 import randomColor from 'randomcolor';
-import { Button, Info, Popover } from '@fogcreek/shared-components';
+import { Button, Info, Popover, ResultItem, ResultInfo, ResultName, ResultDescription } from '@fogcreek/shared-components';
 
 import { UserAvatar } from 'Components/images/avatar';
 import WhitelistedDomainIcon from 'Components/whitelisted-domain';
 import Thanks from 'Components/thanks';
 import { PopoverSearch } from 'Components/popover';
-import { ResultItem, ResultInfo, ResultName, ResultDescription } from 'Components/containers/results-list';
 import { getDisplayName } from 'Models/user';
 import { captureException } from 'Utils/sentry';
 import { useTracker } from 'State/segment-analytics';
@@ -17,15 +16,15 @@ import { useAlgoliaSearch } from 'State/search';
 
 import useDebouncedValue from '../../hooks/use-debounced-value';
 
-const WhitelistEmailDomain = ({ result: domain, active, onClick }) => (
-  <ResultItem onClick={onClick} active={active}>
+const WhitelistEmailDomain = ({ result: domain, buttonProps, onClick }) => (
+  <ResultItem onClick={onClick} {...buttonProps}>
     <WhitelistedDomainIcon domain={domain} />
     <ResultInfo>Allow anyone with an @{domain} email to join</ResultInfo>
   </ResultItem>
 );
 
-const UserResult = ({ result: user, active, onClick }) => (
-  <ResultItem onClick={onClick} active={active}>
+const UserResult = ({ result: user, buttonProps, onClick }) => (
+  <ResultItem onClick={onClick} {...buttonProps}>
     <UserAvatar user={user} hideTooltip />
     <ResultInfo>
       <ResultName>{getDisplayName(user)}</ResultName>
@@ -35,10 +34,10 @@ const UserResult = ({ result: user, active, onClick }) => (
   </ResultItem>
 );
 
-const InviteByEmail = ({ result: email, active, onClick }) => {
+const InviteByEmail = ({ result: email, buttonProps, onClick }) => {
   const { current: color } = useRef(randomColor({ luminosity: 'light' }));
   return (
-    <ResultItem onClick={onClick} active={active}>
+    <ResultItem onClick={onClick} {...buttonProps}>
       <UserAvatar user={{ id: 0, color }} hideTooltip />
       <ResultInfo>
         <ResultName>Invite {email}</ResultName>
@@ -130,10 +129,11 @@ function AddTeamUserPop({ members, inviteEmail, inviteUser, setWhitelistedDomain
         onChange={onChange}
         results={results}
         status={status}
-        onSubmit={(result) => result.onClick()}
         labelText="User name"
         placeholder="Search for a user"
-        renderItem={({ item: { onClick, result, component: Component }, active }) => <Component active={active} result={result} onClick={onClick} />}
+        renderItem={({ item: { onClick, result, component: Component }, buttonProps }) => (
+          <Component buttonProps={buttonProps} result={result} onClick={onClick} />
+        )}
       />
       {!value && !!setWhitelistedDomain && !whitelistedDomain && <Info>You can also whitelist with @example.com</Info>}
     </>
@@ -176,9 +176,18 @@ const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setW
         <AddTeamUserPop
           members={members}
           whitelistedDomain={whitelistedDomain}
-          setWhitelistedDomain={(domain) => { onClose(); setWhitelistedDomain(domain); }}
-          inviteUser={(user) => { onClose(); inviteUser(user); }}
-          inviteEmail={(email) => { onClose(); inviteEmail(email); }}
+          setWhitelistedDomain={(domain) => {
+            onClose();
+            setWhitelistedDomain(domain);
+          }}
+          inviteUser={(user) => {
+            onClose();
+            inviteUser(user);
+          }}
+          inviteEmail={(email) => {
+            onClose();
+            inviteEmail(email);
+          }}
         />
       )}
     </Popover>

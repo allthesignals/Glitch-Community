@@ -5,36 +5,27 @@ import classnames from 'classnames';
 import Markdown from 'Components/text/markdown';
 import ProfileList from 'Components/profile-list';
 import VisibilityContainer from 'Components/visibility-container';
-import { ResultItem, ResultInfo, ResultName, ResultDescription } from 'Components/containers/results-list';
+import { ResultItem, ResultInfo, ResultName, ResultDescription } from '@fogcreek/shared-components';
 import { ProjectAvatar } from 'Components/images/avatar';
-import { getProjectLink } from 'Models/project';
 import { useProjectMembers } from 'State/project';
 
 import styles from './project-result-item.styl';
 
-const ProfileListWithData = ({ project }) => {
+const ProfileListWithData = ({ project, asLinks }) => {
   const { value: members } = useProjectMembers(project.id);
-  return <ProfileList {...members} layout="row" size="small" />;
+  return <ProfileList {...members} layout="row" size="small" asLinks={asLinks} />;
 };
 
-const ProfileListWrap = ({ project }) => (
+const ProfileListWrap = ({ project, asLinks }) => (
   <div className={styles.profileListWrap}>
     <VisibilityContainer>
-      {({ wasEverVisible }) => (
-        wasEverVisible ? <ProfileListWithData project={project} /> : <ProfileList layout="row" size="small" />
-      )}
+      {({ wasEverVisible }) => (wasEverVisible ? <ProfileListWithData project={project} asLinks={asLinks} /> : <ProfileList layout="row" size="small" asLinks={asLinks} />)}
     </VisibilityContainer>
   </div>
 );
 
-const ProjectResultItem = ({ project, selected, active, onClick }) => (
-  <ResultItem
-    className={classnames(project.private && styles.private)}
-    href={getProjectLink(project)}
-    onClick={onClick}
-    active={active}
-    selected={selected}
-  >
+const ProjectResultItem = ({ project, onClick, profileListAsLinks, buttonProps }) => (
+  <ResultItem className={classnames(project.private && styles.private)} onClick={() => onClick(project)} {...buttonProps}>
     <div>
       <ProjectAvatar project={project} />
     </div>
@@ -45,7 +36,7 @@ const ProjectResultItem = ({ project, selected, active, onClick }) => (
           <Markdown renderAsPlaintext>{project.description}</Markdown>
         </ResultDescription>
       )}
-      <ProfileListWrap project={project} />
+      <ProfileListWrap project={project} asLinks={profileListAsLinks} />
     </ResultInfo>
   </ResultItem>
 );
@@ -58,6 +49,11 @@ ProjectResultItem.propTypes = {
     private: PropTypes.bool,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
+  profileListAsLinks: PropTypes.bool,
+};
+
+ProjectResultItem.defaultProps = {
+  profileListAsLinks: true,
 };
 
 export default ProjectResultItem;

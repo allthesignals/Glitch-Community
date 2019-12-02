@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { enums } from '@optimizely/optimizely-sdk';
 import { useCurrentUser } from './current-user';
+import useUserPref from './user-prefs';
 
 const Context = createContext();
 
@@ -16,7 +17,9 @@ export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizely
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
+const defaultOverrides = {};
 const useOptimizely = () => useContext(Context);
+const useOverrides = () => useUserPref('optimizelyOverrides', defaultOverrides);
 
 const useOptimizelyValue = (getValue, dependencies) => {
   const { optimizely } = useOptimizely();
@@ -32,10 +35,14 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
-export const useFeatureEnabledForEntity = (whichToggle, entityId) => useOptimizelyValue(
-  (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
-  [whichToggle, entityId],
-);
+export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
+  const [overrides] = useOverrides();
+  const raw = useOptimizelyValue(
+    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
+    [whichToggle, entityId],
+  );
+  return overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+};
 
 export const useFeatureEnabled = (whichToggle) => {
   const { optimizelyId } = useOptimizely();
@@ -55,12 +62,15 @@ export const RolloutsUserSync = () => {
 
 export const useRolloutsDebug = () => {
   const { optimizelyId } = useOptimizely();
+  const [overrides, setOverrides] = useOverrides();
   return useOptimizelyValue((optimizely) => {
     const config = optimizely.projectConfigManager.getConfig();
     const features = config.featureFlags.map(({ key }) => {
       const enabled = optimizely.isFeatureEnabled(key, String(optimizelyId));
-      return { key, enabled };
+      const forced = overrides[key];
+      const setForced = (value) => setOverrides({ ...overrides, [key]: value });
+      return { key, enabled, forced, setForced };
     });
     return { features };
-  }, [optimizelyId]);
+  }, [optimizelyId, overrides, setOverrides]);
 };

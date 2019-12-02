@@ -35,12 +35,12 @@ const ABTests = () => {
     <section className={styles.footerSection}>
       Your A/B test groups ({text}):
       <ul className={styles.abTests}>
-        {Object.keys(assignments).map((test) => (
+        {Object.entries(tests).map(([test, groups]) => (
           <li key={test} className={styles.abTest}>
             <label>
               {test}:&nbsp;
               <select value={assignments[test]} onChange={(event) => reassign(test, event.target.value)}>
-                {Object.keys(tests[test]).map((group) => <option value={group} key={group}>{group}</option>)}
+                {Object.keys(groups).map((group) => <option value={group} key={group}>{group}</option>)}
               </select>
             </label>
           </li>
@@ -50,12 +50,30 @@ const ABTests = () => {
   );
 };
 
-const RolloutFeature = ({ feature }) => {
+const RolloutFeature = ({ feature, forced, setForced }) => {
   const enabled = useFeatureEnabled(feature);
+  const onChange = (event) => {
+    if (event.target.value === 'true') {
+      setForced(true);
+    } else if (event.target.value === 'false') {
+      setForced(false);
+    } else {
+      setForced(undefined);
+    }
+  };
+  const defaultIcon = enabled ? '✔' : null;
+  const forcedIcon = enabled ? '☑' : '☐';
   return (
     <tr>
       <td>{feature}</td>
-      <td>{enabled && '✔'}</td>
+      <td>{forced !== undefined ? forcedIcon : defaultIcon}</td>
+      <td>
+        <select onChange={onChange} value={String(forced)}>
+          <option value="undefined">Default</option>
+          <option value="true">Enable</option>
+          <option value="false">Disable</option>
+        </select>
+      </td>
     </tr>
   );
 };
@@ -69,11 +87,12 @@ const Rollouts = () => {
           <tr>
             <th>Feature</th>
             <th>Status</th>
+            <th>Override</th>
           </tr>
         </thead>
         <tbody>
-          {features.map(({ key }) => (
-            <RolloutFeature key={key} feature={key} />
+          {features.map(({ key, forced, setForced }) => (
+            <RolloutFeature key={key} feature={key} forced={forced} setForced={setForced} />
           ))}
         </tbody>
       </table>
