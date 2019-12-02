@@ -10,9 +10,8 @@ npm run stop && wait
 
 cd /opt/glitch-community
 #   avoid cruft like deleted files from hanging around
-#   this will show errors for current and parent dirs 
-#   but we want to see errors for anything else so redirecting to avoid specious failures
-rm -rf * .* 2>&1
+#   this should avoid error messages and exit codes for current and parent dirs
+rm -rf .[^.] .??*
 
 #   currently assuming we have a build file
 tar -xz --overwrite -f build.tar.gz
