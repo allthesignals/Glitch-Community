@@ -70,37 +70,35 @@ function AddCollectionProjectPop({ collection, togglePopover, addProjectToCollec
   );
 
   /* eslint-disable no-shadow */
-  const { visibleProjects, excludingExactMatch } = useMemo(
-    () => {
-      const projects = parsedQuery.length ? uniqBy(topResults.concat(retrievedProjects), (p) => p.id) : initialProjects;
+  const { visibleProjects, excludingExactMatch } = useMemo(() => {
+    const projects = parsedQuery.length ? uniqBy(topResults.concat(retrievedProjects), (p) => p.id) : initialProjects;
 
-      const idsOfProjectsInCollection = new Set(collection.projects.map((p) => p.id));
-      const [projectsAlreadyInCollection, newProjectsToAdd] = partition(projects, (project) => idsOfProjectsInCollection.has(project.id));
+    const idsOfProjectsInCollection = new Set(collection.projects.map((p) => p.id));
+    const [projectsAlreadyInCollection, newProjectsToAdd] = partition(projects, (project) => idsOfProjectsInCollection.has(project.id));
 
-      const visibleProjects = newProjectsToAdd.slice(0, 10);
-      const excludingExactMatch = projectsAlreadyInCollection.some((p) => p.domain === parsedQuery);
-      return { visibleProjects, excludingExactMatch };
-    },
-    [parsedQuery, initialProjects, topResults, retrievedProjects],
-  );
+    const visibleProjects = newProjectsToAdd.slice(0, 10);
+    const excludingExactMatch = projectsAlreadyInCollection.some((p) => p.domain === parsedQuery);
+    return { visibleProjects, excludingExactMatch };
+  }, [parsedQuery, initialProjects, topResults, retrievedProjects]);
 
   return (
     <>
       <PopoverSearch
         value={query}
         onChange={setQuery}
-        onSubmit={onSubmit}
         results={visibleProjects}
         labelText="Project name or URL"
         placeholder="Search by project name or URL"
         status={status}
-        renderItem={
-          ({ item: project, active }) => <ProjectResultItem project={project} active={active} onClick={() => onSubmit(project)} />
-        }
+        renderItem={({ item: project, buttonProps }) => (
+          <ProjectResultItem project={project} onClick={() => onSubmit(project)} buttonProps={buttonProps} profileListAsLinks={false} />
+        )}
       />
       {status === 'ready' && excludingExactMatch && (
         <Info>
-          <p>{parsedQuery} is already in this collection <Icon className={emoji} icon="sparkles" /></p>
+          <p>
+            {parsedQuery} is already in this collection <Icon className={emoji} icon="sparkles" />
+          </p>
         </Info>
       )}
     </>
@@ -114,10 +112,16 @@ AddCollectionProjectPop.propTypes = {
 };
 
 const AddCollectionProject = ({ collection, addProjectToCollection }) => (
-  <Popover className={widePopover} align="left" renderLabel={({ onClick, ref }) => <Button onClick={onClick} ref={ref}>Add Project</Button>}>
-    {({ onClose }) => (
-      <AddCollectionProjectPop collection={collection} addProjectToCollection={addProjectToCollection} togglePopover={onClose} />
+  <Popover
+    className={widePopover}
+    align="left"
+    renderLabel={({ onClick, ref }) => (
+      <Button onClick={onClick} ref={ref}>
+        Add Project
+      </Button>
     )}
+  >
+    {({ onClose }) => <AddCollectionProjectPop collection={collection} addProjectToCollection={addProjectToCollection} togglePopover={onClose} />}
   </Popover>
 );
 
