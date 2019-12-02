@@ -5,11 +5,11 @@ set -xeuo pipefail
 export BUILD_TYPE=static
 
 #   stop serving the project first
-#   this _should_ make the host fail health checks until restarted
+#   this should make the host fail health checks until restarted
 npm run stop && wait
 
 cd /opt/glitch-community
-#   avoid cruft like deleted files from hanging around.
+#   avoid cruft like deleted files from hanging around
 #   this will show errors for current and parent dirs 
 #   but we want to see errors for anything else so not suppressing them
 rm -rf * .*
@@ -26,7 +26,7 @@ echo "RUNNING_ON=staging" >> .env
 #   install the deps, run the app
 npm i
 
-#   temporarily adding a pause here to test how the lb / asg react when deploys take a while
+#   temporarily adding a pause here to test how the lb and asg react when deploys take a while
 sleep $(($(date +%s) % 500))s
 
 npm run start
