@@ -9,11 +9,18 @@ export BUILD_TYPE=static
 npm run stop && wait
 
 cd /opt/glitch-community
-rm -rf node_modules
+#   let's avoid cruft like deleted files from hanging around.
+#   this will show errors for '.' and '..', but we want to see errors for anything else, so I'm not suppressing them
+rm -rf * .*
 
 #   currently assuming we have a build file
 tar -xz --overwrite -f build.tar.gz
 rm build.tar.gz
+
+ # set up our env, since we're now clearing the entire project directory
+echo "PORT=9001" > .env
+echo "NODE_ENV=staging" >> .env
+echo "RUNNING_ON=staging" >> .env
 
 #   install the deps, run the app
 npm i
