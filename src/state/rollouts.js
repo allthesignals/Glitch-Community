@@ -47,16 +47,15 @@ const useDefaultUser = () => {
   const { optimizelyId } = useOptimizely();
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN, SSR_HAS_PROJECTS } = useGlobals();
-  const attributes = useMemo(() => currentUser.id ? {
-        hasLogin: !!currentUser.login,
-        hasProjects: currentUser.projects.length > 0,
-      };
-    }
-    return {
+  const attributes = useMemo(() => (
+    currentUser.id ? {
+      hasLogin: !!currentUser.login,
+      hasProjects: currentUser.projects.length > 0,
+    } : {
       hasLogin: SSR_SIGNED_IN,
       hasProjects: SSR_HAS_PROJECTS,
-    };
-  }, [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS]);
+    }
+  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS]);
   return [optimizelyId, attributes];
 };
 
