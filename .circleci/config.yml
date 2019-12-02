@@ -21,17 +21,17 @@ jobs:
       - run:
           name: setup-ssh
           command: cp ./ci/ssh.config ~/.ssh/config
-      - run:
-          name: update-pnpm
-          command: "sudo npm install -g pnpm@3.x"
+      # - run:
+      #     name: update-pnpm
+      #     command: "sudo npm install -g pnpm@3.x"
       - restore_cache:
           keys:
             # in Glitch we key on .Branch, but this is probably just as good
             # diff branches will probably have different checksums
             - deps-{{ checksum "shrinkwrap.yaml" }}
       - run:
-          name: pnpm-install
-          command: pnpm install
+          name: npm-install
+          command: npm install
       - save_cache:
           # Glitch save a bunch of other stuff here, but I don't think we need it
           paths:
@@ -41,11 +41,11 @@ jobs:
           # note to self - i wonder why this is right here? It's _after_ the cache save both here and in Glitch - 
           # are we linting stuff that gets stored in / restored from the cache? should we lint _before_ we save the cache then?
           name: eslint
-          command: pnpm run lint
+          command: npm run lint
       # do we care about the artifacts?
       - run:
           name: build
-          command: pnpm run build
+          command: npm run build
 # in retrospect I _think_ we're storing this here so that we can rely on the build's outputs in the tests without having to rebuild
       - save_cache:
           paths:
@@ -74,15 +74,15 @@ jobs:
       - restore_cache:
           keys:
             - build-{{ .Revision }}
+      # - run:
+      #     name: update-pnpm
+      #     command: "sudo npm install -g pnpm@3.x"
       - run:
-          name: update-pnpm
-          command: "sudo npm install -g pnpm@3.x"
-      - run:
-          name: pnpm-install
-          command: pnpm install
+          name: npm-install
+          command: npm install
       - run:
           name: cypress
-          command: pnpm run cy:ci
+          command: npm run cy:ci
   # should we be storing these reports anywhere? Maybe mocha generates its own?
   unit_tests:
     docker:
@@ -95,15 +95,15 @@ jobs:
       - restore_cache:
           keys:
             - build-{{ .Revision }}
+      # - run:
+      #     name: update-pnpm
+      #     command: "sudo npm install -g pnpm@3.x"
       - run:
-          name: update-pnpm
-          command: "sudo npm install -g pnpm@3.x"
-      - run:
-          name: pnpm-install
-          command: pnpm install
+          name: npm-install
+          command: npm install
       - run:
           name: mocha
-          command: pnpm run test
+          command: npm run test
 
   ###########################
   # new for comunity infra  #
