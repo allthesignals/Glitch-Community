@@ -207,11 +207,11 @@ const Postcards = ({ marketingContent }) => (
     <Postcard
       heading="Remix This"
       subheading="Remix This"
-      stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg?v=1569853255984"
+      stampImage="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fideas-label.svg?v=1573670255817"
       stampIcon="shuffle"
       outerBorderColor="#75d1f8"
       innerBorderColor="#cdeffc"
-      buttonText="View starter-chartjs"
+      buttonText="View App"
       buttonProps={{ as: 'a', href: 'https://glitch.com/~starter-chartjs' }}
       thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
     >

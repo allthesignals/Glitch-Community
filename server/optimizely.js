@@ -1,5 +1,6 @@
 const { createInstance } = require('@optimizely/optimizely-sdk');
 const { captureException } = require('@sentry/node');
+const dayjs = require('dayjs');
 const constants = require('./constants').current;
 
 const optimizelyClient = createInstance({
@@ -27,4 +28,15 @@ const getOptimizelyData = async () => {
   return optimizelyClient.projectConfigManager.datafileManager.get();
 };
 
-module.exports = { getOptimizelyClient, getOptimizelyData };
+const getOptimizelyId = (request, response) => {
+  const id = request.cookies['optimizely-id'] || Math.random();
+  const expires = dayjs().add(1, 'year').toDate();
+  response.cookie('optimizely-id', String(id), { expires });
+  return id;
+};
+
+module.exports = {
+  getOptimizelyClient,
+  getOptimizelyData,
+  getOptimizelyId,
+};

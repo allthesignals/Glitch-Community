@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+
 import { Button } from '@fogcreek/shared-components';
 import SearchForm from 'Components/search-form';
 import SignInPop from 'Components/sign-in-pop';
@@ -29,6 +31,7 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
   const fakeSignedIn = !currentUser.id && SSR_SIGNED_IN;
   const signedIn = !!currentUser.login || fakeSignedIn;
   const signedOut = !!currentUser.id && !signedIn;
+  const ssrHasHappened = signedIn || signedOut;
   const hasProjects = currentUser.projects.length > 0 || fakeSignedIn;
   return (
     <AnalyticsContext properties={{ origin: 'navbar' }}>
@@ -45,11 +48,9 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
               <SearchForm defaultValue={searchQuery} />
             </div>
             <ul className={styles.buttons}>
-              {(signedIn || signedOut) && (
-                <li className={styles.buttonWrap}>
-                  <NewProjectPop />
-                </li>
-              )}
+              <li className={classnames(styles.buttonWrap, !ssrHasHappened && styles.hiddenHack)}>
+                <NewProjectPop />
+              </li>
               {hasProjects && (
                 <li className={styles.buttonWrap}>
                   <ResumeCoding />
