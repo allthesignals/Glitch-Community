@@ -236,8 +236,9 @@ export const handlers = {
 
     window.addEventListener('storage', onStorage, { passive: true });
 
+    const sharedUser = getFromStorage(sharedUserKey);
     const cachedUser = getFromStorage(cachedUserKey);
-    if (cachedUser) {
+    if (usersMatch(sharedUser, cachedUser)) {
       identifyUser(cachedUser);
       store.dispatch(actions.loadedFromCache(cachedUser));
     }
