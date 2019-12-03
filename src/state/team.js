@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import * as assets from 'Utils/assets';
 
-import { useAPIHandlers } from 'State/api';
+import { useAPIHandlers, createAPIHook } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
 import useUploader from 'State/uploader';
@@ -10,6 +10,17 @@ import useErrorHandlers from 'State/error-handlers';
 import { useProjectReload } from 'State/project';
 
 import { MEMBER_ACCESS_LEVEL, userIsOnlyTeamAdmin } from 'Models/team';
+import { captureException } from 'Utils/sentry';
+
+export const useTeamMembers = createAPIHook(async (api, teamID) => {
+  try {
+    const res = await api.get(`/v1/teams/by/id/users?id=${teamID}&limit=10`);
+    return res.data.items;
+  } catch (e) {
+    captureException(e);
+    return [];
+  }
+});
 
 // eslint-disable-next-line import/prefer-default-export
 export function useTeamEditor(initialTeam) {
@@ -47,7 +58,7 @@ export function useTeamEditor(initialTeam) {
       const teamIndex = currentUser.teams.findIndex(({ id }) => id === team.id);
       if (teamIndex >= 0) {
         const teams = [...currentUser.teams];
-        teams[teamIndex] = team;
+        teams[teamIndex] = { ...currentUser.teams[teamIndex], ...changes };
         updateCurrentUser({ teams });
       }
     }
@@ -82,6 +93,11 @@ export function useTeamEditor(initialTeam) {
   const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
 
   const funcs = {
+    deleteTeam: () => {
+      const teams = currentUser.teams.filter((t) => t.id !== team.id);
+      updateCurrentUser({ teams });
+      return deleteItem({ team }).catch(handleError);
+    },
     updateName: (name) => updateFields({ name }).catch(handleErrorForInput),
     updateUrl: (url) => updateFields({ url }).catch(handleErrorForInput),
     updateDescription: (description) => updateFields({ description }).catch(handleErrorForInput),
@@ -198,10 +214,23 @@ export function useTeamEditor(initialTeam) {
         return false;
       }
       await updateUserAccessLevel({ user, team }, accessLevel);
+      let teamPermissions;
       setTeam((prev) => {
-        const teamPermissions = prev.teamPermissions.map((perm) => perm.userId === user.id ? { ...perm, accessLevel } : perm);
+        teamPermissions = prev.teamPermissions.map((perm) => (perm.userId === user.id ? { ...perm, accessLevel } : perm));
         return { ...prev, teamPermissions };
       });
+      const newTeams = [];
+      currentUser.teams.forEach((t) => {
+        const newTeam = { ...t };
+        if (newTeam.id === team.id) {
+          newTeam.teamPermissions = teamPermissions;
+          if (user.id === currentUser.id) {
+            newTeam.teamPermission = Object.assign({}, newTeam.teamPermission, { accessLevel });
+          }
+        }
+        newTeams.push(newTeam);
+      });
+      updateCurrentUser({ teams: newTeams });
       return null;
     }, handleError),
     joinTeamProject: withErrorHandler(async (project) => {
