@@ -199,7 +199,6 @@ export const { reducer, actions } = createSlice({
 
 // eslint-disable-next-line func-names
 const load = runLatest(function* (action, store) {
-  console.log('start');
   let sharedUser = getFromStorage(sharedUserKey);
 
   // If we're signed out create a new anon user
@@ -225,7 +224,6 @@ const load = runLatest(function* (action, store) {
   setStorage(cachedUserKey, newCachedUser);
   identifyUser(newCachedUser);
   store.dispatch(actions.loadedFresh(newCachedUser));
-  console.log('finish');
 });
 
 export const handlers = {
