@@ -123,11 +123,17 @@ export function useProjectEditor(initialProject) {
   const funcs = {
     deleteProject: () => {
       const projects = currentUser.projects.filter((p) => p.id !== project.id);
-      updateCurrentUser({ projects });
-      return deleteItem({ project }).catch(handleError);
+      const deleteStatus = deleteItem({ project }).catch(handleError).then(
+        (res) => {
+          if (res.data === 'OK') {
+            updateCurrentUser({ projects });
+          }
+        },
+      );
+      return deleteStatus;
     },
     updateDomainBackend: withErrorHandler(async (domain) => {
-      await updateFields({ domain });
+      updateItem({ project }, { domain });
       // don't await this because the project domain has already changed and I don't want to delay other things updating
       updateProjectDomain({ project });
     }, handleErrorForInput),

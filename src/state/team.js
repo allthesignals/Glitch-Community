@@ -95,8 +95,14 @@ export function useTeamEditor(initialTeam) {
   const funcs = {
     deleteTeam: () => {
       const teams = currentUser.teams.filter((t) => t.id !== team.id);
-      updateCurrentUser({ teams });
-      return deleteItem({ team }).catch(handleError);
+      const deleteStatus = deleteItem({ team }).catch(handleError).then(
+        (res) => {
+          if (res.data === 'OK') {
+            updateCurrentUser({ teams });
+          }
+        },
+      );
+      return deleteStatus;
     },
     updateName: (name) => updateFields({ name }).catch(handleErrorForInput),
     updateUrl: (url) => updateFields({ url }).catch(handleErrorForInput),
