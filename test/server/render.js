@@ -7,6 +7,7 @@ import { tests } from 'Shared/ab-tests';
 
 import { Page, resetState } from '../../src/server';
 import { makeTestCollection, makeTestProject, makeTestTeam, makeTestUser } from '../helpers/models';
+import { disableJsdom } from '../jsdomHelper';
 
 function renderPage(route, props) {
   resetState();
@@ -42,6 +43,8 @@ function renderPageAndEnsureItHasContent(route, props) {
 }
 
 describe('Server Side Rendering', function() {
+  disableJsdom();
+
   it('signed out home page', function() {
     renderPage('/', { SSR_SIGNED_IN: false });
   });
@@ -59,9 +62,10 @@ describe('Server Side Rendering', function() {
     renderPageAndEnsureItHasContent('/@test-user-1/test-collection', { API_CACHE });
   });
   it('project page', function() {
-    const users = [makeTestUser()];
-    const teams = [makeTestTeam()];
-    const project = makeTestProject({ domain: 'test-project', teams, users });
+    const user = makeTestUser();
+    const team = makeTestTeam();
+    const project = makeTestProject({ domain: 'test-project', teams: [team], users: [user] });
+    user.permission = { userId: user.id, projectId: project.id, accessLevel: 30 };
     const API_CACHE = { 'project:test-project': project };
     renderPageAndEnsureItHasContent('/~test-project', { API_CACHE });
   });
@@ -80,5 +84,23 @@ describe('Server Side Rendering', function() {
     const user = makeTestUser({ login: 'glitch-user', collections, projects, teams })
     const API_CACHE = { 'team-or-user:glitch-user': { user } };
     renderPageAndEnsureItHasContent('/@glitch-user', { API_CACHE });
+  });
+  it('about page', function() {
+    renderPage('/about');
+  });
+  it('about company page', function() {
+    renderPage('/about/company');
+  });
+  it('about careers page', function() {
+    renderPage('/about/careers');
+  });
+  it('about press page', function() {
+    renderPage('/about/press');
+  });
+  it('about events page', function() {
+    renderPage('/about/events');
+  });
+  it('vscode auth page', function() {
+    renderPage('/vscode-auth');
   });
 });

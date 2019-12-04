@@ -1,4 +1,4 @@
-function webpackExpressMiddleware() {
+module.exports = function webpackExpressMiddleware() {
   const webpack = require('webpack');
   const webpackConfig = require('../webpack.config.js');
   const compiler = webpack(webpackConfig);
@@ -18,11 +18,4 @@ function webpackExpressMiddleware() {
     }
     return next();
   };
-}
-
-module.exports = function(app) {
-  if (!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') {
-    // Use webpack middleware for dev/staging/etc.
-    app.use(webpackExpressMiddleware());
-  }
 };

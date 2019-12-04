@@ -1,15 +1,35 @@
 @import '../constants.styl'
 
+.signInBackground
+  position: fixed
+  width: 100%
+  height: 100%
+  background-image: url('https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fshapes-pattern.svg?v=1574798905086')
+  background-size: 100%
+  background-repeat: no-repeat
+  background-position: top
+  @media(min-width: hugeViewport){
+    background-size: 1000px
+  }
+  @media(prefers-reduced-motion: reduce){
+    // static background SVG that doesn't contain animation
+    background-image: url('https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fshapes-pattern-static.svg?v=1574799069834')
+  }
+
 .overlay
+  position: initial
   max-width: 320px
+  transform: inherit
+  margin: 0 auto
+  box-shadow: none
 
 .signInButtons
-  display: flex
-  flex-wrap: wrap
+  display: inline
   a
     margin-right: 0.5rem
 
 .signInWithGlitchButtons
+  margin: 2em 0 0
   button
     display: block
     margin-top: 0.5rem
@@ -25,6 +45,14 @@
   font-size: 11px
   color: tertiary
   padding: 0.5em 0
+  margin: 1em 0 0
 
 .helpText
-  margin: 0 0 0.5em 0
+  margin: 0 0 1em 0
+
+.extra
+  background: primary-background
+  margin: 1em 0.75em 0 0.75em
+  padding: 1em 1em
+  border-radius: 5px
+  border: 2px solid primary

@@ -30,20 +30,20 @@ function googleAuthLink() {
 }
 
 const companies = {
-  facebook: {
-    name: 'Facebook',
-    emoji: 'facebook',
-    href: facebookAuthLink(),
+  google: {
+    name: 'Google',
+    emoji: 'google',
+    href: googleAuthLink(),
   },
   github: {
     name: 'GitHub',
     emoji: 'octocat',
     href: githubAuthLink(),
   },
-  google: {
-    name: 'Google',
-    emoji: 'google',
-    href: googleAuthLink(),
+  facebook: {
+    name: 'Facebook',
+    emoji: 'facebook',
+    href: facebookAuthLink(),
   },
 };
 

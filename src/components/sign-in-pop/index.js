@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Actions, Button, Icon, Info, Loader, Popover, TextInput, Title } from '@fogcreek/shared-components';
 import SignInButton from 'Components/buttons/sign-in-button';
 import Link from 'Components/link';
@@ -324,7 +324,8 @@ const PasswordLoginSection = ({ showTwoFactor, showForgotPassword }) => {
   );
 };
 
-export const SignInPopBase = withRouter(({ startOpen, location }) => {
+export const SignInPopBase = ({ startOpen }) => {
+  const location = useLocation();
   const userPasswordEnabled = useDevToggle('User Passwords');
   const [, setDestination] = useDestinationAfterAuth(location.pathname, location.search);
   const [tfaToken, setTfaToken] = React.useState('');
@@ -334,8 +335,8 @@ export const SignInPopBase = withRouter(({ startOpen, location }) => {
       startOpen={startOpen}
       align="right"
       className={mediumPopover}
-      renderLabel={({ onClick, ref }) => (
-        <Button onClick={onClick} ref={ref} size="small">
+      renderLabel={(labelProps) => (
+        <Button size="small" {...labelProps}>
           Sign in
         </Button>
       )}
@@ -384,7 +385,7 @@ export const SignInPopBase = withRouter(({ startOpen, location }) => {
       )}
     </Popover>
   );
-});
+};
 
 const SignInPopContainer = () => <SignInPopBase />;
 

@@ -13,7 +13,7 @@ import { EllipsizeEmail } from './use-magic-code';
 import styles from './styles.styl';
 
 const keyInTheStoneUrl = 'https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2Fpassword.svg?v=1568309673327';
-const KeyImage = () => <Image width={92} src={keyInTheStoneUrl} alt="" />;
+const KeyImage = () => <Image width={60} src={keyInTheStoneUrl} alt="" />;
 
 const ForgotPassword = ({ showMainPage }) => {
   const api = useAPI();

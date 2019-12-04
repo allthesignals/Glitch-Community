@@ -7,9 +7,9 @@ import { PopoverMenuButton } from 'Components/popover';
 import styles from './featured-project.styl';
 import { emoji } from '../global.styl';
 
-export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote }) {
-  function toggleAndUnfeature(onClose) {
-    onClose();
+export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote, hasNote, isPlayer }) {
+  function toggleAndUnfeature(togglePopover) {
+    togglePopover();
     unfeatureProject();
   }
 
@@ -21,9 +21,7 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
   return (
     <Popover
       align="right"
-      renderLabel={({ onClick, ref }) => (
-        <PopoverMenuButton onClick={onClick} ref={ref} aria-label="Featured Project Options" />
-      )}
+      renderLabel={({ onClick, ref }) => <PopoverMenuButton onClick={onClick} ref={ref} aria-label="Featured Project Options" />}
     >
       {({ onClose }) => (
         <>
@@ -36,9 +34,11 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
                 <br />
               </>
             )}
-            <Button onClick={() => toggleAndUnfeature(onClose)}>
-              Un-feature <Icon icon="arrowDown" className={emoji} />
-            </Button>
+            {!isPlayer && (
+              <Button onClick={() => toggleAndUnfeature(onClose)}>
+                Un-feature <Icon icon="blockArrowDown" className={emoji} />
+              </Button>
+            )}
           </Actions>
         </>
       )}
@@ -50,9 +50,11 @@ FeaturedProjectOptionsPop.propTypes = {
   unfeatureProject: PropTypes.func.isRequired,
   createNote: PropTypes.func,
   hasNote: PropTypes.bool,
+  isPlayer: PropTypes.bool,
 };
 
 FeaturedProjectOptionsPop.defaultProps = {
   createNote: null,
   hasNote: false,
+  isPlayer: false,
 };

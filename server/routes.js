@@ -7,16 +7,13 @@ const dayjs = require('dayjs');
 const punycode = require('punycode');
 
 const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
-const initWebpack = require('./webpack');
+const webpackExpressMiddleware = require('./webpack');
 const constants = require('./constants');
 const { allByKeys } = require('../shared/api');
-const categories = require('../shared/categories');
-const { APP_URL } = constants.current;
 const renderPage = require('./render');
 const getAssignments = require('./ab-tests');
 const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
 const { readCuratedContent, writeCuratedContent } = require('./curated');
-const rootTeams = require('../shared/teams');
 
 module.exports = function(EXTERNAL_ROUTES) {
   const app = express.Router();
@@ -38,12 +35,15 @@ module.exports = function(EXTERNAL_ROUTES) {
     return next();
   });
 
-  initWebpack(app);
+  // Use webpack middleware for dev/staging/etc.
+  if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.env.NODE_ENV !==  'production') {
+    app.use(webpackExpressMiddleware());
+  }
   const buildTime = dayjs();
 
   const ms = dayjs.convert(7, 'days', 'milliseconds');
   app.use(express.static('public', { index: false }));
-  app.use(express.static('build/client', { index: false, maxAge: ms }));
+  app.use(express.static('build', { index: false, maxAge: ms }));
 
   const readFilePromise = util.promisify(fs.readFile);
 
@@ -59,7 +59,7 @@ module.exports = function(EXTERNAL_ROUTES) {
     }
 
     try {
-      const stats = JSON.parse(await readFilePromise('build/client/stats.json'));
+      const stats = JSON.parse(await readFilePromise('build/stats.json'));
       for (const file of stats.entrypoints.client.assets) {
         if (file.match(/\.js(\?|$)/)) {
           scripts.push(`${stats.publicPath}${file}`);
@@ -87,18 +87,22 @@ module.exports = function(EXTERNAL_ROUTES) {
     });
 
     const renderedContext = await renderPage(url, currentContext);
-
-    res.render('index.ejs', {
-      ...currentContext,
-      ...renderedContext,
-      scripts,
-      styles,
-      BUILD_COMPLETE: built,
-      BUILD_TIMESTAMP: buildTime.toISOString(),
-      PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
-      ENVIRONMENT: process.env.NODE_ENV || 'dev',
-      RUNNING_ON: process.env.RUNNING_ON,
-    });
+    
+    if (renderedContext.redirect) {
+      res.redirect(301, renderedContext.redirect);
+    } else {
+      res.render('index.ejs', {
+        ...currentContext,
+        ...renderedContext,
+        scripts,
+        styles,
+        BUILD_COMPLETE: built,
+        BUILD_TIMESTAMP: buildTime.toISOString(),
+        PROJECT_DOMAIN: process.env.PROJECT_DOMAIN,
+        ENVIRONMENT: process.env.NODE_ENV || 'dev',
+        RUNNING_ON: process.env.RUNNING_ON,
+      });
+    }
   }
 
   app.use(
@@ -122,20 +126,6 @@ module.exports = function(EXTERNAL_ROUTES) {
     await render(req, res, cache);
   });
 
-  app.get('/~:domain/edit', async (req, res) => {
-    const { domain } = req.params;
-    const editorUrl = `${APP_URL}/edit/#!/${domain}`;
-
-    res.redirect(editorUrl);
-  });
-
-  app.get('/~:domain/console', async (req, res) => {
-    const { domain } = req.params;
-    const consoleUrl = `${APP_URL}/edit/console.html?${domain}`;
-
-    res.redirect(consoleUrl);
-  });
-
   app.get('/@:name', async (req, res) => {
     const { name } = req.params;
     const team = await getTeam(name);
@@ -151,19 +141,6 @@ module.exports = function(EXTERNAL_ROUTES) {
       return;
     }
     await render(req, res);
-  });
-
-  categories.forEach((category) => {
-    app.get(`/${category.url}`, (req, res) => {
-      res.redirect(301, `/@glitch/${category.collectionName}`);
-    });
-  });
-
-  // redirect legacy root team URLs to '@' URLs (eg. glitch.com/slack => glitch.com/@slack)
-  Object.keys(rootTeams).forEach((teamName) => {
-    app.get(`/${teamName}`, (req, res) => {
-      res.redirect(301, `/@${teamName}`);
-    });
   });
 
   app.get('/@:author/:url', async (req, res) => {
