@@ -121,11 +121,11 @@ export function useProjectEditor(initialProject) {
   const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
 
   const funcs = {
-    deleteProject: withErrorHandler(async() => {
+    deleteProject: withErrorHandler(async () => {
       await deleteItem({ project });
       const projects = currentUser.projects.filter((p) => p.id !== project.id);
       updateCurrentUser({ projects });
-      },handleError),
+    }, handleError),
     updateDomainBackend: withErrorHandler(async (domain) => {
       updateItem({ project }, { domain });
       // don't await this because the project domain has already changed and I don't want to delay other things updating

@@ -93,11 +93,11 @@ export function useTeamEditor(initialTeam) {
   const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
 
   const funcs = {
-    deleteTeam: withErrorHandler(async() => {
+    deleteTeam: withErrorHandler(async () => {
       await deleteItem({ team });
       const teams = currentUser.teams.filter((t) => t.id !== team.id);
       updateCurrentUser({ teams });
-      },handleError),
+    }, handleError),
     updateName: (name) => updateFields({ name }).catch(handleErrorForInput),
     updateUrl: (url) => updateFields({ url }).catch(handleErrorForInput),
     updateDescription: (description) => updateFields({ description }).catch(handleErrorForInput),
