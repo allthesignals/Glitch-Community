@@ -21,9 +21,7 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
   return (
     <Popover
       align="right"
-      renderLabel={({ onClick, ref }) => (
-        <PopoverMenuButton onClick={onClick} ref={ref} aria-label="Featured Project Options" />
-      )}
+      renderLabel={({ onClick, ref }) => <PopoverMenuButton onClick={onClick} ref={ref} aria-label="Featured Project Options" />}
     >
       {({ onClose }) => (
         <>
@@ -38,7 +36,7 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
             )}
             {!isPlayer && (
               <Button onClick={() => toggleAndUnfeature(onClose)}>
-                Un-feature <Icon icon="arrowDown" className={emoji} />
+                Un-feature <Icon icon="blockArrowDown" className={emoji} />
               </Button>
             )}
           </Actions>
