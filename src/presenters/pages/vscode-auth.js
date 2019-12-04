@@ -3,6 +3,7 @@
  */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
 import SignInLayout from 'Components/layout/sign-in-layout';
 
@@ -19,7 +20,8 @@ const VSCodeAuth = ({ scheme }) => {
 
   const redirectMessage = "You are being redirected. (If you aren't sent back to your editor, try signing in with an email code.)";
 
-  const [, setDestination] = useDestinationAfterAuth(location.pathname, location.search);
+  const { pathname, search } = useLocation();
+  const [, setDestination] = useDestinationAfterAuth(pathname, search);
 
   useEffect(() => {
     if (!isValidApp) return;

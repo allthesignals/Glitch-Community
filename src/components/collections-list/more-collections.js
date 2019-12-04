@@ -15,7 +15,7 @@ import useSample from 'Hooks/use-sample';
 
 import styles from './styles.styl';
 
-const loadMoreCollectionsFromAuthor = ({ api, collection }) => {
+const loadMoreCollectionsFromAuthor = (api, collection) => {
   const authorType = collection.teamId === -1 ? 'user' : 'team';
   const authorEndpoint = `${authorType}s`;
   const authorId = authorType === 'user' ? collection.userId : collection.teamId;
@@ -85,7 +85,7 @@ MoreCollections.propTypes = {
 
 const MoreCollectionsContainer = ({ collection }) => (
   <div className={styles.moreByLinkWrap}>
-    <DataLoader get={(api) => loadMoreCollectionsFromAuthor({ api, collection })}>
+    <DataLoader get={loadMoreCollectionsFromAuthor} args={collection}>
       {(collections) => (collections.length > 0 ? <MoreCollections currentCollection={collection} collections={collections} /> : null)}
     </DataLoader>
   </div>

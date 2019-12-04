@@ -54,20 +54,24 @@ export const getAPIForToken = memoize((persistentToken) => {
 
 export function APIContextProvider({ children }) {
   const { persistentToken } = useCurrentUser();
-  const api = getAPIForToken(persistentToken);
-
   const [pendingRequests, setPendingRequests] = useState([]);
-  if (!api.persistentToken) {
+
+  const api = useMemo(() => {
+    const rawApi = getAPIForToken(persistentToken);
+    if (rawApi.persistentToken) return rawApi;
     // stall requests until we have a persistentToken
-    ['get'].forEach((method) => {
-      api[method] = async (...args) => {
+    const overrides = {};
+    ['get', 'post', 'put', 'patch', 'delete'].forEach((method) => {
+      overrides[method] = async (...args) => {
         const apiWithToken = await new Promise((resolve) => {
           setPendingRequests((latestPendingRequests) => [...latestPendingRequests, resolve]);
         });
         return apiWithToken[method](...args);
       };
     });
-  }
+    return { ...rawApi, ...overrides };
+  }, [persistentToken]);
+
   useEffect(() => {
     if (api.persistentToken && pendingRequests.length) {
       // go back and finally make all of those requests
@@ -179,6 +183,11 @@ export const useAPIHandlers = () => {
       removeUserFromProject: ({ project, user }) => api.delete(`/projects/${project.id}/authorization`, { data: { targetUserId: user.id } }),
       updateProjectDomain: ({ project }) => api.post(`/project/domainChanged?projectId=${project.id}`),
       undeleteProject: ({ project }) => api.post(`/projects/${project.id}/undelete`),
+      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) => api.post(`/project_permissions/${project.id}`, {
+        projectId: project.id,
+        userId: user.id,
+        accessLevel,
+      }),
 
       // teams
       joinTeam: ({ team }) => api.post(`/teams/${team.id}/join`),

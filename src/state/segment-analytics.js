@@ -7,7 +7,10 @@ import { captureException } from 'Utils/sentry';
 
 const Context = React.createContext({ properties: {}, context: {} });
 
-const resolveProperties = (properties, inheritedProperties) => {
+const resolveProperties = (properties, inheritedProperties, ...moreProperties) => {
+  if (moreProperties.length > 0) {
+    return resolveProperties(properties, resolveProperties(inheritedProperties, ...moreProperties));
+  }
   if (isFunction(properties)) {
     return properties(inheritedProperties);
   }
@@ -40,9 +43,9 @@ AnalyticsContext.defaultProps = {
 
 export const useTracker = (name, properties, context) => {
   const inherited = React.useContext(Context);
-  return () => {
+  return (callProperties) => {
     try {
-      analytics.track(name, resolveProperties(properties, inherited.properties), resolveProperties(context, inherited.context));
+      analytics.track(name, resolveProperties(callProperties, properties, inherited.properties), resolveProperties(context, inherited.context));
     } catch (error) {
       /*
       From Segment: "We currently return a 200 response for all API requests so debugging should be done in the Segment Debugger.
@@ -55,6 +58,8 @@ export const useTracker = (name, properties, context) => {
     }
   };
 };
+
+export const useIsAnalyticsInitialized = () => analytics.initialized;
 
 export const useTrackedFunc = (func, name, properties, context) => {
   const track = useTracker(name, properties, context);

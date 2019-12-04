@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
 import punycode from 'punycode';
 
 import categories from 'Shared/categories';
@@ -27,6 +27,7 @@ import SettingsPage from './settings';
 import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
 import VSCodeAuth from './vscode-auth';
 import TwoFactorCodePage from './login/two-factor-code';
+import DeleteTokenPage from './delete';
 import AboutPage from './about';
 import AboutCompanyPage from './about/company';
 import AboutCareersPage from './about/careers';
@@ -38,12 +39,26 @@ const parse = (search, name) => {
   return params.get(name);
 };
 
-function ExternalPageReloader() {
+const ExternalPageReloader = () => {
   useEffect(() => {
     window.location.reload();
   }, []);
   return null;
-}
+};
+
+const ExternalRedirect = ({ to }) => {
+  useEffect(() => {
+    window.location.replace(to);
+  }, []);
+  return (
+    <Route
+      render={({ staticContext }) => {
+        if (staticContext) staticContext.url = to;
+        return null;
+      }}
+    />
+  );
+};
 
 function track() {
   try {
@@ -56,12 +71,12 @@ function track() {
   }
 }
 
-const PageChangeHandler = withRouter(({ location }) => {
+const PageChangeHandler = () => {
+  const location = useLocation();
   const { reload } = useCurrentUser();
   const isUpdate = useRef(false);
-
   useEffect(() => {
-    if (isUpdate.current) {
+    if (isUpdate.current && (location.state && !location.state.preventScroll)) {
       window.scrollTo(0, 0);
       reload();
     }
@@ -82,7 +97,7 @@ const PageChangeHandler = withRouter(({ location }) => {
     }
   });
   return null;
-});
+};
 
 const Router = () => {
   const { EXTERNAL_ROUTES } = useGlobals();
@@ -141,6 +156,11 @@ const Router = () => {
           )}
         />
 
+        <Route
+          path="/delete"
+          exact
+          render={({ location }) => <DeleteTokenPage token={parse(location.search, 'token')} />}
+        />
         <Route path="/signin" exact render={({ location }) => <OauthSignIn key={location.key} />} />
 
         <Route path="/join/@:teamUrl/:joinToken" exact render={({ location, match }) => <JoinTeamPage key={location.key} {...match.params} />} />
@@ -148,14 +168,12 @@ const Router = () => {
         <Route path="/questions" exact render={({ location }) => <QuestionsPage key={location.key} />} />
 
         <Route path="/~:name" exact render={({ location, match }) => <ProjectPage key={location.key} name={punycode.toASCII(match.params.name)} />} />
+        <Route path="/~:name/edit" exact render={({ location, match }) => <Redirect key={location.key} to={`/edit/#!/${match.params.name}`} />} />
+        <Route path="/~:name/console" exact render={({ location, match }) => <Redirect key={location.key} to={`/edit/console.html?${match.params.name}`} />} />
 
         <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />
 
-        <Route
-          path="/@:owner/:name"
-          exact
-          render={({ location, match }) => <CollectionPage key={location.key} owner={match.params.owner} name={match.params.name} />}
-        />
+        <Route path="/@:owner/:name/(play)?/:projectId?" render={({ match }) => <CollectionPage owner={match.params.owner} name={match.params.name} />} />
 
         <Route
           path="/user/:id(\d+)"
@@ -188,11 +206,27 @@ const Router = () => {
 
         <Route path="/vscode-auth" exact render={({ location }) => <VSCodeAuth key={location.key} scheme={parse(location.search, 'scheme')} />} />
 
-        <Route path="/about/company" render={({ location }) => <AboutCompanyPage key={location.key} />} />
-        <Route path="/about/careers" render={({ location }) => <AboutCareersPage key={location.key} />} />
-        <Route path="/about/events" render={({ location }) => <AboutEventsPage key={location.key} />} />
-        <Route path="/about/press" render={({ location }) => <AboutPressPage key={location.key} />} />
-        <Route path="/about" render={({ location }) => <AboutPage key={location.key} />} />
+        <Route path="/about/company" exact render={({ location }) => <AboutCompanyPage key={location.key} />} />
+        <Route path="/about/careers" exact render={({ location }) => <AboutCareersPage key={location.key} />} />
+        <Route path="/about/events" exact render={({ location }) => <AboutEventsPage key={location.key} />} />
+        <Route path="/about/press" exact render={({ location }) => <AboutPressPage key={location.key} />} />
+        <Route path="/about" exact render={({ location }) => <AboutPage key={location.key} />} />
+
+        <Route path="/people" exact render={({ location }) => <ExternalRedirect to="https://jobs.lever.co/glitch/042d31a3-72dd-46e4-af25-a7bb6b7fe32e" key={location.key} />} />
+        <Route path={['/partners', '/foryourapi', '/forteams']} exact render={({ location }) => <Redirect to="/teams/" key={location.key} />} />
+        <Route path="/website-starter-kit" exact render={({ location }) => <Redirect to="/culture/website-starter-kit/" key={location.key} />} />
+        <Route path="/react-starter-kit" exact render={({ location }) => <Redirect to="/culture/react-starter-kit/" key={location.key} />} />
+        <Route path="/you-got-this/2" render={({ location }) => <Redirect to="/culture/you-got-this-zine-2/" key={location.key} />} />
+        <Route path="/you-got-this" render={({ location }) => <Redirect to="/culture/you-got-this-zine/" key={location.key} />} />
+        <Route path="/function" render={({ location }) => <Redirect to="/culture/function/" key={location.key} />} />
+        <Route path="/revisionpath" render={({ location }) => <Redirect to="/culture/revisionpath/" key={location.key} />} />
+        <Route path="/open-world" render={({ location }) => <Redirect to="/culture/open-world/" key={location.key} />} />
+        <Route path="/careers" render={({ location }) => <Redirect to="/about/careers/" key={location.key} />} />
+        <Route path={['/mythbustersjr', '/mythbusters']} render={({ location }) => <Redirect to="/culture/mythbusters-jr/" key={location.key} />} />
+        <Route path="/saastr" exact render={({ location }) => <ExternalRedirect to="https://saastr.glitch.me/" key={location.key} />} />
+        <Route path="/vscode" exact render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
+        <Route path="/support" exact render={({ location }) => <ExternalRedirect to="https://support.glitch.com" key={location.key} />} />
+        <Route path="/featured" render={({ location, match }) => <Redirect to={`/culture${location.pathname.slice(match.url.length)}`} key={location.key} />} />
 
         {EXTERNAL_ROUTES.map((route) => (
           <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />
