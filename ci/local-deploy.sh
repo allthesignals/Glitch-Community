@@ -15,7 +15,7 @@ tar -xz --overwrite -f build.tar.gz
 rm build.tar.gz
 
 #   retrieve the stored .env file
-aws s3 cp s3://community-bootstrap-bucket20191205165831056600000001/.env .
+aws s3 cp --quiet s3://community-bootstrap-bucket20191205165831056600000001/.env .
 
 #   install the deps, run the app
 npm i && wait
