@@ -301,43 +301,33 @@
   @media (min-width: largeViewport)
     flex-wrap: nowrap
     max-width: 500px
-    
+
+.toolsHeader
+  margin-left: 30px
+  
 .vscodeSectionDescription
   max-width: 500px
   
 // help
 .helpLinks
   display: flex
+  flex: 100%
+  flex-direction: column
   flex-wrap: wrap
   position: relative
   margin-top: u4
+  margin-left: 30px
+  margin-right: u4
+  
   hr
-    display: none
+    display: block
     margin: u4 0
     background: secondary-background-hover
     width: 60%
   h3
     margin-top: 0
-    font-weight: 600
-  @media (min-width: mediumSmallViewport)
-    hr
-      display: block
-    .helpLinkSection
-      flex: 100%
-      margin-right: u4
-      max-width: 70%
-      margin-right: 30px
-  @media (min-width: largeViewport)
-    max-width: 100%
-    flex-wrap: nowrap
-    margin-left: 40px
-    hr
-      display: none
-    .helpLinkSection
-      flex: initial
-      max-width: 40%
-    h3
-      margin-top: initial
+    font-weight: 600    
+
 .helpImage
   position: relative
   margin: u4 auto

@@ -355,7 +355,7 @@ function Help() {
 
       <div className={styles.helpLinks}>
         <div className={styles.helpLinkSection}>
-          <Heading tagName="h3">Help Center</Heading>
+          <Heading tagName="h3" className={styles.h3}>Help Center</Heading>
           <Text>The best place to find answers about Glitch</Text>
           <Text>
             <Button as="a" href="https://glitch.com/help">
@@ -376,7 +376,7 @@ function Help() {
         </div>
 
         <div className={styles.helpLinkSection}>
-          <Heading tagName="h3">Support Forum</Heading>
+          <Heading tagName="h3" className={styles.h3}>Support Forum</Heading>
           <Text>Personalized support for your app-specific questions.</Text>
           <Text>
             <Button as="a" href="https://support.glitch.com">
@@ -407,7 +407,7 @@ function VSCode() {
 
   return (
     <section className={classNames(styles.section, styles.help)}>
-      <Heading className={classNames(styles.h3} tagName="h3">
+      <Heading className={classNames(styles.h3, styles.toolsHeader)} tagName="h3">
         Visual Studio extension (beta)
       </Heading>
 
@@ -455,7 +455,7 @@ function VSCode() {
 function GitHub() {
   return (
     <section className={styles.section}>
-      <Heading className={styles.h3} tagName="h3">
+      <Heading className={classNames(styles.h3, styles.toolsHeader)} tagName="h3">
         GitHub import and export
       </Heading>
 
