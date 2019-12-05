@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
-# set up our env now that we clear the entire project directory
-# echo "BUILD_TYPE=static"; echo "PORT=9001"; echo "NODE_ENV=staging"; echo "RUNNING_ON=staging"  > .env
-
 #   stop serving the project first
 #   this should make the host fail health checks until restarted
 npm run stop && wait
