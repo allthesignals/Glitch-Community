@@ -358,8 +358,6 @@ function Help() {
           </Text>
         </div>
 
-        <hr />
-
         <div aria-hidden="true" className={classNames(styles.helpImage, styles.blobContainer)}>
           <div className={styles.blob}>
             <Image src={blob} alt="" />

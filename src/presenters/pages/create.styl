@@ -333,31 +333,26 @@
   position: relative
   margin-top: u4
   margin-left: 30px
-  hr
-    display: none
-    margin: u4 0
-    background: secondary-background-hover
-    width: 60%
+  
+  .helpLinkSection
+    margin-right: u5
+    background: white;
+    padding: u3
+    border-radius: u1
+    margin-bottom: u3
+
   h3
     margin-top: 0
     font-weight: 600
   @media (min-width: mediumSmallViewport)
     hr
       display: block
-    .helpLinkSection
-      flex: 100%
-      margin-right: u4
-      max-width: 70%
-      margin-right: 30px
   @media (min-width: largeViewport)
     max-width: 100%
     flex-wrap: nowrap
     margin-left: 40px
     hr
       display: none
-    .helpLinkSection
-      flex: initial
-      max-width: 40%
     h3
       margin-top: initial
 
@@ -389,7 +384,7 @@
   display: inline-flex
   align-items: center
   list-style: none
-  background: secondary-background-hover
+  background: primary-background
   border-radius: u05
   padding: u1 u2
   cursor: pointer
