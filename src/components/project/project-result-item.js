@@ -24,22 +24,25 @@ const ProfileListWrap = ({ project, asLinks }) => (
   </div>
 );
 
-const ProjectResultItem = ({ project, onClick, profileListAsLinks, buttonProps }) => (
-  <ResultItem className={classnames(project.private && styles.private)} onClick={() => onClick(project)} {...buttonProps}>
-    <div>
-      <ProjectAvatar project={project} />
-    </div>
-    <ResultInfo>
-      <ResultName>{project.domain}</ResultName>
-      {project.description.length > 0 && (
-        <ResultDescription>
-          <Markdown renderAsPlaintext>{project.description}</Markdown>
-        </ResultDescription>
-      )}
-      <ProfileListWrap project={project} asLinks={profileListAsLinks} />
-    </ResultInfo>
-  </ResultItem>
-);
+const ProjectResultItem = ({ project, onClick, profileListAsLinks, buttonProps, isALink }) => {
+  const linkProps = isALink ? { as: 'a', href: `/~${project.domain}`, target: '_blank' } : {};
+  return (
+    <ResultItem className={classnames(project.private && styles.private)} onClick={() => onClick(project)} {...buttonProps} {...linkProps}>
+      <div>
+        <ProjectAvatar project={project} />
+      </div>
+      <ResultInfo>
+        <ResultName>{project.domain}</ResultName>
+        {project.description.length > 0 && (
+          <ResultDescription>
+            <Markdown renderAsPlaintext>{project.description}</Markdown>
+          </ResultDescription>
+        )}
+        <ProfileListWrap project={project} asLinks={profileListAsLinks} />
+      </ResultInfo>
+    </ResultItem>
+  );
+};
 
 ProjectResultItem.propTypes = {
   project: PropTypes.shape({
@@ -50,10 +53,12 @@ ProjectResultItem.propTypes = {
   }).isRequired,
   onClick: PropTypes.func.isRequired,
   profileListAsLinks: PropTypes.bool,
+  isALink: PropTypes.bool,
 };
 
 ProjectResultItem.defaultProps = {
   profileListAsLinks: true,
+  isALink: false,
 };
 
 export default ProjectResultItem;
