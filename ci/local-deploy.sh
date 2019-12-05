@@ -20,7 +20,7 @@ aws s3 cp --quiet s3://community-bootstrap-bucket20191205165831056600000001/.env
 #   install the deps, run the app
 npm i && wait
 
-#   temporarily adding a pause here to test how the lb and asg react when deploys take a while
-sleep $(($(date +%s) % 500))s
+#   one can temporarily add a pause here to test how the lb and asg react when deploys take a while
+#   sleep $(($(date +%s) % 500))s
 
 npm run start
