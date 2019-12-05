@@ -22,7 +22,7 @@ const DeleteTeamPop = ({ team: initialTeam }) => {
     if (teamIsDeleting) return;
     setTeamIsDeleting(true);
     try {
-      await funcs.deleteItem({ team });
+      await funcs.deleteTeam({ team });
       history.push('/');
     } catch (error) {
       console.error('deleteTeam', error, error.response);
