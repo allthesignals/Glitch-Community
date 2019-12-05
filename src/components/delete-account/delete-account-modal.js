@@ -76,7 +76,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
         </p>
       </Info>
       <Info>
-        If you delete your account, you will automatically be removed from these teams:
+        If you delete your account, you will automatically be removed from these teams:{' '}
         {otherTeams
           .map((team) => (
             <Link key={team.id} to={`@${team.name}`}>
