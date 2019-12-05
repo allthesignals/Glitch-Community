@@ -120,12 +120,6 @@ const FRAMEWORK_STARTERS = [
     domain: 'starter-react',
   },
   {
-    name: 'Ember',
-    logo: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fember-logo.svg?v=1561557345876`,
-    color: '#f8d1d5',
-    domain: 'ember',
-  },
-  {
     name: 'Nuxt',
     logo: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fnuxt-logo.svg?v=1561557346924`,
     color: '#ebfef5',
