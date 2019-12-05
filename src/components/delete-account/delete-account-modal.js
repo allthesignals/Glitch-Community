@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Pluralize from 'react-pluralize';
-import { Actions, Button, DangerZone, Icon, Info, Overlay, Title, useOverlay, mergeRefs } from '@fogcreek/shared-components';
+import { Actions, Badge, Button, DangerZone, Icon, Info, Overlay, ResultsList, Title, useOverlay, mergeRefs } from '@fogcreek/shared-components';
 
 import { useCurrentUser } from 'State/current-user';
 
 import Link from 'Components/link';
+import TeamResultItem from 'Components/team/team-result-item';
 import MultiPage from '../layout/multi-page';
 
 import styles from './delete-account-modal.styl';
@@ -35,22 +36,66 @@ const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
     </DangerZone>
   </>
 );
-const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => (
-  <>
-    <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Team Ownership</Title>
-    <Info>
-      You must <Link to="/">pick a new team admin</Link> or <Link to="/">delete</Link> these teams before you can delete your account.
-    </Info>
-    <Actions>
-      <Button className={styles.actionButton} onClick={() => setPage('emailConfirm')}>
-        Continue to Delete Account
-      </Button>
-      <Button className={styles.actionButton} variant="secondary" ref={last} onClick={onClose}>
-        Close
-      </Button>
-    </Actions>
-  </>
-);
+
+const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
+  const { currentUser } = useCurrentUser();
+  const [selectedTeam, onTeamSelection] = useState(null);
+  const singleAdminTeams = currentUser.teams.filter(
+    (team) =>
+      team.teamPermission.accessLevel === 30 &&
+      team.teamPermissions.filter((admin) => admin.accessLevel === 30).length === 1 &&
+      team.teamPermissions.length > 1,
+  );
+  const otherTeams = currentUser.teams.filter(
+    (team) => team.teamPermission.accessLevel === 20 || team.teamPermissions.filter((admin) => admin.accessLevel === 30).length > 1,
+  );
+  useEffect(() => {
+    if (!selectedTeam && singleAdminTeams.length) {
+      onTeamSelection(singleAdminTeams[0].id);
+    }
+  }, [singleAdminTeams]);
+  return (
+    <>
+      <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Team Ownership</Title>
+      <Info>
+        You must <Link to="/">pick a new team admin</Link> or <Link to="/">delete</Link> these teams before you can delete your account.
+      </Info>
+      {singleAdminTeams.length > 0 ? (
+        <ResultsList value={selectedTeam} onChange={onTeamSelection} options={singleAdminTeams}>
+          {({ item, buttonProps }) => <TeamResultItem team={item} onClick={() => {}} buttonProps={buttonProps} profileListAsLinks={false} isALink />}
+        </ResultsList>
+      ) : (
+        <Actions>
+          <Icon className={emoji} icon="victoryHand" />
+          All Done
+        </Actions>
+      )}
+      <Info className={styles.remaining}>
+        <p>
+          <Badge>{singleAdminTeams.length}</Badge> teams to update
+        </p>
+      </Info>
+      <Info>
+        If you delete your account, you will automatically be removed from these teams:
+        {otherTeams
+          .map((team) => (
+            <Link key={team.id} to={`@${team.name}`}>
+              {team.name}
+            </Link>
+          )).reduce((prev, curr) => [prev, ', ', curr])
+        }
+      </Info>
+      <Actions>
+        <Button disabled={singleAdminTeams.length > 0} className={styles.actionButton} onClick={() => setPage('emailConfirm')}>
+          Continue to Delete Account
+        </Button>
+        <Button className={styles.actionButton} variant="secondary" ref={last} onClick={onClose}>
+          Close
+        </Button>
+      </Actions>
+    </>
+  );
+};
 
 const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => (
   <>
