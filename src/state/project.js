@@ -127,7 +127,7 @@ export function useProjectEditor(initialProject) {
       updateCurrentUser({ projects });
     }, handleError),
     updateDomainBackend: withErrorHandler(async (domain) => {
-      updateItem({ project }, { domain });
+      await updateItem({ project }, { domain });
       // don't await this because the project domain has already changed and I don't want to delay other things updating
       updateProjectDomain({ project });
     }, handleErrorForInput),
