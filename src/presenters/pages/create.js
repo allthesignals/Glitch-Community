@@ -407,7 +407,7 @@ function VSCode() {
 
   return (
     <section className={classNames(styles.section, styles.help)}>
-      <Heading className={styles.h2} tagName="h3">
+      <Heading className={classNames(styles.h3} tagName="h3">
         Visual Studio extension (beta)
       </Heading>
 
@@ -476,7 +476,6 @@ function Remix() {
   const leaflet = { id: '4e131691-974a-4b1f-95e5-47137b94043d', domain: 'starter-leaflet' };
   const appsToRandomize = [
     { id: '2330a90c-9520-4c02-8db2-4e3078a69b69', domain: 'airtable-example' },
-    { id: '824edd48-c9bd-4aee-a3fb-561bb97344ed', domain: 'data-dashboard' },
     { id: 'c7a5b6bb-bafd-445e-a0f8-ef41115c9432', domain: 'hello-tensorflow' },
     { id: '71d3e262-edb4-456f-8703-48a1247b894f', domain: 'starter-react' },
     { id: '6d6f0669-c096-4acb-be5c-ea064712c918', domain: 'starter-chartjs' },
