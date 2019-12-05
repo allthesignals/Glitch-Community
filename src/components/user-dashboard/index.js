@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
@@ -12,15 +13,18 @@ import styles from './styles.styl';
 
 const Stamp = ({ labelImage, label, icon }) => (
   <div className={styles.stamp}>
-    <Heading tagName="h2" className={styles.stampLabel}>
-      {label}
+    <Heading tagName="h2">
+      <Image src={labelImage} width="auto" alt={label} className={styles.stampLabel} />
+      <Icon icon={icon} className={styles.stampIcon} />
     </Heading>
-    <Image src={labelImage} width="auto" alt="" />
-    <span className={styles.stampIcon}>
-      <Icon icon={icon} />
-    </span>
   </div>
 );
+
+Stamp.propTypes = {
+  labelImage: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+};
 
 const Postcards = ({ marketingContent }) => (
   <div className={styles.postcards}>
@@ -58,7 +62,7 @@ const Postcards = ({ marketingContent }) => (
     </Postcard>
 
     <Postcard
-      heading="Remix This"
+      heading="Ideas"
       subheading="Remix This"
       stampImage="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fideas-label.svg?v=1573670255817"
       stampIcon="lightbulb"
