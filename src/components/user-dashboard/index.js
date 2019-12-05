@@ -1,161 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Icon, Loader } from '@fogcreek/shared-components';
+import React from 'react';
+import { Button, Icon } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
-import BookmarkButton from 'Components/buttons/bookmark-button';
-import ProjectsList from 'Components/containers/projects-list';
-import CoverContainer from 'Components/containers/cover-container';
 import NewStuffContainer from 'Components/new-stuff';
-import { UserLink, WrappingLink } from 'Components/link';
-import SignInPop from 'Components/sign-in-pop';
-import { getUserAvatarStyle, getUserLink } from 'Models/user';
-import { getProjectLink } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
-import { useCollectionProjects, useToggleBookmark } from 'State/collection';
-import { useTrackedFunc } from 'State/segment-analytics';
+import RecentProjects from './recent-projects';
 
 import styles from './styles.styl';
-import { emoji } from '../global.styl';
-
-const SignInNotice = () => (
-  <div className={styles.anonUserSignUp}>
-    <span>
-      <SignInPop /> to keep your projects.
-    </span>
-  </div>
-);
-
-const ClearSession = ({ clearUser }) => {
-  function clickClearSession() {
-    if (
-      // eslint-disable-next-line
-      !window.confirm(`All activity from this anonymous account will be cleared.  Are you sure you want to continue?`)
-    ) {
-      return;
-    }
-    clearUser();
-  }
-
-  return (
-    <div className={styles.clearSession}>
-      <Button onClick={clickClearSession} size="small" variant="warning">
-        Clear Session <Icon className={emoji} icon="balloon" />
-      </Button>
-    </div>
-  );
-};
-
-const RecentProjects = () => {
-  const { currentUser, fetched, clear } = useCurrentUser();
-  const numProjects = currentUser.projects.length;
-  const isAnonymousUser = !currentUser.login;
-
-  return (
-    <section data-cy="recent-projects">
-      <Heading tagName="h2">
-        <UserLink user={currentUser}>
-          Your Projects <Icon className={styles.arrow} icon="arrowRight" />
-        </UserLink>
-      </Heading>
-      {isAnonymousUser && <SignInNotice />}
-      <CoverContainer type="dashboard" item={currentUser}>
-        <div className={styles.coverWrap}>
-          <div className={styles.avatarWrap}>
-            <WrappingLink user={currentUser} href={getUserLink(currentUser)}>
-              <div className={styles.userAvatar} style={getUserAvatarStyle(currentUser)} />
-            </WrappingLink>
-          </div>
-          <div className={styles.projectsWrap}>
-            {fetched ? (
-              <ProjectsList layout="row" projects={currentUser.projects.slice(0, 3)} showEditButton />
-            ) : (
-              <Loader style={{ width: '25px' }} />
-            )}
-          </div>
-        </div>
-        {numProjects < 3 && <Ideas count={3 - numProjects} />}
-        {isAnonymousUser && <ClearSession clearUser={clear} />}
-      </CoverContainer>
-    </section>
-  );
-};
-
-const Idea = ({ project }) => {
-  const { currentUser } = useCurrentUser();
-  const [hasBookmarked, toggleBookmark] = useToggleBookmark(project);
-
-  const bookmarkAction = useTrackedFunc(toggleBookmark, `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`, (inherited) => ({
-    ...inherited,
-    projectName: project.domain,
-    baseProjectId: project.baseId || project.baseProject,
-    userId: currentUser.id,
-    origin: `${inherited.origin}-user-dashboard`,
-  }));
-
-  return (
-    <div className={styles.idea}>
-      <span className={styles.ideaMyStuffBtn}>
-        <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
-      </span>
-
-      <div className={styles.ideaContentContainer}>
-        <Button as="a" href={getProjectLink(project.domain)}>
-          {project.domain}
-        </Button>
-        <Text size="14px">{project.description}</Text>
-      </div>
-      <div className={styles.ideaThumbnailContainer}>
-        <Image src={`https://cdn.glitch.com/${project.id}/thumbnail.png?version=${Date.now()}`} alt="" />
-      </div>
-    </div>
-  );
-};
-
-const Ideas = ({ count }) => {
-  // when this goes live, use collection id 13044 (@glitch/ideas)
-  // to test, use collection id 13045 or another you control
-  const { value: ideas } = useCollectionProjects({ id: 13044 });
-  const [ideasArr, setIdeasArr] = useState([]);
-
-  useEffect(() => {
-    setIdeasArr(ideas);
-  }, [ideas]);
-
-  const onClickMoreIdeas = () => {
-    const els = ideasArr.splice(0, count);
-    setIdeasArr([...ideasArr, ...els]);
-  };
-
-  return (
-    <div className={styles.ideas}>
-      <div className={styles.ideasHeader}>
-        <Heading className={styles.ideasHeading} tagName="h3">
-          <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
-        </Heading>
-
-        {count > 1 && <Text size="14px">Looking for project ideas? Try remixing a starter.</Text>}
-
-        {ideas && (
-          <span className={styles.moreIdeasBtn}>
-            <Button variant="secondary" size="small" onClick={onClickMoreIdeas}>
-              More Ideas <Icon icon="new" />
-            </Button>
-          </span>
-        )}
-      </div>
-
-      {ideasArr && (
-        <div className={styles.ideasGrid}>
-          {ideasArr.slice(0, count).map((project) => (
-            <Idea key={project.id} project={project} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
 
 const Stamp = ({ labelImage, label, icon }) => (
   <div className={styles.stamp}>
@@ -208,7 +61,7 @@ const Postcards = ({ marketingContent }) => (
       heading="Remix This"
       subheading="Remix This"
       stampImage="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fideas-label.svg?v=1573670255817"
-      stampIcon="shuffle"
+      stampIcon="lightbulb"
       outerBorderColor="#75d1f8"
       innerBorderColor="#cdeffc"
       buttonText="View App"

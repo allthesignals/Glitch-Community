@@ -8,8 +8,9 @@ import { UserLink, WrappingLink } from 'Components/link';
 import SignInPop from 'Components/sign-in-pop';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
+import Ideas from './ideas';
 
-import styles from './styles.styl';
+import styles from './recent-projects.styl';
 import { emoji } from '../global.styl';
 
 const SignInNotice = () => (
@@ -42,15 +43,17 @@ const ClearSession = ({ clearUser }) => {
 
 const RecentProjects = () => {
   const { currentUser, fetched, clear } = useCurrentUser();
+  const numProjects = currentUser.projects.length;
   const isAnonymousUser = !currentUser.login;
-
   return (
     <section data-cy="recent-projects">
       <Heading tagName="h2">
-        <UserLink user={currentUser}>Your Projects <Icon className={styles.arrow} icon="arrowRight" /></UserLink>
+        <UserLink user={currentUser}>
+          Your Projects <Icon className={styles.arrow} icon="arrowRight" />
+        </UserLink>
       </Heading>
       {isAnonymousUser && <SignInNotice />}
-      <CoverContainer type="user" item={currentUser}>
+      <CoverContainer type="dashboard" item={currentUser}>
         <div className={styles.coverWrap}>
           <div className={styles.avatarWrap}>
             <WrappingLink user={currentUser} href={getUserLink(currentUser)}>
@@ -65,6 +68,7 @@ const RecentProjects = () => {
             )}
           </div>
         </div>
+        {numProjects < 3 && <Ideas count={3 - numProjects} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
