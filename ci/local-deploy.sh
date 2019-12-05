@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
-#   per GregW
-export BUILD_TYPE=static
+# set up our env now that we clear the entire project directory
+# echo "BUILD_TYPE=static"; echo "PORT=9001"; echo "NODE_ENV=staging"; echo "RUNNING_ON=staging"  > .env
 
 #   stop serving the project first
 #   this should make the host fail health checks until restarted
@@ -17,10 +17,8 @@ rm -rf .[^.] .??*
 tar -xz --overwrite -f build.tar.gz
 rm build.tar.gz
 
- # set up our env now that we clear the entire project directory
-echo "PORT=9001" > .env
-echo "NODE_ENV=staging" >> .env
-echo "RUNNING_ON=staging" >> .env
+#   retrieve the stored .env file
+aws s3 cp s3://community-bootstrap-bucket20191205165831056600000001/.env .
 
 #   install the deps, run the app
 npm i && wait
