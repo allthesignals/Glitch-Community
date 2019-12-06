@@ -30,6 +30,8 @@ echo "${HOSTNAMES[@]}"
 for name in ${HOSTNAMES[*]}
 do
 
+  trap 'catch' ERR
+
   echo $name
 
   #check if the asset is already in S3
@@ -42,6 +44,18 @@ do
 
   # do the local deploy stuff
   ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $CIRCLE_SHA\""; code=$?
+
+  catch() {
+    echo "something bad happened; we're going to see if just pushing the asset will work"
+
+    # hard-coded push deploy
+    scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
+
+    # do the local deploy stuff
+    ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $CIRCLE_SHA\""; code=$?
+
+  }
+
 done
 
 if [ $code -ne 0 ]; then
