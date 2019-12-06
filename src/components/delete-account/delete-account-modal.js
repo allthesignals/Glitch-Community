@@ -6,6 +6,7 @@ import { useCurrentUser } from 'State/current-user';
 
 import Link from 'Components/link';
 import TeamResultItem from 'Components/team/team-result-item';
+import { getTeamLink } from 'Models/team';
 import MultiPage from '../layout/multi-page';
 
 import styles from './delete-account-modal.styl';
@@ -62,7 +63,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       </Info>
       {singleAdminTeams.length > 0 ? (
         <ResultsList value={selectedTeam} onChange={onTeamSelection} options={singleAdminTeams}>
-          {({ item, buttonProps }) => <TeamResultItem team={item} onClick={() => {}} buttonProps={buttonProps} profileListAsLinks={false} isALink />}
+          {({ item: team }) => <TeamResultItem team={team} onClick={() => window.open(`${getTeamLink(team)}`, '_blank')} />}
         </ResultsList>
       ) : (
         <Actions>
@@ -72,7 +73,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       )}
       <Info className={styles.remaining}>
         <p>
-          <Badge>{singleAdminTeams.length}</Badge> teams to update
+          <Badge>{singleAdminTeams.length}</Badge> <Pluralize count={singleAdminTeams.length} showCount={false} singular="team" /> to update
         </p>
       </Info>
       <Info>

@@ -6,7 +6,6 @@ import { TeamAvatar } from 'Components/images/avatar';
 import ProfileList from 'Components/profile-list';
 import VisibilityContainer from 'Components/visibility-container';
 import { ResultItem, ResultInfo, ResultName, ResultDescription } from '@fogcreek/shared-components';
-import { getTeamLink } from 'Models/team';
 import { useTeamMembers } from 'State/team';
 
 const ProfileListWithData = ({ team, asLinks }) => {
@@ -24,26 +23,22 @@ const ProfileListWrap = ({ team, asLinks }) => (
   </div>
 );
 
-const TeamResultItem = ({ team, onClick, buttonProps, profileListAsLinks, isALink }) => {
-  const linkProps = isALink ? { as: 'a', href: getTeamLink(team), target: '_blank' } : {};
-
-  return (
-    <ResultItem onClick={() => onClick(team)} {...buttonProps} {...linkProps}>
-      <div>
-        <TeamAvatar team={team} />
-      </div>
-      <ResultInfo>
-        <ResultName>{team.name}</ResultName>
-        {team.description.length > 0 && (
-          <ResultDescription>
-            <Markdown renderAsPlaintext>{team.description}</Markdown>
-          </ResultDescription>
-        )}
-        <ProfileListWrap team={team} asLinks={profileListAsLinks} />
-      </ResultInfo>
-    </ResultItem>
-  );
-};
+const TeamResultItem = ({ team, onClick, buttonProps, profileListAsLinks }) => (
+  <ResultItem onClick={() => onClick(team)} {...buttonProps}>
+    <div>
+      <TeamAvatar team={team} />
+    </div>
+    <ResultInfo>
+      <ResultName>{team.name}</ResultName>
+      {team.description.length > 0 && (
+        <ResultDescription>
+          <Markdown renderAsPlaintext>{team.description}</Markdown>
+        </ResultDescription>
+      )}
+      <ProfileListWrap team={team} asLinks={profileListAsLinks} />
+    </ResultInfo>
+  </ResultItem>
+);
 
 TeamResultItem.propTypes = {
   team: PropTypes.shape({
@@ -52,6 +47,11 @@ TeamResultItem.propTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
+  profileListAsLinks: PropTypes.bool,
+};
+
+TeamResultItem.defaultProps = {
+  profileListAsLinks: true,
 };
 
 export default TeamResultItem;
