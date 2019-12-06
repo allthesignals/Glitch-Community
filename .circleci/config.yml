@@ -57,15 +57,15 @@ jobs:
           key: build-{{ .Revision }}
       - run:
           name: compress-artifacts
-          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/$CIRCLE_SHA1.tar.gz .
+          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/build.tar.gz .
 # this should make the compresed build available for the deploy
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - $CIRCLE_SHA1.tar.gz
+            - build.tar.gz
 # we may not need this at all in fact
       - store_artifacts:
-          path: /home/circleci/$CIRCLE_SHA1.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
+          path: /home/circleci/build.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
   # not being run as of 2019-11-19
   integration_tests:
     docker:
@@ -130,6 +130,9 @@ jobs:
       #     name: where-am-i
       #     command: pwd && ls -la
       - run: cp ./ci/ssh.config ~/.ssh/config
+      - run:
+          name: prep-asset-filename
+          command: "mv build.tar.gz $CIRCLE_SHA1.tar.gz"
       - run:
           name: deploy-to-hosts
           command:  ./ci/deploy.sh $CIRCLE_SHA1
