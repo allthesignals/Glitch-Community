@@ -30,7 +30,7 @@ echo "${HOSTNAMES[@]}"
 for name in ${HOSTNAMES[*]}
 do
 
-  trap 'catch' ERR
+  trap 'catch $name $CIRCLE_SHA' ERR
 
   echo $name
 
@@ -49,10 +49,10 @@ do
     echo "something bad happened; we're going to see if just pushing the asset will work"
 
     # hard-coded push deploy
-    scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
+    scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$2.tar.gz deploy@"$1".staging:/opt/glitch-community; code=$?
 
     # do the local deploy stuff
-    ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $CIRCLE_SHA\""; code=$?
+    ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$1.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $2\""; code=$?
 
   }
 
