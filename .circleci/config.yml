@@ -56,16 +56,16 @@ jobs:
             - build
           key: build-{{ .Revision }}
       - run:
-          name: compress-artifacts
-          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/{{ .Revision }}.tar.gz .
+          name: compress-artifacts-{{ .Revision }}
+          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/$BUILD_TYPE.tar.gz .
 # this should make the compresed build available for the deploy
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - {{ .Revision }}.tar.gz
+            - $BUILD_TYPE.tar.gz
 # we may not need this at all in fact
       - store_artifacts:
-          path: /home/circleci/build.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
+          path: /home/circleci/$BUILD_TYPE.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
   # not being run as of 2019-11-19
   integration_tests:
     docker:
