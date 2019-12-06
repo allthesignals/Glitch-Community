@@ -44,6 +44,10 @@ jobs:
           command: npm run lint
       # do we care about the artifacts?
       - run:
+          # testing
+          name: whats-my-env
+          command: echo "$BUILD_TYPE"; printenv
+      - run:
           name: build
           command: npm run build
 # in retrospect I _think_ we're storing this here so that we can rely on the build's outputs in the tests without having to rebuild
@@ -53,12 +57,12 @@ jobs:
           key: build-{{ .Revision }}
       - run:
           name: compress-artifacts
-          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/build.tar.gz .
+          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/{{ .Revision }}.tar.gz .
 # this should make the compresed build available for the deploy
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - build.tar.gz
+            - {{ .Revision }}.tar.gz
 # we may not need this at all in fact
       - store_artifacts:
           path: /home/circleci/build.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
