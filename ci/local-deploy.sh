@@ -24,7 +24,7 @@ rm -rf .[^.] .??*
 
 #   currently assuming we have a build file
 tar -xz --overwrite -f "$CIRCLE_SHA.tar.gz"
-rm build.tar.gz
+rm "$CIRCLE_SHA.tar.gz"
 
 #   retrieve the stored .env file
 aws s3 cp --quiet s3://community-bootstrap-bucket20191205165831056600000001/.env .
