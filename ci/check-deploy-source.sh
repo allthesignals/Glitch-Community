@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -xeuo pipefail
+set -x  #   we don't want -e or -o pipefail; we want to handle the results of the grep at the end
 
 #   TODO
 #   *   parameterize the bootstrap bucket
@@ -16,4 +16,8 @@ export CIRCLE_SHA=$1
 #   check S3 for the asset; tell caller the result
 aws s3 ls s3://community-bootstrap-bucket20191205165831056600000001 | grep -q "$CIRCLE_SHA"; code=$?
 
-exit "$code"
+if [[ "$code" == 0 ]]; then
+    echo "S3"
+else
+    echo "CIRCLE"
+fi
