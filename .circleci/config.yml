@@ -132,7 +132,7 @@ jobs:
       - run: cp ./ci/ssh.config ~/.ssh/config
       - run:
           name: prep-asset-filename
-          command: "mv /home/circleci/project/build.tar.gz /home/circleci/project/$CIRCLE_SHA1.tar.gz"
+          command: "mv /home/circleci/build.tar.gz /home/circleci/$CIRCLE_SHA1.tar.gz"
       - run:
           name: deploy-to-hosts
           command:  ./ci/deploy.sh $CIRCLE_SHA1
