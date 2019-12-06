@@ -19,7 +19,6 @@ const CoverContainer = ({ coverActions, children, type, item }) => {
   const className = cx({
     coverContainer: true,
     hasCoverImage: type !== 'dashboard' && item.hasCoverImage,
-    dashboard: type === 'dashboard',
   });
   return (
     <div className={className} style={getProfileStyles[type](item, type)}>

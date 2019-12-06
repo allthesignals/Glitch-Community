@@ -44,7 +44,7 @@ export function getUserAvatarStyle(user, size) {
   };
 }
 
-export function getUserCoverUrl({ id, hasCoverImage, updatedAt, size = 'large', useDefaultImage = false }) {
+export function getUserCoverUrl({ id, hasCoverImage, updatedAt, size = 'large' }, useDefaultImage = false) {
   const customImage = `${CDN_URL}/user-cover/${id}/${size}?${updatedAt}`;
   const defaultImage = 'https://cdn.glitch.com/b065beeb-4c71-4a9c-a8aa-4548e266471f%2Fuser-pattern.svg';
   return hasCoverImage && !useDefaultImage ? customImage : defaultImage;
