@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { Actions, Badge, Button, DangerZone, Icon, Info, Overlay, ResultsList, Title, useOverlay, mergeRefs } from '@fogcreek/shared-components';
 
@@ -37,6 +38,14 @@ const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
     </DangerZone>
   </>
 );
+
+DeleteInfo.propTypes = {
+  setPage: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  first: PropTypes.object.isRequired,
+  focusedOnMount: PropTypes.object.isRequired,
+  last: PropTypes.object.isRequired,
+};
 
 const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
   const { currentUser } = useCurrentUser();
@@ -98,6 +107,14 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
   );
 };
 
+TeamTransfer.propTypes = {
+  setPage: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  first: PropTypes.object.isRequired,
+  focusedOnMount: PropTypes.object.isRequired,
+  last: PropTypes.object.isRequired,
+};
+
 const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => (
   <>
     <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Project Ownership</Title>
@@ -114,6 +131,14 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => (
     </Actions>
   </>
 );
+
+ProjectTransfer.propTypes = {
+  setPage: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  first: PropTypes.object.isRequired,
+  focusedOnMount: PropTypes.object.isRequired,
+  last: PropTypes.object.isRequired,
+};
 
 const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
   const { currentUser } = useCurrentUser();
@@ -142,6 +167,13 @@ const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
       </Actions>
     </>
   );
+};
+
+EmailConfirm.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  first: PropTypes.object.isRequired,
+  focusedOnMount: PropTypes.object.isRequired,
+  last: PropTypes.object.isRequired,
 };
 
 const DeleteSettings = () => {
