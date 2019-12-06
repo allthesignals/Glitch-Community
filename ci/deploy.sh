@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
+# check req params - we need a sha to use for file manipulation
+if [ -z "$1" ]; then
+  >&2 echo "Usage:"
+  >&2 echo "./$(basename $0) sha"
+  exit 1
+fi
+
+export CIRCLE_SHA=$1
 
 # TODO
 #   * does bootstrap need to be cleaned up to make it more idempotent / reliable?
@@ -12,6 +20,7 @@ set -xeuo pipefail
 #   * do we need a no-deploy flag?
 #   * what's the appropriate user for these scripts to run as?
 #   * connect env and branch to remove hard-coded vals
+#   * add sha check script to the process
 
 # first get the list of hostnames
 HOSTNAMES=( $(ssh -q worker.staging "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community staging'") )
@@ -23,7 +32,7 @@ do
 
   echo $name
   # hard-coded push deploy
-  scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/build.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
+  scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
 
   # do the local deploy stuff
   ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh\""

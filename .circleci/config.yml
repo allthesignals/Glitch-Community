@@ -43,10 +43,10 @@ jobs:
           name: eslint
           command: npm run lint
       # do we care about the artifacts?
-      - run:
-          # testing
-          name: whats-my-env
-          command: echo "$BUILD_TYPE"; printenv
+      # - run:
+      #     # testing
+      #     name: whats-my-env
+      #     command: echo "$BUILD_TYPE"; printenv
       - run:
           name: build
           command: npm run build
@@ -56,16 +56,16 @@ jobs:
             - build
           key: build-{{ .Revision }}
       - run:
-          name: compress-artifacts-{{ .Revision }}
-          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/$BUILD_TYPE.tar.gz .
+          name: compress-artifacts
+          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/$CIRCLE_SHA1.tar.gz .
 # this should make the compresed build available for the deploy
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - $BUILD_TYPE.tar.gz
+            - $CIRCLE_SHA1.tar.gz
 # we may not need this at all in fact
       - store_artifacts:
-          path: /home/circleci/$BUILD_TYPE.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
+          path: /home/circleci/$CIRCLE_SHA1.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
   # not being run as of 2019-11-19
   integration_tests:
     docker:
@@ -132,7 +132,7 @@ jobs:
       - run: cp ./ci/ssh.config ~/.ssh/config
       - run:
           name: deploy-to-hosts
-          command:  ./ci/deploy.sh
+          command:  ./ci/deploy.sh $CIRCLE_SHA1
 
 workflows:
   version: 2.1
