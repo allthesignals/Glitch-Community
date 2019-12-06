@@ -16,7 +16,7 @@ export CIRCLE_SHA=$1
 #   check S3 for the asset; tell caller the result
 aws s3 ls s3://community-bootstrap-bucket20191205165831056600000001 | grep -q "$CIRCLE_SHA"; code=$?
 
-if [[ "$code" == 0 ]]; then
+if [[ "$code" -eq 0 ]]; then
     echo "S3"
 else
     echo "CIRCLE"
