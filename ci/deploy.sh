@@ -31,7 +31,7 @@ for name in ${HOSTNAMES[*]}
 do
 
   catch() {
-    echo "something bad happened; we're going to see if just pushing the asset will work"
+    echo "something bad happened; let us see if just pushing the asset will work"
 
     # hard-coded push deploy
     scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$2.tar.gz deploy@"$1".staging:/opt/glitch-community; code=$?
