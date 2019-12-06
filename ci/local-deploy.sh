@@ -15,7 +15,7 @@ export CIRCLE_SHA=$1
 
 #   stop serving the project first
 #   this should make the host fail health checks until restarted
-npm run stop && wait
+npm i && npm run stop && wait
 
 cd /opt/glitch-community
 #   avoid cruft like deleted files from hanging around
