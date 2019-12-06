@@ -6,6 +6,7 @@ import { useCurrentUser } from 'State/current-user';
 
 import Link from 'Components/link';
 import ProjectResultItem from 'Components/project/project-result-item';
+import { getProjectLink } from 'Models/project';
 import MultiPage from '../layout/multi-page';
 
 import styles from './delete-account-modal.styl';
@@ -75,8 +76,8 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       </Info>
       {singleAdminProjects.length > 0 ? (
         <ResultsList value={currentlyFocusedProject} onChange={onSelectProject} options={singleAdminProjects} scroll>
-          {({ item: project, buttonProps }) => (
-            <ProjectResultItem project={project} onClick={() => {}} buttonProps={buttonProps} profileListAsLinks={false} isALink />
+          {({ item: project }) => (
+            <ProjectResultItem project={project} onClick={() => window.open(`${getProjectLink(project)}`, '_blank')} />
           )}
         </ResultsList>
       ) : (
