@@ -42,7 +42,7 @@ export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizely
 const defaultOverrides = {};
 const useOptimizely = () => useContext(Context);
 const useOverrides = () => useUserPref('optimizelyOverrides', defaultOverrides);
-
+// the id+attributes combo for the current user
 const useDefaultUser = () => {
   const { optimizelyId } = useOptimizely();
   const { currentUser } = useCurrentUser();
