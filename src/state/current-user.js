@@ -207,9 +207,9 @@ const load = runLatest(function* (action, store) {
     setStorage(cachedUserKey, cachedUser);
   }
 
-  let newCachedUser = yield getCachedUser(cachedUser);
+  let newCommunityCachedUser = yield getCommunityCachedUser(cachedUser);
 
-  while (newCachedUser === 'error') {
+  while (newCommunityCachedUser === 'error') {
     // Looks like our cachedUser is bad
     // Anon users get their token and id deleted when they're merged into a user on sign in
     const prevCachedUser = cachedUser;
@@ -217,13 +217,13 @@ const load = runLatest(function* (action, store) {
     setStorage(cachedUserKey, cachedUser);
     logCachedUserError(prevCachedUser, cachedUser);
 
-    newCachedUser = yield getCommunityCachedUser(cachedUser);
+    newCommunityCachedUser = yield getCommunityCachedUser(cachedUser);
   }
 
   // The shared user is good, store it
-  setStorage(communityCachedUserKey, newCachedUser);
-  identifyUser(newCachedUser);
-  store.dispatch(actions.loadedFresh(newCachedUser));
+  setStorage(communityCachedUserKey, newCommunityCachedUser);
+  identifyUser(newCommunityCachedUser);
+  store.dispatch(actions.loadedFresh(newCommunityCachedUser));
 });
 
 export const handlers = {
