@@ -26,7 +26,7 @@
     "lint": "npm run lint:server && npm run lint:src",
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
-    "prestart": "if [ \"$BUILD_TYPE\" != \"static\" ] ; then npm run watch:lint:server; fi & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:webpack & \n fi",
+    "prestart": ". .env & if [ \"$BUILD_TYPE\" != \"static\" ] ; then npm run watch:lint:server; fi & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:webpack & \n fi",
     "start": "pm2 start ecosystem.config.js",
     "stop": "pm2 stop ecosystem.config.js",
     "test": "mochapack",
