@@ -20,7 +20,8 @@ npm i && npm run stop && wait
 cd /opt/glitch-community
 #   avoid cruft like deleted files from hanging around
 #   this should avoid error messages and exit codes for current and parent dirs
-rm -rf * .[^.] .??* !("$CIRCLE_SHA.tar.gz"|"ci/*")
+# rm -rf * .[^.] .??* !("$CIRCLE_SHA.tar.gz"|"ci/*")
+ls -a | grep -v -e "$CIRCLE_SHA.tar.gz" -e "ci" -e '.' -e '..' | xargs rm -rf
 
 #   currently assuming we have a build file
 tar -xz --overwrite -f "$CIRCLE_SHA.tar.gz"
