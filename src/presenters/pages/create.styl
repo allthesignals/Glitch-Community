@@ -3,7 +3,7 @@
 .main
   max-width: 1100px
   margin: auto
-.section + .section
+.section, .section
   margin-top: 60px
   &.remix
     margin-top: 100px
@@ -301,59 +301,49 @@
   @media (min-width: largeViewport)
     flex-wrap: nowrap
     max-width: 500px
-    
+
+.toolsHeader
+  margin-left: 30px
+  
 .vscodeSectionDescription
   max-width: 500px
   
-// help
 .helpLinks
   display: flex
   flex-wrap: wrap
   position: relative
   margin-top: u4
-  hr
-    display: none
-    margin: u4 0
-    background: secondary-background-hover
-    width: 60%
+  margin-left: 30px
+  
+  .helpLinkSection
+    margin-right: u5
+    background: white;
+    padding: u3
+    border-radius: u1
+    margin-bottom: u3
+
   h3
     margin-top: 0
     font-weight: 600
   @media (min-width: mediumSmallViewport)
     hr
       display: block
-    .helpLinkSection
-      flex: 100%
-      margin-right: u4
-      max-width: 70%
-      margin-right: 30px
   @media (min-width: largeViewport)
     max-width: 100%
     flex-wrap: nowrap
     margin-left: 40px
     hr
       display: none
-    .helpLinkSection
-      flex: initial
-      max-width: 40%
     h3
       margin-top: initial
+
 .helpImage
-  position: relative
+  position: absolute
+  top: 0
+  right: 0
+  transform: translateY(-50%)
   margin: u4 auto
-  width: 140px
-  @media (min-width: mediumSmallViewport)
-    position: absolute
-    top: 50%
-    right: 0
-    transform: translateY(-50%)
-    width: 160px
-    margin: 0
-  @media (min-width: largeViewport)
-    top: initial
-    bottom: 0
-    right: 0
-    transform: none
+  width: 160px
 .ambulance
   bottom: 30px
   width: 90px
@@ -365,9 +355,12 @@
   text-align: center
 .remixAppTabs
   display: flex
+  justify-content: center
   margin-top: u4
   overflow-x: auto
   padding: 0
+  @media(max-width: largeViewport)
+    justify-content: flex-start
 .remixAppTab
   display: inline-flex
   align-items: center

@@ -5,6 +5,7 @@ import { useAPI, useAPIHandlers } from 'State/api';
 import useErrorHandlers from 'State/error-handlers';
 import * as assets from 'Utils/assets';
 import { getAllPages } from 'Shared/api';
+import { useCurrentUser } from 'State/current-user';
 import { MEMBER_ACCESS_LEVEL, ADMIN_ACCESS_LEVEL } from 'Models/project';
 
 async function getMembers(api, projectId, withCacheBust) {
@@ -93,6 +94,7 @@ export function useProjectReload() {
 }
 
 export function useProjectEditor(initialProject) {
+  const { currentUser, update: updateCurrentUser } = useCurrentUser();
   const [project, setProject] = useState(initialProject);
   const { uploadAsset } = useUploader();
   const { handleError, handleErrorForInput, handleImageUploadError } = useErrorHandlers();
@@ -106,12 +108,24 @@ export function useProjectEditor(initialProject) {
       ...prev,
       ...changes,
     }));
+    updateCurrentUser({
+      projects: currentUser.projects.map((p) => {
+        if (p.id === project.id) {
+          return { ...p, ...changes };
+        }
+        return p;
+      }),
+    });
   }
 
   const withErrorHandler = (fn, handler) => (...args) => fn(...args).catch(handler);
 
   const funcs = {
-    deleteProject: () => deleteItem({ project }).catch(handleError),
+    deleteProject: withErrorHandler(async () => {
+      await deleteItem({ project });
+      const projects = currentUser.projects.filter((p) => p.id !== project.id);
+      updateCurrentUser({ projects });
+    }, handleError),
     updateDomainBackend: withErrorHandler(async (domain) => {
       await updateItem({ project }, { domain });
       // don't await this because the project domain has already changed and I don't want to delay other things updating
@@ -140,7 +154,7 @@ export function useProjectEditor(initialProject) {
           }));
         }, handleImageUploadError),
       ),
-    reassignAdmin: async ({ currentUser, user }) => {
+    reassignAdmin: async ({ user }) => {
       await updateProjectMemberAccessLevel({ project, user, accessLevel: ADMIN_ACCESS_LEVEL });
       await updateProjectMemberAccessLevel({ project, user: currentUser, accessLevel: MEMBER_ACCESS_LEVEL });
       const newPermissions = [...project.permissions].map((permission) => {
@@ -162,6 +176,15 @@ export function useProjectEditor(initialProject) {
         return { ...oldUser };
       });
       setProject((prev) => ({ ...prev, permissions: newPermissions, users: newUsers }));
+      updateCurrentUser({
+        projects: currentUser.projects.map((p) => {
+          if (p.id === project.id) {
+            p = { ...p, permissions: newPermissions, users: newUsers };
+            p.permission = { ...p.permission, accessLevel: MEMBER_ACCESS_LEVEL };
+          }
+          return p;
+        }),
+      });
     },
   };
 
