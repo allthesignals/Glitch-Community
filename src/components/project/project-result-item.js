@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 import Markdown from 'Components/text/markdown';
 import ProfileList from 'Components/profile-list';
@@ -25,12 +24,12 @@ const ProfileListWrap = ({ project, asLinks }) => (
 );
 
 const ProjectResultItem = ({ project, onClick, profileListAsLinks, buttonProps }) => (
-  <ResultItem className={classnames(project.private && styles.private)} onClick={() => onClick(project)} {...buttonProps}>
+  <ResultItem isPrivate={project.private} onClick={() => onClick(project)} {...buttonProps}>
     <div>
       <ProjectAvatar project={project} />
     </div>
     <ResultInfo>
-      <ResultName>{project.domain}</ResultName>
+      <ResultName isPrivate={project.private}>{project.domain}</ResultName>
       {project.description.length > 0 && (
         <ResultDescription>
           <Markdown renderAsPlaintext>{project.description}</Markdown>
