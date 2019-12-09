@@ -53,7 +53,7 @@ do
   ASSET_SOURCE=$(ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\"")
 
   echo "$ASSET_SOURCE"
-  if [[ "CIRCLE" -eq "$ASSET_SOURCE" ]]; then
+  if [[ "CIRCLE" = "$ASSET_SOURCE" ]]; then
     # we have the package, so upload it to a device and then to s3
     scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
 
