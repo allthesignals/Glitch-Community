@@ -38,7 +38,6 @@ aws s3 cp --quiet "s3://community-bootstrap-bucket20191205165831056600000001/$CI
 
 tar -xz --overwrite -f "$CIRCLE_SHA.tar.gz"
 rm "$CIRCLE_SHA.tar.gz"
-rm LAST_DEPLOYED_SHA
 
 #   retrieve the stored .env file
 aws s3 cp --quiet s3://community-bootstrap-bucket20191205165831056600000001/.env .
