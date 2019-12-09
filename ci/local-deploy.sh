@@ -49,5 +49,4 @@ npm i && wait
 #   one can temporarily add a pause here to test how the lb and asg react when deploys take a while
 #   sleep $(($(date +%s) % 500))s
 
-printenv
 npm run start
