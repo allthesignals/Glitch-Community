@@ -15,6 +15,16 @@ const getStorageMemo = memoize(getStorage);
 const getFromStorage = (key) => readFromStorage(getStorageMemo(), key);
 const setStorage = (key, value) => writeToStorage(getStorageMemo(), key, value);
 
+function setCookie(name, value) {
+  if (value) {
+    const expires = new Date();
+    expires.setFullYear(expires.getFullYear() + 1);
+    document.cookie = `${name}=true; path=/; expires=${expires}`;
+  } else {
+    document.cookie = `${name}=; path=/; expires=${new Date()}`;
+  }
+}
+
 function identifyUser(user) {
   if (user) {
     addBreadcrumb({
@@ -27,13 +37,8 @@ function identifyUser(user) {
       message: 'logged out',
     });
   }
-  if (user && user.login) {
-    const expires = new Date();
-    expires.setFullYear(expires.getFullYear() + 1);
-    document.cookie = `hasLogin=true; path=/; expires=${expires}`;
-  } else {
-    document.cookie = `hasLogin=; path=/; expires=${new Date()}`;
-  }
+  setCookie('hasLogin', user && user.login);
+  setCookie('hasProjects', user && user.projects.length > 0);
   try {
     if (window.analytics && user && user.login) {
       const emailObj = Array.isArray(user.emails) && user.emails.find((email) => email.primary);
