@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { ResultItem, ResultInfo, ResultName, ResultDescription, VisuallyHidden } from '@fogcreek/shared-components';
 
 import Markdown from 'Components/text/markdown';
