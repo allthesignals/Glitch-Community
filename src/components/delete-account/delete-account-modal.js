@@ -59,20 +59,26 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
   const otherTeams = currentUser.teams.filter(
     (team) => team.teamPermission.accessLevel === 20 || team.teamPermissions.filter((admin) => admin.accessLevel === 30).length > 1,
   );
+  
   useEffect(() => {
     if (!selectedTeam && singleAdminTeams.length) {
       onTeamSelection(singleAdminTeams[0].id);
     }
   }, [singleAdminTeams]);
+
   return (
     <>
-      <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Team Ownership</Title>
+      <Title>Transfer Team Ownership</Title>
       <Info>
-        You must <Link to="/">pick a new team admin</Link> or <Link to="/">delete</Link> these teams before you can delete your account.
+        You must <Link to="/" ref={mergeRefs(first, focusedOnMount)}>pick a new team admin</Link> or <Link to="/">delete</Link> these teams before you can delete your account.
       </Info>
       {singleAdminTeams.length > 0 ? (
         <ResultsList value={selectedTeam} onChange={onTeamSelection} options={singleAdminTeams}>
-          {({ item: team }) => <TeamResultItem team={team} onClick={() => window.open(`${getTeamLink(team)}`, '_blank')} />}
+          {({ item: team }) => <TeamResultItem team={team} ref={() => {
+            if (team.id === selectedTeam) {
+              return focusedOnMount
+            }
+          }} onClick={() => window.open(`${getTeamLink(team)}`, '_blank')} />}
         </ResultsList>
       ) : (
         <Actions>
@@ -92,7 +98,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
             <Link key={team.id} to={`@${team.name}`}>
               {team.name}
             </Link>
-          )).reduce((prev, curr) => [prev, ', ', curr])
+          )).reduce((prev, curr) => [prev, ', ', curr], [])
         }
       </Info>
       <Actions>
@@ -193,7 +199,7 @@ const DeleteSettings = () => {
                   <DeleteInfo setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />
                 ) : null}
                 {page === 'projectOwnerTransfer' ? <ProjectTransfer setPage={setPage} onClose={onClose} /> : null}
-                {page === 'teamOwnerTransfer' ? <TeamTransfer setPage={setPage} onClose={onClose} /> : null}
+                {page === 'teamOwnerTransfer' ? <TeamTransfer setPage={setPage} first={first} last={last} focusedOnMount={focusedOnMount} onClose={onClose} /> : null}
                 {page === 'emailConfirm' ? <EmailConfirm onClose={onClose} /> : null}
               </>
             )}
