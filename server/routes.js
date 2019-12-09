@@ -83,6 +83,7 @@ module.exports = function(EXTERNAL_ROUTES) {
       OPTIMIZELY_ID: getOptimizelyId(req, res),
       PUPDATES_CONTENT: getPupdates(),
       SSR_SIGNED_IN: !!req.cookies.hasLogin,
+      SSR_HAS_PROJECTS: !!req.cookies.hasProjects,
       ZINE_POSTS: getZinePosts(),
     });
 
