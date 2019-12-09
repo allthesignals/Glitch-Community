@@ -65,7 +65,7 @@ function Questions({ max }) {
     <section className={styles.container}>
       <Heading tagName="h2">
         <Link to="/questions">
-          Help Others, Get Fanx <Icon className={styles.arrow} icon="arrowRight" />
+          Help Others, Get Thanks <Icon className={styles.arrow} icon="arrowRight" />
         </Link>
       </Heading>
       <div>
