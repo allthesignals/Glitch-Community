@@ -120,12 +120,6 @@ const FRAMEWORK_STARTERS = [
     domain: 'starter-react',
   },
   {
-    name: 'Ember',
-    logo: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fember-logo.svg?v=1561557345876`,
-    color: '#f8d1d5',
-    domain: 'ember',
-  },
-  {
     name: 'Nuxt',
     logo: `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fnuxt-logo.svg?v=1561557346924`,
     color: '#ebfef5',
@@ -355,7 +349,7 @@ function Help() {
 
       <div className={styles.helpLinks}>
         <div className={styles.helpLinkSection}>
-          <Heading tagName="h3">Help Center</Heading>
+          <Heading tagName="h3" className={styles.h3}>Help Center</Heading>
           <Text>The best place to find answers about Glitch</Text>
           <Text>
             <Button as="a" href="https://glitch.com/help">
@@ -363,8 +357,6 @@ function Help() {
             </Button>
           </Text>
         </div>
-
-        <hr />
 
         <div aria-hidden="true" className={classNames(styles.helpImage, styles.blobContainer)}>
           <div className={styles.blob}>
@@ -376,7 +368,7 @@ function Help() {
         </div>
 
         <div className={styles.helpLinkSection}>
-          <Heading tagName="h3">Support Forum</Heading>
+          <Heading tagName="h3" className={styles.h3}>Support Forum</Heading>
           <Text>Personalized support for your app-specific questions.</Text>
           <Text>
             <Button as="a" href="https://support.glitch.com">
@@ -407,7 +399,7 @@ function VSCode() {
 
   return (
     <section className={classNames(styles.section, styles.help)}>
-      <Heading className={styles.h2} tagName="h3">
+      <Heading className={classNames(styles.h3, styles.toolsHeader)} tagName="h3">
         Visual Studio extension (beta)
       </Heading>
 
@@ -455,7 +447,7 @@ function VSCode() {
 function GitHub() {
   return (
     <section className={styles.section}>
-      <Heading className={styles.h3} tagName="h3">
+      <Heading className={classNames(styles.h3, styles.toolsHeader)} tagName="h3">
         GitHub import and export
       </Heading>
 
@@ -476,7 +468,6 @@ function Remix() {
   const leaflet = { id: '4e131691-974a-4b1f-95e5-47137b94043d', domain: 'starter-leaflet' };
   const appsToRandomize = [
     { id: '2330a90c-9520-4c02-8db2-4e3078a69b69', domain: 'airtable-example' },
-    { id: '824edd48-c9bd-4aee-a3fb-561bb97344ed', domain: 'data-dashboard' },
     { id: 'c7a5b6bb-bafd-445e-a0f8-ef41115c9432', domain: 'hello-tensorflow' },
     { id: '71d3e262-edb4-456f-8703-48a1247b894f', domain: 'starter-react' },
     { id: '6d6f0669-c096-4acb-be5c-ea064712c918', domain: 'starter-chartjs' },
