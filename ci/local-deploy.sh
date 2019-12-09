@@ -33,6 +33,9 @@ npm i && npm run stop && wait
 find . -type f | grep -v -e "$CIRCLE_SHA.tar.gz" -e "ci" | xargs rm -rf
 
 #   currently assuming we have a build file
+# nope, assume we do not have a build file and go get it
+aws s3 cp --quiet "s3://community-bootstrap-bucket20191205165831056600000001/$CIRCLE_SHA.tar.gz" .
+
 tar -xz --overwrite -f "$CIRCLE_SHA.tar.gz"
 rm "$CIRCLE_SHA.tar.gz"
 
