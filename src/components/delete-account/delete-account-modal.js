@@ -40,7 +40,7 @@ const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
 );
 
 DeleteInfo.propTypes = {
-  setPage: PropTypes.string.isRequired,
+  setPage: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   first: PropTypes.object.isRequired,
   focusedOnMount: PropTypes.object.isRequired,
@@ -66,9 +66,9 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
   }, [singleAdminTeams]);
   return (
     <>
-      <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Team Ownership</Title>
+      <Title>Transfer Team Ownership</Title>
       <Info>
-        You must <Link to="/">pick a new team admin</Link> or <Link to="/">delete</Link> these teams before you can delete your account.
+        You must <Link ref={mergeRefs(first, focusedOnMount)} to="/">pick a new team admin</Link> or <Link to="/">delete</Link> these teams before you can delete your account.
       </Info>
       {singleAdminTeams.length > 0 ? (
         <ResultsList value={selectedTeam} onChange={onTeamSelection} options={singleAdminTeams}>
@@ -85,16 +85,18 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
           <Badge>{singleAdminTeams.length}</Badge> <Pluralize count={singleAdminTeams.length} showCount={false} singular="team" /> to update
         </p>
       </Info>
-      <Info>
-        If you delete your account, you will automatically be removed from these teams:{' '}
-        {otherTeams
-          .map((team) => (
-            <Link key={team.id} to={`@${team.name}`}>
-              {team.name}
-            </Link>
-          )).reduce((prev, curr) => [prev, ', ', curr])
-        }
-      </Info>
+      {otherTeams.length > 0 && (
+        <Info>
+          If you delete your account, you will automatically be removed from these teams:{' '}
+          {otherTeams
+            .map((team) => (
+              <Link key={team.id} to={`@${team.name}`}>
+                {team.name}
+              </Link>
+            )).reduce((prev, curr) => [prev, ', ', curr])
+          }
+        </Info>
+      )}
       <Actions>
         <Button disabled={singleAdminTeams.length > 0} className={styles.actionButton} onClick={() => setPage('emailConfirm')}>
           Continue to Delete Account
@@ -108,7 +110,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
 };
 
 TeamTransfer.propTypes = {
-  setPage: PropTypes.string.isRequired,
+  setPage: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   first: PropTypes.object.isRequired,
   focusedOnMount: PropTypes.object.isRequired,
@@ -117,9 +119,9 @@ TeamTransfer.propTypes = {
 
 const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => (
   <>
-    <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Project Ownership</Title>
+    <Title>Transfer Project Ownership</Title>
     <Info>
-      You must <Link to="/">transfer ownership</Link> or <Link to="/">delete</Link> these projects before you can delete your account.
+      You must <Link ref={mergeRefs(first, focusedOnMount)} to="/">transfer ownership</Link> or <Link to="/">delete</Link> these projects before you can delete your account.
     </Info>
     <Actions>
       <Button className={styles.actionButton} onClick={() => setPage('teamOwnerTransfer')}>
@@ -133,7 +135,7 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => (
 );
 
 ProjectTransfer.propTypes = {
-  setPage: PropTypes.string.isRequired,
+  setPage: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   first: PropTypes.object.isRequired,
   focusedOnMount: PropTypes.object.isRequired,
@@ -147,7 +149,7 @@ const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
   const soloCollections = currentUser.collections; // all collections are solo, at least currently
   return (
     <>
-      <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Email Confirmation Sent</Title>
+      <Title>Email Confirmation Sent</Title>
       <Actions>
         <p>For security purposes, we've sent an email confirmation.</p>
         <p>Please click the link in the email to finish deleting your account.</p>
@@ -161,7 +163,7 @@ const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
         </p>
       </Actions>
       <Actions>
-        <Button onClick={onClose} ref={last}>
+        <Button onClick={onClose} ref={mergeRefs(first, last, focusedOnMount)}>
           Close
         </Button>
       </Actions>
@@ -192,9 +194,9 @@ const DeleteSettings = () => {
                 {page === 'info' ? (
                   <DeleteInfo setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />
                 ) : null}
-                {page === 'projectOwnerTransfer' ? <ProjectTransfer setPage={setPage} onClose={onClose} /> : null}
-                {page === 'teamOwnerTransfer' ? <TeamTransfer setPage={setPage} onClose={onClose} /> : null}
-                {page === 'emailConfirm' ? <EmailConfirm onClose={onClose} /> : null}
+                {page === 'projectOwnerTransfer' ? <ProjectTransfer setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} /> : null}
+                {page === 'teamOwnerTransfer' ? <TeamTransfer setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} /> : null}
+                {page === 'emailConfirm' ? <EmailConfirm onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} /> : null}
               </>
             )}
           </MultiPage>
