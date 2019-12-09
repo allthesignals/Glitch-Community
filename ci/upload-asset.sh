@@ -21,6 +21,8 @@ if [[ -f "$CIRCLE_SHA.tar.gz" ]]; then
   if [[ "$code" -ne 0 ]]; then
     #   no file in s3
     aws s3 cp "$CIRCLE_SHA.tar.gz" s3://community-bootstrap-bucket20191205165831056600000001
+    echo "$CIRCLE_SHA" > LAST_DEPLOYED_SHA
+    aws s3 cp LAST_DEPLOYED_SHA s3://community-bootstrap-bucket20191205165831056600000001
 
   fi
 
