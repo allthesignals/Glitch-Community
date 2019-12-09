@@ -73,7 +73,7 @@ const FeatureCallouts = ({ content }) => (
 const TopPicks = ({ children }) => (
   <HomeSection id="top-picks">
     <h2 className={styles.h2}>
-      <Mark color="#BCFCFF">Fresh things are the best!</Mark>
+      <Mark color="#BCFCFF">If I say this is dope, that's probably in appropriate!</Mark>
     </h2>
     <p className={styles.subtitle}>The latest and greatest projects on Glitch, built by our community of creators.</p>
     {children}
