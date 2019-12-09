@@ -15,18 +15,18 @@ export CIRCLE_SHA=$1
 
 #   check to see if we have the package
 if [[ -f "$CIRCLE_SHA.tar.gz" ]]; then
-    #   double-check to make sure we need to upload
-    aws s3 ls s3://community-bootstrap-bucket20191205165831056600000001 | grep -q "$CIRCLE_SHA"; code=$?
+  #   double-check to make sure we need to upload
+  aws s3 ls s3://community-bootstrap-bucket20191205165831056600000001 | grep -q "$CIRCLE_SHA"; code=$?
 
-    if [[ "$code" -ne 0 ]]; then
-        #   no file in s3
-        aws s3 cp "$CIRCLE_SHA.tar.gz" s3://community-bootstrap-bucket20191205165831056600000001
+  if [[ "$code" -ne 0 ]]; then
+    #   no file in s3
+    aws s3 cp "$CIRCLE_SHA.tar.gz" s3://community-bootstrap-bucket20191205165831056600000001
 
-    fi
+  fi
 
 else
 
-    >&2 echo "No package $CIRCLE_SHA.tar.gz to deliver."
-    exit 1
+  >&2 echo "No package $CIRCLE_SHA.tar.gz to deliver."
+  exit 1
 
 fi
