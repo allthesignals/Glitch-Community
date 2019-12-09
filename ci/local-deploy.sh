@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
+#####
+#   THIS SCRIPT RUNS ON ALL COMMUNITY WORKERS
+#####
+
 #   TODO
 #   *   parameterize the bootstrap bucket
 
@@ -13,14 +17,19 @@ fi
 
 export CIRCLE_SHA=$1
 
+cd /opt/glitch-community
+
 #   stop serving the project first
 #   this should make the host fail health checks until restarted
+#   I'm running npm i here in case pm2 is not available
+#   but this results in double installs sometimes
+#   the thing, though, is that if pm2 is not available do we even need to stop the site?
+#   if pm2 is not there the site probably is not running, could we instead just swallow the error?
+
 npm i && npm run stop && wait
 
-cd /opt/glitch-community
-#   avoid cruft like deleted files from hanging around
+#   avoid cruft like deleted files from hanging around; currently removed folders will still persist
 #   this should avoid error messages and exit codes for current and parent dirs
-# rm -rf * .[^.] .??* !("$CIRCLE_SHA.tar.gz"|"ci/*")
 find . -type f | grep -v -e "$CIRCLE_SHA.tar.gz" -e "ci" | xargs rm -rf
 
 #   currently assuming we have a build file

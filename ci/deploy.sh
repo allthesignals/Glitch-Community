@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
+#####
+# THIS SCRIPT RUNS ON THE CIRCLE CI EXECUTOR
+#####
+
 # check req params - we need a sha to use for file manipulation
 if [ -z "$1" ]; then
   >&2 echo "Usage:"
@@ -49,11 +53,19 @@ do
   ASSET_SOURCE=$(ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\"")
 
   echo "$ASSET_SOURCE"
+  if [[ "CIRCLE" -eq "$ASSET_SOURCE" ]]; then
+    # we have the package, so upload it to a device and then to s3
+    scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
 
-  # hard-coded push deploy
-  scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
+    ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/upload-asset.sh $CIRCLE_SHA\""; code=$?
+  fi
 
-  # do the local deploy stuff
+  # we're now uploading this stuff to s3 if its not already there
+  # # hard-coded push deploy
+  # scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
+
+  # do the "local" deploy stuff
+  # this will briefly fail on the not-first boxes
   ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $CIRCLE_SHA\""; code=$?
 
 done
