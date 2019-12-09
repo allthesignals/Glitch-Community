@@ -14,6 +14,8 @@ import { userIsProjectAdmin, userIsProjectMember } from 'Models/project';
 import { UserAvatar } from 'Components/images/avatar';
 import { UserLink } from 'Components/link';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
+import ProfileList from 'Components/profile-list';
+
 import { emoji } from 'Components/global.styl';
 
 import styles from './project-user.styl';
@@ -79,37 +81,36 @@ const ProjectUsers = ({ users, project, reassignAdmin }) => {
 
   if (currentUserIsMember) {
     return (
-      <div className={styles.projectUsers}>
-        {orderedUsers.map((user) => (
-          <Popover
-            className={styles.projectUsersPopover}
-            key={user.id}
-            align="left"
-            renderLabel={({ onClick, ref }) => (
-              <span className={styles.popoverButton}>
-                <UnstyledButton onClick={onClick} ref={ref}>
-                  <UserAvatar user={user} hideTooltip />
-                </UnstyledButton>
-              </span>
-            )}
-          >
-            {({ onClose, setActiveView }) => (
-              <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
-            )}
-          </Popover>
-        ))}
+      <div>
+        {project.teams && project.teams.length > 0 && (
+          <ProfileList teams={project.teams} users={[]} layout="block" size="large" />
+        )}
+        <div className={styles.projectUsers}>
+          {orderedUsers.map((user) => (
+            <Popover
+              className={styles.projectUsersPopover}
+              key={user.id}
+              align="left"
+              renderLabel={({ onClick, ref }) => (
+                <span className={styles.popoverButton}>
+                  <UnstyledButton onClick={onClick} ref={ref}>
+                    <UserAvatar user={user} hideTooltip />
+                  </UnstyledButton>
+                </span>
+              )}
+            >
+              {({ onClose, setActiveView }) => (
+                <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
+              )}
+            </Popover>
+          ))}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.projectUsers}>
-      {orderedUsers.map((user) => (
-        <UserLink key={user.id} user={user}>
-          <UserAvatar user={user} />
-        </UserLink>
-      ))}
-    </div>
+    <ProfileList teams={project.teams} users={orderedUsers} layout="block" size="large" />
   );
 };
 

@@ -12,6 +12,7 @@ import GetMagicCode from 'Components/sign-in/get-magic-code';
 import AuthLayout from 'Components/layout/auth-layout';
 import SignInWithPassword from 'Components/sign-in/sign-in-with-password';
 import ForgotPassword from 'Components/sign-in/forgot-password';
+import { DotsImg, PillsImg } from 'Components/sign-in/sign-in-masks';
 import useDevToggle from 'State/dev-toggles';
 
 import MultiPage from './multi-page';
@@ -46,6 +47,10 @@ const SignInLayout = () => {
 
   return (
     <div className={styles.signInBackground}>
+      {/* Background Image Masks */}
+      <DotsImg />
+      <PillsImg />
+
       <AuthLayout>
         <MultiPage defaultPage="signIn">
           {({ page, setPage, goBack }) => (

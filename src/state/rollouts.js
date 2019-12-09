@@ -1,7 +1,28 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { enums } from '@optimizely/optimizely-sdk';
+import { useTracker } from './segment-analytics';
 import { useCurrentUser } from './current-user';
 import useUserPref from './user-prefs';
+
+// human readable rollout state to include in analytics
+const DEFAULT_DESCRIPTION = {
+  true: ['variant', 'showing the new form'],
+  false: ['control', 'showing the original form'],
+};
+const ROLLOUT_DESCRIPTIONS = {
+  analytics: {
+    true: ['enabled', 'analytics are shown on team pages'],
+    false: ['disabled', 'team analytics are not shown'],
+  },
+  test_feature: {
+    true: ['yep', 'this is in fact a test'],
+    false: ['nope', 'but it is still a test'],
+  },
+  swap_index_create: {
+    true: ['swapped', 'create is shown at the index'],
+    false: ['control', 'see the existing homepage'],
+  },
+};
 
 const Context = createContext();
 
@@ -41,7 +62,25 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
     (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
     [whichToggle, entityId],
   );
-  return overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+  const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+
+  const track = useTracker('Experiment Viewed');
+  const { id } = useOptimizelyValue(
+    (optimizely) => optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle],
+    [whichToggle],
+  );
+  useEffect(() => {
+    const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
+    track({
+      experiment_id: id,
+      experiment_name: whichToggle,
+      experiment_group: enabled ? 'variant' : 'control',
+      variant_type: variant,
+      variant_description: description,
+    });
+  }, [id, whichToggle, enabled]);
+
+  return enabled;
 };
 
 export const useFeatureEnabled = (whichToggle) => {

@@ -5,7 +5,7 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import { useDevToggles } from 'State/dev-toggles';
 import useTest, { useTestAssignments, tests } from 'State/ab-tests';
-import { useFeatureEnabled, useRolloutsDebug } from 'State/rollouts';
+import { useRolloutsDebug } from 'State/rollouts';
 
 import styles from './secret.styl';
 
@@ -35,12 +35,12 @@ const ABTests = () => {
     <section className={styles.footerSection}>
       Your A/B test groups ({text}):
       <ul className={styles.abTests}>
-        {Object.keys(assignments).map((test) => (
+        {Object.entries(tests).map(([test, groups]) => (
           <li key={test} className={styles.abTest}>
             <label>
               {test}:&nbsp;
               <select value={assignments[test]} onChange={(event) => reassign(test, event.target.value)}>
-                {Object.keys(tests[test]).map((group) => <option value={group} key={group}>{group}</option>)}
+                {Object.keys(groups).map((group) => <option value={group} key={group}>{group}</option>)}
               </select>
             </label>
           </li>
@@ -50,8 +50,7 @@ const ABTests = () => {
   );
 };
 
-const RolloutFeature = ({ feature, forced, setForced }) => {
-  const enabled = useFeatureEnabled(feature);
+const RolloutFeature = ({ feature, enabled, forced, setForced }) => {
   const onChange = (event) => {
     if (event.target.value === 'true') {
       setForced(true);
@@ -62,7 +61,7 @@ const RolloutFeature = ({ feature, forced, setForced }) => {
     }
   };
   const defaultIcon = enabled ? '✔' : null;
-  const forcedIcon = enabled ? '☑' : '☐';
+  const forcedIcon = forced ? '☑' : '☐';
   return (
     <tr>
       <td>{feature}</td>
@@ -91,8 +90,8 @@ const Rollouts = () => {
           </tr>
         </thead>
         <tbody>
-          {features.map(({ key, forced, setForced }) => (
-            <RolloutFeature key={key} feature={key} forced={forced} setForced={setForced} />
+          {features.map(({ key, enabled, forced, setForced }) => (
+            <RolloutFeature key={key} feature={key} enabled={enabled} forced={forced} setForced={setForced} />
           ))}
         </tbody>
       </table>
