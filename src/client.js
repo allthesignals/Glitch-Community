@@ -74,6 +74,7 @@ window.bootstrap = async (container) => {
         HOME_CONTENT={window.HOME_CONTENT}
         PUPDATES_CONTENT={window.PUPDATES_CONTENT}
         SSR_SIGNED_IN={window.SSR_SIGNED_IN}
+        SSR_HAS_PROJECTS={window.SSR_HAS_PROJECTS}
         ZINE_POSTS={window.ZINE_POSTS}
       >
         <TestsProvider AB_TESTS={window.AB_TESTS}>
