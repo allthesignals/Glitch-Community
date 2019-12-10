@@ -74,6 +74,7 @@ const useOptimizelyValue = (getValue, dependencies) => {
 };
 
 export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) => {
+  const { optimizely } = useOptimizely();
   const [overrides] = useOverrides();
   const raw = useOptimizelyValue(
     (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId), attributes),
@@ -82,12 +83,9 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
   const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
 
   const track = useTracker('Experiment Viewed');
-  const { id } = useOptimizelyValue(
-    (optimizely) => optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle],
-    [whichToggle],
-  );
   useEffect(() => {
     const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
+    const { id } = optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle];
     track({
       experiment_id: id,
       experiment_name: whichToggle,
@@ -95,7 +93,7 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
       variant_type: variant,
       variant_description: description,
     });
-  }, [id, whichToggle, enabled]);
+  }, [optimizely, whichToggle, enabled]);
 
   return enabled;
 };
