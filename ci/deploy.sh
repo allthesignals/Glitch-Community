@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -xeuo pipefail
+set -x #euo pipefail
 
 #####
 # THIS SCRIPT RUNS ON THE CIRCLE CI EXECUTOR
@@ -46,11 +46,11 @@ do
   echo $name
 
   # we expect an error code here for the first host of any deploy
-  set +e
+#  set +e
   #check if the asset is already in S3
   ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\"" > /dev/null 2>&1; code=$?
   S3_LOOKUP_RESULT="$code"
-  set -e
+#  set -e
 
   echo "$S3_LOOKUP_RESULT"
   if [[ "$S3_LOOKUP_RESULT" ]]; then
