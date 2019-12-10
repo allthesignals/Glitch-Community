@@ -77,7 +77,7 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
   const { optimizely } = useOptimizely();
   const [overrides] = useOverrides();
   const raw = useOptimizelyValue(
-    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId), attributes),
+    (optimizelyInstance) => optimizelyInstance.isFeatureEnabled(whichToggle, String(entityId), attributes),
     [whichToggle, entityId, attributes],
   );
   const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
