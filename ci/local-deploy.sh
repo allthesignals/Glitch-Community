@@ -3,8 +3,8 @@ set -xeuo pipefail
 
 #####
 # THIS SCRIPT RUNS ON ALL COMMUNITY WORKERS
-# It manages the running site, gets the requested asset, and "dploys" and "installs" it. 
-# This script suffers from a bootstrap problem - if you're changing this script 
+# It manages the running site, gets the requested asset, and deploys and installs it. 
+# This script suffers from a bootstrap problem - if you change this script 
 # a simple deploy will probably not suffice and may require some special management
 #####
 
@@ -29,7 +29,7 @@ npm i && npm run stop && wait
 # do NOT remove the asset or the ci scripts.
 find . -type f | grep -v -e "$CIRCLE_SHA.tar.gz" -e "ci" | xargs rm -rf
 
-# go get the build file. we assume it is there; the only caller checks first. then "deploy"
+# go get the build file. we assume it is there; the only caller checks first. then deploy
 aws s3 cp --quiet "s3://community-bootstrap-bucket20191205165831056600000001/$CIRCLE_SHA.tar.gz" .
 tar -xz --overwrite -f "$CIRCLE_SHA.tar.gz"
 rm "$CIRCLE_SHA.tar.gz"
