@@ -243,7 +243,7 @@ export const handlers = {
 
     const cachedUser = getFromStorage(cachedUserKey);
     const communityCachedUser = getFromStorage(communityCachedUserKey);
-    if (usersMatch(cachedUser, communityCachedUser)) {
+    if (communityCachedUser && usersMatch(cachedUser, communityCachedUser)) {
       identifyUser(communityCachedUser);
       store.dispatch(actions.loadedFromCache(communityCachedUser));
     }
