@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styled from 'styled-components';
 import { Button, Icon, Loader, Mark } from '@fogcreek/shared-components';
@@ -529,29 +530,33 @@ function Categories() {
   );
 }
 
-const CreatePage = () => (
-  <div style={{ maxWidth: '100vw', overflow: 'hidden', background: '#f5f5f5' }}>
-    <Layout>
-      <GlitchHelmet
-        title={beingShownOnIndex ? 'Glitch' : 'Glitch - Create'}
-        socialTitle="Get Started Creating on Glitch"
-        description="Glitch is a collaborative programming environment that lives in your browser and deploys code as you type."
-        image="https://cdn.glitch.com/50f784d9-9995-4fa4-a185-b4b1ea6e77c0/create-illustration.png?v=1562612212463"
-        canonicalUrl="/create"
-      />
-      <main id="main" className={styles.main}>
-        <Banner />
-        <WhatIsGlitch />
-        <Starters />
-        <Collaborate />
-        <YourAppIsLive />
-        <Tools />
-        <Help />
-        <Remix />
-        <Categories />
-      </main>
-    </Layout>
-  </div>
-);
+const CreatePage = () => {
+  const { pathname } = useLocation();
+  const beingShownOnIndex = !pathname.startsWith('/create');
+  return (
+    <div style={{ maxWidth: '100vw', overflow: 'hidden', background: '#f5f5f5' }}>
+      <Layout>
+        <GlitchHelmet
+          title={beingShownOnIndex ? 'Glitch' : 'Glitch - Create'}
+          socialTitle="Get Started Creating on Glitch"
+          description="Glitch is a collaborative programming environment that lives in your browser and deploys code as you type."
+          image="https://cdn.glitch.com/50f784d9-9995-4fa4-a185-b4b1ea6e77c0/create-illustration.png?v=1562612212463"
+          canonicalUrl={beingShownOnIndex ? '/' : '/create'}
+        />
+        <main id="main" className={styles.main}>
+          <Banner />
+          <WhatIsGlitch />
+          <Starters />
+          <Collaborate />
+          <YourAppIsLive />
+          <Tools />
+          <Help />
+          <Remix />
+          <Categories />
+        </main>
+      </Layout>
+    </div>
+  );
+};
 
 export default CreatePage;
