@@ -41,14 +41,16 @@ do
 
   }
 
+  trap 'catch $name $CIRCLE_SHA' ERR
+
   echo $name
 
+  # we expect an error code here for the first host of any deploy
+  set +e
   #check if the asset is already in S3
   ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\"" > /dev/null 2>&1; code=$?
   S3_LOOKUP_RESULT="$code"
-
-  # we trap here because we expect the previous to return failure sometimes
-  trap 'catch $name $CIRCLE_SHA' ERR
+  set -e
 
   echo "$S3_LOOKUP_RESULT"
   if [[ "$S3_LOOKUP_RESULT" ]]; then
