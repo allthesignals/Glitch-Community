@@ -46,10 +46,10 @@ do
   echo $name
 
   #check if the asset is already in S3
-  ASSET_SOURCE=$(ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\"")
+  S3_LOOKUP_RESULT=$(ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\"")
 
-  echo "$ASSET_SOURCE"
-  if [[ "CIRCLE" = "$ASSET_SOURCE" ]]; then
+  echo "$S3_LOOKUP_RESULT"
+  if [[ "$S3_LOOKUP_RESULT" ]]; then
     # we have the package, so upload it to a device and then to s3
     scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
 

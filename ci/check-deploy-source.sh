@@ -20,13 +20,8 @@ fi
 export CIRCLE_SHA=$1
 
 # check S3 for the asset; tell caller the result
-# this edit might break the success check - are we now checking success of the /dev/null redirection?
-aws s3 ls --quiet s3://community-bootstrap-bucket20191205165831056600000001 | grep "$CIRCLE_SHA" > /dev/null; code=$?
+# aws s3 ls s3://community-bootstrap-bucket20191205165831056600000001 | grep "$CIRCLE_SHA"; code=$?
+aws s3api head-object --bucket community-bootstrap-bucket20191205165831056600000001 --key "$CIRCLE_SHA.tar.gz"; code=$?
 
-if [[ "$code" -eq 0 ]]; then
-  #   asset available
-  echo "S3"
-else
-  #   asset not available; we must send it
-  echo "CIRCLE"
-fi
+# 0 means found; else not.
+exit $code
