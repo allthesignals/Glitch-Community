@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -x #   we don't want -e or -o pipefail; we want to handle the results of the grep at the end
 
+#####
+# THIS SCRIPT RUNS ON COMMUNITY WORKERS
+# it uploads the provided build asset to s3 and updates the latest sha for other users
+#####
+
 #   TODO
 #   *   parameterize the bootstrap bucket
 
@@ -23,7 +28,6 @@ if [[ -f "$CIRCLE_SHA.tar.gz" ]]; then
     aws s3 cp "$CIRCLE_SHA.tar.gz" s3://community-bootstrap-bucket20191205165831056600000001
     echo "$CIRCLE_SHA" > LAST_DEPLOYED_SHA
     aws s3 cp LAST_DEPLOYED_SHA s3://community-bootstrap-bucket20191205165831056600000001
-
   fi
 
 else

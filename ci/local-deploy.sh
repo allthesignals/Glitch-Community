@@ -2,11 +2,14 @@
 set -xeuo pipefail
 
 #####
-#   THIS SCRIPT RUNS ON ALL COMMUNITY WORKERS
+# THIS SCRIPT RUNS ON ALL COMMUNITY WORKERS
+# It manages the running site, gets the requested asset, and "dploys" and "installs" it. 
+# This script suffers from a bootstrap problem - if you're changing this script 
+# a simple deploy will probably not suffice and may require some special management
 #####
 
 #   TODO
-#   *   parameterize the bootstrap bucket
+#   *   parameterize the bootstrap bucket and other env vars
 
 # check req params - we need a sha to use for file manipulation
 if [ -z "$1" ]; then
@@ -19,23 +22,15 @@ export CIRCLE_SHA=$1
 
 cd /opt/glitch-community
 
-#   stop serving the project first
-#   this should make the host fail health checks until restarted
-#   Running npm i here in case pm2 is not available
-#   but this results in double installs sometimes
-#   the thing, though, is that if pm2 is not available do we even need to stop the site?
-#   if pm2 is not there the site probably is not running, could we instead just swallow the error?
-
+# we run npm i here in case pm2 is not available but we could probably just swallow that error
 npm i && npm run stop && wait
 
-#   avoid cruft like deleted files from hanging around; currently removed folders will still persist
-#   this should avoid error messages and exit codes for current and parent dirs
+# avoid cruft like deleted files from hanging around; currently removed folders will still persist
+# do NOT remove the asset or the ci scripts.
 find . -type f | grep -v -e "$CIRCLE_SHA.tar.gz" -e "ci" | xargs rm -rf
 
-#   currently assuming we have a build file
-# nope, assume we do not have a build file and go get it
+# go get the build file. we assume it is there; the only caller checks first. then "deploy"
 aws s3 cp --quiet "s3://community-bootstrap-bucket20191205165831056600000001/$CIRCLE_SHA.tar.gz" .
-
 tar -xz --overwrite -f "$CIRCLE_SHA.tar.gz"
 rm "$CIRCLE_SHA.tar.gz"
 
@@ -46,7 +41,7 @@ source .env
 #   install the deps, run the app
 npm i && wait
 
-#   one can temporarily add a pause here to test how the lb and asg react when deploys take a while
+#   one can temporarily add a pseudo-random pause here
 #   sleep $(($(date +%s) % 500))s
 
 npm run start

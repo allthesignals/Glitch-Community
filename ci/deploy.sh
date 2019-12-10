@@ -3,9 +3,10 @@ set -xeuo pipefail
 
 #####
 # THIS SCRIPT RUNS ON THE CIRCLE CI EXECUTOR
+# It marshalls remote calls to devices inside our infrastructure where the work occurs
 #####
 
-# check req params - we need a sha to use for file manipulation
+# check req params - we need a sha to use for file manipulation later
 if [ -z "$1" ]; then
   >&2 echo "Usage:"
   >&2 echo "./$(basename $0) sha"
@@ -15,18 +16,10 @@ fi
 export CIRCLE_SHA=$1
 
 # TODO
-#   * does bootstrap need to be cleaned up to make it more idempotent / reliable?
-#       if so then we might be able to store the current artifact in s3, 
-#       but would need to do that from one of the hosts and not from ci 
-#       to avoid needing secrets (we can use the ones from the Glitch repo)
-#   * prevent overlapping deploys?
-#       I think circleci might do this well enough for us, but should test quickly
-#   * do we need a no-deploy flag?
-#   * what's the appropriate user for these scripts to run as?
-#   * connect env and branch to remove hard-coded vals
-#   * add sha check script to the process
+# * connect env and branch to remove hard-coded vals
+# * should this connect to Honeycomb? I think it would be valuable.
 
-# first get the list of hostnames
+# first get the list of hostnames - we could do this on any host, but we know the worker has the code
 HOSTNAMES=( $(ssh -q worker.staging "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community staging'") )
 
 echo "${HOSTNAMES[@]}"
@@ -34,6 +27,9 @@ echo "${HOSTNAMES[@]}"
 for name in ${HOSTNAMES[*]}
 do
 
+  # if we run into a problem with the sequence of remote call we fall back to 
+  # shoving the asset to the destination server and brute forcing the deploy
+  # this is super-naive, and we mightr want to handle errors more explicitly
   catch() {
     echo "something bad happened; let us see if just pushing the asset will work"
 
@@ -60,12 +56,7 @@ do
     ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/upload-asset.sh $CIRCLE_SHA\""; code=$?
   fi
 
-  # we're now uploading this stuff to s3 if its not already there
-  # # hard-coded push deploy
-  # scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
-
   # do the "local" deploy stuff
-  # this will briefly fail on the not-first boxes
   ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $CIRCLE_SHA\""; code=$?
 
 done
