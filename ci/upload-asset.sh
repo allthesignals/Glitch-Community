@@ -21,7 +21,7 @@ export CIRCLE_SHA=$1
 #   check to see if we have the package
 if [[ -f "$CIRCLE_SHA.tar.gz" ]]; then
   #   double-check to make sure we need to upload
-  aws s3api head-object --bucket community-bootstrap-bucket20191205165831056600000001 --key "$CIRCLE_SHA.tar.gz" > /dev/null; code=$?
+  aws s3api head-object --bucket community-bootstrap-bucket20191205165831056600000001 --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?
 
   if [[ "$code" -ne 0 ]]; then
     #   no file in s3

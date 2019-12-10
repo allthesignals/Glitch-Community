@@ -46,7 +46,8 @@ do
   echo $name
 
   #check if the asset is already in S3
-  S3_LOOKUP_RESULT=$(ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\"")
+  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\""; code=$?
+  S3_LOOKUP_RESULT="$code"
 
   echo "$S3_LOOKUP_RESULT"
   if [[ "$S3_LOOKUP_RESULT" ]]; then

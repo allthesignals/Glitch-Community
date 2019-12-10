@@ -21,7 +21,7 @@ export CIRCLE_SHA=$1
 
 # check S3 for the asset; tell caller the result
 # aws s3 ls s3://community-bootstrap-bucket20191205165831056600000001 | grep "$CIRCLE_SHA"; code=$?
-aws s3api head-object --bucket community-bootstrap-bucket20191205165831056600000001 --key "$CIRCLE_SHA.tar.gz" > /dev/null; code=$?
+aws s3api head-object --bucket community-bootstrap-bucket20191205165831056600000001 --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?
 
 # 0 means found; else not.
 exit $code
