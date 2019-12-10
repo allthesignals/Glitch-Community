@@ -217,10 +217,11 @@ export function useCollectionEditor(initialCollection) {
         setCollection((oldCollection) => ({
           ...oldCollection,
           projects: oldCollection.projects.map((p) => {
-            if (p.id === project.id) {
-              p.authUserHasBookmarked = true;
+            const newProject = { ...p };
+            if (newProject.id === project.id) {
+              newProject.authUserHasBookmarked = true;
             }
-            return p;
+            return newProject;
           }),
         }));
       }

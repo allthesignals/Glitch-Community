@@ -88,7 +88,7 @@ async function getAnonUser() {
   return data;
 }
 
-async function getSharedUser(persistentToken) {
+async function getCachedUser(persistentToken) {
   if (!persistentToken) return undefined;
   const api = getAPIForToken(persistentToken);
 
@@ -100,22 +100,22 @@ async function getSharedUser(persistentToken) {
   }
 }
 
-async function getCachedUser(sharedUser) {
-  if (!sharedUser) return undefined;
-  if (!sharedUser.id || !sharedUser.persistentToken) return 'error';
-  const api = getAPIForToken(sharedUser.persistentToken);
+async function getCommunityCachedUser(cachedUser) {
+  if (!cachedUser) return undefined;
+  if (!cachedUser.id || !cachedUser.persistentToken) return 'error';
+  const api = getAPIForToken(cachedUser.persistentToken);
   try {
-    const makeUrl = (type) => `v1/users/by/id/${type}?id=${sharedUser.id}&limit=100&cache=${Date.now()}`;
+    const makeUrl = (type) => `v1/users/by/id/${type}?id=${cachedUser.id}&limit=100&cache=${Date.now()}`;
     const makeOrderedUrl = (type, order, direction) => `${makeUrl(type)}&orderKey=${order}&orderDirection=${direction}&cache=${Date.now()}`;
     const { baseUser, emails, projects, teams, collections } = await allByKeys({
-      baseUser: getSingleItem(api, `v1/users/by/id?id=${sharedUser.id}&cache=${Date.now()}`, sharedUser.id),
+      baseUser: getSingleItem(api, `v1/users/by/id?id=${cachedUser.id}&cache=${Date.now()}`, cachedUser.id),
       emails: getAllPages(api, makeUrl('emails')),
       projects: getAllPages(api, makeOrderedUrl('projects', 'domain', 'ASC')),
       teams: getAllPages(api, makeOrderedUrl('teams', 'url', 'ASC')),
       collections: getAllPages(api, makeUrl('collections')),
     });
     const user = { ...baseUser, emails, projects: sortProjectsByLastAccess(projects), teams, collections };
-    if (!usersMatch(sharedUser, user)) return 'error';
+    if (!usersMatch(cachedUser, user)) return 'error';
     return user;
   } catch (error) {
     if (error.response && (error.response.status === 401 || error.response.status === 404)) {
@@ -125,23 +125,23 @@ async function getCachedUser(sharedUser) {
     throw error;
   }
 }
-const logSharedUserError = (sharedUser, newSharedUser) => {
-  console.log(`Fixed shared cachedUser from ${sharedUser.id} to ${newSharedUser && newSharedUser.id}`);
+const logCachedUserError = (cachedUser, newCachedUser) => {
+  console.log(`Fixed shared cachedUser from ${cachedUser.id} to ${newCachedUser && newCachedUser.id}`);
   addBreadcrumb({
     level: 'info',
-    message: `Fixed shared cachedUser. Was ${JSON.stringify(sharedUser)}`,
+    message: `Fixed shared cachedUser. Was ${JSON.stringify(cachedUser)}`,
   });
   addBreadcrumb({
     level: 'info',
-    message: `New shared cachedUser: ${JSON.stringify(newSharedUser)}`,
+    message: `New shared cachedUser: ${JSON.stringify(newCachedUser)}`,
   });
   captureMessage('Invalid cachedUser');
 };
 
-// sharedUser syncs with the editor and is authoritative on id and persistentToken
-const sharedUserKey = 'cachedUser';
-// cachedUser mirrors the v1 API data and is what we actually display
-const cachedUserKey = 'community-cachedUser';
+// cachedUser syncs with the editor and is authoritative on id and persistentToken
+const cachedUserKey = 'cachedUser';
+// communityCachedUser mirrors the v1 API data and is what we actually display
+const communityCachedUserKey = 'community-cachedUser';
 
 // Default values for all of the user fields we need you to have
 // We always generate a 'real' anon user, but use this until we do
@@ -204,70 +204,71 @@ export const { reducer, actions } = createSlice({
 
 // eslint-disable-next-line func-names
 const load = runLatest(function* (action, store) {
-  let sharedUser = getFromStorage(sharedUserKey);
+  let cachedUser = getFromStorage(cachedUserKey);
 
   // If we're signed out create a new anon user
-  if (!sharedUser) {
-    sharedUser = yield getAnonUser();
-    setStorage(sharedUserKey, sharedUser);
+  if (!cachedUser) {
+    cachedUser = yield getAnonUser();
+    setStorage(cachedUserKey, cachedUser);
   }
 
-  let newCachedUser = yield getCachedUser(sharedUser);
+  let newCommunityCachedUser = yield getCommunityCachedUser(cachedUser);
 
-  while (newCachedUser === 'error') {
-    // Looks like our sharedUser is bad
+  while (newCommunityCachedUser === 'error') {
+    // Looks like our cachedUser is bad
     // Anon users get their token and id deleted when they're merged into a user on sign in
-    const prevSharedUser = sharedUser;
-    sharedUser = yield getSharedUser(sharedUser.persistentToken);
-    setStorage(sharedUserKey, sharedUser);
-    logSharedUserError(prevSharedUser, sharedUser);
+    const prevCachedUser = cachedUser;
+    cachedUser = yield getCachedUser(cachedUser.persistentToken);
+    setStorage(cachedUserKey, cachedUser);
+    logCachedUserError(prevCachedUser, cachedUser);
 
-    newCachedUser = yield getCachedUser(sharedUser);
+    newCommunityCachedUser = yield getCommunityCachedUser(cachedUser);
   }
 
   // The shared user is good, store it
-  setStorage(cachedUserKey, newCachedUser);
-  identifyUser(newCachedUser);
-  store.dispatch(actions.loadedFresh(newCachedUser));
+  setStorage(communityCachedUserKey, newCommunityCachedUser);
+  identifyUser(newCommunityCachedUser);
+  store.dispatch(actions.loadedFresh(newCommunityCachedUser));
 });
 
 export const handlers = {
   [appMounted]: async (action, store) => {
     const onStorage = (event) => {
-      if (!event.key || event.key === sharedUserKey || event.key === cachedUserKey) {
-        store.dispatch(actions.updatedInAnotherTab(getFromStorage(cachedUserKey)));
+      if (!event.key || event.key === cachedUserKey || event.key === communityCachedUserKey) {
+        store.dispatch(actions.updatedInAnotherTab(getFromStorage(communityCachedUserKey)));
       }
     };
 
     window.addEventListener('storage', onStorage, { passive: true });
 
     const cachedUser = getFromStorage(cachedUserKey);
-    if (cachedUser) {
-      identifyUser(cachedUser);
-      store.dispatch(actions.loadedFromCache(cachedUser));
+    const communityCachedUser = getFromStorage(communityCachedUserKey);
+    if (communityCachedUser && usersMatch(cachedUser, communityCachedUser)) {
+      identifyUser(communityCachedUser);
+      store.dispatch(actions.loadedFromCache(communityCachedUser));
     }
     await load(action, store);
   },
   [actions.requestedReload]: load,
   [actions.updated]: (_, store) => {
-    setStorage(cachedUserKey, store.getState().currentUser);
+    setStorage(communityCachedUserKey, store.getState().currentUser);
   },
   [actions.loggedIn]: async (action, store) => {
-    setStorage(sharedUserKey, action.payload);
-    setStorage(cachedUserKey, undefined);
+    setStorage(cachedUserKey, action.payload);
+    setStorage(communityCachedUserKey, undefined);
     await load(action, store);
   },
   [actions.loggedOut]: async (action, store) => {
-    setStorage(sharedUserKey, undefined);
     setStorage(cachedUserKey, undefined);
+    setStorage(communityCachedUserKey, undefined);
     await load(action, store);
   },
   [actions.updatedInAnotherTab]: async (action, store) => {
-    const sharedUser = getFromStorage(sharedUserKey);
-    if (!sharedUser) {
+    const cachedUser = getFromStorage(cachedUserKey);
+    if (!cachedUser) {
       store.dispatch(actions.loggedOut());
-    } else if (!usersMatch(sharedUser, store.getState().currentUser)) {
-      store.dispatch(actions.loggedIn(sharedUser));
+    } else if (!usersMatch(cachedUser, store.getState().currentUser)) {
+      store.dispatch(actions.loggedIn(cachedUser));
     }
   },
 };
