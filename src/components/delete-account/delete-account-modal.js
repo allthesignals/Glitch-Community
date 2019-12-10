@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import PropTypes from 'prop-types';
+=======
+>>>>>>> 895988ced4dec94b70885c16b67d0d0bf5df1b5f
 import Pluralize from 'react-pluralize';
 import { Actions, Badge, Button, DangerZone, Icon, Info, Overlay, ResultsList, Title, useOverlay, mergeRefs } from '@fogcreek/shared-components';
 
 import { useCurrentUser } from 'State/current-user';
 
 import Link from 'Components/link';
+<<<<<<< HEAD
 import TeamResultItem from 'Components/team/team-result-item';
 import { getTeamLink } from 'Models/team';
+=======
+import ProjectResultItem from 'Components/project/project-result-item';
+import { getProjectLink } from 'Models/project';
+>>>>>>> 895988ced4dec94b70885c16b67d0d0bf5df1b5f
 import MultiPage from '../layout/multi-page';
 
 import styles from './delete-account-modal.styl';
@@ -117,6 +125,7 @@ TeamTransfer.propTypes = {
   last: PropTypes.object.isRequired,
 };
 
+<<<<<<< HEAD
 const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => (
   <>
     <Title>Transfer Project Ownership</Title>
@@ -133,6 +142,56 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => (
     </Actions>
   </>
 );
+=======
+const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
+  const { currentUser } = useCurrentUser();
+  const [currentlyFocusedProject, onSelectProject] = useState(null);
+  const singleAdminProjects = currentUser.projects.filter(
+    (project) =>
+      project.permission.accessLevel === 30 &&
+      project.permissions.filter((admin) => admin.accessLevel === 30).length === 1 &&
+      project.permissions.length > 1,
+  );
+  useEffect(() => {
+    if (!currentlyFocusedProject && singleAdminProjects.length) {
+      onSelectProject(singleAdminProjects[0].id);
+    }
+  }, [singleAdminProjects]);
+  return (
+    <>
+      <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Project Ownership</Title>
+      <Info>
+        You must <Link to="/">transfer ownership</Link> or <Link to="/">delete</Link> these projects before you can delete your account.
+      </Info>
+      {singleAdminProjects.length > 0 ? (
+        <ResultsList value={currentlyFocusedProject} onChange={onSelectProject} options={singleAdminProjects} scroll>
+          {({ item: project }) => (
+            <ProjectResultItem project={project} onClick={() => window.open(`${getProjectLink(project)}`, '_blank')} />
+          )}
+        </ResultsList>
+      ) : (
+        <Actions>
+          <Icon className={emoji} icon="victoryHand" />
+          All Done
+        </Actions>
+      )}
+      <Info className={styles.remaining}>
+        <p>
+          <Badge>{singleAdminProjects.length}</Badge> projects to update
+        </p>
+      </Info>
+      <Actions>
+        <Button disabled={singleAdminProjects.length > 0} className={styles.actionButton} onClick={() => setPage('teamOwnerTransfer')}>
+          Continue to Delete Account
+        </Button>
+        <Button className={styles.actionButton} variant="secondary" onClick={onClose} ref={last}>
+          Close
+        </Button>
+      </Actions>
+    </>
+  );
+};
+>>>>>>> 895988ced4dec94b70885c16b67d0d0bf5df1b5f
 
 ProjectTransfer.propTypes = {
   setPage: PropTypes.func.isRequired,
@@ -194,9 +253,15 @@ const DeleteSettings = () => {
                 {page === 'info' ? (
                   <DeleteInfo setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />
                 ) : null}
+<<<<<<< HEAD
                 {page === 'projectOwnerTransfer' ? <ProjectTransfer setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} /> : null}
                 {page === 'teamOwnerTransfer' ? <TeamTransfer setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} /> : null}
                 {page === 'emailConfirm' ? <EmailConfirm onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} /> : null}
+=======
+                {page === 'projectOwnerTransfer' && <ProjectTransfer setPage={setPage} onClose={onClose} />}
+                {page === 'teamOwnerTransfer' && <TeamTransfer setPage={setPage} onClose={onClose} />}
+                {page === 'emailConfirm' && <EmailConfirm onClose={onClose} />}
+>>>>>>> 895988ced4dec94b70885c16b67d0d0bf5df1b5f
               </>
             )}
           </MultiPage>
