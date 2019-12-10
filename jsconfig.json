@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "Components/*": ["src/components/*"],
+      "Utils/*": ["src/utils/*"],
+      "Curated/*": ["src/curated/*"],
+      "Models/*": ["src/models/*"],
+      "State/*": ["src/state/*"],
+      "Hooks/*": ["src/hooks/*"],
+      "Shared/*": ["/shared/*"]
+    }
+  },
+  "exclude": ["node_modules", "build"]
+}
