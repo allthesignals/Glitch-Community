@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
-if [ "${CIRCLE_BRANCH}" == "master" ]
+if [ -n "$CIRCLE_BRANCH" ]
 then
-  export ENVIRONMENT=production
-fi
 
-if [ "${CIRCLE_BRANCH}" == "staging" ]
-then
-  export ENVIRONMENT=staging
+  if [ "${CIRCLE_BRANCH}" == "master" ]
+  then
+    export ENVIRONMENT=production
+  fi
+
+  if [ "${CIRCLE_BRANCH}" == "staging" ]
+  then
+    export ENVIRONMENT=staging
+  fi
+
 fi
 
 if [ "${ENVIRONMENT}" == "staging" ]
