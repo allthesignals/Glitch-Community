@@ -14,7 +14,7 @@ if [ -z "$1" ]; then
 fi
 
 export CIRCLE_SHA=$1
-source env
+source ci/env
 
 # TODO
 # * connect env and branch to remove hard-coded vals
