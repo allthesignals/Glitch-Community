@@ -17,7 +17,7 @@ fi
 export ENVIRONMENT=$1
 export CIRCLE_SHA=$2
 
-source env
+source /opt/glitch-community/ci/env
 
 # check S3 for the asset; tell caller the result
 # aws s3 ls s3://community-bootstrap-bucket20191205165831056600000001 | grep "$CIRCLE_SHA"; code=$?
