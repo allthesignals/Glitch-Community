@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x #euo pipefail
+set -x #  we can't set -e or -o pipefail because we expect the check-deploy-source script to fail
 
 #####
 # THIS SCRIPT RUNS ON THE CIRCLE CI EXECUTOR
@@ -14,6 +14,7 @@ if [ -z "$1" ]; then
 fi
 
 export CIRCLE_SHA=$1
+source env
 
 # TODO
 # * connect env and branch to remove hard-coded vals
@@ -43,11 +44,9 @@ do
 
   echo $name
 
-#  set +e
   #check if the asset is already in S3
-  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $CIRCLE_SHA\"" > /dev/null 2>&1; code=$?
+  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $ENVIRONMENT $CIRCLE_SHA\"" > /dev/null 2>&1; code=$?
   S3_LOOKUP_RESULT="$code"
-#  set -e
 
   # we expect an error code above for the first host of any deploy
   trap 'catch $name $CIRCLE_SHA' ERR
