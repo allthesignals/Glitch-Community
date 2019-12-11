@@ -8,9 +8,6 @@ set -xeuo pipefail
 # a simple deploy will probably not suffice and may require some special management
 #####
 
-#   TODO
-#   *   parameterize the bootstrap bucket and other env vars
-
 # check req params - we need the env and a sha to use for file manipulation
 if [ 2 -ne "$#" ]; then
   >&2 echo "Usage:"
