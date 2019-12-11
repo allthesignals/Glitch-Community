@@ -24,7 +24,7 @@ A central tenet to the community CI work is that the community repo shouldn't ho
 
 The overall structure, therefore, is this:
 
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vQ8a7ZR7fitvDBGCAULTXrcTwzK-4U-8m4UW91DGdfLVZXbEb41eM-V2BgazuF4QMgBJbnyKEH1GcMu/pub?w=1440&amp;h=1080">
+( see [diagram](https://docs.google.com/drawings/d/1KmJhEIkqhS2VBxhiZNYJSiO0iUX8IrVQW4soiHcE_0k/edit?usp=sharing) )
 
 In the Glitch-Community repo
 
