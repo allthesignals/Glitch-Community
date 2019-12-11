@@ -21,36 +21,22 @@ jobs:
       - run:
           name: setup-ssh
           command: cp ./ci/ssh.config ~/.ssh/config
-      # - run:
-      #     name: update-pnpm
-      #     command: "sudo npm install -g pnpm@3.x"
       - restore_cache:
           keys:
-            # in Glitch we key on .Branch, but this is probably just as good
-            # diff branches will probably have different checksums
             - deps-{{ checksum "package-lock.json" }}
       - run:
           name: npm-install
           command: npm install
       - save_cache:
-          # Glitch save a bunch of other stuff here, but I don't think we need it
           paths:
             - node_modules
           key: deps-{{ checksum "package-lock.json" }}
       - run:
-          # note to self - i wonder why this is right here? It's _after_ the cache save both here and in Glitch - 
-          # are we linting stuff that gets stored in / restored from the cache? should we lint _before_ we save the cache then?
           name: eslint
           command: npm run lint
-      # do we care about the artifacts?
-      # - run:
-      #     # testing
-      #     name: whats-my-env
-      #     command: echo "$BUILD_TYPE"; printenv
       - run:
           name: build
           command: npm run build
-# in retrospect I _think_ we're storing this here so that we can rely on the build's outputs in the tests without having to rebuild
       - save_cache:
           paths:
             - build
@@ -58,15 +44,12 @@ jobs:
       - run:
           name: compress-artifacts
           command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/build.tar.gz .
-# this should make the compresed build available for the deploy
       - persist_to_workspace:
           root: /home/circleci
           paths:
             - build.tar.gz
-# we may not need this at all in fact
       - store_artifacts:
           path: /home/circleci/build.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
-  # not being run as of 2019-11-19
   integration_tests:
     docker:
       - image: circleci/node:10-browsers
@@ -78,9 +61,9 @@ jobs:
       - restore_cache:
           keys:
             - build-{{ .Revision }}
-      # - run:
-      #     name: update-pnpm
-      #     command: "sudo npm install -g pnpm@3.x"
+      - run:
+          name: update-pnpm
+          command: "sudo npm install -g pnpm@3.x"
       - run:
           name: npm-install
           command: npm install
@@ -99,9 +82,9 @@ jobs:
       - restore_cache:
           keys:
             - build-{{ .Revision }}
-      # - run:
-      #     name: update-pnpm
-      #     command: "sudo npm install -g pnpm@3.x"
+      - run:
+          name: update-pnpm
+          command: "sudo npm install -g pnpm@3.x"
       - run:
           name: npm-install
           command: npm install
@@ -126,9 +109,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: /home/circleci
-      # - run:
-      #     name: where-am-i
-      #     command: pwd && ls -la
       - run: cp ./ci/ssh.config ~/.ssh/config
       - run:
           name: prep-asset-filename

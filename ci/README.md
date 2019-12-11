@@ -2,23 +2,23 @@
 
 ## Overall Process
 
-1. local dev &#x2672;
-1. push to `staging`
-   1. CircleCI picks up the commit
-      1. lints, builds, runs tests, just like it does right now
-      1. checks if the asset is in s3 [remotely executed on a worker]
-      1. if not, sends asset for upload [remotely executed on a worker]
-      1. sends `deploy` command, which gets the asset from S3 and deploys it to the local box [remotely executed on each worker]
-1. merge to `master`
-   1. CircleCI picks up the commit
-      1. same process as for staging @ 2.1.1 above, but deploying to the production boxes
-      1. there's nothing in this process that indicates that staging has to be involved. If you want to have folks PR directly against / merge directly into `master` that should also work just as well.
+1. local dev
+2. push to `staging`
+   i. CircleCI picks up the commit
+      a. lints, builds, runs tests, just like it does right now
+      b. queries s3 to determine if the build archive is already present [remotely executed on a worker]
+      c. if not, sends asset for upload [remotely executed on a worker]
+      d. sends `deploy` command, which gets the asset from S3 and deploys it to the local box [remotely executed on each worker]
+3. merge to `master`
+   i. CircleCI picks up the commit
+      a. same process as for staging @ 2.i.a above, but deploying to the production boxes
+      b. there's nothing in this process that indicates that staging has to be involved. If you want to have folks PR directly against / merge directly into `master` that should also work just as well.
 
 ## Details
 
 ### No secrets in the Glitch-Community repo
 
-A central tenet to the community CI work is that the community repo shouldn't house any secrets (even encrypted ones). This means that any information we need to get from somewhere else (AWS, primarily) needs to be proxied through something that has the appropriate permissions. To avoid additional complexity, I just relied on the built-in access that the community host machines already have by virtue of them living in our infrastructure and already having the Glitch repo in place. The downside to this is that this CI process is tightly tied to the GLitch CI process in a number of ways, so when that process changes this process will have to undergo corresponding changes. There are a few touchpoints in the Glitch code that represent this link, so I don't think there'll be major changes to the Glitch deploy process without some attention paid here, but it's worth noting.
+A central tenet to the community CI work is that the community repo shouldn't house any secrets (even encrypted ones). This means that any information we need to get from somewhere else (AWS, primarily) needs to be proxied through something that has the appropriate permissions. To avoid additional complexity, we're relying on the built-in access that the community host machines already have by virtue of them living in our infrastructure and already having the Glitch repo in place. The downside to this is that this CI process is tightly tied to the Glitch CI process in a number of ways, so when that process changes this process will have to undergo corresponding changes. There are a few touchpoints in the Glitch code that represent this link, so I don't think there'll be major changes to the Glitch deploy process without some attention paid here, but it's worth noting.
 
 ### Resulting project structure
 
@@ -54,6 +54,6 @@ In S3 there is a bucket for bootstrapping in each environment (staging / product
 ### Things I chose _not_ to do
 
 * prevent overlapping CircleCI deploys
-  * there are so few boxes, deploys should happen so uickly, and the number of simulatneous deploys is so low this didn't seem worth any effort right now
+  * there are so few boxes, deploys should happen so quickly, and the number of simulatneous deploys is so low this didn't seem worth any effort right now
 * implement `no-deploy` or `no-test` flags
-  8 again this didn't seem needed right away; we can implement them later if we care to
+  * again this didn't seem needed right away; we can implement them later if we care to

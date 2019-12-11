@@ -8,6 +8,7 @@ set -x  #   we don't want -e or -o pipefail; we want to handle the results of th
 #####
 
 # check req params - we need the env and a sha to use for file manipulation
+# fewer than 2 params is an error
 if [ 2 -ne "$#" ]; then
   >&2 echo "Usage:"
   >&2 echo "./$(basename $0) environment sha"
@@ -20,7 +21,6 @@ export CIRCLE_SHA=$2
 source /opt/glitch-community/ci/env
 
 # check S3 for the asset; tell caller the result
-# aws s3 ls s3://community-bootstrap-bucket20191205165831056600000001 | grep "$CIRCLE_SHA"; code=$?
 aws s3api head-object --bucket "$BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?
 
 # 0 means found; else not.

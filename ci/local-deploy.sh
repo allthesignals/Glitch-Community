@@ -9,6 +9,7 @@ set -xeuo pipefail
 #####
 
 # check req params - we need the env and a sha to use for file manipulation
+# fewer than 2 params is an error
 if [ 2 -ne "$#" ]; then
   >&2 echo "Usage:"
   >&2 echo "./$(basename $0) environment sha"
@@ -22,10 +23,10 @@ cd /opt/glitch-community
 
 source ci/env
 
-# we run npm i here in case pm2 is not available but we could probably just swallow that error
+# we run npm i here to ensure pm2 is available and the npm script doesn't throw
 npm i && npm run stop && wait
 
-# avoid cruft like deleted files from hanging around; currently removed folders will still persist
+# prevent cruft like deleted files from hanging around; currently removed folders will still persist
 # do NOT remove the asset or the ci scripts.
 find . -type f | grep -v -e "$CIRCLE_SHA.tar.gz" -e "ci" | xargs rm -rf
 

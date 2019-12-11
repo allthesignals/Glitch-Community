@@ -7,6 +7,7 @@ set -x #   we don't want -e or -o pipefail; we want to handle the results of the
 #####
 
 # check req params - we need the env and a sha to use for file manipulation
+# fewer than 2 params is an error
 if [ 2 -ne "$#" ]; then
   >&2 echo "Usage:"
   >&2 echo "./$(basename $0) environment sha"
