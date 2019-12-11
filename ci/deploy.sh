@@ -35,7 +35,7 @@ do
     echo "something bad happened; let us see if just pushing the asset will work"
 
     # hard-coded push deploy
-    scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$2.tar.gz deploy@"$1".staging:/opt/glitch-community; code=$?
+    scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$3.tar.gz deploy@"$1".staging:/opt/glitch-community; code=$?
 
     # do the local deploy stuff
     ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$1.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $2 $3\""; code=$?
