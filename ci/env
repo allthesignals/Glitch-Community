@@ -18,9 +18,11 @@ fi
 if [ "${ENVIRONMENT}" == "staging" ]
 then
     export BOOTSTRAP_BUCKET=community-bootstrap-bucket20191205165831056600000001
+    export JUMP_DOMAIN=jump.staging.glitch.com
 fi
 
 if [ "${ENVIRONMENT}" == "production" ]
 then
     export BOOTSTRAP_BUCKET=
+    export JUMP_DOMAIN=jump.glitch.com
 fi

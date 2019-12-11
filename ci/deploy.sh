@@ -21,7 +21,7 @@ source ci/env
 # * should this connect to Honeycomb? I think it would be valuable.
 
 # first get the list of hostnames - we could do this on any host, but we know the worker has the code
-HOSTNAMES=( $(ssh -q worker.staging "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community staging'") )
+HOSTNAMES=( $(ssh -q "worker.$ENVIRONMENT" "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community $ENVIRONMENT'") )
 
 echo "${HOSTNAMES[@]}"
 
@@ -35,17 +35,17 @@ do
     echo "something bad happened; let us see if just pushing the asset will work"
 
     # hard-coded push deploy
-    scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$3.tar.gz deploy@"$1".staging:/opt/glitch-community; code=$?
+    scp -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no /home/circleci/$3.tar.gz "deploy@$1.$ENVIRONMENT":/opt/glitch-community; code=$?
 
     # do the local deploy stuff
-    ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$1.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $2 $3\""; code=$?
+    ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$1.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $2 $3\""; code=$?
 
   }
 
   echo $name
 
   #check if the asset is already in S3
-  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $ENVIRONMENT $CIRCLE_SHA\"" > /dev/null 2>&1; code=$?
+  ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $ENVIRONMENT $CIRCLE_SHA\"" > /dev/null 2>&1; code=$?
   S3_LOOKUP_RESULT="$code"
 
   # we expect an error code above for the first host of any deploy
@@ -54,13 +54,13 @@ do
   echo "$S3_LOOKUP_RESULT"
   if [[ "$S3_LOOKUP_RESULT" ]]; then
     # we have the package, so upload it to a device and then to s3
-    scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".staging:/opt/glitch-community; code=$?
+    scp -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".$ENVIRONMENT:/opt/glitch-community; code=$?
 
-    ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/upload-asset.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
+    ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/upload-asset.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
   fi
 
   # do the "local" deploy stuff
-  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
+  ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
 
 done
 
