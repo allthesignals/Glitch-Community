@@ -10,7 +10,7 @@ then
   export ENVIRONMENT=staging
 fi
 
-Zif [ "${ENVIRONMENT}" == "staging" ]
+if [ "${ENVIRONMENT}" == "staging" ]
 then
     export BOOTSTRAP_BUCKET=community-bootstrap-bucket20191205165831056600000001
 fi
