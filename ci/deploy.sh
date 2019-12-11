@@ -38,7 +38,7 @@ do
     scp -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no /home/circleci/$2.tar.gz deploy@"$1".staging:/opt/glitch-community; code=$?
 
     # do the local deploy stuff
-    ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$1.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $2\""; code=$?
+    ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$1.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $2 $3\""; code=$?
 
   }
 
@@ -49,7 +49,7 @@ do
   S3_LOOKUP_RESULT="$code"
 
   # we expect an error code above for the first host of any deploy
-  trap 'catch $name $CIRCLE_SHA' ERR
+  trap 'catch $name $ENVIRONMENT $CIRCLE_SHA' ERR
 
   echo "$S3_LOOKUP_RESULT"
   if [[ "$S3_LOOKUP_RESULT" ]]; then
@@ -60,7 +60,7 @@ do
   fi
 
   # do the "local" deploy stuff
-  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $CIRCLE_SHA\""; code=$?
+  ssh -o 'ProxyJump jump.staging.glitch.com' -o StrictHostKeyChecking=no "$name.staging" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
 
 done
 
