@@ -161,7 +161,7 @@ export const entityPath = ({ user, team, project, collection }) => {
   if (user) return `users/${user.id}`;
   if (team) return `teams/${team.id}`;
   if (project) return `projects/${project.id}`;
-  if (collection) return `collections/${collection.id}`;
+  if (collection) return `v1/collections/${collection.id}`;
   throw new Error('Missing entity');
 };
 
@@ -174,10 +174,10 @@ export const useAPIHandlers = () => {
       deleteItem: (entityArgs) => api.delete(`/${entityPath(entityArgs)}`),
 
       // collections
-      addProjectToCollection: ({ project, collection }) => api.patch(`/collections/${collection.id}/add/${project.id}`),
-      orderProjectInCollection: ({ project, collection }, index) => api.post(`/collections/${collection.id}/project/${project.id}/index/${index}`),
-      updateProjectInCollection: ({ project, collection }, data) => api.patch(`/collections/${collection.id}/project/${project.id}`, data),
-      removeProjectFromCollection: ({ project, collection }) => api.patch(`/collections/${collection.id}/remove/${project.id}`),
+      addProjectToCollection: ({ project, collection }) => api.put(`/v1/collections/${collection.id}/projects/${project.id}`),
+      orderProjectInCollection: ({ project, collection }, index) => api.put(`/v1/collections/${collection.id}/projects/${project.id}`, { index }),
+      updateProjectInCollection: ({ project, collection }, data) => api.put(`/v1/collections/${collection.id}/projects/${project.id}`, data),
+      removeProjectFromCollection: ({ project, collection }) => api.delete(`/v1/collections/${collection.id}/projects/${project.id}`),
 
       // projects
       removeUserFromProject: ({ project, user }) => api.delete(`/projects/${project.id}/authorization`, { data: { targetUserId: user.id } }),
