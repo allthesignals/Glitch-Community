@@ -24,7 +24,8 @@ import PupdatesPreview from './pupdates-preview';
 import SearchPage from './search';
 import SecretPage from './secret';
 import SettingsPage from './settings';
-import NewHomePage, { HomePreview as NewHomePagePreview } from './home-v2';
+import { HomePreview as NewHomePagePreview } from './home-v2';
+import HomeOrCreate from './home-or-create';
 import VSCodeAuth from './vscode-auth';
 import TwoFactorCodePage from './login/two-factor-code';
 import DeleteTokenPage from './delete';
@@ -107,8 +108,8 @@ const Router = () => {
 
   return (
     <Switch>
-      <Route path="/" exact render={({ location }) => <NewHomePage key={location.key} />} />
-      <Route path="/index.html" exact render={({ location }) => <NewHomePage key={location.key} />} />
+      <Route path="/" exact render={({ location }) => <HomeOrCreate key={location.key} />} />
+      <Route path="/index.html" exact render={({ location }) => <HomeOrCreate key={location.key} />} />
       <Route path="/index/preview" exact render={({ location }) => <NewHomePagePreview key={location.key} />} />
       <Route path="/pupdates/preview" exact render={({ location }) => <PupdatesPreview key={location.key} />} />
 
