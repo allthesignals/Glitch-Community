@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button, Icon } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
@@ -9,7 +9,7 @@ import { useCurrentUser } from 'State/current-user';
 import { getProjectLink } from 'Models/project';
 import { useCollectionProjects, useToggleBookmark } from 'State/collection';
 import { useTrackedFunc } from 'State/segment-analytics';
-import Row from 'Components/containers/row';
+import useSample from 'Hooks/use-sample';
 
 import styles from './styles.styl';
 
@@ -46,17 +46,12 @@ const Idea = ({ project }) => {
 
 const Ideas = ({ count }) => {
   const { value: ideas } = useCollectionProjects({ id: 13044 }); /* @glitch/ideas */
-  const [ideasArr, setIdeasArr] = useState([]);
-
-  useEffect(() => {
-    setIdeasArr(ideas);
-  }, [ideas]);
+  const definitelyIdeas = ideas || [];
+  const [sampledIdeas, refreshIdeas] = useSample(definitelyIdeas, count);
 
   const onClickMoreIdeas = () => {
-    const els = ideasArr.splice(0, count);
-    setIdeasArr([...ideasArr, ...els]);
+    refreshIdeas();
   };
-  const ideasToShow = ideasArr ? ideasArr.slice(0, count) : null;
   return (
     <div className={styles.ideas}>
       <div className={styles.ideasHeader}>
@@ -75,7 +70,7 @@ const Ideas = ({ count }) => {
         )}
       </div>
 
-      {ideasToShow && ideasToShow.map((projectIdea) => <Idea key={projectIdea.id} project={projectIdea} />)}
+      {sampledIdeas && sampledIdeas.map((projectIdea) => <Idea key={projectIdea.id} project={projectIdea} />)}
     </div>
   );
 };

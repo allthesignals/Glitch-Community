@@ -484,7 +484,7 @@ function Remix() {
 
   const [currentTab, setCurrentTab] = useState(0);
   // we show 5 apps total: starter-leaflet first because it's pretty, 4 random projects after
-  const apps = [leaflet].concat(useSample(appsToRandomize, 4));
+  const [apps] = [leaflet].concat(useSample(appsToRandomize, 4));
 
   return (
     <VisibilityContainer>

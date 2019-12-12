@@ -7,6 +7,7 @@ import Text from 'Components/text/text';
 import Image from 'Components/images/image';
 import NewStuffContainer from 'Components/new-stuff';
 import { useCurrentUser } from 'State/current-user';
+import useSample from 'Hooks/use-sample';
 import RecentProjects from './recent-projects';
 
 import styles from './styles.styl';

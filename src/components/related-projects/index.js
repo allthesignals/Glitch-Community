@@ -51,8 +51,8 @@ const ProjectsDataLoader = ({ children, type, id, ignoreProjectId }) => {
 };
 
 const RelatedProjects = ({ project }) => {
-  const teams = useSample(project.teams || [], 1);
-  const users = useSample(project.users || [], 2 - teams.length);
+  const [teams] = useSample(project.teams || [], 1);
+  const [users] = useSample(project.users || [], 2 - teams.length);
 
   if (!teams.length && !users.length) {
     return null;
