@@ -8,6 +8,8 @@ import { UserLink, WrappingLink } from 'Components/link';
 import SignInPop from 'Components/sign-in-pop';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
+import ProjectItem from 'Components/project/project-item';
+import { RowContainer, RowItem } from 'Components/containers/row';
 import Ideas from './ideas';
 
 import styles from './recent-projects.styl';
@@ -45,6 +47,7 @@ const RecentProjects = () => {
   const { currentUser, fetched, clear } = useCurrentUser();
   const numProjects = currentUser.projects.length;
   const isAnonymousUser = !currentUser.login;
+  const projectsToShow = currentUser.projects.slice(0, 3);
   return (
     <section data-cy="recent-projects">
       <Heading tagName="h2">
@@ -62,13 +65,13 @@ const RecentProjects = () => {
           </div>
           <div className={styles.projectsWrap}>
             {fetched ? (
-              <ProjectsList layout="row" showEditButton projects={currentUser.projects.slice(0, 3)} />
+              projectsToShow.map((project) => <ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton />)
             ) : (
               <Loader style={{ width: '25px' }} />
             )}
+            {numProjects < 3 && <Ideas count={3 - numProjects} />}
           </div>
         </div>
-        {numProjects < 3 && <Ideas count={3 - numProjects} />}
         {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>

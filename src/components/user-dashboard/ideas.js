@@ -56,7 +56,7 @@ const Ideas = ({ count }) => {
     const els = ideasArr.splice(0, count);
     setIdeasArr([...ideasArr, ...els]);
   };
-
+  const ideasToShow = ideasArr ? ideasArr.slice(0, count) : null;
   return (
     <div className={styles.ideas}>
       <div className={styles.ideasHeader}>
@@ -75,7 +75,7 @@ const Ideas = ({ count }) => {
         )}
       </div>
 
-      {ideasArr && <Row items={ideasArr.slice(0, count)}>{(projectIdea) => <Idea key={projectIdea.id} project={projectIdea} />}</Row>}
+      {ideasToShow && ideasToShow.map((projectIdea) => <Idea key={projectIdea.id} project={projectIdea} />)}
     </div>
   );
 };

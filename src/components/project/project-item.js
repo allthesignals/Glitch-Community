@@ -29,7 +29,7 @@ const getLinkBodyStyles = (project, showEditButton) =>
     [styles.hasFooter]: showEditButton,
   });
 
-const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions, showEditButton, deferLoading }) => {
+const ProjectItem = ({ project, projectOptions: providedProjectOptions, collection, noteOptions, showEditButton, deferLoading, className }) => {
   const { location } = useGlobals();
   const { currentUser } = useCurrentUser();
   const isAnonymousUser = !currentUser.login;
@@ -92,7 +92,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
             };
 
             return (
-              <>
+              <div className={className}>
                 {collection && (
                   <div className={styles.projectsContainerNote} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                     <Note
@@ -151,7 +151,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                     </footer>
                   )}
                 </div>
-              </>
+              </div>
             );
           }}
         </AnimationContainer>
@@ -172,12 +172,14 @@ ProjectItem.propTypes = {
   projectOptions: PropTypes.object,
   collection: PropTypes.object,
   showEditButton: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 ProjectItem.defaultProps = {
   projectOptions: {},
   collection: null,
   showEditButton: false,
+  className: null,
 };
 
 export default (props) => (
