@@ -1,28 +1,34 @@
 #!/usr/bin/env bash
 
-if [ -n "${CIRCLE_BRANCH:-}" ]
+set -x
+
+# If we have no ENVIRONMENT we set it from CIRCLE_BRANCH
+if [ -z "${ENVIRONMENT}" ];
 then
-
-  if [ "${CIRCLE_BRANCH}" == "master" ]
-  then
-    export ENVIRONMENT=production
-  fi
-
-  if [ "${CIRCLE_BRANCH}" == "staging" ]
-  then
-    export ENVIRONMENT=staging
-  fi
-
+  case "${CIRCLE_BRANCH}" in
+    master))
+      export ENVIRONMENT=production
+      ;;
+    staging))
+      export ENVIRONMENT=staging
+      ;;
+    *)
+      echo "Can't infer ENVIRONMENT from CIRCLE_BRANCH"
+      exit 1
+  esac
 fi
 
-if [ "${ENVIRONMENT}" == "staging" ]
-then
+# we set the BOOTSTRAP_BUCKET and JUMP_DOMAIN from the ENVIRONMENT
+case "${ENVIRONMENT}" in
+  production))
     export BOOTSTRAP_BUCKET=community-bootstrap-bucket20191205165831056600000001
     export JUMP_DOMAIN=jump.staging.glitch.com
-fi
-
-if [ "${ENVIRONMENT}" == "production" ]
-then
+    ;;
+  staging))
     export BOOTSTRAP_BUCKET=
     export JUMP_DOMAIN=jump.glitch.com
-fi
+    ;;
+  *)
+    echo "Unknown environment $ENVIRONMENT"
+    exit 1
+esac
