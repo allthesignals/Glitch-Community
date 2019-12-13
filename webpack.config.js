@@ -233,4 +233,4 @@ const nodeConfig = {
 };
 
 const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
-module.exports = smp.wrap(browserConfig);
+module.exports = smp.wrap([browserConfig, nodeConfig]);
