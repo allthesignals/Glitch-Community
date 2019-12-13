@@ -132,7 +132,7 @@
         // we can't show the server rendered page if the css is still building
         showFallback('notbuilt');
       } else if (scriptLoadError) {
-        // network error loading js, treat it the same for now
+        // network error loading js, can only ask to refresh
         showFallback('loaderror');
       } else {
         // js failed to parse, odds are the css would be broken too
