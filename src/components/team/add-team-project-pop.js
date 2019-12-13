@@ -31,11 +31,13 @@ const filterProjects = (query, projects, teamProjects) => {
   return filteredProjects;
 };
 
+const getProjectsWhereCurrentUserIsAdmin = (allMyProjects) =>
+  allMyProjects.filter((p) => p.permission && p.permission.accessLevel && p.permission.accessLevel === 30);
+
 function AddTeamProjectPop({ teamProjects, addProject }) {
   const [query, setQuery] = useState('');
   const { currentUser } = useCurrentUser();
-  const myProjects = currentUser.projects;
-
+  const myProjects = useMemo(() => getProjectsWhereCurrentUserIsAdmin(currentUser.projects), [currentUser.projects]);
   const filteredProjects = useMemo(() => filterProjects(query, myProjects, teamProjects), [query, myProjects, teamProjects]);
 
   return (

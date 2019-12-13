@@ -104,7 +104,7 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
     displayNewNote: !project.note && !project.isAddingANewNote && canAddNote && bind(projectOptions.displayNewNote, project),
     joinTeamProject: areMembersReady && !isProjectMember && !!projectTeam && bind(projectOptions.joinTeamProject, project, projectTeam),
     leaveProject: areMembersReady && isProjectMember && !isOnlyProjectAdmin && bind(projectOptions.leaveProject, project),
-    removeProjectFromTeam: isTeamMember && bind(projectOptions.removeProjectFromTeam, project),
+    removeProjectFromTeam: isTeamMember && isProjectAdmin && bind(projectOptions.removeProjectFromTeam, project),
     deleteProject: isProjectAdmin && bind(projectOptions.deleteProject, project),
     removeProjectFromCollection: isCollectionOwner && bind(projectOptions.removeProjectFromCollection, project),
     toggleBookmark: isLoggedIn && projectOptions.toggleBookmark,
