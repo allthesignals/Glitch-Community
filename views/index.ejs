@@ -66,7 +66,7 @@
               <h1>The web browser that you're using does not support Javascript</h1>
               <p>Since Glitch requires Javascript to run, please try using Glitch in a different web browser.</p>
             </div>
-              <div class="error-msg" id="fallback-notbuilt" style="display: none">
+            <div class="error-msg" id="fallback-notbuilt" style="display: none">
               <h1>The site isn&apos;t quite ready yet</h1>
               <p>Try refreshing in a few moments.</p>
             </div>
@@ -79,6 +79,10 @@
             <div class="error-msg" id="fallback-translate" style="display: none">
               <h1>Unfortunately, Glitch does not support Google translate at this time</h1>
               <p>redirecting to glitch.com in English...</p>
+            </div>
+            <div class="error-msg" id="fallback-cache" style="display: none">
+              <h1>Unfortunately, Glitch does not support running in a cache</h1>
+              <p>Please try loading the current site</p>
             </div>
           </section>
       </div>
@@ -116,7 +120,7 @@
       } else if (isCodeRunningInsideGoogleSearchCache) {
         // show an error if the page wasn't server rendered
         if (!container.hasChildNodes()) {
-          
+          showFallback('cache');
         }
       } else if (window.bootstrap) {
         window.bootstrap(container);
