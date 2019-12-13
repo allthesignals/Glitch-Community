@@ -51,6 +51,7 @@
       var OPTIMIZELY_ID = <%- JSON.stringify(OPTIMIZELY_ID) %>;
       var BUILD_COMPLETE = <%- BUILD_COMPLETE %>;
       var BUILD_TIMESTAMP = '<%= BUILD_TIMESTAMP %>';
+      var scriptLoadError = false;
     </script>
     <div id="fallback" style="display: none">
       <div class="content">
@@ -86,7 +87,7 @@
     <div id="react-root"><%- html %></div>
 
     <% for (let i = 0; i < scripts.length; ++i) { %>
-    <script src="<%= scripts[i] %>"></script>
+    <script src="<%= scripts[i] %>" onError="scriptLoadError = true"></script>
     <% } %>
     <script>
       var container = document.getElementById('react-root');
@@ -98,18 +99,24 @@
       }
       
       var isIe = /Trident\/[7]{1}/i.test(navigator.userAgent);
-      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com"; 
+      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com";
+      var isCodeRunningInsideGoogleSearchCache = window.location.origin === "https://webcache.googleusercontent.com";
       
       if (isIe) {
         // ie doesn't support our css
         showFallback('ie');
       } else if (isCodeRunningInsideGoogleTranslateIframe) {
-        // only translate server rendered pages
+        // only allow translation of server rendered pages
         if (!container.hasChildNodes()) {
           showFallback('translate');
           setTimeout(function() {
             window.location.href = "https://glitch.com";      
           }, 3000);
+        }
+      } else if (isCodeRunningInsideGoogleSearchCache) {
+        // show an error if the page wasn't server rendered
+        if (!container.hasChildNodes()) {
+          
         }
       } else if (window.bootstrap) {
         window.bootstrap(container);
