@@ -172,6 +172,8 @@ const browserConfig = {
   },
   stats: {
     children: false,
+    errors: true,
+    errorDetails: true,
   },
 };
 
