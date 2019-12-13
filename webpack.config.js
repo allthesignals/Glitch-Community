@@ -172,8 +172,6 @@ const browserConfig = {
   },
   stats: {
     children: false,
-    errors: true,
-    errorDetails: true,
   },
 };
 
@@ -235,4 +233,4 @@ const nodeConfig = {
 };
 
 const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
-module.exports = smp.wrap([browserConfig, nodeConfig]);
+module.exports = smp.wrap(browserConfig);
