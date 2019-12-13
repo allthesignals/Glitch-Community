@@ -49,6 +49,4 @@ const App = ({ apiCache, helmetContext }) => (
   </LocalStyle>
 );
 
-this is obviously broken code and webpack should report an error
-
 export default App;
