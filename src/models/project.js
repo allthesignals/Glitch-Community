@@ -64,3 +64,7 @@ export function userIsOnlyProjectAdmin({ project, user }) {
   if (adminCount > 1) return false;
   return userIsProjectAdmin({ project, user });
 }
+
+export function getIdeaThumbnailUrl(projectId) {
+  return `https://cdn.glitch.com/${projectId}/thumbnail.png?version=${Date.now()}`;
+}

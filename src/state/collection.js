@@ -9,8 +9,9 @@ import { AddProjectToCollectionMsg } from 'Components/notification';
 import { useNotifications } from 'State/notifications';
 import { useCurrentUser } from 'State/current-user';
 
-async function getCollectionProjectsFromAPI(api, collection, withCacheBust) {
-  const url = `/v1/collections/by/id/projects?id=${collection.id}&orderKey=projectOrder&limit=100`;
+// arguments are compatible with DataLoader: (api, args)
+export async function getCollectionProjectsFromAPI(api, { collectionId, withCacheBust }) {
+  const url = `/v1/collections/by/id/projects?id=${collectionId}&orderKey=projectOrder&limit=100`;
 
   if (withCacheBust) {
     // busts cache for collection projects by id
@@ -34,7 +35,7 @@ function loadCollectionProjects(api, collections, setResponses, withCacheBust) {
     return next;
   });
   collections.forEach(async (collection) => {
-    const projects = await getCollectionProjectsFromAPI(api, collection, withCacheBust);
+    const projects = await getCollectionProjectsFromAPI(api, { collectionId: collection.id, withCacheBust });
     setResponses((prev) => ({
       ...prev,
       [collection.id]: {

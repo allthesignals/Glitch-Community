@@ -6,7 +6,7 @@ import Text from 'Components/text/text';
 import Image from 'Components/images/image';
 import BookmarkButton from 'Components/buttons/bookmark-button';
 import { useCurrentUser } from 'State/current-user';
-import { getProjectLink } from 'Models/project';
+import { getProjectLink, getIdeaThumbnailUrl } from 'Models/project';
 import { useCollectionProjects, useToggleBookmark } from 'State/collection';
 import { useTrackedFunc } from 'State/segment-analytics';
 import useSample from 'Hooks/use-sample';
@@ -38,7 +38,7 @@ const Idea = ({ project }) => {
         <Text size="14px">{project.description}</Text>
       </div>
       <div className={styles.ideaThumbnailContainer}>
-        <Image src={`https://cdn.glitch.com/${project.id}/thumbnail.png?version=${Date.now()}`} alt="" />
+        <Image src={getIdeaThumbnailUrl(project.id)} alt="" />
       </div>
     </div>
   );

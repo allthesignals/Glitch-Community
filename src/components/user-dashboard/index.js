@@ -7,7 +7,12 @@ import Text from 'Components/text/text';
 import Image from 'Components/images/image';
 import NewStuffContainer from 'Components/new-stuff';
 import { useCurrentUser } from 'State/current-user';
+import { useAPI } from 'State/api';
 import useSample from 'Hooks/use-sample';
+import { useCollectionProjects, getCollectionProjectsFromAPI } from 'State/collection';
+import { sampleSize } from 'lodash';
+import { getIdeaThumbnailUrl, getProjectLink } from 'Models/project';
+import DataLoader from 'Components/data-loader';
 import RecentProjects from './recent-projects';
 
 import styles from './styles.styl';
@@ -27,56 +32,70 @@ Stamp.propTypes = {
   icon: PropTypes.string.isRequired,
 };
 
-const Postcards = ({ marketingContent }) => (
-  <div className={styles.postcards}>
-    <NewStuffContainer>
-      {(showNewStuffOverlay) => (
-        <Postcard
-          heading="Update"
-          subheading="My Stuff"
-          stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
-          stampIcon="dogFace"
-          outerBorderColor="#7460E1"
-          innerBorderColor="#EAE6FF"
-          buttonText="All Updates"
-          buttonProps={{ onClick: showNewStuffOverlay }}
-          thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
-        >
-          Quickly save cool apps to your My Stuff collection with a single click.
-        </Postcard>
-      )}
-    </NewStuffContainer>
+const Postcards = ({ marketingContent }) => {
+  // const { value: ideas } = useCollectionProjects({ id: 13044 }); /* @glitch/ideas */
+  /* console.log({ ideas });
+  const definitelyIdeas = ideas || [];
+  const [sampledIdeas] = useSample(definitelyIdeas, 1);
+  const sampledIdea = sampledIdeas[0]; */
+  const api = useAPI();
+  return (
+    <div className={styles.postcards}>
+      <NewStuffContainer>
+        {(showNewStuffOverlay) => (
+          <Postcard
+            heading="Update"
+            subheading="My Stuff"
+            stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
+            stampIcon="dogFace"
+            outerBorderColor="#7460E1"
+            innerBorderColor="#EAE6FF"
+            buttonText="All Updates"
+            buttonProps={{ onClick: showNewStuffOverlay }}
+            thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
+          >
+            Quickly save cool apps to your My Stuff collection with a single click.
+          </Postcard>
+        )}
+      </NewStuffContainer>
 
-    <Postcard
-      heading="Video"
-      subheading={marketingContent.title}
-      stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg"
-      stampIcon="television"
-      outerBorderColor="#E1D262"
-      innerBorderColor="#FEED64"
-      buttonText="Watch It"
-      buttonProps={{ as: 'a', href: marketingContent.href }}
-      waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
-      thumbnail={marketingContent.thumbnail}
-    >
-      Follow along as we build a collaborative rainbow app you can interact with via SMS.
-    </Postcard>
-
-    <Postcard
-      heading="Ideas"
-      subheading="Remix This"
-      stampImage="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fideas-label.svg?v=1573670255817"
-      stampIcon="lightbulb"
-      outerBorderColor="#75d1f8"
-      innerBorderColor="#cdeffc"
-      buttonText="View App"
-      buttonProps={{ as: 'a', href: 'https://glitch.com/~starter-chartjs' }}
-      thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
-    >
-      Create interactive charts and graphs in the browser using Chart.js.
-    </Postcard>
-  </div>
-);
+      <Postcard
+        heading="Video"
+        subheading={marketingContent.title}
+        stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg"
+        stampIcon="television"
+        outerBorderColor="#E1D262"
+        innerBorderColor="#FEED64"
+        buttonText="Watch It"
+        buttonProps={{ as: 'a', href: marketingContent.href }}
+        waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
+        thumbnail={marketingContent.thumbnail}
+      >
+        Follow along as we build a collaborative rainbow app you can interact with via SMS.
+      </Postcard>
+      <DataLoader get={getCollectionProjectsFromAPI} args={{ api, collectionId: 13044 }}>
+        {(data) => {
+          const [sampledIdea] = sampleSize(data, 1);
+          return (
+            <Postcard
+              heading="Ideas"
+              subheading="Remix This"
+              stampImage="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fideas-label.svg?v=1573670255817"
+              stampIcon="lightbulb"
+              outerBorderColor="#75d1f8"
+              innerBorderColor="#cdeffc"
+              buttonText="View App"
+              buttonProps={{ as: 'a', href: getProjectLink(sampledIdea) }}
+              thumbnail={getIdeaThumbnailUrl(sampledIdea.id)}
+            >
+              {sampledIdea.description}
+            </Postcard>
+          );
+        }}
+      </DataLoader>
+    </div>
+  );
+};
 
 const Postcard = ({
   heading,
