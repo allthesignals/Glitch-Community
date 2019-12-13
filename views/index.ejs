@@ -127,6 +127,9 @@
       } else if (!BUILD_COMPLETE) {
         // we can't show the server rendered page if the css is still building
         showFallback('notbuilt');
+      } else if (scriptLoadError) {
+        // network error loading js, something is wrong
+        showFallback('noscript');
       } else {
         // js failed to parse, odds are the css would be broken too
         showFallback('noscript');
