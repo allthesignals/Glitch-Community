@@ -66,6 +66,10 @@
               <h1>The web browser that you're using does not support Javascript</h1>
               <p>Since Glitch requires Javascript to run, please try using Glitch in a different web browser.</p>
             </div>
+            <div class="error-msg" id="fallback-loaderror" style="display: none">
+              <h1>The site couldn't load some required content</h1>
+              <p>Try refreshing in a few moments.</p>
+            </div>
             <div class="error-msg" id="fallback-notbuilt" style="display: none">
               <h1>The site isn&apos;t quite ready yet</h1>
               <p>Try refreshing in a few moments.</p>
@@ -129,7 +133,7 @@
         showFallback('notbuilt');
       } else if (scriptLoadError) {
         // network error loading js, treat it the same for now
-        showFallback('noscript');
+        showFallback('loaderror');
       } else {
         // js failed to parse, odds are the css would be broken too
         showFallback('noscript');

@@ -46,7 +46,7 @@ const watch = (location, entry, verb) => {
   return loadClient;
 };
 
-let tempRequireClient = () => require('../src/server');
+let tempRequireClient = () => require('../build/server');
 if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.env.NODE_ENV !== 'production') {
   const SRC = path.join(__dirname, '../src');
   const stylus = require('stylus');
