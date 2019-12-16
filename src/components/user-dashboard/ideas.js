@@ -53,7 +53,7 @@ const Ideas = ({ count, wrapperStyle }) => {
     refreshIdeas();
   };
   return (
-    <div className={styles.ideas} styles={wrapperStyle}>
+    <div className={styles.ideas} style={wrapperStyle}>
       <div className={styles.ideasHeader}>
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />

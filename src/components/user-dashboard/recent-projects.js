@@ -69,7 +69,7 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            <div styles={recentProjectsWrapperStyle}>
+            <div style={recentProjectsWrapperStyle}>
               {fetched ? (
                 projectsToShow.map((project) => <ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton />)
               ) : (
