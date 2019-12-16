@@ -48,11 +48,11 @@ const RecentProjects = () => {
   const numProjects = currentUser.projects.length;
   const isAnonymousUser = !currentUser.login;
   const projectsToShow = currentUser.projects.slice(0, 3);
-  /* When there are two ideas, change the two children of .recent-projects__projectsWrap___27Sqs to `flex: 1` and flex: 2. When there is only one project, change it to flex: 2 and flex: 1
-   */
+
   const ideasCount = 3 - numProjects;
-  const recentProjectsWrapperStyle = ideasCount === 2 ? { flex: 1 } : { flex: 2 };
-  const ideasWrapperStyle = ideasCount === 2 ? { flex: 2 } : { flex: 1 };
+  const twoIdeas = ideasCount === 2;
+  const recentProjectsWrapperStyle = twoIdeas ? { display: 'flex', flex: 1 } : { display: 'flex', flex: 2 };
+  const ideasWrapperStyle = twoIdeas ? { flex: 2 } : { flex: 1 };
   return (
     <section data-cy="recent-projects">
       <Heading tagName="h2">
