@@ -106,6 +106,8 @@ jobs:
       - image: circleci/node:10-browsers  # same as the other community jobs
 
     steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install awscli
       - checkout
       - attach_workspace:
           at: /home/circleci
