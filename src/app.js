@@ -49,6 +49,4 @@ const App = ({ apiCache, helmetContext }) => (
   </LocalStyle>
 );
 
-this
-
 export default App;
