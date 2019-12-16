@@ -6,10 +6,10 @@ set -x
 if [ -z "${ENVIRONMENT}" ];
 then
   case "${CIRCLE_BRANCH}" in
-    master))
+    master)
       export ENVIRONMENT=production
       ;;
-    staging))
+    staging)
       export ENVIRONMENT=staging
       ;;
     *)
@@ -20,13 +20,13 @@ fi
 
 # we set the BOOTSTRAP_BUCKET and JUMP_DOMAIN from the ENVIRONMENT
 case "${ENVIRONMENT}" in
-  production))
+  production)
     export BOOTSTRAP_BUCKET=community-bootstrap-bucket20191205165831056600000001
     export JUMP_DOMAIN=jump.staging.glitch.com
     export AWS_BOOTSTRAP_KEY=AKIA6O2CCK6XTDYMEAM4
     export AWS_BOOTSTRAP_SECRET="$STAGING_AWS_BOOTSTRAP_SECRET"
     ;;
-  staging))
+  staging)
     export BOOTSTRAP_BUCKET=
     export JUMP_DOMAIN=jump.glitch.com
     export AWS_BOOTSTRAP_KEY=
