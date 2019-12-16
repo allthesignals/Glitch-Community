@@ -31,8 +31,6 @@ try {
   // Don't worry about it, there's probably just no stats.json
 }
 
-const stats = { children: false, modules: false };
-
 const browserConfig = {
   mode,
   entry: {
@@ -172,7 +170,7 @@ const browserConfig = {
   watchOptions: {
     ignored: /node_modules/,
   },
-  stats,
+  stats: { children: false, modules: false },
 };
 
 const nodeConfig = {
@@ -230,7 +228,7 @@ const nodeConfig = {
     NodeExternals(),
     (context, request, callback) => /^Shared[\\/]/.test(request) ? callback(null, `commonjs ${request}`) : callback(),
   ],
-  stats: { ...stats, assets: false },
+  stats: { assets: false, children: false, modules: false },
 };
 
 const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });
