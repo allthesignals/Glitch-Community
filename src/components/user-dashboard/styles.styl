@@ -78,6 +78,15 @@ svg.arrow
   top: 0
   right: 0
 
+.ideasContainer
+  display: flex
+  flex-direction: row
+  .idea
+    margin-right: 10px
+    flex: 1
+  .idea + .idea
+    margin-left: space
+
 .ideaContentContainer
   flex-basis: 60%
   padding: 15px
@@ -94,9 +103,7 @@ svg.arrow
   background-color: #fff
   border-radius: 0 5px 5px 0
   img
-    width: auto
-    max-width: 100%
-    height: auto
+    object-fit: scale-down
 
 .moreIdeasBtn
   margin-left: auto

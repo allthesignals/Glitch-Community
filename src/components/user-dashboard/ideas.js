@@ -44,7 +44,7 @@ const Idea = ({ project }) => {
   );
 };
 
-const Ideas = ({ count }) => {
+const Ideas = ({ count, wrapperStyle }) => {
   const { value: ideas } = useCollectionProjects({ id: 13044 }); /* @glitch/ideas */
   const definitelyIdeas = ideas || [];
   const [sampledIdeas, refreshIdeas] = useSample(definitelyIdeas, count);
@@ -53,7 +53,7 @@ const Ideas = ({ count }) => {
     refreshIdeas();
   };
   return (
-    <div className={styles.ideas}>
+    <div className={styles.ideas} styles={wrapperStyle}>
       <div className={styles.ideasHeader}>
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
@@ -69,8 +69,9 @@ const Ideas = ({ count }) => {
           </span>
         )}
       </div>
-
-      {sampledIdeas && sampledIdeas.map((projectIdea) => <Idea key={projectIdea.id} project={projectIdea} />)}
+      <div className={styles.ideasContainer}>
+        {sampledIdeas && sampledIdeas.map((projectIdea) => <Idea key={projectIdea.id} project={projectIdea} />)}
+      </div>
     </div>
   );
 };
