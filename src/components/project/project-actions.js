@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Button, Icon, Popover } from '@fogcreek/shared-components';
 
 import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
-import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 import LeaveProjectPopover from './leave-project-pop';
 
 import { emoji } from '../global.styl';
@@ -73,8 +72,6 @@ RemixButton.defaultProps = {
 };
 
 export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject, refreshEmbed }) => {
-  const [width] = useWindowSize();
-
   if (!isMember && joinProject) {
     return isTeamProject ? (
       <Button
