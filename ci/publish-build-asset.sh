@@ -2,9 +2,9 @@
 set -x  #   we don't want -e or -o pipefail; we want to handle the results of the grep at the end
 
 #####
-# THIS SCRIPT RUNS ON COMMUNITY WORKERS
+# THIS SCRIPT RUNS ON the Circle CI executor
 # It checks for the requested asset (based on the commit sha) in S3 
-# and tells the caller who is responsible for the asset
+# and if not present uploads the asset
 #####
 
 # check req params - we need the env and a sha to use for file manipulation
@@ -18,7 +18,7 @@ fi
 export ENVIRONMENT=$1
 export CIRCLE_SHA=$2
 
-source /opt/glitch-community/ci/env
+source ./ci/env
 export AWS_ACCESS_KEY_ID=${AWS_BOOTSTRAP_KEY}
 export AWS_SECRET_ACCESS_KEY=${AWS_BOOTSTRAP_SECRET}
 
@@ -26,13 +26,13 @@ export AWS_SECRET_ACCESS_KEY=${AWS_BOOTSTRAP_SECRET}
 aws s3api head-object --bucket "$BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?
 
 #   check to see if we have the package
-if [[ -f "$CIRCLE_SHA.tar.gz" ]]; then
+if [[ -f "/home/circleci/$CIRCLE_SHA.tar.gz" ]]; then
 
   if [[ "$code" -ne 0 ]]; then
     #   no file in s3
-    aws s3 cp --quiet "$CIRCLE_SHA.tar.gz" "s3://$BOOTSTRAP_BUCKET"
-    echo "$CIRCLE_SHA" > LAST_DEPLOYED_SHA
-    aws s3 cp --quiet LAST_DEPLOYED_SHA "s3://$BOOTSTRAP_BUCKET"
+    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$BOOTSTRAP_BUCKET"
+    echo "$CIRCLE_SHA" > /home/circleci/LAST_DEPLOYED_SHA
+    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$BOOTSTRAP_BUCKET"
   fi
 
 else
