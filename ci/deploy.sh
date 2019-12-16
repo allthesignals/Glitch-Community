@@ -28,7 +28,7 @@ do
 
   echo $name
 
-  ./publish-build-asset "$ENVIRONMENT" "$CIRCLE_SHA" 
+  ./publish-build-asset.sh "$ENVIRONMENT" "$CIRCLE_SHA" 
 
   # do the "local" deploy stuff
   ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
