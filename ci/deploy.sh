@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eo pipefail
 set -x
 
 #####
@@ -16,10 +16,7 @@ fi
 
 export CIRCLE_SHA=$1
 source ci/env
-
-# TODO
-# * connect env and branch to remove hard-coded vals
-# * should this connect to Honeycomb? I think it would be valuable.
+set -u  # -u not set above because we expect ENVIRONMENT to be unset when ci/env is called from CircleCI
 
 # first get the list of hostnames - we could do this on any host, but we know the worker has the code
 HOSTNAMES=( $(ssh -q "worker.$ENVIRONMENT" "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community $ENVIRONMENT'") )
