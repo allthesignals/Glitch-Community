@@ -4,8 +4,8 @@ module.exports = function webpackExpressMiddleware() {
   const compiler = webpack(webpackConfig);
 
   const webpackMiddleware = require('webpack-dev-middleware');
-  const stats = { children: false };
-  const middleware = webpackMiddleware(compiler, { stats:{}, writeToDisk: true });
+  const stats = { children: webpackConfig.map((config) => config.stats) };
+  const middleware = webpackMiddleware(compiler, { stats, writeToDisk: true });
 
   let ready = false;
   middleware.waitUntilValid(() => {

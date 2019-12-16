@@ -49,6 +49,6 @@ const App = ({ apiCache, helmetContext }) => (
   </LocalStyle>
 );
 
-this is a bad issue with my code
+this
 
 export default App;
