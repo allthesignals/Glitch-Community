@@ -19,9 +19,28 @@ export ENVIRONMENT=$1
 export CIRCLE_SHA=$2
 
 source /opt/glitch-community/ci/env
+export AWS_ACCESS_KEY_ID=${AWS_BOOTSTRAP_KEY}
+export AWS_SECRET_ACCESS_KEY=${AWS_BOOTSTRAP_SECRET}
 
 # check S3 for the asset; tell caller the result
 aws s3api head-object --bucket "$BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?
+
+#   check to see if we have the package
+if [[ -f "$CIRCLE_SHA.tar.gz" ]]; then
+
+  if [[ "$code" -ne 0 ]]; then
+    #   no file in s3
+    aws s3 cp --quiet "$CIRCLE_SHA.tar.gz" "s3://$BOOTSTRAP_BUCKET"
+    echo "$CIRCLE_SHA" > LAST_DEPLOYED_SHA
+    aws s3 cp --quiet LAST_DEPLOYED_SHA "s3://$BOOTSTRAP_BUCKET"
+  fi
+
+else
+
+  >&2 echo "No package $CIRCLE_SHA.tar.gz to deliver."
+  exit 1
+
+fi
 
 # 0 means found; else not.
 exit $code

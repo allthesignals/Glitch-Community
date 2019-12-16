@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -x #  we can't set -e or -o pipefail because we expect the check-deploy-source script to fail
+set -euo pipfail
+set -x
 
 #####
 # THIS SCRIPT RUNS ON THE CIRCLE CI EXECUTOR
@@ -28,36 +29,9 @@ echo "${HOSTNAMES[@]}"
 for name in ${HOSTNAMES[*]}
 do
 
-  # if we run into a problem with the sequence of remote call we fall back to 
-  # shoving the asset to the destination server and brute forcing the deploy
-  # this is super-naive, and we mightr want to handle errors more explicitly
-  catch() {
-    echo "something bad happened; let us see if just pushing the asset will work"
-
-    # hard-coded push deploy
-    scp -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no /home/circleci/$3.tar.gz "deploy@$1.$ENVIRONMENT":/opt/glitch-community; code=$?
-
-    # do the local deploy stuff
-    ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$1.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $2 $3\""; code=$?
-
-  }
-
   echo $name
 
-  #check if the asset is already in S3
-  ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/check-deploy-source.sh $ENVIRONMENT $CIRCLE_SHA\"" > /dev/null 2>&1; code=$?
-  S3_LOOKUP_RESULT="$code"
-
-  # we expect an error code above for the first host of any deploy
-  trap 'catch $name $ENVIRONMENT $CIRCLE_SHA' ERR
-
-  echo "$S3_LOOKUP_RESULT"
-  if [[ "$S3_LOOKUP_RESULT" ]]; then
-    # we have the package, so upload it to a device and then to s3
-    scp -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no /home/circleci/$CIRCLE_SHA.tar.gz deploy@"$name".$ENVIRONMENT:/opt/glitch-community; code=$?
-
-    ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/upload-asset.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
-  fi
+  ./publish-build-asset "$ENVIRONMENT" "$CIRCLE_SHA" 
 
   # do the "local" deploy stuff
   ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
