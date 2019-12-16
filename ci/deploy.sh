@@ -18,6 +18,8 @@ export CIRCLE_SHA=$1
 source ci/env
 set -u  # -u not set above because we expect ENVIRONMENT to be unset when ci/env is called from CircleCI
 
+./ci/publish-build-asset.sh "$ENVIRONMENT" "$CIRCLE_SHA" 
+
 # first get the list of hostnames - we could do this on any host, but we know the worker has the code
 HOSTNAMES=( $(ssh -q "worker.$ENVIRONMENT" "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community $ENVIRONMENT'") )
 
@@ -26,9 +28,7 @@ echo "${HOSTNAMES[@]}"
 for name in ${HOSTNAMES[*]}
 do
 
-  echo $name
-
-  ./publish-build-asset.sh "$ENVIRONMENT" "$CIRCLE_SHA" 
+  echo "$name"
 
   # do the "local" deploy stuff
   ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.$ENVIRONMENT" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh $ENVIRONMENT $CIRCLE_SHA\""; code=$?
