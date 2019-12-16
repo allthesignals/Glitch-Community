@@ -8,25 +8,27 @@ const LOGO_NIGHT = 'https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%
 const LOGO_HALLOWEEN = 'https://cdn.glitch.com/02863ac1-a499-4a41-ac9c-41792950000f%2Ffish-dead.svg?v=1572544267739';
 
 const pickLogo = (date) => {
-  if (date.getMonth()+1 === 10 && date.getDate() === )
+  console.log(date);
+  if (date.getMonth() + 1 === 10 && date.getDate() === 31) return LOGO_HALLOWEEN;
   const hour = date.getHours();
   if (hour >= 16 && hour < 19) return LOGO_SUNSET;
   if (hour >= 19 || hour < 7) return LOGO_NIGHT;
   return LOGO_DAY;
 };
 
-const LogoImage = ({ src }) => <img className={styles.logo} src={src} alt="Glitch" />;
-
-function Logo() {
+const Logo = () => {
   const [logo, setLogo] = useState(LOGO_DAY);
+
   useEffect(() => {
     const handle = window.setInterval(() => {
       setLogo(pickLogo(new Date()));
     }, dayjs.convert(5, 'minutes', 'ms'));
 
+    setLogo(pickLogo(new Date()));
     return () => window.clearInterval(handle);
   }, []);
-  return <LogoImage src={logo} />;
-}
+
+  return <img className={styles.logo} src={logo} alt="Glitch" />;
+};
 
 export default Logo;
