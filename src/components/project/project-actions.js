@@ -7,6 +7,7 @@ import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 import LeaveProjectPopover from './leave-project-pop';
 
 import { emoji } from '../global.styl';
+import styles from './project-actions.styl';
 
 export const ShowButton = ({ name, size }) => (
   <Button as="a" href={getShowUrl(name)} size={size}>
@@ -59,20 +60,13 @@ EditButton.defaultProps = {
   isMember: false,
 };
 
-export const RemixButton = ({ name, isMember, onClick }) => {
-  const [width] = useWindowSize();
-
-  let remixButtonText = 'Remix';
-  if (!width || width > mediumSmallViewport) {
-    remixButtonText = isMember ? `${remixButtonText} This` : `${remixButtonText} Your Own`;
-  }
-
-  return (
-    <Button as="a" href={getRemixUrl(name)} size="small" onClick={onClick}>
-      {remixButtonText} <Icon className={emoji} icon="microphone" />
-    </Button>
-  );
-};
+export const RemixButton = ({ name, isMember, onClick }) => (
+  <Button as="a" href={getRemixUrl(name)} size="small" onClick={onClick}>
+    Remix
+    <span className={styles.hideIfSmallViewport}>{isMember ? 'This' : 'Your Own'}</span>
+    <Icon className={emoji} icon="microphone" />
+  </Button>
+);
 
 RemixButton.propTypes = {
   name: PropTypes.string.isRequired,
