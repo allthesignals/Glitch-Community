@@ -36,20 +36,15 @@ EditButtonCta.defaultProps = {
 };
 
 // the Edit Button that appears below the embed
-export const EditButton = ({ name, isMember, size }) => {
-  const [width] = useWindowSize();
-  let editButtonText = null;
-  if (width && width < mediumSmallViewport) {
-    editButtonText = isMember ? 'Edit' : 'View';
-  } else {
-    editButtonText = isMember ? 'Edit Project' : 'View Source';
-  }
-  return (
-    <Button as="a" href={getEditorUrl(name)} size={size}>
-      {editButtonText}
-    </Button>
-  );
-};
+export const EditButton = ({ name, isMember, size }) => (
+  <Button as="a" href={getEditorUrl(name)} size={size}>
+    {isMember ? (
+      <>Edit <span className={styles.hideIfSmallViewport}>Project</span></>
+    ) : (
+      <>View <span className={styles.hideIfSmallViewport}>Source</span></>
+    )}
+  </Button>
+);
 
 EditButton.propTypes = {
   name: PropTypes.string.isRequired,
@@ -62,9 +57,7 @@ EditButton.defaultProps = {
 
 export const RemixButton = ({ name, isMember, onClick }) => (
   <Button as="a" href={getRemixUrl(name)} size="small" onClick={onClick}>
-    Remix
-    <span className={styles.hideIfSmallViewport}>{isMember ? 'This' : 'Your Own'}</span>
-    <Icon className={emoji} icon="microphone" />
+    Remix <span className={styles.hideIfSmallViewport}>{isMember ? 'This' : 'Your Own'}</span> <Icon className={emoji} icon="microphone" />
   </Button>
 );
 
@@ -83,11 +76,6 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
   const [width] = useWindowSize();
 
   if (!isMember && joinProject) {
-    let joinProjectBtnText = 'Join Team Project';
-
-    if (width && width < mediumSmallViewport) {
-      joinProjectBtnText = 'Join';
-    }
     return isTeamProject ? (
       <Button
         size="small"
@@ -96,18 +84,13 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
           refreshEmbed();
         }}
       >
-        {joinProjectBtnText} <Icon icon="rainbow" />
+        Join <span className={styles.hideIfSmallViewport}>Team Project</span> <Icon icon="rainbow" />
       </Button>
     ) : null;
   }
 
   // let team members leave directly, warn non team members
   if (isTeamProject && leaveProject) {
-    let leaveProjectBtnText = 'Leave Project';
-    if (width && width < mediumSmallViewport) {
-      leaveProjectBtnText = 'Leave';
-    }
-
     return (
       <Button
         size="small"
@@ -116,7 +99,7 @@ export const MembershipButton = ({ project, isMember, isTeamProject, leaveProjec
           refreshEmbed();
         }}
       >
-        {leaveProjectBtnText} <Icon icon="wave" />
+        Leave <span className={styles.hideIfSmallViewport}>Project</span> <Icon icon="wave" />
       </Button>
     );
   }
