@@ -51,6 +51,7 @@
       var OPTIMIZELY_ID = <%- JSON.stringify(OPTIMIZELY_ID) %>;
       var BUILD_COMPLETE = <%- BUILD_COMPLETE %>;
       var BUILD_TIMESTAMP = '<%= BUILD_TIMESTAMP %>';
+      var scriptLoadError = false;
     </script>
     <div id="fallback" style="display: none">
       <div class="content">
@@ -65,8 +66,12 @@
               <h1>The web browser that you're using does not support Javascript</h1>
               <p>Since Glitch requires Javascript to run, please try using Glitch in a different web browser.</p>
             </div>
-              <div class="error-msg" id="fallback-notbuilt" style="display: none">
-              <h1>The site isn&apos;t quite ready yet</h1>
+            <div class="error-msg" id="fallback-loaderror" style="display: none">
+              <h1>The site couldn't load some required content</h1>
+              <p>Try refreshing in a few moments.</p>
+            </div>
+            <div class="error-msg" id="fallback-notbuilt" style="display: none">
+              <h1>The site isn't quite ready yet</h1>
               <p>Try refreshing in a few moments.</p>
             </div>
             <div class="error-msg" id="fallback-ie" style="display: none">
@@ -79,6 +84,10 @@
               <h1>Unfortunately, Glitch does not support Google translate at this time</h1>
               <p>redirecting to glitch.com in English...</p>
             </div>
+            <div class="error-msg" id="fallback-cache" style="display: none">
+              <h1>Unfortunately, Glitch does not support running in this cache</h1>
+              <p>Please try loading the current site</p>
+            </div>
           </section>
       </div>
     </div>
@@ -86,7 +95,7 @@
     <div id="react-root"><%- html %></div>
 
     <% for (let i = 0; i < scripts.length; ++i) { %>
-    <script src="<%= scripts[i] %>"></script>
+    <script src="<%= scripts[i] %>" onError="scriptLoadError = true"></script>
     <% } %>
     <script>
       var container = document.getElementById('react-root');
@@ -98,24 +107,33 @@
       }
       
       var isIe = /Trident\/[7]{1}/i.test(navigator.userAgent);
-      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com"; 
+      var isCodeRunningInsideGoogleTranslateIframe = window.location.origin === "https://translate.googleusercontent.com";
+      var isCodeRunningInsideGoogleSearchCache = window.location.origin === "https://webcache.googleusercontent.com";
       
       if (isIe) {
         // ie doesn't support our css
         showFallback('ie');
       } else if (isCodeRunningInsideGoogleTranslateIframe) {
-        // only translate server rendered pages
+        // only allow translation of server rendered pages
         if (!container.hasChildNodes()) {
           showFallback('translate');
           setTimeout(function() {
             window.location.href = "https://glitch.com";      
           }, 3000);
         }
+      } else if (isCodeRunningInsideGoogleSearchCache) {
+        // show an error if the page wasn't server rendered
+        if (!container.hasChildNodes()) {
+          showFallback('cache');
+        }
       } else if (window.bootstrap) {
         window.bootstrap(container);
       } else if (!BUILD_COMPLETE) {
         // we can't show the server rendered page if the css is still building
         showFallback('notbuilt');
+      } else if (scriptLoadError) {
+        // network error loading js, can only ask to refresh
+        showFallback('loaderror');
       } else {
         // js failed to parse, odds are the css would be broken too
         showFallback('noscript');

@@ -24,7 +24,7 @@
     "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
     "cy:run": "npx cypress run",
     "lint": "npm run lint:server && npm run lint:src",
-    "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js",
+    "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js aliases.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
     "prestart": "if if-env BUILD_TYPE=\"\"; then \n npm run watch:lint:server & \n fi & \n if if-env BUILD_TYPE=memory; then \n npm run watch:lint:server & \n fi & \n if if-env BUILD_TYPE=watcher; then \n npm run watch:webpack \n npm run watch:lint:server & \n fi",
     "start": "pm2 start ecosystem.config.js",
