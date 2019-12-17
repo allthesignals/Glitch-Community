@@ -3,12 +3,12 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { partition } from 'lodash';
-import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 import { Actions, Badge, Button, Icon, Info, Popover, SegmentedButton, Title } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
 import { PopoverSearch } from 'Components/popover';
 import { ProjectAvatar } from 'Components/images/avatar';
+import ResponsiveButton from 'Components/buttons/responsive-button';
 import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { AddProjectToCollectionMsg } from 'Components/notification';
@@ -196,52 +196,42 @@ AddProjectToCollectionBase.propTypes = {
   createCollectionPopover: PropTypes.func.isRequired,
 };
 
-const AddProjectToCollection = ({ project, addProjectToCollection }) => {
-  const [width] = useWindowSize();
-  let buttonText = null;
-  if (width && width < mediumSmallViewport) {
-    buttonText = 'Add';
-  } else {
-    buttonText = 'Add to Collection';
-  }
-
-  return (
-    <Popover
-      className={widePopover}
-      align="right"
-      renderLabel={({ onClick, ref }) => (
-        <Button size="small" onClick={onClick} ref={ref}>
-          {buttonText} <Icon className={emoji} icon="framedPicture" />
-        </Button>
-      )}
-      views={{
-        createCollectionPopover: ({ onClose, onBack }) => (
-          <CreateCollectionWithProject
-            onBack={onBack}
-            onClose={onClose}
-            addProjectToCollection={(...args) => {
-              addProjectToCollection(...args);
-            }}
-            project={project}
-          />
-        ),
-      }}
-    >
-      {({ onClose, onBack, setActiveView }) => (
-        <AddProjectToCollectionBase
+const AddProjectToCollection = ({ project, addProjectToCollection }) => (
+  <Popover
+    className={widePopover}
+    align="right"
+    renderLabel={({ onClick, ref }) => (
+      <ResponsiveButton size="small" onClick={onClick} ref={ref} shortText="Add" icon={<Icon className={emoji} icon="framedPicture" />}>
+        Add to Collection
+      </ResponsiveButton>
+    )}
+    views={{
+      createCollectionPopover: ({ onClose, onBack }) => (
+        <CreateCollectionWithProject
           onBack={onBack}
-          addProjectToCollection={addProjectToCollection}
-          fromProject={false}
-          project={project}
-          togglePopover={onClose}
-          createCollectionPopover={() => {
-            setActiveView('createCollectionPopover');
+          onClose={onClose}
+          addProjectToCollection={(...args) => {
+            addProjectToCollection(...args);
           }}
+          project={project}
         />
-      )}
-    </Popover>
-  );
-};
+      ),
+    }}
+  >
+    {({ onClose, onBack, setActiveView }) => (
+      <AddProjectToCollectionBase
+        onBack={onBack}
+        addProjectToCollection={addProjectToCollection}
+        fromProject={false}
+        project={project}
+        togglePopover={onClose}
+        createCollectionPopover={() => {
+          setActiveView('createCollectionPopover');
+        }}
+      />
+    )}
+  </Popover>
+);
 
 AddProjectToCollection.propTypes = {
   addProjectToCollection: PropTypes.func.isRequired,
