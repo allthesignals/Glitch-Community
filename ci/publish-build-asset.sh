@@ -19,8 +19,8 @@ export ENVIRONMENT=$1
 export CIRCLE_SHA=$2
 
 source ./ci/env
-export AWS_ACCESS_KEY_ID=${AWS_BOOTSTRAP_KEY}
-export AWS_SECRET_ACCESS_KEY=${AWS_BOOTSTRAP_SECRET}
+export AWS_ACCESS_KEY_ID=${COMMUNITY_AWS_BOOTSTRAP_KEY}
+export AWS_SECRET_ACCESS_KEY=${COMMUNITY_AWS_BOOTSTRAP_SECRET}
 
 # check S3 for the asset; tell caller the result
 aws s3api head-object --bucket "$COMMUNITY_BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?

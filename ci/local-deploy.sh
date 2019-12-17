@@ -23,8 +23,8 @@ export COMMUNITY_AWS_BOOTSTRAP_SECRET="$3"
 cd /opt/glitch-community
 
 source ./ci/env
-export AWS_ACCESS_KEY_ID=${AWS_BOOTSTRAP_KEY}
-export AWS_SECRET_ACCESS_KEY=${AWS_BOOTSTRAP_SECRET}
+export AWS_ACCESS_KEY_ID=${COMMUNITY_AWS_BOOTSTRAP_KEY}
+export AWS_SECRET_ACCESS_KEY=${COMMUNITY_AWS_BOOTSTRAP_SECRET}
 
 # we run npm i here to ensure pm2 is available and the npm script doesn't throw
 npm i && npm run stop && wait
