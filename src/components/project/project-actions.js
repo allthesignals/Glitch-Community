@@ -7,7 +7,6 @@ import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
 import LeaveProjectPopover from './leave-project-pop';
 
 import { emoji } from '../global.styl';
-import styles from './project-actions.styl';
 
 export const ShowButton = ({ name, size }) => (
   <Button as="a" href={getShowUrl(name)} size={size}>
@@ -41,14 +40,9 @@ export const EditButton = ({ name, isMember, size }) => (
     as="a"
     href={getEditorUrl(name)}
     size={size}
-    baseText={isMember ? 'Edit' : 'View'}
-    extraText={isMember ? ''}
-  />
-    {isMember ? (
-      <>Edit <span className={styles.hideIfSmallViewport}>Project</span></>
-    ) : (
-      <>View <span className={styles.hideIfSmallViewport}>Source</span></>
-    )}
+    shortText={isMember ? 'Edit' : 'View'}
+  >
+    {isMember ? 'Edit Project' : 'View Source'}
   </ResponsiveButton>
 );
 
@@ -62,9 +56,9 @@ EditButton.defaultProps = {
 };
 
 export const RemixButton = ({ name, isMember, onClick }) => (
-  <Button as="a" href={getRemixUrl(name)} size="small" onClick={onClick}>
+  <ResponsiveButton as="a" href={getRemixUrl(name)} size="small" onClick={onClick}>
     Remix <span className={styles.hideIfSmallViewport}>{isMember ? 'This' : 'Your Own'}</span> <Icon className={emoji} icon="microphone" />
-  </Button>
+  </ResponsiveButton>
 );
 
 RemixButton.propTypes = {

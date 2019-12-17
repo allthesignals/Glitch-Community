@@ -1,5 +1,12 @@
 @require '../constants'
 
-@media (max-width: mediumSmallViewport)
- .extraText
-   display: none
+@media screen
+  @media not (max-width: mediumSmallViewport)
+    .shortText
+      display: none
+  @media (max-width: mediumSmallViewport)
+    .fullText
+      display: unset
+
+@media not screen
+  

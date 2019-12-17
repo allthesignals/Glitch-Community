@@ -5,15 +5,22 @@ import { Button, Icon } from '@fogcreek/shared-components';
 
 import styles from './responsive-button.styl';
 
-const ResponsiveButton = ({ baseText, extraText, icon, ...props }) => (
+const ResponsiveButton = ({ children, shortText, icon, ...props }) => (
   <Button {...props}>
-    {baseText} <span clasName={styles.extraText}>{extraText}</span> {!!icon && <Icon icon={icon} />}
+    <span clasName={styles.fullText}>{children}</span>
+    <span className={styles.shortText}>{shortText}</span>
+    {icon}
   </Button>
 );
 
 ResponsiveButton.propTypes = {
-  baseText: PropTypes.node.isRequired,
-  extraText: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
+  shortText: PropTypes.node.isRequired,
+  icon: PropTypes.node,
+};
+
+ResponsiveButton.defaultProps = {
+  icon: null,
 };
 
 export default ResponsiveButton;
