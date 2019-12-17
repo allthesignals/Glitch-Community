@@ -30,7 +30,7 @@ do
   echo "${name}"
 
   # do the "local" deploy stuff
-  ssh -o "ProxyJump $JUMP_DOMAIN" -o StrictHostKeyChecking=no "$name.${ENVIRONMENT}" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh ${ENVIRONMENT} ${CIRCLE_SHA} ${COMMUNITY_AWS_BOOTSTRAP_SECRET}\""; code=$?
+  ssh -o StrictHostKeyChecking=no "$name.${ENVIRONMENT}" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh ${ENVIRONMENT} ${CIRCLE_SHA} ${COMMUNITY_AWS_BOOTSTRAP_SECRET}\""; code=$?
 
 done
 
