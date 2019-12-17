@@ -36,12 +36,7 @@ EditButtonCta.defaultProps = {
 
 // the Edit Button that appears below the embed
 export const EditButton = ({ name, isMember, size }) => (
-  <ResponsiveButton
-    as="a"
-    href={getEditorUrl(name)}
-    size={size}
-    shortText={isMember ? 'Edit' : 'View'}
-  >
+  <ResponsiveButton as="a" href={getEditorUrl(name)} size={size} shortText={isMember ? 'Edit' : 'View'}>
     {isMember ? 'Edit Project' : 'View Source'}
   </ResponsiveButton>
 );
