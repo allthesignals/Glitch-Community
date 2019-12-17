@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Popover } from '@fogcreek/shared-components';
 
+import ResponsiveButton from 'Components/buttons/responsive-button';
 import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
 import LeaveProjectPopover from './leave-project-pop';
 
@@ -36,13 +37,19 @@ EditButtonCta.defaultProps = {
 
 // the Edit Button that appears below the embed
 export const EditButton = ({ name, isMember, size }) => (
-  <Button as="a" href={getEditorUrl(name)} size={size}>
+  <ResponsiveButton
+    as="a"
+    href={getEditorUrl(name)}
+    size={size}
+    baseText={isMember ? 'Edit' : 'View'}
+    extraText={isMember ? ''}
+  />
     {isMember ? (
       <>Edit <span className={styles.hideIfSmallViewport}>Project</span></>
     ) : (
       <>View <span className={styles.hideIfSmallViewport}>Source</span></>
     )}
-  </Button>
+  </ResponsiveButton>
 );
 
 EditButton.propTypes = {
