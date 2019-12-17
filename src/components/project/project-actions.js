@@ -56,8 +56,8 @@ EditButton.defaultProps = {
 };
 
 export const RemixButton = ({ name, isMember, onClick }) => (
-  <ResponsiveButton as="a" href={getRemixUrl(name)} size="small" onClick={onClick}>
-    Remix <span className={styles.hideIfSmallViewport}>{isMember ? 'This' : 'Your Own'}</span> <Icon className={emoji} icon="microphone" />
+  <ResponsiveButton as="a" href={getRemixUrl(name)} size="small" onClick={onClick} shortText="Remix" icon={<Icon className={emoji} icon="microphone" />}>
+    {isMember ? 'Remix This' : 'Remix Your Own'}
   </ResponsiveButton>
 );
 
@@ -75,30 +75,34 @@ RemixButton.defaultProps = {
 export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject, refreshEmbed }) => {
   if (!isMember && joinProject) {
     return isTeamProject ? (
-      <Button
+      <ResponsiveButton
         size="small"
         onClick={() => {
           joinProject();
           refreshEmbed();
         }}
+        shortText="Join"
+        icon={<Icon icon="rainbow" />}
       >
-        Join <span className={styles.hideIfSmallViewport}>Team Project</span> <Icon icon="rainbow" />
-      </Button>
+        Join Team Project
+      </ResponsiveButton>
     ) : null;
   }
 
   // let team members leave directly, warn non team members
   if (isTeamProject && leaveProject) {
     return (
-      <Button
+      <ResponsiveButton
         size="small"
         onClick={() => {
           leaveProject(project);
           refreshEmbed();
         }}
+        shortText="Leave"
+        icon={<Icon icon="wave" />}
       >
-        Leave <span className={styles.hideIfSmallViewport}>Project</span> <Icon icon="wave" />
-      </Button>
+        Leave Project
+      </ResponsiveButton>
     );
   }
   return (

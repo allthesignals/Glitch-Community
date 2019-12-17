@@ -1,12 +1,9 @@
 @require '../constants'
 
-@media screen
-  @media not (max-width: mediumSmallViewport)
-    .shortText
-      display: none
-  @media (max-width: mediumSmallViewport)
-    .fullText
-      display: unset
+@media screen and (max-width: mediumSmallViewport)
+  .fullText
+    display: none
 
-@media not screen
-  
+@media not screen and (max-width: mediumSmallViewport)
+  .shortText
+    display: none
