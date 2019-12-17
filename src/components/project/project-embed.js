@@ -61,7 +61,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
           <div className={styles.embedBottomBar}>
             <span className={styles.embedLeft}>
               <ProjectLink project={project}>
-                <ProjectAvatar project={project} />
+                <ProjectAvatar className={styles.avatar} project={project} />
                 <span className={styles.embedDomainLink}>{project.domain}</span>
               </ProjectLink>
               by
