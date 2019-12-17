@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eo pipefail
+set -euo pipefail
 set -x
 
 #####
@@ -16,9 +16,8 @@ fi
 
 export CIRCLE_SHA=$1
 source ci/env
-set -u  # -u not set above because we expect ENVIRONMENT to be unset when ci/env is called from CircleCI
 
-./ci/publish-build-asset.sh "${ENVIRONMENT}" "${CIRCLE_SHA}" 
+./ci/publish-build-asset.sh "${ENVIRONMENT}" "${CIRCLE_SHA}" "${COMMUNITY_AWS_BOOTSTRAP_SECRET}"
 
 # first get the list of hostnames - we could do this on any host, but we know the worker has the code
 HOSTNAMES=( $(ssh -q "worker.${ENVIRONMENT}" "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community ${ENVIRONMENT}'") )

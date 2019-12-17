@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x  #   we don't want -e or -o pipefail; we want to handle the results of the grep at the end
+set -x  #   no -e or -o pipefail; we need to handle the exit code of the s3api call
 
 #####
 # THIS SCRIPT RUNS ON the Circle CI executor
@@ -7,16 +7,17 @@ set -x  #   we don't want -e or -o pipefail; we want to handle the results of th
 # and if not present uploads the asset
 #####
 
-# check req params - we need the env and a sha to use for file manipulation
-# fewer than 2 params is an error
-if [ 2 -ne "$#" ]; then
+# check req params - we need the env, a sha, and a secret for file manipulation
+# fewer than 3 params is an error
+if [ 3 -ne "$#" ]; then
   >&2 echo "Usage:"
-  >&2 echo "./$(basename $0) environment sha"
+  >&2 echo "./$(basename $0) environment sha bootstrap_bucket_secret"
   exit 1
 fi
 
 export ENVIRONMENT=$1
 export CIRCLE_SHA=$2
+export COMMUNITY_AWS_BOOTSTRAP_SECRET="$3"
 
 source ./ci/env
 export AWS_ACCESS_KEY_ID=${COMMUNITY_AWS_BOOTSTRAP_KEY}
@@ -42,5 +43,5 @@ else
 
 fi
 
-# 0 means found; else not.
+# 0 means we published the asset successfully; anything else means not.
 exit $code
