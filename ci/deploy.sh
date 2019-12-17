@@ -20,7 +20,7 @@ source ci/env
 ./ci/publish-build-asset.sh "${ENVIRONMENT}" "${CIRCLE_SHA}" "${COMMUNITY_AWS_BOOTSTRAP_SECRET}"
 
 # first get the list of hostnames - we could do this on any host, but we know the worker has the code
-HOSTNAMES=( $(ssh -q "worker.${ENVIRONMENT}" "bash --login -c 'cd /opt/glitch && ci/hostnames-by-role community ${ENVIRONMENT}'") )
+HOSTNAMES=( $(ssh -q "${JUMP_DOMAIN}" "bash -c '/opt/glitch/ci/hostnames-by-role community ${ENVIRONMENT}'") )
 
 echo "${HOSTNAMES[@]}"
 
