@@ -23,16 +23,16 @@ export AWS_ACCESS_KEY_ID=${AWS_BOOTSTRAP_KEY}
 export AWS_SECRET_ACCESS_KEY=${AWS_BOOTSTRAP_SECRET}
 
 # check S3 for the asset; tell caller the result
-aws s3api head-object --bucket "$BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?
+aws s3api head-object --bucket "$COMMUNITY_BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?
 
 #   check to see if we have the package
 if [[ -f "/home/circleci/$CIRCLE_SHA.tar.gz" ]]; then
 
   if [[ "$code" -ne 0 ]]; then
     #   no file in s3
-    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$BOOTSTRAP_BUCKET"
+    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$COMMUNITY_BOOTSTRAP_BUCKET"
     echo "$CIRCLE_SHA" > /home/circleci/LAST_DEPLOYED_SHA
-    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$BOOTSTRAP_BUCKET"
+    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$COMMUNITY_BOOTSTRAP_BUCKET"
   fi
 
 else
