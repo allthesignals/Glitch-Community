@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
@@ -20,6 +21,7 @@ import VisibilityContainer from 'Components/visibility-container';
 import LazyLoader from 'Components/lazy-loader';
 import CategoriesGrid from 'Components/categories-grid';
 import { useAPI } from 'State/api';
+import { useGlobals } from 'State/globals';
 import { useTracker } from 'State/segment-analytics';
 import { getRemixUrl } from 'Models/project';
 import { emojiPattern } from 'Shared/regex';
@@ -48,26 +50,41 @@ const RatioContainer = ({ children, ...props }) => (
   </RatioWrap>
 );
 
-function RemixButton({ app, type, size, emoji, children }) {
-  const trackRemix = useTracker('Click Remix', {
-    baseProjectId: app.id,
-    baseDomain: app.domain,
-    origin: '/create',
+function RemixButton({ app, type, size, emoji, buttonText }) {
+  const { location } = useGlobals();
+  const href = getRemixUrl(app.domain);
+  const trackCTA = useTracker('Marketing CTA Clicked', {
+    url: location.pathname,
+    targetText: buttonText,
+    href,
   });
 
   return (
-    <Button as="a" href={getRemixUrl(app.domain)} onClick={() => trackRemix()} variant={type} size={size}>
-      {children} {emoji && <Icon className={emojiStyle} icon={emoji} />}
+    <Button as="a" href={href} onClick={() => trackCTA()} variant={type} size={size}>
+      {buttonText} {emoji && <Icon className={emojiStyle} icon={emoji} />}
     </Button>
   );
 }
+
+RemixButton.propTypes = {
+  app: PropTypes.object.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  size: PropTypes.string,
+  emoji: PropTypes.string,
+};
+
+RemixButton.defaultProps = {
+  type: undefined,
+  size: undefined,
+  emoji: undefined,
+};
 
 const Unmarked = ({ children }) => <span className={styles.unmarked}>{children}</span>;
 
 function Banner() {
   const illustration = `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fillustration.svg?v=1561575405393`;
   const shape = `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fshape-pattern.svg?v=1561575627767`;
-
   return (
     <section className={classNames(styles.section, styles.banner)}>
       <div className={styles.bannerShape} style={{ backgroundImage: `url(${shape})` }}>
@@ -78,9 +95,7 @@ function Banner() {
           </Heading>
           <Text>Whether you’re new to code or an experienced developer, simply pick a starter app to remix.</Text>
           <div className={styles.bannerRemixBtn}>
-            <RemixButton app={{ id: '929980a8-32fc-4ae7-a66f-dddb3ae4912c', domain: 'hello-webpage' }} type="cta">
-              Start Coding
-            </RemixButton>
+            <RemixButton app={{ id: '929980a8-32fc-4ae7-a66f-dddb3ae4912c', domain: 'hello-webpage' }} type="cta" buttonText="Start Coding" />
           </div>
         </div>
       </div>
@@ -93,8 +108,6 @@ function Banner() {
 }
 
 function WhatIsGlitch() {
-  const trackPlayVideo = useTracker('Create Page Video Clicked');
-
   return (
     <section className={classNames(styles.section, styles.whatIsGlitch)}>
       <div>
@@ -107,7 +120,7 @@ function WhatIsGlitch() {
         </div>
       </div>
       <div className={styles.whatIsGlitchVideoContainer}>
-        <WistiaVideo onClick={trackPlayVideo} className={styles.whatIsGlitchVideo} videoId="2vcr60pnx9" />
+        <WistiaVideo className={styles.whatIsGlitchVideo} videoId="2vcr60pnx9" />
       </div>
     </section>
   );
@@ -156,9 +169,7 @@ const FrameworkStarterItem = (app) => (
     </span>
     <div>
       <Heading tagName="h4">{app.name}</Heading>
-      <RemixButton app={app} size="small">
-        Remix {app.name} Starter
-      </RemixButton>
+      <RemixButton app={app} size="small" buttonText={`Remix ${app.name} Starter`} />
     </div>
   </div>
 );
@@ -338,6 +349,15 @@ function ScreencapSection({ title, description, video, smallVideos, blob, image,
 }
 
 function Help() {
+  const { location } = useGlobals();
+  const helpCenterHref = '/help';
+  const helpCenterButtonText = 'Read FAQs';
+  const trackHelpCenterButton = useTracker('Marketing CTA Clicked', {
+    url: location.pathname,
+    href: helpCenterHref,
+    targetText: helpCenterButtonText,
+  });
+
   const blob = `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fboomerang.svg?v=1561575218038`;
   const ambulance = `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Ffiretruck.svg?v=1561575219950`;
 
@@ -353,8 +373,8 @@ function Help() {
           <Heading tagName="h3" className={styles.h3}>Help Center</Heading>
           <Text>The best place to find answers about Glitch</Text>
           <Text>
-            <Button as="a" href="https://glitch.com/help">
-              Read FAQs <span aria-hidden="true">&rarr;</span>
+            <Button as="a" href={helpCenterHref} onClick={() => trackHelpCenterButton()}>
+              {helpCenterButtonText} <span aria-hidden="true">&rarr;</span>
             </Button>
           </Text>
         </div>
@@ -397,6 +417,14 @@ function Tools() {
 
 function VSCode() {
   const vscodeIcon = `${CDN_URL}/50f784d9-9995-4fa4-a185-b4b1ea6e77c0%2Fvscode.png?v=1562004128485`;
+  const { location } = useGlobals();
+  const downloadFromMarketplaceHref = 'https://marketplace.visualstudio.com/items?itemName=glitch.glitch';
+  const downloadFromMarketplaceText = 'Download from Visual Studio Marketplace';
+  const trackDownloadFromVSCode = useTracker('Marketing CTA Clicked', {
+    url: location.pathname,
+    href: downloadFromMarketplaceHref,
+    targetText: downloadFromMarketplaceText,
+  });
 
   return (
     <section className={classNames(styles.section, styles.help)}>
@@ -410,9 +438,9 @@ function VSCode() {
       </Text>
 
       <Text className={styles.sectionDescription}>
-        <Button as="a" href="https://marketplace.visualstudio.com/items?itemName=glitch.glitch">
+        <Button as="a" href={downloadFromMarketplaceHref} onClick={() => trackDownloadFromVSCode()}>
           <Image src={vscodeIcon} alt="" width="17" height="17" />
-          &nbsp;Download from Visual Studio Marketplace <span aria-hidden="true">&rarr;</span>
+          &nbsp;{downloadFromMarketplaceText} <span aria-hidden="true">&rarr;</span>
         </Button>
       </Text>
 
@@ -446,6 +474,15 @@ function VSCode() {
 }
 
 function GitHub() {
+  const { location } = useGlobals();
+  const githubLearnMoreHref = 'https://glitch.com/help/import-git/';
+  const githubLearnMoreText = 'Find Out How';
+  const trackGithubLearnMore = useTracker('Marketing CTA Clicked', {
+    url: location.pathname,
+    href: githubLearnMoreHref,
+    targetText: githubLearnMoreText,
+  });
+
   return (
     <section className={styles.section}>
       <Heading className={classNames(styles.h3, styles.toolsHeader)} tagName="h3">
@@ -457,8 +494,8 @@ function GitHub() {
       </Text>
 
       <Text className={styles.sectionDescription}>
-        <Button as="a" href="https://glitch.com/help/import-git/">
-          Find Out How <span aria-hidden="true">&rarr;</span>
+        <Button as="a" href={githubLearnMoreHref} onClick={() => trackGithubLearnMore()}>
+          {githubLearnMoreText} <span aria-hidden="true">&rarr;</span>
         </Button>
       </Text>
     </section>
@@ -503,9 +540,7 @@ function Remix() {
                     <Embed domain={app.domain} />
                   </div>
                   <div className={styles.embedRemixBtn}>
-                    <RemixButton type="cta" emoji="microphone" app={app}>
-                      Remix Your Own
-                    </RemixButton>
+                    <RemixButton type="cta" emoji="microphone" app={app} buttonText="Remix Your Own" />
                   </div>
                 </TabPanel>
               ))}

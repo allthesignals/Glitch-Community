@@ -12,7 +12,6 @@ import Grid from 'Components/containers/grid';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
 import { getProjectAvatarUrl } from 'Models/project';
 import { useAPI } from 'State/api';
-import { useTrackedFunc } from 'State/segment-analytics';
 
 import styles from './deleted-projects.styl';
 
@@ -64,19 +63,15 @@ DeletedProject.defaultProps = {
   onClick: null,
 };
 
-export const DeletedProjectsList = ({ deletedProjects, undelete }) => {
-  const undeleteTracked = useTrackedFunc(undelete, 'Undelete clicked');
-  return (
-    <Grid items={deletedProjects} className={styles.deletedProjectsContainer}>
-      {(project) => {
-        const canUndelete = project.permission && project.permission.accessLevel === 30 && undelete;
-        const onClick = canUndelete ? () => undeleteTracked(project) : null;
-
-        return <DeletedProject project={project} onClick={onClick} />;
-      }}
-    </Grid>
-  );
-};
+export const DeletedProjectsList = ({ deletedProjects, undelete }) => (
+  <Grid items={deletedProjects} className={styles.deletedProjectsContainer}>
+    {(project) => {
+      const canUndelete = project.permission && project.permission.accessLevel === 30 && undelete;
+      const onClick = canUndelete ? () => undelete(project) : null;
+      return <DeletedProject project={project} onClick={onClick} />;
+    }}
+  </Grid>
+);
 
 DeletedProjectsList.propTypes = {
   deletedProjects: PropTypes.array.isRequired,

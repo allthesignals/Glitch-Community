@@ -13,7 +13,6 @@ import CollectionResultItem from 'Components/collection/collection-result-item';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { AddProjectToCollectionMsg } from 'Components/notification';
 
-import { useTrackedFunc } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
@@ -45,17 +44,9 @@ AddProjectPopoverTitle.propTypes = {
   project: PropTypes.object.isRequired,
 };
 
-const AddProjectToCollectionResultItem = ({ onClick, collection, buttonProps }) => {
-  const onClickTracked = useTrackedFunc(
-    onClick,
-    'Project Added to Collection',
-    {},
-    {
-      groupId: collection.team ? collection.team.id : 0,
-    },
-  );
-  return <CollectionResultItem onClick={onClickTracked} collection={collection} buttonProps={buttonProps} />;
-};
+const AddProjectToCollectionResultItem = ({ onClick, collection, buttonProps }) => (
+  <CollectionResultItem onClick={onClick} collection={collection} buttonProps={buttonProps} />
+);
 
 const AlreadyInCollection = ({ project, collections }) => (
   <>

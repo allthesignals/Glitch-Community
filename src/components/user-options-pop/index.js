@@ -11,21 +11,18 @@ import Link, { TeamLink, UserLink } from 'Components/link';
 import CreateTeamPop from 'Components/create-team-pop';
 import { useGlobals } from 'State/globals';
 import { useCurrentUser, useSuperUserHelpers } from 'State/current-user';
-import { useTrackedFunc, useTracker } from 'State/segment-analytics';
+import { useTracker } from 'State/segment-analytics';
 import useDevToggle from 'State/dev-toggles';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
 
 // Create Team button
-const CreateTeamButton = ({ showCreateTeam }) => {
-  const onClickCreateTeam = useTrackedFunc(showCreateTeam, 'Create Team clicked');
-  return (
-    <Button size="small" onClick={onClickCreateTeam}>
-      Create Team <Icon className={emoji} icon="herb" />
-    </Button>
-  );
-};
+const CreateTeamButton = ({ showCreateTeam }) => (
+  <Button size="small" onClick={showCreateTeam}>
+    Create Team <Icon className={emoji} icon="herb" />
+  </Button>
+);
 
 CreateTeamButton.propTypes = {
   showCreateTeam: PropTypes.func.isRequired,
@@ -40,12 +37,7 @@ const TeamList = ({ teams, showCreateTeam }) => {
     <Actions>
       {orderedTeams.map((team) => (
         <div className={styles.buttonWrap} key={team.id}>
-          <Button
-            as={TeamLink}
-            team={team}
-            size="small"
-            variant="secondary"
-          >
+          <Button as={TeamLink} team={team} size="small" variant="secondary">
             {team.name} <TeamAvatar team={team} size="small" className={emoji} tiny hideTooltip />
           </Button>
         </div>
@@ -73,7 +65,7 @@ const UserOptionsPop = ({ togglePopover, showCreateTeam, showNewStuffOverlay }) 
   const { currentUser: user, clear: signOut } = useCurrentUser();
   const { superUserFeature, canBecomeSuperUser, toggleSuperUser, isLoading } = useSuperUserHelpers();
 
-  const trackLogout = useTracker('Logout');
+  const trackLogout = useTracker('Signed Out');
 
   const clickNewStuff = (event) => {
     togglePopover();
@@ -196,7 +188,9 @@ export default function UserOptionsAndCreateTeamPopContainer({ showNewStuffOverl
             <UserOptionsPop
               showNewStuffOverlay={showNewStuffOverlay}
               togglePopover={onClose}
-              showCreateTeam={() => { setActiveView('createTeam'); }}
+              showCreateTeam={() => {
+                setActiveView('createTeam');
+              }}
             />
           )}
         </Popover>

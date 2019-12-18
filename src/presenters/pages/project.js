@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Actions, Button, DangerZone, Icon, Loader, Popover } from '@fogcreek/shared-components';
 
+import { useTracker } from 'State/segment-analytics';
 import Heading from 'Components/text/heading';
 import Markdown from 'Components/text/markdown';
 import NotFound from 'Components/errors/not-found';
@@ -20,12 +21,19 @@ import AuthDescription from 'Components/fields/auth-description';
 import Layout from 'Components/layout';
 import { PrivateBadge, PrivateToggle } from 'Components/private-badge';
 import BookmarkButton from 'Components/buttons/bookmark-button';
-import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useToggleBookmark } from 'State/collection';
 import { useProjectEditor, useProjectMembers } from 'State/project';
 import { getUserLink } from 'Models/user';
-import { userIsProjectMember, userIsProjectAdmin, getProjectLink, getProjectAvatarUrl, SUSPENDED_AVATAR_URL } from 'Models/project';
+import {
+  userIsProjectMember,
+  userIsProjectAdmin,
+  getProjectLink,
+  getProjectAvatarUrl,
+  humanReadableAccessLevel,
+  getProjectType,
+  SUSPENDED_AVATAR_URL,
+} from 'Models/project';
 import { getAllPages } from 'Shared/api';
 import useFocusFirst from 'Hooks/use-focus-first';
 import { useAPIHandlers } from 'State/api';
@@ -165,7 +173,7 @@ const ProjectPage = ({ project: initialProject }) => {
   const [project, funcs] = useProjectEditor(initialProject);
   const { updateDescription, updatePrivate, deleteProject, uploadAvatar, updateDomainBackend, updateDomainState, reassignAdmin } = funcs;
   useFocusFirst();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, fetched: currentUserFetched } = useCurrentUser();
   const [hasBookmarked, toggleBookmark, setHasBookmarked] = useToggleBookmark(project);
   const isAnonymousUser = !currentUser.login;
   const { value: members } = useProjectMembers(project.id);
@@ -175,13 +183,22 @@ const ProjectPage = ({ project: initialProject }) => {
 
   const { addProjectToCollection } = useAPIHandlers();
 
-  const bookmarkAction = useTrackedFunc(toggleBookmark, 'My Stuff Button Clicked', (inherited) => ({
-    ...inherited,
-    projectName: project.domain,
-    baseProjectId: project.baseId,
-    userId: currentUser.id,
-    isAddingToMyStuff: !hasBookmarked,
-  }));
+  const trackProjectPageViewed = useTracker('Project Page Viewed');
+
+  useEffect(() => {
+    if (currentUserFetched) {
+      const currentUserPermission = project.permissions.filter((p) => p.userId === currentUser.id);
+      const currentUserAccessLevel = currentUserPermission.length > 0 ? currentUserPermission[0].accessLevel : 0;
+      trackProjectPageViewed({
+        projectId: project.id,
+        projectName: project.domain,
+        projectType: getProjectType(project),
+        numberProjectMembers: project.permissions.length,
+        numberTeams: project.teams.length,
+        accessLevel: humanReadableAccessLevel(currentUserAccessLevel),
+      });
+    }
+  }, [currentUser, currentUserFetched, project]);
 
   const addProjectToCollectionAndSetHasBookmarked = (projectToAdd, collection) => {
     if (collection.isMyStuff) {
@@ -227,7 +244,7 @@ const ProjectPage = ({ project: initialProject }) => {
                 <ProjectName initialName={project.domain} updateBackend={updateDomainBackend} updateParentState={updateDomainState} />
                 {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
-                    <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
+                    <BookmarkButton action={toggleBookmark} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
                   </div>
                 )}
               </div>
@@ -241,7 +258,7 @@ const ProjectPage = ({ project: initialProject }) => {
                 <Heading tagName="h1">{!currentUser.isSupport && suspendedReason ? 'suspended project' : domain}</Heading>
                 {!isAnonymousUser && (
                   <div className={styles.bookmarkButton}>
-                    <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
+                    <BookmarkButton action={toggleBookmark} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
                   </div>
                 )}
               </div>
@@ -318,18 +335,16 @@ const ProjectPageContainer = ({ name: domain }) => {
   }, [project]);
   return (
     <Layout>
-      <AnalyticsContext properties={{ origin: 'project' }}>
-        {project ? (
-          <ProjectPage project={project} />
-        ) : (
-          <>
-            <GlitchHelmet title={domain} description={`We couldn't find ~${domain}`} />
-            {status === 'ready' && <NotFound name={domain} />}
-            {status === 'loading' && <Loader style={{ width: '25px' }} />}
-            {status === 'error' && <NotFound name={domain} />}
-          </>
-        )}
-      </AnalyticsContext>
+      {project ? (
+        <ProjectPage project={project} />
+      ) : (
+        <>
+          <GlitchHelmet title={domain} description={`We couldn't find ~${domain}`} />
+          {status === 'ready' && <NotFound name={domain} />}
+          {status === 'loading' && <Loader style={{ width: '25px' }} />}
+          {status === 'error' && <NotFound name={domain} />}
+        </>
+      )}
     </Layout>
   );
 };

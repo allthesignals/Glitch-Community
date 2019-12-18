@@ -11,7 +11,6 @@ import Thanks from 'Components/thanks';
 import { PopoverSearch } from 'Components/popover';
 import { getDisplayName } from 'Models/user';
 import { captureException } from 'Utils/sentry';
-import { useTracker } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
 
 import useDebouncedValue from '../../hooks/use-debounced-value';
@@ -153,46 +152,35 @@ AddTeamUserPop.defaultProps = {
   whitelistedDomain: '',
 };
 
-const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setWhitelistedDomain }) => {
-  const track = useTracker('Add to Team clicked');
-  return (
-    <Popover
-      align="left"
-      renderLabel={({ onClick, ref }) => (
-        <Button
-          size="small"
-          variant="secondary"
-          onClick={() => {
-            track();
-            onClick();
-          }}
-          ref={ref}
-        >
-          Add
-        </Button>
-      )}
-    >
-      {({ onClose }) => (
-        <AddTeamUserPop
-          members={members}
-          whitelistedDomain={whitelistedDomain}
-          setWhitelistedDomain={(domain) => {
-            onClose();
-            setWhitelistedDomain(domain);
-          }}
-          inviteUser={(user) => {
-            onClose();
-            inviteUser(user);
-          }}
-          inviteEmail={(email) => {
-            onClose();
-            inviteEmail(email);
-          }}
-        />
-      )}
-    </Popover>
-  );
-};
+const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setWhitelistedDomain }) => (
+  <Popover
+    align="left"
+    renderLabel={({ onClick, ref }) => (
+      <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
+        Add
+      </Button>
+    )}
+  >
+    {({ onClose }) => (
+      <AddTeamUserPop
+        members={members}
+        whitelistedDomain={whitelistedDomain}
+        setWhitelistedDomain={(domain) => {
+          onClose();
+          setWhitelistedDomain(domain);
+        }}
+        inviteUser={(user) => {
+          onClose();
+          inviteUser(user);
+        }}
+        inviteEmail={(email) => {
+          onClose();
+          inviteEmail(email);
+        }}
+      />
+    )}
+  </Popover>
+);
 AddTeamUser.propTypes = {
   members: PropTypes.array.isRequired,
   whitelistedDomain: PropTypes.string,

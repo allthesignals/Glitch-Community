@@ -24,6 +24,7 @@ import { getProjectAvatarUrl } from 'Models/project';
 import { useAPI } from 'State/api';
 import { useGlobals } from 'State/globals';
 import MadeOnGlitch from 'Components/footer/made-on-glitch';
+import { useTracker } from 'State/segment-analytics';
 import Banner from './banner';
 import CuratedCollectionContainer from './collection-container';
 import { Discover, Dreams, Teams } from './feature-callouts';
@@ -137,9 +138,7 @@ const CuratedCollections = ({ content }) => (
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
           <div className={styles.curatedCollectionButtonWrap}>
-            <Button as="span">
-              {title}
-            </Button>
+            <Button as="span">{title}</Button>
           </div>
           {/* eslint-disable-next-line react/no-danger */}
           <span dangerouslySetInnerHTML={{ __html: description }} />
@@ -152,123 +151,158 @@ const CuratedCollections = ({ content }) => (
   </HomeSection>
 );
 
-const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent } }) => (
-  <HomeSection id="unified-stories" className={styles.unifiedStories}>
-    <div className={styles.unifiedStoriesContainer}>
-      <div className={styles.unifiedStoriesHeadline}>
-        <div className={styles.unifiedStoriesContentWrap}>
-          {hed
-            .trim()
-            .split('\n')
-            .map((line, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <h2 key={i}>
-                <Mark color="white">{line}</Mark>
-              </h2>
-            ))}
-          <img src={featuredImage} alt={featuredImageDescription} />
-        </div>
-      </div>
-      <div className={styles.unifiedStoriesPreview}>
-        <div className={styles.unifiedStoriesContentWrap}>
-          <h3 className={styles.h3}>{dek}</h3>
-          {/* eslint-disable-next-line react/no-danger */}
-          <span dangerouslySetInnerHTML={{ __html: summary }} />
-          <Button as={Link} to={href}>
-            {cta} <Icon icon="arrowRight" />
-          </Button>
-        </div>
-      </div>
-      <div className={styles.unifiedStoriesRelatedContent}>
-        <div className={styles.unifiedStoriesContentWrap}>
-          <h3>Related</h3>
-          <ul>
-            {relatedContent
-              .filter((related) => !!related.href)
-              .map((related) => (
-                <li key={related.href}>
-                  <Link to={related.href} className={styles.plainLink}>
-                    <h4>{related.title}</h4>
-                    <p>{related.source}</p>
-                  </Link>
-                </li>
+const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescription, summary, href, cta, relatedContent } }) => {
+  const trackUnifiedStoryCTA = useTracker('Marketing CTA Clicked', {
+    targetText: cta,
+    href,
+    url: '/',
+  });
+
+  return (
+    <HomeSection id="unified-stories" className={styles.unifiedStories}>
+      <div className={styles.unifiedStoriesContainer}>
+        <div className={styles.unifiedStoriesHeadline}>
+          <div className={styles.unifiedStoriesContentWrap}>
+            {hed
+              .trim()
+              .split('\n')
+              .map((line, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <h2 key={i}>
+                  <Mark color="white">{line}</Mark>
+                </h2>
               ))}
-          </ul>
+            <img src={featuredImage} alt={featuredImageDescription} />
+          </div>
+        </div>
+        <div className={styles.unifiedStoriesPreview}>
+          <div className={styles.unifiedStoriesContentWrap}>
+            <h3 className={styles.h3}>{dek}</h3>
+            {/* eslint-disable-next-line react/no-danger */}
+            <span dangerouslySetInnerHTML={{ __html: summary }} />
+            <Button as={Link} to={href} onClick={() => trackUnifiedStoryCTA()}>
+              {cta} <Icon icon="arrowRight" />
+            </Button>
+          </div>
+        </div>
+        <div className={styles.unifiedStoriesRelatedContent}>
+          <div className={styles.unifiedStoriesContentWrap}>
+            <h3>Related</h3>
+            <ul>
+              {relatedContent
+                .filter((related) => !!related.href)
+                .map((related) => (
+                  <li key={related.href}>
+                    <Link to={related.href} className={styles.plainLink}>
+                      <h4>{related.title}</h4>
+                      <p>{related.source}</p>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  </HomeSection>
-);
+    </HomeSection>
+  );
+};
 
-const CultureZine = ({ content }) => (
-  <VisibilityContainer>
-    {({ wasEverVisible }) => (
-      <HomeSection id="culture-zine" className={styles.cultureZine}>
-        <div>
-          <h2 className={styles.h2}>
-            <Mark color="#CBC3FF">Where tech meets culture</Mark>
-          </h2>
-          <p className={styles.subtitle}>Code is shaping the world around us. We’ll help you understand where it’s going.</p>
+const CultureZine = ({ content }) => {
+  const trackCultureZineClick = useTracker('Marketing CTA Clicked', {
+    url: '/',
+  });
+  return (
+    <VisibilityContainer>
+      {({ wasEverVisible }) => (
+        <HomeSection id="culture-zine" className={styles.cultureZine}>
+          <div>
+            <h2 className={styles.h2}>
+              <Mark color="#CBC3FF">Where tech meets culture</Mark>
+            </h2>
+            <p className={styles.subtitle}>Code is shaping the world around us. We’ll help you understand where it’s going.</p>
 
-          <LazyLoader delay={wasEverVisible ? 0 : 3000}>
-            <>
-              <Row count={2} items={[{ id: 0, content: content.slice(0, 2) }, { id: 1, content: content.slice(2, 4) }]}>
-                {({ content: cultureZineItems }) => (
-                  <Row items={cultureZineItems} count={2} className={styles.cultureZineRow}>
-                    {({ title, primary_tag: source, feature_image: img, url }) => (
-                      <Link to={`/culture${url}`} className={styles.plainLink}>
-                        <div className={styles.cultureZineImageWrap}>
-                          <MaskImage src={img} />
-                        </div>
-                        <div className={styles.cultureZineText}>
-                          <h3 className={styles.h4}>{title}</h3>
-                          {source && <p>{source.name}</p>}
-                        </div>
-                      </Link>
-                    )}
-                  </Row>
-                )}
-              </Row>
-              <div className={styles.readMoreLink}>
-                <Button as="a" href="https://glitch.com/culture/">
-                  Read More on Culture <Icon icon="arrowRight" />
-                </Button>
-              </div>
-            </>
-          </LazyLoader>
-        </div>
-      </HomeSection>
-    )}
-  </VisibilityContainer>
-);
+            <LazyLoader delay={wasEverVisible ? 0 : 3000}>
+              <>
+                <Row
+                  count={2}
+                  items={[
+                    { id: 0, content: content.slice(0, 2) },
+                    { id: 1, content: content.slice(2, 4) },
+                  ]}
+                >
+                  {({ content: cultureZineItems }) => (
+                    <Row items={cultureZineItems} count={2} className={styles.cultureZineRow}>
+                      {({ title, primary_tag: source, feature_image: img, url }) => (
+                        <Link
+                          to={`/culture${url}`}
+                          className={styles.plainLink}
+                          onClick={() => trackCultureZineClick({ href: `/culture${url}`, targetText: title })}
+                        >
+                          <div className={styles.cultureZineImageWrap}>
+                            <MaskImage src={img} />
+                          </div>
+                          <div className={styles.cultureZineText}>
+                            <h3 className={styles.h4}>{title}</h3>
+                            {source && <p>{source.name}</p>}
+                          </div>
+                        </Link>
+                      )}
+                    </Row>
+                  )}
+                </Row>
+                <div className={styles.readMoreLink}>
+                  <Button
+                    as="a"
+                    href="https://glitch.com/culture/"
+                    onClick={() =>
+                      trackCultureZineClick({
+                        href: '/culture',
+                        targetText: 'Read More on Culture',
+                      })
+                    }
+                  >
+                    Read More on Culture <Icon icon="arrowRight" />
+                  </Button>
+                </div>
+              </>
+            </LazyLoader>
+          </div>
+        </HomeSection>
+      )}
+    </VisibilityContainer>
+  );
+};
 
 const buildingGraphics = [
   'https://cdn.glitch.com/616994fe-f0e3-4501-89a7-295079b3cb8c%2Fdevelopers.svg?v=1562169495767',
   'https://cdn.glitch.com/616994fe-f0e3-4501-89a7-295079b3cb8c%2Fteams.svg?v=1562169496523',
 ];
 
-const BuildingOnGlitch = ({ content }) => (
-  <HomeSection id="building-on-glitch" className={styles.buildingOnGlitch}>
-    <h2 className={styles.h2}>
-      <Mark color="#FCF3B0">Start building on Glitch</Mark>
-    </h2>
-    <div className={styles.buildingOnGlitchRow}>
-      {content.map(({ href, title, description, cta }, index) => (
-        <Link key={href} to={href} className={styles.plainLink}>
-          <div className={styles.startBuildingImageWrap}>
-            <img src={buildingGraphics[index]} alt="" />
-          </div>
-          <h3>{title}</h3>
-          {/* eslint-disable-next-line react/no-danger */}
-          <span dangerouslySetInnerHTML={{ __html: description }} />
-          <Button as="span">
-            {cta} <Icon icon="arrowRight" />
-          </Button>
-        </Link>
-      ))}
-    </div>
-  </HomeSection>
-);
+const BuildingOnGlitch = ({ content }) => {
+  const trackMarketingCta = useTracker('Marketing CTA Clicked', { url: '/' });
+  return (
+    <HomeSection id="building-on-glitch" className={styles.buildingOnGlitch}>
+      <h2 className={styles.h2}>
+        <Mark color="#FCF3B0">Start building on Glitch</Mark>
+      </h2>
+      <div className={styles.buildingOnGlitchRow}>
+        {content.map(({ href, title, description, cta }, index) => (
+          <Link key={href} to={href} className={styles.plainLink} onClick={() => trackMarketingCta({ href, targetText: cta })}>
+            <div className={styles.startBuildingImageWrap}>
+              <img src={buildingGraphics[index]} alt="" />
+            </div>
+            <h3>{title}</h3>
+            {/* eslint-disable-next-line react/no-danger */}
+            <span dangerouslySetInnerHTML={{ __html: description }} />
+            <Button as="span">
+              {cta} <Icon icon="arrowRight" />
+            </Button>
+          </Link>
+        ))}
+      </div>
+    </HomeSection>
+  );
+};
 
 const MadeInGlitch = () => (
   <HomeSection className={styles.madeInGlitch}>

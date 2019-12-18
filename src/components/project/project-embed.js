@@ -10,7 +10,7 @@ import Image from 'Components/images/image';
 
 import Embed from 'Components/project/embed';
 import ReportButton from 'Components/report-abuse-pop';
-import { useTracker, useTrackedFunc } from 'State/segment-analytics';
+import { useTracker } from 'State/segment-analytics';
 import { userIsProjectMember, userIsProjectTeamMember } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
 import { useProjectMembers } from 'State/project';
@@ -40,17 +40,11 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
 
   const [embedKey, setEmbedKey] = useState(0); // used to refresh project embed when users leave or join projects
 
-  const trackRemix = useTracker('Click Remix', {
-    baseProjectId: project.id,
-    baseDomain: project.domain,
-  });
-
   const refreshEmbed = () => {
     setEmbedKey(embedKey + 1);
   };
 
-  const trackedLeaveProject = useTrackedFunc(projectOptions.leaveProject, 'Leave Project clicked');
-  const trackedJoinProject = useTrackedFunc(projectOptions.joinTeamProject, 'Join Project clicked');
+  const trackJoinProject = useTracker('Project Joined');
 
   return (
     <section className={styles.projectEmbed}>
@@ -87,8 +81,18 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
                 project={project}
                 isMember={isMember}
                 isTeamProject={canBecomeMember}
-                joinProject={trackedJoinProject}
-                leaveProject={trackedLeaveProject}
+                joinProject={() => {
+                  trackJoinProject({
+                    projectId: project.id,
+                    projectName: project.domain,
+                    accessLevel: 'member',
+                    projectVisibility: project.private ? 'private' : 'public',
+                    numberProjectMembers: project.users.length,
+                    numberTeams: project.teams.length,
+                  });
+                  projectOptions.joinTeamProject();
+                }}
+                leaveProject={projectOptions.leaveProject}
                 refreshEmbed={refreshEmbed}
               />
             </div>
@@ -101,7 +105,10 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
             </div>
           )}
           <div className={styles.buttonWrap}>
-            <RemixButton name={project.domain} isMember={isMember} onClick={trackRemix} />
+            <RemixButton
+              name={project.domain}
+              isMember={isMember}
+            />
           </div>
         </div>
       </div>

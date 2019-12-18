@@ -65,7 +65,7 @@ function track() {
   try {
     const { analytics } = window;
     if (analytics) {
-      analytics.page({}, { groupId: '0' });
+      analytics.page('');
     }
   } catch (ex) {
     console.error('Error tracking page transition.', ex);

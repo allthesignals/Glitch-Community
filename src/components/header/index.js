@@ -7,9 +7,8 @@ import SearchForm from 'Components/search-form';
 import SignInPop from 'Components/sign-in-pop';
 import UserOptionsPop from 'Components/user-options-pop';
 import NewProjectPop from 'Components/new-project-pop';
-import Link, { TrackedExternalLink } from 'Components/link';
+import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
-import { AnalyticsContext } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
 import { EDITOR_URL } from 'Utils/constants';
 
@@ -17,11 +16,9 @@ import Logo from './logo';
 import styles from './header.styl';
 
 const ResumeCoding = () => (
-  <TrackedExternalLink name="Resume Coding clicked" to={EDITOR_URL}>
-    <Button variant="cta" size="small" as="span">
-      Resume Coding
-    </Button>
-  </TrackedExternalLink>
+  <Button variant="cta" size="small" as="a" href={EDITOR_URL}>
+    Resume Coding
+  </Button>
 );
 
 const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, showNav }) => {
@@ -34,43 +31,41 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
   const ssrHasHappened = signedIn || signedOut;
   const hasProjects = currentUser.projects.length > 0 || fakeSignedIn;
   return (
-    <AnalyticsContext properties={{ origin: 'navbar' }}>
-      <header role="banner" className={styles.header}>
-        <Button as="a" href="#main" className={styles.visibleOnFocus}>
-          Skip to Main Content
-        </Button>
-        <Link to="/" className={styles.logoWrap}>
-          <Logo />
-        </Link>
-        {showNav && (
-          <nav className={styles.headerActions}>
-            <div className={styles.searchWrap}>
-              <SearchForm defaultValue={searchQuery} />
-            </div>
-            <ul className={styles.buttons}>
-              <li className={classnames(styles.buttonWrap, !ssrHasHappened && styles.hiddenHack)}>
-                <NewProjectPop />
+    <header role="banner" className={styles.header}>
+      <Button as="a" href="#main" className={styles.visibleOnFocus}>
+        Skip to Main Content
+      </Button>
+      <Link to="/" className={styles.logoWrap}>
+        <Logo />
+      </Link>
+      {showNav && (
+        <nav className={styles.headerActions}>
+          <div className={styles.searchWrap}>
+            <SearchForm defaultValue={searchQuery} />
+          </div>
+          <ul className={styles.buttons}>
+            <li className={classnames(styles.buttonWrap, !ssrHasHappened && styles.hiddenHack)}>
+              <NewProjectPop />
+            </li>
+            {hasProjects && (
+              <li className={styles.buttonWrap}>
+                <ResumeCoding />
               </li>
-              {hasProjects && (
-                <li className={styles.buttonWrap}>
-                  <ResumeCoding />
-                </li>
-              )}
-              {signedOut && (
-                <li className={styles.buttonWrap}>
-                  <SignInPop align="right" />
-                </li>
-              )}
-              {signedIn && (
-                <li className={styles.buttonWrap}>
-                  <UserOptionsPop showAccountSettingsOverlay={showAccountSettingsOverlay} showNewStuffOverlay={showNewStuffOverlay} />
-                </li>
-              )}
-            </ul>
-          </nav>
-        )}
-      </header>
-    </AnalyticsContext>
+            )}
+            {signedOut && (
+              <li className={styles.buttonWrap}>
+                <SignInPop align="right" />
+              </li>
+            )}
+            {signedIn && (
+              <li className={styles.buttonWrap}>
+                <UserOptionsPop showAccountSettingsOverlay={showAccountSettingsOverlay} showNewStuffOverlay={showNewStuffOverlay} />
+              </li>
+            )}
+          </ul>
+        </nav>
+      )}
+    </header>
   );
 };
 

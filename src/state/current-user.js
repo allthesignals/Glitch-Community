@@ -47,12 +47,13 @@ function identifyUser(user) {
         user.id,
         {
           name: user.name,
-          login: user.login,
+          userHandle: user.login,
           email,
-          created_at: user.createdAt,
+          createdAt: user.createdAt,
+          projectCount: user.projects.length,
+          teamCount: user.teams.length,
           ...mapKeys(window.AB_TESTS, (assignment, test) => `abtest-${test}`),
         },
-        { groupId: '0' },
       );
     }
     if (user) {

@@ -138,7 +138,11 @@
         // js failed to parse, odds are the css would be broken too
         showFallback('noscript');
       }
-      analytics.load("ZE6VsqXhz5izMM2cqRrVEDIrJWUKntoX");
+      if (window.location.hostname === "glitch.com") {
+        analytics.load("N8NetCAuTbHYGqtQtb44FFBSPUXwsAu2"); /* WebProd source in Segment */
+      } else {
+        analytics.load("Oa74eP053IozA1ouL7my4svHW36qGGmM"); /* WebDev source in Segment */
+      }
     </script>
   </body>
 </html>

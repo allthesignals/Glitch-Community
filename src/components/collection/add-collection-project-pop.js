@@ -7,7 +7,6 @@ import { getAllPages } from 'Shared/api';
 import { PopoverSearch } from 'Components/popover';
 import ProjectResultItem from 'Components/project/project-result-item';
 import { AddProjectToCollectionMsg } from 'Components/notification';
-import { useTrackedFunc } from 'State/segment-analytics';
 import { createAPIHook } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { useAlgoliaSearch } from 'State/search';
@@ -58,16 +57,12 @@ function AddCollectionProjectPop({ collection, togglePopover, addProjectToCollec
 
   const { createNotification } = useNotifications();
 
-  const onSubmit = useTrackedFunc(
-    async (project) => {
-      togglePopover();
-      // add project to page if successful & show notification
-      await addProjectToCollection(project, collection);
-      createNotification(<AddProjectToCollectionMsg projectDomain={project.domain} />, { type: 'success' });
-    },
-    'Project Added to Collection',
-    { origin: 'Add Project collection' },
-  );
+  const onSubmit = async (project) => {
+    togglePopover();
+    // add project to page if successful & show notification
+    await addProjectToCollection(project, collection);
+    createNotification(<AddProjectToCollectionMsg projectDomain={project.domain} />, { type: 'success' });
+  };
 
   /* eslint-disable no-shadow */
   const { visibleProjects, excludingExactMatch } = useMemo(() => {
