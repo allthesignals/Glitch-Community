@@ -16,11 +16,17 @@ import MultiPage from '../layout/multi-page';
 import styles from './delete-account-modal.styl';
 import { emoji } from '../global.styl';
 
-// () => setPage('projectOwnerTransfer')
 const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => {
   const { currentUser } = useCurrentUser();
   const { requestUserDeletion } = useAPIHandlers();
-
+  /*
+  TODO:
+  - need some kind of what page should be next function i think no point showing empty projects/teams pages
+  () => setPage('projectOwnerTransfer')
+  - need to figure out token validation
+  - need to ensure deletion really works
+  */
+ 
   return (
     <>
       <Title onClose={onClose} onCloseRef={mergeRefs(first, focusedOnMount)}>
