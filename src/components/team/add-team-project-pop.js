@@ -33,7 +33,7 @@ const filterProjects = (query, projects, teamProjects) => {
 };
 
 const getProjectsWhereCurrentUserIsAdmin = (allMyProjects) =>
-  allMyProjects.filter((p) => p.permission && p.permission.accessLevel && p.permission.accessLevel === ADMIN_ACCESS_LEVEL);
+  allMyProjects.filter((p) => p.permission && p.permission.accessLevel && p.permission.accessLevel >= ADMIN_ACCESS_LEVEL);
 
 function AddTeamProjectPop({ teamProjects, addProject }) {
   const [query, setQuery] = useState('');
