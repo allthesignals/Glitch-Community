@@ -3,14 +3,12 @@ import { StaticRouter } from 'react-router-dom';
 import { resetIdCounter } from 'react-tabs';
 import { resetUniqueId } from 'Hooks/use-unique-id';
 import { GlobalsProvider } from 'State/globals';
-import { TestsProvider } from 'State/ab-tests';
 import { OptimizelyProvider } from 'State/rollouts';
 import App from './app';
 
 const Page = ({
   origin,
   route,
-  AB_TESTS,
   API_CACHE,
   EXTERNAL_ROUTES,
   HOME_CONTENT,
@@ -33,11 +31,9 @@ const Page = ({
       SSR_HAS_PROJECTS={SSR_HAS_PROJECTS}
       ZINE_POSTS={ZINE_POSTS}
     >
-      <TestsProvider AB_TESTS={AB_TESTS}>
-        <OptimizelyProvider optimizely={optimizely} optimizelyId={OPTIMIZELY_ID}>
-          <App apiCache={API_CACHE} helmetContext={helmetContext} />
-        </OptimizelyProvider>
-      </TestsProvider>
+      <OptimizelyProvider optimizely={optimizely} optimizelyId={OPTIMIZELY_ID}>
+        <App apiCache={API_CACHE} helmetContext={helmetContext} />
+      </OptimizelyProvider>
     </GlobalsProvider>
   </StaticRouter>
 );
