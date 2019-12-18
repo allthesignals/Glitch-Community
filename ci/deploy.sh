@@ -36,7 +36,7 @@ do
 
 
   # do the "local" deploy stuff
-  ssh -o StrictHostKeyChecking=no "$name.${ENVIRONMENT}" "bash --login -c \"cd /tmp && local-deploy.sh ${ENVIRONMENT} ${CIRCLE_SHA} ${COMMUNITY_AWS_BOOTSTRAP_SECRET}\""; code=$?
+  ssh -o StrictHostKeyChecking=no "$name.${ENVIRONMENT}" "bash --login -c \"cd /tmp && ./local-deploy.sh ${ENVIRONMENT} ${CIRCLE_SHA} ${COMMUNITY_AWS_BOOTSTRAP_SECRET}\""; code=$?
 
 done
 
