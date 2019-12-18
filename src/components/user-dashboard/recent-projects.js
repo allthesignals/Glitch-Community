@@ -51,7 +51,7 @@ const RecentProjects = () => {
 
   const ideasCount = 3 - numProjects;
   const twoIdeas = ideasCount === 2;
-  const recentProjectsWrapperClass = twoIdeas ? styles.twoIdeasRecentProjectsWrapper : styles.oneIdeaRecentProjectsWrapper;
+  const recentProjectsExtraWrapperClass = twoIdeas ? styles.twoIdeasRecentProjectsWrapper : styles.oneIdeaRecentProjectsWrapper;
   const ideasExtraWrapperClass = twoIdeas ? styles.twoIdeasIdeasWrapper : styles.oneIdeaIdeasWrapper;
   return (
     <section data-cy="recent-projects">
@@ -69,7 +69,7 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            <div className={recentProjectsWrapperClass}>
+            <div className={classnames(styles.projectItemWrap, recentProjectsExtraWrapperClass)}>
               {fetched ? (
                 projectsToShow.map((project) => <ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton />)
               ) : (
