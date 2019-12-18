@@ -31,9 +31,9 @@ if [[ -f "/home/circleci/$CIRCLE_SHA.tar.gz" ]]; then
 
   if [[ "$code" -ne 0 ]]; then
     #   no file in s3
-    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$COMMUNITY_BOOTSTRAP_BUCKET"
+    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$COMMUNITY_BOOTSTRAP_BUCKET"; code=$?
     echo "$CIRCLE_SHA" > /home/circleci/LAST_DEPLOYED_SHA
-    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$COMMUNITY_BOOTSTRAP_BUCKET"
+    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$COMMUNITY_BOOTSTRAP_BUCKET"; code=$(($code+$?)) # sum exit codes for a final success value
   fi
 
 else
