@@ -10,7 +10,7 @@ import { disableJsdom } from '../jsdomHelper';
 
 function renderPage(route, props) {
   resetState();
-  const optimizely = { isFeatureEnabled: () => false }; //
+  const optimizely = { isFeatureEnabled: () => false }; //gross
   const result = renderToString(
     <Page
       helmetContext={{}}
