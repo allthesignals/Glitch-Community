@@ -4,6 +4,7 @@ import Pluralize from 'react-pluralize';
 import { Actions, Badge, Button, DangerZone, Icon, Info, Overlay, ResultsList, Title, useOverlay, mergeRefs } from '@fogcreek/shared-components';
 
 import { useCurrentUser } from 'State/current-user';
+import { useAPIHandlers } from 'State/api';
 
 import Link from 'Components/link';
 import TeamResultItem from 'Components/team/team-result-item';
@@ -15,31 +16,37 @@ import MultiPage from '../layout/multi-page';
 import styles from './delete-account-modal.styl';
 import { emoji } from '../global.styl';
 
-const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
-  <>
-    <Title onClose={onClose} onCloseRef={mergeRefs(first, focusedOnMount)}>
-      Delete Account <Icon className={emoji} icon="coffin" />
-    </Title>
-    <Actions>
-      <p>Once your account is deleted, all of your project, teams and collections will be gone forever!</p>
-      <p>If you are sharing any teams or projects, we'll walk you though transferring ownership before you delete your account.</p>
-    </Actions>
-    <Info>
-      <p>
-        You can export any of your projects but only <b>before</b> you delete your account.
-      </p>
-      <Button onClick={() => console.log('Learning more')} className={styles.modalButton} size="small" variant="secondary">
-        Learn about exporting <Icon className={emoji} icon="arrowRight" />
-      </Button>
-    </Info>
-    <DangerZone>
-      <p>For security purposes, you must confirm via email before we delete your account.</p>
-      <Button ref={last} onClick={() => setPage('projectOwnerTransfer')} className={styles.modalButton} size="small" variant="warning">
-        Continue to Delete Account
-      </Button>
-    </DangerZone>
-  </>
-);
+// () => setPage('projectOwnerTransfer')
+const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => {
+  const { currentUser } = useCurrentUser();
+  const { requestUserDeletion } = useAPIHandlers();
+
+  return (
+    <>
+      <Title onClose={onClose} onCloseRef={mergeRefs(first, focusedOnMount)}>
+        Delete Account <Icon className={emoji} icon="coffin" />
+      </Title>
+      <Actions>
+        <p>Once your account is deleted, all of your project, teams and collections will be gone forever!</p>
+        <p>If you are sharing any teams or projects, we'll walk you though transferring ownership before you delete your account.</p>
+      </Actions>
+      <Info>
+        <p>
+          You can export any of your projects but only <b>before</b> you delete your account.
+        </p>
+        <Button onClick={() => console.log('Learning more')} className={styles.modalButton} size="small" variant="secondary">
+          Learn about exporting <Icon className={emoji} icon="arrowRight" />
+        </Button>
+      </Info>
+      <DangerZone>
+        <p>For security purposes, you must confirm via email before we delete your account.</p>
+        <Button ref={last} onClick={() => requestUserDeletion({ user: currentUser })} className={styles.modalButton} size="small" variant="warning">
+          Continue to Delete Account
+        </Button>
+      </DangerZone>
+    </>
+  )
+};
 
 DeleteInfo.propTypes = {
   setPage: PropTypes.func.isRequired,

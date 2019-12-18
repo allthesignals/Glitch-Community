@@ -203,6 +203,9 @@ export const useAPIHandlers = () => {
       // teams / users
       addPinnedProject: ({ project, team, user }) => api.put(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
       removePinnedProject: ({ project, team, user }) => api.delete(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
+
+      // users
+      requestUserDeletion: ({ user }) => api.post(`/v1/users/${user.id}/requestDeletion`),
     }),
     [api],
   );
