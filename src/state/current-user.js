@@ -52,7 +52,6 @@ function identifyUser(user) {
           createdAt: user.createdAt,
           projectCount: user.projects.length,
           teamCount: user.teams.length,
-          ...mapKeys(window.AB_TESTS, (assignment, test) => `abtest-${test}`),
         },
       );
     }

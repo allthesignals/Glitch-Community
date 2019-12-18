@@ -12,7 +12,6 @@ import { BrowserRouter } from 'react-router-dom';
 import convertPlugin from 'Shared/dayjs-convert';
 import { configureScope, captureException } from 'Utils/sentry';
 import { EDITOR_URL, OPTIMIZELY_KEY } from 'Utils/constants';
-import { TestsProvider } from 'State/ab-tests';
 import { GlobalsProvider } from 'State/globals';
 import { OptimizelyProvider } from 'State/rollouts';
 import App from './app';
@@ -77,11 +76,9 @@ window.bootstrap = async (container) => {
         SSR_HAS_PROJECTS={window.SSR_HAS_PROJECTS}
         ZINE_POSTS={window.ZINE_POSTS}
       >
-        <TestsProvider AB_TESTS={window.AB_TESTS}>
-          <OptimizelyProvider optimizely={optimizely} optimizelyId={window.OPTIMIZELY_ID}>
-            <App apiCache={window.API_CACHE} />
-          </OptimizelyProvider>
-        </TestsProvider>
+        <OptimizelyProvider optimizely={optimizely} optimizelyId={window.OPTIMIZELY_ID}>
+          <App apiCache={window.API_CACHE} />
+        </OptimizelyProvider>
       </GlobalsProvider>
     </BrowserRouter>
   );
