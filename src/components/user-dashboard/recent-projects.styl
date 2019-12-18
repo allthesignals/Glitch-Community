@@ -42,10 +42,40 @@
   flex: 1 1 auto
   max-width: 100%
   display: flex
+  @media(max-width:650px)
+    flex-direction: column
   & > article
     margin: 0
   .projectItem
     margin-right: 10px
+    @media(max-width: 650px)
+      margin-right: auto
+      margin-bottom: 16px
+
+  @media(max-width: 800px)
+    flex-direction: column;
+
     
 svg.arrow
   vertical-align: middle
+
+
+.ideasWrapper
+  @media(max-width: 800px)
+    margin-left: -16px
+    border-radius: 0
+    margin-top: 16px
+  @media(max-width:650px)
+    flex-direction: column
+
+.twoIdeasRecentProjectsWrapper
+  display: flex
+  flex: 1
+.oneIdeaRecentProjectsWrapper
+  display: flex
+  flex: 2
+
+.twoIdeasIdeasWrapper
+  flex: 2
+.oneIdeaIdeasWrapper
+  flex: 1

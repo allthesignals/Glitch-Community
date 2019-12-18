@@ -63,15 +63,6 @@ svg.arrow
   grid-gap: 20px
   grid-template-columns: repeat(2, 1fr)
 
-.idea
-  position: relative
-  display: flex
-  flex-wrap: nowrap
-  justify-content: space-between
-  max-width: 325px
-  height: 160px
-  background: section-line
-  border-radius: 5px
 
 .ideaMyStuffBtn
   position: absolute
@@ -84,6 +75,19 @@ svg.arrow
   .idea
     margin-right: 10px
     flex: 1
+    position: relative
+    display: flex
+    flex-wrap: nowrap
+    justify-content: space-between
+    max-width: 325px
+    height: 160px
+    background: section-line
+    border-radius: 5px
+    @media(max-width: 650px)
+      max-width: none
+      margin-right: 0
+      margin-bottom: 16px
+      border: 1px solid red
   .idea + .idea
     margin-left: space
 

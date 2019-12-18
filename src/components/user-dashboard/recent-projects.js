@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
-
+import classnames from 'classnames';
 import Heading from 'Components/text/heading';
 import ProjectsList from 'Components/containers/projects-list';
 import CoverContainer from 'Components/containers/cover-container';
@@ -51,8 +51,8 @@ const RecentProjects = () => {
 
   const ideasCount = 3 - numProjects;
   const twoIdeas = ideasCount === 2;
-  const recentProjectsWrapperStyle = twoIdeas ? { display: 'flex', flex: 1 } : { display: 'flex', flex: 2 };
-  const ideasWrapperStyle = twoIdeas ? { flex: 2 } : { flex: 1 };
+  const recentProjectsWrapperClass = twoIdeas ? styles.twoIdeasRecentProjectsWrapper : styles.oneIdeaRecentProjectsWrapper;
+  const ideasExtraWrapperClass = twoIdeas ? styles.twoIdeasIdeasWrapper : styles.oneIdeaIdeasWrapper;
   return (
     <section data-cy="recent-projects">
       <Heading tagName="h2">
@@ -69,14 +69,14 @@ const RecentProjects = () => {
             </WrappingLink>
           </div>
           <div className={styles.projectsWrap}>
-            <div style={recentProjectsWrapperStyle}>
+            <div className={recentProjectsWrapperClass}>
               {fetched ? (
                 projectsToShow.map((project) => <ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton />)
               ) : (
                 <Loader style={{ width: '25px' }} />
               )}
             </div>
-            {numProjects < 3 && <Ideas wrapperStyle={ideasWrapperStyle} count={ideasCount} />}
+            {numProjects < 3 && <Ideas wrapperClass={classnames(styles.ideasWrapper, ideasExtraWrapperClass)} count={ideasCount} />}
           </div>
         </div>
         {isAnonymousUser && <ClearSession clearUser={clear} />}

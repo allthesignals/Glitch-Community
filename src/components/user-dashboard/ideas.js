@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Icon } from '@fogcreek/shared-components';
-
+import classnames from 'classnames';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
@@ -44,7 +44,7 @@ const Idea = ({ project }) => {
   );
 };
 
-const Ideas = ({ count, wrapperStyle }) => {
+const Ideas = ({ count, wrapperClass }) => {
   const { value: ideas } = useCollectionProjects({ id: 13044 }); /* @glitch/ideas */
   const definitelyIdeas = ideas || [];
   const [sampledIdeas, refreshIdeas] = useSample(definitelyIdeas, count);
@@ -53,7 +53,7 @@ const Ideas = ({ count, wrapperStyle }) => {
     refreshIdeas();
   };
   return (
-    <div className={styles.ideas} style={wrapperStyle}>
+    <div className={classnames(styles.ideas, wrapperClass)}>
       <div className={styles.ideasHeader}>
         <Heading className={styles.ideasHeading} tagName="h3">
           <Image alt="Ideas" src="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fideas.svg" />
