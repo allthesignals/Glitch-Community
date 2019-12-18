@@ -72,6 +72,9 @@ svg.arrow
 .ideasContainer
   display: flex
   flex-direction: row
+  @media(max-width:650px)
+    flex-direction: column
+
   .idea
     margin-right: 10px
     flex: 1
@@ -87,7 +90,7 @@ svg.arrow
       max-width: none
       margin-right: 0
       margin-bottom: 16px
-      border: 1px solid red
+
   .idea + .idea
     margin-left: space
 
