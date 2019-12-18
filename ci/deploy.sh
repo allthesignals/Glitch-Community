@@ -29,8 +29,14 @@ do
 
   echo "${name}"
 
+  # try to avoid potential bootstrap problems with updates to the local deploy by uploading it 
+  # (and the corresponding env file) to /tmp and executing from there.
+  scp /home/circleci/project/ci/local-deploy.sh "deploy@${name}.$ENVIRONMENT":/tmp; code=$?
+  scp /home/circleci/project/ci/env "deploy@${name}.$ENVIRONMENT":/tmp; code=$?
+
+
   # do the "local" deploy stuff
-  ssh -o StrictHostKeyChecking=no "$name.${ENVIRONMENT}" "bash --login -c \"cd /opt/glitch-community && ci/local-deploy.sh ${ENVIRONMENT} ${CIRCLE_SHA} ${COMMUNITY_AWS_BOOTSTRAP_SECRET}\""; code=$?
+  ssh -o StrictHostKeyChecking=no "$name.${ENVIRONMENT}" "bash --login -c \"cd /tmp && local-deploy.sh ${ENVIRONMENT} ${CIRCLE_SHA} ${COMMUNITY_AWS_BOOTSTRAP_SECRET}\""; code=$?
 
 done
 

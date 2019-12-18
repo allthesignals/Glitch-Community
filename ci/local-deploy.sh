@@ -20,11 +20,11 @@ export ENVIRONMENT="$1"
 export CIRCLE_SHA="$2"
 export COMMUNITY_AWS_BOOTSTRAP_SECRET="$3"
 
-cd /opt/glitch-community
-
-source ./ci/env
+source ./env  # this is the deploy process env file, not to be confused with .env, below.
 export AWS_ACCESS_KEY_ID=${COMMUNITY_AWS_BOOTSTRAP_KEY}
 export AWS_SECRET_ACCESS_KEY=${COMMUNITY_AWS_BOOTSTRAP_SECRET}
+
+cd /opt/glitch-community
 
 # we run npm i here to ensure pm2 is available and the npm script doesn't throw
 npm i && npm run stop && wait
