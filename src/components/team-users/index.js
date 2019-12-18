@@ -119,7 +119,7 @@ const WhitelistedDomain = ({ domain, setDomain }) => (
         </Info>
         {!!setDomain && (
           <DangerZone>
-            <Button variant="warning" size="small" onClick={() => setDomain(null)}>
+            <Button textWrap variant="warning" size="small" onClick={() => setDomain(null)}>
               Remove {domain} <Icon className={emoji} icon="bomb" />
             </Button>
           </DangerZone>

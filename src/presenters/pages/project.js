@@ -119,6 +119,7 @@ function DeleteProjectPopover({ projectDomain, deleteProject }) {
                 <Loader />
               ) : (
                 <Button
+                  textWrap
                   variant="secondary"
                   size="small"
                   onClick={() => {
