@@ -53,7 +53,7 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
             )}
             {signedOut && (
               <li className={styles.buttonWrap}>
-                <Button size="small" as="a" href="/signin">
+                <Button size="small" as={Link} to="/signin">
                   Sign in
                 </Button>
               </li>
