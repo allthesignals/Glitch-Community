@@ -35,16 +35,16 @@ const CreateTeamPop = ({ onBack }) => {
     if (name) {
       const url = kebabCase(name);
       let error = null;
-      
-      function errorIfPresent (data) {
+
+      const errorIfPresent = (data) => {
         if (Object.keys(data).length > 0) {
           error = 'Name in use, try another';
         }
-      }
+      };
 
       try {
         const { data } = await api.get(`v1/users/by/login/login=${url}`);
-        errorIfPresent(data)
+        errorIfPresent(data);
       } catch (exception) {
         if (!(exception.response && exception.response.status === 404)) {
           throw exception;
@@ -53,7 +53,7 @@ const CreateTeamPop = ({ onBack }) => {
 
       try {
         const { data } = await api.get(`v1/teams/by/url?url=${url}`);
-        errorIfPresent(data)
+        errorIfPresent(data);
       } catch (exception) {
         if (!(exception.response && exception.response.status === 404)) {
           throw exception;
