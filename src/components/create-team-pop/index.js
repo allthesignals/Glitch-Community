@@ -104,7 +104,6 @@ const CreateTeamPop = ({ onBack }) => {
         description,
         backgroundColor: '',
         hasCoverImage: false,
-        isVerified: false,
       });
       trackTeamCreated({
         teamId: data.id,
