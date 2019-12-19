@@ -4,8 +4,7 @@ set -xeuo pipefail
 #####
 # THIS SCRIPT RUNS ON ALL COMMUNITY WORKERS
 # It manages the running site, gets the requested asset, and deploys and installs it. 
-# This script suffers from a bootstrap problem - if you change this script 
-# a simple deploy will probably not suffice and may require some special management
+# this is run from /tmp during deploy and from the build (/opt/glitch-community/ci) during bootstrap
 #####
 
 # check req params - we need the env and a sha to use for file manipulation
@@ -20,7 +19,7 @@ export ENVIRONMENT="$1"
 export CIRCLE_SHA="$2"
 export COMMUNITY_AWS_BOOTSTRAP_SECRET="$3"
 
-source ./env  # this is the deploy process env file, not to be confused with .env, below.
+source ./env  # this is the *deploy process* env file, not to be confused with .env, below.
 export AWS_ACCESS_KEY_ID=${COMMUNITY_AWS_BOOTSTRAP_KEY}
 export AWS_SECRET_ACCESS_KEY=${COMMUNITY_AWS_BOOTSTRAP_SECRET}
 

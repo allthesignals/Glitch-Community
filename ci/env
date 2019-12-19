@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 set -x
-set +u  # some vars will be unset here depending on run context (CircleCI or community worker)
+# set +u  some vars will be unset here depending on run context (CircleCI or community worker)
 
 # If we have CIRCLE_BRANCH this is running in CircleCI; set ENVIRONMENT appropriately
 # and use the CircleCI env for secrets
-if [[ -n "${CIRCLE_BRANCH}" ]];
+if [[ -v CIRCLE_BRANCH ]];
 then
   case "${CIRCLE_BRANCH}" in
     master)
@@ -39,4 +39,4 @@ case "${ENVIRONMENT}" in
     exit 1
 esac
 
-set -u
+# set -u
