@@ -48,7 +48,7 @@ const CreateTeamPop = ({ onBack }) => {
       }
 
       try {
-        const { data } = await api.get(`teamId/byUrl/${url}`);
+        const { data } = await api.get(`v1/teams/by/url?url=${url}`);
         if (data !== 'NOT FOUND') {
           error = 'Team already exists, try another';
         }
@@ -93,7 +93,7 @@ const CreateTeamPop = ({ onBack }) => {
       } catch (error) {
         // Just use the plain description
       }
-      const { data } = await api.post('teams', {
+      const { data } = await api.post('v1/teams', {
         name: state.teamName,
         url: kebabCase(state.teamName),
         hasAvatarImage: false,
