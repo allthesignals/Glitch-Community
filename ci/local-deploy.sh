@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -xeuo pipefail
+set -euo pipefail
+set -x
 
 #####
 # THIS SCRIPT RUNS ON ALL COMMUNITY WORKERS

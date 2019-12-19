@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -x  #   no -e or -o pipefail; we need to handle the exit code of the s3api call
+set -euo pipfail
+set -x
 
 #####
 # THIS SCRIPT RUNS ON the Circle CI executor
@@ -23,17 +24,29 @@ source ./ci/env
 export AWS_ACCESS_KEY_ID=${COMMUNITY_AWS_BOOTSTRAP_KEY}
 export AWS_SECRET_ACCESS_KEY=${COMMUNITY_AWS_BOOTSTRAP_SECRET}
 
-# check S3 for the asset; tell caller the result
-aws s3api head-object --bucket "$COMMUNITY_BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; code=$?
-
 #   check to see if we have the package
 if [[ -f "/home/circleci/$CIRCLE_SHA.tar.gz" ]]; then
 
-  if [[ "$code" -ne 0 ]]; then
-    #   no file in s3
+  # maybe upload
+  if aws s3api head-object --bucket "$COMMUNITY_BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; then
+    echo "$CIRCLE_SHA.tar.gz exists in S3"
+  else
+    #   this build is not in s3
     aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$COMMUNITY_BOOTSTRAP_BUCKET"; code=$?
+  fi
+
+  #update
+  if [[ "$code" -eq 0 ]]; then
     echo "$CIRCLE_SHA" > /home/circleci/LAST_DEPLOYED_SHA
-    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$COMMUNITY_BOOTSTRAP_BUCKET"; code=$(($code+$?)) # sum exit codes for a final success value
+    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$COMMUNITY_BOOTSTRAP_BUCKET"; code=$?
+  else
+    echo "Failed to upload $CIRCLE_SHA.tar.gz to S3"
+    exit "$code"
+  fi
+
+  if [[ "$code" -eq 0 ]]; then
+    echo "Failed to update LAST_DEPLOYED_SHA"
+    exit "$code"
   fi
 
 else
