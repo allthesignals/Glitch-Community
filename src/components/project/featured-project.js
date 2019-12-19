@@ -43,19 +43,15 @@ const Top = ({
     </div>
     <div className={styles.right}>
       {!isAnonymousUser && !window.location.pathname.includes('my-stuff') && (
-        <div className={styles.bookmarkButtonContainer}>
-          <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={featuredProject.domain} />
-        </div>
+        <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={featuredProject.domain} />
       )}
       {isAuthorized && !(isPlayer && !!featuredProject.note) && (
-        <div className={styles.unfeatureBtn}>
-          <FeaturedProjectOptionsPop
-            unfeatureProject={unfeatureProject}
-            createNote={createNote}
-            hasNote={!!featuredProject.note}
-            isPlayer={isPlayer}
-          />
-        </div>
+        <FeaturedProjectOptionsPop
+          unfeatureProject={unfeatureProject}
+          createNote={createNote}
+          hasNote={!!featuredProject.note}
+          isPlayer={isPlayer}
+        />
       )}
     </div>
   </div>
