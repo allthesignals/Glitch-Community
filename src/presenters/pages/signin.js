@@ -1,23 +1,8 @@
-/**
- * Login page for Glitch OAuth
- *
- * This is considered a proof of concept for OAuth.
- * It currently reuses Components/sign-in-pop to handle sign-in.
- *
- * IMPORTANT: This allows Discourse users to sign in to support with their Glitch accounts.
- *
- * Login via email only
- *
- * TODO: Allow login via username/password when that becomes available
- */
-
 import React from 'react';
 
-import { SignInPopBase as SignInPop } from 'Components/sign-in-pop';
+import SignInLayout from 'Components/layout/sign-in-layout';
 import { useCurrentUser } from 'State/current-user';
 import { API_URL } from 'Utils/constants';
-
-import styles from './signin.styl';
 
 const SignInPage = () => {
   const { currentUser } = useCurrentUser();
@@ -36,11 +21,7 @@ const SignInPage = () => {
     return null;
   }
 
-  return (
-    <div className={styles.content}>
-      <SignInPop startOpen />
-    </div>
-  );
+  return <SignInLayout />;
 };
 
 export default SignInPage;
