@@ -14,7 +14,7 @@ import { emoji } from '../global.styl';
 const SignInNotice = () => (
   <div className={styles.anonUserSignUp}>
     <span>
-      <Button size="small" as="a" href="/login">
+      <Button size="small" as="a" href="/signin">
         Sign in
       </Button>{' '}
       to keep your projects.
