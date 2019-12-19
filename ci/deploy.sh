@@ -37,7 +37,7 @@ do
     ssh "$name.${ENVIRONMENT}" "bash --login -c \"cd /tmp && ./local-deploy.sh ${ENVIRONMENT} ${CIRCLE_SHA} ${COMMUNITY_AWS_BOOTSTRAP_SECRET}\""; code=$?
   else
     echo "Failed to upload local-deploy.sh or env to ${name}.$ENVIRONMENT:/tmp"
-    exit "$code"
+    exit 1
   fi
 
 
