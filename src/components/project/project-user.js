@@ -5,7 +5,6 @@ import { Popover, UnstyledButton, Info, Actions, Button, Icon } from '@fogcreek/
 
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
-import { useTrackedFunc } from 'State/segment-analytics';
 
 import { captureException } from 'Utils/sentry';
 
@@ -26,19 +25,15 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
   const { currentUser } = useCurrentUser();
   const currentUserIsAdmin = userIsProjectAdmin({ project, user: currentUser });
   const { createNotification } = useNotifications();
-  const onReassignAdmin = useTrackedFunc(
-    async () => {
-      try {
-        await reassignAdmin({ user, currentUser });
-        createNotification(`${user.name} is now the project owner`, { type: 'success' });
-      } catch (error) {
-        captureException(error);
-        createNotification(`Sorry, we were unable to make ${user.name} the new project owner, try again later`, { type: 'error' });
-      }
-    },
-    'Project Added to Collection',
-    { origin: 'Add Project collection' },
-  );
+  const onReassignAdmin = async () => {
+    try {
+      await reassignAdmin({ user, currentUser });
+      createNotification(`${user.name} is now the project owner`, { type: 'success' });
+    } catch (error) {
+      captureException(error);
+      createNotification(`Sorry, we were unable to make ${user.name} the new project owner, try again later`, { type: 'error' });
+    }
+  };
   return (
     <div className={styles.permissionsPopover}>
       <Info className={styles.permissionsPopoverInfo}>

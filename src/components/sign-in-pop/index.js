@@ -11,6 +11,7 @@ import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
 import { captureException } from 'Utils/sentry';
+import { useTracker } from 'State/segment-analytics';
 
 import styles from './styles.styl';
 import { emoji, mediumPopover } from '../global.styl';
@@ -178,6 +179,9 @@ const SignInWithCode = ({ onBack, showTwoFactor }) => {
   const [status, setStatus] = useState('ready');
   const isEnabled = code.length > 0;
 
+  const trackSignIn = useTracker('Signed In');
+  const trackAccountCreated = useTracker('Account Created');
+
   async function onSubmit(e) {
     e.preventDefault();
     setStatus('loading');
@@ -187,6 +191,11 @@ const SignInWithCode = ({ onBack, showTwoFactor }) => {
         showTwoFactor(data.tfaToken);
       } else {
         login(data);
+
+        if (data.lastActiveDay === null) {
+          trackAccountCreated({ authType: 'magic code' });
+        }
+        trackSignIn({ authType: 'magic code' });
       }
     } catch (error) {
       if (error && error.response && error.response.status !== 401) {
@@ -330,6 +339,8 @@ export const SignInPopBase = ({ startOpen }) => {
   const [, setDestination] = useDestinationAfterAuth(location.pathname, location.search);
   const [tfaToken, setTfaToken] = React.useState('');
 
+  const trackSignUpClick = useTracker('Sign In Link Clicked');
+
   return (
     <Popover
       startOpen={startOpen}
@@ -342,7 +353,15 @@ export const SignInPopBase = ({ startOpen }) => {
       )}
       views={{
         email: ({ setActiveView, onBack }) => <EmailHandler onBack={onBack} showView={setActiveView} />,
-        signInCode: ({ setActiveView, onBack }) => <SignInWithCode onBack={onBack} showTwoFactor={() => { setTfaToken(tfaToken); setActiveView('twoFactor'); }} />,
+        signInCode: ({ setActiveView, onBack }) => (
+          <SignInWithCode
+            onBack={onBack}
+            showTwoFactor={() => {
+              setTfaToken(tfaToken);
+              setActiveView('twoFactor');
+            }}
+          />
+        ),
         twoFactor: ({ onBack }) => <TwoFactorSignIn onBack={onBack} token={tfaToken} />,
         forgotPassword: ({ onBack }) => <ForgotPasswordHandler onBack={onBack} />,
       }}
@@ -359,15 +378,42 @@ export const SignInPopBase = ({ startOpen }) => {
             </div>
           </Info>
           {userPasswordEnabled && (
-            <PasswordLoginSection showTwoFactor={(token) => { setTfaToken(token); setActiveView('twoFactor'); }} showForgotPassword={() => { setActiveView('forgotPassword'); }} />
+            <PasswordLoginSection
+              showTwoFactor={(token) => {
+                setTfaToken(token);
+                setActiveView('twoFactor');
+              }}
+              showForgotPassword={() => {
+                setActiveView('forgotPassword');
+              }}
+            />
           )}
           <Actions>
-            <SignInButton companyName="facebook" onClick={() => setDestination()} />
-            <SignInButton companyName="github" onClick={() => setDestination()} />
-            <SignInButton companyName="google" onClick={() => setDestination()} />
+            <SignInButton
+              companyName="facebook"
+              onClick={() => {
+                trackSignUpClick({ authType: 'facebook' });
+                setDestination();
+              }}
+            />
+            <SignInButton
+              companyName="github"
+              onClick={() => {
+                trackSignUpClick({ authType: 'github' });
+                setDestination();
+              }}
+            />
+            <SignInButton
+              companyName="google"
+              onClick={() => {
+                trackSignUpClick({ authType: 'google' });
+                setDestination();
+              }}
+            />
             <Button
               size="small"
               onClick={() => {
+                trackSignUpClick({ authType: 'email' });
                 setDestination();
                 setActiveView('email');
               }}

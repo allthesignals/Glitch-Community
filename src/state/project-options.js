@@ -7,7 +7,7 @@ import { useAPIHandlers, useAPI } from 'State/api';
 import useErrorHandlers from 'State/error-handlers';
 import { userOrTeamIsAuthor, useCollectionReload } from 'State/collection';
 import { useProjectReload, useProjectMembers } from 'State/project';
-import { userIsOnTeam } from 'Models/team';
+import { userIsOnTeam, userIsTeamAdmin } from 'Models/team';
 import { userIsProjectMember, userIsProjectAdmin, userIsOnlyProjectAdmin } from 'Models/project';
 import { useNotifications } from 'State/notifications';
 import { createCollection } from 'Models/collection';
@@ -92,6 +92,7 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
   const isUser = user && user.id === currentUser.id;
   const isCollectionOwner = collection && userOrTeamIsAuthor({ collection, user: currentUser });
   const isTeamMember = team && userIsOnTeam({ team, user: currentUser });
+  const isTeamAdmin = team && userIsTeamAdmin({ team, user: currentUser });
   const projectTeam = currentUser.teams.find((t) => project.teamIds.includes(t.id));
   const isProfileOwner = isUser || isCollectionOwner || isTeamMember;
   const canAddNote = collection ? isCollectionOwner : isProjectAdmin;
@@ -104,7 +105,7 @@ export const useProjectOptions = (project, { user, team, collection, ...options 
     displayNewNote: !project.note && !project.isAddingANewNote && canAddNote && bind(projectOptions.displayNewNote, project),
     joinTeamProject: areMembersReady && !isProjectMember && !!projectTeam && bind(projectOptions.joinTeamProject, project, projectTeam),
     leaveProject: areMembersReady && isProjectMember && !isOnlyProjectAdmin && bind(projectOptions.leaveProject, project),
-    removeProjectFromTeam: isTeamMember && bind(projectOptions.removeProjectFromTeam, project),
+    removeProjectFromTeam: isTeamMember && (isTeamAdmin || isProjectAdmin) && bind(projectOptions.removeProjectFromTeam, project),
     deleteProject: isProjectAdmin && bind(projectOptions.deleteProject, project),
     removeProjectFromCollection: isCollectionOwner && bind(projectOptions.removeProjectFromCollection, project),
     toggleBookmark: isLoggedIn && projectOptions.toggleBookmark,

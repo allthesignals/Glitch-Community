@@ -44,6 +44,16 @@ export function sortProjectsByLastAccess(projects) {
 export const MEMBER_ACCESS_LEVEL = 20;
 export const ADMIN_ACCESS_LEVEL = 30;
 
+export function humanReadableAccessLevel(accessLevel) {
+  if (accessLevel === MEMBER_ACCESS_LEVEL) {
+    return 'member';
+  }
+  if (accessLevel === ADMIN_ACCESS_LEVEL) {
+    return 'admin';
+  }
+  return 'visitor';
+}
+
 export function userIsProjectMember({ members, user }) {
   return !!(members && members.users && members.users.some(({ id }) => id === user.id));
 }
@@ -63,4 +73,23 @@ export function userIsOnlyProjectAdmin({ project, user }) {
   const adminCount = project.permissions.filter((p) => p.accessLevel >= ADMIN_ACCESS_LEVEL).length;
   if (adminCount > 1) return false;
   return userIsProjectAdmin({ project, user });
+}
+
+// To be kept in sync with source/data/base-project/domains.js in the editor repo
+const baseProjectIds = Object.freeze([
+  '929980a8-32fc-4ae7-a66f-dddb3ae4912c',
+  'a0fcd798-9ddf-42e5-8205-17158d4bf5bb',
+  '640b1583-cbc9-4718-b20c-31041351c62c',
+]);
+
+export function getProjectType(project) {
+  // Used for analytics.js. We categorise the type of app this is based on what it was remixed from.
+  // TODO: Add baseProjectDomains as an extra check here once the backend is returning baseDomain as well as baseId for us.
+  if (project.baseId === '6860ad0b-a29d-4ee1-8163-e9aee048fe60') {
+    return 'gitImport';
+  }
+  if (baseProjectIds.includes(project.baseId)) {
+    return 'starterProject';
+  }
+  return 'remix';
 }

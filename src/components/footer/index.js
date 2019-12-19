@@ -5,17 +5,34 @@ import { Icon } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
 import Link from 'Components/link';
+import { useTracker } from 'State/segment-analytics';
+import { useGlobals } from 'State/globals';
 
 import styles from './footer.styl';
 import { emoji } from '../global.styl';
 
-const FooterLink = ({ className, href, track, children }) => (
+const FooterLinkIcon = ({ icon }) => <Icon className={emoji} icon={icon} />;
+
+const FooterLink = ({ className, href, trackClick, linkText, icon }) => (
   <div className={classnames(styles.footerLinkWrap, className)}>
-    <Link className={styles.footerLink} to={href} data-track={`footer → ${track}`}>
-      {children}
+    <Link className={styles.footerLink} to={href} onClick={() => trackClick({ href, targetText: linkText })}>
+      {linkText}
+      <FooterLinkIcon icon={icon} />
     </Link>
   </div>
 );
+
+const TeamsFooterLink = ({ trackClick, href }) => {
+  const linkText = 'Glitch Teams';
+  return (
+    <div className={classnames(styles.footerLinkWrap, styles.teams)}>
+      <Link className={styles.footerLink} to={href} onClick={() => trackClick({ href, targetText: linkText })}>
+        <PlatformsIcon />
+        {linkText}
+      </Link>
+    </div>
+  );
+};
 
 const PlatformsIcon = () => (
   <Image
@@ -25,39 +42,24 @@ const PlatformsIcon = () => (
   />
 );
 
-const Footer = ({ containerClass }) => (
-  <footer className={classnames(styles.container, containerClass)} role="contentinfo" aria-label="Glitch Footer Links">
-    <FooterLink href="/about" track="about">
-      About Glitch
-      <Icon className={emoji} icon="crystalBall" />
-    </FooterLink>
-    <FooterLink href="/about/careers" track="careers">
-      We're Hiring
-      <Icon className={emoji} icon="fishingPole" />
-    </FooterLink>
-    <FooterLink href="/culture" track="blog">
-      Blog
-      <Icon className={emoji} icon="newspaper" />
-    </FooterLink>
-    <FooterLink href="/help/" track="faq">
-      Help Center
-      <Icon className={emoji} icon="umbrella" />
-    </FooterLink>
-    <FooterLink href="http://status.glitch.com/" track="system status">
-      System Status
-      <Icon className={emoji} icon="horizontalTrafficLight" />
-    </FooterLink>
-    <FooterLink href="/legal" track="legal stuff">
-      Legal Stuff
-      <Icon className={emoji} icon="scales" />
-    </FooterLink>
-    <FooterLink className={styles.teams} href="/teams" track="platforms">
-      <PlatformsIcon />
-      Glitch Teams
-    </FooterLink>
-  </footer>
-);
+const Footer = ({ containerClass }) => {
+  const { location } = useGlobals();
+  const trackClick = useTracker('Marketing CTA Clicked', {
+    url: location.pathname,
+  });
+  return (
+    <footer className={classnames(styles.container, containerClass)} role="contentinfo" aria-label="Glitch Footer Links">
+      <FooterLink href="/about" trackClick={trackClick} icon="crystalBall" linkText="About Glitch" />
+      <FooterLink href="/about/careers" trackClick={trackClick} icon="fishingPole" linkText="We're Hiring" />
+      <FooterLink href="/culture" trackClick={trackClick} icon="newspaper" linkText="Blog" />
 
+      <FooterLink href="/help/" trackClick={trackClick} icon="umbrella" linkText="Help Center" />
+      <FooterLink href="http://status.glitch.com/" trackClick={trackClick} icon="horizontalTrafficLight" linkText="System Status" />
+      <FooterLink href="/legal" trackClick={trackClick} icon="scales" linkText="Legal Stuff" />
+      <TeamsFooterLink href="/teams" trackClick={trackClick} />
+    </footer>
+  );
+};
 Footer.propTypes = {
   containerClass: PropTypes.string,
 };

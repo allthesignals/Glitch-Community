@@ -1,5 +1,3 @@
-/* globals analytics */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { captureException } from 'Utils/sentry';
@@ -7,6 +5,7 @@ import { APP_URL } from 'Utils/constants';
 
 import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
+import { useTracker } from 'State/segment-analytics';
 import TwoFactorCodePage from './two-factor-code';
 import { EmailErrorPage, OauthErrorPage } from '../error';
 import RedirectToDestination from './redirect-to-destination';
@@ -33,7 +32,8 @@ function notifyParent(message = {}) {
 const LoginPage = ({ provider, url }) => {
   const api = useAPI();
   const { login } = useCurrentUser();
-
+  const trackSignIn = useTracker('Signed In');
+  const trackAccountCreated = useTracker('Account Created');
   const [state, setState] = React.useState({ status: 'active' });
   const setDone = () => setState({ status: 'done' });
   const setError = (title, message) => setState({ status: 'error', title, message });
@@ -51,7 +51,10 @@ const LoginPage = ({ provider, url }) => {
         login(data);
 
         setDone();
-        analytics.track('Signed In', { provider });
+        if (data.lastActiveDay === null) {
+          trackAccountCreated({ authType: provider });
+        }
+        trackSignIn({ authType: provider });
         notifyParent({ success: true, details: { provider } });
       }
     } catch (error) {

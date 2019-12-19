@@ -14,15 +14,16 @@ import SignInWithPassword from 'Components/sign-in/sign-in-with-password';
 import ForgotPassword from 'Components/sign-in/forgot-password';
 import { DotsImg, PillsImg } from 'Components/sign-in/sign-in-masks';
 import useDevToggle from 'State/dev-toggles';
+import { useTracker } from 'State/segment-analytics';
 
 import MultiPage from './multi-page';
 import styles from './sign-in-layout.styl';
 import { emoji } from '../global.styl';
 
-const SignInButtons = () => (
+const SignInButtons = ({ trackClick }) => (
   <div className={styles.signInButtons}>
     {companyNames.map((companyName) => (
-      <SignInButton short companyName={companyName} key={companyName} />
+      <SignInButton short companyName={companyName} key={companyName} onClick={() => trackClick({ authType: companyName })} />
     ))}
   </div>
 );
@@ -44,6 +45,7 @@ const CreateAccountImage = () => (
 const SignInLayout = () => {
   const [state, setState] = useState({ emailAddress: undefined, initialToken: undefined });
   const userPasswordsEnabled = useDevToggle('User Passwords');
+  const trackSignUpLink = useTracker('Sign In Link Clicked');
 
   return (
     <div className={styles.signInBackground}>
@@ -62,13 +64,19 @@ const SignInLayout = () => {
                       <OverlayTitle>Sign In to Glitch</OverlayTitle>
                     </OverlaySection>
                     <OverlaySection type="actions">
-                      <SignInButtons />
+                      <SignInButtons trackClick={trackSignUpLink} />
                       <div className={styles.signInWithGlitchButtons}>
                         <Button size="small" onClick={() => setPage('getCode')}>
                           Email Magic Link <Icon className={emoji} icon="loveLetter" />
                         </Button>
                         {userPasswordsEnabled && (
-                          <Button size="small" onClick={() => setPage('usePassword')}>
+                          <Button
+                            size="small"
+                            onClick={() => {
+                              trackSignUpLink({ authType: 'password' });
+                              setPage('usePassword');
+                            }}
+                          >
                             Password <Icon className={emoji} icon="key" />
                           </Button>
                         )}
@@ -84,7 +92,7 @@ const SignInLayout = () => {
                     </OverlaySection>
                     <OverlaySection type="actions">
                       <Text className={styles.helpText}>Almost there! How do you want to sign up?</Text>
-                      <SignInButtons />
+                      <SignInButtons trackClick={trackSignUpLink} />
                       <Button size="small" onClick={() => setPage('getCode')}>
                         Email Magic Link <Icon className={emoji} icon="loveLetter" />
                       </Button>
@@ -103,6 +111,7 @@ const SignInLayout = () => {
                     <OverlaySection type="actions">
                       <GetMagicCode
                         onCodeSent={({ emailAddress }) => {
+                          trackSignUpLink({ authType: 'magic link' });
                           setState({ ...state, emailAddress });
                           setPage('useCode');
                         }}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase, find } from 'lodash';
 import { Button, Icon, Loader, Popover } from '@fogcreek/shared-components';
@@ -11,7 +11,7 @@ import DeleteCollection from 'Components/collection/delete-collection-pop';
 import GlitchHelmet from 'Components/glitch-helmet';
 import Layout from 'Components/layout';
 import ReportButton from 'Components/report-abuse-pop';
-import { AnalyticsContext } from 'State/segment-analytics';
+import { useTracker } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useCachedCollection } from 'State/api-cache';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
@@ -19,6 +19,7 @@ import useFocusFirst from 'Hooks/use-focus-first';
 import { renderText } from 'Utils/markdown';
 import allCategories from 'Shared/categories';
 import { CDN_URL } from 'Utils/constants';
+import { useGlobals } from 'State/globals';
 
 import { emoji, mediumPopover } from '../../components/global.styl';
 
@@ -82,28 +83,36 @@ CollectionPageContents.propTypes = {
 
 const CollectionPage = ({ owner, name }) => {
   const { value: collection, status } = useCachedCollection(`${owner}/${name}`);
+  const trackCollectionViewed = useTracker('Collection Viewed');
+  const { HOME_CONTENT } = useGlobals();
 
-  let isCategory = false;
   if (collection && owner === 'glitch') {
     const matchingCategory = find(allCategories, (category) => category.collectionName === collection.url);
     if (matchingCategory) {
-      isCategory = true;
       collection.avatarUrl = `${CDN_URL}${matchingCategory.icon}`;
     }
   }
 
+  useEffect(() => {
+    if (collection && status === 'ready') {
+      const showcasedCollection = HOME_CONTENT.curatedCollections.some((curatedCollection) => curatedCollection.fullUrl === collection.fullUrl);
+
+      trackCollectionViewed({
+        collectionId: collection.id,
+        collectionName: collection.name,
+        team: !!collection.team,
+        teamId: collection.team && collection.team.id,
+        teamName: collection.team && collection.team.url,
+        collectionVisibility: collection.private ? 'private' : 'public',
+        projectCount: collection.projects.length,
+        showcased: showcasedCollection,
+      });
+    }
+  }, [collection, status]);
+
   return (
     <Layout>
-      {collection ? (
-        <AnalyticsContext
-          properties={{ origin: isCategory ? 'category' : 'collection', collectionId: collection.id }}
-          context={{
-            groupId: collection.team ? collection.team.id.toString() : '0',
-          }}
-        >
-          <CollectionPageContents collection={collection} />
-        </AnalyticsContext>
-      ) : (
+      {collection ? <CollectionPageContents collection={collection} /> : (
         <>
           <GlitchHelmet title={name} description={`We couldn't find @${owner}/${name}`} />
           {status === 'ready' && <NotFound name={name} />}

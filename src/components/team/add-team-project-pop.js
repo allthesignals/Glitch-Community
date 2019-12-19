@@ -5,6 +5,7 @@ import { Button, Icon, Info, Popover } from '@fogcreek/shared-components';
 import { PopoverSearch } from 'Components/popover';
 import ProjectResultItem from 'Components/project/project-result-item';
 import { useCurrentUser } from 'State/current-user';
+import { ADMIN_ACCESS_LEVEL } from 'Models/project';
 
 import { emoji, widePopover } from '../global.styl';
 
@@ -31,11 +32,13 @@ const filterProjects = (query, projects, teamProjects) => {
   return filteredProjects;
 };
 
+const getProjectsWhereCurrentUserIsAdmin = (allMyProjects) =>
+  allMyProjects.filter((p) => p.permission && p.permission.accessLevel && p.permission.accessLevel >= ADMIN_ACCESS_LEVEL);
+
 function AddTeamProjectPop({ teamProjects, addProject }) {
   const [query, setQuery] = useState('');
   const { currentUser } = useCurrentUser();
-  const myProjects = currentUser.projects;
-
+  const myProjects = useMemo(() => getProjectsWhereCurrentUserIsAdmin(currentUser.projects), [currentUser.projects]);
   const filteredProjects = useMemo(() => filterProjects(query, myProjects, teamProjects), [query, myProjects, teamProjects]);
 
   return (

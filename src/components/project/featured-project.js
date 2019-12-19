@@ -9,7 +9,6 @@ import BookmarkButton from 'Components/buttons/bookmark-button';
 
 import { useCurrentUser } from 'State/current-user';
 import { useToggleBookmark } from 'State/collection';
-import { useTrackedFunc } from 'State/segment-analytics';
 
 import FeaturedProjectOptionsPop from './featured-project-options-pop';
 import styles from './featured-project.styl';
@@ -78,15 +77,6 @@ const FeaturedProject = ({
 
   const isAnonymousUser = !currentUser.login;
 
-  const bookmarkAction = useTrackedFunc(toggleBookmark, 'My Stuff Button Clicked', (inherited) => ({
-    ...inherited,
-    projectName: featuredProject.domain,
-    baseProjectId: featuredProject.baseId || featuredProject.baseProject,
-    userId: currentUser.id,
-    origin: `${inherited.origin}-featured-project`,
-    isAddingToMyStuff: !hasBookmarked,
-  }));
-
   return (
     <div data-cy="featured-project" className={styles.featuredProject}>
       <AnimationContainer animation={slideDown} onAnimationEnd={unfeatureProject}>
@@ -102,7 +92,7 @@ const FeaturedProject = ({
                 unfeatureProject={animateAndUnfeatureProject}
                 createNote={collection ? () => displayNewNote(featuredProject) : null}
                 isAnonymousUser={isAnonymousUser}
-                bookmarkAction={bookmarkAction}
+                bookmarkAction={toggleBookmark}
                 hasBookmarked={hasBookmarked}
                 isPlayer={isPlayer}
               />

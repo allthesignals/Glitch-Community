@@ -22,7 +22,7 @@ import AuthDescription from 'Components/fields/auth-description';
 import ErrorBoundary from 'Components/error-boundary';
 import Link from 'Components/link';
 import { getTeamLink, getTeamAvatarUrl, userIsOnTeam, userIsTeamAdmin } from 'Models/team';
-import { AnalyticsContext } from 'State/segment-analytics';
+import { useTracker } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
 import { useTeamEditor } from 'State/team';
@@ -105,6 +105,7 @@ const useTeamNameConflictWarning = (team) => {
 // Team Page
 
 function TeamPage({ team: initialTeam }) {
+  const trackProfileViewed = useTracker('Team Profile Viewed');
   const { currentUser } = useCurrentUser();
   const [team, funcs] = useTeamEditor(initialTeam);
   useTeamNameConflictWarning(team);
@@ -113,7 +114,10 @@ function TeamPage({ team: initialTeam }) {
 
   const pinnedSet = new Set(team.pinnedProjects.map(({ id }) => id));
   // filter featuredProject out of both pinned & recent projects
-  const [pinnedProjects, recentProjects] = partition(team.projects.filter(({ id }) => id !== team.featuredProjectId), ({ id }) => pinnedSet.has(id));
+  const [pinnedProjects, recentProjects] = partition(
+    team.projects.filter(({ id }) => id !== team.featuredProjectId),
+    ({ id }) => pinnedSet.has(id),
+  );
   const featuredProject = team.projects.find(({ id }) => id === team.featuredProjectId);
 
   const updateUrl = (url) => funcs.updateUrl(url).then(() => syncPageToUrl({ ...team, url }));
@@ -126,6 +130,16 @@ function TeamPage({ team: initialTeam }) {
     const showDescription = team.description && team.updatedAt !== team.createdAt;
     return `${base} ${showDescription ? renderText(team.description) : ''}`;
   }, [team.name, team.url, team.description, team.updatedAt, team.createdAt, tagline]);
+
+  useEffect(() => {
+    trackProfileViewed({
+      teamId: team.id,
+      teamName: team.name,
+      projectCount: team.projects.length,
+      numberTeamMembers: team.teamPermissions.length,
+      collectionCount: team.collections.length,
+    });
+  }, [team]);
 
   return (
     <main className={styles.container} id="main" aria-label="Glitch Team Page">
@@ -255,19 +269,15 @@ TeamPage.propTypes = {
     name: PropTypes.string.isRequired,
     pinnedProjects: PropTypes.array.isRequired,
     projects: PropTypes.array.isRequired,
-    teamPermissions: PropTypes.arrayOf(PropTypes.shape({
-      userId: PropTypes.number.isRequired,
-      accessLevel: PropTypes.number.isRequired,
-    })).isRequired,
+    teamPermissions: PropTypes.arrayOf(
+      PropTypes.shape({
+        userId: PropTypes.number.isRequired,
+        accessLevel: PropTypes.number.isRequired,
+      }),
+    ).isRequired,
     users: PropTypes.array.isRequired,
     whitelistedDomain: PropTypes.string,
   }).isRequired,
 };
 
-const TeamPageContainer = ({ team }) => (
-  <AnalyticsContext properties={{ origin: 'team' }} context={{ groupId: team.id.toString() }}>
-    <TeamPage team={team} />
-  </AnalyticsContext>
-);
-
-export default TeamPageContainer;
+export default TeamPage;

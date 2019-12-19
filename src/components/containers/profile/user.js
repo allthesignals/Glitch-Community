@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import CoverContainer from 'Components/containers/cover-container';
 import ProfileList from 'Components/profile-list';
-import TrackedButtonGroup from 'Components/buttons/tracked-button-group';
+import ButtonGroup from 'Components/buttons/button-group';
 import { getUserAvatarStyle } from 'Models/user';
 import styles from './styles.styl';
 
@@ -15,7 +15,7 @@ const UserProfileContainer = ({ item, children, avatarActions, coverActions, tea
       <div className={classnames(styles.profileWrap, hasTeams && styles.hasTeams)}>
         <div className={styles.avatarContainer}>
           <div className={classnames(styles.avatar, styles.user)} style={getUserAvatarStyle(item)} />
-          <div className={styles.avatarButtons}>{avatarActions && <TrackedButtonGroup actions={avatarActions} />}</div>
+          <div className={styles.avatarButtons}>{avatarActions && <ButtonGroup actions={avatarActions} />}</div>
         </div>
         <div className={styles.profileInfo}>{children}</div>
       </div>

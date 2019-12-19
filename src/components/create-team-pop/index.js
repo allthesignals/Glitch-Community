@@ -16,12 +16,13 @@ import { emoji } from '../global.styl';
 const CreateTeamPop = ({ onBack }) => {
   const history = useHistory();
   const api = useAPI();
-  const trackSubmit = useTracker('Create Team submitted');
+  const trackTeamCreated = useTracker('Team Created');
   const [state, replaceState] = useState({
     teamName: '',
     isLoading: false,
     error: '',
   });
+
   const setState = (valOrFn) => {
     if (typeof valOrFn === 'function') {
       replaceState((prevState) => ({ ...prevState, ...valOrFn(prevState) }));
@@ -47,7 +48,7 @@ const CreateTeamPop = ({ onBack }) => {
       }
 
       try {
-        const { data } = await api.get(`teamId/byUrl/${url}`);
+        const { data } = await api.get(`v1/teams/by/url?url=${url}`);
         if (data !== 'NOT FOUND') {
           error = 'Team already exists, try another';
         }
@@ -84,7 +85,6 @@ const CreateTeamPop = ({ onBack }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setState({ isLoading: true });
-    trackSubmit();
     try {
       let description = 'A team that makes things';
       try {
@@ -93,7 +93,7 @@ const CreateTeamPop = ({ onBack }) => {
       } catch (error) {
         // Just use the plain description
       }
-      const { data } = await api.post('teams', {
+      const { data } = await api.post('v1/teams', {
         name: state.teamName,
         url: kebabCase(state.teamName),
         hasAvatarImage: false,
@@ -103,6 +103,10 @@ const CreateTeamPop = ({ onBack }) => {
         backgroundColor: '',
         hasCoverImage: false,
         isVerified: false,
+      });
+      trackTeamCreated({
+        teamId: data.id,
+        teamName: data.name,
       });
       history.push(getTeamLink(data));
     } catch (error) {
