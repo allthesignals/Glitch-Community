@@ -25,13 +25,6 @@ export const isBrowser = typeof window !== 'undefined';
 export const currentEnv = isBrowser ? getBrowserEnv() : getNodeEnv();
 export { tagline, glitchTeamId };
 
-export const {
-  APP_URL,
-  API_URL,
-  EDITOR_URL,
-  CDN_URL,
-  GITHUB_CLIENT_ID,
-  FACEBOOK_CLIENT_ID,
-  OPTIMIZELY_KEY,
-  PROJECTS_DOMAIN,
-} = envs[currentEnv];
+export const { APP_URL, API_URL, EDITOR_URL, SIGN_IN_URL, CDN_URL, GITHUB_CLIENT_ID, FACEBOOK_CLIENT_ID, OPTIMIZELY_KEY, PROJECTS_DOMAIN } = envs[
+  currentEnv
+];

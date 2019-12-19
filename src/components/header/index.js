@@ -4,13 +4,12 @@ import classnames from 'classnames';
 
 import { Button } from '@fogcreek/shared-components';
 import SearchForm from 'Components/search-form';
-import SignInPop from 'Components/sign-in-pop';
 import UserOptionsPop from 'Components/user-options-pop';
 import NewProjectPop from 'Components/new-project-pop';
 import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
-import { EDITOR_URL } from 'Utils/constants';
+import { SIGN_IN_URL, EDITOR_URL } from 'Utils/constants';
 
 import Logo from './logo';
 import styles from './header.styl';
@@ -54,7 +53,9 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
             )}
             {signedOut && (
               <li className={styles.buttonWrap}>
-                <SignInPop align="right" />
+                <Button size="small" as="a" href={SIGN_IN_URL}>
+                  Sign in
+                </Button>
               </li>
             )}
             {signedIn && (
