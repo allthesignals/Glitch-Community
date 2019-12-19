@@ -42,14 +42,13 @@
   flex: 1 1 auto
   max-width: 100%
   display: flex
-  @media(max-width:650px)
+  @media(max-width:800px)
     flex-direction: column
   & > article
     margin: 0
   .projectItem
-    margin-right: 10px
     @media(max-width: 650px)
-      margin-right: auto
+      margin-right: 0
       margin-bottom: 16px
 
 svg.arrow
@@ -62,7 +61,9 @@ svg.arrow
     margin-top: 16px
 
 .projectItemWrap
-  @media(max-width: 800px)
+  @media(min-width: 801px)
+    padding-right: 16px  
+  @media(max-width: 650px)
     flex-direction: column;
 
 .twoIdeasRecentProjectsWrapper
@@ -76,3 +77,8 @@ svg.arrow
   flex: 2
 .oneIdeaIdeasWrapper
   flex: 1
+
+.individualProjectItemWrap + .individualProjectItemWrap
+  margin-left: 10px
+  @media(max-width: 650px)
+    margin-left: 0

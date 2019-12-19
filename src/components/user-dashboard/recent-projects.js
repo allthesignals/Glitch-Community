@@ -71,7 +71,7 @@ const RecentProjects = () => {
           <div className={styles.projectsWrap}>
             <div className={classnames(styles.projectItemWrap, recentProjectsExtraWrapperClass)}>
               {fetched ? (
-                projectsToShow.map((project) => <ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton />)
+                projectsToShow.map((project) => <div className={styles.individualProjectItemWrap}><ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton /></div>)
               ) : (
                 <Loader style={{ width: '25px' }} />
               )}
