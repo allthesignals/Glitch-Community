@@ -243,8 +243,8 @@ export function useTeamEditor(initialTeam) {
       removePermissions(currentUser, [project]);
       reloadProjectMembers([project.id]);
     }, handleError),
-    featureProject: (project) => updateFields({ featuredProjectId: project.id }).catch(handleError),
-    unfeatureProject: () => updateFields({ featuredProjectId: null }).catch(handleError),
+    featureProject: (project) => updateFields({ featured_project_id: project.id }).catch(handleError),
+    unfeatureProject: () => updateFields({ featured_project_id: null }).catch(handleError),
   };
   return [team, funcs];
 }
