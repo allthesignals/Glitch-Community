@@ -9,7 +9,7 @@ import NewProjectPop from 'Components/new-project-pop';
 import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
-import { SIGN_IN_URL, EDITOR_URL } from 'Utils/constants';
+import { EDITOR_URL } from 'Utils/constants';
 
 import Logo from './logo';
 import styles from './header.styl';
@@ -53,7 +53,7 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
             )}
             {signedOut && (
               <li className={styles.buttonWrap}>
-                <Button size="small" as="a" href={SIGN_IN_URL}>
+                <Button size="small" as="a" href="/login">
                   Sign in
                 </Button>
               </li>
