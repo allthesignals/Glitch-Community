@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -x
-# set +u  some vars will be unset here depending on run context (CircleCI or community worker)
 
 # If we have CIRCLE_BRANCH this is running in CircleCI; set ENVIRONMENT appropriately
 # and use the CircleCI env for secrets
@@ -38,5 +37,3 @@ case "${ENVIRONMENT}" in
     echo "Unknown environment ${ENVIRONMENT}"
     exit 1
 esac
-
-# set -u
