@@ -4,7 +4,6 @@ import classnames from 'classnames';
 
 import { Button } from '@fogcreek/shared-components';
 import SearchForm from 'Components/search-form';
-import SignInPop from 'Components/sign-in-pop';
 import UserOptionsPop from 'Components/user-options-pop';
 import NewProjectPop from 'Components/new-project-pop';
 import Link from 'Components/link';
@@ -54,7 +53,9 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
             )}
             {signedOut && (
               <li className={styles.buttonWrap}>
-                <SignInPop align="right" />
+                <Button size="small" as={Link} to="/signin">
+                  Sign in
+                </Button>
               </li>
             )}
             {signedIn && (
