@@ -28,14 +28,14 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
           <Actions>
             {!hasNote && createNote && (
               <>
-                <Button className={styles.stackedButtons} onClick={() => toggleAndCreateNote(onClose)}>
+                <Button className={styles.stackedButtons} size="small" variant="secondary" onClick={() => toggleAndCreateNote(onClose)}>
                   Add note <Icon icon="spiralNotePad" className={emoji} />
                 </Button>
                 <br />
               </>
             )}
             {!isPlayer && (
-              <Button onClick={() => toggleAndUnfeature(onClose)}>
+              <Button onClick={() => toggleAndUnfeature(onClose)} size="small" variant="secondary">
                 Un-feature <Icon icon="blockArrowDown" className={emoji} />
               </Button>
             )}
