@@ -8,7 +8,7 @@ dependencies:
   '@babel/register': 7.5.5
   '@babel/runtime': 7.7.4
   '@babel/runtime-corejs3': 7.7.4
-  '@fogcreek/shared-components': 0.13.9
+  '@fogcreek/shared-components': 0.13.10
   '@jedmao/location': 2.0.4
   '@optimizely/optimizely-sdk': 3.3.2
   '@percy/cypress': 1.0.9
@@ -989,7 +989,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-6PYY5DVdAY1ifaQW6XYTnOMihmBVT27elqSjEoodchsGjzYlEsTQMcEhSud99kVawatyTZRTiVkJ/c6lwbQ7nA==
-  /@fogcreek/shared-components/0.13.9:
+  /@fogcreek/shared-components/0.13.10:
     dependencies:
       dotenv: 8.2.0
       prop-types: 15.7.2
@@ -1001,7 +1001,7 @@ packages:
       react: ^16.8.0
       styled-components: ^4.3.0
     resolution:
-      integrity: sha512-8zCMwp3dGVYSKqi8WgnC+N33UPW3dvuXWZqr1AU13vH0IpbiFK1FdzchVHCi3DsutDAwzo5zSsS9YXw0zuzqzg==
+      integrity: sha512-sZLVnC7UsBtFK7w82v7LBCpOgCF25cdIFD6hFRX3UxJV88aCgNo7JdXPaSScHPXBOZ4K2bWpaX+8SKDJ6GQIuw==
   /@hapi/address/2.1.4:
     dev: false
     resolution:
@@ -11508,7 +11508,7 @@ specifiers:
   '@babel/register': 7.5.5
   '@babel/runtime': ^7.5.4
   '@babel/runtime-corejs3': ^7.5.5
-  '@fogcreek/shared-components': ^0.13.9
+  '@fogcreek/shared-components': ^0.13.10
   '@jedmao/location': ^2.0.4
   '@optimizely/optimizely-sdk': ^3.3.0
   '@percy/cypress': ^1.0.9
