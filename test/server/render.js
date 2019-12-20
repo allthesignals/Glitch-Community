@@ -3,7 +3,6 @@ import { renderToString } from 'react-dom/server';
 
 import HOME_CONTENT from 'Curated/home.json';
 import PUPDATES_CONTENT from 'Curated/pupdates.json';
-import { tests } from 'Shared/ab-tests';
 
 import { Page, resetState } from '../../src/server';
 import { makeTestCollection, makeTestProject, makeTestTeam, makeTestUser } from '../helpers/models';
@@ -12,17 +11,12 @@ import { disableJsdom } from '../jsdomHelper';
 function renderPage(route, props) {
   resetState();
   const optimizely = { isFeatureEnabled: () => false }; //gross
-  const abTests = Object.keys(tests).reduce((assignments, name) => ({
-    ...assignments,
-    [name]: Object.keys(tests[name])[0],
-  }), {});
   const result = renderToString(
     <Page
       helmetContext={{}}
       optimizely={optimizely}
       origin="https://glitch.com"
       route={route}
-      AB_TESTS={abTests}
       API_CACHE={{}}
       EXTERNAL_ROUTES={[]}
       HOME_CONTENT={HOME_CONTENT}

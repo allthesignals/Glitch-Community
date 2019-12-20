@@ -17,7 +17,7 @@ const AboutCareersPage = () => {
     if (window.loadLeverJobs) {
       window.loadLeverJobs(window.leverJobsOptions);
     } else {
-      import('Utils/lever/lever.js');
+      import('Utils/lever/lever.js'); // eslint-disable-line no-unused-expressions
     }
   }, []);
 
