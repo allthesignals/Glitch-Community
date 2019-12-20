@@ -9,6 +9,16 @@ const [getFromCache, clearCache] = createCache(dayjs.convert(15, 'minutes', 'ms'
 
 const watch = (location, entry, verb) => {
   let logTiming = true;
+  const loadClient = () => {
+    const startTime = performance.now();
+    const required = require(entry);
+    const endTime = performance.now();
+    if (logTiming) {
+      console.log(`SSR ${verb} took ${Math.round(endTime - startTime)}ms`);
+      logTiming = false;
+    }
+    return required;
+  };
   const dumpClient = () => {
     // clear changed files from the require cache
     Object.keys(require.cache).forEach((file) => {
@@ -18,21 +28,6 @@ const watch = (location, entry, verb) => {
     clearCache();
     // we're reloading off the disc, so print out the perf info again
     logTiming = true;
-  };
-  const loadClient = () => {
-    try {
-      const startTime = performance.now();
-      const required = require(entry);
-      const endTime = performance.now();
-      if (logTiming) {
-        console.log(`SSR ${verb} took ${Math.round(endTime - startTime)}ms`);
-        logTiming = false;
-      }
-      return required;
-    } catch (error) {
-      dumpClient(); // don't get stuck on bad code if there's a race condition or something
-      throw error;
-    }
   };
   const watcher = require('chokidar').watch(location).on('ready', () => {
     // dump the client and ssr cache whenever the code changes, it'll reload on the next ssr render
