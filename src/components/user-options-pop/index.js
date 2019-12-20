@@ -37,7 +37,13 @@ const TeamList = ({ teams, showCreateTeam }) => {
     <Actions>
       {orderedTeams.map((team) => (
         <div className={styles.buttonWrap} key={team.id}>
-          <Button as={TeamLink} team={team} size="small" variant="secondary">
+          <Button
+            textWrap
+            as={TeamLink}
+            team={team}
+            size="small"
+            variant="secondary"
+          >
             {team.name} <TeamAvatar team={team} size="small" className={emoji} tiny hideTooltip />
           </Button>
         </div>

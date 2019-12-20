@@ -84,7 +84,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       )}
       <Info className={styles.remaining}>
         <p>
-          <Badge>{singleAdminTeams.length}</Badge> <Pluralize count={singleAdminTeams.length} showCount={false} singular="team" /> to update
+          <Badge className={styles.number}>{singleAdminTeams.length}</Badge> <Pluralize count={singleAdminTeams.length} showCount={false} singular="team" /> to update
         </p>
       </Info>
       {otherTeams.length > 0 && (
@@ -153,7 +153,7 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       )}
       <Info className={styles.remaining}>
         <p>
-          <Badge>{singleAdminProjects.length}</Badge> projects to update
+          <Badge className={styles.number}>{singleAdminProjects.length}</Badge> projects to update
         </p>
       </Info>
       <Actions>
