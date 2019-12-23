@@ -28,6 +28,7 @@ function renderPage(route, props) {
       HOME_CONTENT={HOME_CONTENT}
       PUPDATES_CONTENT={PUPDATES_CONTENT}
       SSR_SIGNED_IN={false}
+      SSR_HAS_PROJECTS={false}
       ZINE_POSTS={[]}
       {...props}
     />

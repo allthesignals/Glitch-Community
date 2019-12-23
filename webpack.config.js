@@ -170,9 +170,7 @@ const browserConfig = {
   watchOptions: {
     ignored: /node_modules/,
   },
-  stats: {
-    children: false,
-  },
+  stats: { children: false, modules: false },
 };
 
 const nodeConfig = {
@@ -230,6 +228,7 @@ const nodeConfig = {
     NodeExternals(),
     (context, request, callback) => /^Shared[\\/]/.test(request) ? callback(null, `commonjs ${request}`) : callback(),
   ],
+  stats: { assets: false, children: false, modules: false },
 };
 
 const smp = new SpeedMeasurePlugin({ outputFormat: 'humanVerbose' });

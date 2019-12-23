@@ -21,5 +21,4 @@ node_modules/*
 .env
 cypress/screenshots
 cypress/videos
-package-lock.json
 .pm2/*

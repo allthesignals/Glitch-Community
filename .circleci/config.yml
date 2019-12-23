@@ -3,35 +3,53 @@
 # Note: Version 2.1 is required in order to use orbs.
 
 version: 2.1
+# the Glitch project sets up an orb for communicating with Slack here. Might be useful.
+# orbs:
+#   slack: circleci/slack@3.3.0
 jobs:
   lint_and_build:
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      BUILD_TYPE: static
     docker:
       - image: circleci/node:10-browsers
     steps:
       - checkout
+      - run: 
+          name: prep-for-artifacts
+          command: mkdir -p $CIRCLE_ARTIFACTS
       - run:
-          name: update-pnpm
-          command: "sudo npm install -g pnpm@3.x"
+          name: setup-ssh
+          command: cp ./ci/ssh.config ~/.ssh/config
       - restore_cache:
           keys:
-            - deps-{{ checksum "shrinkwrap.yaml" }}
+            - deps-{{ checksum "package-lock.json" }}
       - run:
-          name: pnpm-install
-          command: pnpm install
+          name: npm-install
+          command: npm install
       - save_cache:
           paths:
             - node_modules
-          key: deps-{{ checksum "shrinkwrap.yaml" }}
+          key: deps-{{ checksum "package-lock.json" }}
       - run:
           name: eslint
-          command: pnpm run lint
+          command: npm run lint
       - run:
           name: build
-          command: pnpm run build
+          command: npm run build
       - save_cache:
           paths:
             - build
           key: build-{{ .Revision }}
+      - run:
+          name: compress-artifacts
+          command: cd /home/circleci/project && tar --exclude=./.git --exclude=./node_modules -czf /home/circleci/build.tar.gz .
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - build.tar.gz
+      - store_artifacts:
+          path: /home/circleci/build.tar.gz # can't use env vars in store_artifacts per https://discuss.circleci.com/t/can-i-use-environment-variables-in-store-artifacts/11226
   integration_tests:
     docker:
       - image: circleci/node:10-browsers
@@ -39,7 +57,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - deps-{{ checksum "shrinkwrap.yaml" }}
+            - deps-{{ checksum "package-lock.json" }}
       - restore_cache:
           keys:
             - build-{{ .Revision }}
@@ -47,11 +65,12 @@ jobs:
           name: update-pnpm
           command: "sudo npm install -g pnpm@3.x"
       - run:
-          name: pnpm-install
-          command: pnpm install
+          name: npm-install
+          command: npm install
       - run:
           name: cypress
-          command: pnpm run cy:ci
+          command: npm run cy:ci
+  # should we be storing these reports anywhere? Maybe mocha generates its own?
   unit_tests:
     docker:
       - image: circleci/node:10-browsers
@@ -59,7 +78,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - deps-{{ checksum "shrinkwrap.yaml" }}
+            - deps-{{ checksum "package-lock.json" }}
       - restore_cache:
           keys:
             - build-{{ .Revision }}
@@ -67,11 +86,39 @@ jobs:
           name: update-pnpm
           command: "sudo npm install -g pnpm@3.x"
       - run:
-          name: pnpm-install
-          command: pnpm install
+          name: npm-install
+          command: npm install
       - run:
           name: mocha
-          command: pnpm run test
+          command: npm run test
+
+  ###########################
+  # new for comunity infra  #
+  ###########################
+  deploy:
+    working_directory: /home/circleci/project
+    shell: /bin/bash --login
+
+    environment:
+      # empty set
+    
+    docker:
+      - image: circleci/node:10-browsers  # same as the other community jobs
+
+    steps:
+      - run: sudo apt-get update
+      - run: sudo apt-get install awscli
+      - checkout
+      - attach_workspace:
+          at: /home/circleci
+      - run: cp ./ci/ssh.config ~/.ssh/config
+      - run:
+          name: prep-asset-filename
+          command: "mv /home/circleci/build.tar.gz /home/circleci/$CIRCLE_SHA1.tar.gz"
+      - run:
+          name: deploy-to-hosts
+          command:  ./ci/deploy.sh $CIRCLE_SHA1
+
 workflows:
   version: 2.1
   regular-workflow:
@@ -80,3 +127,10 @@ workflows:
       - unit_tests:
           requires:
             - lint_and_build
+      - deploy:
+          requires:
+            - unit_tests
+          filters:
+            branches:
+              only:
+                staging

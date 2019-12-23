@@ -96,7 +96,7 @@ export async function createCollection({ api, name, teamId, createNotification }
   const coverColor = pickRandomColor();
 
   try {
-    const { data: collection } = await api.post('collections', {
+    const { data: collection } = await api.post('v1/collections', {
       name,
       description,
       url,

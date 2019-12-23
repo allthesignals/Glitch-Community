@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -x
+
+# If we have CIRCLE_BRANCH this is running in CircleCI; set ENVIRONMENT appropriately
+# and use the CircleCI env for secrets
+if [[ -v CIRCLE_BRANCH ]];
+then
+  case "${CIRCLE_BRANCH}" in
+    master)
+      export ENVIRONMENT=production
+      export COMMUNITY_AWS_BOOTSTRAP_SECRET="${COMMUNITY_PRODUCTION_BOOTSTRAP_SECRET}"
+      ;;
+    staging)
+      export ENVIRONMENT=staging
+      export COMMUNITY_AWS_BOOTSTRAP_SECRET="${COMMUNITY_STAGING_BOOTSTRAP_SECRET}"
+      ;;
+    *)
+      echo "Can't infer ENVIRONMENT from CIRCLE_BRANCH"
+      exit 1
+  esac
+fi
+
+# set the COMMUNITY_BOOTSTRAP_BUCKET, JUMP_DOMAIN, and key id appropriately
+case "${ENVIRONMENT}" in
+  production)
+    export COMMUNITY_BOOTSTRAP_BUCKET=
+    export JUMP_DOMAIN=jump.glitch.com
+    export COMMUNITY_AWS_BOOTSTRAP_KEY=
+    ;;
+  staging)
+    export COMMUNITY_BOOTSTRAP_BUCKET=community-bootstrap-bucket20191205165831056600000001
+    export JUMP_DOMAIN=jump.staging.glitch.com
+    export COMMUNITY_AWS_BOOTSTRAP_KEY=AKIA6O2CCK6XTDYMEAM4
+    ;;
+  *)
+    echo "Unknown environment ${ENVIRONMENT}"
+    exit 1
+esac
