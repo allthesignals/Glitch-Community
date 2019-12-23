@@ -29,6 +29,7 @@ if [[ -f "/home/circleci/$CIRCLE_SHA.tar.gz" ]]; then
 
   # maybe upload
   if aws s3api head-object --bucket "$COMMUNITY_BOOTSTRAP_BUCKET" --key "$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; then
+    code=$?
     echo "$CIRCLE_SHA.tar.gz exists in S3"
   else
     #   this build is not in s3
