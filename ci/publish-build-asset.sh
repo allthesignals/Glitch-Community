@@ -47,7 +47,6 @@ if [[ -f "/home/circleci/$CIRCLE_SHA.tar.gz" ]]; then
 
   if [[ "$code" -ne 0 ]]; then
     echo "Failed to update LAST_DEPLOYED_SHA"
-    exit "$code"
   fi
 
 else
