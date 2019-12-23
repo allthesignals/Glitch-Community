@@ -9,7 +9,6 @@ import NewProjectPop from 'Components/new-project-pop';
 import CategoriesGrid from 'Components/categories-grid';
 import { lightColors } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
-import { AnalyticsContext } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
 import { useWindowSize } from 'Hooks/use-window-size';
 
@@ -47,7 +46,7 @@ function OnboardingBanner() {
 
   if (!fakeSignedIn) {
     return (
-      <AnalyticsContext properties={{ origin: `${isHomepage ? 'homepage' : 'profile'} onboarding banner` }}>
+      <>
         <div className={styles.banner} style={backgroundStyles}>
           <div className={styles.illustration}>
             <Illustration />
@@ -86,7 +85,7 @@ function OnboardingBanner() {
             </div>
           </div>
         </div>
-      </AnalyticsContext>
+      </>
     );
   }
   return null;

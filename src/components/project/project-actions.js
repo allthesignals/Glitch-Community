@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Popover } from '@fogcreek/shared-components';
 
+import ResponsiveButton from 'Components/buttons/responsive-button';
 import { getShowUrl, getEditorUrl, getRemixUrl } from 'Models/project';
-import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 import LeaveProjectPopover from './leave-project-pop';
 
 import { emoji } from '../global.styl';
@@ -35,20 +35,11 @@ EditButtonCta.defaultProps = {
 };
 
 // the Edit Button that appears below the embed
-export const EditButton = ({ name, isMember, size }) => {
-  const [width] = useWindowSize();
-  let editButtonText = null;
-  if (width && width < mediumSmallViewport) {
-    editButtonText = isMember ? 'Edit' : 'View';
-  } else {
-    editButtonText = isMember ? 'Edit Project' : 'View Source';
-  }
-  return (
-    <Button as="a" href={getEditorUrl(name)} size={size}>
-      {editButtonText}
-    </Button>
-  );
-};
+export const EditButton = ({ name, isMember, size }) => (
+  <ResponsiveButton as="a" href={getEditorUrl(name)} size={size} shortText={isMember ? 'Edit' : 'View'}>
+    {isMember ? 'Edit Project' : 'View Source'}
+  </ResponsiveButton>
+);
 
 EditButton.propTypes = {
   name: PropTypes.string.isRequired,
@@ -59,20 +50,11 @@ EditButton.defaultProps = {
   isMember: false,
 };
 
-export const RemixButton = ({ name, isMember, onClick }) => {
-  const [width] = useWindowSize();
-
-  let remixButtonText = 'Remix';
-  if (!width || width > mediumSmallViewport) {
-    remixButtonText = isMember ? `${remixButtonText} This` : `${remixButtonText} Your Own`;
-  }
-
-  return (
-    <Button as="a" href={getRemixUrl(name)} size="small" onClick={onClick}>
-      {remixButtonText} <Icon className={emoji} icon="microphone" />
-    </Button>
-  );
-};
+export const RemixButton = ({ name, isMember, onClick }) => (
+  <ResponsiveButton as="a" href={getRemixUrl(name)} size="small" onClick={onClick} shortText="Remix" icon={<Icon className={emoji} icon="microphone" />}>
+    {isMember ? 'Remix This' : 'Remix Your Own'}
+  </ResponsiveButton>
+);
 
 RemixButton.propTypes = {
   name: PropTypes.string.isRequired,
@@ -86,44 +68,36 @@ RemixButton.defaultProps = {
 };
 
 export const MembershipButton = ({ project, isMember, isTeamProject, leaveProject, joinProject, refreshEmbed }) => {
-  const [width] = useWindowSize();
-
   if (!isMember && joinProject) {
-    let joinProjectBtnText = 'Join Team Project';
-
-    if (width && width < mediumSmallViewport) {
-      joinProjectBtnText = 'Join';
-    }
     return isTeamProject ? (
-      <Button
+      <ResponsiveButton
         size="small"
         onClick={() => {
           joinProject();
           refreshEmbed();
         }}
+        shortText="Join"
+        icon={<Icon icon="rainbow" />}
       >
-        {joinProjectBtnText} <Icon icon="rainbow" />
-      </Button>
+        Join Team Project
+      </ResponsiveButton>
     ) : null;
   }
 
   // let team members leave directly, warn non team members
   if (isTeamProject && leaveProject) {
-    let leaveProjectBtnText = 'Leave Project';
-    if (width && width < mediumSmallViewport) {
-      leaveProjectBtnText = 'Leave';
-    }
-
     return (
-      <Button
+      <ResponsiveButton
         size="small"
         onClick={() => {
           leaveProject(project);
           refreshEmbed();
         }}
+        shortText="Leave"
+        icon={<Icon icon="wave" />}
       >
-        {leaveProjectBtnText} <Icon icon="wave" />
-      </Button>
+        Leave Project
+      </ResponsiveButton>
     );
   }
   return (

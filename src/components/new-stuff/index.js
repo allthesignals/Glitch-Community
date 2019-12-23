@@ -5,7 +5,6 @@ import { Button, CheckboxButton, Icon } from '@fogcreek/shared-components';
 import { Overlay, OverlaySection, OverlayTitle, OverlayBackground } from 'Components/overlays';
 import { PopoverContainer } from 'Components/popover';
 
-import { useTracker } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import useUserPref from 'State/user-prefs';
 import { useGlobals } from 'State/globals';
@@ -95,12 +94,10 @@ const NewStuff = ({ children }) => {
   const latestId = Math.max(...pupdates.map(({ id }) => id));
 
   const [log, setLog] = useState(pupdates);
-  const track = useTracker('pupdates');
 
   const renderOuter = ({ visible, openPopover }) => {
     const pupVisible = isSignedIn && showNewStuff && newStuffReadId < latestId;
     const show = () => {
-      track();
       openPopover();
       const unreadStuff = pupdates.filter(({ id }) => id > newStuffReadId);
       setLog(unreadStuff.length ? unreadStuff : pupdates);

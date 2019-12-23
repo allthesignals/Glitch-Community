@@ -8,7 +8,6 @@ import { hexToRgbA, isDarkColor } from 'Utils/color';
 
 import { findIndex } from 'lodash';
 import { Icon, Popover, ResultsList, ResultItem, ResultName, UnstyledButton, ButtonGroup, ButtonSegment } from '@fogcreek/shared-components';
-import { AnalyticsContext, useTrackedFunc } from 'State/segment-analytics';
 
 import Markdown from 'Components/text/markdown';
 import FeaturedProject from 'Components/project/featured-project';
@@ -47,25 +46,25 @@ const PlayerControls = ({ featuredProject, currentProjectIndex, setCurrentProjec
     setAnnouncement(`Showing project ${newIndex + 1} of ${projects.length}, ${projects[newIndex].domain}`);
   };
 
-  const onClickOnProject = useTrackedFunc((project, onClose) => {
+  const onClickOnProject = (project, onClose) => {
     const selectedProjectIndex = findIndex(projects, (p) => p.id === project.id);
     changeSelectedProject(selectedProjectIndex);
     onClose();
-  }, 'Selected Project from Collection Player Dropdown');
+  };
 
-  const back = useTrackedFunc(() => {
+  const back = () => {
     if (currentProjectIndex > 0) {
       const newIndex = currentProjectIndex - 1;
       changeSelectedProject(newIndex);
     }
-  }, 'Clicked Back in Collection Player');
+  };
 
-  const forward = useTrackedFunc(() => {
+  const forward = () => {
     if (currentProjectIndex < projects.length - 1) {
       const newIndex = currentProjectIndex + 1;
       changeSelectedProject(newIndex);
     }
-  }, 'Clicked Forward in Collection Player');
+  };
 
   return (
     <>
@@ -177,14 +176,7 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
   }, [currentProjectIndex]);
 
   return (
-    <AnalyticsContext
-      properties={{
-        isOnCollectionPlayRoute: true,
-        hasNote: !!featuredProject.note,
-        placementOfProjectInCollection: `${currentProjectIndex + 1}/${projects.length}`,
-        currentProjectId: featuredProject.id,
-      }}
-    >
+    <>
       <div
         className={classnames(styles.playerContainer, isDarkColor(collection.coverColor) && styles.dark)}
         style={{ backgroundColor: hexToRgbA(collection.coverColor), borderColor: collection.coverColor }}
@@ -222,7 +214,7 @@ const CollectionProjectsPlayer = withRouter(({ history, match, isAuthorized, fun
           isPlayer
         />
       </div>
-    </AnalyticsContext>
+    </>
   );
 });
 

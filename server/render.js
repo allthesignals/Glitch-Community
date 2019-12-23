@@ -108,7 +108,6 @@ module.exports = async (url, context) => {
   const key = [
     context.SSR_SIGNED_IN ? 'signed-in' : 'signed-out',
     context.SSR_HAS_PROJECTS ? 'with-projects' : 'without-projects',
-    ...Object.entries(context.AB_TESTS).map(([test, assignment]) => `${test}=${assignment}`),
     ...optimizelyClient.getEnabledFeatures(String(context.OPTIMIZELY_ID), optimizelyAttributes),
     url,
   ];

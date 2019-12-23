@@ -4,7 +4,6 @@ import { LocalStyle, lightTheme } from '@fogcreek/shared-components';
 import { HelmetProvider } from 'react-helmet-async';
 
 import Store from 'State/store';
-import { AnalyticsContext } from 'State/segment-analytics';
 import { APIContextProvider } from 'State/api';
 import { APICacheProvider } from 'State/api-cache';
 import { LocalStorageProvider } from 'State/local-storage';
@@ -25,22 +24,20 @@ const App = ({ apiCache, helmetContext }) => (
         <Store>
           <NotificationsProvider>
             <LocalStorageProvider>
-              <AnalyticsContext context={{ groupId: '0' }}>
-                <APIContextProvider>
-                  <APICacheProvider initial={apiCache}>
-                    <ProjectContextProvider>
-                      <CollectionContextProvider>
-                        <HelmetProvider context={helmetContext}>
-                          <SuperUserBanner />
-                          <OfflineNotice />
-                          <Router />
-                          <RolloutsUserSync />
-                        </HelmetProvider>
-                      </CollectionContextProvider>
-                    </ProjectContextProvider>
-                  </APICacheProvider>
-                </APIContextProvider>
-              </AnalyticsContext>
+              <APIContextProvider>
+                <APICacheProvider initial={apiCache}>
+                  <ProjectContextProvider>
+                    <CollectionContextProvider>
+                      <HelmetProvider context={helmetContext}>
+                        <SuperUserBanner />
+                        <OfflineNotice />
+                        <Router />
+                        <RolloutsUserSync />
+                      </HelmetProvider>
+                    </CollectionContextProvider>
+                  </ProjectContextProvider>
+                </APICacheProvider>
+              </APIContextProvider>
             </LocalStorageProvider>
           </NotificationsProvider>
         </Store>

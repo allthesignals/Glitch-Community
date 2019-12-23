@@ -65,7 +65,7 @@ function track() {
   try {
     const { analytics } = window;
     if (analytics) {
-      analytics.page({}, { groupId: '0' });
+      analytics.page('');
     }
   } catch (ex) {
     console.error('Error tracking page transition.', ex);
@@ -113,7 +113,7 @@ const Router = () => {
       <Route path="/index/preview" exact render={({ location }) => <NewHomePagePreview key={location.key} />} />
       <Route path="/pupdates/preview" exact render={({ location }) => <PupdatesPreview key={location.key} />} />
 
-      <Route path="/login" exact render={({ location }) => <LoginPage key={location.key} />} />
+      <Route path="/login" exact render={({ location }) => <OauthSignIn key={location.key} />} />
       <Route
         path="/login/facebook"
         exact
@@ -157,12 +157,8 @@ const Router = () => {
         )}
       />
 
-      <Route
-        path="/delete"
-        exact
-        render={({ location }) => <DeleteTokenPage token={parse(location.search, 'token')} />}
-      />
-      <Route path="/signin" exact render={({ location }) => <OauthSignIn key={location.key} />} />
+      <Route path="/delete" exact render={({ location }) => <DeleteTokenPage token={parse(location.search, 'token')} />} />
+      <Route path="/signin" exact render={({ location }) => <LoginPage key={location.key} />} />
 
       <Route path="/join/@:teamUrl/:joinToken" exact render={({ location, match }) => <JoinTeamPage key={location.key} {...match.params} />} />
 
@@ -170,11 +166,18 @@ const Router = () => {
 
       <Route path="/~:name" exact render={({ location, match }) => <ProjectPage key={location.key} name={punycode.toASCII(match.params.name)} />} />
       <Route path="/~:name/edit" exact render={({ location, match }) => <Redirect key={location.key} to={`/edit/#!/${match.params.name}`} />} />
-      <Route path="/~:name/console" exact render={({ location, match }) => <Redirect key={location.key} to={`/edit/console.html?${match.params.name}`} />} />
+      <Route
+        path="/~:name/console"
+        exact
+        render={({ location, match }) => <Redirect key={location.key} to={`/edit/console.html?${match.params.name}`} />}
+      />
 
       <Route path="/@:name" exact render={({ location, match }) => <TeamOrUserPage key={location.key} name={match.params.name} />} />
 
-      <Route path="/@:owner/:name/(play)?/:projectId?" render={({ match }) => <CollectionPage owner={match.params.owner} name={match.params.name} />} />
+      <Route
+        path="/@:owner/:name/(play)?/:projectId?"
+        render={({ match }) => <CollectionPage owner={match.params.owner} name={match.params.name} />}
+      />
 
       <Route
         path="/user/:id(\d+)"
@@ -213,7 +216,11 @@ const Router = () => {
       <Route path="/about/press" exact render={({ location }) => <AboutPressPage key={location.key} />} />
       <Route path="/about" exact render={({ location }) => <AboutPage key={location.key} />} />
 
-      <Route path="/people" exact render={({ location }) => <ExternalRedirect to="https://jobs.lever.co/glitch/042d31a3-72dd-46e4-af25-a7bb6b7fe32e" key={location.key} />} />
+      <Route
+        path="/people"
+        exact
+        render={({ location }) => <ExternalRedirect to="https://jobs.lever.co/glitch/042d31a3-72dd-46e4-af25-a7bb6b7fe32e" key={location.key} />}
+      />
       <Route path={['/partners', '/foryourapi', '/forteams']} exact render={({ location }) => <Redirect to="/teams/" key={location.key} />} />
       <Route path="/website-starter-kit" exact render={({ location }) => <Redirect to="/culture/website-starter-kit/" key={location.key} />} />
       <Route path="/react-starter-kit" exact render={({ location }) => <Redirect to="/culture/react-starter-kit/" key={location.key} />} />
@@ -225,9 +232,16 @@ const Router = () => {
       <Route path="/careers" render={({ location }) => <Redirect to="/about/careers/" key={location.key} />} />
       <Route path={['/mythbustersjr', '/mythbusters']} render={({ location }) => <Redirect to="/culture/mythbusters-jr/" key={location.key} />} />
       <Route path="/saastr" exact render={({ location }) => <ExternalRedirect to="https://saastr.glitch.me/" key={location.key} />} />
-      <Route path="/vscode" exact render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />} />
+      <Route
+        path="/vscode"
+        exact
+        render={({ location }) => <ExternalRedirect to="https://marketplace.visualstudio.com/items?itemName=glitch.glitch" key={location.key} />}
+      />
       <Route path="/support" exact render={({ location }) => <ExternalRedirect to="https://support.glitch.com" key={location.key} />} />
-      <Route path="/featured" render={({ location, match }) => <Redirect to={`/culture${location.pathname.slice(match.url.length)}`} key={location.key} />} />
+      <Route
+        path="/featured"
+        render={({ location, match }) => <Redirect to={`/culture${location.pathname.slice(match.url.length)}`} key={location.key} />}
+      />
 
       {EXTERNAL_ROUTES.map((route) => (
         <Route key={route} path={route} render={({ location }) => <ExternalPageReloader key={location.key} />} />

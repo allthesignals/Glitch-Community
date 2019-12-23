@@ -22,19 +22,16 @@
     
     <!-- styles from styled-components -->
     <%- styleTags %>
-
-    <!-- app styles -->
-    <% for (let i = 0; i < styles.length; ++i) { %>
-    <link rel="stylesheet" type="text/css" href="<%= styles[i] %>">
-    <% } %>
-    
-
     
     <% if (!html) { %>
     <noscript><style>#fallback, #fallback-noscript { display: inline-block !important } #fallback-img { display: block !important }</style></noscript>
     <% } %>
   </head>
   <body <%- helmet ? helmet.bodyAttributes.toString() : null %>>
+    <!-- app styles -->
+    <% for (let i = 0; i < styles.length; ++i) { %>
+      <link rel="stylesheet" type="text/css" href="<%= styles[i] %>">
+    <% } %>
     <script>
       var RUNNING_ON = '<%= RUNNING_ON %>';
       var ENVIRONMENT = '<%= ENVIRONMENT %>';
@@ -46,7 +43,6 @@
       var API_CACHE = <%- JSON.stringify(API_CACHE) %>;
       var SSR_SIGNED_IN = <%- SSR_SIGNED_IN %>;
       var SSR_HAS_PROJECTS = <%- SSR_HAS_PROJECTS %>;
-      var AB_TESTS = <%- JSON.stringify(AB_TESTS) %>;
       var OPTIMIZELY_DATA = <%- JSON.stringify(OPTIMIZELY_DATA) %>;
       var OPTIMIZELY_ID = <%- JSON.stringify(OPTIMIZELY_ID) %>;
       var BUILD_COMPLETE = <%- BUILD_COMPLETE %>;
@@ -138,7 +134,11 @@
         // js failed to parse, odds are the css would be broken too
         showFallback('noscript');
       }
-      analytics.load("ZE6VsqXhz5izMM2cqRrVEDIrJWUKntoX");
+      if (window.location.hostname === "glitch.com") {
+        analytics.load("N8NetCAuTbHYGqtQtb44FFBSPUXwsAu2"); /* WebProd source in Segment */
+      } else {
+        analytics.load("Oa74eP053IozA1ouL7my4svHW36qGGmM"); /* WebDev source in Segment */
+      }
     </script>
   </body>
 </html>

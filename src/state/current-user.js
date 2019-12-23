@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { mapKeys, memoize } from 'lodash';
+import { memoize } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -47,12 +47,12 @@ function identifyUser(user) {
         user.id,
         {
           name: user.name,
-          login: user.login,
+          userHandle: user.login,
           email,
-          created_at: user.createdAt,
-          ...mapKeys(window.AB_TESTS, (assignment, test) => `abtest-${test}`),
+          createdAt: user.createdAt,
+          projectCount: user.projects.length,
+          teamCount: user.teams.length,
         },
-        { groupId: '0' },
       );
     }
     if (user) {

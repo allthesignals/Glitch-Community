@@ -22,7 +22,7 @@ const FilterContainer = ({ filters, activeFilter, setFilter }) => {
     label: (
       <>
         {filter.label}
-        {filter.hits && <Badge>{filter.hits > filter.maxHits ? `${filter.maxHits}+` : filter.hits}</Badge>}
+        {filter.hits && <Badge className={styles.otherResults}>{filter.hits > filter.maxHits ? `${filter.maxHits}+` : filter.hits}</Badge>}
       </>
     ),
   }));

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import { Button, Icon, Mark } from '@fogcreek/shared-components';
+import { useLocation } from 'react-router-dom';
 
 import { Overlay, OverlaySection, OverlayBackground } from 'Components/overlays';
 import { PopoverContainer } from 'Components/popover';
@@ -22,21 +23,14 @@ const OverlayVideoBody = () => (
 );
 
 const OverlayVideo = () => {
-  const track = useTracker('Watch Video clicked');
-  const renderOuter = ({ visible, togglePopover }) => {
-    const onClick = () => {
-      track();
-      togglePopover();
-    };
-    return (
-      <>
-        <Button onClick={onClick}>
-          Watch Video <Icon className={emoji} icon="playButton" />
-        </Button>
-        {visible && <OverlayBackground />}
-      </>
-    );
-  };
+  const renderOuter = ({ visible, togglePopover }) => (
+    <>
+      <Button onClick={togglePopover}>
+        Watch Video <Icon className={emoji} icon="playButton" />
+      </Button>
+      {visible && <OverlayBackground />}
+    </>
+  );
 
   return (
     <PopoverContainer outer={renderOuter}>
@@ -47,11 +41,16 @@ const OverlayVideo = () => {
 
 const InlineVideo = () => {
   const [showVideo, setShowVideo] = useState(false);
-  const track = useTracker();
   const wistiaRef = React.createRef();
 
+  const location = useLocation();
+  const trackWatchVideo = useTracker('Marketing CTA Clicked');
+  const watchButtonText = 'Watch Video';
   const onClick = () => {
-    track('Watch Video clicked');
+    trackWatchVideo({
+      targetText: watchButtonText,
+      url: location.pathname,
+    });
     setShowVideo(true);
   };
 
@@ -79,7 +78,7 @@ const InlineVideo = () => {
           <div className={styles.bannerVideoPoster} onClick={onClick} aria-hidden="true" />
           <span className={styles.bannerVideoButton}>
             <Button onClick={onClick}>
-              Watch Video <Icon className={emoji} icon="playButton" />
+              {watchButtonText} <Icon className={emoji} icon="playButton" />
             </Button>
           </span>
         </>
@@ -111,35 +110,50 @@ const Chrome = () => (
 
 const Unmarked = ({ children }) => <span className={styles.unmarked}>{children}</span>;
 
-const Banner = () => (
-  <header id="banner" className={styles.banner}>
-    <div className={styles.bannerCopyContainer}>
-      <h1>
-        <Unmarked>Glitch is the</Unmarked>
-        <br />
-        <Mark color="#1596F9" textColor="white">friendly community</Mark>
-        <br />
-        <Unmarked>where everyone</Unmarked>
-        <br />
-        <Mark color="#2EA073" textColor="white">builds the web</Mark>
-      </h1>
-      <div className={styles.bannerCopyAndButtons}>
-        <p>Simple, powerful, free tools to create and use millions of apps.</p>
-        <div className={styles.bannerButtonWrap}>
-          <Button as={Link} variant="cta" to="/create">
-            Start Creating <Icon icon="arrowRight" />
-          </Button>
-          <div className={styles.watchVideoBtnWrap}>
-            <OverlayVideo />
+const Banner = () => {
+  const trackCreateLink = useTracker('Marketing CTA Clicked');
+  const createLinkText = 'Start Creating';
+  const onCreateLinkClick = () => {
+    trackCreateLink({
+      targetText: createLinkText,
+      url: '/',
+      href: '/create',
+    });
+  };
+  return (
+    <header id="banner" className={styles.banner}>
+      <div className={styles.bannerCopyContainer}>
+        <h1>
+          <Unmarked>Glitch is the</Unmarked>
+          <br />
+          <Mark color="#1596F9" textColor="white">
+            friendly community
+          </Mark>
+          <br />
+          <Unmarked>where everyone</Unmarked>
+          <br />
+          <Mark color="#2EA073" textColor="white">
+            builds the web
+          </Mark>
+        </h1>
+        <div className={styles.bannerCopyAndButtons}>
+          <p>Simple, powerful, free tools to create and use millions of apps.</p>
+          <div className={styles.bannerButtonWrap}>
+            <Button as={Link} variant="cta" to="/create" onClick={onCreateLinkClick}>
+              {createLinkText} <Icon icon="arrowRight" />
+            </Button>
+            <div className={styles.watchVideoBtnWrap}>
+              <OverlayVideo />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div className={styles.bannerVideoWrap}>
-      <Chrome />
-      <InlineVideo />
-    </div>
-  </header>
-);
+      <div className={styles.bannerVideoWrap}>
+        <Chrome />
+        <InlineVideo />
+      </div>
+    </header>
+  );
+};
 
 export default Banner;

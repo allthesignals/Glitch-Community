@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
+import { useGlobals } from 'State/globals';
+import { useTracker } from 'State/segment-analytics';
 
 const WistiaVideo = React.forwardRef(({ videoId }, ref) => {
+  const { location } = useGlobals();
+  const trackPlayVideo = useTracker('Marketing CTA Clicked', {
+    targetText: 'Play Video',
+    url: location.pathname,
+  });
+
   useEffect(() => {
     const loadedScripts = new Set();
     const scriptTags = document.querySelectorAll('script');
@@ -26,6 +34,20 @@ const WistiaVideo = React.forwardRef(({ videoId }, ref) => {
     // so we need to check that the script tags are on this page, and load them if not
     loadScript(`//fast.wistia.com/embed/medias/${videoId}.jsonp`);
     loadScript('//fast.wistia.com/assets/external/E-v1.js');
+  }, []);
+
+  useEffect(() => {
+    /* eslint-disable no-underscore-dangle */
+    window._wq = window._wq || [];
+    window._wq.push({
+      id: videoId,
+      onReady: (video) => {
+        video.bind('play', () => {
+          trackPlayVideo();
+          return video.unbind;
+        });
+      },
+    });
   }, []);
 
   return (

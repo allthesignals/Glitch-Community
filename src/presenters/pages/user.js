@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { orderBy, partition } from 'lodash';
 import { Icon } from '@fogcreek/shared-components';
@@ -17,7 +17,7 @@ import DeletedProjects from 'Components/deleted-projects';
 import ReportButton from 'Components/report-abuse-pop';
 import AuthDescription from 'Components/fields/auth-description';
 import { getUserLink } from 'Models/user';
-import { AnalyticsContext } from 'State/segment-analytics';
+import { useTracker } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 import { useUserEditor } from 'State/user';
 import useFocusFirst from 'Hooks/use-focus-first';
@@ -32,7 +32,9 @@ function syncPageToLogin(login) {
   history.replaceState(null, null, getUserLink({ login }));
 }
 
-const GlitchTeamMemberIndicator = () => <TooltipContainer type="info" target={<Icon icon="glitchLogo" alt="Glitch Team Member" />} tooltip="Glitch Team Member" />;
+const GlitchTeamMemberIndicator = () => (
+  <TooltipContainer type="info" target={<Icon icon="glitchLogo" alt="Glitch Team Member" />} tooltip="Glitch Team Member" />
+);
 
 const NameAndLogin = ({ name, login, teams, isAuthorized, updateName, updateLogin }) => {
   const isOnGlitchTeam = teams.some((team) => team.id === glitchTeamId);
@@ -102,14 +104,38 @@ const UserPage = ({ user: initialUser }) => {
 
   useFocusFirst();
 
-  const { currentUser: maybeCurrentUser } = useCurrentUser();
+  const trackOtherProfileViewed = useTracker('Profile Viewed');
+  const trackCurrentUserProfileViewed = useTracker('Personal Profile Viewed');
+  const { currentUser: maybeCurrentUser, fetched: userFetched } = useCurrentUser();
   const isSupport = maybeCurrentUser && maybeCurrentUser.isSupport;
   const isAuthorized = maybeCurrentUser && maybeCurrentUser.id === user.id;
+
+  useEffect(() => {
+    if (!userFetched) {
+      return;
+    }
+    if (isAuthorized) {
+      trackCurrentUserProfileViewed({
+        projectCount: maybeCurrentUser.projects.length,
+        collectionCount: maybeCurrentUser.collections.length,
+      });
+    } else {
+      trackOtherProfileViewed({
+        ownerId: user.id,
+        ownerHandle: user.login,
+        projectCount: user.projects.length,
+        collectionCount: user.collections.length,
+      });
+    }
+  }, [user.id, maybeCurrentUser, userFetched]);
 
   const pinnedSet = new Set(user.pinnedProjects.map(({ id }) => id));
   // filter featuredProject out of both pinned & recent projects
   const sortedProjects = orderBy(user.projects, (project) => project.updatedAt, ['desc']);
-  const [pinnedProjects, recentProjects] = partition(sortedProjects.filter(({ id }) => id !== featuredProjectId), ({ id }) => pinnedSet.has(id));
+  const [pinnedProjects, recentProjects] = partition(
+    sortedProjects.filter(({ id }) => id !== featuredProjectId),
+    ({ id }) => pinnedSet.has(id),
+  );
   const featuredProject = user.projects.find(({ id }) => id === featuredProjectId);
 
   const renderedDescription = React.useMemo(() => renderText(user.description), [user.description]);
@@ -239,10 +265,4 @@ UserPage.propTypes = {
   }).isRequired,
 };
 
-const UserPageContainer = ({ user }) => (
-  <AnalyticsContext properties={{ origin: 'user' }}>
-    <UserPage user={user} />
-  </AnalyticsContext>
-);
-
-export default UserPageContainer;
+export default UserPage;

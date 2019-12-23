@@ -154,14 +154,18 @@ export function CreateCollectionWithProject({ project, addProjectToCollection, o
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
   const options = getOptions(currentUser);
-  const track = useTracker('Create Collection clicked', (inherited) => ({
-    ...inherited,
-    origin: `${inherited.origin} project`,
-  }));
+  const track = useTracker('Collection Created');
   const onSubmit = async (collection) => {
-    track();
     onClose();
     if (!collection || !collection.id) return;
+
+    track({
+      collectionId: collection.id,
+      collectionName: collection.name,
+      team: collection.teamId !== -1,
+      teamId: collection.teamId,
+      collectionVisibility: collection.private ? 'private' : 'public',
+    });
 
     try {
       await addProjectToCollection(project, collection);
@@ -185,10 +189,16 @@ const CreateCollectionPop = ({ team }) => {
   const history = useHistory();
   const { currentUser } = useCurrentUser();
   const options = team ? [getTeamOption(team)] : [getUserOption(currentUser)];
-  const track = useTracker('Create Collection clicked');
+  const track = useTracker('Collection Created');
   const onSubmit = (collection) => {
-    track();
     if (collection) {
+      track({
+        collectionId: collection.id,
+        collectionName: collection.name,
+        team: collection.teamId !== -1,
+        teamId: collection.teamId,
+        collectionVisibility: collection.private ? 'private' : 'public',
+      });
       history.push(`/@${collection.fullUrl}`);
     }
   };

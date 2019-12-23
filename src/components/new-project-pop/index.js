@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Actions, Button, Info, Loader, Popover } from '@fogcreek/shared-components';
 
 import ResultsList from 'Components/containers/results-list';
-import { TrackedExternalLink } from 'Components/link';
+import Link from 'Components/link';
 import { ProjectAvatar } from 'Components/images/avatar';
 import { getRemixUrl } from 'Models/project';
-import { useTracker } from 'State/segment-analytics';
 import { createAPIHook } from 'State/api';
 
 import styles from './styles.styl';
@@ -42,16 +41,12 @@ const NewProjectPop = ({ projects }) => (
       {projects.length ? (
         <ResultsList items={projects}>
           {(project) => (
-            <TrackedExternalLink
+            <Link
               key={project.id}
               to={getRemixUrl(project.domain)}
-              name="New Project Clicked"
-              properties={{
-                baseDomain: project.domain,
-              }}
             >
               <NewProjectResultItem project={project} />
-            </TrackedExternalLink>
+            </Link>
           )}
         </ResultsList>
       ) : (
@@ -90,7 +85,6 @@ const useNewProjectAPI = createAPIHook(async (api) => {
 function NewProjectPopButton() {
   const { value } = useNewProjectAPI();
   const projects = value || [];
-  const onOpen = useTracker('open new-project pop');
 
   return (
     <Popover
@@ -98,10 +92,7 @@ function NewProjectPopButton() {
       align="right"
       renderLabel={({ onClick, ref }) => (
         <Button
-          onClick={() => {
-            onOpen();
-            onClick();
-          }}
+          onClick={onClick}
           ref={ref}
           size="small"
         >
