@@ -13,16 +13,19 @@ const DataLoader = ({ children, get, renderError, renderLoader, captureException
     let isCurrent = true;
     get(api, args).then(
       (data) => {
+        console.log({ data })
         if (!isCurrent) return;
         setState({ status: 'ready', value: data });
       },
       (error) => {
         console.error(error);
-        if (!isCurrent) return;
-        setState({ status: 'error', value: error });
-        if (shouldCaptureException) {
+        console.log("beepboop")
+        // if (!isCurrent) return;
+        // setState({ status: 'error', value: error });
+        console.log("gunna capture exception")
+        // if (shouldCaptureException) {
           captureException(error);
-        }
+        // }
       },
     );
     return () => {

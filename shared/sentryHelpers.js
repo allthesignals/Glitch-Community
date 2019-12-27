@@ -13,9 +13,12 @@ const filterSecrets = function(jsonEvent) {
 const ignoreErrors = ['Network Error', 'Request error', 'timeout', 'status code 401'];
 
 const beforeSend = function(projectDomain, apiEnv, event) {
-  if (!onProductionSite(projectDomain, apiEnv)) {
-    return null;
-  }
+  // if (!onProductionSite(projectDomain, apiEnv)) {
+  //   return null;
+  // }
+  console.log("before send")
+
+  console.log(onProductionSite, projectDomain, apiEnv)
 
   const json = filterSecrets(JSON.stringify(event));
   return JSON.parse(json);

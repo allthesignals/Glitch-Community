@@ -19,9 +19,10 @@ if (isBrowser) {
     Sentry.init({
       dsn: 'https://4f1a68242b6944738df12eecc34d377c@sentry.io/1246508',
       environment: window.ENVIRONMENT,
-      release: `community@${window.BUILD_TIMESTAMP}`,
-      ignoreErrors: SentryHelpers.ignoreErrors,
-      whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/],
+      // environment: 'production',
+      release: `community@somethingfake`,
+      // ignoreErrors: SentryHelpers.ignoreErrors,
+      // whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/],
       beforeSend(event, { originalException }) {
         // do not send errors to sentry when user uses UC Browser
         const ucBrowser = window.navigator.userAgent.match(/^Mozilla\/5\.0 .+ Gecko\/$/);

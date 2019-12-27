@@ -19,7 +19,22 @@ const loadMoreCollectionsFromAuthor = (api, collection) => {
   const authorType = collection.teamId === -1 ? 'user' : 'team';
   const authorEndpoint = `${authorType}s`;
   const authorId = authorType === 'user' ? collection.userId : collection.teamId;
+  // Sentry.configureScope(function(scope) {
+  //   scope.setExtra("url", url);
+  //   scope.setExtra("status", st)
+  // });
+  // throw new Error("sarah testing with cassey")
+  // console.log("url", url)
+  // if (url.includes("collection")) {
+  const thing = api.get("https://roan-amphibian.glitch.me/throwTestError");
+  // console.log(thing)
+  return thing
 
+  // } else {
+  //   const { data } = await api.get(url);
+  //   return data;
+
+  // }
   // get up to 10 collections from the author
   return getSingleItem(api, `v1/${authorEndpoint}/${authorId}/collections?limit=10&orderKey=createdAt&orderDirection=DESC`, 'items');
 };
