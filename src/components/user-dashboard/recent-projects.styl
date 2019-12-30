@@ -13,7 +13,7 @@
   button:hover
     background-color: secondary-background-hover
 
-  @media(max-width: 800px)
+  @media(max-width: 900px)
     width: 100%
     margin-bottom: 1rem
 
@@ -27,7 +27,7 @@
   
 .avatarWrap
   display: none
-  @media(min-width: 800px)
+  @media(min-width: 901px)
     margin-right: 1rem
     display: block
     flex: 0 0 18%
@@ -42,10 +42,10 @@
   flex: 1 1 auto
   display: flex
   max-width: 82% /* because avatarWrap has flex-basis of 18% */
-  padding-right: 10px
-  @media(max-width: 801px)
+  /* padding-right: 10px */
+  @media(max-width: 901px)
     max-width: 100%
-  @media(max-width:800px)
+  @media(max-width:900px)
     flex-direction: column
   & > article
     margin: 0
@@ -58,9 +58,9 @@ svg.arrow
   vertical-align: middle
 
 .ideasWrapper
-  @media(max-width: 800px)
+  @media(max-width: 900px)
     margin-left: -16px
-    border-radius: 0
+    border-radius: 0 0 5px 5px
     margin-top: 16px
 
 .projectItemWrap
@@ -77,18 +77,15 @@ svg.arrow
   flex: 2
   max-width: 100%
   justify-content: space-around
-  padding-right: 10px
   .individualProjectItemWrap
     max-width: calc(50% - 10px)
+    @media(max-width:650px)
+      max-width: unset
 
 .noIdeasRecentProjectsWrapper
   display: flex
   flex: 2
   max-width: 100%
-  .individualProjectItemWrap
-    max-width: calc(33.33333% - 10px)
-    @media(max-width:650px)
-      max-width: unset
 
 .individualProjectItemWrap
   flex: 1

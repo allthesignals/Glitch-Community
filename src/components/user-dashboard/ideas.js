@@ -21,7 +21,7 @@ const Idea = ({ project }) => {
       </span>
 
       <div className={styles.ideaContentContainer}>
-        <Button as="a" href={getProjectLink(project.domain)}>
+        <Button as="a" href={getProjectLink(project.domain)} textWrap>
           {project.domain}
         </Button>
         <Text size="14px">{project.description}</Text>
