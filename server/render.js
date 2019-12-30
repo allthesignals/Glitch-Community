@@ -46,7 +46,7 @@ const watch = (location, entry, verb) => {
   return loadClient;
 };
 
-let tempRequireClient = () => require('../src/server');
+let tempRequireClient = () => require('../build/server');
 if ((!process.env.BUILD_TYPE || process.env.BUILD_TYPE === 'memory') && process.env.NODE_ENV !== 'production') {
   const SRC = path.join(__dirname, '../src');
   const stylus = require('stylus');
@@ -104,10 +104,11 @@ const render = async (url, { OPTIMIZELY_ID, ...context }) => {
 
 module.exports = async (url, context) => {
   const optimizelyClient = await getOptimizelyClient();
+  const optimizelyAttributes = { hasLogin: context.SSR_SIGNED_IN, hasProjects: context.SSR_HAS_PROJECTS };
   const key = [
     context.SSR_SIGNED_IN ? 'signed-in' : 'signed-out',
-    ...Object.entries(context.AB_TESTS).map(([test, assignment]) => `${test}=${assignment}`),
-    ...optimizelyClient.getEnabledFeatures(String(context.OPTIMIZELY_ID)),
+    context.SSR_HAS_PROJECTS ? 'with-projects' : 'without-projects',
+    ...optimizelyClient.getEnabledFeatures(String(context.OPTIMIZELY_ID), optimizelyAttributes),
     url,
   ];
   return getFromCache(key.join(' '), render, url, context);

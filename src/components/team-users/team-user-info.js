@@ -10,7 +10,6 @@ import { UserLink } from 'Components/link';
 import Thanks from 'Components/thanks';
 import TransparentButton from 'Components/buttons/transparent-button';
 
-import { useTrackedFunc, useTracker } from 'State/segment-analytics';
 import { createAPIHook } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
@@ -129,14 +128,12 @@ const TeamUserInfo = ({ user, team, onMakeAdmin, onRemoveAdmin, onRemoveUser, sh
   const canCurrentUserRemoveUser = currentUserHasRemovePriveleges && !teamHasOnlyOneMember && !selectedUserIsOnlyAdmin;
 
   const userTeamProjects = useProjects(user.id, team);
-  const trackRemoveClicked = useTracker('Remove from Team clicked');
 
   // if user is a member of no projects, skip the confirm step
   const onShowOrRemoveUser = () => {
     if (userTeamProjects.status === 'ready' && userTeamProjects.value.length === 0) {
       onRemoveUser();
     } else {
-      trackRemoveClicked();
       showRemoveUser();
     }
   };
@@ -195,13 +192,13 @@ const adminStatusDisplay = (team, user) => {
 const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) => {
   const { createNotification } = useNotifications();
 
-  const removeUser = useTrackedFunc(async (selectedProjects = []) => {
+  const removeUser = async (selectedProjects = []) => {
     await removeUserFromTeam(user, selectedProjects);
     createNotification(`${getDisplayName(user)} removed from Team`);
-  }, 'Remove from Team submitted');
+  };
 
-  const onRemoveAdmin = useTrackedFunc(() => updateUserPermissions(user, MEMBER_ACCESS_LEVEL), 'Remove Admin Status clicked');
-  const onMakeAdmin = useTrackedFunc(() => updateUserPermissions(user, ADMIN_ACCESS_LEVEL), 'Make an Admin clicked');
+  const onRemoveAdmin = () => updateUserPermissions(user, MEMBER_ACCESS_LEVEL);
+  const onMakeAdmin = () => updateUserPermissions(user, ADMIN_ACCESS_LEVEL);
 
   return (
     <Popover

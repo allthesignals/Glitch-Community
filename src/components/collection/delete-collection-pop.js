@@ -42,7 +42,7 @@ const DeleteCollectionPop = ({ collection, animateAndDeleteCollection }) => {
         <p>Deleting {collection.name} will remove this collection. No projects will be deleted.</p>
       </Actions>
       <DangerZone>
-        <Button size="small" variant="warning" onClick={deleteThisCollection}>
+        <Button textWrap size="small" variant="warning" onClick={deleteThisCollection}>
           Delete {collection.name} <Icon className={emoji} icon="bomb" />
           {collectionIsDeleting && <Loader style={{ width: '25px' }} />}
         </Button>

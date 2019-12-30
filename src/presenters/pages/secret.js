@@ -4,7 +4,6 @@ import { Button, VisuallyHidden } from '@fogcreek/shared-components';
 import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import { useDevToggles } from 'State/dev-toggles';
-import useTest, { useTestAssignments, tests } from 'State/ab-tests';
 import { useRolloutsDebug } from 'State/rollouts';
 
 import styles from './secret.styl';
@@ -27,28 +26,6 @@ function useZeldaMusicalCue() {
     }
   }, []);
 }
-
-const ABTests = () => {
-  const text = useTest('Just-A-Test');
-  const [assignments, reassign] = useTestAssignments();
-  return (
-    <section className={styles.footerSection}>
-      Your A/B test groups ({text}):
-      <ul className={styles.abTests}>
-        {Object.entries(tests).map(([test, groups]) => (
-          <li key={test} className={styles.abTest}>
-            <label>
-              {test}:&nbsp;
-              <select value={assignments[test]} onChange={(event) => reassign(test, event.target.value)}>
-                {Object.keys(groups).map((group) => <option value={group} key={group}>{group}</option>)}
-              </select>
-            </label>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-};
 
 const RolloutFeature = ({ feature, enabled, forced, setForced }) => {
   const onChange = (event) => {
@@ -125,14 +102,13 @@ const Secret = () => {
       <ul className={styles.toggles}>
         {toggleData.map(({ name, description }) => (
           <li key={name} className={isEnabled(name) ? styles.lit : ''}>
-            <Button size="small" title={description} ariaPressed={isEnabled(name) ? 'true' : 'false'} onClick={() => toggleTheToggle(name)}>
+            <Button textWrap size="small" title={description} ariaPressed={isEnabled(name) ? 'true' : 'false'} onClick={() => toggleTheToggle(name)}>
               {name}
             </Button>
           </li>
         ))}
       </ul>
       <Rollouts />
-      <ABTests />
     </main>
   );
 };

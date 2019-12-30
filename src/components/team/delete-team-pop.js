@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Actions, Button, DangerZone, Icon, Loader, Popover, Title } from '@fogcreek/shared-components';
 
 import Image from 'Components/images/image';
-import { useAPIHandlers } from 'State/api';
+import { useTeamEditor } from 'State/team';
 import { useNotifications } from 'State/notifications';
 // import { teamAdmins } from 'Models/team';
 
@@ -12,9 +12,9 @@ import { emoji } from '../global.styl';
 
 const illustration = 'https://cdn.glitch.com/c53fd895-ee00-4295-b111-7e024967a033%2Fdelete-team.svg?1531267699621';
 
-const DeleteTeamPop = ({ team }) => {
+const DeleteTeamPop = ({ team: initialTeam }) => {
   const history = useHistory();
-  const { deleteItem } = useAPIHandlers();
+  const [team, funcs] = useTeamEditor(initialTeam);
   const { createNotification } = useNotifications();
   const [teamIsDeleting, setTeamIsDeleting] = useState(false);
 
@@ -22,7 +22,7 @@ const DeleteTeamPop = ({ team }) => {
     if (teamIsDeleting) return;
     setTeamIsDeleting(true);
     try {
-      await deleteItem({ team });
+      await funcs.deleteTeam({ team });
       history.push('/');
     } catch (error) {
       console.error('deleteTeam', error, error.response);
@@ -41,7 +41,7 @@ const DeleteTeamPop = ({ team }) => {
         </p>
       </Actions>
       <DangerZone>
-        <Button size="small" variant="warning" onClick={deleteTeam}>
+        <Button textWrap size="small" variant="warning" onClick={deleteTeam}>
           Delete {team.name} <Icon className={emoji} icon="bomb" />
           {teamIsDeleting && <Loader style={{ width: '14px' }} />}
         </Button>
@@ -61,7 +61,7 @@ DeleteTeamPop.propTypes = {
 };
 
 const DeleteTeam = ({ team }) => (
-  <Popover align="left" renderLabel={({ onClick, ref }) => <Button size="small" variant="warning" onClick={onClick} ref={ref}>Delete {team.name} <Icon className={emoji} icon="bomb" /></Button>}>
+  <Popover align="left" renderLabel={({ onClick, ref }) => <Button textWrap size="small" variant="warning" onClick={onClick} ref={ref}>Delete {team.name} <Icon className={emoji} icon="bomb" /></Button>}>
     {() => <DeleteTeamPop team={team} />}
   </Popover>
 );

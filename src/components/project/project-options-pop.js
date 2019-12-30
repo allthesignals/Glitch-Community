@@ -6,7 +6,6 @@ import { Actions, Button, DangerZone, Icon, Popover, Title } from '@fogcreek/sha
 import Image from 'Components/images/image';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { PopoverMenuButton } from 'Components/popover';
-import { useTrackedFunc } from 'State/segment-analytics';
 import { useCurrentUser } from 'State/current-user';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
@@ -15,7 +14,6 @@ import styles from './popover.styl';
 import { emoji } from '../global.styl';
 
 const isTeamProject = ({ currentUser, project }) => currentUser.teams.some((team) => project.teamIds.includes(team.id));
-const useTrackedLeaveProject = (leaveProject) => useTrackedFunc(leaveProject, 'Leave Project clicked');
 
 /* eslint-disable react/no-array-index-key */
 const PopoverMenuItems = ({ children }) =>
@@ -53,10 +51,7 @@ const PopoverMenuItems = ({ children }) =>
 
 const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
   const illustration = 'https://cdn.glitch.com/55f8497b-3334-43ca-851e-6c9780082244%2Fwave.png?v=1502123444938';
-  const trackLeaveProject = useTrackedLeaveProject(leaveProject);
-
   return (
-
     <>
       <Title>Leave {project.domain}</Title>
       <Actions>
@@ -68,7 +63,7 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
         <Button
           variant="warning"
           onClick={() => {
-            trackLeaveProject(project);
+            leaveProject(project);
             togglePopover();
           }}
         >
@@ -81,9 +76,7 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
 
 const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover, leaveProjectPopover, leaveProjectDirect }) => {
   const { currentUser } = useCurrentUser();
-  const onClickDeleteProject = useTrackedFunc(projectOptions.deleteProject, 'Delete Project clicked');
-  const trackedLeaveProjectDirect = useTrackedLeaveProject(leaveProjectDirect);
-  const onClickLeaveProject = isTeamProject({ currentUser, project }) ? trackedLeaveProjectDirect : leaveProjectPopover;
+  const onClickLeaveProject = isTeamProject({ currentUser, project }) ? leaveProjectDirect : leaveProjectPopover;
 
   return (
     <PopoverMenuItems>
@@ -99,7 +92,7 @@ const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover
         [{ onClick: leaveProjectDirect && onClickLeaveProject, label: 'Leave Project', emoji: 'wave' }],
         [
           { onClick: projectOptions.removeProjectFromTeam, label: 'Remove Project', emoji: 'thumbsDown', dangerZone: true },
-          { onClick: onClickDeleteProject, label: 'Delete Project', emoji: 'bomb', dangerZone: true },
+          { onClick: projectOptions.deleteProject, label: 'Delete Project', emoji: 'bomb', dangerZone: true },
           { onClick: projectOptions.removeProjectFromCollection, label: 'Remove from Collection', emoji: 'thumbsDown', dangerZone: true },
         ],
       ]}

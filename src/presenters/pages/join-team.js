@@ -20,7 +20,7 @@ const JoinTeamPage = ({ teamUrl, joinToken }) => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await api.post(`/teams/join/${joinToken}`);
+        const { data } = await api.post(`v1/teams/join/${joinToken}`);
         if (data.tfaToken) {
           setDestination();
           history.push(`/login/two-factor?token=${data.tfaToken}`);

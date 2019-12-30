@@ -6,14 +6,13 @@ const util = require('util');
 const dayjs = require('dayjs');
 const punycode = require('punycode');
 
-const { getProject, getTeam, getUser, getCollection, getZine } = require('./api');
+const { getProject, getTeam, getUser, getCollection } = require('./api');
 const webpackExpressMiddleware = require('./webpack');
 const constants = require('./constants');
 const { allByKeys } = require('../shared/api');
 const renderPage = require('./render');
-const getAssignments = require('./ab-tests');
 const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
-const { readCuratedContent, writeCuratedContent } = require('./curated');
+const { getHomeData, reloadHomeData, getPupdates, reloadPupdates, getZinePosts, reloadZinePosts } = require('./curated');
 
 module.exports = function(EXTERNAL_ROUTES) {
   const app = express.Router();
@@ -75,15 +74,15 @@ module.exports = function(EXTERNAL_ROUTES) {
 
     const url = new URL(req.url, `${req.protocol}://${req.hostname}`);
     const currentContext = await allByKeys({
-      AB_TESTS: getAssignments(req, res),
       API_CACHE,
       EXTERNAL_ROUTES,
-      HOME_CONTENT: readCuratedContent('home'),
+      HOME_CONTENT: getHomeData(),
       OPTIMIZELY_DATA: getOptimizelyData(),
       OPTIMIZELY_ID: getOptimizelyId(req, res),
-      PUPDATES_CONTENT: readCuratedContent('pupdates'),
+      PUPDATES_CONTENT: getPupdates(),
       SSR_SIGNED_IN: !!req.cookies.hasLogin,
-      ZINE_POSTS: getZine(),
+      SSR_HAS_PROJECTS: !!req.cookies.hasProjects,
+      ZINE_POSTS: getZinePosts(),
     });
 
     const renderedContext = await renderPage(url, currentContext);
@@ -162,21 +161,32 @@ module.exports = function(EXTERNAL_ROUTES) {
 
   app.get('/api/:page', async (req, res) => {
     const { page } = req.params;
-    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
-
-    const data = await readCuratedContent(page);
-    res.send(data);
+    if (page === 'home') {
+      res.send(await getHomeData());
+    } else if (page === 'pupdates') {
+      res.send(await getPupdates());
+    } else if (page === 'zine') {
+      res.send(await getZinePosts());
+    } else {
+      res.sendStatus(400);
+    }
   });
 
   app.post('/api/:page', async (req, res) => {
     const { page } = req.params;
-    if (!['home', 'pupdates'].includes(page)) return res.sendStatus(400);
-
-    if (req.headers.authorization === process.env.CMS_POST_SECRET) {
-      await writeCuratedContent({ page, data: req.body });
+    if (req.headers.authorization !== process.env.CMS_POST_SECRET) {
+      res.sendStatus(403);
+    } else if (page === 'home') {
+      await reloadHomeData();
+      res.sendStatus(200);
+    } else if (page === 'pupdates') {
+      await reloadPupdates();
+      res.sendStatus(200);
+    } else if (page === 'zine') {
+      await reloadZinePosts();
       res.sendStatus(200);
     } else {
-      res.sendStatus(403);
+      res.sendStatus(400);
     }
   });
 

@@ -9,7 +9,6 @@ import BookmarkButton from 'Components/buttons/bookmark-button';
 
 import { useCurrentUser } from 'State/current-user';
 import { useToggleBookmark } from 'State/collection';
-import { useTrackedFunc } from 'State/segment-analytics';
 
 import FeaturedProjectOptionsPop from './featured-project-options-pop';
 import styles from './featured-project.styl';
@@ -44,19 +43,15 @@ const Top = ({
     </div>
     <div className={styles.right}>
       {!isAnonymousUser && !window.location.pathname.includes('my-stuff') && (
-        <div className={styles.bookmarkButtonContainer}>
-          <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={featuredProject.domain} />
-        </div>
+        <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={featuredProject.domain} />
       )}
       {isAuthorized && !(isPlayer && !!featuredProject.note) && (
-        <div className={styles.unfeatureBtn}>
-          <FeaturedProjectOptionsPop
-            unfeatureProject={unfeatureProject}
-            createNote={createNote}
-            hasNote={!!featuredProject.note}
-            isPlayer={isPlayer}
-          />
-        </div>
+        <FeaturedProjectOptionsPop
+          unfeatureProject={unfeatureProject}
+          createNote={createNote}
+          hasNote={!!featuredProject.note}
+          isPlayer={isPlayer}
+        />
       )}
     </div>
   </div>
@@ -78,15 +73,6 @@ const FeaturedProject = ({
 
   const isAnonymousUser = !currentUser.login;
 
-  const bookmarkAction = useTrackedFunc(toggleBookmark, 'My Stuff Button Clicked', (inherited) => ({
-    ...inherited,
-    projectName: featuredProject.domain,
-    baseProjectId: featuredProject.baseId || featuredProject.baseProject,
-    userId: currentUser.id,
-    origin: `${inherited.origin}-featured-project`,
-    isAddingToMyStuff: !hasBookmarked,
-  }));
-
   return (
     <div data-cy="featured-project" className={styles.featuredProject}>
       <AnimationContainer animation={slideDown} onAnimationEnd={unfeatureProject}>
@@ -102,7 +88,7 @@ const FeaturedProject = ({
                 unfeatureProject={animateAndUnfeatureProject}
                 createNote={collection ? () => displayNewNote(featuredProject) : null}
                 isAnonymousUser={isAnonymousUser}
-                bookmarkAction={bookmarkAction}
+                bookmarkAction={toggleBookmark}
                 hasBookmarked={hasBookmarked}
                 isPlayer={isPlayer}
               />

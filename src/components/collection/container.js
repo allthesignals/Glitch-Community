@@ -17,7 +17,6 @@ import { BookmarkAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
 import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
-import { useTrackedFunc } from 'State/segment-analytics';
 import CollectionProjectsGridView from 'Components/collection/collection-projects-grid-view';
 import CollectionProjectsPlayer from 'Components/collection/collection-projects-player';
 import styles from './container.styl';
@@ -44,37 +43,27 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
     avatar = <CollectionAvatar collection={collection} />;
   }
 
-  const setPrivate = useTrackedFunc(() => funcs.updatePrivacy(!collection.private), 'Collection Privacy Changed', (inherited) => ({
-    ...inherited,
-    isSettingToPrivate: !collection.private,
-  }));
+  const setPrivate = () => funcs.updatePrivacy(!collection.private);
 
   const onPlayPage = match.params[0] === 'play' && collection.projects.length > 0;
 
-  const togglePlay = useTrackedFunc(
-    () => {
-      const newLocation = {};
-      if (onPlayPage) {
-        newLocation.pathname = `/@${match.params.owner}/${match.params.name}`;
-        newLocation.state = {
-          preventScroll: true,
-        };
-        setAnnouncement('Collection is in Play View');
-      } else {
-        newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
-        newLocation.state = {
-          preventScroll: true,
-        };
-        setAnnouncement('Collection in Grid View');
-      }
-      history.push(newLocation);
-    },
-    'Collection Play Toggle Clicked',
-    (inherited) => ({
-      ...inherited,
-      isPressingPlay: !onPlayPage,
-    }),
-  );
+  const togglePlay = () => {
+    const newLocation = {};
+    if (onPlayPage) {
+      newLocation.pathname = `/@${match.params.owner}/${match.params.name}`;
+      newLocation.state = {
+        preventScroll: true,
+      };
+      setAnnouncement('Collection is in Play View');
+    } else {
+      newLocation.pathname = `/@${match.params.owner}/${match.params.name}/play`;
+      newLocation.state = {
+        preventScroll: true,
+      };
+      setAnnouncement('Collection in Grid View');
+    }
+    history.push(newLocation);
+  };
 
   return (
     <article className={classnames(styles.container, isDarkColor(collection.coverColor) && styles.dark)}>

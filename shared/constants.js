@@ -31,7 +31,7 @@ const envs = {
     OPTIMIZELY_KEY: 'GZMqH7Aou8QmcPV2hm16wj',
     PROJECTS_DOMAIN: 'glitch.development',
   },
-	local: {
+  local: {
     APP_URL: 'https://glitch.com',
     API_URL: process.env.FWD_SUBDOMAIN_PREFIX ? `https://${process.env.FWD_SUBDOMAIN_PREFIX}-glitch.fwd.wf/` : null,
     EDITOR_URL: 'https://glitch.com/edit/',
@@ -40,12 +40,14 @@ const envs = {
     FACEBOOK_CLIENT_ID: '1121393391305429',
     OPTIMIZELY_KEY: 'GZMqH7Aou8QmcPV2hm16wj',
     PROJECTS_DOMAIN: 'glitch.me',
-  }  
+  },
 };
 
 const tagline = 'friendly community where everyone can discover & create the best apps on the web.';
 const glitchTeamId = 74;
 
 module.exports = {
-  envs, tagline, glitchTeamId
+  envs,
+  tagline,
+  glitchTeamId,
 };

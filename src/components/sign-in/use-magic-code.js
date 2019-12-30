@@ -7,6 +7,7 @@ import Notification from 'Components/notification';
 import { useAPI } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { captureException } from 'Utils/sentry';
+import { useTracker } from 'State/segment-analytics';
 
 import styles from './styles.styl';
 
@@ -28,6 +29,8 @@ const UseMagicCode = ({ emailAddress, showTwoFactorPage }) => {
   const [code, setCode] = useState('');
   const [status, setStatus] = useState('ready');
   const isEnabled = code.length > 0;
+  const trackSignIn = useTracker('Signed In');
+  const trackAccountCreated = useTracker('Account Created');
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -38,6 +41,12 @@ const UseMagicCode = ({ emailAddress, showTwoFactorPage }) => {
         showTwoFactorPage();
       } else {
         login(data);
+
+        if (data.lastActiveDay === null) {
+          trackAccountCreated({ authType: 'magic code' });
+        }
+        trackSignIn({ authType: 'magic code' });
+
         setStatus('done');
       }
     } catch (error) {

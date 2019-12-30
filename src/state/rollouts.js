@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import { enums } from '@optimizely/optimizely-sdk';
 import { useTracker } from './segment-analytics';
 import { useCurrentUser } from './current-user';
+import { useGlobals } from './globals';
 import useUserPref from './user-prefs';
 
 // human readable rollout state to include in analytics
@@ -41,6 +42,22 @@ export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizely
 const defaultOverrides = {};
 const useOptimizely = () => useContext(Context);
 const useOverrides = () => useUserPref('optimizelyOverrides', defaultOverrides);
+// the id+attributes combo for the current user
+const useDefaultUser = () => {
+  const { optimizelyId } = useOptimizely();
+  const { currentUser } = useCurrentUser();
+  const { SSR_SIGNED_IN, SSR_HAS_PROJECTS } = useGlobals();
+  const attributes = useMemo(() => (
+    currentUser.id ? {
+      hasLogin: !!currentUser.login,
+      hasProjects: currentUser.projects.length > 0,
+    } : {
+      hasLogin: SSR_SIGNED_IN,
+      hasProjects: SSR_HAS_PROJECTS,
+    }
+  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS]);
+  return [optimizelyId, attributes];
+};
 
 const useOptimizelyValue = (getValue, dependencies) => {
   const { optimizely } = useOptimizely();
@@ -56,21 +73,19 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
-export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
+export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) => {
+  const { optimizely } = useOptimizely();
   const [overrides] = useOverrides();
   const raw = useOptimizelyValue(
-    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
-    [whichToggle, entityId],
+    (optimizelyInstance) => optimizelyInstance.isFeatureEnabled(whichToggle, String(entityId), attributes),
+    [whichToggle, entityId, attributes],
   );
   const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
 
   const track = useTracker('Experiment Viewed');
-  const { id } = useOptimizelyValue(
-    (optimizely) => optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle],
-    [whichToggle],
-  );
   useEffect(() => {
     const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
+    const { id } = optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle];
     track({
       experiment_id: id,
       experiment_name: whichToggle,
@@ -78,14 +93,14 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
       variant_type: variant,
       variant_description: description,
     });
-  }, [id, whichToggle, enabled]);
+  }, [optimizely, whichToggle, enabled]);
 
   return enabled;
 };
 
 export const useFeatureEnabled = (whichToggle) => {
-  const { optimizelyId } = useOptimizely();
-  return useFeatureEnabledForEntity(whichToggle, optimizelyId);
+  const [id, attributes] = useDefaultUser();
+  return useFeatureEnabledForEntity(whichToggle, id, attributes);
 };
 
 export const RolloutsUserSync = () => {
@@ -100,16 +115,16 @@ export const RolloutsUserSync = () => {
 };
 
 export const useRolloutsDebug = () => {
-  const { optimizelyId } = useOptimizely();
+  const [id, attributes] = useDefaultUser();
   const [overrides, setOverrides] = useOverrides();
   return useOptimizelyValue((optimizely) => {
     const config = optimizely.projectConfigManager.getConfig();
     const features = config.featureFlags.map(({ key }) => {
-      const enabled = optimizely.isFeatureEnabled(key, String(optimizelyId));
+      const enabled = optimizely.isFeatureEnabled(key, String(id), attributes);
       const forced = overrides[key];
       const setForced = (value) => setOverrides({ ...overrides, [key]: value });
       return { key, enabled, forced, setForced };
     });
     return { features };
-  }, [optimizelyId, overrides, setOverrides]);
+  }, [id, attributes, overrides, setOverrides]);
 };

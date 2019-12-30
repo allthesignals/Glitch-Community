@@ -9,9 +9,8 @@ import { getTeamLink } from 'Models/team';
 import { getUserLink } from 'Models/user';
 import { useGlobals } from 'State/globals';
 import WrappingLink from './wrapping-link';
-import TrackedExternalLink from './tracked-external-link';
 
-export { WrappingLink, TrackedExternalLink };
+export { WrappingLink };
 
 const Link = React.forwardRef(({ to, children, ...props }, ref) => {
   const { location, EXTERNAL_ROUTES } = useGlobals();
