@@ -10,10 +10,15 @@ import { getDisplayName } from 'Models/user';
 import styles from './profile-list.styl';
 
 const UserItem = ({ user, asLinks }) => {
+  // console.log(user);
   const avatar = <UserAvatar user={user} hideTooltip />;
   let tooltipTarget;
   if (asLinks) {
-    tooltipTarget = <UserLink user={user} draggable={false}>{avatar}</UserLink>;
+    tooltipTarget = (
+      <UserLink user={user} draggable={false}>
+        {avatar}
+      </UserLink>
+    );
   } else {
     tooltipTarget = avatar;
   }
@@ -25,7 +30,11 @@ const TeamItem = ({ team, asLinks }) => {
   const avatar = <TeamAvatar team={team} hideTooltip />;
   let tooltipTarget;
   if (asLinks) {
-    tooltipTarget = <TeamLink team={team} draggable={false}>{avatar}</TeamLink>;
+    tooltipTarget = (
+      <TeamLink team={team} draggable={false}>
+        {avatar}
+      </TeamLink>
+    );
   } else {
     tooltipTarget = avatar;
   }
@@ -41,7 +50,9 @@ const useResizeObserver = () => {
   const ref = useRef();
   const [width, setWidth] = useState(0);
   useEffect(() => {
+    console.log('in the resize observer effect');
     const setWidthOfRef = () => {
+      console.log('in the setWidthOfRef');
       if (ref.current) {
         const boundingClientRect = ref.current.getBoundingClientRect();
         if (boundingClientRect) {
@@ -87,12 +98,17 @@ const parametersForSize = {
 };
 
 const RowContainer = ({ size, users, teams, asLinks }) => {
-  const { ref, width } = useResizeObserver();
+  // const { ref, width } = useResizeObserver();
+  const ref = useRef();
+  const width = '500';
+  console.log(width);
   const { avatarWidth, userOffset, teamOffset } = parametersForSize[size];
-  const maxTeams = Math.floor(width / (avatarWidth + teamOffset));
+  /* const maxTeams = Math.floor(width / (avatarWidth + teamOffset));
   const remainingWidth = width - (avatarWidth + teamOffset) * teams.length - teamOffset;
-  const maxUsers = Math.floor((remainingWidth + userOffset) / (avatarWidth + userOffset));
-
+  const maxUsers = Math.floor((remainingWidth + userOffset) / (avatarWidth + userOffset)); */
+  const maxTeams = 1;
+  const maxUsers = 1;
+  console.log({ maxTeams, maxUsers });
   return (
     <ul ref={ref} className={classnames(styles.container, styles.row, styles[size])}>
       {teams.slice(0, maxTeams).map((team) => (
@@ -139,7 +155,11 @@ const GlitchTeamList = ({ size, asLinks }) => {
   const avatar = <AvatarBase name="Glitch Team" src={GLITCH_TEAM_AVATAR} color="#74ecfc" variant="roundrect" hideTooltip />;
   let tooltipTarget;
   if (asLinks) {
-    tooltipTarget = <TeamLink team={{ url: GLITCH_TEAM_URL }} draggable={false}>{avatar}</TeamLink>;
+    tooltipTarget = (
+      <TeamLink team={{ url: GLITCH_TEAM_URL }} draggable={false}>
+        {avatar}
+      </TeamLink>
+    );
   } else {
     tooltipTarget = avatar;
   }
@@ -167,6 +187,8 @@ export const ProfileItem = ({ user, team, glitchTeam, size, asLinks }) => (
 );
 
 const ProfileList = React.memo(({ size, users, teams, layout, glitchTeam, asLinks }) => {
+  console.log(users);
+  console.log(teams);
   if (glitchTeam) {
     return <GlitchTeamList size={size} asLinks={asLinks} />;
   }

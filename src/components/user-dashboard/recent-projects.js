@@ -53,7 +53,14 @@ const RecentProjects = () => {
 
   const ideasCount = 3 - numProjects;
   const twoIdeas = ideasCount === 2;
-  const recentProjectsExtraWrapperClass = twoIdeas ? styles.twoIdeasRecentProjectsWrapper : styles.oneIdeaRecentProjectsWrapper;
+  let recentProjectsExtraWrapperClass;
+  if (ideasCount === 1) {
+    recentProjectsExtraWrapperClass = styles.oneIdeaRecentProjectsWrapper;
+  } else if (ideasCount === 2) {
+    recentProjectsExtraWrapperClass = styles.twoIdeasRecentProjectsWrapper;
+  } else {
+    recentProjectsExtraWrapperClass = styles.noIdeasRecentProjectsWrapper;
+  }
   const ideasExtraWrapperClass = twoIdeas ? styles.twoIdeasIdeasWrapper : styles.oneIdeaIdeasWrapper;
   return (
     <section data-cy="recent-projects">
@@ -73,7 +80,7 @@ const RecentProjects = () => {
           <div className={styles.projectsWrap}>
             <div className={classnames(styles.projectItemWrap, recentProjectsExtraWrapperClass)}>
               {fetched ? (
-                projectsToShow.map((project) => <div className={styles.individualProjectItemWrap}><ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton /></div>)
+                projectsToShow.map((project) => <div key={project.id} className={styles.individualProjectItemWrap}><ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton /></div>)
               ) : (
                 <Loader style={{ width: '25px' }} />
               )}

@@ -5,30 +5,19 @@ import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
 import BookmarkButton from 'Components/buttons/bookmark-button';
-import { useCurrentUser } from 'State/current-user';
 import { getProjectLink, getIdeaThumbnailUrl } from 'Models/project';
 import { useCollectionProjects, useToggleBookmark } from 'State/collection';
-import { useTrackedFunc } from 'State/segment-analytics';
 import useSample from 'Hooks/use-sample';
 
 import styles from './styles.styl';
 
 const Idea = ({ project }) => {
-  const { currentUser } = useCurrentUser();
   const [hasBookmarked, toggleBookmark] = useToggleBookmark(project);
-
-  const bookmarkAction = useTrackedFunc(toggleBookmark, `Project ${hasBookmarked ? 'removed from my stuff' : 'added to my stuff'}`, (inherited) => ({
-    ...inherited,
-    projectName: project.domain,
-    baseProjectId: project.baseId || project.baseProject,
-    userId: currentUser.id,
-    origin: `${inherited.origin}-user-dashboard`,
-  }));
 
   return (
     <div className={styles.idea}>
       <span className={styles.ideaMyStuffBtn}>
-        <BookmarkButton action={bookmarkAction} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
+        <BookmarkButton action={toggleBookmark} initialIsBookmarked={hasBookmarked} projectName={project.domain} />
       </span>
 
       <div className={styles.ideaContentContainer}>

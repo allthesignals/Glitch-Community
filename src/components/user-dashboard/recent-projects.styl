@@ -27,10 +27,10 @@
   
 .avatarWrap
   display: none
-  @media(min-width: largeViewport)
+  @media(min-width: 800px)
     margin-right: 1rem
     display: block
-    flex: 0 0 14%
+    flex: 0 0 18%
   
 .userAvatar
   height: 0
@@ -40,8 +40,11 @@
   
 .projectsWrap
   flex: 1 1 auto
-  max-width: 100%
   display: flex
+  max-width: 82% /* because avatarWrap has flex-basis of 18% */
+  padding-right: 10px
+  @media(max-width: 801px)
+    max-width: 100%
   @media(max-width:800px)
     flex-direction: column
   & > article
@@ -61,8 +64,8 @@ svg.arrow
     margin-top: 16px
 
 .projectItemWrap
-  @media(min-width: 801px)
-    padding-right: 16px  
+  /* @media(min-width: 801px)
+     padding-right: 16px  */ 
   @media(max-width: 650px)
     flex-direction: column;
 
@@ -72,6 +75,23 @@ svg.arrow
 .oneIdeaRecentProjectsWrapper
   display: flex
   flex: 2
+  max-width: 100%
+  justify-content: space-around
+  padding-right: 10px
+  .individualProjectItemWrap
+    max-width: calc(50% - 10px)
+
+.noIdeasRecentProjectsWrapper
+  display: flex
+  flex: 2
+  max-width: 100%
+  .individualProjectItemWrap
+    max-width: calc(33.33333% - 10px)
+    @media(max-width:650px)
+      max-width: unset
+
+.individualProjectItemWrap
+  flex: 1
 
 .twoIdeasIdeasWrapper
   flex: 2
