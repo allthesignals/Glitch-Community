@@ -22,7 +22,7 @@ if (isBrowser) {
       // environment: 'production',
       release: `community@somethingfake`,
       // ignoreErrors: SentryHelpers.ignoreErrors,
-      // whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/],
+      // whitelistUrls: [/glitch\.com/, /glitch\.me/, /localhost/], note to us /localhost does not work the way we think it does
       beforeSend(event, { originalException }) {
         // do not send errors to sentry when user uses UC Browser
         const ucBrowser = window.navigator.userAgent.match(/^Mozilla\/5\.0 .+ Gecko\/$/);

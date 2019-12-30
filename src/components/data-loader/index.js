@@ -11,6 +11,7 @@ const DataLoader = ({ children, get, renderError, renderLoader, captureException
 
   useEffect(() => {
     let isCurrent = true;
+    const testError = new Error("trying to get error stacks to show")
     get(api, args).then(
       (data) => {
         console.log({ data })
@@ -19,10 +20,9 @@ const DataLoader = ({ children, get, renderError, renderLoader, captureException
       },
       (error) => {
         console.error(error);
-        console.log("beepboop")
+        error.stack = testError.stack
         // if (!isCurrent) return;
         // setState({ status: 'error', value: error });
-        console.log("gunna capture exception")
         // if (shouldCaptureException) {
           captureException(error);
         // }

@@ -27,7 +27,7 @@ const loadMoreCollectionsFromAuthor = (api, collection) => {
   // console.log("url", url)
   // if (url.includes("collection")) {
   const thing = api.get("https://roan-amphibian.glitch.me/throwTestError");
-  // console.log(thing)
+
   return thing
 
   // } else {
