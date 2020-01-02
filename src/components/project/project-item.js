@@ -120,7 +120,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <div className={styles.nameWrap}>
                         <div className={styles.itemButtonWrap}>
                           <Button
-                            textwrap
+                            textWrap
                             as="span"
                             disabled={!!project.suspendedReason}
                             imagePosition="left"

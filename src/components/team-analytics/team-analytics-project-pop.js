@@ -60,7 +60,7 @@ const TeamAnalyticsProjectPop = ({ projects, updateProject, currentProject }) =>
     align="left"
     className={widePopover}
     renderLabel={({ onClick, ref }) => (
-      <Button textwrap size="small" variant="secondary" onClick={onClick} ref={ref}>
+      <Button textWrap size="small" variant="secondary" onClick={onClick} ref={ref}>
         {currentProject.domain ? (
           <>
             Project: {currentProject.domain} <Dropdown />

@@ -57,7 +57,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
             align="left"
             className={mediumPopover}
             renderLabel={({ onClick, ref }) => (
-              <Button textwrap onClick={onClick} ref={ref} size="small" variant="warning">
+              <Button textWrap onClick={onClick} ref={ref} size="small" variant="warning">
                 Delete {collection.name} <Icon className={emoji} icon="bomb" />
               </Button>
             )}

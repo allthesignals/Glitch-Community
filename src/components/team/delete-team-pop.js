@@ -41,7 +41,7 @@ const DeleteTeamPop = ({ team: initialTeam }) => {
         </p>
       </Actions>
       <DangerZone>
-        <Button textwrap size="small" variant="warning" onClick={deleteTeam}>
+        <Button textWrap size="small" variant="warning" onClick={deleteTeam}>
           Delete {team.name} <Icon className={emoji} icon="bomb" />
           {teamIsDeleting && <Loader style={{ width: '14px' }} />}
         </Button>
@@ -61,7 +61,7 @@ DeleteTeamPop.propTypes = {
 };
 
 const DeleteTeam = ({ team }) => (
-  <Popover align="left" renderLabel={({ onClick, ref }) => <Button textwrap size="small" variant="warning" onClick={onClick} ref={ref}>Delete {team.name} <Icon className={emoji} icon="bomb" /></Button>}>
+  <Popover align="left" renderLabel={({ onClick, ref }) => <Button textWrap size="small" variant="warning" onClick={onClick} ref={ref}>Delete {team.name} <Icon className={emoji} icon="bomb" /></Button>}>
     {() => <DeleteTeamPop team={team} />}
   </Popover>
 );

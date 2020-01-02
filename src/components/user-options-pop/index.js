@@ -38,7 +38,7 @@ const TeamList = ({ teams, showCreateTeam }) => {
       {orderedTeams.map((team) => (
         <div className={styles.buttonWrap} key={team.id}>
           <Button
-            textwrap
+            textWrap
             as={TeamLink}
             team={team}
             size="small"
