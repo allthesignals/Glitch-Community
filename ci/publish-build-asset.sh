@@ -33,7 +33,7 @@ if [[ -f "/home/circleci/$CIRCLE_SHA.tar.gz" ]]; then
     echo "$CIRCLE_SHA.tar.gz exists in S3"
   else
     #   this build is not in s3
-    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$COMMUNITY_BOOTSTRAP_BUCKET/builds"; code=$?
+    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$COMMUNITY_BOOTSTRAP_BUCKET/builds/"; code=$?
   fi
 
   #update last_deployed_sha
