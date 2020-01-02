@@ -191,7 +191,7 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button textWrap as={TeamLink} team={team}>
+          <Button textwrap as={TeamLink} team={team}>
             {team.name}
           </Button>
         </div>

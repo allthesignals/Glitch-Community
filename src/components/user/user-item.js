@@ -16,13 +16,13 @@ const NameAndLogin = ({ user }) =>
   user.name ? (
     <>
       <div className={styles.itemButtonWrap}>
-        <Button textWrap as="span">{user.name}</Button>
+        <Button textwrap as="span">{user.name}</Button>
       </div>
       <div className={styles.login}>@{user.login}</div>
     </>
   ) : (
     <div className={styles.itemButtonWrap}>
-      <Button textWrap as="span">@{user.login}</Button>
+      <Button textwrap as="span">@{user.login}</Button>
     </div>
   );
 

@@ -138,7 +138,7 @@ const CuratedCollections = ({ content }) => (
       {({ title, description, fullUrl, users, count }, i) => (
         <CuratedCollectionContainer collectionStyle={collectionStyles[i]} users={users} href={`/@${fullUrl}`}>
           <div className={styles.curatedCollectionButtonWrap}>
-            <Button textWrap as="span">{title}</Button>
+            <Button textwrap as="span">{title}</Button>
           </div>
           {/* eslint-disable-next-line react/no-danger */}
           <span dangerouslySetInnerHTML={{ __html: description }} />
@@ -180,7 +180,7 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
             <h3 className={styles.h3}>{dek}</h3>
             {/* eslint-disable-next-line react/no-danger */}
             <span dangerouslySetInnerHTML={{ __html: summary }} />
-            <Button textWrap as={Link} to={href} onClick={() => trackUnifiedStoryCTA()}>
+            <Button textwrap as={Link} to={href} onClick={() => trackUnifiedStoryCTA()}>
               {cta} <Icon icon="arrowRight" />
             </Button>
           </div>
@@ -294,7 +294,7 @@ const BuildingOnGlitch = ({ content }) => {
             <h3>{title}</h3>
             {/* eslint-disable-next-line react/no-danger */}
             <span dangerouslySetInnerHTML={{ __html: description }} />
-            <Button textWrap as="span">
+            <Button textwrap as="span">
               {cta} <Icon icon="arrowRight" />
             </Button>
           </Link>
