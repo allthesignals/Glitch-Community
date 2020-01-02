@@ -72,12 +72,10 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
     }
   }, [singleAdminTeams]);
   async function triggerEmail() {
-    console.log(currentUser.id);
     try {
       await api.post(`/v1/users/${currentUser.id}/requestDeletion`);
       setPage('emailConfirm');
     } catch (error) {
-      console.log(error);
       createNotification('Unable to delete account, try again later.', { type: 'error' });
       captureException(error);
     }
