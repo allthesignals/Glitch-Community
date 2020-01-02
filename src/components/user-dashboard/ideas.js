@@ -13,7 +13,6 @@ import styles from './styles.styl';
 
 const Idea = ({ project }) => {
   const [hasBookmarked, toggleBookmark] = useToggleBookmark(project);
-
   return (
     <div className={styles.idea}>
       <span className={styles.ideaMyStuffBtn}>
@@ -21,7 +20,7 @@ const Idea = ({ project }) => {
       </span>
 
       <div className={styles.ideaContentContainer}>
-        <Button as="a" href={getProjectLink(project.domain)} textWrap>
+        <Button as="a" href={getProjectLink(project)} textWrap>
           {project.domain}
         </Button>
         <Text size="14px">{project.description}</Text>
