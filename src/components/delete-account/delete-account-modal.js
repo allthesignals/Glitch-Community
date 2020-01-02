@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import Pluralize from 'react-pluralize';
 import { Actions, Badge, Button, DangerZone, Icon, Info, Overlay, ResultsList, Title, useOverlay, mergeRefs } from '@fogcreek/shared-components';
 
+import { captureException } from 'Utils/sentry';
 import { useCurrentUser } from 'State/current-user';
+import { useAPI } from 'State/api';
+import { useNotifications } from 'State/notifications';
 
 import Link from 'Components/link';
 import TeamResultItem from 'Components/team/team-result-item';
@@ -50,6 +53,8 @@ DeleteInfo.propTypes = {
 };
 
 const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
+  const api = useAPI();
+  const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
   const [selectedTeam, onTeamSelection] = useState(null);
   const singleAdminTeams = currentUser.teams.filter(
@@ -66,6 +71,17 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       onTeamSelection(singleAdminTeams[0].id);
     }
   }, [singleAdminTeams]);
+  async function triggerEmail() {
+    console.log(currentUser.id);
+    try {
+      await api.post(`/v1/users/${currentUser.id}/requestDeletion`);
+      setPage('emailConfirm');
+    } catch (error) {
+      console.log(error);
+      createNotification('Unable to delete account, try again later.', { type: 'error' });
+      captureException(error);
+    }
+  }
   return (
     <>
       <Title>Transfer Team Ownership</Title>
@@ -100,7 +116,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
         </Info>
       )}
       <Actions>
-        <Button disabled={singleAdminTeams.length > 0} className={styles.actionButton} onClick={() => setPage('emailConfirm')}>
+        <Button disabled={singleAdminTeams.length > 0} className={styles.actionButton} onClick={() => triggerEmail()}>
           Continue to Delete Account
         </Button>
         <Button className={styles.actionButton} variant="secondary" ref={last} onClick={onClose}>
