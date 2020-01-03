@@ -288,7 +288,7 @@ export function useCollectionEditor(initialCollection) {
 
     updateNote: async ({ note, project }) => {
       note = (note || '').trim();
-      await updateProjectInCollection({ project, collection }, { annotation: note });
+      await updateProjectInCollection({ project, collection }, { note });
       updateProject({ note, isAddingANewNote: true }, project);
     },
 
