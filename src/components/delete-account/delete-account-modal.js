@@ -21,10 +21,10 @@ import { emoji } from '../global.styl';
 const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
   <>
     <Title onClose={onClose} onCloseRef={mergeRefs(first, focusedOnMount)}>
-      Close Account <Icon className={emoji} icon="coffin" />
+      Close Account
     </Title>
     <Actions>
-      <p>Once your account is closed, all of your project, teams and collections will be unavailable!</p>
+      <p>Once your account is closed, all of your projects, teams and collections will be unavailable!</p>
       <p>If you are sharing any teams or projects, we'll walk you though transferring ownership before you close your account.</p>
     </Actions>
     <Info>
@@ -199,7 +199,7 @@ const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
     <>
       <Title>Email Confirmation Sent</Title>
       <Actions>
-        <p>For security purposes, we've sent an email confirmation.</p>
+        <p>For security purposes, we've sent an email confirmation to the email associated with your account.</p>
         <p>Please click the link in the email to finish closing your account.</p>
         <p>
           If you choose to close your account,{' '}
@@ -231,8 +231,9 @@ const DeleteSettings = () => {
   return (
     <>
       <h2>Close Account</h2>
+      <p>Close your account, including all teams, projects, and collections.</p>
       <Button onClick={onOpen} ref={toggleRef}>
-        Close Account <Icon className={emoji} icon="coffin" />
+        Close Account
       </Button>
       <Overlay open={open} onClose={onClose}>
         {({ first, last, focusedOnMount }) => (
