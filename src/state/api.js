@@ -202,7 +202,7 @@ export const useAPIHandlers = () => {
       // teams / users
       // note: users are currently using v0 routes, but teams are using v1 routes
       addPinnedProject: ({ project, team, user }) =>
-        team 
+        team
           ? api.put(`/${entityPath({ team })}/pinnedProjects/${project.id}`)
           : api.post(`/${entityPath({ user })}/pinned-projects/${project.id}`),
       removePinnedProject: ({ project, team, user }) =>
