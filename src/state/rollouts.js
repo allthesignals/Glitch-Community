@@ -85,14 +85,18 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
   const track = useTracker('Experiment Viewed');
   useEffect(() => {
     const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
-    const { id } = optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle];
-    track({
-      experiment_id: id,
-      experiment_name: whichToggle,
-      experiment_group: enabled ? 'variant' : 'control',
-      variant_type: variant,
-      variant_description: description,
-    });
+    const config = optimizely.projectConfigManager.getConfig();
+    const { id, rolloutId } = config.featureKeyMap[whichToggle];
+    const running = config.rolloutIdMap[rolloutId].experiments.some(({ status }) => status === 'running');
+    if (running) {
+      track({
+        experiment_id: id,
+        experiment_name: whichToggle,
+        experiment_group: enabled ? 'variant' : 'control',
+        variant_type: variant,
+        variant_description: description,
+      });
+    }
   }, [optimizely, whichToggle, enabled]);
 
   return enabled;
