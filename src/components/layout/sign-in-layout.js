@@ -24,7 +24,7 @@ import { emoji } from '../global.styl';
 const SignInButtons = ({ trackClick }) => (
   <div className={styles.signInButtons}>
     {companyNames.map((companyName) => (
-      <SignInButton short companyName={companyName} key={companyName} onClick={() => trackClick({ authType: companyName })} />
+      <SignInButton short companyName={companyName} key={companyName} onClick={() => trackClick({ authType: companyName.toLowerCase() })} />
     ))}
   </div>
 );
