@@ -87,7 +87,7 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
     const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
     const config = optimizely.projectConfigManager.getConfig();
     const { id, rolloutId } = config.featureKeyMap[whichToggle];
-    const running = config.rolloutIdMap[rolloutId].experiments.some(({ status }) => status === 'running');
+    const running = config.rolloutIdMap[rolloutId].experiments.some(({ status }) => /running/i.test(status));
     if (running) {
       track({
         experiment_id: id,
