@@ -30,7 +30,7 @@ const ValidToken = () => {
 
   return (
     <div>
-      <h1>Your account has been deleted</h1>
+      <h1>Your account has been closed</h1>
       <p>We'll miss you on Glitch.</p>
       {isInitialized ? (
         <>
@@ -65,8 +65,8 @@ const ValidToken = () => {
 
 const InvalidToken = () => (
   <div>
-    <h1>Sorry, we were unable to delete your account</h1>
-    <p>The link you used to delete your account has expired. Please try again.</p>
+    <h1>Sorry, we were unable to close your account</h1>
+    <p>The link you used to close your account has expired. Please try again.</p>
   </div>
 );
 

@@ -21,24 +21,24 @@ import { emoji } from '../global.styl';
 const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
   <>
     <Title onClose={onClose} onCloseRef={mergeRefs(first, focusedOnMount)}>
-      Delete Account <Icon className={emoji} icon="coffin" />
+      Close Account <Icon className={emoji} icon="coffin" />
     </Title>
     <Actions>
-      <p>Once your account is deleted, all of your project, teams and collections will be gone forever!</p>
-      <p>If you are sharing any teams or projects, we'll walk you though transferring ownership before you delete your account.</p>
+      <p>Once your account is closed, all of your project, teams and collections will be unavailable!</p>
+      <p>If you are sharing any teams or projects, we'll walk you though transferring ownership before you close your account.</p>
     </Actions>
     <Info>
       <p>
-        You can export any of your projects but only <b>before</b> you delete your account.
+        You can export any of your projects but only <b>before</b> you close your account.
       </p>
       <Button onClick={() => console.log('Learning more')} className={styles.modalButton} size="small" variant="secondary">
         Learn about exporting <Icon className={emoji} icon="arrowRight" />
       </Button>
     </Info>
     <DangerZone>
-      <p>For security purposes, you must confirm via email before we delete your account.</p>
+      <p>For security purposes, you must confirm via email before we close your account.</p>
       <Button ref={last} onClick={() => setPage('projectOwnerTransfer')} className={styles.modalButton} size="small" variant="warning">
-        Continue to Delete Account
+        Continue to Close Account
       </Button>
     </DangerZone>
   </>
@@ -76,7 +76,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       await api.post(`/v1/users/${currentUser.id}/requestDeletion`);
       setPage('emailConfirm');
     } catch (error) {
-      createNotification('Unable to delete account, try again later.', { type: 'error' });
+      createNotification('Unable to close account, try again later.', { type: 'error' });
       captureException(error);
     }
   }
@@ -84,7 +84,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
     <>
       <Title>Transfer Team Ownership</Title>
       <Info>
-        You must <Link ref={mergeRefs(first, focusedOnMount)} to="/">pick a new team admin</Link> or <Link to="/">delete</Link> these teams before you can delete your account.
+        You must <Link ref={mergeRefs(first, focusedOnMount)} to="/">pick a new team admin</Link> or <Link to="/">deactivate</Link> these teams before you can close your account.
       </Info>
       {singleAdminTeams.length > 0 ? (
         <ResultsList value={selectedTeam} onChange={onTeamSelection} options={singleAdminTeams}>
@@ -103,7 +103,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       </Info>
       {otherTeams.length > 0 && (
         <Info>
-          If you delete your account, you will automatically be removed from these teams:{' '}
+          If you close your account, you will automatically be removed from these teams:{' '}
           {otherTeams
             .map((team) => (
               <Link key={team.id} to={`@${team.name}`}>
@@ -115,10 +115,10 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       )}
       <Actions>
         <Button disabled={singleAdminTeams.length > 0} className={styles.actionButton} onClick={() => triggerEmail()}>
-          Continue to Delete Account
+          Continue to Close Account
         </Button>
         <Button className={styles.actionButton} variant="secondary" ref={last} onClick={onClose}>
-          Close
+          Cancel
         </Button>
       </Actions>
     </>
@@ -172,10 +172,10 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       </Info>
       <Actions>
         <Button disabled={singleAdminProjects.length > 0} className={styles.actionButton} onClick={() => setPage('teamOwnerTransfer')}>
-          Continue to Delete Account
+          Continue to Close Account
         </Button>
         <Button className={styles.actionButton} variant="secondary" onClick={onClose} ref={last}>
-          Close
+          Cancel
         </Button>
       </Actions>
     </>
@@ -200,14 +200,14 @@ const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
       <Title>Email Confirmation Sent</Title>
       <Actions>
         <p>For security purposes, we've sent an email confirmation.</p>
-        <p>Please click the link in the email to finish deleting your account.</p>
+        <p>Please click the link in the email to finish closing your account.</p>
         <p>
-          If you choose to delete your account,{' '}
+          If you choose to close your account,{' '}
           <b>
             <Pluralize count={soloProjects.length} singular="project" />, <Pluralize count={soloTeams.length} singular="team" />, and{' '}
             <Pluralize count={soloCollections.length} singular="collection" />
           </b>{' '}
-          will be deleted forever.
+          will be made unavailable forever.
         </p>
       </Actions>
       <Actions>
@@ -230,9 +230,9 @@ const DeleteSettings = () => {
   const { open, onOpen, onClose, toggleRef } = useOverlay();
   return (
     <>
-      <h2>Delete Account</h2>
+      <h2>Close Account</h2>
       <Button onClick={onOpen} ref={toggleRef}>
-        Delete Account <Icon className={emoji} icon="coffin" />
+        Close Account <Icon className={emoji} icon="coffin" />
       </Button>
       <Overlay open={open} onClose={onClose}>
         {({ first, last, focusedOnMount }) => (
