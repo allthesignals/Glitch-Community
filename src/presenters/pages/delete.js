@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Layout from 'Components/layout';
-import { TextArea, Button, Icon } from '@fogcreek/shared-components';
+import { TextArea, Button, Icon, Loader } from '@fogcreek/shared-components';
 import Notification from 'Components/notification';
 import { useTracker, useIsAnalyticsInitialized } from 'State/segment-analytics';
 import useDevToggle from 'State/dev-toggles';
+import { useAPI } from 'State/api';
+import { useCurrentUser } from 'State/current-user';
+import { captureException } from 'Utils/sentry';
 
 import { emoji } from 'Components/global.styl';
 import { NotFoundPage } from './error';
@@ -67,28 +70,44 @@ const InvalidToken = () => (
   </div>
 );
 
-/* TODO:
-- if the token is valid we'll want to actually delete the account
-- which hopefully forces a logout, we may have to write some code to do that on the client side as well
-- we'll also probably need a loading state, will write this code once backend for it is complete
-*/
-const useTokenIsValid = (token) => token === 'good';
+async function deleteWithToken(token, api, setAccountIsDeleting, signOut) {
+  try {
+    await api.delete(`/v1/users?token=${token}`);
+    signOut();
+    setAccountIsDeleting(false);
+    return true;
+  } catch (error) {
+    captureException(error);
+    setAccountIsDeleting(false);
+    return false;
+  }
+}
 
 const DeleteTokenPage = ({ token }) => {
-  const tokenIsValid = useTokenIsValid(token);
   const deleteEnabled = useDevToggle('Account Deletion');
+  const [accountIsDeleting, setAccountIsDeleting] = useState(true);
 
-  if (!deleteEnabled) {
-    return <NotFoundPage />;
-  }
+  const api = useAPI();
+  const { clear: signOut } = useCurrentUser();
+  let tokenIsValid;
 
+  useEffect(() => {
+    tokenIsValid = deleteWithToken(token, api, setAccountIsDeleting, signOut);
+  }, []);
   return (
-    <Layout>
-      <Helmet title="Delete Confirmation Page" />
-      <main id="main" aria-label="Delete Confirmation Page">
-        {tokenIsValid ? <ValidToken /> : <InvalidToken />}
-      </main>
-    </Layout>
+    <>
+      {!deleteEnabled ? (
+        <NotFoundPage />
+      ) : (
+        <Layout>
+          <Helmet title="Delete Confirmation Page" />
+          <main id="main" aria-label="Delete Confirmation Page">
+            {accountIsDeleting && <Loader style={{ width: '25px' }} />}
+            {!accountIsDeleting && tokenIsValid ? <ValidToken /> : <InvalidToken />}
+          </main>
+        </Layout>
+      )}
+    </>
   );
 };
 
