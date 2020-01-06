@@ -84,7 +84,7 @@ function usersMatch(a, b) {
 
 async function getAnonUser() {
   const api = getAPIForToken();
-  const { data } = await api.post('users/anon');
+  const { data } = await api.post('v1/users/anon');
   return data;
 }
 
