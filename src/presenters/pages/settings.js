@@ -9,6 +9,7 @@ import PasswordSettings from 'Components/account-settings-overlay/password-setti
 import TwoFactorSettings from 'Components/account-settings-overlay/two-factor-settings';
 import SubscriptionSettings from 'Components/account-settings-overlay/subscription-settings';
 import DeleteSettings from 'Components/delete-account/delete-account-modal';
+import { useFeatureEnabled } from 'State/rollouts';
 import useDevToggle from 'State/dev-toggles';
 import { useCurrentUser } from 'State/current-user';
 import { NotFoundPage } from './error';
@@ -26,10 +27,9 @@ const Settings = () => {
   const { persistentToken, login } = currentUser;
   const isSignedIn = persistentToken && login;
   const showAccountSettingsTab = userPasswordEnabled || tfaEnabled;
-  const settingsPageEnabled = isSignedIn;
-  if (!settingsPageEnabled) {
-    return <NotFoundPage />;
-  }
+  // useDevToggle as placeholder until Sarah's feature flag PR is merged
+  // const showSubscriptionTab = useFeatureEnabled('pufferfish');
+  const showSubscriptionTab = useDevToggle('User Passwords');
 
   const AccountSettingsTab = () => (
     <>
@@ -57,14 +57,16 @@ const Settings = () => {
     </div>
   );
 
-  const settingsTabs = [
-    {
-      name: 'Subscription',
-      tabPanel: SubscriptionSettingsTab,
-    },
-  ];
+  const settingsTabs = [];
   if (showAccountSettingsTab) {
-    settingsTabs.unshift({ name: 'Account', tabPanel: AccountSettingsTab });
+    settingsTabs.push({ name: 'Account', tabPanel: AccountSettingsTab });
+  }
+  if (showSubscriptionTab) {
+    settingsTabs.push({ name: 'Subscription', tabPanel: SubscriptionSettingsTab });
+  }
+
+  if (!isSignedIn || !settingsTabs.length) {
+    return <NotFoundPage />;
   }
 
   return (
