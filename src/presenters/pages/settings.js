@@ -78,8 +78,8 @@ const Settings = () => {
           <div className={styles.settingsPage}>
             <TabList className={styles.settingsActions}>
               {settingsTabs.map((tab) => (
-                <Tab key={tab.name}>
-                  <Button>{tab.name}</Button>
+                <Tab key={tab.name} className={styles.settingsTab}>
+                  <Button as="span">{tab.name}</Button>
                 </Tab>
               ))}
               {/* <Button disabled onClick>Privacy & Notifications</Button> */}
