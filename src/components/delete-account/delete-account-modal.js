@@ -80,6 +80,11 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       captureException(error);
     }
   }
+  useEffect(() => {
+    if (singleAdminTeams.length === 0) {
+      triggerEmail();
+    }
+  }, []);
   return (
     <>
       <Title>Transfer Team Ownership</Title>
@@ -147,6 +152,11 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       onSelectProject(singleAdminProjects[0].id);
     }
   }, [singleAdminProjects]);
+  useEffect(() => {
+    if (singleAdminProjects.length === 0) {
+      setPage('teamOwnerTransfer');
+    }
+  }, []);
   return (
     <>
       <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Project Ownership</Title>
