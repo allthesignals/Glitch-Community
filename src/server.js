@@ -16,7 +16,7 @@ const Page = ({
   PUPDATES_CONTENT,
   SSR_SIGNED_IN,
   SSR_HAS_PROJECTS,
-  IN_TESTING_TEAM,
+  SSR_IN_TESTING_TEAM,
   ZINE_POSTS,
   optimizely,
   helmetContext,
@@ -30,7 +30,7 @@ const Page = ({
       PUPDATES_CONTENT={PUPDATES_CONTENT}
       SSR_SIGNED_IN={SSR_SIGNED_IN}
       SSR_HAS_PROJECTS={SSR_HAS_PROJECTS}
-      IN_TESTING_TEAM={IN_TESTING_TEAM}
+      SSR_IN_TESTING_TEAM={SSR_IN_TESTING_TEAM}
       ZINE_POSTS={ZINE_POSTS}
     >
       <OptimizelyProvider optimizely={optimizely} optimizelyId={OPTIMIZELY_ID}>

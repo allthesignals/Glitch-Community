@@ -74,7 +74,7 @@ window.bootstrap = async (container) => {
         PUPDATES_CONTENT={window.PUPDATES_CONTENT}
         SSR_SIGNED_IN={window.SSR_SIGNED_IN}
         SSR_HAS_PROJECTS={window.SSR_HAS_PROJECTS}
-        IN_TESTING_TEAM={window.IN_TESTING_TEAM}
+        SSR_IN_TESTING_TEAM={window.SSR_IN_TESTING_TEAM}
         ZINE_POSTS={window.ZINE_POSTS}
       >
         <OptimizelyProvider optimizely={optimizely} optimizelyId={window.OPTIMIZELY_ID}>

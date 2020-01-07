@@ -55,7 +55,7 @@ const useOverrides = () => useUserPref('optimizelyOverrides', defaultOverrides);
 const useDefaultUser = () => {
   const { optimizelyId } = useOptimizely();
   const { currentUser } = useCurrentUser();
-  const { SSR_SIGNED_IN, SSR_HAS_PROJECTS, IN_TESTING_TEAM } = useGlobals();
+  const { SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM } = useGlobals();
 
   const attributes = useMemo(() => (
     currentUser.id ? {
@@ -65,9 +65,9 @@ const useDefaultUser = () => {
     } : {
       hasLogin: SSR_SIGNED_IN,
       hasProjects: SSR_HAS_PROJECTS,
-      inTestingTeam: IN_TESTING_TEAM,
+      inTestingTeam: SSR_IN_TESTING_TEAM,
     }
-  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS, IN_TESTING_TEAM]);
+  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM]);
   return [optimizelyId, attributes];
 };
 
