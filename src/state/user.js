@@ -125,21 +125,26 @@ export function useUserEditor(initialUser) {
         projects: prev.projects.filter((p) => p.id !== project.id),
         _deletedProjects: [deletedProjectWithPermission, ...prev._deletedProjects], // eslint-disable-line no-underscore-dangle
       }));
+      updateCurrentUser({
+        projects: currentUser.projects.filter((p) => p.id !== project.id),
+      });
     }, handleError),
     undeleteProject: withErrorHandler(async (project) => {
       await undeleteProject({ project });
       const data = await getProject({ project });
       // temp set undeleted project updatedAt to now, while it's actually updating behind the scenes
       data.updatedAt = Date.now();
+      const permission = data.permissions.find((p) => p.userId === currentUser.id);
+      const undeletedProjectWithPermission = { ...data, permission };
       setUser((prev) => ({
         ...prev,
-        projects: [data, ...prev.projects],
+        projects: [undeletedProjectWithPermission, ...prev.projects],
         _deletedProjects: prev._deletedProjects.filter((p) => p.id !== project.id), // eslint-disable-line no-underscore-dangle
       }));
     }, handleError),
     setDeletedProjects: (_deletedProjects) => setUser((prev) => ({ ...prev, _deletedProjects })),
-    featureProject: (project) => updateFields({ featured_project_id: project.id }).catch(handleError),
-    unfeatureProject: () => updateFields({ featured_project_id: null }).catch(handleError),
+    featureProject: (project) => updateFields({ featuredProjectId: project.id }).catch(handleError),
+    unfeatureProject: () => updateFields({ featuredProjectId: null }).catch(handleError),
   };
   return [user, funcs];
 }

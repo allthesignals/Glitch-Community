@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import TrackedButtonGroup from 'Components/buttons/tracked-button-group';
+import ButtonGroup from 'Components/buttons/button-group';
 import { getProjectAvatarUrl } from 'Models/project';
 import styles from './styles.styl';
 
@@ -22,7 +22,7 @@ const ProjectProfileContainer = ({ currentUser, project, children, avatarActions
         className={classnames(styles.avatar, styles.project)}
         style={{ backgroundImage: `url('${getAvatarUrl(currentUser, isAuthorized, project)}')` }}
       />
-      <div className={styles.avatarButtons}>{avatarActions && <TrackedButtonGroup actions={avatarActions} />}</div>
+      <div className={styles.avatarButtons}>{avatarActions && <ButtonGroup actions={avatarActions} />}</div>
     </div>
     <div className={styles.profileInfo}>{children}</div>
   </div>

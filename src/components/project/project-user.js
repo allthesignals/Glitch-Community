@@ -5,7 +5,6 @@ import { Popover, UnstyledButton, Info, Actions, Button, Icon } from '@fogcreek/
 
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
-import { useTrackedFunc } from 'State/segment-analytics';
 
 import { captureException } from 'Utils/sentry';
 
@@ -14,6 +13,8 @@ import { userIsProjectAdmin, userIsProjectMember } from 'Models/project';
 import { UserAvatar } from 'Components/images/avatar';
 import { UserLink } from 'Components/link';
 import TooltipContainer from 'Components/tooltips/tooltip-container';
+import ProfileList from 'Components/profile-list';
+
 import { emoji } from 'Components/global.styl';
 
 import styles from './project-user.styl';
@@ -24,19 +25,15 @@ export const PermissionsPopover = ({ user, project, reassignAdmin }) => {
   const { currentUser } = useCurrentUser();
   const currentUserIsAdmin = userIsProjectAdmin({ project, user: currentUser });
   const { createNotification } = useNotifications();
-  const onReassignAdmin = useTrackedFunc(
-    async () => {
-      try {
-        await reassignAdmin({ user, currentUser });
-        createNotification(`${user.name} is now the project owner`, { type: 'success' });
-      } catch (error) {
-        captureException(error);
-        createNotification(`Sorry, we were unable to make ${user.name} the new project owner, try again later`, { type: 'error' });
-      }
-    },
-    'Project Added to Collection',
-    { origin: 'Add Project collection' },
-  );
+  const onReassignAdmin = async () => {
+    try {
+      await reassignAdmin({ user, currentUser });
+      createNotification(`${user.name} is now the project owner`, { type: 'success' });
+    } catch (error) {
+      captureException(error);
+      createNotification(`Sorry, we were unable to make ${user.name} the new project owner, try again later`, { type: 'error' });
+    }
+  };
   return (
     <div className={styles.permissionsPopover}>
       <Info className={styles.permissionsPopoverInfo}>
@@ -79,37 +76,36 @@ const ProjectUsers = ({ users, project, reassignAdmin }) => {
 
   if (currentUserIsMember) {
     return (
-      <div className={styles.projectUsers}>
-        {orderedUsers.map((user) => (
-          <Popover
-            className={styles.projectUsersPopover}
-            key={user.id}
-            align="left"
-            renderLabel={({ onClick, ref }) => (
-              <span className={styles.popoverButton}>
-                <UnstyledButton onClick={onClick} ref={ref}>
-                  <UserAvatar user={user} hideTooltip />
-                </UnstyledButton>
-              </span>
-            )}
-          >
-            {({ onClose, setActiveView }) => (
-              <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
-            )}
-          </Popover>
-        ))}
+      <div>
+        {project.teams && project.teams.length > 0 && (
+          <ProfileList teams={project.teams} users={[]} layout="block" size="large" />
+        )}
+        <div className={styles.projectUsers}>
+          {orderedUsers.map((user) => (
+            <Popover
+              className={styles.projectUsersPopover}
+              key={user.id}
+              align="left"
+              renderLabel={({ onClick, ref }) => (
+                <span className={styles.popoverButton}>
+                  <UnstyledButton onClick={onClick} ref={ref}>
+                    <UserAvatar user={user} hideTooltip />
+                  </UnstyledButton>
+                </span>
+              )}
+            >
+              {({ onClose, setActiveView }) => (
+                <PermissionsPopover onClose={onClose} setActiveView={setActiveView} user={user} project={project} reassignAdmin={reassignAdmin} />
+              )}
+            </Popover>
+          ))}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.projectUsers}>
-      {orderedUsers.map((user) => (
-        <UserLink key={user.id} user={user}>
-          <UserAvatar user={user} />
-        </UserLink>
-      ))}
-    </div>
+    <ProfileList teams={project.teams} users={orderedUsers} layout="block" size="large" />
   );
 };
 

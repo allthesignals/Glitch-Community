@@ -16,7 +16,6 @@ import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
-import { useTrackedFunc } from 'State/segment-analytics';
 
 import ProjectOptionsPop from './project-options-pop';
 import styles from './project-item.styl';
@@ -57,17 +56,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
   const projectOptions = useProjectOptions(project, providedProjectOptions, deferLoading);
   const hasProjectOptions = Object.keys(projectOptions).length > 0;
 
-  const bookmarkAction = useTrackedFunc(
-    () => projectOptions.toggleBookmark(project, hasBookmarked, setHasBookmarked),
-    'My Stuff Button Clicked',
-    (inherited) => ({
-      ...inherited,
-      projectName: project.domain,
-      baseProjectId: project.baseId || project.baseProject,
-      userId: currentUser.id,
-      isAddingToMyStuff: !hasBookmarked,
-    }),
-  );
+  const bookmarkAction = () => projectOptions.toggleBookmark(project, hasBookmarked, setHasBookmarked);
 
   const sequence = (doAnimation, projectOption) => {
     if (!projectOption) return undefined;
@@ -131,6 +120,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       <div className={styles.nameWrap}>
                         <div className={styles.itemButtonWrap}>
                           <Button
+                            textWrap
                             as="span"
                             disabled={!!project.suspendedReason}
                             imagePosition="left"

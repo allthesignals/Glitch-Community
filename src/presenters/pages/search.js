@@ -9,7 +9,6 @@ import MoreIdeas from 'Components/more-ideas';
 import Layout from 'Components/layout';
 import Heading from 'Components/text/heading';
 import { useAlgoliaSearch } from 'State/search';
-import { AnalyticsContext } from 'State/segment-analytics';
 
 import styles from './search.styl';
 
@@ -22,20 +21,18 @@ const SearchPage = ({ query, activeFilter }) => {
 
   return (
     <Layout searchQuery={query}>
-      <AnalyticsContext properties={{ origin: 'search', query }}>
-        {!!query && <Helmet title={`Search for ${query}`} />}
-        {query ? (
-          <SearchResults query={query} searchResults={searchResults} activeFilter={activeFilter || 'all'} setActiveFilter={setActiveFilter} />
-        ) : (
-          <div className={styles.emptySearchWrapper}>
-            <Heading tagName="h1">Search millions of apps</Heading>
-            <div className={styles.content}>
-              <SearchForm />
-            </div>
+      {!!query && <Helmet title={`Search for ${query}`} />}
+      {query ? (
+        <SearchResults query={query} searchResults={searchResults} activeFilter={activeFilter || 'all'} setActiveFilter={setActiveFilter} />
+      ) : (
+        <div className={styles.emptySearchWrapper}>
+          <Heading tagName="h1">Search millions of apps</Heading>
+          <div className={styles.content}>
+            <SearchForm />
           </div>
-        )}
-        <MoreIdeas />
-      </AnalyticsContext>
+        </div>
+      )}
+      <MoreIdeas />
     </Layout>
   );
 };

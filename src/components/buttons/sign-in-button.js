@@ -51,7 +51,6 @@ export const companyNames = Object.keys(companies);
 
 const SignInButton = ({ companyName, onClick, short }) => {
   const { name, emoji, href } = companies[companyName];
-
   return (
     <div style={{ marginBottom: '10px' }}>
       <Button as="a" href={href} onClick={onClick} size="small">

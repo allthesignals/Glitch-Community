@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import TrackedButtonGroup from 'Components/buttons/tracked-button-group';
+import ButtonGroup from 'Components/buttons/button-group';
 
 import { getTeamProfileStyle } from 'Models/team';
 import { getUserProfileStyle } from 'Models/user';
@@ -22,7 +22,7 @@ const CoverContainer = ({ coverActions, children, type, item }) => {
   return (
     <div className={className} style={getProfileStyles[type](item)}>
       {children}
-      <div className={styles.buttonWrap}>{coverActions && <TrackedButtonGroup actions={coverActions} />}</div>
+      <div className={styles.buttonWrap}>{coverActions && <ButtonGroup actions={coverActions} />}</div>
     </div>
   );
 };

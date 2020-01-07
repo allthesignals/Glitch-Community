@@ -21,24 +21,22 @@ export default function FeaturedProjectOptionsPop({ unfeatureProject, createNote
   return (
     <Popover
       align="right"
-      renderLabel={({ onClick, ref }) => (
-        <PopoverMenuButton onClick={onClick} ref={ref} aria-label="Featured Project Options" />
-      )}
+      renderLabel={({ onClick, ref }) => <PopoverMenuButton onClick={onClick} ref={ref} aria-label="Featured Project Options" />}
     >
       {({ onClose }) => (
         <>
           <Actions>
             {!hasNote && createNote && (
               <>
-                <Button className={styles.stackedButtons} onClick={() => toggleAndCreateNote(onClose)}>
+                <Button className={styles.stackedButtons} size="small" variant="secondary" onClick={() => toggleAndCreateNote(onClose)}>
                   Add note <Icon icon="spiralNotePad" className={emoji} />
                 </Button>
                 <br />
               </>
             )}
             {!isPlayer && (
-              <Button onClick={() => toggleAndUnfeature(onClose)}>
-                Un-feature <Icon icon="arrowDown" className={emoji} />
+              <Button onClick={() => toggleAndUnfeature(onClose)} size="small" variant="secondary">
+                Un-feature <Icon icon="blockArrowDown" className={emoji} />
               </Button>
             )}
           </Actions>

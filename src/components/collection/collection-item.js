@@ -147,7 +147,7 @@ export const MyStuffItem = ({ collection, isAuthorized, showLoader }) => {
             </div>
             <div className={styles.nameDescriptionContainer}>
               <div className={styles.itemButtonWrap}>
-                <Button as="span">
+                <Button textWrap as="span">
                   {collection.private && <PrivateBadge type="userCollection" />}
                   {collection.name}
                 </Button>
@@ -184,7 +184,7 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
           >
             <div className={styles.nameDescriptionContainer}>
               <div className={styles.itemButtonWrap}>
-                <Button as="span">
+                <Button textWrap as="span">
                   {collection.private && <PrivateBadge type={collection.teamId === -1 ? 'userCollection' : 'teamCollection'} />}
                   {collection.name}
                 </Button>

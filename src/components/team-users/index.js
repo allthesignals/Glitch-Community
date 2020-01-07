@@ -15,6 +15,7 @@ import TransparentButton from 'Components/buttons/transparent-button';
 import { UserAvatar } from 'Components/images/avatar';
 import { UserLink } from 'Components/link';
 import { captureException } from 'Utils/sentry';
+import { useTracker } from 'State/segment-analytics';
 
 import TeamUserPop from './team-user-info';
 import styles from './styles.styl';
@@ -119,7 +120,7 @@ const WhitelistedDomain = ({ domain, setDomain }) => (
         </Info>
         {!!setDomain && (
           <DangerZone>
-            <Button variant="warning" size="small" onClick={() => setDomain(null)}>
+            <Button textWrap variant="warning" size="small" onClick={() => setDomain(null)}>
               Remove {domain} <Icon className={emoji} icon="bomb" />
             </Button>
           </DangerZone>
@@ -212,8 +213,11 @@ const TeamUserContainer = ({ team, removeUserFromTeam, updateUserPermissions, up
   const [invitees, addInvitee, removeInvitee, reloadInvitees] = useInvitees(team, currentUserIsOnTeam);
   const members = uniq([...team.users, ...invitees].map((user) => user.id));
 
+  const trackInvite = useTracker('Team Invite Sent', { teamId: team.id, teamName: team.name });
+
   const onInviteUser = async (user) => {
     try {
+      trackInvite();
       await inviteUser(user);
       addInvitee(user);
       createNotification(`Invited ${getDisplayName(user)}!`, { type: 'success' });
@@ -230,6 +234,7 @@ const TeamUserContainer = ({ team, removeUserFromTeam, updateUserPermissions, up
 
   const onInviteEmail = async (email) => {
     addInvitee({ id: 0, name: email });
+    trackInvite();
     try {
       await inviteEmail(email);
       createNotification(`Invited ${email}!`, { type: 'success' });

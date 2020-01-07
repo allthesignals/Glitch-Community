@@ -4,8 +4,7 @@ import { Button, VisuallyHidden } from '@fogcreek/shared-components';
 import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import { useDevToggles } from 'State/dev-toggles';
-import useTest, { useTestAssignments, tests } from 'State/ab-tests';
-import { useFeatureEnabled, useRolloutsDebug } from 'State/rollouts';
+import { useRolloutsDebug } from 'State/rollouts';
 
 import styles from './secret.styl';
 
@@ -28,30 +27,7 @@ function useZeldaMusicalCue() {
   }, []);
 }
 
-const ABTests = () => {
-  const text = useTest('Just-A-Test');
-  const [assignments, reassign] = useTestAssignments();
-  return (
-    <section className={styles.footerSection}>
-      Your A/B test groups ({text}):
-      <ul className={styles.abTests}>
-        {Object.entries(tests).map(([test, groups]) => (
-          <li key={test} className={styles.abTest}>
-            <label>
-              {test}:&nbsp;
-              <select value={assignments[test]} onChange={(event) => reassign(test, event.target.value)}>
-                {Object.keys(groups).map((group) => <option value={group} key={group}>{group}</option>)}
-              </select>
-            </label>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-};
-
-const RolloutFeature = ({ feature, forced, setForced }) => {
-  const enabled = useFeatureEnabled(feature);
+const RolloutFeature = ({ feature, enabled, forced, setForced }) => {
   const onChange = (event) => {
     if (event.target.value === 'true') {
       setForced(true);
@@ -62,7 +38,7 @@ const RolloutFeature = ({ feature, forced, setForced }) => {
     }
   };
   const defaultIcon = enabled ? '✔' : null;
-  const forcedIcon = enabled ? '☑' : '☐';
+  const forcedIcon = forced ? '☑' : '☐';
   return (
     <tr>
       <td>{feature}</td>
@@ -91,8 +67,8 @@ const Rollouts = () => {
           </tr>
         </thead>
         <tbody>
-          {features.map(({ key, forced, setForced }) => (
-            <RolloutFeature key={key} feature={key} forced={forced} setForced={setForced} />
+          {features.map(({ key, enabled, forced, setForced }) => (
+            <RolloutFeature key={key} feature={key} enabled={enabled} forced={forced} setForced={setForced} />
           ))}
         </tbody>
       </table>
@@ -126,14 +102,13 @@ const Secret = () => {
       <ul className={styles.toggles}>
         {toggleData.map(({ name, description }) => (
           <li key={name} className={isEnabled(name) ? styles.lit : ''}>
-            <Button size="small" title={description} ariaPressed={isEnabled(name) ? 'true' : 'false'} onClick={() => toggleTheToggle(name)}>
+            <Button textWrap size="small" title={description} ariaPressed={isEnabled(name) ? 'true' : 'false'} onClick={() => toggleTheToggle(name)}>
               {name}
             </Button>
           </li>
         ))}
       </ul>
       <Rollouts />
-      <ABTests />
     </main>
   );
 };

@@ -11,10 +11,10 @@ import Thanks from 'Components/thanks';
 import { PopoverSearch } from 'Components/popover';
 import { getDisplayName } from 'Models/user';
 import { captureException } from 'Utils/sentry';
-import { useTracker } from 'State/segment-analytics';
 import { useAlgoliaSearch } from 'State/search';
+import useDebouncedValue from 'Hooks/use-debounced-value';
 
-import useDebouncedValue from '../../hooks/use-debounced-value';
+import styles from './styles.styl';
 
 const WhitelistEmailDomain = ({ result: domain, buttonProps, onClick }) => (
   <ResultItem onClick={onClick} {...buttonProps}>
@@ -25,7 +25,9 @@ const WhitelistEmailDomain = ({ result: domain, buttonProps, onClick }) => (
 
 const UserResult = ({ result: user, buttonProps, onClick }) => (
   <ResultItem onClick={onClick} {...buttonProps}>
-    <UserAvatar user={user} hideTooltip />
+    <div className={styles.noShrink}>
+      <UserAvatar user={user} hideTooltip />
+    </div>
     <ResultInfo>
       <ResultName>{getDisplayName(user)}</ResultName>
       {!!user.name && <ResultDescription>@{user.login}</ResultDescription>}
@@ -38,7 +40,9 @@ const InviteByEmail = ({ result: email, buttonProps, onClick }) => {
   const { current: color } = useRef(randomColor({ luminosity: 'light' }));
   return (
     <ResultItem onClick={onClick} {...buttonProps}>
-      <UserAvatar user={{ id: 0, color }} hideTooltip />
+      <div className={styles.noShrink}>
+        <UserAvatar user={{ id: 0, color }} hideTooltip />
+      </div>
       <ResultInfo>
         <ResultName>Invite {email}</ResultName>
       </ResultInfo>
@@ -153,46 +157,35 @@ AddTeamUserPop.defaultProps = {
   whitelistedDomain: '',
 };
 
-const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setWhitelistedDomain }) => {
-  const track = useTracker('Add to Team clicked');
-  return (
-    <Popover
-      align="left"
-      renderLabel={({ onClick, ref }) => (
-        <Button
-          size="small"
-          variant="secondary"
-          onClick={() => {
-            track();
-            onClick();
-          }}
-          ref={ref}
-        >
-          Add
-        </Button>
-      )}
-    >
-      {({ onClose }) => (
-        <AddTeamUserPop
-          members={members}
-          whitelistedDomain={whitelistedDomain}
-          setWhitelistedDomain={(domain) => {
-            onClose();
-            setWhitelistedDomain(domain);
-          }}
-          inviteUser={(user) => {
-            onClose();
-            inviteUser(user);
-          }}
-          inviteEmail={(email) => {
-            onClose();
-            inviteEmail(email);
-          }}
-        />
-      )}
-    </Popover>
-  );
-};
+const AddTeamUser = ({ members, whitelistedDomain, inviteEmail, inviteUser, setWhitelistedDomain }) => (
+  <Popover
+    align="left"
+    renderLabel={({ onClick, ref }) => (
+      <Button size="small" variant="secondary" onClick={onClick} ref={ref}>
+        Add
+      </Button>
+    )}
+  >
+    {({ onClose }) => (
+      <AddTeamUserPop
+        members={members}
+        whitelistedDomain={whitelistedDomain}
+        setWhitelistedDomain={(domain) => {
+          onClose();
+          setWhitelistedDomain(domain);
+        }}
+        inviteUser={(user) => {
+          onClose();
+          inviteUser(user);
+        }}
+        inviteEmail={(email) => {
+          onClose();
+          inviteEmail(email);
+        }}
+      />
+    )}
+  </Popover>
+);
 AddTeamUser.propTypes = {
   members: PropTypes.array.isRequired,
   whitelistedDomain: PropTypes.string,

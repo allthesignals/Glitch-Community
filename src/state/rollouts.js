@@ -1,7 +1,29 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { enums } from '@optimizely/optimizely-sdk';
+import { useTracker } from './segment-analytics';
 import { useCurrentUser } from './current-user';
+import { useGlobals } from './globals';
 import useUserPref from './user-prefs';
+
+// human readable rollout state to include in analytics
+const DEFAULT_DESCRIPTION = {
+  true: ['variant', 'showing the new form'],
+  false: ['control', 'showing the original form'],
+};
+const ROLLOUT_DESCRIPTIONS = {
+  analytics: {
+    true: ['enabled', 'analytics are shown on team pages'],
+    false: ['disabled', 'team analytics are not shown'],
+  },
+  test_feature: {
+    true: ['yep', 'this is in fact a test'],
+    false: ['nope', 'but it is still a test'],
+  },
+  swap_index_create: {
+    true: ['swapped', 'create is shown at the index'],
+    false: ['control', 'see the existing homepage'],
+  },
+};
 
 const Context = createContext();
 
@@ -20,6 +42,22 @@ export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizely
 const defaultOverrides = {};
 const useOptimizely = () => useContext(Context);
 const useOverrides = () => useUserPref('optimizelyOverrides', defaultOverrides);
+// the id+attributes combo for the current user
+const useDefaultUser = () => {
+  const { optimizelyId } = useOptimizely();
+  const { currentUser } = useCurrentUser();
+  const { SSR_SIGNED_IN, SSR_HAS_PROJECTS } = useGlobals();
+  const attributes = useMemo(() => (
+    currentUser.id ? {
+      hasLogin: !!currentUser.login,
+      hasProjects: currentUser.projects.length > 0,
+    } : {
+      hasLogin: SSR_SIGNED_IN,
+      hasProjects: SSR_HAS_PROJECTS,
+    }
+  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS]);
+  return [optimizelyId, attributes];
+};
 
 const useOptimizelyValue = (getValue, dependencies) => {
   const { optimizely } = useOptimizely();
@@ -35,18 +73,34 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
-export const useFeatureEnabledForEntity = (whichToggle, entityId) => {
+export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) => {
+  const { optimizely } = useOptimizely();
   const [overrides] = useOverrides();
   const raw = useOptimizelyValue(
-    (optimizely) => optimizely.isFeatureEnabled(whichToggle, String(entityId)),
-    [whichToggle, entityId],
+    (optimizelyInstance) => optimizelyInstance.isFeatureEnabled(whichToggle, String(entityId), attributes),
+    [whichToggle, entityId, attributes],
   );
-  return overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+  const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+
+  const track = useTracker('Experiment Viewed');
+  useEffect(() => {
+    const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
+    const { id } = optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle];
+    track({
+      experiment_id: id,
+      experiment_name: whichToggle,
+      experiment_group: enabled ? 'variant' : 'control',
+      variant_type: variant,
+      variant_description: description,
+    });
+  }, [optimizely, whichToggle, enabled]);
+
+  return enabled;
 };
 
 export const useFeatureEnabled = (whichToggle) => {
-  const { optimizelyId } = useOptimizely();
-  return useFeatureEnabledForEntity(whichToggle, optimizelyId);
+  const [id, attributes] = useDefaultUser();
+  return useFeatureEnabledForEntity(whichToggle, id, attributes);
 };
 
 export const RolloutsUserSync = () => {
@@ -61,16 +115,16 @@ export const RolloutsUserSync = () => {
 };
 
 export const useRolloutsDebug = () => {
-  const { optimizelyId } = useOptimizely();
+  const [id, attributes] = useDefaultUser();
   const [overrides, setOverrides] = useOverrides();
   return useOptimizelyValue((optimizely) => {
     const config = optimizely.projectConfigManager.getConfig();
     const features = config.featureFlags.map(({ key }) => {
-      const enabled = optimizely.isFeatureEnabled(key, String(optimizelyId));
+      const enabled = optimizely.isFeatureEnabled(key, String(id), attributes);
       const forced = overrides[key];
       const setForced = (value) => setOverrides({ ...overrides, [key]: value });
       return { key, enabled, forced, setForced };
     });
     return { features };
-  }, [optimizelyId, overrides, setOverrides]);
+  }, [id, attributes, overrides, setOverrides]);
 };
