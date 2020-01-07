@@ -25,6 +25,7 @@ const Settings = () => {
   const { currentUser } = useCurrentUser();
   const { persistentToken, login } = currentUser;
   const isSignedIn = persistentToken && login;
+  const showAccountSettingsTab = userPasswordEnabled || tfaEnabled;
   const settingsPageEnabled = isSignedIn;
   if (!settingsPageEnabled) {
     return <NotFoundPage />;
@@ -56,6 +57,16 @@ const Settings = () => {
     </div>
   );
 
+  const settingsTabs = [
+    {
+      name: 'Subscription',
+      tabPanel: SubscriptionSettingsTab,
+    },
+  ];
+  if (showAccountSettingsTab) {
+    settingsTabs.unshift({ name: 'Account', tabPanel: AccountSettingsTab });
+  }
+
   return (
     <main id="main">
       <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
@@ -66,21 +77,19 @@ const Settings = () => {
         <Tabs selectedIndex={currentTab} onSelect={(tabIndex) => setCurrentTab(tabIndex)}>
           <div className={styles.settingsPage}>
             <TabList className={styles.settingsActions}>
-              <Tab>
-                <Button>Account</Button>
-              </Tab>
-              <Tab>
-                <Button>Subscription</Button>
-              </Tab>
+              {settingsTabs.map((tab) => (
+                <Tab key={tab.name}>
+                  <Button>{tab.name}</Button>
+                </Tab>
+              ))}
               {/* <Button disabled onClick>Privacy & Notifications</Button> */}
             </TabList>
             <div className={styles.settingsContent}>
-              <TabPanel key={0} hidden={currentTab !== 0}>
-                <AccountSettingsTab />
-              </TabPanel>
-              <TabPanel key={1} hidden={currentTab !== 1}>
-                <SubscriptionSettingsTab />
-              </TabPanel>
+              {settingsTabs.map((tab, i) => (
+                <TabPanel key={tab.name} hidden={currentTab !== i}>
+                  <tab.tabPanel />
+                </TabPanel>
+              ))}
             </div>
           </div>
         </Tabs>
