@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { AnimationContainer, slideDown, slideUp, Button } from '@fogcreek/shared-components';
+import { AnimationContainer, createRemoteComponent, slideDown, slideUp, Button } from '@fogcreek/shared-components';
 
 import Markdown from 'Components/text/markdown';
 import BookmarkButton from 'Components/buttons/bookmark-button';
@@ -21,6 +21,7 @@ import ProjectOptionsPop from './project-options-pop';
 import styles from './project-item.styl';
 
 const ProfileAvatar = ({ project }) => <Image className={styles.avatar} src={getProjectAvatarUrl(project)} defaultSrc={FALLBACK_AVATAR_URL} alt="" />;
+const NewButton = createRemoteComponent('https://ritzy-dichondra.glitch.me/module.js', 'Button');
 
 const getLinkBodyStyles = (project, showEditButton) =>
   classnames(styles.linkBody, {
@@ -119,7 +120,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       </div>
                       <div className={styles.nameWrap}>
                         <div className={styles.itemButtonWrap}>
-                          <Button
+                          <NewButton
                             textWrap
                             as="span"
                             disabled={!!project.suspendedReason}
@@ -127,7 +128,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                           >
                             {project.private && <PrivateBadge />}
                             <span className={styles.projectDomain}>{project.suspendedReason ? 'suspended project' : project.domain}</span>
-                          </Button>
+                          </NewButton>
                         </div>
                       </div>
                     </div>
