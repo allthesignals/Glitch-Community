@@ -25,8 +25,7 @@ const Settings = () => {
   const { currentUser } = useCurrentUser();
   const { persistentToken, login } = currentUser;
   const isSignedIn = persistentToken && login;
-  const settingsPageEnabled = isSignedIn && (userPasswordEnabled || tfaEnabled);
-
+  const settingsPageEnabled = isSignedIn;
   if (!settingsPageEnabled) {
     return <NotFoundPage />;
   }
