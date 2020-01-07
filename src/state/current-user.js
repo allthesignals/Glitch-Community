@@ -7,11 +7,11 @@ import { getSingleItem, getAllPages, allByKeys } from 'Shared/api';
 import { sortProjectsByLastAccess } from 'Models/project';
 import { configureScope, captureException, captureMessage, addBreadcrumb } from 'Utils/sentry';
 import runLatest from 'Utils/run-latest';
+import { userIsInTestingTeam } from 'Utils/constants';
 import { getStorage, readFromStorage, writeToStorage } from './local-storage';
 import { getAPIForToken } from './api'; // eslint-disable-line import/no-cycle
 import { appMounted } from './app-mounted';
 
-const TESTING_TEAM_ID = 3247;
 const getStorageMemo = memoize(getStorage);
 const getFromStorage = (key) => readFromStorage(getStorageMemo(), key);
 const setStorage = (key, value) => writeToStorage(getStorageMemo(), key, value);
@@ -39,7 +39,8 @@ function identifyUser(user) {
   }
   setCookie('hasLogin', user && user.login);
   setCookie('hasProjects', user && user.projects.length > 0);
-  setCookie('inTestingTeam', user && user.login && user.teams && user.teams.filter((t) => t.id === TESTING_TEAM_ID).length > 0);
+  // This will eventually require the cookie to be allowed past the whitelist in our cloudfront config to work on glitch.com
+  setCookie('inTestingTeam', userIsInTestingTeam(user));
   try {
     if (window.analytics && user && user.login) {
       const emailObj = Array.isArray(user.emails) && user.emails.find((email) => email.primary);
