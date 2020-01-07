@@ -82,6 +82,7 @@ module.exports = function(EXTERNAL_ROUTES) {
       PUPDATES_CONTENT: getPupdates(),
       SSR_SIGNED_IN: !!req.cookies.hasLogin,
       SSR_HAS_PROJECTS: !!req.cookies.hasProjects,
+      IN_TESTING_TEAM: !!req.cookies.inTestingTeam,
       ZINE_POSTS: getZinePosts(),
     });
 

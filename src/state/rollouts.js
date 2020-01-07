@@ -5,6 +5,8 @@ import { useCurrentUser } from './current-user';
 import { useGlobals } from './globals';
 import useUserPref from './user-prefs';
 
+const TESTING_TEAM_ID = 3247;
+
 // human readable rollout state to include in analytics
 const DEFAULT_DESCRIPTION = {
   true: ['variant', 'showing the new form'],
@@ -23,7 +25,14 @@ const ROLLOUT_DESCRIPTIONS = {
     true: ['swapped', 'create is shown at the index'],
     false: ['control', 'see the existing homepage'],
   },
+  pufferfish: {
+    true: ['enabled', 'pufferfish ui is shown'],
+    false: ['disabled', 'pufferfish ui is NOT shown'],
+  },
 };
+
+// toggles which should not be permitted to be overwritten by /secret
+const TESTING_TEAM_MEMBERSHIP_REQUIRED = ['pufferfish'];
 
 const Context = createContext();
 
@@ -46,16 +55,19 @@ const useOverrides = () => useUserPref('optimizelyOverrides', defaultOverrides);
 const useDefaultUser = () => {
   const { optimizelyId } = useOptimizely();
   const { currentUser } = useCurrentUser();
-  const { SSR_SIGNED_IN, SSR_HAS_PROJECTS } = useGlobals();
+  const { SSR_SIGNED_IN, SSR_HAS_PROJECTS, IN_TESTING_TEAM } = useGlobals();
+
   const attributes = useMemo(() => (
     currentUser.id ? {
       hasLogin: !!currentUser.login,
       hasProjects: currentUser.projects.length > 0,
+      inTestingTeam: currentUser.login && currentUser.teams && currentUser.teams.filter((t) => t.id === TESTING_TEAM_ID).length > 0,
     } : {
       hasLogin: SSR_SIGNED_IN,
       hasProjects: SSR_HAS_PROJECTS,
+      inTestingTeam: IN_TESTING_TEAM,
     }
-  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS]);
+  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS, IN_TESTING_TEAM]);
   return [optimizelyId, attributes];
 };
 
@@ -80,7 +92,13 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
     (optimizelyInstance) => optimizelyInstance.isFeatureEnabled(whichToggle, String(entityId), attributes),
     [whichToggle, entityId, attributes],
   );
-  const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+
+  let enabled;
+  if (TESTING_TEAM_MEMBERSHIP_REQUIRED.includes(whichToggle)) {
+    enabled = raw && overrides[whichToggle];
+  } else {
+    enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+  }
 
   const track = useTracker('Experiment Viewed');
   useEffect(() => {

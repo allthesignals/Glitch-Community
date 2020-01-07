@@ -104,10 +104,15 @@ const render = async (url, { OPTIMIZELY_ID, ...context }) => {
 
 module.exports = async (url, context) => {
   const optimizelyClient = await getOptimizelyClient();
-  const optimizelyAttributes = { hasLogin: context.SSR_SIGNED_IN, hasProjects: context.SSR_HAS_PROJECTS };
+  const optimizelyAttributes = { 
+    hasLogin: context.SSR_SIGNED_IN, 
+    hasProjects: context.SSR_HAS_PROJECTS,
+    inTestingTeam: context.IN_TESTING_TEAM,
+  };
   const key = [
     context.SSR_SIGNED_IN ? 'signed-in' : 'signed-out',
     context.SSR_HAS_PROJECTS ? 'with-projects' : 'without-projects',
+    context.IN_TESTING_TEAM ? 'in-testing-team' : 'not-in-testing-team',
     ...optimizelyClient.getEnabledFeatures(String(context.OPTIMIZELY_ID), optimizelyAttributes),
     url,
   ];
