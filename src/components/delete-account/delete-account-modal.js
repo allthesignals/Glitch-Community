@@ -207,7 +207,7 @@ const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
             <Pluralize count={soloProjects.length} singular="project" />, <Pluralize count={soloTeams.length} singular="team" />, and{' '}
             <Pluralize count={soloCollections.length} singular="collection" />
           </b>{' '}
-          will be made unavailable forever.
+          will be made unavailable.
         </p>
       </Actions>
       <Actions>

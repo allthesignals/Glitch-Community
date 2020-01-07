@@ -70,29 +70,29 @@ const InvalidToken = () => (
   </div>
 );
 
-async function deleteWithToken(token, api, setAccountIsDeleting, signOut) {
+async function deleteWithToken(token, api, setAccountStatus, signOut) {
   try {
     await api.delete(`/v1/users?token=${token}`);
     signOut();
-    setAccountIsDeleting(false);
-    return true;
+    setAccountStatus('Deleted');
   } catch (error) {
     captureException(error);
-    setAccountIsDeleting(false);
-    return false;
+    setAccountStatus('Error');
   }
 }
 
 const DeleteTokenPage = ({ token }) => {
   const deleteEnabled = useDevToggle('Account Deletion');
-  const [accountIsDeleting, setAccountIsDeleting] = useState(true);
+  const [accountStatus, setAccountStatus] = useState('Loading');
 
   const api = useAPI();
   const { clear: signOut } = useCurrentUser();
-  let tokenIsValid;
 
   useEffect(() => {
-    tokenIsValid = deleteWithToken(token, api, setAccountIsDeleting, signOut);
+    async function checkToken() {
+      await deleteWithToken(token, api, setAccountStatus, signOut);
+    }
+    checkToken();
   }, []);
   return (
     <>
@@ -102,8 +102,9 @@ const DeleteTokenPage = ({ token }) => {
         <Layout>
           <Helmet title="Delete Confirmation Page" />
           <main id="main" aria-label="Delete Confirmation Page">
-            {accountIsDeleting && <Loader style={{ width: '25px' }} />}
-            {!accountIsDeleting && tokenIsValid ? <ValidToken /> : <InvalidToken />}
+            {accountStatus === 'Loading' && <Loader style={{ width: '25px' }} />}
+            {accountStatus === 'Deleted' && <ValidToken /> }
+            {accountStatus === 'Error' && <InvalidToken /> }
           </main>
         </Layout>
       )}
