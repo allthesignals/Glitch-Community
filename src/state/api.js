@@ -76,9 +76,7 @@ export function APIContextProvider({ children }) {
     if (api.persistentToken && pendingRequests.length) {
       // go back and finally make all of those requests
       pendingRequests.forEach((request) => request(api));
-      setPendingRequests((latestPendingRequests) => (
-        latestPendingRequests.filter((request) => !pendingRequests.includes(request))
-      ));
+      setPendingRequests((latestPendingRequests) => latestPendingRequests.filter((request) => !pendingRequests.includes(request)));
     }
   }, [api, pendingRequests]);
   return <Context.Provider value={api}>{children}</Context.Provider>;
@@ -158,7 +156,7 @@ export const createAPIHook = (asyncFunction, options = {}) => (...args) => {
 };
 
 export const entityPath = ({ user, team, project, collection }) => {
-  if (user) return `users/${user.id}`;
+  if (user) return `v1/users/${user.id}`;
   if (team) return `v1/teams/${team.id}`;
   if (project) return `projects/${project.id}`;
   if (collection) return `v1/collections/${collection.id}`;
@@ -183,11 +181,12 @@ export const useAPIHandlers = () => {
       removeUserFromProject: ({ project, user }) => api.delete(`/projects/${project.id}/authorization`, { data: { targetUserId: user.id } }),
       updateProjectDomain: ({ project }) => api.post(`/project/domainChanged?projectId=${project.id}`),
       undeleteProject: ({ project }) => api.post(`/projects/${project.id}/undelete`),
-      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) => api.post(`/project_permissions/${project.id}`, {
-        projectId: project.id,
-        userId: user.id,
-        accessLevel,
-      }),
+      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) =>
+        api.post(`/project_permissions/${project.id}`, {
+          projectId: project.id,
+          userId: user.id,
+          accessLevel,
+        }),
 
       // teams
       joinTeam: ({ team }) => api.post(`/v1/teams/${team.id}/join`),
@@ -201,8 +200,15 @@ export const useAPIHandlers = () => {
       joinTeamProject: ({ project, team }) => api.post(`/v1/teams/${team.id}/projects/${project.id}/join`),
 
       // teams / users
-      addPinnedProject: ({ project, team, user }) => api.put(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
-      removePinnedProject: ({ project, team, user }) => api.delete(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
+      // note: users are currently using v0 routes, but teams are using v1 routes
+      addPinnedProject: ({ project, team, user }) =>
+        team
+          ? api.put(`/${entityPath({ team })}/pinnedProjects/${project.id}`)
+          : api.post(`/${entityPath({ user })}/pinned-projects/${project.id}`),
+      removePinnedProject: ({ project, team, user }) =>
+        team
+          ? api.delete(`/${entityPath({ team })}/pinnedProjects/${project.id}`)
+          : api.delete(`/${entityPath({ user })}/pinned-projects/${project.id}`),
     }),
     [api],
   );
