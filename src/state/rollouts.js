@@ -31,7 +31,7 @@ const ROLLOUT_DESCRIPTIONS = {
   },
 };
 
-// toggles which should not be permitted to be overwritten by /secret
+// toggles which require an additional testing team membership (just enabling on /secret is not enough)
 const TESTING_TEAM_MEMBERSHIP_REQUIRED = ['pufferfish'];
 
 const Context = createContext();
