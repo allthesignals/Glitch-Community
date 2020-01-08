@@ -3,10 +3,13 @@ import { Button } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
+import useScript from 'Hooks/use-script';
 
 function SubscriptionSettings() {
   // Use temporary state variable to toggle subscription status
   const [subscribed, setSubscribed] = useState(false);
+
+  useScript('https://js.stripe.com/v3/');
 
   return (
     <>
