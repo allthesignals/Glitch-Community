@@ -2,13 +2,11 @@ import React from 'react';
 import { Button, Icon, Loader } from '@fogcreek/shared-components';
 import classnames from 'classnames';
 import Heading from 'Components/text/heading';
-import ProjectsList from 'Components/containers/projects-list';
 import CoverContainer from 'Components/containers/cover-container';
 import Link, { UserLink, WrappingLink } from 'Components/link';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
 import ProjectItem from 'Components/project/project-item';
-import { RowContainer, RowItem } from 'Components/containers/row';
 import Ideas from './ideas';
 
 import styles from './recent-projects.styl';
@@ -80,7 +78,11 @@ const RecentProjects = () => {
           <div className={styles.projectsWrap}>
             <div className={classnames(styles.projectItemWrap, recentProjectsExtraWrapperClass)}>
               {fetched ? (
-                projectsToShow.map((project) => <div key={project.id} className={styles.individualProjectItemWrap}><ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton /></div>)
+                projectsToShow.map((project) => (
+                  <div key={project.id} className={styles.individualProjectItemWrap}>
+                    <ProjectItem key={project.id} className={styles.projectItem} project={project} showEditButton />
+                  </div>
+                ))
               ) : (
                 <Loader style={{ width: '25px' }} />
               )}
