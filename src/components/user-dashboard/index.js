@@ -70,6 +70,7 @@ const Postcards = ({ marketingContent }) => {
       <DataLoader get={getCollectionProjectsFromAPI} args={{ api, collectionId: 13044 }}>
         {(data) => {
           const [sampledIdea] = sampleSize(data, 1);
+          const noteToShow = sampledIdea.note || 'Try remixing this project!';
           return (
             <Postcard
               heading="Ideas"
@@ -82,7 +83,7 @@ const Postcards = ({ marketingContent }) => {
               buttonProps={{ as: 'a', href: getProjectLink(sampledIdea) }}
               thumbnail={getIdeaThumbnailUrl(sampledIdea.id)}
             >
-              {sampledIdea.note}
+              {noteToShow}
             </Postcard>
           );
         }}
