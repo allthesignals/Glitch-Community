@@ -1,5 +1,4 @@
-// Define a bunch of variables split by environment
-// 
+// Define the api environment to use when loading users and projects
 // Pick which config is used with RUNNING_ON
 
 const envs = {
