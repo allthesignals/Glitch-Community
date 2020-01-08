@@ -21,7 +21,7 @@ import ProjectOptionsPop from './project-options-pop';
 import styles from './project-item.styl';
 
 const ProfileAvatar = ({ project }) => <Image className={styles.avatar} src={getProjectAvatarUrl(project)} defaultSrc={FALLBACK_AVATAR_URL} alt="" />;
-const NewButton = createRemoteComponent('https://ritzy-dichondra.glitch.me/module.js', 'Button');
+// const NewButton = createRemoteComponent('https://ritzy-dichondra.glitch.me/module.js', 'Button');
 
 const getLinkBodyStyles = (project, showEditButton) =>
   classnames(styles.linkBody, {
@@ -120,12 +120,7 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       </div>
                       <div className={styles.nameWrap}>
                         <div className={styles.itemButtonWrap}>
-                          <NewButton
-                            textWrap
-                            as="span"
-                            disabled={!!project.suspendedReason}
-                            imagePosition="left"
-                          >
+                          <NewButton textWrap as="span" disabled={!!project.suspendedReason} imagePosition="left">
                             {project.private && <PrivateBadge />}
                             <span className={styles.projectDomain}>{project.suspendedReason ? 'suspended project' : project.domain}</span>
                           </NewButton>
@@ -133,12 +128,16 @@ const ProjectItem = ({ project, projectOptions: providedProjectOptions, collecti
                       </div>
                     </div>
                     <div className={styles.description}>
-                      <Markdown length={80} allowLinks={didFirstRender}>{project.suspendedReason ? 'suspended project' : project.description || ' '}</Markdown>
+                      <Markdown length={80} allowLinks={didFirstRender}>
+                        {project.suspendedReason ? 'suspended project' : project.description || ' '}
+                      </Markdown>
                     </div>
                   </ProjectLink>
                   {showEditButton && (
                     <footer className={styles.footer}>
-                      <Button variant="secondary" as="a" size="small" href={getEditorUrl(project.domain)}>Edit Project</Button>
+                      <Button variant="secondary" as="a" size="small" href={getEditorUrl(project.domain)}>
+                        Edit Project
+                      </Button>
                     </footer>
                   )}
                 </div>
@@ -172,7 +171,5 @@ ProjectItem.defaultProps = {
 };
 
 export default (props) => (
-  <VisibilityContainer>
-    {({ wasEverVisible }) => <ProjectItem {...props} deferLoading={!wasEverVisible} />}
-  </VisibilityContainer>
+  <VisibilityContainer>{({ wasEverVisible }) => <ProjectItem {...props} deferLoading={!wasEverVisible} />}</VisibilityContainer>
 );
