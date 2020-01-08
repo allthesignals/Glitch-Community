@@ -32,7 +32,6 @@ const ROLLOUT_DESCRIPTIONS = {
   },
 };
 
-
 const Context = createContext();
 
 export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizelyId, children }) => {
@@ -84,20 +83,28 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
+export const useIsEnabledBasedOnOverrides = ({
+  whichToggle,
+  overrides,
+  raw,
+  togglesWhichRequireTeamMembership = TESTING_TEAM_MEMBERSHIP_REQUIRED,
+}) => {
+  if (togglesWhichRequireTeamMembership.includes(whichToggle)) {
+    return raw && overrides[whichToggle] !== undefined && overrides[whichToggle];
+  }
+
+  return overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+};
+
 export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) => {
   const { optimizely } = useOptimizely();
   const [overrides] = useOverrides();
-  const raw = useOptimizelyValue(
-    (optimizelyInstance) => optimizelyInstance.isFeatureEnabled(whichToggle, String(entityId), attributes),
-    [whichToggle, entityId, attributes],
-  );
-
-  let enabled;
-  if (TESTING_TEAM_MEMBERSHIP_REQUIRED.includes(whichToggle)) {
-    enabled = raw && overrides[whichToggle] !== undefined && overrides[whichToggle];
-  } else {
-    enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
-  }
+  const raw = useOptimizelyValue((optimizelyInstance) => optimizelyInstance.isFeatureEnabled(whichToggle, String(entityId), attributes), [
+    whichToggle,
+    entityId,
+    attributes,
+  ]);
+  const enabled = useIsEnabledBasedOnOverrides({ whichToggle, overrides, raw });
 
   const track = useTracker('Experiment Viewed');
   useEffect(() => {
@@ -134,15 +141,18 @@ export const RolloutsUserSync = () => {
 export const useRolloutsDebug = () => {
   const [id, attributes] = useDefaultUser();
   const [overrides, setOverrides] = useOverrides();
-  return useOptimizelyValue((optimizely) => {
-    const config = optimizely.projectConfigManager.getConfig();
-    const features = config.featureFlags.map(({ key }) => {
-      const enabled = optimizely.isFeatureEnabled(key, String(id), attributes);
-      const forced = overrides[key];
-      const setForced = (value) => setOverrides({ ...overrides, [key]: value });
-      const requiresTeamMembership = TESTING_TEAM_MEMBERSHIP_REQUIRED.includes(key);
-      return { key, enabled, forced, setForced, requiresTeamMembership };
-    });
-    return { features };
-  }, [id, attributes, overrides, setOverrides]);
+  return useOptimizelyValue(
+    (optimizely) => {
+      const config = optimizely.projectConfigManager.getConfig();
+      const features = config.featureFlags.map(({ key }) => {
+        const enabled = optimizely.isFeatureEnabled(key, String(id), attributes);
+        const forced = overrides[key];
+        const setForced = (value) => setOverrides({ ...overrides, [key]: value });
+        const requiresTeamMembership = TESTING_TEAM_MEMBERSHIP_REQUIRED.includes(key);
+        return { key, enabled, forced, setForced, requiresTeamMembership };
+      });
+      return { features };
+    },
+    [id, attributes, overrides, setOverrides],
+  );
 };
