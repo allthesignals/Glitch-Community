@@ -55,15 +55,7 @@ const Settings = () => {
     </div>
   );
 
-  const settingsTabs = [];
-  if (showAccountSettingsTab) {
-    settingsTabs.push({ name: 'Account', tabPanel: AccountSettingsTab });
-  }
-  if (showSubscriptionTab) {
-    settingsTabs.push({ name: 'Subscription', tabPanel: SubscriptionSettingsTab });
-  }
-
-  if (!isSignedIn || !settingsTabs.length) {
+  if (!isSignedIn || !(showAccountSettingsTab || showSubscriptionTab)) {
     return <NotFoundPage />;
   }
 
@@ -77,19 +69,21 @@ const Settings = () => {
         <Tabs selectedIndex={currentTab} onSelect={(tabIndex) => setCurrentTab(tabIndex)}>
           <div className={styles.settingsPage}>
             <TabList className={styles.settingsActions}>
-              {settingsTabs.map((tab) => (
-                <Tab key={tab.name} className={styles.settingsTab}>
-                  <Button as="span">{tab.name}</Button>
-                </Tab>
-              ))}
+              <Tab key="account" className={styles.settingsTab}>
+                <Button as="span">Account</Button>
+              </Tab>
+              <Tab key="subscription" hidden={!showSubscriptionTab} className={styles.settingsTab}>
+                <Button as="span">Subscription</Button>
+              </Tab>
               {/* <Button disabled onClick>Privacy & Notifications</Button> */}
             </TabList>
             <div className={styles.settingsContent}>
-              {settingsTabs.map((tab, i) => (
-                <TabPanel key={tab.name} hidden={currentTab !== i}>
-                  <tab.tabPanel />
-                </TabPanel>
-              ))}
+              <TabPanel key="account" hidden={currentTab !== 0}>
+                <AccountSettingsTab />
+              </TabPanel>
+              <TabPanel key="subscription" hidden={currentTab !== 1}>
+                <SubscriptionSettingsTab />
+              </TabPanel>
             </div>
           </div>
         </Tabs>
