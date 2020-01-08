@@ -16,7 +16,7 @@ import styles from './header.styl';
 
 const ResumeCoding = () => (
   <Button variant="cta" size="small" as="a" href={EDITOR_URL}>
-    Resume Coding
+    Resume Coding please
   </Button>
 );
 

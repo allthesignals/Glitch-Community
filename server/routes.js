@@ -10,8 +10,8 @@ const { getProject, getTeam, getUser, getCollection } = require('./api');
 const webpackExpressMiddleware = require('./webpack');
 const constants = require('./constants');
 const { allByKeys } = require('../shared/api');
-const renderPage = require('./render');
-// const renderPage = () => ({ html: null, helmet: null, styleTags: null });
+// const renderPage = require('./render');
+const renderPage = () => ({ html: null, helmet: null, styleTags: null });
 const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
 const { getHomeData, reloadHomeData, getPupdates, reloadPupdates, getZinePosts, reloadZinePosts } = require('./curated');
 

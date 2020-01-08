@@ -21,7 +21,7 @@ import ProjectOptionsPop from './project-options-pop';
 import styles from './project-item.styl';
 
 const ProfileAvatar = ({ project }) => <Image className={styles.avatar} src={getProjectAvatarUrl(project)} defaultSrc={FALLBACK_AVATAR_URL} alt="" />;
-// const NewButton = createRemoteComponent('https://ritzy-dichondra.glitch.me/module.js', 'Button');
+const NewButton = createRemoteComponent('https://ritzy-dichondra.glitch.me/module.js', 'Button');
 
 const getLinkBodyStyles = (project, showEditButton) =>
   classnames(styles.linkBody, {
