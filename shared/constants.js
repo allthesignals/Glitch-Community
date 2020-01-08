@@ -1,4 +1,6 @@
 // Define a bunch of variables split by environment
+// 
+// Pick which config is used with RUNNING_ON
 
 const envs = {
   production: {
