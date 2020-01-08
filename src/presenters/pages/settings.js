@@ -27,9 +27,7 @@ const Settings = () => {
   const { persistentToken, login } = currentUser;
   const isSignedIn = persistentToken && login;
   const showAccountSettingsTab = userPasswordEnabled || tfaEnabled;
-  // useDevToggle as placeholder until Sarah's feature flag PR is merged
-  // const showSubscriptionTab = useFeatureEnabled('pufferfish');
-  const showSubscriptionTab = useDevToggle('User Passwords');
+  const showSubscriptionTab = useFeatureEnabled('pufferfish');
 
   const AccountSettingsTab = () => (
     <>
