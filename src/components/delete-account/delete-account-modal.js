@@ -5,7 +5,7 @@ import { Actions, Badge, Button, DangerZone, Icon, Info, Overlay, ResultsList, T
 
 import { captureException } from 'Utils/sentry';
 import { useCurrentUser } from 'State/current-user';
-import { useAPI } from 'State/api';
+import { useAPIHandlers } from 'State/api';
 import { useNotifications } from 'State/notifications';
 
 import Link from 'Components/link';
@@ -53,7 +53,7 @@ DeleteInfo.propTypes = {
 };
 
 const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
-  const api = useAPI();
+  const { requestAccountDeleteEmail } = useAPIHandlers();
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
   const [selectedTeam, onTeamSelection] = useState(null);
@@ -73,7 +73,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
   }, [singleAdminTeams]);
   async function triggerEmail() {
     try {
-      await api.post(`/v1/users/${currentUser.id}/requestDeletion`);
+      await requestAccountDeleteEmail(currentUser);
       setPage('emailConfirm');
     } catch (error) {
       createNotification('Unable to close account, try again later.', { type: 'error' });
@@ -211,14 +211,16 @@ const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
       <Actions>
         <p>For security purposes, we've sent an email confirmation to the email associated with your account.</p>
         <p>Please click the link in the email to finish closing your account.</p>
-        <p>
-          If you choose to close your account,{' '}
-          <b>
-            <Pluralize count={soloProjects.length} singular="project" />, <Pluralize count={soloTeams.length} singular="team" />, and{' '}
-            <Pluralize count={soloCollections.length} singular="collection" />
-          </b>{' '}
-          will be made unavailable.
-        </p>
+        {(soloProjects.length > 0 || soloTeams.length > 0 || soloCollections.length > 0) && (
+          <p>
+            Once you click the link in the email, the following will no longer be available:
+            <b>
+              {soloProjects.length > 0 && <Pluralize count={soloProjects.length} singular="project" />}
+              {soloTeams.length > 0 && <Pluralize count={soloTeams.length} singular="team" />}
+              {soloCollections.length > 0 && <Pluralize count={soloCollections.length} singular="collection" />}
+            </b>
+          </p>
+        )}
       </Actions>
       <Actions>
         <Button onClick={onClose} ref={mergeRefs(first, last, focusedOnMount)}>
@@ -250,9 +252,7 @@ const DeleteSettings = () => {
           <MultiPage defaultPage="info">
             {({ page, setPage }) => (
               <>
-                {page === 'info' ? (
-                  <DeleteInfo setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />
-                ) : null}
+                {page === 'info' && <DeleteInfo setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
                 {page === 'projectOwnerTransfer' && <ProjectTransfer setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
                 {page === 'teamOwnerTransfer' && <TeamTransfer setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
                 {page === 'emailConfirm' && <EmailConfirm onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}

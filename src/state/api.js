@@ -203,6 +203,10 @@ export const useAPIHandlers = () => {
       // teams / users
       addPinnedProject: ({ project, team, user }) => api.put(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
       removePinnedProject: ({ project, team, user }) => api.delete(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
+
+      // account closure
+      removeUserToken: (token) => api.delete(`/v1/users?token=${token}`),
+      requestAccountDeleteEmail: (user) => api.post(`/v1/users/${user.id}/requestDeletion`),
     }),
     [api],
   );

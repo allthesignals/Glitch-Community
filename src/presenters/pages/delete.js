@@ -5,7 +5,7 @@ import { TextArea, Button, Icon, Loader } from '@fogcreek/shared-components';
 import Notification from 'Components/notification';
 import { useTracker, useIsAnalyticsInitialized } from 'State/segment-analytics';
 import useDevToggle from 'State/dev-toggles';
-import { useAPI } from 'State/api';
+import { useAPIHandlers } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { captureException } from 'Utils/sentry';
 
@@ -70,9 +70,9 @@ const InvalidToken = () => (
   </div>
 );
 
-async function deleteWithToken(token, api, setAccountStatus, signOut) {
+async function deleteWithToken(token, removeUserToken, setAccountStatus, signOut) {
   try {
-    await api.delete(`/v1/users?token=${token}`);
+    removeUserToken(token);
     signOut();
     setAccountStatus('Deleted');
   } catch (error) {
@@ -85,12 +85,12 @@ const DeleteTokenPage = ({ token }) => {
   const deleteEnabled = useDevToggle('Account Deletion');
   const [accountStatus, setAccountStatus] = useState('Loading');
 
-  const api = useAPI();
+  const { removeUserToken } = useAPIHandlers();
   const { clear: signOut } = useCurrentUser();
 
   useEffect(() => {
     async function checkToken() {
-      await deleteWithToken(token, api, setAccountStatus, signOut);
+      await deleteWithToken(token, removeUserToken, setAccountStatus, signOut);
     }
     checkToken();
   }, []);
