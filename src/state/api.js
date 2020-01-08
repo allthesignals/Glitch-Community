@@ -200,15 +200,8 @@ export const useAPIHandlers = () => {
       joinTeamProject: ({ project, team }) => api.post(`/v1/teams/${team.id}/projects/${project.id}/join`),
 
       // teams / users
-      // note: users are currently using v0 routes, but teams are using v1 routes
-      addPinnedProject: ({ project, team, user }) =>
-        team
-          ? api.put(`/${entityPath({ team })}/pinnedProjects/${project.id}`)
-          : api.post(`/${entityPath({ user })}/pinned-projects/${project.id}`),
-      removePinnedProject: ({ project, team, user }) =>
-        team
-          ? api.delete(`/${entityPath({ team })}/pinnedProjects/${project.id}`)
-          : api.delete(`/${entityPath({ user })}/pinned-projects/${project.id}`),
+      addPinnedProject: ({ project, team, user }) => api.put(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
+      removePinnedProject: ({ project, team, user }) => api.delete(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
 
       // Glitch PRO
       // TODO: v1/payments/glitchPro -> v1/payments/:productName

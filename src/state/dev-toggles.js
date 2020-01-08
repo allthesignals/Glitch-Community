@@ -1,4 +1,5 @@
 import useUserPref from './user-prefs';
+// NOTE! Dev Toggles are going away, plz consider using useFeatureEnabled in State/rollouts instead
 
 //  Dev Toggles!
 //
