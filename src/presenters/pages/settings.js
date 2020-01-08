@@ -8,7 +8,6 @@ import PasswordSettings from 'Components/account-settings-overlay/password-setti
 import TwoFactorSettings from 'Components/account-settings-overlay/two-factor-settings';
 import DeleteSettings from 'Components/delete-account/delete-account-modal';
 import useDevToggle from 'State/dev-toggles';
-import { useFeatureEnabled } from 'State/rollouts';
 import { useCurrentUser } from 'State/current-user';
 import { NotFoundPage } from './error';
 
@@ -24,11 +23,6 @@ const Settings = () => {
   const { persistentToken, login } = currentUser;
   const isSignedIn = persistentToken && login;
   const settingsPageEnabled = isSignedIn && (userPasswordEnabled || tfaEnabled);
-  const isPufferfishEnabled = useFeatureEnabled('pufferfish');
-
-  if (isPufferfishEnabled) {
-    return <div>p u f f e r f i s h</div>;
-  }
 
   if (!settingsPageEnabled) {
     return <NotFoundPage />;
