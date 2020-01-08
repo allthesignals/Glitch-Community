@@ -82,7 +82,7 @@ const Postcards = ({ marketingContent }) => {
               buttonProps={{ as: 'a', href: getProjectLink(sampledIdea) }}
               thumbnail={getIdeaThumbnailUrl(sampledIdea.id)}
             >
-              {sampledIdea.description}
+              {sampledIdea.note}
             </Postcard>
           );
         }}
