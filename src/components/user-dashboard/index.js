@@ -8,8 +8,7 @@ import Image from 'Components/images/image';
 import NewStuffContainer from 'Components/new-stuff';
 import { useCurrentUser } from 'State/current-user';
 import { useAPI } from 'State/api';
-import useSample from 'Hooks/use-sample';
-import { useCollectionProjects, getCollectionProjectsFromAPI } from 'State/collection';
+import { getCollectionProjectsFromAPI } from 'State/collection';
 import { sampleSize } from 'lodash';
 import { getIdeaThumbnailUrl, getProjectLink } from 'Models/project';
 import DataLoader from 'Components/data-loader';
@@ -33,11 +32,6 @@ Stamp.propTypes = {
 };
 
 const Postcards = ({ marketingContent }) => {
-  // const { value: ideas } = useCollectionProjects({ id: 13044 }); /* @glitch/ideas */
-  /* console.log({ ideas });
-  const definitelyIdeas = ideas || [];
-  const [sampledIdeas] = useSample(definitelyIdeas, 1);
-  const sampledIdea = sampledIdeas[0]; */
   const api = useAPI();
   return (
     <div className={styles.postcards}>
@@ -151,12 +145,14 @@ const Postcard = ({
 };
 
 const UserDashboard = ({ postcardContent }) => {
-  const { currentUser } = useCurrentUser();
+  const { currentUser, fetched } = useCurrentUser();
 
   return (
     <>
       <RecentProjects />
-      {currentUser.projects.length > 2 && <Postcards marketingContent={postcardContent} />}
+      {/* fetched is necessary to make sure Postcards only renders once,
+       and so doesn't show a flash of a different project in the ideas postcard */}
+      {fetched && currentUser.projects.length > 2 && <Postcards marketingContent={postcardContent} />}
     </>
   );
 };
