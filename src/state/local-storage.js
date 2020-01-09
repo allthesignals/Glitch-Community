@@ -65,24 +65,40 @@ export const { reducer, actions } = createSlice({
       storage: payload,
       cache: new Map(),
     }),
-    setValue: ({ cache }, { payload }) => {
+    addToCache: ({ cache }, { payload }) => {
       cache.set(payload.name, payload.value);
     },
-    readValue: () => {},
-    writeValue: () => {},
+    removeFromCache: ({ cache }, { payload }) => {
+      cache.delete(payload);
+    },
+    clearCache: ({ cache }) => {
+      cache.clear();
+    },
   },
 });
 
 export const handlers = {
   [appMounted]: (_, store) => {
+    const storage = getStorage();
     const onStorage = (event) => {
-      
+      if (event.storageArea === storage) {
+        if (event.key) {
+          store.dispatch(actions.removeFromCache(event.key));
+        } else {
+          store.dispatch(actions.clearCache());
+        }
+      }
     };
     window.addEventListener('storage', onStorage, { passive: true });
     store.dispatch(actions.setStorage(storage));
   },
 };
 
+const useLocalStorage = (name, defaultValue) => {
+  const value = useSelector((state) => state.localStorage.cache[name]);
+};
+
+/*
 const Context = React.createContext([() => undefined, () => {}]);
 
 const LocalStorageProvider = ({ children }) => {
@@ -143,7 +159,7 @@ const LocalStorageProvider = ({ children }) => {
   );
 };
 
-const useLocalStorage = (name, defaultValue) => {
+const useOldLocalStorage = (name, defaultValue) => {
   const [getRawValue, setRawValue, ready] = React.useContext(Context);
   const rawValue = getRawValue(name);
 
@@ -154,4 +170,4 @@ const useLocalStorage = (name, defaultValue) => {
 };
 
 export default useLocalStorage;
-export { LocalStorageProvider };
+export { LocalStorageProvider };*/
