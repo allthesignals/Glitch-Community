@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from '@fogcreek/shared-components';
 
-import Layout from 'Components/layout';
 import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
@@ -9,6 +8,7 @@ import { useAPIHandlers } from 'State/api';
 import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
 
+import AboutLayout from './about/about-layout';
 import styles from './pricing.styl';
 
 const PricingPage = () => {
@@ -28,7 +28,7 @@ const PricingPage = () => {
   }
 
   return (
-    <Layout>
+    <AboutLayout>
       <GlitchHelmet title="/pricing title TODO" description="/pricing description TODO" canonicalUrl="/pricing" />
       <main id="main" aria-label="Glitch Pricing Page">
         <Heading tagName="h1">Get Glitch Pro</Heading>
@@ -72,7 +72,7 @@ const PricingPage = () => {
           </div>
         </div>
       </main>
-    </Layout>
+    </AboutLayout>
   );
 };
 
