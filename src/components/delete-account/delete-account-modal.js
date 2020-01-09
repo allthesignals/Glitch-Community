@@ -256,9 +256,9 @@ const DeleteSettings = () => {
           <MultiPage defaultPage="info">
             {({ page, setPage }) => (
               <>
-                {page === 'info' && <DeleteInfo next={() => pageController({setPage})} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
-                {page === 'projectOwnerTransfer' && <ProjectTransfer next={() => pageController({setPage})} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} singleAdminProjects={singleAdminProjects} />}
-                {page === 'teamOwnerTransfer' && <TeamTransfer next={() => pageController({setPage})} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
+                {page === 'info' && <DeleteInfo next={() => pageController({ setPage })} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
+                {page === 'projectOwnerTransfer' && <ProjectTransfer next={() => pageController({ setPage })} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} singleAdminProjects={singleAdminProjects} />}
+                {page === 'teamOwnerTransfer' && <TeamTransfer next={() => pageController({ setPage })} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
                 {page === 'emailConfirm' && <EmailConfirm onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
               </>
             )}

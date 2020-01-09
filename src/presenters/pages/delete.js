@@ -16,10 +16,9 @@ import styles from './delete.styl';
 const ValidToken = () => {
   const [reasonForLeaving, setReason] = useState('');
   const [showNotification, setShowNotification] = useState(false);
-  const tracker = useTracker('Submitted User Deletion Feedback', (inherited) => ({
-    ...inherited,
+  const tracker = useTracker('Submitted User Deletion Feedback', {
     reasonForLeaving,
-  }));
+  });
   const isInitialized = useIsAnalyticsInitialized();
 
   const submitFeedback = () => {
@@ -72,7 +71,7 @@ const InvalidToken = () => (
 
 async function deleteWithToken(token, removeUserToken, setAccountStatus, signOut) {
   try {
-    removeUserToken(token);
+    await removeUserToken(token);
     signOut();
     setAccountStatus('Deleted');
   } catch (error) {
