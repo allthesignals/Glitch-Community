@@ -61,20 +61,16 @@ const useDefaultUser = () => {
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM } = useGlobals();
 
-  const attributeDependencies = currentUser.id ? [
-    currentUser.login, currentUser.projects.length, userIsInTestingTeam(currentUser),
-  ] : [SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM];
-  const attributes = useMemo(() => (
-    currentUser.id ? {
-      hasLogin: !!currentUser.login,
-      hasProjects: currentUser.projects.length > 0,
-      inTestingTeam: userIsInTestingTeam(currentUser),
-    } : {
-      hasLogin: SSR_SIGNED_IN,
-      hasProjects: SSR_HAS_PROJECTS,
-      inTestingTeam: SSR_IN_TESTING_TEAM,
-    }
-  ), attributeDependencies);
+  const rawAttributes = currentUser.id ? {
+    hasLogin: !!currentUser.login,
+    hasProjects: currentUser.projects.length > 0,
+    inTestingTeam: userIsInTestingTeam(currentUser),
+  } : {
+    hasLogin: SSR_SIGNED_IN,
+    hasProjects: SSR_HAS_PROJECTS,
+    inTestingTeam: SSR_IN_TESTING_TEAM,
+  };
+  const attributes = useMemo(() => rawAttributes, Object.values(rawAttributes));
   return [optimizelyId, attributes];
 };
 
@@ -120,6 +116,8 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
     const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
     const config = optimizely.projectConfigManager.getConfig();
     const { id, rolloutId } = config.featureKeyMap[whichToggle];
+    // if we're running tests for signed out users, don't send the event for signed in users
+    // do that by making sure the audience applies to you, and waiting until the event status is 'Running'
     const active = config.rolloutIdMap[rolloutId].experiments.some((experiment) => (
       checkAudience(optimizely, config, experiment.id, attributes) && /running/i.test(experiment.status)
     ));
