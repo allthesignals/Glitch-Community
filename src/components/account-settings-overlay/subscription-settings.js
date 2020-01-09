@@ -5,15 +5,22 @@ import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
+import { useAPIHandlers } from 'State/api';
 
 function SubscriptionSettings() {
   const stripe = useStripe();
   const subscriptionStatus = useSubscriptionStatus();
+  const { createSubscriptionSession } = useAPIHandlers();
 
   async function subscribe() {
-    setSubscribed(true);
-    const tempSessionId = 'cs_test_D6CQy12ikYVpiQd5ZkKsuxuiKXPdVzDkSxNk4sQ4POnjzBYWqlLdST6N';
-    await stripe.redirectToCheckout({ sessionId: tempSessionId });
+    try {
+      const { data } = await createSubscriptionSession({ successUrl: 'https://glitch.com', cancelUrl: 'https://glitch.com/pricing' });
+      const { id: sessionId } = data;
+      stripe.redirectToCheckout({ sessionId });
+    } catch (err) {
+      // TODO decide what kind of error handling we need here
+      console.log(err);
+    }
   }
 
   return subscriptionStatus.fetched ? (
