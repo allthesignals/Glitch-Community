@@ -65,18 +65,20 @@ export const { reducer, actions } = createSlice({
       storage: payload,
       cache: new Map(),
     }),
-    addToCache: ({ cache }, { payload }) => {
-      cache.set(payload.name, payload.value);
-    },
-    removeFromCache: ({ cache }, { payload }) => {
+    storageUpdated: ({ cache }, { payload }) => {
       cache.delete(payload);
     },
-    clearCache: ({ cache }) => {
+    storageCleared: ({ cache }) => {
       cache.clear();
     },
     readValue: ({ storage, cache }, { payload }) => {
-      if (!cache.has())
-    }
+      if (!cache.has(payload)) {
+        cache.set(payload, readFromStorage(storage, payload));
+      }
+    },
+    writeValue: ({ cache }, { payload }) => {
+      cache.set(payload.name, payload.value);
+    },
   },
 });
 
@@ -86,14 +88,17 @@ export const handlers = {
     const onStorage = (event) => {
       if (event.storageArea === storage) {
         if (event.key) {
-          store.dispatch(actions.removeFromCache(event.key));
+          store.dispatch(actions.storageUpdated(event.key));
         } else {
-          store.dispatch(actions.clearCache());
+          store.dispatch(actions.storageCleared());
         }
       }
     };
     window.addEventListener('storage', onStorage, { passive: true });
     store.dispatch(actions.setStorage(storage));
+  },
+  [actions.writeValue]: ({ payload }, store) => {
+    writeToStorage(store.localStorage.storage, payload.name, payload.value);
   },
 };
 
@@ -106,7 +111,11 @@ const useLocalStorage = (name, defaultValue) => {
     return { value: readFromStorage(storage, name), cached: false };
   });
   const dispatch = useDispatch();
+  const setValue = React.useCallback((newValue) => dispatch(actions.writeValue({ name, value: newValue })), [name]);
+  return [value, setValue, !!storage];
 };
+
+export default useLocalStorage;
 
 /*
 const Context = React.createContext([() => undefined, () => {}]);
@@ -180,4 +189,5 @@ const useOldLocalStorage = (name, defaultValue) => {
 };
 
 export default useLocalStorage;
-export { LocalStorageProvider };*/
+export { LocalStorageProvider };
+*/
