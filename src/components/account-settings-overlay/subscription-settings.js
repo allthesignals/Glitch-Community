@@ -10,6 +10,15 @@ function SubscriptionSettings() {
   const [subscribed, setSubscribed] = useState(false);
   const stripe = useStripe();
 
+  async function subscribe() {
+    const res = await window.fetch('https://burnt-bathroom.glitch.me/checkout', { method: 'POST' });
+    const { id: sessionId } = await res.json();
+    console.log(sessionId);
+
+    setSubscribed(true);
+    await stripe.redirectToCheckout({ sessionId });
+  }
+
   return (
     <>
       <Heading tagName="h2">Subscription</Heading>
@@ -23,7 +32,7 @@ function SubscriptionSettings() {
       ) : (
         <>
           <Text defaultMargin>Subscribe to the Extra Memory monthly plan for $14 per month.</Text>
-          <Button disabled={!stripe} variant="cta" onClick={() => setSubscribed(true)}>
+          <Button disabled={!stripe} variant="cta" onClick={subscribe}>
             Subscribe
           </Button>
         </>
