@@ -158,7 +158,7 @@ export const createAPIHook = (asyncFunction, options = {}) => (...args) => {
 };
 
 export const entityPath = ({ user, team, project, collection }) => {
-  if (user) return `users/${user.id}`;
+  if (user) return `v1/users/${user.id}`;
   if (team) return `v1/teams/${team.id}`;
   if (project) return `projects/${project.id}`;
   if (collection) return `v1/collections/${collection.id}`;

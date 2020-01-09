@@ -1,9 +1,12 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { enums } from '@optimizely/optimizely-sdk';
+import { userIsInTestingTeam } from 'Utils/constants';
 import { useTracker } from './segment-analytics';
 import { useCurrentUser } from './current-user';
 import { useGlobals } from './globals';
 import useUserPref from './user-prefs';
+// toggles which require an additional testing team membership (just enabling on /secret is not enough)
+const TESTING_TEAM_MEMBERSHIP_REQUIRED = ['pufferfish'];
 
 // human readable rollout state to include in analytics
 const DEFAULT_DESCRIPTION = {
@@ -22,6 +25,10 @@ const ROLLOUT_DESCRIPTIONS = {
   swap_index_create: {
     true: ['swapped', 'create is shown at the index'],
     false: ['control', 'see the existing homepage'],
+  },
+  pufferfish: {
+    true: ['enabled', 'pufferfish ui is shown'],
+    false: ['disabled', 'pufferfish ui is NOT shown'],
   },
 };
 
@@ -46,16 +53,19 @@ const useOverrides = () => useUserPref('optimizelyOverrides', defaultOverrides);
 const useDefaultUser = () => {
   const { optimizelyId } = useOptimizely();
   const { currentUser } = useCurrentUser();
-  const { SSR_SIGNED_IN, SSR_HAS_PROJECTS } = useGlobals();
+  const { SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM } = useGlobals();
+
   const attributes = useMemo(() => (
     currentUser.id ? {
       hasLogin: !!currentUser.login,
       hasProjects: currentUser.projects.length > 0,
+      inTestingTeam: userIsInTestingTeam(currentUser),
     } : {
       hasLogin: SSR_SIGNED_IN,
       hasProjects: SSR_HAS_PROJECTS,
+      inTestingTeam: SSR_IN_TESTING_TEAM,
     }
-  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS]);
+  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM]);
   return [optimizelyId, attributes];
 };
 
@@ -73,14 +83,28 @@ const useOptimizelyValue = (getValue, dependencies) => {
   return value;
 };
 
+export const useIsEnabledBasedOnOverrides = ({
+  whichToggle,
+  overrides,
+  raw,
+  togglesWhichRequireTeamMembership = TESTING_TEAM_MEMBERSHIP_REQUIRED,
+}) => {
+  if (togglesWhichRequireTeamMembership.includes(whichToggle)) {
+    return raw && overrides[whichToggle] !== undefined && overrides[whichToggle];
+  }
+
+  return overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+};
+
 export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) => {
   const { optimizely } = useOptimizely();
   const [overrides] = useOverrides();
-  const raw = useOptimizelyValue(
-    (optimizelyInstance) => optimizelyInstance.isFeatureEnabled(whichToggle, String(entityId), attributes),
-    [whichToggle, entityId, attributes],
-  );
-  const enabled = overrides[whichToggle] !== undefined ? !!overrides[whichToggle] : raw;
+  const raw = useOptimizelyValue((optimizelyInstance) => optimizelyInstance.isFeatureEnabled(whichToggle, String(entityId), attributes), [
+    whichToggle,
+    entityId,
+    attributes,
+  ]);
+  const enabled = useIsEnabledBasedOnOverrides({ whichToggle, overrides, raw });
 
   const track = useTracker('Experiment Viewed');
   useEffect(() => {
@@ -121,14 +145,18 @@ export const RolloutsUserSync = () => {
 export const useRolloutsDebug = () => {
   const [id, attributes] = useDefaultUser();
   const [overrides, setOverrides] = useOverrides();
-  return useOptimizelyValue((optimizely) => {
-    const config = optimizely.projectConfigManager.getConfig();
-    const features = config.featureFlags.map(({ key }) => {
-      const enabled = optimizely.isFeatureEnabled(key, String(id), attributes);
-      const forced = overrides[key];
-      const setForced = (value) => setOverrides({ ...overrides, [key]: value });
-      return { key, enabled, forced, setForced };
-    });
-    return { features };
-  }, [id, attributes, overrides, setOverrides]);
+  return useOptimizelyValue(
+    (optimizely) => {
+      const config = optimizely.projectConfigManager.getConfig();
+      const features = config.featureFlags.map(({ key }) => {
+        const enabled = optimizely.isFeatureEnabled(key, String(id), attributes);
+        const forced = overrides[key];
+        const setForced = (value) => setOverrides({ ...overrides, [key]: value });
+        const requiresTeamMembership = TESTING_TEAM_MEMBERSHIP_REQUIRED.includes(key);
+        return { key, enabled, forced, setForced, requiresTeamMembership };
+      });
+      return { features };
+    },
+    [id, attributes, overrides, setOverrides],
+  );
 };
