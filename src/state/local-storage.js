@@ -8,18 +8,17 @@ const testStorage = (storage) => {
   storage.setItem('test', 'test');
   storage.getItem('test');
   storage.removeItem('test');
+  return storage;
 };
 
 export const getStorage = () => {
   try {
-    testStorage(window.localStorage);
-    return window.localStorage;
+    return testStorage(window.localStorage);
   } catch (error) {
     console.warn('Local storage not available');
   }
   try {
-    testStorage(window.sessionStorage);
-    return window.sessionStorage;
+    return testStorage(window.sessionStorage);
   } catch (error) {
     console.warn('Session storage not available');
   }
