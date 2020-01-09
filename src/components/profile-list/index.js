@@ -100,15 +100,15 @@ const parametersForSize = {
 const RowContainer = ({ size, users, teams, asLinks }) => {
   // const { ref, width } = useResizeObserver();
   const ref = useRef();
-  const width = '500';
-  console.log(width);
-  const { avatarWidth, userOffset, teamOffset } = parametersForSize[size];
+  // const width = '500';
+  // console.log(width);
+  // const { avatarWidth, userOffset, teamOffset } = parametersForSize[size];
   /* const maxTeams = Math.floor(width / (avatarWidth + teamOffset));
   const remainingWidth = width - (avatarWidth + teamOffset) * teams.length - teamOffset;
   const maxUsers = Math.floor((remainingWidth + userOffset) / (avatarWidth + userOffset)); */
   const maxTeams = 1;
   const maxUsers = 1;
-  console.log({ maxTeams, maxUsers });
+  // console.log({ maxTeams, maxUsers });
   return (
     <ul ref={ref} className={classnames(styles.container, styles.row, styles[size])}>
       {teams.slice(0, maxTeams).map((team) => (
@@ -187,8 +187,8 @@ export const ProfileItem = ({ user, team, glitchTeam, size, asLinks }) => (
 );
 
 const ProfileList = React.memo(({ size, users, teams, layout, glitchTeam, asLinks }) => {
-  console.log(users);
-  console.log(teams);
+  // console.log(users);
+  // console.log(teams);
   if (glitchTeam) {
     return <GlitchTeamList size={size} asLinks={asLinks} />;
   }

@@ -13,6 +13,7 @@ import styles from './styles.styl';
 
 const Idea = ({ project }) => {
   const [hasBookmarked, toggleBookmark] = useToggleBookmark(project);
+  const noteToShow = project.note || 'Try remixing this project!';
   return (
     <div className={styles.idea}>
       <span className={styles.ideaMyStuffBtn}>
@@ -23,7 +24,7 @@ const Idea = ({ project }) => {
         <Button as="a" href={getProjectLink(project)} textWrap>
           {project.domain}
         </Button>
-        <Text size="14px">{project.description}</Text>
+        <Text size="14px">{noteToShow}</Text>
       </div>
       <div className={styles.ideaThumbnailContainer}>
         <Image src={getIdeaThumbnailUrl(project.id)} alt="" />
