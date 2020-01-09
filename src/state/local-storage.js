@@ -80,9 +80,11 @@ export const { reducer, actions } = createSlice({
   },
 });
 
+let storage = null;
+
 export const handlers = {
   [appMounted]: (_, store) => {
-    const storage = getStorage();
+    storage = getStorage();
     const onStorage = (event) => {
       if (event.storageArea === storage) {
         if (event.key) {
@@ -95,26 +97,26 @@ export const handlers = {
     window.addEventListener('storage', onStorage, { passive: true });
     store.dispatch(actions.storageFound());
   },
-  [actions.writeValue]: ({ payload }, store) => {
-    writeToStorage(store.localStorage.storage, payload.name, payload.value);
+  [actions.writeValue]: ({ payload }) => {
+    writeToStorage(storage, payload.name, payload.value);
   },
 };
 
 const useLocalStorage = (name, defaultValue) => {
-  const storage = useSelector((state) => state.localStorage.storage);
+  const ready = useSelector((state) => state.localStorage.ready);
   const valueIsCached = useSelector((state) => state.localStorage.cache.has(name));
   const cachedValue = useSelector((state) => state.localStorage.cache.get(name));
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if (storage && !valueIsCached) {
+    if (!valueIsCached) {
       dispatch(actions.readValue({ name, value: readFromStorage(storage, name) }));
     }
-  }, [valueIsCached, storage, name]);
+  }, [valueIsCached, name]);
 
   const value = cachedValue !== undefined ? cachedValue : defaultValue;
   const setValue = React.useCallback((newValue) => dispatch(actions.writeValue({ name, value: newValue })), [name]);
-  return [value, setValue, !!storage];
+  return [value, setValue, ready];
 };
 
 export default useLocalStorage;
