@@ -237,9 +237,9 @@ const DeleteSettings = () => {
   const pageController = ({ setPage }) => {
     if (singleAdminProjects.length === 0 && singleAdminTeams.length === 0) {
       triggerEmail(setPage);
-    } else if (singleAdminProjects > 0) {
+    } else if (singleAdminProjects.length > 0) {
       setPage('projectOwnerTransfer');
-    } else if (singleAdminTeams > 0) {
+    } else if (singleAdminTeams.length > 0) {
       setPage('teamOwnerTransfer');
     }
   };
