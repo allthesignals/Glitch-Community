@@ -32,6 +32,12 @@ const ROLLOUT_DESCRIPTIONS = {
   },
 };
 
+const checkAudience = (optimizely, config, experimentId, attributes) => {
+  const { audiencesById, experimentIdMap } = config;
+  const { audienceConditions } = experimentIdMap[experimentId];
+  return optimizely.decisionService.audienceEvaluator.evaluate(audienceConditions, audiencesById, attributes);
+};
+
 const Context = createContext();
 
 export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizelyId, children }) => {
@@ -111,8 +117,10 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
     const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
     const config = optimizely.projectConfigManager.getConfig();
     const { id, rolloutId } = config.featureKeyMap[whichToggle];
-    const running = config.rolloutIdMap[rolloutId].experiments.some(({ status }) => /running/i.test(status));
-    if (running) {
+    const active = config.rolloutIdMap[rolloutId].experiments.some((experiment) => (
+      checkAudience(optimizely, config, experiment.id, attributes) && /running/i.test(experiment.status)
+    ));
+    if (active) {
       track({
         experiment_id: id,
         experiment_name: whichToggle,
@@ -121,7 +129,7 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
         variant_description: description,
       });
     }
-  }, [optimizely, whichToggle, enabled]);
+  }, [optimizely, whichToggle, attributes, enabled]);
 
   return enabled;
 };
