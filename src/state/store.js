@@ -9,13 +9,13 @@ import * as currentUser from './current-user';
 const createStore = () =>
   configureStore({
     reducer: {
-      currentUser: currentUser.reducer,
       localStorage: localStorage.reducer,
+      currentUser: currentUser.reducer,
     },
     middleware: [
       ...getDefaultMiddleware(),
-      createHandlerMiddleware(currentUser.handlers),
       createHandlerMiddleware(localStorage.handlers),
+      createHandlerMiddleware(currentUser.handlers),
     ],
     devTools: isBrowser && window.ENVIRONMENT === 'dev',
   });
