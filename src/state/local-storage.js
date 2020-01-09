@@ -57,26 +57,28 @@ export const writeToStorage = (storage, name, value) => {
 export const { reducer, actions } = createSlice({
   name: 'localStorage',
   initialState: {
-    cache: new Map(),
+    cache: {},
     ready: false,
   },
   reducers: {
     storageFound: () => ({
-      cache: new Map(),
+      cache: {},
       ready: true,
     }),
     storageUpdated: ({ cache }, { payload }) => {
-      cache.delete(payload);
+      delete cache[payload];
     },
-    storageCleared: ({ cache }) => {
-      cache.clear();
-    },
-    readValue: ({ cache }, { payload }) => {
-      cache.set(payload.name, payload.value);
-    },
-    writeValue: ({ cache }, { payload }) => {
-      cache.set(payload.name, payload.value);
-    },
+    storageCleared: (store) => ({
+      ...store,
+      cache: {},
+    }),
+    readValue: (cache, { payload }) => {
+      cache[payload.name] = payload.value },
+    }),
+    writeValue: (store, { payload }) => ({
+      ...store,
+      cache: { ...store.cache, [payload.name]: payload.value },
+    }),
   },
 });
 
@@ -104,8 +106,8 @@ export const handlers = {
 
 const useLocalStorage = (name, defaultValue) => {
   const ready = useSelector((state) => state.localStorage.ready);
-  const valueIsCached = useSelector((state) => state.localStorage.cache.has(name));
-  const cachedValue = useSelector((state) => state.localStorage.cache.get(name));
+  const valueIsCached = useSelector((state) => name in state.localStorage.cache);
+  const cachedValue = useSelector((state) => state.localStorage.cache[name]);
 
   const dispatch = useDispatch();
   React.useEffect(() => {
