@@ -61,24 +61,22 @@ export const { reducer, actions } = createSlice({
     ready: false,
   },
   reducers: {
-    storageFound: () => ({
-      cache: {},
-      ready: true,
-    }),
+    storageFound: (store) => {
+      store.cache = {};
+      store.ready = true;
+    },
     storageUpdated: ({ cache }, { payload }) => {
       delete cache[payload];
     },
-    storageCleared: (store) => ({
-      ...store,
-      cache: {},
-    }),
-    readValue: (cache, { payload }) => {
-      cache[payload.name] = payload.value },
-    }),
-    writeValue: (store, { payload }) => ({
-      ...store,
-      cache: { ...store.cache, [payload.name]: payload.value },
-    }),
+    storageCleared: (store) => {
+      store.cache = {};
+    },
+    readValue: ({ cache }, { payload }) => {
+      cache[payload.name] = payload.value;
+    },
+    writeValue: ({ cache }, { payload }) => {
+      cache[payload.name] = payload.value;
+    },
   },
 });
 
@@ -111,10 +109,10 @@ const useLocalStorage = (name, defaultValue) => {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if (!valueIsCached) {
+    if (ready && !valueIsCached) {
       dispatch(actions.readValue({ name, value: readFromStorage(storage, name) }));
     }
-  }, [valueIsCached, name]);
+  }, [ready, valueIsCached, name]);
 
   const value = cachedValue !== undefined ? cachedValue : defaultValue;
   const setValue = React.useCallback((newValue) => dispatch(actions.writeValue({ name, value: newValue })), [name]);
