@@ -61,6 +61,9 @@ const useDefaultUser = () => {
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM } = useGlobals();
 
+  const attributeDependencies = currentUser.id ? [
+    currentUser.login, currentUser.projects.length, userIsInTestingTeam(currentUser),
+  ] : [SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM];
   const attributes = useMemo(() => (
     currentUser.id ? {
       hasLogin: !!currentUser.login,
@@ -71,7 +74,7 @@ const useDefaultUser = () => {
       hasProjects: SSR_HAS_PROJECTS,
       inTestingTeam: SSR_IN_TESTING_TEAM,
     }
-  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM]);
+  ), attributeDependencies);
   return [optimizelyId, attributes];
 };
 
