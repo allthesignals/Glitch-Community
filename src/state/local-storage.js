@@ -2,6 +2,7 @@ import React from 'react';
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
 import { captureException } from 'Utils/sentry';
+import { appMounted } from './app-mounted';
 
 const testStorage = (storage) => {
   storage.setItem('test', 'test');
@@ -56,19 +57,31 @@ export const writeToStorage = (storage, name, value) => {
 export const { reducer, actions } = createSlice({
   name: 'localStorage',
   initialState: {
+    storage: null,
     cache: new Map(),
-    ready: false,
   },
   reducers: {
-    initialized: (state) => ({
-      ...state,
-      ready: true,
+    setStorage: (state, { payload }) => ({
+      storage: payload,
+      cache: new Map(),
     }),
-    readValue: ({ cache }, { payload }) => {
-      cache.setValue(payload.name, payload.value);
-    }
+    setValue: ({ cache }, { payload }) => {
+      cache.set(payload.name, payload.value);
+    },
+    readValue: () => {},
+    writeValue: () => {},
   },
 });
+
+export const handlers = {
+  [appMounted]: (_, store) => {
+    const onStorage = (event) => {
+      
+    };
+    window.addEventListener('storage', onStorage, { passive: true });
+    store.dispatch(actions.setStorage(storage));
+  },
+};
 
 const Context = React.createContext([() => undefined, () => {}]);
 
