@@ -5,12 +5,28 @@ import Layout from 'Components/layout';
 import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
+import { useAPIHandlers } from 'State/api';
+import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
 
 import styles from './pricing.styl';
 
 const PricingPage = () => {
   const subscriptionStatus = useSubscriptionStatus();
+  const { createSubscriptionSession } = useAPIHandlers();
+  const stripe = useStripe();
+
+  async function subscribe() {
+    try {
+      const { data } = await createSubscriptionSession({ successUrl: 'https://glitch.com', cancelUrl: 'https://glitch.com/pricing' });
+      const { id: sessionId } = data;
+      stripe.redirectToCheckout({ sessionId });
+    } catch (err) {
+      // TODO decide what kind of error handling we need here
+      console.log(err);
+    }
+  }
+
   return (
     <Layout>
       <GlitchHelmet title="/pricing title TODO" description="/pricing description TODO" canonicalUrl="/pricing" />
@@ -53,7 +69,9 @@ const PricingPage = () => {
                   Manage Your Subscription
                 </Button>
               ) : (
-                <Button variant="cta">Sign Up</Button>
+                <Button onClick={subscribe} variant="cta">
+                  Sign Up
+                </Button>
               ))}
           </div>
         </div>
