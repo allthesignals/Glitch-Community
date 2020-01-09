@@ -225,7 +225,7 @@ const ProjectPage = ({ project: initialProject }) => {
   return (
     <main id="main" aria-label="Glitch Project Page">
       <GlitchHelmet
-        title={project.domain}
+        title={project.domain.replace(/-/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1))}
         description={seoDescription}
         image={project.suspendedReason ? SUSPENDED_AVATAR_URL : getProjectAvatarUrl(project)}
         canonicalUrl={getProjectLink(project)}
