@@ -74,6 +74,9 @@ export const { reducer, actions } = createSlice({
     clearCache: ({ cache }) => {
       cache.clear();
     },
+    readValue: ({ storage, cache }, { payload }) => {
+      if (!cache.has())
+    }
   },
 });
 
@@ -95,7 +98,14 @@ export const handlers = {
 };
 
 const useLocalStorage = (name, defaultValue) => {
-  const value = useSelector((state) => state.localStorage.cache[name]);
+  const storage = useSelector((state) => state.localStorage.storage);
+  const { value, cached } = useSelector((state) => {
+    if (state.localStorage.cache.has(name)) {
+      return { value: state.localStorage.cache.get(name), cached: true };
+    }
+    return { value: readFromStorage(storage, name), cached: false };
+  });
+  const dispatch = useDispatch();
 };
 
 /*
