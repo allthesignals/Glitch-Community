@@ -1,22 +1,24 @@
 import React from 'react';
+import { createSlice } from '@reduxjs/toolkit';
+import { useSelector, useDispatch } from 'react-redux';
 import { captureException } from 'Utils/sentry';
+
+const testStorage = (storage) => {
+  storage.setItem('test', 'test');
+  storage.getItem('test');
+  storage.removeItem('test');
+};
 
 export const getStorage = () => {
   try {
-    const storage = window.localStorage;
-    storage.setItem('test', 'test');
-    storage.getItem('test');
-    storage.removeItem('test');
-    return storage;
+    testStorage(window.localStorage);
+    return window.localStorage;
   } catch (error) {
     console.warn('Local storage not available');
   }
   try {
-    const storage = window.sessionStorage;
-    storage.setItem('test', 'test');
-    storage.getItem('test');
-    storage.removeItem('test');
-    return storage;
+    testStorage(window.sessionStorage);
+    return window.sessionStorage;
   } catch (error) {
     console.warn('Session storage not available');
   }
@@ -50,6 +52,23 @@ export const writeToStorage = (storage, name, value) => {
     }
   }
 };
+
+export const { reducer, actions } = createSlice({
+  name: 'localStorage',
+  initialState: {
+    cache: new Map(),
+    ready: false,
+  },
+  reducers: {
+    initialized: (state) => ({
+      ...state,
+      ready: true,
+    }),
+    readValue: ({ cache }, { payload }) => {
+      cache.setValue(payload.name, payload.value);
+    }
+  },
+});
 
 const Context = React.createContext([() => undefined, () => {}]);
 
