@@ -11,12 +11,9 @@ function SubscriptionSettings() {
   const stripe = useStripe();
 
   async function subscribe() {
-    const res = await window.fetch('https://burnt-bathroom.glitch.me/checkout', { method: 'POST' });
-    const { id: sessionId } = await res.json();
-    console.log(sessionId);
-
     setSubscribed(true);
-    await stripe.redirectToCheckout({ sessionId });
+    const tempSessionId = 'cs_test_D6CQy12ikYVpiQd5ZkKsuxuiKXPdVzDkSxNk4sQ4POnjzBYWqlLdST6N';
+    await stripe.redirectToCheckout({ sessionId: tempSessionId });
   }
 
   return (
