@@ -207,7 +207,7 @@ export const useAPIHandlers = () => {
       // TODO: v1/payments/glitchPro -> v1/payments/:productName
       getSubscriptionStatus: () => api.get('/v1/payments/glitchPro'),
       createSubscriptionSession: ({ successUrl, cancelUrl }) => api.post('/v1/payments/glitchPro', { successUrl, cancelUrl }),
-      cancelSubscription: ({ user }) => api.delete('/v1/payments/glitchPro', { user }),
+      cancelSubscription: () => api.delete('/v1/payments/glitchPro'),
     }),
     [api],
   );

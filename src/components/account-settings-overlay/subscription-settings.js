@@ -10,7 +10,7 @@ import { useAPIHandlers } from 'State/api';
 function SubscriptionSettings() {
   const stripe = useStripe();
   const subscriptionStatus = useSubscriptionStatus();
-  const { createSubscriptionSession } = useAPIHandlers();
+  const { createSubscriptionSession, cancelSubscription } = useAPIHandlers();
 
   async function subscribe() {
     try {
@@ -23,13 +23,22 @@ function SubscriptionSettings() {
     }
   }
 
+  async function cancel() {
+    try {
+      await cancelSubscription();
+    } catch (err) {
+      // TODO decide what kind of error handling we need here
+      console.log(err);
+    }
+  }
+
   return subscriptionStatus.fetched ? (
     <>
       <Heading tagName="h2">Subscription</Heading>
       {subscriptionStatus.isActive ? (
         <>
           <Text defaultMargin>Subscribed to the Extra Memory monthly plan for $14 per month.</Text>
-          <Button disabled={!stripe} variant="secondary" onClick={() => setSubscribed(false)}>
+          <Button disabled={!stripe} variant="secondary" onClick={cancel}>
             Cancel Subscription
           </Button>
         </>
