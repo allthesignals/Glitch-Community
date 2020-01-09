@@ -104,12 +104,9 @@ export const handlers = {
 
 const useLocalStorage = (name, defaultValue) => {
   const storage = useSelector((state) => state.localStorage.storage);
-  const { value, cached } = useSelector((state) => {
-    if (state.localStorage.cache.has(name)) {
-      return { value: state.localStorage.cache.get(name), cached: true };
-    }
-    return { value: readFromStorage(storage, name), cached: false };
-  });
+  const valueIsCached = useSelector((state) => state.localStorage.cache.has(name));
+  const cachedValue = useSelector((state) => state.localStorage.cache.get(name));
+  const storedValue = valueIsCached ? cachedValue : 
   const dispatch = useDispatch();
   const setValue = React.useCallback((newValue) => dispatch(actions.writeValue({ name, value: newValue })), [name]);
   return [value, setValue, !!storage];
