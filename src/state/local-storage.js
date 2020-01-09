@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useEffect } from 'react';
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
 import { captureException } from 'Utils/sentry';
@@ -107,14 +107,14 @@ const useLocalStorage = (name, defaultValue) => {
   const cachedValue = useSelector((state) => state.localStorage.cache[name]);
 
   const dispatch = useDispatch();
-  React.useEffect(() => {
+  useEffect(() => {
     if (ready && !valueIsCached) {
       dispatch(actions.readValue({ name, value: readFromStorage(storage, name) }));
     }
   }, [ready, valueIsCached, name]);
 
   const value = cachedValue !== undefined ? cachedValue : defaultValue;
-  const setValue = React.useCallback((newValue) => dispatch(actions.writeValue({ name, value: newValue })), [name]);
+  const setValue = useCallback((newValue) => dispatch(actions.writeValue({ name, value: newValue })), [name]);
   return [value, setValue, ready];
 };
 
