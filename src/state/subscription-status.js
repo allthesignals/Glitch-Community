@@ -8,7 +8,6 @@ export default function useSubscriptionStatus() {
   useEffect(() => {
     const fetchStatus = async () => {
       const { data } = await getSubscriptionStatus();
-      console.log(data);
       setSubscriptionStatus({ ...data, fetched: true });
     };
 
