@@ -36,13 +36,11 @@ const PricingPage = () => {
           <div className={styles.pricingBlock}>
             <Heading tagName="h2">Free</Heading>
             <Text>$0/month</Text>
-            <Text>
-              <ul>
-                <li>Create and collaborate on code</li>
-                <li>Public and private repositories</li>
-                <li>Integrate with GitHub</li>
-              </ul>
-            </Text>
+            <ul>
+              <li>Create and collaborate on code</li>
+              <li>Public and private repositories</li>
+              <li>Integrate with GitHub</li>
+            </ul>
 
             {subscriptionStatus.fetched && (
               <Text>
@@ -56,12 +54,10 @@ const PricingPage = () => {
           <div className={styles.pricingBlock}>
             <Heading tagName="h2">Glitch Pro</Heading>
             <Text>$14/month</Text>
-            <Text>
-              <ul>
-                <li>Everything in Glitch Free</li>
-                <li>Boosted performance for projects</li>
-              </ul>
-            </Text>
+            <ul>
+              <li>Everything in Glitch Free</li>
+              <li>Boosted performance for projects</li>
+            </ul>
 
             {subscriptionStatus.fetched &&
               (subscriptionStatus.isActive ? (
