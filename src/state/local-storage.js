@@ -57,13 +57,13 @@ export const writeToStorage = (storage, name, value) => {
 export const { reducer, actions } = createSlice({
   name: 'localStorage',
   initialState: {
-    storage: null,
     cache: new Map(),
+    ready: false,
   },
   reducers: {
-    setStorage: (state, { payload }) => ({
-      storage: payload,
+    storageFound: () => ({
       cache: new Map(),
+      ready: true,
     }),
     storageUpdated: ({ cache }, { payload }) => {
       cache.delete(payload);
@@ -71,10 +71,8 @@ export const { reducer, actions } = createSlice({
     storageCleared: ({ cache }) => {
       cache.clear();
     },
-    readValue: ({ storage, cache }, { payload }) => {
-      if (!cache.has(payload)) {
-        cache.set(payload, readFromStorage(storage, payload));
-      }
+    readValue: ({ cache }, { payload }) => {
+      cache.set(payload.name, payload.value);
     },
     writeValue: ({ cache }, { payload }) => {
       cache.set(payload.name, payload.value);
@@ -95,7 +93,7 @@ export const handlers = {
       }
     };
     window.addEventListener('storage', onStorage, { passive: true });
-    store.dispatch(actions.setStorage(storage));
+    store.dispatch(actions.storageFound());
   },
   [actions.writeValue]: ({ payload }, store) => {
     writeToStorage(store.localStorage.storage, payload.name, payload.value);
@@ -106,85 +104,17 @@ const useLocalStorage = (name, defaultValue) => {
   const storage = useSelector((state) => state.localStorage.storage);
   const valueIsCached = useSelector((state) => state.localStorage.cache.has(name));
   const cachedValue = useSelector((state) => state.localStorage.cache.get(name));
-  const storedValue = valueIsCached ? cachedValue : 
+
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    if (storage && !valueIsCached) {
+      dispatch(actions.readValue({ name, value: readFromStorage(storage, name) }));
+    }
+  }, [valueIsCached, storage, name]);
+
+  const value = cachedValue !== undefined ? cachedValue : defaultValue;
   const setValue = React.useCallback((newValue) => dispatch(actions.writeValue({ name, value: newValue })), [name]);
   return [value, setValue, !!storage];
 };
 
 export default useLocalStorage;
-
-/*
-const Context = React.createContext([() => undefined, () => {}]);
-
-const LocalStorageProvider = ({ children }) => {
-  const storageRef = React.useRef(null);
-  const [cache, setCache] = React.useState(new Map());
-  const [ready, setReady] = React.useState(false);
-
-  React.useEffect(() => {
-    storageRef.current = getStorage();
-    setCache(new Map());
-    setReady(true);
-
-    const onStorage = (event) => {
-      if (event.storageArea === storageRef.current) {
-        if (event.key) {
-          setCache((oldCache) => {
-            // segment updates localstorage but that doesn't need to affect our cache
-            if (event.key.includes('segment')) return oldCache;
-
-            const newCache = new Map(oldCache);
-            newCache.delete(event.key);
-            return newCache;
-          });
-        } else {
-          setCache(new Map());
-        }
-      }
-    };
-
-    window.addEventListener('storage', onStorage, { passive: true });
-    return () => {
-      window.removeEventListener('storage', onStorage, { passive: true });
-    };
-  }, []);
-
-  const context = React.useMemo(() => {
-    const getValue = (name) => {
-      if (!cache.has(name)) {
-        const value = readFromStorage(storageRef.current, name);
-        setCache((oldCache) => new Map([...oldCache, [name, value]]));
-        return value;
-      }
-      return cache.get(name);
-    };
-
-    const setValue = (name, value) => {
-      writeToStorage(storageRef.current, name, value);
-      setCache((oldCache) => new Map([...oldCache, [name, value]]));
-    };
-
-    return [getValue, setValue, ready];
-  }, [cache, ready]);
-
-  return (
-    <Context.Provider value={context}>
-      {children}
-    </Context.Provider>
-  );
-};
-
-const useOldLocalStorage = (name, defaultValue) => {
-  const [getRawValue, setRawValue, ready] = React.useContext(Context);
-  const rawValue = getRawValue(name);
-
-  const value = rawValue !== undefined ? rawValue : defaultValue;
-  const setValue = React.useCallback((newValue) => setRawValue(name, newValue), [setRawValue, name]);
-
-  return [value, setValue, ready];
-};
-
-export default useLocalStorage;
-export { LocalStorageProvider };
-*/

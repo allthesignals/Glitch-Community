@@ -6,7 +6,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import Store from 'State/store';
 import { APIContextProvider } from 'State/api';
 import { APICacheProvider } from 'State/api-cache';
-import { LocalStorageProvider } from 'State/local-storage';
 import { ProjectContextProvider } from 'State/project';
 import { CollectionContextProvider } from 'State/collection';
 import { NotificationsProvider } from 'State/notifications';
@@ -23,22 +22,20 @@ const App = ({ apiCache, helmetContext }) => (
       <LiveAnnouncer>
         <Store>
           <NotificationsProvider>
-            <LocalStorageProvider>
-              <APIContextProvider>
-                <APICacheProvider initial={apiCache}>
-                  <ProjectContextProvider>
-                    <CollectionContextProvider>
-                      <HelmetProvider context={helmetContext}>
-                        <SuperUserBanner />
-                        <OfflineNotice />
-                        <Router />
-                        <RolloutsUserSync />
-                      </HelmetProvider>
-                    </CollectionContextProvider>
-                  </ProjectContextProvider>
-                </APICacheProvider>
-              </APIContextProvider>
-            </LocalStorageProvider>
+            <APIContextProvider>
+              <APICacheProvider initial={apiCache}>
+                <ProjectContextProvider>
+                  <CollectionContextProvider>
+                    <HelmetProvider context={helmetContext}>
+                      <SuperUserBanner />
+                      <OfflineNotice />
+                      <Router />
+                      <RolloutsUserSync />
+                    </HelmetProvider>
+                  </CollectionContextProvider>
+                </ProjectContextProvider>
+              </APICacheProvider>
+            </APIContextProvider>
           </NotificationsProvider>
         </Store>
       </LiveAnnouncer>
