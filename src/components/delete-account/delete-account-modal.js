@@ -18,7 +18,7 @@ import MultiPage from '../layout/multi-page';
 import styles from './delete-account-modal.styl';
 import { emoji } from '../global.styl';
 
-const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
+const DeleteInfo = ({ onClose, first, focusedOnMount, last, next }) => (
   <>
     <Title onClose={onClose} onCloseRef={mergeRefs(first, focusedOnMount)}>
       Close Account
@@ -37,7 +37,7 @@ const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
     </Info>
     <DangerZone>
       <p>For security purposes, you must confirm via email before we close your account.</p>
-      <Button ref={last} onClick={() => setPage('projectOwnerTransfer')} className={styles.modalButton} size="small" variant="warning">
+      <Button ref={last} onClick={next} className={styles.modalButton} size="small" variant="warning">
         Continue to Close Account
       </Button>
     </DangerZone>
@@ -45,24 +45,16 @@ const DeleteInfo = ({ setPage, onClose, first, focusedOnMount, last }) => (
 );
 
 DeleteInfo.propTypes = {
-  setPage: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   first: PropTypes.object.isRequired,
   focusedOnMount: PropTypes.object.isRequired,
   last: PropTypes.object.isRequired,
 };
 
-const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
-  const { requestAccountDeleteEmail } = useAPIHandlers();
-  const { createNotification } = useNotifications();
+const TeamTransfer = ({ onClose, first, focusedOnMount, last, singleAdminTeams, next }) => {
   const { currentUser } = useCurrentUser();
   const [selectedTeam, onTeamSelection] = useState(null);
-  const singleAdminTeams = currentUser.teams.filter(
-    (team) =>
-      team.teamPermission.accessLevel === 30 &&
-      team.teamPermissions.filter((admin) => admin.accessLevel === 30).length === 1 &&
-      team.teamPermissions.length > 1,
-  );
   const otherTeams = currentUser.teams.filter(
     (team) => team.teamPermission.accessLevel === 20 || team.teamPermissions.filter((admin) => admin.accessLevel === 30).length > 1,
   );
@@ -71,20 +63,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
       onTeamSelection(singleAdminTeams[0].id);
     }
   }, [singleAdminTeams]);
-  async function triggerEmail() {
-    try {
-      await requestAccountDeleteEmail(currentUser);
-      setPage('emailConfirm');
-    } catch (error) {
-      createNotification('Unable to close account, try again later.', { type: 'error' });
-      captureException(error);
-    }
-  }
-  useEffect(() => {
-    if (singleAdminTeams.length === 0) {
-      triggerEmail();
-    }
-  }, []);
+
   return (
     <>
       <Title>Transfer Team Ownership</Title>
@@ -119,7 +98,7 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
         </Info>
       )}
       <Actions>
-        <Button disabled={singleAdminTeams.length > 0} className={styles.actionButton} onClick={() => triggerEmail()}>
+        <Button disabled={singleAdminTeams.length > 0} className={styles.actionButton} onClick={next}>
           Continue to Close Account
         </Button>
         <Button className={styles.actionButton} variant="secondary" ref={last} onClick={onClose}>
@@ -131,32 +110,20 @@ const TeamTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
 };
 
 TeamTransfer.propTypes = {
-  setPage: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   first: PropTypes.object.isRequired,
   focusedOnMount: PropTypes.object.isRequired,
   last: PropTypes.object.isRequired,
 };
 
-const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
-  const { currentUser } = useCurrentUser();
+const ProjectTransfer = ({ onClose, first, focusedOnMount, last, singleAdminProjects, next }) => {
   const [currentlyFocusedProject, onSelectProject] = useState(null);
-  const singleAdminProjects = currentUser.projects.filter(
-    (project) =>
-      project.permission.accessLevel === 30 &&
-      project.permissions.filter((admin) => admin.accessLevel === 30).length === 1 &&
-      project.permissions.length > 1,
-  );
   useEffect(() => {
     if (!currentlyFocusedProject && singleAdminProjects.length) {
       onSelectProject(singleAdminProjects[0].id);
     }
   }, [singleAdminProjects]);
-  useEffect(() => {
-    if (singleAdminProjects.length === 0) {
-      setPage('teamOwnerTransfer');
-    }
-  }, []);
   return (
     <>
       <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Project Ownership</Title>
@@ -181,7 +148,7 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
         </p>
       </Info>
       <Actions>
-        <Button disabled={singleAdminProjects.length > 0} className={styles.actionButton} onClick={() => setPage('teamOwnerTransfer')}>
+        <Button disabled={singleAdminProjects.length > 0} className={styles.actionButton} onClick={next}>
           Continue to Close Account
         </Button>
         <Button className={styles.actionButton} variant="secondary" onClick={onClose} ref={last}>
@@ -193,7 +160,7 @@ const ProjectTransfer = ({ setPage, onClose, first, focusedOnMount, last }) => {
 };
 
 ProjectTransfer.propTypes = {
-  setPage: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   first: PropTypes.object.isRequired,
   focusedOnMount: PropTypes.object.isRequired,
@@ -240,6 +207,43 @@ EmailConfirm.propTypes = {
 
 const DeleteSettings = () => {
   const { open, onOpen, onClose, toggleRef } = useOverlay();
+  const { requestAccountDeleteEmail } = useAPIHandlers();
+  const { createNotification } = useNotifications();
+  const { currentUser } = useCurrentUser();
+  const singleAdminTeams = currentUser.teams.filter(
+    (team) =>
+      team.teamPermission.accessLevel === 30 &&
+      team.teamPermissions.filter((admin) => admin.accessLevel === 30).length === 1 &&
+      team.teamPermissions.length > 1,
+  );
+  const singleAdminProjects = currentUser.projects.filter(
+    (project) =>
+      project.permission.accessLevel === 30 &&
+      project.permissions.filter((admin) => admin.accessLevel === 30).length === 1 &&
+      project.permissions.length > 1,
+  );
+
+
+  async function triggerEmail(setPage) {
+    try {
+      await requestAccountDeleteEmail(currentUser);
+      setPage('emailConfirm');
+    } catch (error) {
+      createNotification('Unable to close account, try again later.', { type: 'error' });
+      captureException(error);
+    }
+  }
+
+  const pageController = ({ setPage }) => {
+    if (singleAdminProjects.length === 0 && singleAdminTeams.length === 0) {
+      triggerEmail(setPage);
+    } else if (singleAdminProjects > 0) {
+      setPage('projectOwnerTransfer');
+    } else if (singleAdminTeams > 0) {
+      setPage('teamOwnerTransfer');
+    }
+  };
+
   return (
     <>
       <h2>Close Account</h2>
@@ -252,9 +256,9 @@ const DeleteSettings = () => {
           <MultiPage defaultPage="info">
             {({ page, setPage }) => (
               <>
-                {page === 'info' && <DeleteInfo setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
-                {page === 'projectOwnerTransfer' && <ProjectTransfer setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
-                {page === 'teamOwnerTransfer' && <TeamTransfer setPage={setPage} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
+                {page === 'info' && <DeleteInfo next={() => pageController({setPage})} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
+                {page === 'projectOwnerTransfer' && <ProjectTransfer next={() => pageController({setPage})} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} singleAdminProjects={singleAdminProjects} />}
+                {page === 'teamOwnerTransfer' && <TeamTransfer next={() => pageController({setPage})} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
                 {page === 'emailConfirm' && <EmailConfirm onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
               </>
             )}
