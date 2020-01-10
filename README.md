@@ -43,11 +43,12 @@ The following commands are available for use during development:
 
 Set the following values in `.env` to change how the site is built and runs
 
-| Name         | Default       | Description                                                                                |
-| ------------ | ------------- | ------------------------------------------------------------------------------------------ |
-| `NODE_ENV`   | `development` | Adds extra minification and compilation steps when set to `production`                     |
-| `BUILD_TYPE` | `memory`      | Perform builds in `memory`, a separate `watcher` process, or use a `static` build artifact |
-| `RUNNING_ON` | `production`  | Where should the site look for user and projects (see `shared/constants.js`)               |
+| Name              | Default       | Description                                                                                                        |
+| ----------------- | ------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `NODE_ENV`        | `development` | Adds extra minification and compilation steps when set to `production`                                             |
+| `BUILD_TYPE`      | `memory`      | Perform builds in `memory`, a separate `watcher` process, or use a `static` build artifact                         |
+| `RUNNING_ON`      | `production`  | Where should the site look for user and projects (see `shared/constants.js`)                                       |
+| `RUNNING_LOCALLY` | `false`       | Support running on `localhost` by disabling https (see [FAQ.md](https://glitch.com/edit/#!/community?path=FAQ.md)) |
 
 ## Built with
 
