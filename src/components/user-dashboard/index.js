@@ -65,7 +65,7 @@ const Postcards = ({ marketingContent }) => {
         waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
         thumbnail={marketingContent.thumbnail}
       >
-        Follow along as we build a collaborative rainbow app you can interact with via SMS.
+        { marketingContent.body }
       </Postcard>
       <DataLoader get={getCollectionProjectsFromAPI} args={{ api, collectionId: 13044 }}>
         {(data) => {
