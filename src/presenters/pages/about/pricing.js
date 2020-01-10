@@ -5,17 +5,23 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import { useAPIHandlers } from 'State/api';
+import { useCurrentUser } from 'State/current-user';
 import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
+import { useFeatureEnabled } from 'State/rollouts';
 
 import AboutLayout from './about-layout';
+import { NotFoundPage } from '../error';
 import styles from './pricing.styl';
-// import aboutStyles from './about.styl';
 
 const PricingPage = () => {
+  const { currentUser } = useCurrentUser();
+  const { persistentToken, login } = currentUser;
+  const isSignedIn = persistentToken && login;
   const subscriptionStatus = useSubscriptionStatus();
   const { createSubscriptionSession } = useAPIHandlers();
   const stripe = useStripe();
+  const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
 
   async function subscribe() {
     try {
@@ -26,6 +32,10 @@ const PricingPage = () => {
       // TODO decide what kind of error handling we need here
       console.log(err);
     }
+  }
+
+  if (!userHasPufferfishEnabled) {
+    return <NotFoundPage />;
   }
 
   return (
