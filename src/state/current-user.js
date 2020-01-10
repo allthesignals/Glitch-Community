@@ -7,6 +7,7 @@ import { getSingleItem, getAllPages, allByKeys } from 'Shared/api';
 import { sortProjectsByLastAccess } from 'Models/project';
 import { configureScope, captureException, captureMessage, addBreadcrumb } from 'Utils/sentry';
 import runLatest from 'Utils/run-latest';
+import { userIsInTestingTeam } from 'Utils/constants';
 import { getStorage, readFromStorage, writeToStorage } from './local-storage';
 import { getAPIForToken } from './api'; // eslint-disable-line import/no-cycle
 import { appMounted } from './app-mounted';
@@ -14,7 +15,6 @@ import { appMounted } from './app-mounted';
 const getStorageMemo = memoize(getStorage);
 const getFromStorage = (key) => readFromStorage(getStorageMemo(), key);
 const setStorage = (key, value) => writeToStorage(getStorageMemo(), key, value);
-
 function setCookie(name, value) {
   if (value) {
     const expires = new Date();
@@ -39,6 +39,8 @@ function identifyUser(user) {
   }
   setCookie('hasLogin', user && user.login);
   setCookie('hasProjects', user && user.projects.length > 0);
+  // This will eventually require the cookie to be allowed past the whitelist in our cloudfront config to work on glitch.com
+  setCookie('inTestingTeam', userIsInTestingTeam(user));
   try {
     if (window.analytics && user && user.login) {
       const emailObj = Array.isArray(user.emails) && user.emails.find((email) => email.primary);
@@ -84,7 +86,7 @@ function usersMatch(a, b) {
 
 async function getAnonUser() {
   const api = getAPIForToken();
-  const { data } = await api.post('users/anon');
+  const { data } = await api.post('v1/users/anon');
   return data;
 }
 

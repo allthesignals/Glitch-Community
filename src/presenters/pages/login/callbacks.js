@@ -51,10 +51,11 @@ const LoginPage = ({ provider, url }) => {
         login(data);
 
         setDone();
+        const lowerCaseProvider = provider.toLowerCase();
         if (data.lastActiveDay === null) {
-          trackAccountCreated({ authType: provider });
+          trackAccountCreated({ authType: lowerCaseProvider });
         }
-        trackSignIn({ authType: provider });
+        trackSignIn({ authType: lowerCaseProvider });
         notifyParent({ success: true, details: { provider } });
       }
     } catch (error) {
