@@ -34,7 +34,7 @@ import AboutCompanyPage from './about/company';
 import AboutCareersPage from './about/careers';
 import AboutEventsPage from './about/events';
 import AboutPressPage from './about/press';
-import PricingPage from './pricing';
+import PricingPage from './about/pricing';
 
 const parse = (search, name) => {
   const params = new URLSearchParams(search);
@@ -216,7 +216,6 @@ const Router = () => {
       <Route path="/about/events" exact render={({ location }) => <AboutEventsPage key={location.key} />} />
       <Route path="/about/press" exact render={({ location }) => <AboutPressPage key={location.key} />} />
       <Route path="/about" exact render={({ location }) => <AboutPage key={location.key} />} />
-
       <Route path="/pricing" exact render={({ location }) => <PricingPage key={location.key} />} />
 
       <Route
