@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 
 const useScript = (src) => {
-  const scripts = document.getElementsByTagName('script');
-  const loadedScripts = new Set();
   const [loaded, setLoaded] = useState(false);
 
-  for (const script of scripts) {
-    if (script.src) {
-      loadedScripts.add(script.src);
-    }
-  }
-
   useEffect(() => {
+    const scripts = document.getElementsByTagName('script');
+    const loadedScripts = new Set();
+
+    for (const script of scripts) {
+      if (script.src) {
+        loadedScripts.add(script.src);
+      }
+    }
+
     const script = document.createElement('script');
 
     if (loadedScripts.has(src)) {
