@@ -98,17 +98,11 @@ const parametersForSize = {
 };
 
 const RowContainer = ({ size, users, teams, asLinks }) => {
-  // const { ref, width } = useResizeObserver();
-  const ref = useRef();
-  // const width = '500';
-  // console.log(width);
-  // const { avatarWidth, userOffset, teamOffset } = parametersForSize[size];
-  /* const maxTeams = Math.floor(width / (avatarWidth + teamOffset));
+  const { ref, width } = useResizeObserver();
+  const { avatarWidth, userOffset, teamOffset } = parametersForSize[size];
+  const maxTeams = Math.floor(width / (avatarWidth + teamOffset));
   const remainingWidth = width - (avatarWidth + teamOffset) * teams.length - teamOffset;
-  const maxUsers = Math.floor((remainingWidth + userOffset) / (avatarWidth + userOffset)); */
-  const maxTeams = 1;
-  const maxUsers = 1;
-  // console.log({ maxTeams, maxUsers });
+  const maxUsers = Math.floor((remainingWidth + userOffset) / (avatarWidth + userOffset));
   return (
     <ul ref={ref} className={classnames(styles.container, styles.row, styles[size])}>
       {teams.slice(0, maxTeams).map((team) => (
