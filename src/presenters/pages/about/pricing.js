@@ -17,7 +17,6 @@ import styles from './pricing.styl';
 const PricingPage = () => {
   const { currentUser } = useCurrentUser();
   const { persistentToken, login } = currentUser;
-  const isSignedIn = persistentToken && login;
   const subscriptionStatus = useSubscriptionStatus();
   const { createSubscriptionSession } = useAPIHandlers();
   const stripe = useStripe();
