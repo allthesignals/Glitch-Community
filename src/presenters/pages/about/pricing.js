@@ -5,7 +5,6 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import { useAPIHandlers } from 'State/api';
-import { useCurrentUser } from 'State/current-user';
 import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
 import { useFeatureEnabled } from 'State/rollouts';
@@ -15,8 +14,6 @@ import { NotFoundPage } from '../error';
 import styles from './pricing.styl';
 
 const PricingPage = () => {
-  const { currentUser } = useCurrentUser();
-  const { persistentToken, login } = currentUser;
   const subscriptionStatus = useSubscriptionStatus();
   const { createSubscriptionSession } = useAPIHandlers();
   const stripe = useStripe();
