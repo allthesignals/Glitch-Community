@@ -75,7 +75,6 @@ const Settings = () => {
               <Tab key="subscription" hidden={!showSubscriptionTab} className={styles.settingsTab}>
                 <Button as="span">Subscription</Button>
               </Tab>
-              {/* <Button disabled onClick>Privacy & Notifications</Button> */}
             </TabList>
             <div className={styles.settingsContent}>
               <TabPanel key="account" hidden={currentTab !== 0}>
