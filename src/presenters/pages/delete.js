@@ -16,16 +16,21 @@ import styles from './delete.styl';
 const ValidToken = () => {
   const [reasonForLeaving, setReason] = useState('');
   const [showNotification, setShowNotification] = useState(false);
-  const tracker = useTracker('Submitted User Deletion Feedback', {
+  const trackDeletion = useTracker('Account Closed');
+  const trackFeedback = useTracker('Submitted User Deletion Feedback', {
     reasonForLeaving,
   });
   const isInitialized = useIsAnalyticsInitialized();
 
   const submitFeedback = () => {
     setShowNotification(true);
-    tracker();
+    trackFeedback();
     setReason('');
   };
+
+  useEffect(() => {
+    trackDeletion({});
+  }, []);
 
   return (
     <div>

@@ -7,6 +7,7 @@ import { captureException } from 'Utils/sentry';
 import { useCurrentUser } from 'State/current-user';
 import { useAPIHandlers } from 'State/api';
 import { useNotifications } from 'State/notifications';
+import { useTracker } from 'State/segment-analytics';
 
 import Link from 'Components/link';
 import TeamResultItem from 'Components/team/team-result-item';
@@ -210,6 +211,7 @@ const DeleteSettings = () => {
   const { requestAccountDeleteEmail } = useAPIHandlers();
   const { createNotification } = useNotifications();
   const { currentUser } = useCurrentUser();
+  const trackClick = useTracker('Account Deletion Initiated');
   const singleAdminTeams = currentUser.teams.filter(
     (team) =>
       team.teamPermission.accessLevel === 30 &&
@@ -248,7 +250,7 @@ const DeleteSettings = () => {
     <>
       <h2>Close Account</h2>
       <p>Close your account, including all teams, projects, and collections.</p>
-      <Button onClick={onOpen} ref={toggleRef}>
+      <Button onClick={() => { trackClick(); onOpen(); }} ref={toggleRef}>
         Close Account
       </Button>
       <Overlay open={open} onClose={onClose}>
