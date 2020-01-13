@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
@@ -8,6 +8,7 @@ import useSubscriptionStatus from 'State/subscription-status';
 import { useAPIHandlers } from 'State/api';
 
 function SubscriptionSettings() {
+  const [isCancelling, setIsCancelling] = useState(false);
   const stripe = useStripe();
   const subscriptionStatus = useSubscriptionStatus();
   const { createSubscriptionSession, cancelSubscription } = useAPIHandlers();
@@ -24,8 +25,11 @@ function SubscriptionSettings() {
   }
 
   async function cancel() {
+    setIsCancelling(true);
     try {
       await cancelSubscription();
+      subscriptionStatus.isActive = true;
+      setIsCancelling(false);
     } catch (err) {
       // TODO decide what kind of error handling we need here
       console.log(err);
@@ -38,8 +42,8 @@ function SubscriptionSettings() {
       {subscriptionStatus.isActive ? (
         <>
           <Text defaultMargin>Subscribed to the Extra Memory monthly plan for $14 per month.</Text>
-          <Button disabled={!stripe} variant="secondary" onClick={cancel}>
-            Cancel Subscription
+          <Button disabled={!stripe || isCancelling} variant="secondary" onClick={cancel}>
+            {isCancelling ? 'Cancelling...' : 'Cancel Subscription'}
           </Button>
         </>
       ) : (
