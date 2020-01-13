@@ -16,6 +16,7 @@ const useScript = (src) => {
     const script = document.createElement('script');
 
     if (loadedScripts.has(src)) {
+      // TODO: this can fail if an existing script tag failed to load
       setLoaded(true);
     } else {
       script.src = src;
