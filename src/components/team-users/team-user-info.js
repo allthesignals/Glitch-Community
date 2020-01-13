@@ -14,6 +14,7 @@ import { createAPIHook } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
 import { getAllPages } from 'Shared/api';
+import { useTracker } from 'State/segment-analytics';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
@@ -190,6 +191,9 @@ const adminStatusDisplay = (team, user) => {
 };
 
 const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) => {
+  const trackMakeAdmin = useTracker('Ownership Granted');
+  const trackPermissionChange = useTracker('Permissions Changed');
+  const trackRemoveUser = useTracker('Team Left');
   const { createNotification } = useNotifications();
 
   const removeUser = async (selectedProjects = []) => {
@@ -197,8 +201,27 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
     createNotification(`${getDisplayName(user)} removed from Team`);
   };
 
-  const onRemoveAdmin = () => updateUserPermissions(user, MEMBER_ACCESS_LEVEL);
-  const onMakeAdmin = () => updateUserPermissions(user, ADMIN_ACCESS_LEVEL);
+  const onRemoveAdmin = () => {
+    trackPermissionChange({
+      teamId: team.id,
+      teamName: team.name,
+      numberProjectMembers: team.users.length,
+      teamMemberId: user.id,
+      permissionLevel: 'member',
+    });
+    updateUserPermissions(user, MEMBER_ACCESS_LEVEL);
+  };
+  const onMakeAdmin = () => {
+    trackPermissionChange({
+      teamId: team.id,
+      teamName: team.name,
+      numberProjectMembers: team.users.length,
+      teamMemberId: user.id,
+      permissionLevel: 'admin',
+    });
+    trackMakeAdmin({ teamId: team.id, teamName: team.name });
+    updateUserPermissions(user, ADMIN_ACCESS_LEVEL);
+  };
 
   return (
     <Popover
@@ -213,7 +236,11 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           <TeamUserRemovePop
             user={user}
             team={team}
-            onRemoveUser={() => { onClose(); removeUser(); }}
+            onRemoveUser={() => {
+              trackRemoveUser({ teamId: team.id, teamName: team.name });
+              onClose();
+              removeUser();
+            }}
           />
         ),
       }}
@@ -224,7 +251,11 @@ const TeamUserPop = ({ team, user, removeUserFromTeam, updateUserPermissions }) 
           team={team}
           onRemoveAdmin={() => { onClose(); onRemoveAdmin(); }}
           onMakeAdmin={() => { onClose(); onMakeAdmin(); }}
-          onRemoveUser={() => { onClose(); removeUser(); }}
+          onRemoveUser={() => {
+            trackRemoveUser({ teamId: team.id, teamName: team.name });
+            onClose();
+            removeUser();
+          }}
           showRemoveUser={() => { setActiveView('remove'); }}
         />
       )}
