@@ -181,10 +181,7 @@ export const useAPIHandlers = () => {
       removeUserFromProject: ({ project, user }) => api.delete(`/v1/projects/${project.id}/users/${user.id}`),
       updateProjectDomain: ({ project }) => api.post(`/project/domainChanged?projectId=${project.id}`),
       undeleteProject: ({ project }) => api.post(`/v1/projects/${project.id}/undelete`),
-      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) => 
-        api.put(`v1/projects/${project.id}/users/${user.id}`, {
-          accessLevel,
-      }),
+      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) => api.put(`v1/projects/${project.id}/users/${user.id}`, { accessLevel }),
 
       // teams
       joinTeam: ({ team }) => api.post(`/v1/teams/${team.id}/join`),
