@@ -76,9 +76,7 @@ export function APIContextProvider({ children }) {
     if (api.persistentToken && pendingRequests.length) {
       // go back and finally make all of those requests
       pendingRequests.forEach((request) => request(api));
-      setPendingRequests((latestPendingRequests) => (
-        latestPendingRequests.filter((request) => !pendingRequests.includes(request))
-      ));
+      setPendingRequests((latestPendingRequests) => latestPendingRequests.filter((request) => !pendingRequests.includes(request)));
     }
   }, [api, pendingRequests]);
   return <Context.Provider value={api}>{children}</Context.Provider>;
@@ -183,11 +181,12 @@ export const useAPIHandlers = () => {
       removeUserFromProject: ({ project, user }) => api.delete(`/projects/${project.id}/authorization`, { data: { targetUserId: user.id } }),
       updateProjectDomain: ({ project }) => api.post(`/project/domainChanged?projectId=${project.id}`),
       undeleteProject: ({ project }) => api.post(`/projects/${project.id}/undelete`),
-      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) => api.post(`/project_permissions/${project.id}`, {
-        projectId: project.id,
-        userId: user.id,
-        accessLevel,
-      }),
+      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) =>
+        api.post(`/project_permissions/${project.id}`, {
+          projectId: project.id,
+          userId: user.id,
+          accessLevel,
+        }),
 
       // teams
       joinTeam: ({ team }) => api.post(`/v1/teams/${team.id}/join`),
@@ -203,6 +202,12 @@ export const useAPIHandlers = () => {
       // teams / users
       addPinnedProject: ({ project, team, user }) => api.put(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
       removePinnedProject: ({ project, team, user }) => api.delete(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
+
+      // Glitch PRO
+      // TODO: v1/payments/glitchPro -> v1/payments/:productName
+      getSubscriptionStatus: () => api.get('/v1/payments/glitchPro'),
+      createSubscriptionSession: ({ successUrl, cancelUrl }) => api.post('/v1/payments/glitchPro', { successUrl, cancelUrl }),
+      cancelSubscription: () => api.delete('/v1/payments/glitchPro'),
     }),
     [api],
   );
