@@ -11,7 +11,7 @@ import Image from 'Components/images/image';
 import Embed from 'Components/project/embed';
 import ReportButton from 'Components/report-abuse-pop';
 import { useTracker } from 'State/segment-analytics';
-import { userIsProjectMember, userIsProjectTeamMember } from 'Models/project';
+import { userIsProjectMember, userIsProjectTeamMember, humanReadableAccessLevel, getProjectType } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
 import { useProjectMembers } from 'State/project';
 import { useProjectOptions } from 'State/project-options';
@@ -45,6 +45,7 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
   };
 
   const trackJoinProject = useTracker('Project Joined');
+  const trackLeaveProject = useTracker('Project Left');
 
   return (
     <section className={styles.projectEmbed}>
@@ -92,7 +93,18 @@ const ProjectEmbed = ({ project, top, addProjectToCollection, loading, previewOn
                   });
                   projectOptions.joinTeamProject();
                 }}
-                leaveProject={projectOptions.leaveProject}
+                leaveProject={() => {
+                  trackLeaveProject({
+                    projectId: project.id,
+                    projectName: project.domain,
+                    projectType: getProjectType(project),
+                    accessLevel: humanReadableAccessLevel(project.permission.accessLevel),
+                    projectVisibility: project.private ? 'private' : 'public',
+                    numberProjectMembers: project.permissions.length,
+                    numberTeams: project.teamIds.length,
+                  });
+                  projectOptions.leaveProject();
+                }}
                 refreshEmbed={refreshEmbed}
               />
             </div>
