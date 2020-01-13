@@ -5,17 +5,23 @@ import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
+import { useCurrentUser } from 'State/current-user';
 import { useAPIHandlers } from 'State/api';
+import { getUserLink } from 'Models/user';
 
 function SubscriptionSettings() {
   const [isCancelling, setIsCancelling] = useState(false);
   const stripe = useStripe();
   const subscriptionStatus = useSubscriptionStatus();
   const { createSubscriptionSession, cancelSubscription } = useAPIHandlers();
+  const { currentUser } = useCurrentUser();
 
   async function subscribe() {
     try {
-      const { data } = await createSubscriptionSession({ successUrl: 'https://glitch.com', cancelUrl: 'https://glitch.com/pricing' });
+      const { data } = await createSubscriptionSession({
+        successUrl: `https://glitch.com${getUserLink(currentUser)}`,
+        cancelUrl: 'https://glitch.com/settings',
+      });
       const { id: sessionId } = data;
       stripe.redirectToCheckout({ sessionId });
     } catch (err) {
