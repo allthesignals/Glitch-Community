@@ -158,7 +158,7 @@ export const createAPIHook = (asyncFunction, options = {}) => (...args) => {
 export const entityPath = ({ user, team, project, collection }) => {
   if (user) return `v1/users/${user.id}`;
   if (team) return `v1/teams/${team.id}`;
-  if (project) return `projects/${project.id}`;
+  if (project) return `v1/projects/${project.id}`;
   if (collection) return `v1/collections/${collection.id}`;
   throw new Error('Missing entity');
 };
@@ -178,15 +178,10 @@ export const useAPIHandlers = () => {
       removeProjectFromCollection: ({ project, collection }) => api.delete(`/v1/collections/${collection.id}/projects/${project.id}`),
 
       // projects
-      removeUserFromProject: ({ project, user }) => api.delete(`/projects/${project.id}/authorization`, { data: { targetUserId: user.id } }),
+      removeUserFromProject: ({ project, user }) => api.delete(`/v1/projects/${project.id}/users/${user.id}`),
       updateProjectDomain: ({ project }) => api.post(`/project/domainChanged?projectId=${project.id}`),
-      undeleteProject: ({ project }) => api.post(`/projects/${project.id}/undelete`),
-      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) =>
-        api.post(`/project_permissions/${project.id}`, {
-          projectId: project.id,
-          userId: user.id,
-          accessLevel,
-        }),
+      undeleteProject: ({ project }) => api.post(`/v1/projects/${project.id}/undelete`),
+      updateProjectMemberAccessLevel: ({ project, user, accessLevel }) => api.put(`v1/projects/${project.id}/users/${user.id}`, { accessLevel }),
 
       // teams
       joinTeam: ({ team }) => api.post(`/v1/teams/${team.id}/join`),
