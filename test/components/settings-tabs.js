@@ -5,7 +5,6 @@ import { expect } from 'chai';
 import Heading from 'Components/text/heading';
 import { SettingsTabs } from 'Components/account-settings-overlay/settings-tabs-container';
 import MockContext from '../helpers/mockContext';
-import styes from 'Components/account-settings-overlay/styles.styl';
 
 describe('SettingsTabs', function() {
   beforeEach(() => {
@@ -30,9 +29,8 @@ describe('SettingsTabs', function() {
       );
       expect(
         wrapper
-          .find(SettingsTabs)
-          .find('li[role="tab"]')
-          .at(1)
+          .find('[data-tab="subscription"]')
+          .first()
           .prop('hidden'),
       ).to.be.ok;
     });
@@ -50,24 +48,19 @@ describe('SettingsTabs', function() {
     it('renders the subscription tab', () => {
       expect(
         this.wrapper
-          .find(SettingsTabs)
-          .find('li[role="tab"]')
-          .at(1)
+          .find('[data-tab="subscription"]')
+          .first()
           .prop('hidden'),
       ).to.not.be.ok;
     });
 
     it('shows the Subscription tab panel when you click the Subscription button', () => {
       this.wrapper
-        .find(SettingsTabs)
-        .find('li[role="tab"]')
-        .at(1)
+        .find('[data-tab="subscription"]')
+        .first()
         .simulate('click');
 
-      const subscriptionTabPanel = this.wrapper
-        .find(SettingsTabs)
-        .find('div[role="tabpanel"]')
-        .at(1);
+      const subscriptionTabPanel = this.wrapper.find('[data-tabpanel="subscription"]').first();
 
       expect(subscriptionTabPanel.prop('hidden')).to.not.be.ok;
       expect(subscriptionTabPanel.find('h2').text()).to.equal('Subscription');

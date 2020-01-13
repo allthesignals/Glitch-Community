@@ -59,18 +59,18 @@ export function SettingsTabs({ userPasswordEnabled, tfaEnabled, deleteEnabled, s
     <Tabs selectedIndex={currentTab} onSelect={(tabIndex) => setCurrentTab(tabIndex)}>
       <div className={styles.tabsContainer}>
         <TabList className={styles.tabs}>
-          <Tab key="account" className={styles.tab}>
+          <Tab key="account" data-tab="account" className={styles.tab}>
             <Button as="span">Account</Button>
           </Tab>
-          <Tab key="subscription" hidden={!showSubscriptionTab} className={styles.tab}>
+          <Tab key="subscription" data-tab="subscription" hidden={!showSubscriptionTab} className={styles.tab}>
             <Button as="span">Subscription</Button>
           </Tab>
         </TabList>
         <div className={styles.tabPanels}>
-          <TabPanel key="account" hidden={currentTab !== 0}>
+          <TabPanel key="account" data-tabpanel="account" hidden={currentTab !== 0}>
             <AccountSettingsTab />
           </TabPanel>
-          <TabPanel key="subscription" hidden={currentTab !== 1}>
+          <TabPanel key="subscription" data-tabpanel="subscription" hidden={currentTab !== 1}>
             <SubscriptionSettingsTab />
           </TabPanel>
         </div>
