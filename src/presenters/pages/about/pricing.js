@@ -9,6 +9,7 @@ import { useCurrentUser } from 'State/current-user';
 import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
 import { useFeatureEnabled } from 'State/rollouts';
+import { getUserLink } from 'Models/user';
 
 import AboutLayout from './about-layout';
 import { NotFoundPage } from '../error';
@@ -18,12 +19,15 @@ const PricingPage = () => {
   const subscriptionStatus = useSubscriptionStatus();
   const { createSubscriptionSession } = useAPIHandlers();
   const stripe = useStripe();
-  const { fetched: currentUserFetched } = useCurrentUser();
+  const { currentUser, fetched: currentUserFetched } = useCurrentUser();
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
 
   async function subscribe() {
     try {
-      const { data } = await createSubscriptionSession({ successUrl: 'https://glitch.com', cancelUrl: 'https://glitch.com/pricing' });
+      const { data } = await createSubscriptionSession({
+        successUrl: `https://glitch.com${getUserLink(currentUser)}`,
+        cancelUrl: 'https://glitch.com/settings',
+      });
       const { id: sessionId } = data;
       stripe.redirectToCheckout({ sessionId });
     } catch (err) {
