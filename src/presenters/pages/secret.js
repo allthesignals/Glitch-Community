@@ -27,7 +27,7 @@ function useZeldaMusicalCue() {
   }, []);
 }
 
-const RolloutFeature = ({ feature, enabled, forced, setForced }) => {
+const RolloutFeature = ({ feature, enabled, forced, setForced, requiresTeamMembership }) => {
   const onChange = (event) => {
     if (event.target.value === 'true') {
       setForced(true);
@@ -41,7 +41,10 @@ const RolloutFeature = ({ feature, enabled, forced, setForced }) => {
   const forcedIcon = forced ? '☑' : '☐';
   return (
     <tr>
-      <td>{feature}</td>
+      <td>
+        {feature}
+        {requiresTeamMembership && '*'}
+      </td>
       <td>{forced !== undefined ? forcedIcon : defaultIcon}</td>
       <td>
         <select onChange={onChange} value={String(forced)}>
@@ -67,11 +70,19 @@ const Rollouts = () => {
           </tr>
         </thead>
         <tbody>
-          {features.map(({ key, enabled, forced, setForced }) => (
-            <RolloutFeature key={key} feature={key} enabled={enabled} forced={forced} setForced={setForced} />
+          {features.map(({ key, enabled, forced, setForced, requiresTeamMembership }) => (
+            <RolloutFeature
+              key={key}
+              feature={key}
+              enabled={enabled}
+              forced={forced}
+              setForced={setForced}
+              requiresTeamMembership={requiresTeamMembership}
+            />
           ))}
         </tbody>
       </table>
+      <p>*Override Requires Team Membership</p>
     </section>
   );
 };
@@ -98,7 +109,9 @@ const Secret = () => {
   return (
     <main className={styles.secretPage}>
       <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
-      <VisuallyHidden as={Heading} tagName="h1">{tagline}</VisuallyHidden>
+      <VisuallyHidden as={Heading} tagName="h1">
+        {tagline}
+      </VisuallyHidden>
       <ul className={styles.toggles}>
         {toggleData.map(({ name, description }) => (
           <li key={name} className={isEnabled(name) ? styles.lit : ''}>

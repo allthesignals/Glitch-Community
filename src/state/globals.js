@@ -22,6 +22,7 @@ GlobalsProvider.propTypes = {
   PUPDATES_CONTENT: PropTypes.object.isRequired,
   SSR_SIGNED_IN: PropTypes.bool.isRequired,
   SSR_HAS_PROJECTS: PropTypes.bool.isRequired,
+  SSR_IN_TESTING_TEAM: PropTypes.bool.isRequired,
   ZINE_POSTS: PropTypes.array.isRequired,
 };
 
