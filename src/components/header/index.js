@@ -8,6 +8,7 @@ import UserOptionsPop from 'Components/user-options-pop';
 import NewProjectPop from 'Components/new-project-pop';
 import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
+import { useFeatureEnabled } from 'State/rollouts';
 import { useGlobals } from 'State/globals';
 import { EDITOR_URL } from 'Utils/constants';
 
@@ -23,6 +24,7 @@ const ResumeCoding = () => (
 const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, showNav }) => {
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN } = useGlobals();
+  const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
   // signedIn and signedOut are both false on the server so the sign in button doesn't render
   const fakeSignedIn = !currentUser.id && SSR_SIGNED_IN;
   const signedIn = !!currentUser.login || fakeSignedIn;
@@ -43,6 +45,13 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
             <SearchForm defaultValue={searchQuery} />
           </div>
           <ul className={styles.buttons}>
+            {userHasPufferfishEnabled && (
+              <li className={styles.buttonWrap}>
+                <Button size="small" as={Link} to="/pricing">
+                  Glitch PRO
+                </Button>
+              </li>
+            )}
             <li className={classnames(styles.buttonWrap, !ssrHasHappened && styles.hiddenHack)}>
               <NewProjectPop />
             </li>
