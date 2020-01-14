@@ -52,6 +52,7 @@ const Footer = ({ containerClass }) => {
       <FooterLink href="/about" trackClick={trackClick} icon="crystalBall" linkText="About Glitch" />
       <FooterLink href="/about/careers" trackClick={trackClick} icon="fishingPole" linkText="We're Hiring" />
       <FooterLink href="/culture" trackClick={trackClick} icon="newspaper" linkText="Blog" />
+      <FooterLink href="/pricing" trackClick={trackClick} icon="creditCard" linkText="Pricing" />
 
       <FooterLink href="/help/" trackClick={trackClick} icon="umbrella" linkText="Help Center" />
       <FooterLink href="http://status.glitch.com/" trackClick={trackClick} icon="horizontalTrafficLight" linkText="System Status" />
