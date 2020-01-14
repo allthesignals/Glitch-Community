@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
-import { Button, Icon } from '@fogcreek/shared-components';
+import { Button } from '@fogcreek/shared-components';
 import SearchForm from 'Components/search-form';
 import UserOptionsPop from 'Components/user-options-pop';
 import NewProjectPop from 'Components/new-project-pop';
@@ -23,14 +23,22 @@ const ResumeCoding = () => (
   </Button>
 );
 
-const ProLink = styled(Link)`
+const SettingsPageLink = styled(Link)`
   font-weight: bold;
   display: flex;
   align-items: center;
 `;
 
+const SVGBase = styled.svg`
+  display: inline-block;
+  height: 1em;
+  width: auto;
+  color: inherit;
+  vertical-align: top;
+`;
+
 const BoostMark = ({ ...props }) => (
-  <svg width="24" height="24" viewBox="0 0 48 47" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <SVGBase viewBox="0 0 48 47" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
       d="M29.0658 7.43758C30.1482 6.61867 31.711 7.28202 31.8738 8.6295L33.0431 18.3059C33.1032 18.8032 33.3725 19.2513 33.7834 19.5379L41.7781 25.113C42.8915 25.8894 42.7435 27.5807 41.5123 28.1519L32.6708 32.2541C32.2164 32.465 31.8734 32.8595 31.7279 33.3389L28.8961 42.6652C28.5018 43.9639 26.8475 44.3458 25.9238 43.3514L19.2902 36.2103C18.9493 35.8433 18.468 35.639 17.9672 35.6487L8.22225 35.8375C6.86523 35.8638 5.99083 34.4086 6.65113 33.2228L11.3928 24.7071C11.6365 24.2695 11.6821 23.7487 11.5181 23.2753L8.32716 14.0657C7.88281 12.7832 8.99662 11.5019 10.3285 11.7634L19.8926 13.6416C20.3841 13.7381 20.8935 13.6205 21.293 13.3182L29.0658 7.43758Z"
       fill="#FFAABF"
@@ -49,31 +57,31 @@ const BoostMark = ({ ...props }) => (
         <stop offset="1" stop-color="#FE7DAB" />
       </linearGradient>
     </defs>
-  </svg>
+  </SVGBase>
 );
 
 const ProLinkWrap = () => {
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
-  const hasGlitchProEnabled = useSubscriptionStatus();
-  
-  if (!userHasPufferfishEnabled) { return null }
-  
-  {userHasPufferfishEnabled && !hasGlitchProEnabled && (
-              <li className={styles.buttonWrap}>
-                <Button size="small" as={Link} to="/pricing">
-                  Get PRO <BoostMark />
-                </Button>
-              </li>
-            )}
-            {userHasPufferfishEnabled && hasGlitchProEnabled && (
-              <li className={styles.buttonWrap}>
-                <ProLink to="/settings">
-                  <BoostMark /> PRO
-                </ProLink>
-              </li>
-            )}
-}
+  const hasGlitchProEnabled = true; // useSubscriptionStatus();
 
+  if (!userHasPufferfishEnabled) {
+    return null;
+  }
+
+  if (!hasGlitchProEnabled) {
+    return (
+      <Button size="small" as={Link} to="/pricing">
+        Get PRO <BoostMark width />
+      </Button>
+    );
+  }
+
+  return (
+    <SettingsPageLink to="/settings">
+      <BoostMark /> PRO
+    </SettingsPageLink>
+  );
+};
 
 const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, showNav }) => {
   const { currentUser } = useCurrentUser();
@@ -99,7 +107,9 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
             <SearchForm defaultValue={searchQuery} />
           </div>
           <ul className={styles.buttons}>
-            
+            <li className={styles.buttonWrap}>
+              <ProLinkWrap />
+            </li>
             <li className={classnames(styles.buttonWrap, !ssrHasHappened && styles.hiddenHack)}>
               <NewProjectPop />
             </li>
