@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled';
 import classnames from 'classnames';
 
-import { Button } from '@fogcreek/shared-components';
+import { Button, Icon } from '@fogcreek/shared-components';
 import SearchForm from 'Components/search-form';
 import UserOptionsPop from 'Components/user-options-pop';
 import NewProjectPop from 'Components/new-project-pop';
 import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import { useFeatureEnabled } from 'State/rollouts';
+import useSubscriptionStatus from 'State/subscription-status';
 import { useGlobals } from 'State/globals';
 import { EDITOR_URL } from 'Utils/constants';
 
@@ -21,10 +23,17 @@ const ResumeCoding = () => (
   </Button>
 );
 
+const ProLink = styled(Link)`
+  font-weight: bold;
+
+`
+
 const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, showNav }) => {
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN } = useGlobals();
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
+  const hasGlitchProEnabled = useSubscriptionStatus();
+  
   // signedIn and signedOut are both false on the server so the sign in button doesn't render
   const fakeSignedIn = !currentUser.id && SSR_SIGNED_IN;
   const signedIn = !!currentUser.login || fakeSignedIn;
@@ -45,11 +54,18 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
             <SearchForm defaultValue={searchQuery} />
           </div>
           <ul className={styles.buttons}>
-            {userHasPufferfishEnabled && (
+            {userHasPufferfishEnabled && !hasGlitchProEnabled && (
               <li className={styles.buttonWrap}>
                 <Button size="small" as={Link} to="/pricing">
-                  Glitch PRO
+                  Get PRO <Icon icon="sparkles" />
                 </Button>
+              </li>
+            )}
+            {userHasPufferfishEnabled && hasGlitchProEnabled && (
+              <li className={styles.buttonWrap}>
+                <ProLink to="/settings">
+                  <Icon icon="sparkles" /> PRO
+                </ProLink>
               </li>
             )}
             <li className={classnames(styles.buttonWrap, !ssrHasHappened && styles.hiddenHack)}>
