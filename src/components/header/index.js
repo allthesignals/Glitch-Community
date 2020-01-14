@@ -25,16 +25,22 @@ const ResumeCoding = () => (
 
 const SettingsPageLink = styled(Link)`
   font-weight: bold;
-  display: flex;
-  align-items: center;
+  display: inline-block;
 `;
+
+const PricingPageButton = styled(Button)`
+  padding-top: 0;
+  padding-bottom: 0.1em;
+  line-height: 1.3;
+  border-image: linear-gradient(#C454FF, #2800FF, #FA8A7C, #FE7DAB);
+`
 
 const SVGBase = styled.svg`
   display: inline-block;
-  height: 1em;
+  height: 1.5em;
   width: auto;
   color: inherit;
-  vertical-align: top;
+  vertical-align: bottom;
 `;
 
 const BoostMark = ({ ...props }) => (
@@ -62,7 +68,7 @@ const BoostMark = ({ ...props }) => (
 
 const ProLinkWrap = () => {
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
-  const hasGlitchProEnabled = true; // useSubscriptionStatus();
+  const hasGlitchProEnabled = false; // useSubscriptionStatus();
 
   if (!userHasPufferfishEnabled) {
     return null;
@@ -70,9 +76,9 @@ const ProLinkWrap = () => {
 
   if (!hasGlitchProEnabled) {
     return (
-      <Button size="small" as={Link} to="/pricing">
+      <PricingPageButton size="small" as={Link} to="/pricing">
         Get PRO <BoostMark width />
-      </Button>
+      </PricingPageButton>
     );
   }
 
