@@ -14,11 +14,24 @@ import styles from './about.styl';
 function HeaderLinks({ currentPage }) {
   return (
     <nav className={styles.headerActions}>
-      <Link to="/about" className={currentPage === 'about' ? styles.currentPage : undefined}>About</Link>
-      <Link to="/about/company" className={currentPage === 'company' ? styles.currentPage : undefined}>Company</Link>
-      <Link to="/about/careers" className={currentPage === 'careers' ? styles.currentPage : undefined}>Careers</Link>
-      <Link to="/about/press" className={currentPage === 'press' ? styles.currentPage : undefined}>Press</Link>
-      <Link to="/about/events" className={currentPage === 'events' ? styles.currentPage : undefined}>Events</Link>
+      <Link to="/about" className={currentPage === 'about' ? styles.currentPage : undefined}>
+        About
+      </Link>
+      <Link to="/pricing" className={currentPage === 'pricing' ? styles.currentPage : undefined}>
+        Pricing
+      </Link>
+      <Link to="/about/company" className={currentPage === 'company' ? styles.currentPage : undefined}>
+        Company
+      </Link>
+      <Link to="/about/careers" className={currentPage === 'careers' ? styles.currentPage : undefined}>
+        Careers
+      </Link>
+      <Link to="/about/press" className={currentPage === 'press' ? styles.currentPage : undefined}>
+        Press
+      </Link>
+      <Link to="/about/events" className={currentPage === 'events' ? styles.currentPage : undefined}>
+        Events
+      </Link>
     </nav>
   );
 }
