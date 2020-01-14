@@ -32,7 +32,7 @@ const DeleteInfo = ({ onClose, first, focusedOnMount, last, next }) => (
       <p>
         You can export any of your projects but only <b>before</b> you close your account.
       </p>
-      <Button onClick={() => console.log('Learning more')} className={styles.modalButton} size="small" variant="secondary">
+      <Button as="a" href="/help/how-do-i-delete-a-project-on-glitch/" className={styles.modalButton} size="small" variant="secondary">
         Learn about exporting <Icon className={emoji} icon="arrowRight" />
       </Button>
     </Info>
@@ -129,7 +129,7 @@ const ProjectTransfer = ({ onClose, first, focusedOnMount, last, singleAdminProj
     <>
       <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Project Ownership</Title>
       <Info>
-        You must <Link to="/">transfer ownership</Link> or <Link to="/">delete</Link> these projects before you can delete your account.
+        You must <Link to="/">transfer ownership</Link> or <Link to="/help/how-do-i-delete-a-project-on-glitch/">delete</Link> these projects before you can delete your account.
       </Info>
       {singleAdminProjects.length > 0 ? (
         <ResultsList value={currentlyFocusedProject} onChange={onSelectProject} options={singleAdminProjects} scroll>
