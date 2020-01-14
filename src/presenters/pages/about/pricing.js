@@ -5,6 +5,7 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import { useAPIHandlers } from 'State/api';
+import { useCurrentUser } from 'State/current-user';
 import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
 import { useFeatureEnabled } from 'State/rollouts';
@@ -17,6 +18,7 @@ const PricingPage = () => {
   const subscriptionStatus = useSubscriptionStatus();
   const { createSubscriptionSession } = useAPIHandlers();
   const stripe = useStripe();
+  const { fetched: currentUserFetched } = useCurrentUser();
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
 
   async function subscribe() {
@@ -28,6 +30,10 @@ const PricingPage = () => {
       // TODO decide what kind of error handling we need here
       console.log(err);
     }
+  }
+
+  if (!currentUserFetched) {
+    return null;
   }
 
   if (!userHasPufferfishEnabled) {
