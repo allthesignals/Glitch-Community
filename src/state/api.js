@@ -192,7 +192,7 @@ export const useAPIHandlers = () => {
       removeUserFromTeam: ({ user, team }) => api.delete(`/v1/teams/${team.id}/users/${user.id}`),
       addProjectToTeam: ({ project, team }) => api.put(`/v1/teams/${team.id}/projects/${project.id}`),
       removeProjectFromTeam: ({ project, team }) => api.delete(`/v1/teams/${team.id}/projects/${project.id}`),
-      joinTeamProject: ({ project, team }) => api.post(`/v1/teams/${team.id}/projects/${project.id}/join`),
+      joinTeamProject: ({ project, team }) => api.put(`/v1/teams/${team.id}/projects/${project.id}/join`),
 
       // teams / users
       addPinnedProject: ({ project, team, user }) => api.put(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),

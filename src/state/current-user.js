@@ -201,6 +201,9 @@ export const { reducer, actions } = createSlice({
     leftProject: (state, { payload }) => {
       state.projects = state.projects.filter((p) => p.id !== payload.id);
     },
+    joinedProject: (state, { payload }) => {
+      state.projects.push(payload);
+    },
   },
 });
 
