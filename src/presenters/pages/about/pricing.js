@@ -10,6 +10,7 @@ import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
 import { useFeatureEnabled } from 'State/rollouts';
 import { getUserLink } from 'Models/user';
+import { APP_URL } from 'Utils/constants';
 
 import AboutLayout from './about-layout';
 import { NotFoundPage } from '../error';
@@ -25,8 +26,8 @@ const PricingPage = () => {
   async function subscribe() {
     try {
       const { data } = await createSubscriptionSession({
-        successUrl: `https://glitch.com${getUserLink(currentUser)}`,
-        cancelUrl: 'https://glitch.com/settings',
+        successUrl: `${APP_URL}${getUserLink(currentUser)}`,
+        cancelUrl: `${APP_URL}/settings`,
       });
       const { id: sessionId } = data;
       stripe.redirectToCheckout({ sessionId });
