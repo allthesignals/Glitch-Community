@@ -185,8 +185,8 @@ export const useAPIHandlers = () => {
 
       // teams
       joinTeam: ({ team }) => api.post(`/v1/teams/${team.id}/join`),
-      inviteEmailToTeam: ({ team }, emailAddress) => api.post(`/v1/teams/${team.id}/tokens`, { email: emailAddress }),
-      inviteUserToTeam: ({ team, user }) => api.post(`/v1/teams/${team.id}/tokens`, { userId: user.id }),
+      inviteEmailToTeam: ({ team }, emailAddress) => api.post(`/teams/${team.id}/sendJoinTeamEmail`, { emailAddress }),
+      inviteUserToTeam: ({ team, user }) => api.post(`/teams/${team.id}/sendJoinTeamEmail`, { userId: user.id }),
       revokeTeamInvite: ({ team, user }) => api.delete(`/v1/teams/${team.id}/tokens/${user.id}`),
       updateUserAccessLevel: ({ user, team }, accessLevel) => api.put(`/v1/teams/${team.id}/users/${user.id}`, { accessLevel }),
       removeUserFromTeam: ({ user, team }) => api.delete(`/v1/teams/${team.id}/users/${user.id}`),
