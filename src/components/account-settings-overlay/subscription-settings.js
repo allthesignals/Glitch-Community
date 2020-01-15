@@ -3,32 +3,28 @@ import { Button, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
-import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
-import { useCurrentUser } from 'State/current-user';
-import { useAPIHandlers } from 'State/api';
-import { getUserLink } from 'Models/user';
 
 function SubscriptionSettings() {
   const [isCancelling, setIsCancelling] = useState(false);
   const { fetched, isActive, subscribe, cancel } = useSubscriptionStatus();
-  
+
   const cancelWithWait = async () => {
-    setIsCancelling(true)
-    await cancel()
-    setIsCancelling(false)
-  } 
-  
+    setIsCancelling(true);
+    await cancel();
+    setIsCancelling(false);
+  };
+
   if (!fetched) {
     return (
       <>
-      <Heading tagName="h2">Subscription</Heading>
-      <Loader size="30px" />
-    </>
-    )
+        <Heading tagName="h2">Subscription</Heading>
+        <Loader size="30px" />
+      </>
+    );
   }
 
-  return(
+  return (
     <>
       <Heading tagName="h2">Subscription</Heading>
       {isActive ? (
@@ -47,7 +43,7 @@ function SubscriptionSettings() {
         </>
       )}
     </>
- )
+  );
 }
 
 export default SubscriptionSettings;
