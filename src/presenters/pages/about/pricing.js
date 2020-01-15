@@ -10,7 +10,6 @@ import useStripe from 'State/stripe';
 import useSubscriptionStatus from 'State/subscription-status';
 import { useFeatureEnabled } from 'State/rollouts';
 import { getUserLink } from 'Models/user';
-import { APP_URL } from 'Utils/constants';
 
 import AboutLayout from './about-layout';
 import { NotFoundPage } from '../error';
