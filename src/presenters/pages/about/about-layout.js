@@ -10,16 +10,19 @@ import Footer from 'Components/footer';
 import ErrorBoundary from 'Components/error-boundary';
 import MadeOnGlitch from 'Components/footer/made-on-glitch';
 import styles from './about.styl';
+import { useFeatureEnabled } from 'State/rollouts';
 
 function HeaderLinks({ currentPage }) {
+  const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
+
   return (
     <nav className={styles.headerActions}>
       <Link to="/about" className={currentPage === 'about' ? styles.currentPage : undefined}>
         About
       </Link>
-      <Link to="/pricing" className={currentPage === 'pricing' ? styles.currentPage : undefined}>
+      {userHasPufferfishEnabled && <Link to="/pricing" className={currentPage === 'pricing' ? styles.currentPage : undefined}>
         Pricing
-      </Link>
+      </Link>}
       <Link to="/about/company" className={currentPage === 'company' ? styles.currentPage : undefined}>
         Company
       </Link>
