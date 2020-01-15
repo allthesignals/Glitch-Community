@@ -26,8 +26,8 @@ const PricingPage = () => {
   async function subscribe() {
     try {
       const { data } = await createSubscriptionSession({
-        successUrl: `${APP_URL}${getUserLink(currentUser)}`,
-        cancelUrl: `${APP_URL}/settings`,
+        successUrl: `${window.location.origin}${getUserLink(currentUser)}`,
+        cancelUrl: `${window.location.origin}/settings`,
       });
       const { id: sessionId } = data;
       stripe.redirectToCheckout({ sessionId });

@@ -59,13 +59,13 @@ const BoostMark = ({ ...props }) => (
 
 const GlitchProCTA = () => {
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
-  const hasGlitchProEnabled = useSubscriptionStatus();
+  const { fetched, isActive } = useSubscriptionStatus();
 
-  if (!userHasPufferfishEnabled) {
+  if (!userHasPufferfishEnabled || !fetched) {
     return null;
   }
 
-  if (!hasGlitchProEnabled) {
+  if (!isActive) {
     return (
       <PricingPageButton size="small" as={Link} to="/pricing">
         <PricingPageButtonContent>
