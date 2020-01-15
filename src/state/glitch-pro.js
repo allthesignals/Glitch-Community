@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, createContext, useContext } from 'react';
 import { useAPIHandlers } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
 import { useFeatureEnabled } from 'State/rollouts';
@@ -18,7 +18,7 @@ function useStripe() {
   return stripe;
 }
 
-export default function useGlitchPro() {
+function useGlitchProState() {
   const { getSubscriptionStatus, createSubscriptionSession, cancelSubscription } = useAPIHandlers();
   const stripe = useStripe();
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
@@ -67,4 +67,11 @@ export default function useGlitchPro() {
     subscribe,
     cancel,
   };
+}
+
+const GlitchProContext = createContext()
+
+export GlitchProProvider = ({ children }) => {
+  const value = useGlitchProState()
+  <GlitchProContext.Provider 
 }
