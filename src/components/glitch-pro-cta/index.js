@@ -48,10 +48,10 @@ const BoostMark = ({ ...props }) => (
     />
     <defs>
       <linearGradient id="paint0_linear" x1="33.8995" y1="14.1957" x2="12.6162" y2="35.8519" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#C454FF" />
-        <stop offset="0.333333" stop-color="#2800FF" />
-        <stop offset="0.651042" stop-color="#FA8A7C" />
-        <stop offset="1" stop-color="#FE7DAB" />
+        <stop stopColor="#C454FF" />
+        <stop offset="0.333333" stopColor="#2800FF" />
+        <stop offset="0.651042" stopColor="#FA8A7C" />
+        <stop offset="1" stopColor="#FE7DAB" />
       </linearGradient>
     </defs>
   </SVGBase>
