@@ -38,7 +38,7 @@ function useGlitchProState() {
       // TODO decide what kind of error handling we need here
       console.log(err);
     }
-  }, [currentUser, stripe, window.location.origin, createSubscriptionSession]);
+  }, [currentUser, stripe, createSubscriptionSession]);
 
   const cancel = useCallback(async () => {
     try {
