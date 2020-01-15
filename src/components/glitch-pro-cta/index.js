@@ -69,7 +69,7 @@ const GlitchProCTA = () => {
     return (
       <PricingPageButton size="small" as={Link} to="/pricing">
         <PricingPageButtonContent>
-          Get PRO <BoostMark width />
+          Get PRO <BoostMark />
         </PricingPageButtonContent>
       </PricingPageButton>
     );
