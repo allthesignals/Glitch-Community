@@ -3,11 +3,11 @@ import { Button, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
-import useSubscriptionStatus from 'State/subscription-status';
+import useGlitchPro from 'State/glitchPro';
 
 function SubscriptionSettings() {
   const [isCancelling, setIsCancelling] = useState(false);
-  const { fetched, isActive, subscribe, cancel } = useSubscriptionStatus();
+  const { fetched, isActive, subscribe, cancel } = useGlitchPro();
 
   const cancelWithWait = async () => {
     setIsCancelling(true);

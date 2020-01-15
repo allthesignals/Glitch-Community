@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAPIHandlers } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
+import { useFeatureEnabled } from 'State/rollouts';
 import { getUserLink } from 'Models/user';
 import useScript from 'Hooks/use-script';
 
@@ -17,10 +18,11 @@ function useStripe() {
   return stripe;
 }
 
-
-export default function useSubscriptionStatus() {
+export default function useGlitchPro() {
   const { getSubscriptionStatus, createSubscriptionSession, cancelSubscription } = useAPIHandlers();
   const stripe = useStripe();
+  const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
+
   const { currentUser } = useCurrentUser();
   const [{ fetched, isActive, expiresAt }, setSubscriptionStatus] = useState({ fetched: false });
 
@@ -49,13 +51,17 @@ export default function useSubscriptionStatus() {
   }, [cancelSubscription]);
 
   useEffect(() => {
+    if (!userHasPufferfishEnabled) {
+      return;
+    }
+
     getSubscriptionStatus().then(({ data }) => {
       setSubscriptionStatus({ ...data, fetched: true });
     });
   }, []);
 
   return {
-    fetched: stripe && fetched,
+    fetched: stripe && userHasPufferfishEnabled && fetched,
     isActive,
     expiresAt,
     subscribe,

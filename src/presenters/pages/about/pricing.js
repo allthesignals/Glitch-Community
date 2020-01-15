@@ -5,7 +5,7 @@ import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import { useCurrentUser } from 'State/current-user';
-import useSubscriptionStatus from 'State/subscription-status';
+import useGlitchPro from 'State/glitch-pro';
 import { useFeatureEnabled } from 'State/rollouts';
 
 import AboutLayout from './about-layout';
@@ -13,7 +13,7 @@ import { NotFoundPage } from '../error';
 import styles from './pricing.styl';
 
 const PricingPage = () => {
-  const subscription = useSubscriptionStatus();
+  const subscription = useGlitchPro();
   const { fetched: currentUserFetched } = useCurrentUser();
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
 
