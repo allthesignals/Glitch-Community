@@ -4,12 +4,13 @@ import { Helmet } from 'react-helmet-async';
 import PreviewContainer from 'Components/containers/preview-container';
 import DataLoader from 'Components/data-loader';
 import Link from 'Components/link';
+import { NewStuffPostcard } from 'Components/user-dashboard';
 
 import { useAPI } from 'State/api';
 
 import { NewStuffOverlay } from 'Components/new-stuff';
 
-const PupdatesPreview = (() => {
+const PupdatesPreview = () => {
   const api = useAPI();
   const [currentDraft, setCurrentDraft] = useState(0);
 
@@ -45,12 +46,23 @@ const PupdatesPreview = (() => {
                 </>
               }
             >
-              {(data) => <NewStuffOverlay showNewStuff setShowNewStuff={() => {}} newStuff={data.pupdates} closePopover={() => {}} />}
+              {(data) => (
+                <>
+                  {/* approximate size of postcard on homepage - layout/styles .content has 1207px max-width, postcard is grid of 3 */}
+                  <div style={{ maxWidth: '1207px' }}>
+                    <div style={{ maxWidth: '30%' }}>
+                      <NewStuffPostcard allPupdates={data.pupdates} />
+                    </div>
+                  </div>
+
+                  <NewStuffOverlay showNewStuff setShowNewStuff={() => {}} newStuff={data.pupdates} closePopover={() => {}} />
+                </>
+              )}
             </PreviewContainer>
           </>
         )}
       </DataLoader>
     </main>
   );
-});
+};
 export default PupdatesPreview;

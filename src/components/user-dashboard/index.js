@@ -7,6 +7,7 @@ import Text from 'Components/text/text';
 import Image from 'Components/images/image';
 import NewStuffContainer from 'Components/new-stuff';
 import { useCurrentUser } from 'State/current-user';
+import { useGlobals } from 'State/globals';
 import { useAPI } from 'State/api';
 import { getCollectionProjectsFromAPI } from 'State/collection';
 import { sampleSize } from 'lodash';
@@ -31,28 +32,40 @@ Stamp.propTypes = {
   icon: PropTypes.string.isRequired,
 };
 
+export const NewStuffPostcard = ({ allPupdates }) => {
+  const mostRecentPupdateWithPostcard = allPupdates.reduce((max, nextPupdate) =>
+    max.postcard.title && max.id > nextPupdate.id ? max : nextPupdate,
+  );
+  return (
+    <NewStuffContainer>
+      {(showNewStuffOverlay) => (
+        <Postcard
+          heading="Update"
+          subheading={mostRecentPupdateWithPostcard.postcard.title}
+          stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
+          stampIcon="dogFace"
+          outerBorderColor="#7460E1"
+          innerBorderColor="#EAE6FF"
+          buttonText="All Updates"
+          buttonProps={{ onClick: showNewStuffOverlay }}
+          thumbnail={mostRecentPupdateWithPostcard.postcard.thumbnail}
+        >
+          {mostRecentPupdateWithPostcard.postcard.body}
+        </Postcard>
+      )}
+    </NewStuffContainer>
+  );
+};
+
 const Postcards = ({ marketingContent }) => {
   const api = useAPI();
+  const {
+    PUPDATES_CONTENT: { pupdates },
+  } = useGlobals();
+
   return (
     <div className={styles.postcards}>
-      <NewStuffContainer>
-        {(showNewStuffOverlay) => (
-          <Postcard
-            heading="Update"
-            subheading="My Stuff"
-            stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
-            stampIcon="dogFace"
-            outerBorderColor="#7460E1"
-            innerBorderColor="#EAE6FF"
-            buttonText="All Updates"
-            buttonProps={{ onClick: showNewStuffOverlay }}
-            thumbnail="https://cdn.glitch.com/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fplaceholder.svg"
-          >
-            Quickly save cool apps to your My Stuff collection with a single click.
-          </Postcard>
-        )}
-      </NewStuffContainer>
-
+      <NewStuffPostcard allPupdates={pupdates} />
       <Postcard
         heading="Video"
         subheading={marketingContent.title}
@@ -65,7 +78,7 @@ const Postcards = ({ marketingContent }) => {
         waveStyles={{ filter: 'hueRotate(130deg) saturate(.65)' }}
         thumbnail={marketingContent.thumbnail}
       >
-        { marketingContent.body }
+        {marketingContent.body}
       </Postcard>
       <DataLoader get={getCollectionProjectsFromAPI} args={{ api, collectionId: 13044 }}>
         {(data) => {
