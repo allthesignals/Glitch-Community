@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import ReactKonami from 'react-konami';
 import { Button } from '@fogcreek/shared-components';
+import { useFeatureEnabled } from 'State/rollouts';
 import GlitchHelmet from 'Components/glitch-helmet';
 import Link from 'Components/link';
 import Logo from 'Components/header/logo';
@@ -12,14 +13,18 @@ import MadeOnGlitch from 'Components/footer/made-on-glitch';
 import styles from './about.styl';
 
 function HeaderLinks({ currentPage }) {
+  const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
+
   return (
     <nav className={styles.headerActions}>
       <Link to="/about" className={currentPage === 'about' ? styles.currentPage : undefined}>
         About
       </Link>
-      <Link to="/pricing" className={currentPage === 'pricing' ? styles.currentPage : undefined}>
-        Pricing
-      </Link>
+      {userHasPufferfishEnabled && (
+        <Link to="/pricing" className={currentPage === 'pricing' ? styles.currentPage : undefined}>
+          Pricing
+        </Link>
+      )}
       <Link to="/about/company" className={currentPage === 'company' ? styles.currentPage : undefined}>
         Company
       </Link>
@@ -42,7 +47,10 @@ const AboutLayout = ({ children, mainClassName, currentPage }) => (
       <Helmet>
         <body data-grey="true" />
       </Helmet>
-      <GlitchHelmet title="About Glitch" description="Glitch is a collaborative programming environment that lives in your browser and deploys code as you type." />
+      <GlitchHelmet
+        title="About Glitch"
+        description="Glitch is a collaborative programming environment that lives in your browser and deploys code as you type."
+      />
       <Button as="a" href="#main" className={styles.visibleOnFocus}>
         Skip to Main Content
       </Button>
