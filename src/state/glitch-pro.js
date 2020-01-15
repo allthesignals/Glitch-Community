@@ -69,9 +69,11 @@ function useGlitchProState() {
   };
 }
 
-const GlitchProContext = createContext()
+const GlitchProContext = createContext();
 
-export GlitchProProvider = ({ children }) => {
-  const value = useGlitchProState()
-  <GlitchProContext.Provider 
-}
+export const GlitchProProvider = ({ children }) => {
+  const value = useGlitchProState();
+  return <GlitchProContext.Provider value={value}>{children}</GlitchProContext.Provider>;
+};
+
+export const useGlitchPro = () => useContext(GlitchProContext);
