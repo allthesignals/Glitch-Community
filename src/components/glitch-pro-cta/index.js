@@ -39,8 +39,7 @@ const ImgBase = styled.img`
   vertical-align: bottom;
 `;
 
-
-const BoostMarkImg = (props) => <ImgBase src={`${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2FBoost%20Mark%20for%20Export.svg`} {...props} />
+const BoostMarkImg = (props) => <ImgBase src={`${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2FBoost%20Mark%20for%20Export.svg`} {...props} />;
 
 const GlitchProCTA = () => {
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
