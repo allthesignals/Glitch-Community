@@ -3,7 +3,7 @@ import { Button, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
-import useGlitchPro from 'State/glitchPro';
+import useGlitchPro from 'State/glitch-pro';
 
 function SubscriptionSettings() {
   const [isCancelling, setIsCancelling] = useState(false);
