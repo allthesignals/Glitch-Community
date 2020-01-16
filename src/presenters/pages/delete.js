@@ -17,8 +17,10 @@ const ValidToken = () => {
   const [reasonForLeaving, setReason] = useState('');
   const [showNotification, setShowNotification] = useState(false);
   const trackDeletion = useTracker('Account Closed');
-  const trackFeedback = useTracker('Submitted User Deletion Feedback', {
-    reasonForLeaving,
+  const trackFeedback = useTracker('Feedback Submitted', {
+    feedbackForm: 'Account Closure',
+    feedback: reasonForLeaving,
+    url: window.location.href,
   });
   const isInitialized = useIsAnalyticsInitialized();
 

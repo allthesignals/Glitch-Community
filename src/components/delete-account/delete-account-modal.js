@@ -181,7 +181,7 @@ const EmailConfirm = ({ onClose, first, focusedOnMount, last }) => {
         <p>Please click the link in the email to finish closing your account.</p>
         {(soloProjects.length > 0 || soloTeams.length > 0 || soloCollections.length > 0) && (
           <p>
-            Once you click the link in the email, the following will no longer be available:
+            Once you click the link in the email, the following will no longer be available:{' '}
             <b>
               {soloProjects.length > 0 && <Pluralize count={soloProjects.length} singular="project" />}
               {soloTeams.length > 0 && <Pluralize count={soloTeams.length} singular="team" />}
