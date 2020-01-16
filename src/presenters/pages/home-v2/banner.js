@@ -8,6 +8,7 @@ import { PopoverContainer } from 'Components/popover';
 import WistiaVideo from 'Components/wistia-video';
 import Link from 'Components/link';
 import { useTracker } from 'State/segment-analytics';
+import FilteredTag from 'Utils/filteredTag';
 
 import styles from './banner.styl';
 import { emoji } from '../../../components/global.styl';
@@ -139,7 +140,7 @@ const Banner = () => {
         <div className={styles.bannerCopyAndButtons}>
           <p>Simple, powerful, free tools to create and use millions of apps.</p>
           <div className={styles.bannerButtonWrap}>
-            <Button as={Link} variant="cta" to="/create" onClick={onCreateLinkClick}>
+            <Button as={FilteredTag(Link, ['textWrap'])} variant="cta" to="/create" onClick={onCreateLinkClick}>
               {createLinkText} <Icon icon="arrowRight" />
             </Button>
             <div className={styles.watchVideoBtnWrap}>

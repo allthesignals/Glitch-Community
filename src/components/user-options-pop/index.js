@@ -131,13 +131,13 @@ Are you sure you want to sign out?`)
           </Button>
         </div>
         <div className={styles.buttonWrap}>
-          <Button as={Link} variant="secondary" size="small" to="https://glitch.com/help/">
+          <Button as={FilteredTag(Link, ['textWrap'])} variant="secondary" size="small" to="https://glitch.com/help/">
             Help Center <Icon className={emoji} icon="ambulance" />
           </Button>
         </div>
         {userPasswordEnabled && (
           <div className={styles.buttonWrap}>
-            <Button as={Link} size="small" variant="secondary" to="/settings">
+            <Button as={FilteredTag(Link, ['textWrap'])} size="small" variant="secondary" to="/settings">
               Account Settings <Icon className={emoji} icon="key" />
             </Button>
           </div>

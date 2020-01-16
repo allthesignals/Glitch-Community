@@ -3,6 +3,7 @@ import { Button } from '@fogcreek/shared-components';
 import Link from 'Components/link';
 import useGlitchPro from 'State/glitch-pro';
 import { CDN_URL } from 'Utils/constants';
+import FilteredTag from 'Utils/filteredTag';
 import styles from './styles.styl';
 
 const BoostMark = () => (
@@ -18,7 +19,7 @@ const GlitchProCTA = () => {
 
   if (!isActive) {
     return (
-      <Button className={styles.pricingPageButton} size="small" as={Link} to="/pricing">
+      <Button className={styles.pricingPageButton} size="small" as={FilteredTag(Link, ['textWrap'])} to="/pricing">
         <span className={styles.pricingPageButtonContent}>
           Get PRO <BoostMark />
         </span>
