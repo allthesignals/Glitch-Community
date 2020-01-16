@@ -7,11 +7,6 @@ import { BookmarkAvatar, StarAvatar } from 'Components/images/avatar';
 import AuthDescription from 'Components/fields/auth-description';
 
 describe('CollectionContainer', function() {
-  // const renderAndFindTestAttribute = (testDataAttribute) => {
-  //   const wrapper = shallow(<CollectionContainerWithHooksPassedIn {...this.props} />);
-  //   return wrapper.find(`[data-test="${testDataAttribute}"]`);
-  // };
-
   beforeEach(() => {
     this.props = {
       collection: {
