@@ -11,6 +11,7 @@ import { ProjectContextProvider } from 'State/project';
 import { CollectionContextProvider } from 'State/collection';
 import { NotificationsProvider } from 'State/notifications';
 import { RolloutsUserSync } from 'State/rollouts';
+import { GlitchProProvider } from 'State/glitch-pro';
 import OfflineNotice from 'State/offline-notice';
 import SuperUserBanner from 'Components/banners/super-user';
 import ErrorBoundary from 'Components/error-boundary';
@@ -28,12 +29,14 @@ const App = ({ apiCache, helmetContext }) => (
                 <APICacheProvider initial={apiCache}>
                   <ProjectContextProvider>
                     <CollectionContextProvider>
-                      <HelmetProvider context={helmetContext}>
-                        <SuperUserBanner />
-                        <OfflineNotice />
-                        <Router />
-                        <RolloutsUserSync />
-                      </HelmetProvider>
+                      <GlitchProProvider>
+                        <HelmetProvider context={helmetContext}>
+                          <SuperUserBanner />
+                          <OfflineNotice />
+                          <Router />
+                          <RolloutsUserSync />
+                        </HelmetProvider>
+                      </GlitchProProvider>
                     </CollectionContextProvider>
                   </ProjectContextProvider>
                 </APICacheProvider>

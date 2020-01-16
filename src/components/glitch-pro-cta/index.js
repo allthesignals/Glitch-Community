@@ -1,8 +1,7 @@
 import React from 'react';
 import { Button } from '@fogcreek/shared-components';
 import Link from 'Components/link';
-import { useFeatureEnabled } from 'State/rollouts';
-import useSubscriptionStatus from 'State/subscription-status';
+import useGlitchPro from 'State/glitch-pro';
 import { CDN_URL } from 'Utils/constants';
 import styles from './styles.styl';
 
@@ -11,10 +10,9 @@ const BoostMark = () => (
 );
 
 const GlitchProCTA = () => {
-  const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
-  const { fetched, isActive } = useSubscriptionStatus();
+  const { fetched, isActive } = useGlitchPro();
 
-  if (!userHasPufferfishEnabled || !fetched) {
+  if (!fetched) {
     return null;
   }
 

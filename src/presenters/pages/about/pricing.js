@@ -4,37 +4,18 @@ import { Button } from '@fogcreek/shared-components';
 import GlitchHelmet from 'Components/glitch-helmet';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
-import { useAPIHandlers } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
-import useStripe from 'State/stripe';
-import useSubscriptionStatus from 'State/subscription-status';
+import useGlitchPro from 'State/glitch-pro';
 import { useFeatureEnabled } from 'State/rollouts';
-import { getUserLink } from 'Models/user';
 
 import AboutLayout from './about-layout';
 import { NotFoundPage } from '../error';
 import styles from './pricing.styl';
 
 const PricingPage = () => {
-  const subscriptionStatus = useSubscriptionStatus();
-  const { createSubscriptionSession } = useAPIHandlers();
-  const stripe = useStripe();
-  const { currentUser, fetched: currentUserFetched } = useCurrentUser();
+  const subscription = useGlitchPro();
+  const { fetched: currentUserFetched } = useCurrentUser();
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
-
-  async function subscribe() {
-    try {
-      const { data } = await createSubscriptionSession({
-        successUrl: `${window.location.origin}${getUserLink(currentUser)}`,
-        cancelUrl: `${window.location.origin}/settings`,
-      });
-      const { id: sessionId } = data;
-      stripe.redirectToCheckout({ sessionId });
-    } catch (err) {
-      // TODO decide what kind of error handling we need here
-      console.log(err);
-    }
-  }
 
   if (!currentUserFetched) {
     return null;
@@ -60,10 +41,10 @@ const PricingPage = () => {
                 <li>Integrate with GitHub</li>
               </ul>
 
-              {subscriptionStatus.fetched && (
+              {subscription.fetched && (
                 <Text>
                   <strong>
-                    <em>{subscriptionStatus.isActive ? 'You are a Glitch Pro' : 'You are on a free plan'}</em>
+                    <em>{subscription.isActive ? 'You are a Glitch Pro' : 'You are on a free plan'}</em>
                   </strong>
                 </Text>
               )}
@@ -77,13 +58,13 @@ const PricingPage = () => {
                 <li>Boosted performance for projects</li>
               </ul>
 
-              {subscriptionStatus.fetched &&
-                (subscriptionStatus.isActive ? (
+              {subscription.fetched &&
+                (subscription.isActive ? (
                   <Button variant="primary" as="a" href="/settings">
                     Manage Your Subscription
                   </Button>
                 ) : (
-                  <Button onClick={subscribe} variant="cta">
+                  <Button onClick={subscription.subscribe} variant="cta">
                     Sign Up
                   </Button>
                 ))}
