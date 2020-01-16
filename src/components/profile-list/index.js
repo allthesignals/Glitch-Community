@@ -10,7 +10,6 @@ import { getDisplayName } from 'Models/user';
 import styles from './profile-list.styl';
 
 const UserItem = ({ user, asLinks }) => {
-  // console.log(user);
   const avatar = <UserAvatar user={user} hideTooltip />;
   let tooltipTarget;
   if (asLinks) {
@@ -50,9 +49,7 @@ const useResizeObserver = () => {
   const ref = useRef();
   const [width, setWidth] = useState(0);
   useEffect(() => {
-    console.log('in the resize observer effect');
     const setWidthOfRef = () => {
-      console.log('in the setWidthOfRef');
       if (ref.current) {
         const boundingClientRect = ref.current.getBoundingClientRect();
         if (boundingClientRect) {
@@ -181,8 +178,6 @@ export const ProfileItem = ({ user, team, glitchTeam, size, asLinks }) => (
 );
 
 const ProfileList = React.memo(({ size, users, teams, layout, glitchTeam, asLinks }) => {
-  // console.log(users);
-  // console.log(teams);
   if (glitchTeam) {
     return <GlitchTeamList size={size} asLinks={asLinks} />;
   }
