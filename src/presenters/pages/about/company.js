@@ -122,30 +122,10 @@ const AboutCompanyPage = () => (
         <span>
           <img
             className={styles.avatar}
-            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FMegBioPhoto-removebg-preview.png?v=1561974441838"
-            alt=""
-          />
-          <p>Meg Tobin</p>
-        </span>
-        <span>
-          <img
-            className={styles.avatar}
             src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FJennBio-removebg.png?v=1561974442460"
             alt=""
           />
           <p>Jenn Schiffer</p>
-        </span>
-        <span>
-          <img className={styles.avatar} src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Ftim-nobg.png?v=1561974908737" alt="" />
-          <p>Tim Kington</p>
-        </span>
-        <span>
-          <img
-            className={styles.avatar}
-            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fmaurice-cherry-removebg-preview%20(1).png?v=1561988404303"
-            alt=""
-          />
-          <p>Maurice Cherry</p>
         </span>
         <span>
           <img
