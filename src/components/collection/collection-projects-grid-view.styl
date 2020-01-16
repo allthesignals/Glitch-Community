@@ -1,6 +1,8 @@
 @import "../constants.styl"
 
 .addProjectHeader
+  display: flex
+  flex-wrap: wrap
   margin-bottom: 1rem
   &:empty
     margin-bottom: 0
@@ -25,3 +27,12 @@
 
 .hintBody
   margin: 1em 0
+
+.maxProjectsCount
+  margin: 5px 0 0 20px
+  font-weight: 600
+
+.maxProjectsLimitWarning
+  color: error
+  width: 100%
+  flex-basis: 100%

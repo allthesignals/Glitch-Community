@@ -6,6 +6,7 @@ import { Button, Icon } from '@fogcreek/shared-components';
 
 import { mediumSmallViewport, useWindowSize } from 'Hooks/use-window-size';
 
+import Pluralize from 'react-pluralize';
 import ProjectsList from 'Components/containers/projects-list';
 import AddCollectionProject from 'Components/collection/add-collection-project-pop';
 import Image from 'Components/images/image';
@@ -28,7 +29,7 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, collection }) => {
   }
 
   const [width] = useWindowSize();
-  const enableSorting = (isAuthorized && projects.length > 1) && width > mediumSmallViewport;
+  const enableSorting = isAuthorized && projects.length > 1 && width > mediumSmallViewport;
 
   return (
     <>
@@ -36,11 +37,25 @@ const CollectionProjectsGridView = ({ isAuthorized, funcs, collection }) => {
         {isAuthorized && funcs.addProjectToCollection && (
           <AddCollectionProject addProjectToCollection={funcs.addProjectToCollection} collection={collection} />
         )}
+        {collection.maxProjects && (
+          <Text data-test="max-project-count" className={styles.maxProjectsCount}>
+            {collection.projects.length}/{collection.maxProjects}
+            {' '}
+            <Pluralize count={collection.projects.length} showCount={false} singular="app" />
+            {collection.maxProjects === collection.projects.length && ', full'}
+          </Text>
+        )}
+        {collection.maxProjects && collection.maxProjects === collection.projects.length && (
+          <Text data-test="max-project-warning" className={styles.maxProjectsLimitWarning}>
+            You can only have {collection.maxProjects} Boosted at this time.
+          </Text>
+        )}
       </div>
       {!collectionHasProjects && isAuthorized && (
         <div className={styles.emptyCollectionHint}>
           <Image src="https://cdn.glitch.com/1afc1ac4-170b-48af-b596-78fe15838ad3%2Fpsst-pink.svg?1541086338934" alt="psst" width="" height="" />
-          <Text>You can add any project, created by any user</Text>
+          {collection.mustBeProjectOwner && <Text data-test="must-be-project-owner-explaination">Add any project that you own</Text>}
+          {!collection.mustBeProjectOwner && <Text data-test="empty-projects-explaination">You can add any project, created by any user</Text>}
         </div>
       )}
       {!collectionHasProjects && !isAuthorized && <div className={styles.emptyCollectionHint}>No projects to see in this collection just yet.</div>}

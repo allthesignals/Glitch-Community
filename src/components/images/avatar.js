@@ -121,3 +121,4 @@ CollectionAvatar.propTypes = {
 
 
 export const BookmarkAvatar = ({ width, height }) => <Image src={`${CDN_URL}/ee609ed3-ee18-495d-825a-06fc588a4d4c%2Fmy-stuff-collection-avatar%20(1).svg?v=1564432130141`} alt="" width={width} height={height} />;
+export const StarAvatar = ({ width, height }) => <Image src={`${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2FBoost%20Mark%20for%20Export.svg?v=1579101202141`} alt="" width={width} height={height} />;
