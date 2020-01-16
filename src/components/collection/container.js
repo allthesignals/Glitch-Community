@@ -13,7 +13,7 @@ import { ProfileItem } from 'Components/profile-list';
 import CollectionNameInput from 'Components/fields/collection-name-input';
 import EditCollectionColor from 'Components/collection/edit-collection-color-pop';
 import AuthDescription from 'Components/fields/auth-description';
-import { BookmarkAvatar } from 'Components/images/avatar';
+import { BookmarkAvatar, StarAvatar } from 'Components/images/avatar';
 import CollectionAvatar from 'Components/collection/collection-avatar';
 import { PrivateToggle } from 'Components/private-badge';
 import { useCollectionCurator } from 'State/collection';
@@ -22,11 +22,11 @@ import CollectionProjectsPlayer from 'Components/collection/collection-projects-
 import styles from './container.styl';
 import { emoji } from '../global.styl';
 
-const CollectionContainer = withRouter(({ history, match, collection, isAuthorized, funcs }) => {
-  const { value: curator } = useCollectionCurator(collection);
+// separated to be easier to test, use default export IRL
+export const CollectionContainerWithHooksPassedIn = ({ curator, history, match, collection, isAuthorized, funcs }) => {
   const [announcement, setAnnouncement] = useState('');
 
-  const canEditNameAndDescription = isAuthorized && !collection.isMyStuff;
+  const canEditNameAndDescription = isAuthorized && !collection.isProtectedCollection;
 
   let collectionName = collection.name;
   if (canEditNameAndDescription) {
@@ -37,6 +37,8 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
   const defaultAvatarName = 'collection-avatar'; // this was the old name for the default picture frame collection avatar
   if (collection.isMyStuff) {
     avatar = <BookmarkAvatar height="auto" />;
+  } else if (collection.isProtectedCollection) {
+    avatar = <StarAvatar height="auto" />;
   } else if (collection.avatarUrl && !collection.avatarUrl.includes(defaultAvatarName)) {
     avatar = <Image src={collection.avatarUrl} alt="" />;
   } else if (collection.projects.length > 0) {
@@ -141,6 +143,20 @@ const CollectionContainer = withRouter(({ history, match, collection, isAuthoriz
         )}
       </div>
     </article>
+  );
+};
+
+const CollectionContainer = withRouter(({ history, match, collection, isAuthorized, funcs }) => {
+  const { value: curator } = useCollectionCurator(collection);
+  return (
+    <CollectionContainerWithHooksPassedIn
+      curator={curator}
+      history={history}
+      match={match}
+      collection={collection}
+      isAuthorized={isAuthorized}
+      funcs={funcs}
+    />
   );
 });
 
