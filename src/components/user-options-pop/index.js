@@ -13,6 +13,7 @@ import { useGlobals } from 'State/globals';
 import { useCurrentUser, useSuperUserHelpers } from 'State/current-user';
 import { useTracker } from 'State/segment-analytics';
 import useDevToggle from 'State/dev-toggles';
+import FilteredTag from 'Utils/filteredTag';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
@@ -39,7 +40,7 @@ const TeamList = ({ teams, showCreateTeam }) => {
         <div className={styles.buttonWrap} key={team.id}>
           <Button
             textWrap
-            as={TeamLink}
+            as={FilteredTag(TeamLink, ['textWrap'])}
             team={team}
             size="small"
             variant="secondary"
