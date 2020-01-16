@@ -14,13 +14,17 @@ import { emoji } from '../../components/global.styl';
 
 const Settings = () => {
   const tagline = 'Account Settings';
-  const { currentUser } = useCurrentUser();
+  const { currentUser, fetched } = useCurrentUser();
   const { persistentToken, login } = currentUser;
   const userPasswordEnabled = useDevToggle('User Passwords');
   const tfaEnabled = useDevToggle('Two Factor Auth');
   const isSignedIn = persistentToken && login;
   const showAccountSettingsTab = userPasswordEnabled || tfaEnabled;
   const showSubscriptionTab = useFeatureEnabled('pufferfish');
+
+  if (!fetched) {
+    return null;
+  }
 
   if (!isSignedIn || !(showAccountSettingsTab || showSubscriptionTab)) {
     return <NotFoundPage />;
