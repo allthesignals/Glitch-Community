@@ -69,7 +69,13 @@ function useGlitchProState() {
   };
 }
 
-const GlitchProContext = createContext();
+const GlitchProContext = createContext({
+  fetched: false,
+  isActive: false,
+  expiresAt: null,
+  subscribe: null,
+  cancel: null,
+});
 
 export const GlitchProProvider = ({ children }) => {
   const value = useGlitchProState();
