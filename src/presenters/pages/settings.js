@@ -23,6 +23,7 @@ const Settings = ({ page }) => {
   const showAccountSettingsTab = userPasswordEnabled || tfaEnabled;
   const showSubscriptionTab = useFeatureEnabled('pufferfish');
 
+  
   if (!fetched) {
     return null;
   }
