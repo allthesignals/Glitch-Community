@@ -11,7 +11,7 @@ import { ProfileItem } from 'Components/profile-list';
 import { CollectionLink } from 'Components/link';
 import Row from 'Components/containers/row';
 import ProjectItemSmall from 'Components/project/project-item-small';
-import { BookmarkAvatar } from 'Components/images/avatar';
+import { BookmarkAvatar, StarAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
 import { PrivateBadge } from 'Components/private-badge';
 
@@ -182,6 +182,7 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
             style={collectionColorStyles(collection)}
             label={`${collection.private ? 'private ' : ''}${collection.name}`}
           >
+            {collection.isProtectedCollection && <StarAvatar className={styles.starAvatar} />}
             <div className={styles.nameDescriptionContainer}>
               <div className={styles.itemButtonWrap}>
                 <Button textWrap as="span">
