@@ -115,6 +115,7 @@ TeamTransfer.propTypes = {
   onClose: PropTypes.func.isRequired,
   first: PropTypes.object.isRequired,
   focusedOnMount: PropTypes.object.isRequired,
+  singleAdminTeams: PropTypes.array.isRequired,
   last: PropTypes.object.isRequired,
 };
 
@@ -165,6 +166,7 @@ ProjectTransfer.propTypes = {
   onClose: PropTypes.func.isRequired,
   first: PropTypes.object.isRequired,
   focusedOnMount: PropTypes.object.isRequired,
+  singleAdminProjects: PropTypes.array.isRequired,
   last: PropTypes.object.isRequired,
 };
 
@@ -260,7 +262,7 @@ const DeleteSettings = () => {
               <>
                 {page === 'info' && <DeleteInfo next={() => pageController({ setPage })} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
                 {page === 'projectOwnerTransfer' && <ProjectTransfer next={() => pageController({ setPage })} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} singleAdminProjects={singleAdminProjects} />}
-                {page === 'teamOwnerTransfer' && <TeamTransfer next={() => pageController({ setPage })} onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
+                {page === 'teamOwnerTransfer' && <TeamTransfer next={() => pageController({ setPage })} onClose={onClose} first={first} focusedOnMount={focusedOnMount} singleAdminTeams={singleAdminTeams} last={last} />}
                 {page === 'emailConfirm' && <EmailConfirm onClose={onClose} first={first} focusedOnMount={focusedOnMount} last={last} />}
               </>
             )}
