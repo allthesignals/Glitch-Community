@@ -26,6 +26,7 @@ import { useTracker } from 'State/segment-analytics';
 import { getRemixUrl } from 'Models/project';
 import { emojiPattern } from 'Shared/regex';
 import { CDN_URL } from 'Utils/constants';
+import FilteredTag from 'Utils/filteredTag';
 import useSample from 'Hooks/use-sample';
 
 import styles from './create.styl';
@@ -191,7 +192,7 @@ function PlatformStarterItem(team) {
       </div>
       <div>
         <div className={styles.platformLink}>
-          <Button textWrap as={TeamLink} team={team}>
+          <Button textWrap as={FilteredTag(TeamLink, ['textWrap'])} team={team}>
             {team.name}
           </Button>
         </div>

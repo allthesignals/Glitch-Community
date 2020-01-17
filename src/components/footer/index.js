@@ -7,6 +7,7 @@ import Image from 'Components/images/image';
 import Link from 'Components/link';
 import { useTracker } from 'State/segment-analytics';
 import { useGlobals } from 'State/globals';
+import { useFeatureEnabled } from 'State/rollouts';
 
 import styles from './footer.styl';
 import { emoji } from '../global.styl';
@@ -47,11 +48,14 @@ const Footer = ({ containerClass }) => {
   const trackClick = useTracker('Marketing CTA Clicked', {
     url: location.pathname,
   });
+  const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
+
   return (
     <footer className={classnames(styles.container, containerClass)} role="contentinfo" aria-label="Glitch Footer Links">
       <FooterLink href="/about" trackClick={trackClick} icon="crystalBall" linkText="About Glitch" />
       <FooterLink href="/about/careers" trackClick={trackClick} icon="fishingPole" linkText="We're Hiring" />
       <FooterLink href="/culture" trackClick={trackClick} icon="newspaper" linkText="Blog" />
+      {userHasPufferfishEnabled && <FooterLink href="/pricing" trackClick={trackClick} icon="creditCard" linkText="Pricing" />}
 
       <FooterLink href="/help/" trackClick={trackClick} icon="umbrella" linkText="Help Center" />
       <FooterLink href="http://status.glitch.com/" trackClick={trackClick} icon="horizontalTrafficLight" linkText="System Status" />

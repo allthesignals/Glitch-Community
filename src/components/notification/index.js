@@ -5,6 +5,7 @@ import { Button } from '@fogcreek/shared-components';
 
 import Link from 'Components/link';
 import Text from 'Components/text/text';
+import FilteredTag from 'Utils/filteredTag';
 import classNames from 'classnames/bind';
 import styles from './styles.styl';
 
@@ -66,7 +67,7 @@ export const AddProjectToCollectionMsg = ({ projectDomain, collectionName, url }
       {collectionName && `to collection ${collectionName}`}
     </Text>
     {url && (
-      <Button as={Link} to={url} rel="noopener noreferrer" size="small" variant="secondary">
+      <Button as={FilteredTag(Link, ['textWrap'])} to={url} rel="noopener noreferrer" size="small" variant="secondary">
         Take me there
       </Button>
     )}
