@@ -83,7 +83,7 @@ export const SettingsBase = ({ page, userPasswordEnabled, tfaEnabled, deleteEnab
               </Link>
             ))}
           </div>
-          <div className={styles.tabPanels}>
+          <div className={styles.tabPanels} data-tabpanel={page}>
             <ActiveTab {...props} />
           </div>
         </div>

@@ -23,13 +23,13 @@ describe('SettingsBase', function() {
   context('when the showSubscription prop is falsy', () => {
     it('does NOT render the subscription tab', () => {
       const wrapper = mount(
-        <MockContext currentUser={this.currentUser} location={'settings'}>
+        <MockContext currentUser={this.currentUser} location={'settings/account'}>
           <SettingsBase userPasswordEnabled />
         </MockContext>,
       );
       expect(
         wrapper
-          .find('[data-tab="subscription"]')
+          .find('[data-tab="glitch-pro"]')
           .first()
           .prop('hidden'),
       ).to.be.ok;
@@ -39,31 +39,19 @@ describe('SettingsBase', function() {
   context('when the showSubscription prop is truthy', () => {
     beforeEach(() => {
       this.wrapper = mount(
-        <MockContext currentUser={this.currentUser} location={'settings'} api={{ get: () => {} }}>
+        <MockContext currentUser={this.currentUser} location={'settings/account'} api={{ get: () => {} }}>
           <SettingsBase userPasswordEnabled showSubscriptionTab />
         </MockContext>,
       );
     });
 
-    it('renders the subscription tab', () => {
+    it('renders the Glitch PRO tab', () => {
       expect(
         this.wrapper
-          .find('[data-tab="subscription"]')
+          .find('[data-tab="glitch-pro"]')
           .first()
           .prop('hidden'),
       ).to.not.be.ok;
-    });
-
-    it('shows the Subscription tab panel when you click the Subscription button', () => {
-      this.wrapper
-        .find('[data-tab="subscription"]')
-        .first()
-        .simulate('click');
-
-      const subscriptionTabPanel = this.wrapper.find('[data-tabpanel="subscription"]').first();
-
-      expect(subscriptionTabPanel.prop('hidden')).to.not.be.ok;
-      expect(subscriptionTabPanel.find('h2').text()).to.equal('Subscription');
     });
   });
 });
