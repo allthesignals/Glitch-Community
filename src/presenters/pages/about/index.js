@@ -5,6 +5,7 @@ import Link from 'Components/link';
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
 import Image from 'Components/images/image';
+import FilteredTag from 'Utils/filteredTag';
 import { Button, Mark } from '@fogcreek/shared-components';
 import AboutLayout from './about-layout';
 import styles from './about.styl';
@@ -85,7 +86,7 @@ function FirstSection() {
           </p>
         </div>
       </div>
-      <Button className={styles.centeredButton} as={Link} to="/create">
+      <Button className={styles.centeredButton} as={FilteredTag(Link, ['textWrap'])} to="/create">
         Explore What You Can Do with Glitch <span aria-hidden="true">→</span>{' '}
       </Button>
     </section>
