@@ -57,8 +57,19 @@ const tabs = [
 
 const tagline = 'Account Settings';
 
-// NOTE: This is separated from the Settings component to make unit testing a bit easier
-export const SettingsBase = ({ page, userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab }) => {
+const Settings = ({ page }) => {
+  const userPasswordEnabled = useDevToggle('User Passwords');
+  const tfaEnabled = useDevToggle('Two Factor Auth');
+  const deleteEnabled = useDevToggle('Account Deletion');
+  const showSubscriptionTab = useFeatureEnabled('pufferfish');
+  const { currentUser, fetched } = useCurrentUser();
+  const { persistentToken, login } = currentUser;
+  const isSignedIn = persistentToken && login;
+
+  if (!isSignedIn && !fetched) {
+    return null;
+  }
+
   const props = { userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab };
   const selectableTabs = tabs.filter((tab) => tab.isSelectable(props));
   const activeTab = selectableTabs.find((tab) => tab.id === page);
@@ -89,30 +100,6 @@ export const SettingsBase = ({ page, userPasswordEnabled, tfaEnabled, deleteEnab
         </div>
       </Layout>
     </main>
-  );
-};
-
-const Settings = ({ page }) => {
-  const userPasswordEnabled = useDevToggle('User Passwords');
-  const tfaEnabled = useDevToggle('Two Factor Auth');
-  const deleteEnabled = useDevToggle('Account Deletion');
-  const showSubscriptionTab = useFeatureEnabled('pufferfish');
-  const { currentUser, fetched } = useCurrentUser();
-  const { persistentToken, login } = currentUser;
-  const isSignedIn = persistentToken && login;
-
-  if (!isSignedIn && !fetched) {
-    return null;
-  }
-
-  return (
-    <SettingsBase
-      page={page}
-      userPasswordEnabled={userPasswordEnabled}
-      tfaEnabled={tfaEnabled}
-      deleteEnabled={deleteEnabled}
-      showSubscriptionTab={showSubscriptionTab}
-    />
   );
 };
 
