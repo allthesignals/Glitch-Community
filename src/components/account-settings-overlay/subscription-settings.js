@@ -13,8 +13,8 @@ function SubscriptionSettings() {
     setIsDisabled(true);
     await subscribe();
     setIsDisabled(false);
-  }
-  
+  };
+
   const disableButtonAndCancel = async () => {
     setIsDisabled(true);
     await cancel();
@@ -43,7 +43,7 @@ function SubscriptionSettings() {
       ) : (
         <>
           <Text defaultMargin>Subscribe to the Extra Memory monthly plan for $14 per month.</Text>
-          <Button disabled={isDisabled} variant="cta" onClick={subscribe}>
+          <Button disabled={isDisabled} variant="cta" onClick={disableButtonAndSubscribe}>
             Subscribe
           </Button>
         </>

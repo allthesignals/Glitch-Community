@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@fogcreek/shared-components';
 
@@ -17,7 +17,7 @@ const tabs = [
     id: 'account',
     label: 'Account',
     isSelectable: () => true,
-    component: () => {
+    Component: () => {
       const userPasswordEnabled = useDevToggle('User Passwords');
       const tfaEnabled = useDevToggle('Two Factor Auth');
       const deleteEnabled = useDevToggle('Account Deletion');
@@ -46,7 +46,7 @@ const tabs = [
     id: 'glitch-pro',
     label: 'Glitch PRO',
     isSelectable: ({ showSubscriptionTab }) => showSubscriptionTab,
-    component: () => (
+    Component: () => (
       <div className={styles.tabPanelSection}>
         <SubscriptionSettings />
       </div>
@@ -57,7 +57,7 @@ const tabs = [
 export function SettingsTabs({ page }) {
   const showSubscriptionTab = useFeatureEnabled('pufferfish');
   const selectableTabs = tabs.filter((tab) => tab.isSelectable({ showSubscriptionTab }));
-  const ActiveTab = (selectableTabs.find((tab) => tab.id === page) || selectableTabs[0]).component;
+  const ActiveTab = (selectableTabs.find((tab) => tab.id === page) || selectableTabs[0]).Component;
 
   return (
     <div className={styles.tabsContainer}>

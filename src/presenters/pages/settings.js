@@ -25,9 +25,9 @@ const Settings = ({ page }) => {
 
   if (!isSignedIn || !(showAccountSettingsTab || showSubscriptionTab)) {
     if (!fetched) {
-      return null
+      return null;
     }
-    
+
     return <NotFoundPage />;
   }
 
@@ -38,14 +38,14 @@ const Settings = ({ page }) => {
         <Heading tagName="h1">
           Settings <Icon className={emoji} icon="key" />
         </Heading>
-        <SettingsTabsContainer page={page}/>
+        <SettingsTabsContainer page={page} />
       </Layout>
     </main>
   );
 };
 
 Settings.propTypes = {
-  page: PropTypes.string.isRequired
-}
+  page: PropTypes.string.isRequired,
+};
 
 export default Settings;
