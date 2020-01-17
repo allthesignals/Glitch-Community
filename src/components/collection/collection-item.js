@@ -14,6 +14,7 @@ import ProjectItemSmall from 'Components/project/project-item-small';
 import { BookmarkAvatar, StarAvatar } from 'Components/images/avatar';
 import VisibilityContainer from 'Components/visibility-container';
 import { PrivateBadge } from 'Components/private-badge';
+import CollectionOptions from 'Components/collection/collection-options-pop';
 
 import { isDarkColor } from 'Utils/color';
 import { CDN_URL } from 'Utils/constants';
@@ -24,8 +25,6 @@ import { useNotifications } from 'State/notifications';
 import { useCurrentUser } from 'State/current-user';
 
 import { createCollection } from 'Models/collection';
-
-import CollectionOptions from './collection-options-pop';
 
 import styles from './collection-item.styl';
 import { emoji } from '../global.styl';
@@ -171,7 +170,9 @@ const CollectionItem = ({ collection, deleteCollection, isAuthorized, showCurato
         {(showCurator || isAuthorized) && (
           <div className={styles.header}>
             <div className={styles.curator}>{showCurator && <CollectionCuratorLoader collection={collection} />}</div>
-            {isAuthorized && <CollectionOptions collection={collection} deleteCollection={animateAndDeleteCollection} />}
+            {isAuthorized && !collection.isProtectedCollection && (
+              <CollectionOptions collection={collection} deleteCollection={animateAndDeleteCollection} />
+            )}
           </div>
         )}
 

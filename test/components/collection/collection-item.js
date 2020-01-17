@@ -4,6 +4,8 @@ import { expect } from 'chai';
 
 import CollectionItem from 'Components/collection/collection-item';
 import { StarAvatar } from 'Components/images/avatar';
+import CollectionOptions from 'Components/collection/collection-options-pop';
+
 import MockContext from '../../helpers/mockContext';
 
 describe('CollectionItem', function() {
@@ -16,6 +18,8 @@ describe('CollectionItem', function() {
         coverColor: '',
         fullUrl: '',
       },
+      deleteCollection: () => {},
+      isAuthorized: true,
     };
   });
 
@@ -39,6 +43,22 @@ describe('CollectionItem', function() {
 
       expect(wrapper.find(StarAvatar).length).to.equal(1);
     });
+
+    it('does not render a collection options dropdown', () => {
+      const wrapper = mount(
+        <MockContext
+          currentUser={{ id: 1 }}
+          location={'collectionPage'}
+          getCollectionProjects={() => {
+            return [];
+          }}
+        >
+          <CollectionItem {...this.props} />
+        </MockContext>,
+      );
+
+      expect(wrapper.find(CollectionOptions).length).to.equal(0);
+    });
   });
 
   context('when collection.isProtectedCollection is false', () => {
@@ -60,6 +80,22 @@ describe('CollectionItem', function() {
       );
 
       expect(wrapper.find(StarAvatar).length).to.equal(0);
+    });
+
+    it('renders a collection options dropdown', () => {
+      const wrapper = mount(
+        <MockContext
+          currentUser={{ id: 1 }}
+          location={'collectionPage'}
+          getCollectionProjects={() => {
+            return [];
+          }}
+        >
+          <CollectionItem {...this.props} />
+        </MockContext>,
+      );
+
+      expect(wrapper.find(CollectionOptions).length).to.equal(1);
     });
   });
 });
