@@ -3,10 +3,10 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 import Heading from 'Components/text/heading';
-import { SettingsTabs } from 'Components/account-settings-overlay/settings-tabs-container';
+import { SettingsBase } from '../../presenters/settings';
 import MockContext from '../helpers/mockContext';
 
-describe('SettingsTabs', function() {
+describe('SettingsBase', function() {
   beforeEach(() => {
     this.currentUser = {
       id: 1,
@@ -24,7 +24,7 @@ describe('SettingsTabs', function() {
     it('does NOT render the subscription tab', () => {
       const wrapper = mount(
         <MockContext currentUser={this.currentUser} location={'settings'}>
-          <SettingsTabs userPasswordEnabled />
+          <SettingsBase userPasswordEnabled />
         </MockContext>,
       );
       expect(
@@ -40,7 +40,7 @@ describe('SettingsTabs', function() {
     beforeEach(() => {
       this.wrapper = mount(
         <MockContext currentUser={this.currentUser} location={'settings'} api={{ get: () => {} }}>
-          <SettingsTabs userPasswordEnabled showSubscriptionTab />
+          <SettingsBase userPasswordEnabled showSubscriptionTab />
         </MockContext>,
       );
     });
