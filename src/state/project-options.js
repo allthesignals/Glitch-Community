@@ -38,6 +38,7 @@ const useDefaultProjectOptions = () => {
     joinTeamProject: withErrorHandler(async (project, team) => {
       await joinTeamProject({ team, project });
       reloadProjectMembers([project.id]);
+      dispatch(currentUserActions.joinedProject(project));
     }, handleError),
     leaveProject: withErrorHandler(async (project) => {
       await removeUserFromProject({ project, user: currentUser });

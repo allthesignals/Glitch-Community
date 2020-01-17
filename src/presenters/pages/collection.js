@@ -52,12 +52,12 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
       <main id="main" aria-label="Glitch Collection Page">
         <CollectionContainer collection={collection} isAuthorized={currentUserIsAuthor} funcs={funcs} />
         {!currentUserIsAuthor && <ReportButton reportedType="collection" reportedModel={collection} />}
-        {currentUserIsAuthor && !collection.isMyStuff && (
+        {currentUserIsAuthor && !collection.isProtectedCollection && (
           <Popover
             align="left"
             className={mediumPopover}
             renderLabel={({ onClick, ref }) => (
-              <Button textWrap onClick={onClick} ref={ref} size="small" variant="warning">
+              <Button data-test="delete-collection-btn" textWrap onClick={onClick} ref={ref} size="small" variant="warning">
                 Delete {collection.name} <Icon className={emoji} icon="bomb" />
               </Button>
             )}
@@ -112,7 +112,9 @@ const CollectionPage = ({ owner, name }) => {
 
   return (
     <Layout>
-      {collection ? <CollectionPageContents collection={collection} /> : (
+      {collection ? (
+        <CollectionPageContents collection={collection} />
+      ) : (
         <>
           <GlitchHelmet title={name} description={`We couldn't find @${owner}/${name}`} />
           {status === 'ready' && <NotFound name={name} />}

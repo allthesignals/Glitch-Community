@@ -3,68 +3,45 @@ import { Button, Loader } from '@fogcreek/shared-components';
 
 import Heading from 'Components/text/heading';
 import Text from 'Components/text/text';
-import useStripe from 'State/stripe';
-import useSubscriptionStatus from 'State/subscription-status';
-import { useCurrentUser } from 'State/current-user';
-import { useAPIHandlers } from 'State/api';
-import { getUserLink } from 'Models/user';
+import useGlitchPro from 'State/glitch-pro';
 
 function SubscriptionSettings() {
   const [isCancelling, setIsCancelling] = useState(false);
-  const stripe = useStripe();
-  const subscriptionStatus = useSubscriptionStatus();
-  const { createSubscriptionSession, cancelSubscription } = useAPIHandlers();
-  const { currentUser } = useCurrentUser();
+  const { fetched, isActive, subscribe, cancel } = useGlitchPro();
 
-  async function subscribe() {
-    try {
-      const { data } = await createSubscriptionSession({
-        successUrl: `https://glitch.com${getUserLink(currentUser)}`,
-        cancelUrl: 'https://glitch.com/settings',
-      });
-      const { id: sessionId } = data;
-      stripe.redirectToCheckout({ sessionId });
-    } catch (err) {
-      // TODO decide what kind of error handling we need here
-      console.log(err);
-    }
-  }
-
-  async function cancel() {
+  const cancelWithWait = async () => {
     setIsCancelling(true);
-    try {
-      await cancelSubscription();
-      subscriptionStatus.isActive = true;
-      setIsCancelling(false);
-    } catch (err) {
-      // TODO decide what kind of error handling we need here
-      console.log(err);
-    }
+    await cancel();
+    setIsCancelling(false);
+  };
+
+  if (!fetched) {
+    return (
+      <>
+        <Heading tagName="h2">Subscription</Heading>
+        <Loader size="30px" />
+      </>
+    );
   }
 
-  return subscriptionStatus.fetched ? (
+  return (
     <>
       <Heading tagName="h2">Subscription</Heading>
-      {subscriptionStatus.isActive ? (
+      {isActive ? (
         <>
           <Text defaultMargin>Subscribed to the Extra Memory monthly plan for $14 per month.</Text>
-          <Button disabled={!stripe || isCancelling} variant="secondary" onClick={cancel}>
+          <Button disabled={!fetched || isCancelling} variant="secondary" onClick={cancelWithWait}>
             {isCancelling ? 'Cancelling...' : 'Cancel Subscription'}
           </Button>
         </>
       ) : (
         <>
           <Text defaultMargin>Subscribe to the Extra Memory monthly plan for $14 per month.</Text>
-          <Button disabled={!stripe} variant="cta" onClick={subscribe}>
+          <Button disabled={!fetched} variant="cta" onClick={subscribe}>
             Subscribe
           </Button>
         </>
       )}
-    </>
-  ) : (
-    <>
-      <Heading tagName="h2">Subscription</Heading>
-      <Loader size="30px" />
     </>
   );
 }
