@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from '@fogcreek/shared-components';
 
 import PasswordSettings from 'Components/account-settings-overlay/password-settings';
@@ -56,7 +57,7 @@ const tabs = [
 export function SettingsTabs({ page }) {
   const showSubscriptionTab = useFeatureEnabled('pufferfish');
   const selectableTabs = tabs.filter((tab) => tab.isSelectable({ showSubscriptionTab }));
-  const ActiveTab = (selectableTabs.find((tab) => tab.id === page) || selectableTabs[0]).component
+  const ActiveTab = (selectableTabs.find((tab) => tab.id === page) || selectableTabs[0]).component;
 
   return (
     <div className={styles.tabsContainer}>
@@ -74,11 +75,8 @@ export function SettingsTabs({ page }) {
   );
 }
 
-SettingsTabs.defaultProps = {
-  userPasswordEnabled: false,
-  tfaEnabled: false,
-  deleteEnabled: false,
-  showSubscriptionTab: false,
+SettingsTabs.propTypes = {
+  page: PropTypes.string.isRequired,
 };
 
 export default SettingsTabs;

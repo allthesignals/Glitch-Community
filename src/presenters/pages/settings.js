@@ -23,12 +23,11 @@ const Settings = ({ page }) => {
   const showAccountSettingsTab = userPasswordEnabled || tfaEnabled;
   const showSubscriptionTab = useFeatureEnabled('pufferfish');
 
-  
-  if (!fetched) {
-    return null;
-  }
-
   if (!isSignedIn || !(showAccountSettingsTab || showSubscriptionTab)) {
+    if (!fetched) {
+      return null
+    }
+    
     return <NotFoundPage />;
   }
 
@@ -46,7 +45,7 @@ const Settings = ({ page }) => {
 };
 
 Settings.propTypes = {
-  page: PropTypes.string,
+  page: PropTypes.string.isRequired
 }
 
 export default Settings;

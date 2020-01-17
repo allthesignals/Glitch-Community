@@ -6,19 +6,25 @@ import Text from 'Components/text/text';
 import useGlitchPro from 'State/glitch-pro';
 
 function SubscriptionSettings() {
-  const [isCancelling, setIsCancelling] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { fetched, isActive, subscribe, cancel } = useGlitchPro();
 
-  const cancelWithWait = async () => {
-    setIsCancelling(true);
+  const disableButtonAndSubscribe = async () => {
+    setIsDisabled(true);
+    await subscribe();
+    setIsDisabled(false);
+  }
+  
+  const disableButtonAndCancel = async () => {
+    setIsDisabled(true);
     await cancel();
-    setIsCancelling(false);
+    setIsDisabled(false);
   };
 
   if (!fetched) {
     return (
       <>
-        <Heading tagName="h2">Subscription</Heading>
+        <Heading tagName="h2">Glitch PRO</Heading>
         <Loader size="30px" />
       </>
     );
@@ -26,18 +32,18 @@ function SubscriptionSettings() {
 
   return (
     <>
-      <Heading tagName="h2">Subscription</Heading>
+      <Heading tagName="h2">Glitch PRO</Heading>
       {isActive ? (
         <>
-          <Text defaultMargin>Subscribed to the Extra Memory monthly plan for $14 per month.</Text>
-          <Button disabled={!fetched || isCancelling} variant="secondary" onClick={cancelWithWait}>
-            {isCancelling ? 'Cancelling...' : 'Cancel Subscription'}
+          <Text defaultMargin>Subscribed to the Extra Memory monthly plan for $10 per month.</Text>
+          <Button disabled={isDisabled} variant="secondary" onClick={disableButtonAndCancel}>
+            {isDisabled ? 'Cancelling...' : 'Cancel Subscription'}
           </Button>
         </>
       ) : (
         <>
           <Text defaultMargin>Subscribe to the Extra Memory monthly plan for $14 per month.</Text>
-          <Button disabled={!fetched} variant="cta" onClick={subscribe}>
+          <Button disabled={isDisabled} variant="cta" onClick={subscribe}>
             Subscribe
           </Button>
         </>
