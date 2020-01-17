@@ -12,10 +12,10 @@ import useDevToggle from 'State/dev-toggles';
 import styles from './styles.styl';
 
 function SettingsTabsContainer() {
+  const showSubscriptionTab = useFeatureEnabled('pufferfish');
   const userPasswordEnabled = useDevToggle('User Passwords');
   const tfaEnabled = useDevToggle('Two Factor Auth');
   const deleteEnabled = useDevToggle('Account Deletion');
-  const showSubscriptionTab = useFeatureEnabled('pufferfish');
 
   return (
     <SettingsTabs
@@ -27,10 +27,11 @@ function SettingsTabsContainer() {
   );
 }
 
-export function SettingsTabs({ userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab }) {
-  const [currentTab, setCurrentTab] = useState(0);
-
-  const AccountSettingsTab = () => (
+const AccountSettingsTab = () => {
+  const userPasswordEnabled = useDevToggle('User Passwords');
+  const tfaEnabled = useDevToggle('Two Factor Auth');
+  const deleteEnabled = useDevToggle('Account Deletion');
+  return (
     <>
       {userPasswordEnabled && (
         <div className={styles.tabPanelSection}>
@@ -49,12 +50,17 @@ export function SettingsTabs({ userPasswordEnabled, tfaEnabled, deleteEnabled, s
       )}
     </>
   );
+};
 
-  const SubscriptionSettingsTab = () => (
-    <div className={styles.tabPanelSection}>
-      <SubscriptionSettings />
-    </div>
-  );
+const SubscriptionSettingsTab = () => (
+  <div className={styles.tabPanelSection}>
+    <SubscriptionSettings />
+  </div>
+);
+
+export function SettingsTabs({ userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab }) {
+  const [currentTab, setCurrentTab] = useState(0);
+
   return (
     <Tabs selectedIndex={currentTab} onSelect={(tabIndex) => setCurrentTab(tabIndex)}>
       <div className={styles.tabsContainer}>

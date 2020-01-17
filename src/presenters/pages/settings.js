@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Icon } from '@fogcreek/shared-components';
 
 import Layout from 'Components/layout';
@@ -12,7 +13,7 @@ import { NotFoundPage } from './error';
 
 import { emoji } from '../../components/global.styl';
 
-const Settings = () => {
+const Settings = ({ page }) => {
   const tagline = 'Account Settings';
   const { currentUser, fetched } = useCurrentUser();
   const { persistentToken, login } = currentUser;
@@ -37,10 +38,14 @@ const Settings = () => {
         <Heading tagName="h1">
           Settings <Icon className={emoji} icon="key" />
         </Heading>
-        <SettingsTabsContainer />
+        <SettingsTabsContainer page={page}/>
       </Layout>
     </main>
   );
 };
+
+Settings.propTypes = {
+  page: PropTypes.string,
+}
 
 export default Settings;
