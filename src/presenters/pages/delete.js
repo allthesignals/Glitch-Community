@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import Layout from 'Components/layout';
 import { TextArea, Button, Icon, Loader } from '@fogcreek/shared-components';
 import Notification from 'Components/notification';
-import { useTracker, useIsAnalyticsInitialized } from 'State/segment-analytics';
+import { useTracker } from 'State/segment-analytics';
 import useDevToggle from 'State/dev-toggles';
 import { useAPIHandlers } from 'State/api';
 import { useCurrentUser } from 'State/current-user';
@@ -22,7 +22,7 @@ const ValidToken = () => {
     feedback: reasonForLeaving,
     url: window.location.href,
   });
-  const isInitialized = useIsAnalyticsInitialized();
+  const preferEmail = true;
 
   const submitFeedback = () => {
     setShowNotification(true);
@@ -38,7 +38,15 @@ const ValidToken = () => {
     <div>
       <h1>Your account has been closed</h1>
       <p>We'll miss you on Glitch.</p>
-      {isInitialized ? (
+      {preferEmail ? (
+        <p>
+          If you'd like to share any feedback, feel free to leave us a note at{' '}
+          <Button as="a" href="mailto:support@glitch.com">
+            <Icon className={styles.emailIcon} icon="loveLetter" />
+            support@glitch.com
+          </Button>
+        </p>
+      ) : (
         <>
           <p>If you'd like to share any feedback, feel free to leave us a note.</p>
           <div className={styles.textArea}>
@@ -53,14 +61,6 @@ const ValidToken = () => {
             </Notification>
           )}
         </>
-      ) : (
-        <p>
-          If you'd like to share any feedback, feel free to leave us a note at{' '}
-          <Button as="a" href="mailto:support@glitch.com">
-            <Icon className={styles.emailIcon} icon="loveLetter" />
-            support@glitch.com
-          </Button>
-        </p>
       )}
       <Button as="a" href="/">
         Back to Glitch <Icon className={emoji} icon="carpStreamer" />
