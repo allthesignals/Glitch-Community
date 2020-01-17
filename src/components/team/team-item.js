@@ -12,6 +12,7 @@ import ProfileList from 'Components/profile-list';
 import { TeamLink, WrappingLink } from 'Components/link';
 import { getTeamLink, getTeamAvatarUrl, DEFAULT_TEAM_AVATAR } from 'Models/team';
 import { useTeamMembers } from 'State/team';
+import FilteredTag from 'Utils/filteredTag';
 
 import styles from './team-item.styl';
 
@@ -30,7 +31,7 @@ const TeamItem = ({ team }) => {
         </div>
         <div className={styles.body}>
           <div className={styles.itemButtonWrap}>
-            <Button as={TeamLink} team={team}>{team.name}</Button>
+            <Button textWrap as={FilteredTag(TeamLink, ['textWrap'])} team={team}>{team.name}</Button>
             {!!team.isVerified && <VerifiedBadge />}
           </div>
           <div className={styles.usersList}>

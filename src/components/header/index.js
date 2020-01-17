@@ -11,6 +11,7 @@ import GlitchProCTA from 'Components/glitch-pro-cta';
 import { useCurrentUser } from 'State/current-user';
 import { useGlobals } from 'State/globals';
 import { EDITOR_URL } from 'Utils/constants';
+import FilteredTag from 'Utils/filteredTag';
 
 import Logo from './logo';
 import styles from './header.styl';
@@ -58,7 +59,7 @@ const Header = ({ searchQuery, showAccountSettingsOverlay, showNewStuffOverlay, 
             )}
             {signedOut && (
               <li className={styles.buttonWrap}>
-                <Button size="small" as={Link} to="/signin">
+                <Button size="small" as={FilteredTag(Link, ['textWrap'])} to="/signin">
                   Sign in
                 </Button>
               </li>

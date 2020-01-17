@@ -13,6 +13,7 @@ import { useGlobals } from 'State/globals';
 import { useCurrentUser, useSuperUserHelpers } from 'State/current-user';
 import { useTracker } from 'State/segment-analytics';
 import useDevToggle from 'State/dev-toggles';
+import FilteredTag from 'Utils/filteredTag';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
@@ -39,7 +40,7 @@ const TeamList = ({ teams, showCreateTeam }) => {
         <div className={styles.buttonWrap} key={team.id}>
           <Button
             textWrap
-            as={TeamLink}
+            as={FilteredTag(TeamLink, ['textWrap'])}
             team={team}
             size="small"
             variant="secondary"
@@ -130,13 +131,13 @@ Are you sure you want to sign out?`)
           </Button>
         </div>
         <div className={styles.buttonWrap}>
-          <Button as={Link} variant="secondary" size="small" to="https://glitch.com/help/">
+          <Button as={FilteredTag(Link, ['textWrap'])} variant="secondary" size="small" to="https://glitch.com/help/">
             Help Center <Icon className={emoji} icon="ambulance" />
           </Button>
         </div>
         {userPasswordEnabled && (
           <div className={styles.buttonWrap}>
-            <Button as={Link} size="small" variant="secondary" to="/settings">
+            <Button as={FilteredTag(Link, ['textWrap'])} size="small" variant="secondary" to="/settings">
               Account Settings <Icon className={emoji} icon="key" />
             </Button>
           </div>
