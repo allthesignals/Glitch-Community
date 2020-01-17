@@ -59,44 +59,6 @@ const tagline = 'Account Settings';
 
 // NOTE: This is separated from the Settings component to make unit testing a bit easier
 export const SettingsBase = ({ page, userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab }) => {
-  const props = { userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab };
-  const selectableTabs = tabs.filter((tab) => tab.isSelectable(props));
-  const activeTab = selectableTabs.find((tab) => tab.id === page);
-  if (!activeTab) {
-    return <NotFound />;
-  }
-
-  const ActiveTab = activeTab.Component;
-
-  return (
-    <main id="main">
-      <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
-      <Layout>
-        <Heading tagName="h1">
-          Settings <Icon className={emoji} icon="key" />
-        </Heading>
-        <div className={styles.tabsContainer}>
-          <div className={styles.tabs}>
-            {selectableTabs.map((tab) => (
-              <Link key={tab.id} data-tab={tab.id} className={styles.tab} to={`/settings/${tab.id}`}>
-                <Button as="span">{tab.label}</Button>
-              </Link>
-            ))}
-          </div>
-          <div className={styles.tabPanels} data-tabpanel={page}>
-            <ActiveTab {...props} />
-          </div>
-        </div>
-      </Layout>
-    </main>
-  );
-};
-
-const Settings = ({ page }) => {
-  const userPasswordEnabled = useDevToggle('User Passwords');
-  const tfaEnabled = useDevToggle('Two Factor Auth');
-  const deleteEnabled = useDevToggle('Account Deletion');
-  const showSubscriptionTab = useFeatureEnabled('pufferfish');
   const { currentUser, fetched } = useCurrentUser();
   const { persistentToken, login } = currentUser;
   const isSignedIn = persistentToken && login;
@@ -105,14 +67,52 @@ const Settings = ({ page }) => {
     return null;
   }
 
+  const props = { userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab };
+  const selectableTabs = tabs.filter((tab) => tab.isSelectable(props));
+  const activeTab = selectableTabs.find((tab) => tab.id === page);
+  if (!activeTab) {
+    return <NotFound />;
+  }
+
+  const ActiveTab = activeTab.Component;
   return (
-    <SettingsBase
-      page={page}
-      userPasswordEnabled={userPasswordEnabled}
-      tfaEnabled={tfaEnabled}
-      deleteEnabled={deleteEnabled}
-      showSubscriptionTab={showSubscriptionTab}
-    />
+    <div className={styles.tabsContainer}>
+      <div className={styles.tabs}>
+        {selectableTabs.map((tab) => (
+          <Link key={tab.id} data-tab={tab.id} className={styles.tab} to={`/settings/${tab.id}`}>
+            <Button as="span">{tab.label}</Button>
+          </Link>
+        ))}
+      </div>
+      <div className={styles.tabPanels} data-tabpanel={page}>
+        <ActiveTab {...props} />
+      </div>
+    </div>
+  );
+};
+
+const Settings = ({ page }) => {
+  const userPasswordEnabled = useDevToggle('User Passwords');
+  const tfaEnabled = useDevToggle('Two Factor Auth');
+  const deleteEnabled = useDevToggle('Account Deletion');
+  const showSubscriptionTab = useFeatureEnabled('pufferfish');
+
+  return (
+    <main id="main">
+      <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
+      <Layout>
+        <Heading tagName="h1">
+          Settings <Icon className={emoji} icon="key" />
+        </Heading>
+        <SettingsBase
+          page={page}
+          userPasswordEnabled={userPasswordEnabled}
+          tfaEnabled={tfaEnabled}
+          deleteEnabled={deleteEnabled}
+          showSubscriptionTab={showSubscriptionTab}
+        />
+      </Layout>
+    </main>
   );
 };
 
