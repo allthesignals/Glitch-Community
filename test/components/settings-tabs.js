@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { expect } from 'chai';
 
 import Heading from 'Components/text/heading';
-import { SettingsBase } from '../../presenters/settings';
+import { SettingsBase } from '../../presenters/pages/settings';
 import MockContext from '../helpers/mockContext';
 
 describe('SettingsBase', function() {
