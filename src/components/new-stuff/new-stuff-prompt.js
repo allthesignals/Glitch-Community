@@ -9,7 +9,7 @@ import NewStuffPup from './new-stuff-pup';
 import styles from './new-stuff-prompt.styl';
 
 const NewStuffPrompt = ({ onClick }) => (
-  <div className={styles.footer}>
+  <aside className={styles.footer}>
     <TooltipContainer
       align={['top']}
       persistent
@@ -22,7 +22,7 @@ const NewStuffPrompt = ({ onClick }) => (
       type="info"
       newStuff
     />
-  </div>
+  </aside>
 );
 
 NewStuffPrompt.propTypes = {
