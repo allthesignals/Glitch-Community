@@ -9,7 +9,8 @@ import SettingsTabsContainer from 'Components/account-settings-overlay/settings-
 import { useFeatureEnabled } from 'State/rollouts';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
-import { NotFoundPage } from './error';
+
+
 
 import { emoji } from '../../components/global.styl';
 
@@ -23,12 +24,8 @@ const Settings = ({ page }) => {
   const showAccountSettingsTab = userPasswordEnabled || tfaEnabled;
   const showSubscriptionTab = useFeatureEnabled('pufferfish');
 
-  if (!isSignedIn || !(showAccountSettingsTab || showSubscriptionTab)) {
-    if (!fetched) {
+  if (!isSignedIn && !fetched) {
       return null;
-    }
-
-    return <NotFoundPage />;
   }
 
   return (

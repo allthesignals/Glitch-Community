@@ -57,7 +57,11 @@ const tabs = [
 export function SettingsTabs({ page }) {
   const showSubscriptionTab = useFeatureEnabled('pufferfish');
   const selectableTabs = tabs.filter((tab) => tab.isSelectable({ showSubscriptionTab }));
-  const ActiveTab = (selectableTabs.find((tab) => tab.id === page) || selectableTabs[0]).Component;
+  const activeTab = selectableTabs.find((tab) => tab.id === page);
+  if (!activeTab) {
+    return <NotFound />;
+  }
+  const ActiveTab = activeTab.Component;
 
   return (
     <div className={styles.tabsContainer}>
