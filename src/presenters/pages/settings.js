@@ -9,11 +9,12 @@ import PasswordSettings from 'Components/account-settings-overlay/password-setti
 import TwoFactorSettings from 'Components/account-settings-overlay/two-factor-settings';
 import SubscriptionSettings from 'Components/account-settings-overlay/subscription-settings';
 import DeleteSettings from 'Components/delete-account/delete-account-modal';
+import ErrorBoundary from 'Components/error-boundary';
 import Link from 'Components/link';
-import NotFound from 'Components/errors/not-found';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
 import { useFeatureEnabled } from 'State/rollouts';
+import { NotFoundPage } from './error';
 
 import styles from './settings.styl';
 import { emoji } from '../../components/global.styl';
@@ -59,22 +60,15 @@ const tagline = 'Account Settings';
 
 // NOTE: This is separated from the Settings component to make unit testing a bit easier
 export const SettingsBase = ({ page, userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab }) => {
-  const { currentUser, fetched } = useCurrentUser();
-  const { persistentToken, login } = currentUser;
-  const isSignedIn = persistentToken && login;
-
-  if (!isSignedIn && !fetched) {
-    return null;
-  }
-
   const props = { userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab };
   const selectableTabs = tabs.filter((tab) => tab.isSelectable(props));
   const activeTab = selectableTabs.find((tab) => tab.id === page);
   if (!activeTab) {
-    return <NotFound />;
+    throw new Error('no active tab');
   }
 
   const ActiveTab = activeTab.Component;
+
   return (
     <div className={styles.tabsContainer}>
       <div className={styles.tabs}>
@@ -96,21 +90,30 @@ const Settings = ({ page }) => {
   const tfaEnabled = useDevToggle('Two Factor Auth');
   const deleteEnabled = useDevToggle('Account Deletion');
   const showSubscriptionTab = useFeatureEnabled('pufferfish');
+  const { currentUser, fetched } = useCurrentUser();
+  const { persistentToken, login } = currentUser;
+  const isSignedIn = persistentToken && login;
+
+  if (!isSignedIn && !fetched) {
+    return null;
+  }
 
   return (
     <main id="main">
       <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
       <Layout>
-        <Heading tagName="h1">
-          Settings <Icon className={emoji} icon="key" />
-        </Heading>
-        <SettingsBase
-          page={page}
-          userPasswordEnabled={userPasswordEnabled}
-          tfaEnabled={tfaEnabled}
-          deleteEnabled={deleteEnabled}
-          showSubscriptionTab={showSubscriptionTab}
-        />
+        <ErrorBoundary fallback={<NotFoundPage />}>
+          <Heading tagName="h1">
+            Settings <Icon className={emoji} icon="key" />
+          </Heading>
+          <SettingsBase
+            page={page}
+            userPasswordEnabled={userPasswordEnabled}
+            tfaEnabled={tfaEnabled}
+            deleteEnabled={deleteEnabled}
+            showSubscriptionTab={showSubscriptionTab}
+          />
+        </ErrorBoundary>
       </Layout>
     </main>
   );

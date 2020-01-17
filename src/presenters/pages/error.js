@@ -22,6 +22,14 @@ const ErrorMessage = ({ title, description }) => (
   </div>
 );
 
+export const NotFoundContent = () => (
+  <main className={styles.container} id="main">
+    <Helmet title="👻 Page not found" />
+    <Aquarium className={styles.aquarium} />
+    <ErrorMessage title="Page Not Found" description="Maybe a typo, or perhaps it's moved?" />
+  </main>
+)
+
 export const NotFoundPage = () => {
   const { location } = useGlobals();
   // we show a translated error message and redirect in index.ejs (this just ensures we don't show duplicate messages)
@@ -29,11 +37,7 @@ export const NotFoundPage = () => {
 
   return (
     <Layout>
-      <Helmet title="👻 Page not found" />
-      <main className={styles.container} id="main">
-        <Aquarium className={styles.aquarium} />
-        <ErrorMessage title="Page Not Found" description="Maybe a typo, or perhaps it's moved?" />
-      </main>
+      <NotFoundContent />      
     </Layout>
   );
 };
