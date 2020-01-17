@@ -9,7 +9,6 @@ import PasswordSettings from 'Components/account-settings-overlay/password-setti
 import TwoFactorSettings from 'Components/account-settings-overlay/two-factor-settings';
 import SubscriptionSettings from 'Components/account-settings-overlay/subscription-settings';
 import DeleteSettings from 'Components/delete-account/delete-account-modal';
-import ErrorBoundary from 'Components/error-boundary';
 import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
@@ -64,24 +63,32 @@ export const SettingsBase = ({ page, userPasswordEnabled, tfaEnabled, deleteEnab
   const selectableTabs = tabs.filter((tab) => tab.isSelectable(props));
   const activeTab = selectableTabs.find((tab) => tab.id === page);
   if (!activeTab) {
-    throw new Error('no active tab');
+    return <NotFoundPage />;
   }
 
   const ActiveTab = activeTab.Component;
 
   return (
-    <div className={styles.tabsContainer}>
-      <div className={styles.tabs}>
-        {selectableTabs.map((tab) => (
-          <Link key={tab.id} data-tab={tab.id} className={styles.tab} to={`/settings/${tab.id}`}>
-            <Button as="span">{tab.label}</Button>
-          </Link>
-        ))}
-      </div>
-      <div className={styles.tabPanels} data-tabpanel={page}>
-        <ActiveTab {...props} />
-      </div>
-    </div>
+    <main id="main">
+      <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
+      <Layout>
+        <Heading tagName="h1">
+          Settings <Icon className={emoji} icon="key" />
+        </Heading>
+        <div className={styles.tabsContainer}>
+          <div className={styles.tabs}>
+            {selectableTabs.map((tab) => (
+              <Link key={tab.id} data-tab={tab.id} className={styles.tab} to={`/settings/${tab.id}`}>
+                <Button as="span">{tab.label}</Button>
+              </Link>
+            ))}
+          </div>
+          <div className={styles.tabPanels} data-tabpanel={page}>
+            <ActiveTab {...props} />
+          </div>
+        </div>
+      </Layout>
+    </main>
   );
 };
 
@@ -99,23 +106,13 @@ const Settings = ({ page }) => {
   }
 
   return (
-    <main id="main">
-      <GlitchHelmet title={`Glitch - ${tagline}`} description={tagline} />
-      <Layout>
-        <ErrorBoundary fallback={<NotFoundPage />}>
-          <Heading tagName="h1">
-            Settings <Icon className={emoji} icon="key" />
-          </Heading>
-          <SettingsBase
-            page={page}
-            userPasswordEnabled={userPasswordEnabled}
-            tfaEnabled={tfaEnabled}
-            deleteEnabled={deleteEnabled}
-            showSubscriptionTab={showSubscriptionTab}
-          />
-        </ErrorBoundary>
-      </Layout>
-    </main>
+    <SettingsBase
+      page={page}
+      userPasswordEnabled={userPasswordEnabled}
+      tfaEnabled={tfaEnabled}
+      deleteEnabled={deleteEnabled}
+      showSubscriptionTab={showSubscriptionTab}
+    />
   );
 };
 
