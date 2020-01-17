@@ -13,6 +13,7 @@ import Link from 'Components/link';
 import { useCurrentUser } from 'State/current-user';
 import useDevToggle from 'State/dev-toggles';
 import { useFeatureEnabled } from 'State/rollouts';
+import FilteredTag from 'Utils/filteredTag';
 import { NotFoundPage } from './error';
 
 import styles from './settings.styl';
@@ -89,9 +90,9 @@ const Settings = ({ page }) => {
         <div className={styles.tabsContainer}>
           <div className={styles.tabs}>
             {selectableTabs.map((tab) => (
-              <Link key={tab.id} data-tab={tab.id} className={styles.tab} to={`/settings/${tab.id}`}>
-                <Button as="span">{tab.label}</Button>
-              </Link>
+              <Button as={FilteredTag(Link, ['textWrap'])} key={tab.id} data-tab={tab.id} className={styles.tab} to={`/settings/${tab.id}`}>
+                {tab.label}
+              </Button>
             ))}
           </div>
           <div className={styles.tabPanels} data-tabpanel={page}>
