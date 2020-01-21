@@ -199,7 +199,7 @@ export const useAPIHandlers = () => {
       removePinnedProject: ({ project, team, user }) => api.delete(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
 
       // account closure
-      removeUserToken: (token) => api.delete(`/v1/users?token=${token}`),
+      removeUserWithToken: (token) => api.delete(`/v1/users?token=${token}`),
       requestAccountDeleteEmail: (user) => api.post(`/v1/users/${user.id}/requestDeletion`),
 
       // Glitch PRO
