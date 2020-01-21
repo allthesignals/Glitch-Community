@@ -69,7 +69,7 @@ const TeamTransfer = ({ onClose, first, focusedOnMount, last, singleAdminTeams, 
     <>
       <Title>Transfer Team Ownership</Title>
       <Info>
-        You must <Link ref={mergeRefs(first, focusedOnMount)} to="/">pick a new team admin</Link> or <Link to="/">deactivate</Link> these teams before you can close your account.
+        You must <Link ref={mergeRefs(first, focusedOnMount)} to="/help/how-do-you-change-a-teams-admin/">pick a new team admin</Link> or <Link to="/help/how-do-you-delete-a-team/">deactivate</Link> these teams before you can close your account.
       </Info>
       {singleAdminTeams.length > 0 ? (
         <ResultsList value={selectedTeam} onChange={onTeamSelection} options={singleAdminTeams}>
@@ -130,7 +130,7 @@ const ProjectTransfer = ({ onClose, first, focusedOnMount, last, singleAdminProj
     <>
       <Title onCloseRef={mergeRefs(first, focusedOnMount)}>Transfer Project Ownership</Title>
       <Info>
-        You must <Link to="/">transfer ownership</Link> or <Link to="/help/how-do-i-delete-a-project-on-glitch/">delete</Link> these projects before you can delete your account.
+        You must <Link to="/help/how-do-you-change-a-projects-owner/">transfer ownership</Link> or <Link to="/help/how-do-i-delete-a-project-on-glitch/">delete</Link> these projects before you can delete your account.
       </Info>
       {singleAdminProjects.length > 0 ? (
         <ResultsList value={currentlyFocusedProject} onChange={onSelectProject} options={singleAdminProjects} scroll>
