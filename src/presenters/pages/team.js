@@ -29,6 +29,7 @@ import { useTeamEditor } from 'State/team';
 import useFocusFirst from 'Hooks/use-focus-first';
 import { tagline } from 'Utils/constants';
 import { renderText } from 'Utils/markdown';
+import FilteredTag from 'Utils/filteredTag';
 
 import styles from './team.styl';
 import { emoji } from '../../components/global.styl';
@@ -75,7 +76,7 @@ const NameConflictWarning = ({ id }) => (
     <Text>
       This team has your name. You should update your info to remain unique <Icon className={emoji} icon="sparkles" />
     </Text>
-    <Button as={Link} size="small" variant="secondary" to={`/user/${id}`}>
+    <Button as={FilteredTag(Link, ['textWrap'])} size="small" variant="secondary" to={`/user/${id}`}>
       Your Profile
     </Button>
   </>

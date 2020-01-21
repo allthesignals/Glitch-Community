@@ -111,7 +111,7 @@ const AddCollectionProject = ({ collection, addProjectToCollection }) => (
     className={widePopover}
     align="left"
     renderLabel={({ onClick, ref }) => (
-      <Button onClick={onClick} ref={ref}>
+      <Button data-test="add-project-to-collection-btn" onClick={onClick} ref={ref} disabled={collection.maxProjects && collection.maxProjects === collection.projects.length}>
         Add Project
       </Button>
     )}

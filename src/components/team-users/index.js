@@ -280,7 +280,7 @@ const TeamUserContainer = ({ team, removeUserFromTeam, updateUserPermissions, up
           />
         </li>
       ))}
-      {currentUserIsOnTeam && (
+      {currentUserIsTeamAdmin && (
         <li className={styles.addButtonWrap}>
           <AddTeamUserPop
             inviteEmail={inviteEmail ? onInviteEmail : null}

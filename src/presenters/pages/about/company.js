@@ -101,7 +101,8 @@ const AboutCompanyPage = () => (
         name="Alexa Scordato, VP of Marketing"
       >
         <p>
-        Alexa Scordato ls a seasoned marketing leader who loves to help startups scale. She previously built teams at Andela, Stack Overflow, and 2U.
+          Alexa Scordato ls a seasoned marketing leader who loves to help startups scale. She previously built teams at Andela,
+          Stack Overflow, and 2U.
         </p>
         <p>She has a passion for using technology to tell stories that matter.</p>
       </Bio>
@@ -122,30 +123,10 @@ const AboutCompanyPage = () => (
         <span>
           <img
             className={styles.avatar}
-            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FMegBioPhoto-removebg-preview.png?v=1561974441838"
-            alt=""
-          />
-          <p>Meg Tobin</p>
-        </span>
-        <span>
-          <img
-            className={styles.avatar}
             src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2FJennBio-removebg.png?v=1561974442460"
             alt=""
           />
           <p>Jenn Schiffer</p>
-        </span>
-        <span>
-          <img className={styles.avatar} src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Ftim-nobg.png?v=1561974908737" alt="" />
-          <p>Tim Kington</p>
-        </span>
-        <span>
-          <img
-            className={styles.avatar}
-            src="https://cdn.glitch.com/d2b595e6-45a6-4ddc-8110-038cdb509b16%2Fmaurice-cherry-removebg-preview%20(1).png?v=1561988404303"
-            alt=""
-          />
-          <p>Maurice Cherry</p>
         </span>
         <span>
           <img
@@ -154,6 +135,30 @@ const AboutCompanyPage = () => (
             alt=""
           />
           <p>Victoria Kirst</p>
+        </span>
+        <span>
+          <img
+            className={styles.avatar}
+            src="https://cdn.glitch.com/605e2a51-d45f-4d87-a285-9410ad350515%2Fjlord-coffee-removebg-preview.png?v=1579207127530"
+            alt=""
+          />
+          <p>Jessica Lord</p>
+        </span>
+        <span>
+          <img
+            className={styles.avatar}
+            src="https://cdn.glitch.com/605e2a51-d45f-4d87-a285-9410ad350515%2Fantoinette-leadership-removebg-preview.png?v=1579207504123"
+            alt=""
+          />
+          <p>Antoinette Smith</p>
+        </span>
+        <span>
+          <img
+            className={styles.avatar}
+            src="https://cdn.glitch.com/605e2a51-d45f-4d87-a285-9410ad350515%2Fimage-removebg-preview.png?v=1579207141763"
+            alt=""
+          />
+          <p>Keith Kurson</p>
         </span>
       </div>
     </section>

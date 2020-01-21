@@ -7,6 +7,7 @@ import Link, { UserLink, WrappingLink } from 'Components/link';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
 import ProjectItem from 'Components/project/project-item';
+import FilteredTag from 'Utils/filteredTag';
 import Ideas from './ideas';
 
 import styles from './recent-projects.styl';
@@ -15,7 +16,7 @@ import { emoji } from '../global.styl';
 const SignInNotice = () => (
   <div className={styles.anonUserSignUp}>
     <span>
-      <Button size="small" as={Link} to="/signin">
+      <Button size="small" as={FilteredTag(Link, ['textWrap'])} to="/signin">
         Sign in
       </Button>{' '}
       to keep your projects.
