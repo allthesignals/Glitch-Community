@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AutoprefixerStylus = require('autoprefixer-stylus');
@@ -152,9 +151,6 @@ const browserConfig = {
     ],
   },
   plugins: [
-    // adding cloning fixes https://app.clubhouse.io/glitch/story/7590
-    // adding shorthands fixes https://github.com/lodash/lodash/issues/3101
-    // new LodashModuleReplacementPlugin({ cloning: true, shorthands: true }),
     new MiniCssExtractPlugin({ filename: '[name].[contenthash:8].css' }),
     new StatsPlugin('stats.json', {
       all: false,

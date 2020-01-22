@@ -99,7 +99,6 @@
     "if-env": "^1.0.4",
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.15",
-    "lodash-webpack-plugin": "^0.11.5",
     "markdown-it": "^9.0.1",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-github-headings": "^1.1.1",
