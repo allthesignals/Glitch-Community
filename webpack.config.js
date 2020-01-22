@@ -151,8 +151,8 @@ const browserConfig = {
       },
     ],
   },
-  plugins: [
-    new LodashModuleReplacementPlugin({ shorthands: true }), // adding shorthands fixes https://github.com/lodash/lodash/issues/3101
+  plugins: [// adding shorthands fixes https://github.com/lodash/lodash/issues/3101
+    new LodashModuleReplacementPlugin({ cloning: true, shorthands: true }), 
     new MiniCssExtractPlugin({ filename: '[name].[contenthash:8].css' }),
     new StatsPlugin('stats.json', {
       all: false,
