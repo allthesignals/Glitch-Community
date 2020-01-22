@@ -25,6 +25,7 @@ import { useAPI } from 'State/api';
 import { useGlobals } from 'State/globals';
 import MadeOnGlitch from 'Components/footer/made-on-glitch';
 import { useTracker } from 'State/segment-analytics';
+import FilteredTag from 'Utils/filteredTag';
 import Banner from './banner';
 import CuratedCollectionContainer from './collection-container';
 import { Discover, Dreams, Teams } from './feature-callouts';
@@ -180,7 +181,7 @@ const UnifiedStories = ({ content: { hed, dek, featuredImage, featuredImageDescr
             <h3 className={styles.h3}>{dek}</h3>
             {/* eslint-disable-next-line react/no-danger */}
             <span dangerouslySetInnerHTML={{ __html: summary }} />
-            <Button textWrap as={Link} to={href} onClick={() => trackUnifiedStoryCTA()}>
+            <Button textWrap as={FilteredTag(Link, ['textWrap'])} to={href} onClick={() => trackUnifiedStoryCTA()}>
               {cta} <Icon icon="arrowRight" />
             </Button>
           </div>

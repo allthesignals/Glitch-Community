@@ -7,6 +7,7 @@ import CoverContainer from 'Components/containers/cover-container';
 import Link, { UserLink, WrappingLink } from 'Components/link';
 import { getUserAvatarStyle, getUserLink } from 'Models/user';
 import { useCurrentUser } from 'State/current-user';
+import FilteredTag from 'Utils/filteredTag';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
@@ -14,7 +15,7 @@ import { emoji } from '../global.styl';
 const SignInNotice = () => (
   <div className={styles.anonUserSignUp}>
     <span>
-      <Button size="small" as={Link} to="/signin">
+      <Button size="small" as={FilteredTag(Link, ['textWrap'])} to="/signin">
         Sign in
       </Button>{' '}
       to keep your projects.
