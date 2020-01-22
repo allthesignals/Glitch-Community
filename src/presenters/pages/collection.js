@@ -16,6 +16,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useCachedCollection } from 'State/api-cache';
 import { useCollectionEditor, userOrTeamIsAuthor } from 'State/collection';
 import useFocusFirst from 'Hooks/use-focus-first';
+import useTitleFormatter from 'Hooks/use-title-formatter';
 import { renderText } from 'Utils/markdown';
 import allCategories from 'Shared/categories';
 import { CDN_URL } from 'Utils/constants';
@@ -45,7 +46,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
   return (
     <>
       <GlitchHelmet
-        title={collection.name.replace(/-/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1))}
+        title={useTitleFormatter(collection.name)}
         description={`${seoDescription} 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
         canonicalUrl={getCollectionLink(collection)}
       />
