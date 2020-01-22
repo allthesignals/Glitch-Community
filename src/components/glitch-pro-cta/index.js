@@ -24,9 +24,9 @@ const GlitchProCTA = () => {
   }
 
   return (
-    <span className={styles.glitchProBadge}>
+    <Link className={styles.glitchProBadge} to="/settings/glitch-pro">
       <StarAvatar className={styles.boostMark} /> PRO
-    </span>
+    </Link>
   );
 };
 
