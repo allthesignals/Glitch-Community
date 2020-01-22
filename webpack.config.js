@@ -154,7 +154,7 @@ const browserConfig = {
   plugins: [
     // adding cloning fixes https://app.clubhouse.io/glitch/story/7590
     // adding shorthands fixes https://github.com/lodash/lodash/issues/3101
-    new LodashModuleReplacementPlugin({ cloning: true, shorthands: true }),
+    // new LodashModuleReplacementPlugin({ cloning: true, shorthands: true }),
     new MiniCssExtractPlugin({ filename: '[name].[contenthash:8].css' }),
     new StatsPlugin('stats.json', {
       all: false,
