@@ -3,7 +3,7 @@ const { captureException } = require('@sentry/node');
 const dayjs = require('dayjs');
 const constants = require('./constants').current;
 
-export const optimizelyKey = process.env.OPTIMIZELY_KEY || constants.OPTIMIZELY_KEY;
+const optimizelyKey = process.env.OPTIMIZELY_KEY || constants.OPTIMIZELY_KEY;
 
 const optimizelyClient = createInstance({
   sdkKey: optimizelyKey,
@@ -38,6 +38,7 @@ const getOptimizelyId = (request, response) => {
 };
 
 module.exports = {
+  optimizelyKey,
   getOptimizelyClient,
   getOptimizelyData,
   getOptimizelyId,
