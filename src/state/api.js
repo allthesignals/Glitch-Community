@@ -198,6 +198,10 @@ export const useAPIHandlers = () => {
       addPinnedProject: ({ project, team, user }) => api.put(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
       removePinnedProject: ({ project, team, user }) => api.delete(`/${entityPath({ team, user })}/pinnedProjects/${project.id}`),
 
+      // account closure
+      removeUserWithToken: (token) => api.delete(`/v1/users?token=${token}`),
+      requestAccountDeleteEmail: (user) => api.post(`/v1/users/${user.id}/requestDeletion`),
+
       // Glitch PRO
       // TODO: v1/payments/glitchPro -> v1/payments/:productName
       getSubscriptionStatus: () => api.get('/v1/payments/glitchPro'),

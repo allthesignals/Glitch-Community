@@ -6,7 +6,9 @@ import { Actions, Button, DangerZone, Icon, Popover, Title } from '@fogcreek/sha
 import Image from 'Components/images/image';
 import { CreateCollectionWithProject } from 'Components/collection/create-collection-pop';
 import { PopoverMenuButton } from 'Components/popover';
+import { humanReadableAccessLevel, getProjectType } from 'Models/project';
 import { useCurrentUser } from 'State/current-user';
+import { useTracker } from 'State/segment-analytics';
 
 import { AddProjectToCollectionBase } from './add-project-to-collection-pop';
 
@@ -51,6 +53,7 @@ const PopoverMenuItems = ({ children }) =>
 
 const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
   const illustration = 'https://cdn.glitch.com/55f8497b-3334-43ca-851e-6c9780082244%2Fwave.png?v=1502123444938';
+  const tracker = useTracker('Project Left');
   return (
     <>
       <Title>Leave {project.domain}</Title>
@@ -64,6 +67,15 @@ const LeaveProjectPopover = ({ project, leaveProject, togglePopover }) => {
           variant="warning"
           onClick={() => {
             leaveProject(project);
+            tracker({
+              projectId: project.id,
+              projectName: project.domain,
+              projectType: getProjectType(project),
+              accessLevel: humanReadableAccessLevel(project.permission.accessLevel),
+              projectVisibility: project.private ? 'private' : 'public',
+              numberProjectMembers: project.permissions.length,
+              numberTeams: project.teamIds.length,
+            });
             togglePopover();
           }}
         >
@@ -102,6 +114,7 @@ const ProjectOptionsContent = ({ project, projectOptions, addToCollectionPopover
 
 export default function ProjectOptionsPop({ project, projectOptions }) {
   const noProjectOptions = Object.values(projectOptions).every((option) => !option);
+  const tracker = useTracker('Project Left');
 
   if (noProjectOptions) return null;
 
@@ -153,7 +166,18 @@ export default function ProjectOptionsPop({ project, projectOptions }) {
           leaveProjectPopover={() => {
             setActiveView('leaveProject');
           }}
-          leaveProjectDirect={toggleBeforeAction(onClose, projectOptions.leaveProject)}
+          leaveProjectDirect={() => {
+            tracker({
+              projectId: project.id,
+              projectName: project.domain,
+              projectType: getProjectType(project),
+              accessLevel: humanReadableAccessLevel(project.permission.accessLevel),
+              projectVisibility: project.private ? 'private' : 'public',
+              numberProjectMembers: project.permissions.length,
+              numberTeams: project.teamIds.length,
+            });
+            toggleBeforeAction(onClose, projectOptions.leaveProject);
+          }}
         />
       )}
     </Popover>

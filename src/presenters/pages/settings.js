@@ -74,7 +74,7 @@ const Settings = ({ page }) => {
   const props = { userPasswordEnabled, tfaEnabled, deleteEnabled, showSubscriptionTab };
   const selectableTabs = tabs.filter((tab) => tab.isSelectable(props));
   const activeTab = selectableTabs.find((tab) => tab.id === page);
-  if (!activeTab) {
+  if (!activeTab || !isSignedIn) {
     return <NotFoundPage />;
   }
 
