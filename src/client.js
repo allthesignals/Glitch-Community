@@ -11,7 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import convertPlugin from 'Shared/dayjs-convert';
 import { configureScope, captureException } from 'Utils/sentry';
-import { EDITOR_URL, OPTIMIZELY_KEY } from 'Utils/constants';
+import { EDITOR_URL } from 'Utils/constants';
 import { GlobalsProvider } from 'State/globals';
 import { OptimizelyProvider } from 'State/rollouts';
 import App from './app';
@@ -42,7 +42,7 @@ window.bootstrap = async (container) => {
 
   // Now initalize the Optimizely sdk
   const optimizely = createInstance({
-    sdkKey: process.env.OPTIMIZELY_KEY || OPTIMIZELY_KEY,
+    sdkKey: window.OPTIMIZELY_KEY,
     datafile: window.OPTIMIZELY_DATA,
     datafileOptions: {
       autoUpdate: true,

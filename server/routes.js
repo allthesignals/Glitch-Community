@@ -11,7 +11,7 @@ const webpackExpressMiddleware = require('./webpack');
 const constants = require('./constants');
 const { allByKeys } = require('../shared/api');
 const renderPage = require('./render');
-const { getOptimizelyData, getOptimizelyId } = require('./optimizely');
+const { getOptimizelyData, getOptimizelyId, optimizelyKey } = require('./optimizely');
 const { getHomeData, reloadHomeData, getPupdates, reloadPupdates, getZinePosts, reloadZinePosts } = require('./curated');
 
 module.exports = function(EXTERNAL_ROUTES) {
@@ -77,6 +77,7 @@ module.exports = function(EXTERNAL_ROUTES) {
       API_CACHE,
       EXTERNAL_ROUTES,
       HOME_CONTENT: getHomeData(),
+      OPTIMIZELY_KEY: optimizelyKey,
       OPTIMIZELY_DATA: getOptimizelyData(),
       OPTIMIZELY_ID: getOptimizelyId(req, res),
       PUPDATES_CONTENT: getPupdates(),
