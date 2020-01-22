@@ -146,7 +146,7 @@ function TeamPage({ team: initialTeam }) {
     <main className={styles.container} id="main" aria-label="Glitch Team Page">
       <section>
         <GlitchHelmet
-          title={team.name}
+          title={team.name.replace(/-/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1))}
           description={seoDescription}
           image={team.hasAvatarImage ? getTeamAvatarUrl(team) : null}
           canonicalUrl={getTeamLink(team)}

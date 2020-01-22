@@ -45,7 +45,7 @@ const CollectionPageContents = ({ collection: initialCollection }) => {
   return (
     <>
       <GlitchHelmet
-        title={collection.name}
+        title={collection.name.replace(/-/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1))}
         description={`${seoDescription} 🎏 A collection of apps by ${getCollectionOwnerName(collection)}`}
         canonicalUrl={getCollectionLink(collection)}
       />
