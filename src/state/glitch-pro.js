@@ -5,11 +5,12 @@ import { useFeatureEnabled } from 'State/rollouts';
 import { getUserLink } from 'Models/user';
 import useScript from 'Hooks/use-script';
 
-function useStripe() {
+function useStripe(pufferfishEnabled) {
   const [stripe, setStripe] = useState(null);
   const stripeJS = 'https://js.stripe.com/v3/';
 
-  const [loaded] = useScript(stripeJS);
+  const [loaded] = useScript(pufferfishEnabled ? stripeJS : '');
+
   useEffect(() => {
     if (loaded) {
       setStripe(window.Stripe('pk_test_WIJxKl0T1xT8zSb2StHu8zlo'));
@@ -20,8 +21,8 @@ function useStripe() {
 
 function useGlitchProState() {
   const { getSubscriptionStatus, createSubscriptionSession, cancelSubscription } = useAPIHandlers();
-  const stripe = useStripe();
   const userHasPufferfishEnabled = useFeatureEnabled('pufferfish');
+  const stripe = useStripe(userHasPufferfishEnabled);
 
   const { currentUser } = useCurrentUser();
   const [{ fetched, isActive, expiresAt }, setSubscriptionStatus] = useState({ fetched: false });
