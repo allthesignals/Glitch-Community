@@ -75,9 +75,9 @@ In production, our code goes through cloudfront. This is why there's a delay aft
 
 Yes! In rare cases, you may find that you need to run ~community in your local development environment.
 
-1. If you haven't already, clone [Glitch-Community](https://github.com/fogcreek/glitch-community) from GitHub:
+1. If you haven't already, clone [Glitch-Community](https://github.com/glitchdotcom/glitch-community) from GitHub:
 ```bash
-git clone git@github.com:FogCreek/Glitch-Community.git
+git clone git@github.com:glitchdotcom/Glitch-Community.git
 ```
 2. Install the dependencies:
 ```

@@ -47,7 +47,7 @@ _Remember to [set up Git SSH](https://help.github.com/articles/connecting-to-git
 
   ```
   # 1. On your local machine, clone our git repository from Github: 
-  git clone git@github.com:FogCreek/Glitch-Community.git
+  git clone git@github.com:glitchdotcom/Glitch-Community.git
 
   # 2. Inside of your new repo, add a remote endpoint for our live site:
   cd Glitch-Community
@@ -82,7 +82,7 @@ Now you can use the GitHub UI to turn your branch into a pull request.
 
 It's good practice to share a link to your project in the PR and talk about the functional changes you've made.  This allows the reviewers to easily visit your remix to test out your new behavior.
 
-_(Don't have permission to push to github? You'll need to first [Fork](https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/) our [repository](https://github.com/FogCreek/Glitch-Community) and then [create a pull request from the fork](https://help.github.com/articles/creating-a-pull-request-from-a-fork/) instead.)_
+_(Don't have permission to push to github? You'll need to first [Fork](https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/) our [repository](https://github.com/glitchdotcom/Glitch-Community) and then [create a pull request from the fork](https://help.github.com/articles/creating-a-pull-request-from-a-fork/) instead.)_
 
 #### Updating an Existing Pull Request
 
