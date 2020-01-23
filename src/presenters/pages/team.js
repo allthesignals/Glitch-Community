@@ -27,6 +27,7 @@ import { useCurrentUser } from 'State/current-user';
 import { useNotifications } from 'State/notifications';
 import { useTeamEditor } from 'State/team';
 import useFocusFirst from 'Hooks/use-focus-first';
+import useTitleFormatter from 'Hooks/use-title-formatter';
 import { tagline } from 'Utils/constants';
 import { renderText } from 'Utils/markdown';
 import FilteredTag from 'Utils/filteredTag';
@@ -146,7 +147,7 @@ function TeamPage({ team: initialTeam }) {
     <main className={styles.container} id="main" aria-label="Glitch Team Page">
       <section>
         <GlitchHelmet
-          title={team.name}
+          title={useTitleFormatter(team.name)}
           description={seoDescription}
           image={team.hasAvatarImage ? getTeamAvatarUrl(team) : null}
           canonicalUrl={getTeamLink(team)}

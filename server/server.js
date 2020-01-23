@@ -3,6 +3,7 @@ const compression = require('compression');
 const constants = require('./constants');
 const moduleAlias = require('module-alias');
 const dotenv = require('dotenv');
+const hsts = require('hsts');
 
 moduleAlias.addAliases(require('../aliases'));
 
@@ -56,6 +57,13 @@ const app = express();
 app.enable('trust proxy');
 
 app.use(Sentry.Handlers.requestHandler());
+
+// enable HSTS, begin ramping up for preload submission
+app.use(hsts({
+  maxAge: 604800,
+  includeSubDomains: true,
+  preload: true
+}));
 
 // Accept JSON as req.body
 const cookieParser = require('cookie-parser');

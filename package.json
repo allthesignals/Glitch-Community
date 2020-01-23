@@ -9,7 +9,7 @@
     "react"
   ],
   "repository": {
-    "url": "https://github.com/FogCreek/Glitch-Community"
+    "url": "https://github.com/glitchdotcom/Glitch-Community"
   },
   "license": "Apache License Version 2.0",
   "sideEffects": [
@@ -95,6 +95,7 @@
     "forever": "^1.0.0",
     "group-by-time": "^1.0.0",
     "helmet": "^3.18.0",
+    "hsts": "^2.2.0",
     "html-truncate": "^1.2.2",
     "if-env": "^1.0.4",
     "intersection-observer": "^0.7.0",

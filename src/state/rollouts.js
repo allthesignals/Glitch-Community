@@ -32,6 +32,12 @@ const ROLLOUT_DESCRIPTIONS = {
   },
 };
 
+const checkAudience = (optimizely, config, experimentId, attributes) => {
+  const { audiencesById, experimentIdMap } = config;
+  const { audienceConditions } = experimentIdMap[experimentId];
+  return optimizely.decisionService.audienceEvaluator.evaluate(audienceConditions, audiencesById, attributes);
+};
+
 const Context = createContext();
 
 export const OptimizelyProvider = ({ optimizely, optimizelyId: initialOptimizelyId, children }) => {
@@ -55,17 +61,16 @@ const useDefaultUser = () => {
   const { currentUser } = useCurrentUser();
   const { SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM } = useGlobals();
 
-  const attributes = useMemo(() => (
-    currentUser.id ? {
-      hasLogin: !!currentUser.login,
-      hasProjects: currentUser.projects.length > 0,
-      inTestingTeam: userIsInTestingTeam(currentUser),
-    } : {
-      hasLogin: SSR_SIGNED_IN,
-      hasProjects: SSR_HAS_PROJECTS,
-      inTestingTeam: SSR_IN_TESTING_TEAM,
-    }
-  ), [currentUser.id, currentUser.login, currentUser.projects.length, SSR_SIGNED_IN, SSR_HAS_PROJECTS, SSR_IN_TESTING_TEAM]);
+  const rawAttributes = currentUser.id ? {
+    hasLogin: !!currentUser.login,
+    hasProjects: currentUser.projects.length > 0,
+    inTestingTeam: userIsInTestingTeam(currentUser),
+  } : {
+    hasLogin: SSR_SIGNED_IN,
+    hasProjects: SSR_HAS_PROJECTS,
+    inTestingTeam: SSR_IN_TESTING_TEAM,
+  };
+  const attributes = useMemo(() => rawAttributes, Object.values(rawAttributes));
   return [optimizelyId, attributes];
 };
 
@@ -109,15 +114,23 @@ export const useFeatureEnabledForEntity = (whichToggle, entityId, attributes) =>
   const track = useTracker('Experiment Viewed');
   useEffect(() => {
     const [variant, description] = (ROLLOUT_DESCRIPTIONS[whichToggle] || DEFAULT_DESCRIPTION)[enabled];
-    const { id } = optimizely.projectConfigManager.getConfig().featureKeyMap[whichToggle];
-    track({
-      experiment_id: id,
-      experiment_name: whichToggle,
-      experiment_group: enabled ? 'variant' : 'control',
-      variant_type: variant,
-      variant_description: description,
-    });
-  }, [optimizely, whichToggle, enabled]);
+    const config = optimizely.projectConfigManager.getConfig();
+    const { id, rolloutId } = config.featureKeyMap[whichToggle];
+    // if we're running tests for signed out users, don't send the event for signed in users
+    // do that by making sure the audience applies to you, and waiting until the event status is 'Running'
+    const active = config.rolloutIdMap[rolloutId].experiments.some((experiment) => (
+      checkAudience(optimizely, config, experiment.id, attributes) && /running/i.test(experiment.status)
+    ));
+    if (active) {
+      track({
+        experiment_id: id,
+        experiment_name: whichToggle,
+        experiment_group: enabled ? 'variant' : 'control',
+        variant_type: variant,
+        variant_description: description,
+      });
+    }
+  }, [optimizely, whichToggle, attributes, enabled]);
 
   return enabled;
 };
