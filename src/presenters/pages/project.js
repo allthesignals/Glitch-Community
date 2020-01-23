@@ -36,6 +36,7 @@ import {
 } from 'Models/project';
 import { getAllPages } from 'Shared/api';
 import useFocusFirst from 'Hooks/use-focus-first';
+import useTitleFormatter from 'Hooks/use-title-formatter';
 import { useAPIHandlers } from 'State/api';
 import { useCachedProject } from 'State/api-cache';
 import { tagline } from 'Utils/constants';
@@ -225,7 +226,7 @@ const ProjectPage = ({ project: initialProject }) => {
   return (
     <main id="main" aria-label="Glitch Project Page">
       <GlitchHelmet
-        title={project.domain.replace(/-/g, ' ').replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1))}
+        title={useTitleFormatter(project.domain)}
         description={seoDescription}
         image={project.suspendedReason ? SUSPENDED_AVATAR_URL : getProjectAvatarUrl(project)}
         canonicalUrl={getProjectLink(project)}
