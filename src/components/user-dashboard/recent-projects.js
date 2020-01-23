@@ -13,7 +13,7 @@ import Ideas from './ideas';
 import styles from './recent-projects.styl';
 import { emoji } from '../global.styl';
 
-const SignInNotice = () => (
+const SignInNotice = ({ clearUser }) => (
   <div className={styles.anonUserSignUp}>
     <span>
       <Button size="small" as={FilteredTag(Link, ['textWrap'])} to="/signin">
@@ -21,6 +21,7 @@ const SignInNotice = () => (
       </Button>{' '}
       to keep your projects.
     </span>
+    <ClearSession clearUser={clearUser} />
   </div>
 );
 
@@ -68,7 +69,7 @@ const RecentProjects = () => {
           Your Projects <Icon className={styles.arrow} icon="arrowRight" />
         </UserLink>
       </Heading>
-      {isAnonymousUser && <SignInNotice />}
+      {isAnonymousUser && <SignInNotice clearUser={clear} />}
       <CoverContainer type="dashboard" item={currentUser}>
         <div className={styles.coverWrap}>
           <div className={styles.avatarWrap}>
@@ -91,7 +92,6 @@ const RecentProjects = () => {
             {numProjects < 3 && <Ideas wrapperClass={classnames(styles.ideasWrapper, ideasExtraWrapperClass)} count={ideasCount} />}
           </div>
         </div>
-        {isAnonymousUser && <ClearSession clearUser={clear} />}
       </CoverContainer>
     </section>
   );
