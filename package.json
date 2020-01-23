@@ -20,10 +20,6 @@
   ],
   "scripts": {
     "build": "npx webpack",
-    "cy:ci": "start-server-and-test start http://localhost:8000 'npx cypress run --record'",
-    "cy:open": "npx cypress open",
-    "cy:remix": "npx cypress open --config baseUrl=https://$1.glitch.me",
-    "cy:run": "npx cypress run",
     "lint": "npm run lint:server && npm run lint:src",
     "lint:server": "eslint --config server/.eslintrc.server.js server shared webpack.config.js aliases.js",
     "lint:src": "eslint --config src/.eslintrc.js src",
@@ -47,7 +43,6 @@
     "@fogcreek/shared-components": "^0.13.10",
     "@jedmao/location": "^2.0.4",
     "@optimizely/optimizely-sdk": "^3.3.0",
-    "@percy/cypress": "^1.0.9",
     "@reduxjs/toolkit": "^1.0.4",
     "@sentry/browser": "^5.9.1",
     "@sentry/minimal": "^5.8.0",

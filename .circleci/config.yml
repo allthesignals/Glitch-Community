@@ -49,9 +49,6 @@ jobs:
       - run:
           name: pnpm-install
           command: pnpm install
-      - run:
-          name: cypress
-          command: pnpm run cy:ci
   unit_tests:
     docker:
       - image: circleci/node:10-browsers
