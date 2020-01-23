@@ -4,12 +4,13 @@ import dayjs from 'dayjs';
 import { cloneDeep, sumBy } from 'lodash';
 import sampleAnalytics, { sampleAnalyticsTime } from 'Curated/sample-analytics';
 import { Loader, SegmentedButton } from '@fogcreek/shared-components';
+import { useFeatureEnabled } from 'State/rollouts';
 
 import Text from 'Components/text/text';
 import { createAPIHook } from 'State/api';
 import { captureException } from 'Utils/sentry';
 
-import { useFeatureEnabledForEntity } from 'State/rollouts';
+
 import TeamAnalyticsTimePop from './team-analytics-time-pop';
 import TeamAnalyticsProjectPop from './team-analytics-project-pop';
 import SummaryItem from './team-analytics-summary';
@@ -79,7 +80,7 @@ function BannerMessage({ projects, featureEnabled }) {
 }
 
 function TeamAnalytics({ id, projects }) {
-  const featureEnabled = useFeatureEnabledForEntity('analytics', id);
+  const featureEnabled = useFeatureEnabled('analytics');
 
   const [activeFilter, setActiveFilter] = useState('views');
 
