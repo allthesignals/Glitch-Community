@@ -13,7 +13,8 @@ import { getCollectionProjectsFromAPI } from 'State/collection';
 import { sampleSize } from 'lodash';
 import { getIdeaThumbnailUrl, getProjectLink } from 'Models/project';
 import DataLoader from 'Components/data-loader';
-import RecentProjects from './recent-projects';
+import RecentProjects from 'Components/user-dashboard/recent-projects';
+import { CDN_URL } from 'Utils/constants';
 
 import styles from './styles.styl';
 
@@ -33,16 +34,14 @@ Stamp.propTypes = {
 };
 
 export const NewStuffPostcard = ({ allPupdates }) => {
-  const mostRecentPupdateWithPostcard = allPupdates.reduce((max, nextPupdate) =>
-    max.postcard.title && max.id > nextPupdate.id ? max : nextPupdate,
-  );
+  const mostRecentPupdateWithPostcard = allPupdates.reduce((max, nextPupdate) => max.postcard.title && (max.id > nextPupdate.id ? max : nextPupdate));
   return (
     <NewStuffContainer>
       {(showNewStuffOverlay) => (
         <Postcard
           heading="Update"
           subheading={mostRecentPupdateWithPostcard.postcard.title}
-          stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg"
+          stampImage={`${CDN_URL}/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-update.svg`}
           stampIcon="dogFace"
           outerBorderColor="#7460E1"
           innerBorderColor="#EAE6FF"
@@ -69,7 +68,7 @@ const Postcards = ({ marketingContent }) => {
       <Postcard
         heading="Video"
         subheading={marketingContent.title}
-        stampImage="https://cdn.glitch.com/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg"
+        stampImage={`${CDN_URL}/179ed565-619c-4f66-b3a3-35011d202379%2Fpostcard-label-video.svg`}
         stampIcon="television"
         outerBorderColor="#E1D262"
         innerBorderColor="#FEED64"
@@ -88,7 +87,7 @@ const Postcards = ({ marketingContent }) => {
             <Postcard
               heading="Ideas"
               subheading="Remix This"
-              stampImage="https://cdn.glitch.com/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fideas-label.svg?v=1573670255817"
+              stampImage={`${CDN_URL}/0aa2fffe-82eb-4b72-a5e9-444d4b7ce805%2Fideas-label.svg?v=1573670255817`}
               stampIcon="lightbulb"
               outerBorderColor="#75d1f8"
               innerBorderColor="#cdeffc"
