@@ -63,7 +63,6 @@ dependencies:
   if-env: 1.0.4
   intersection-observer: 0.7.0
   lodash: 4.17.15
-  lodash-webpack-plugin: 0.11.5
   markdown-it: 9.1.0
   markdown-it-emoji: 1.4.0
   markdown-it-github-headings: 1.1.2
@@ -6827,14 +6826,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==
-  /lodash-webpack-plugin/0.11.5:
-    dependencies:
-      lodash: 4.17.15
-    dev: false
-    peerDependencies:
-      webpack: ^2.0.0 || ^3.0.0 || ^4.0.0
-    resolution:
-      integrity: sha512-QWfEIYxpixOdbd6KBe5g6MDWcyTgP3trDXwKHFqTlXrWiLcs/67fGQ0IWeRyhWlTITQIgMpJAYd2oeIztuV5VA==
   /lodash._arraypool/2.4.1:
     dev: false
     resolution:
@@ -11569,7 +11560,6 @@ specifiers:
   jsdom: ^15.1.1
   jsdom-global: ^3.0.2
   lodash: ^4.17.15
-  lodash-webpack-plugin: ^0.11.5
   markdown-it: ^9.0.1
   markdown-it-emoji: ^1.4.0
   markdown-it-github-headings: ^1.1.1
