@@ -36,7 +36,7 @@ Stamp.propTypes = {
 export const NewStuffPostcard = ({ allPupdates }) => {
   const mostRecentPupdateWithPostcard = allPupdates.reduce((max, nextPupdate) => (max.postcard.title && max.id > nextPupdate.id ? max : nextPupdate));
   return (
-    <NewStuffContainer>
+    <NewStuffContainer overlayContainerClass={styles.newStuffOverlay}>
       {(showNewStuffOverlay) => (
         <Postcard
           heading="Update"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { Button, CheckboxButton, Icon } from '@fogcreek/shared-components';
 
 import { Overlay, OverlaySection, OverlayTitle, OverlayBackground } from 'Components/overlays';
@@ -15,7 +16,6 @@ import NewStuffPup from './new-stuff-pup';
 
 import styles from './styles.styl';
 import { emoji } from '../global.styl';
-
 
 function usePreventTabOut() {
   const first = useRef();
@@ -33,22 +33,19 @@ function usePreventTabOut() {
     }
   };
 
-  useEffect(
-    () => {
-      document.addEventListener('keydown', onKeyDown);
-      return () => document.removeEventListener('keydown', onKeyDown);
-    },
-    [first, last],
-  );
+  useEffect(() => {
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [first, last]);
 
   return { first, last };
 }
 
-export const NewStuffOverlay = ({ setShowNewStuff, showNewStuff, newStuff, closePopover }) => {
+export const NewStuffOverlay = ({ setShowNewStuff, showNewStuff, newStuff, closePopover, overlayContainerClass }) => {
   const { first, last } = usePreventTabOut();
 
   return (
-    <Overlay className={styles.newStuffOverlay} ariaModal ariaLabelledBy="newStuff">
+    <Overlay className={classnames(styles.newStuffOverlay, overlayContainerClass)} ariaModal ariaLabelledBy="newStuff">
       <OverlaySection type="info">
         <div className={styles.newStuffAvatar}>
           <NewStuffPup />
@@ -82,14 +79,20 @@ NewStuffOverlay.propTypes = {
       link: PropTypes.string,
     }).isRequired,
   ).isRequired,
+  overlayContainerClass: PropTypes.string,
+};
+NewStuffOverlay.defaultProps = {
+  overlayContainerClass: '',
 };
 
-const NewStuff = ({ children }) => {
+const NewStuff = ({ children, overlayContainerClass }) => {
   const { currentUser } = useCurrentUser();
   const isSignedIn = !!currentUser && !!currentUser.login;
   const [showNewStuff, setShowNewStuff] = useUserPref('showNewStuff', true);
   const [newStuffReadId, setNewStuffReadId] = useUserPref('newStuffReadId', 0);
-  const { PUPDATES_CONTENT: { pupdates } } = useGlobals();
+  const {
+    PUPDATES_CONTENT: { pupdates },
+  } = useGlobals();
 
   const latestId = Math.max(...pupdates.map(({ id }) => id));
 
@@ -116,13 +119,26 @@ const NewStuff = ({ children }) => {
   return (
     <PopoverContainer outer={renderOuter}>
       {({ visible, closePopover }) =>
-        visible ? <NewStuffOverlay showNewStuff={showNewStuff} setShowNewStuff={setShowNewStuff} newStuff={log} closePopover={closePopover} /> : null
+        visible ? (
+          <NewStuffOverlay
+            showNewStuff={showNewStuff}
+            setShowNewStuff={setShowNewStuff}
+            newStuff={log}
+            closePopover={closePopover}
+            overlayContainerClass={overlayContainerClass}
+          />
+        ) : null
       }
     </PopoverContainer>
   );
 };
 NewStuff.propTypes = {
   children: PropTypes.func.isRequired,
+  overlayContainerClass: PropTypes.string,
+};
+
+NewStuff.defaultProps = {
+  overlayContainerClass: '',
 };
 
 export default NewStuff;
