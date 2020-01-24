@@ -28,18 +28,18 @@ export AWS_SECRET_ACCESS_KEY=${COMMUNITY_AWS_BOOTSTRAP_SECRET}
 if [[ -f "/home/circleci/$CIRCLE_SHA.tar.gz" ]]; then
 
   # maybe upload
-  if aws s3api head-object --bucket "$COMMUNITY_BOOTSTRAP_BUCKET" --key "builds/$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; then
+  if aws s3api head-object --bucket "$COMMUNITY_AWS_BOOTSTRAP_BUCKET" --key "builds/$CIRCLE_SHA.tar.gz" > /dev/null 2>&1; then
     code=$?
     echo "$CIRCLE_SHA.tar.gz exists in S3"
   else
     #   this build is not in s3
-    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$COMMUNITY_BOOTSTRAP_BUCKET/builds/"; code=$?
+    aws s3 cp --quiet "/home/circleci/$CIRCLE_SHA.tar.gz" "s3://$COMMUNITY_AWS_BOOTSTRAP_BUCKET/builds/"; code=$?
   fi
 
   #update last_deployed_sha
   if [[ "$code" -eq 0 ]]; then
     echo "$CIRCLE_SHA" > /home/circleci/LAST_DEPLOYED_SHA
-    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$COMMUNITY_BOOTSTRAP_BUCKET"; code=$?
+    aws s3 cp --quiet /home/circleci/LAST_DEPLOYED_SHA "s3://$COMMUNITY_AWS_BOOTSTRAP_BUCKET"; code=$?
   else
     echo "Failed to upload $CIRCLE_SHA.tar.gz to S3"
     exit "$code"

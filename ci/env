@@ -21,15 +21,15 @@ then
   esac
 fi
 
-# set the COMMUNITY_BOOTSTRAP_BUCKET, JUMP_DOMAIN, and key id appropriately
+# set the COMMUNITY_AWS_BOOTSTRAP_BUCKET, JUMP_DOMAIN, and key id appropriately
 case "${ENVIRONMENT}" in
   production)
-    export COMMUNITY_BOOTSTRAP_BUCKET=community-bootstrap-bucket20200103210320258500000002
+    export COMMUNITY_AWS_BOOTSTRAP_BUCKET=community-bootstrap-bucket20200103210320258500000002
     export JUMP_DOMAIN=jump.glitch.com
     export COMMUNITY_AWS_BOOTSTRAP_KEY=AKIAWT5PUNCVYJCBDB6W
     ;;
   staging)
-    export COMMUNITY_BOOTSTRAP_BUCKET=community-bootstrap-bucket20191205165831056600000001
+    export COMMUNITY_AWS_BOOTSTRAP_BUCKET=community-bootstrap-bucket20191205165831056600000001
     export JUMP_DOMAIN=jump.staging.glitch.com
     export COMMUNITY_AWS_BOOTSTRAP_KEY=AKIA6O2CCK6XWDBCK7M5
     ;;
